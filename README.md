@@ -1,2 +1,2 @@
 # officedemons
-skolspel
+sko0lspel
