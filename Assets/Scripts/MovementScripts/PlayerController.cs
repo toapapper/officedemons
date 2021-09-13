@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Code by: Johan Melkersson
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
 	//World transform
