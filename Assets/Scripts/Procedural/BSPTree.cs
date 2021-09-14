@@ -15,17 +15,24 @@ public class BSPTree : MonoBehaviour
     public int zValue;
     public int counter = 1;
     int missfallMultiplier;
-    public int missfallTop = 5;
+    public int missfallTop = 6;
 
 
-    public void MakeBSP()
+    public void MakeBigBSP()
+    {
+        MakeBSP(1);
+        MakeBSP(2);
+        MakeBSP(3);
+        counter++;
+    }
+
+    public void MakeBSP(int num)
     {
         missfallMultiplier = 0;
         nodes = new List<Node>();
-        root = new Node(new Vector2(width, height),counter);
+        root = new Node(new Vector2(width, height),counter, num);
         CreateCube(root);
         BSP(root);
-        counter++;
         for (int i = 0; i < nodes.Count; i++)
         {
             if (nodes[i].leaf)
@@ -64,7 +71,7 @@ public class BSPTree : MonoBehaviour
 
         int split = 0;
         int missfall = Random.Range(missfallMultiplier, missfallTop);
-        if (missfall == missfallMultiplier && node.generation > 1)
+        if (missfall == missfallMultiplier && node.generation > 2)
             return;
         split = Random.Range(0, 2);
         float buffer = 0;
@@ -135,6 +142,12 @@ public class BSPTree : MonoBehaviour
     {
         float x, y;
         BufferMaker(out x, out y, node);
+        if (node.size.x * node.size.y < width * height / 50)
+            return;
+
+        if (TooCloseCheck(node,20))
+            return;
+
         GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, node.position.y, -node.generation), Quaternion.identity);
         cube.transform.localScale = new Vector3(x, y, 1);
         node.cube = cube;
@@ -172,5 +185,19 @@ public class BSPTree : MonoBehaviour
             buffer = node.size.y / 4;
             value = Random.Range(buffer, node.size.y - buffer);
         }
+    }
+
+    private bool TooCloseCheck(Node node, float distanceMultiplier)
+    {
+        if (Mathf.Abs(node.origin.x - root.origin.x) < width / distanceMultiplier)
+            return true;
+
+        if (Mathf.Abs(node.origin.y - root.origin.y) < height / distanceMultiplier)
+            return true;
+
+        if (Mathf.Abs((node.origin.y - node.size.y) - (root.origin.y - root.size.y)) < height / distanceMultiplier)
+            return true;
+
+        return false;
     }
 }

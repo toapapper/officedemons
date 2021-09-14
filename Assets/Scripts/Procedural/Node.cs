@@ -18,11 +18,11 @@ public class Node
     }
 
 
-    public Node(Vector2 size, int counter)
+    public Node(Vector2 size, int counter, int num)
     {
         this.size = size;
         parent = null;
-        position = new Vector2(size.x * counter, size.y);
+        position = new Vector2(size.x * counter, size.y * num);
         children = new Node[2];
         origin = new Vector2(position.x - (size.x / 2), position.y + (size.y / 2));
         leaf = true;
