@@ -19,10 +19,18 @@ public class @InputActions : IInputActionCollection, IDisposable
             ""id"": ""38ef6f9e-86c3-4a3f-a044-b9fab1415b05"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""KeyboardMove"",
                     ""type"": ""PassThrough"",
                     ""id"": ""db05cccb-e03b-40c0-913f-b24ca7f59830"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ControllerMove"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""6f3f11be-e702-4f09-94fc-8bbf3254226c"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -53,68 +61,13 @@ public class @InputActions : IInputActionCollection, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector [Gamepad]"",
-                    ""id"": ""a606952f-5dab-4269-b3cc-c930e36e3d5f"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""062f6bc6-8783-41fa-b351-542d0ec2955b"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""0f19f2b9-4531-4348-9d94-989954ba650c"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""0ab8f14c-fce2-4d74-b576-ba96cce48791"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""381bd809-46a6-47cb-bdde-39b892bb1763"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""2D Vector [Keyboard]"",
                     ""id"": ""6393aa6a-8a88-4f1e-82f6-41190f44c94e"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""KeyboardMove"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -125,7 +78,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""KeyboardMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -136,7 +89,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""KeyboardMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -147,7 +100,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""KeyboardMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -158,7 +111,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""KeyboardMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -227,6 +180,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""PickUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d9d60b0-d3fa-4634-a690-08b6646d997d"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ControllerMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -235,7 +199,8 @@ public class @InputActions : IInputActionCollection, IDisposable
 }");
         // PlayerMovement
         m_PlayerMovement = asset.FindActionMap("PlayerMovement", throwIfNotFound: true);
-        m_PlayerMovement_Move = m_PlayerMovement.FindAction("Move", throwIfNotFound: true);
+        m_PlayerMovement_KeyboardMove = m_PlayerMovement.FindAction("KeyboardMove", throwIfNotFound: true);
+        m_PlayerMovement_ControllerMove = m_PlayerMovement.FindAction("ControllerMove", throwIfNotFound: true);
         m_PlayerMovement_PickUp = m_PlayerMovement.FindAction("PickUp", throwIfNotFound: true);
         m_PlayerMovement_Attack = m_PlayerMovement.FindAction("Attack", throwIfNotFound: true);
         m_PlayerMovement_Special = m_PlayerMovement.FindAction("Special", throwIfNotFound: true);
@@ -288,7 +253,8 @@ public class @InputActions : IInputActionCollection, IDisposable
     // PlayerMovement
     private readonly InputActionMap m_PlayerMovement;
     private IPlayerMovementActions m_PlayerMovementActionsCallbackInterface;
-    private readonly InputAction m_PlayerMovement_Move;
+    private readonly InputAction m_PlayerMovement_KeyboardMove;
+    private readonly InputAction m_PlayerMovement_ControllerMove;
     private readonly InputAction m_PlayerMovement_PickUp;
     private readonly InputAction m_PlayerMovement_Attack;
     private readonly InputAction m_PlayerMovement_Special;
@@ -296,7 +262,8 @@ public class @InputActions : IInputActionCollection, IDisposable
     {
         private @InputActions m_Wrapper;
         public PlayerMovementActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_PlayerMovement_Move;
+        public InputAction @KeyboardMove => m_Wrapper.m_PlayerMovement_KeyboardMove;
+        public InputAction @ControllerMove => m_Wrapper.m_PlayerMovement_ControllerMove;
         public InputAction @PickUp => m_Wrapper.m_PlayerMovement_PickUp;
         public InputAction @Attack => m_Wrapper.m_PlayerMovement_Attack;
         public InputAction @Special => m_Wrapper.m_PlayerMovement_Special;
@@ -309,9 +276,12 @@ public class @InputActions : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerMovementActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnMove;
+                @KeyboardMove.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnKeyboardMove;
+                @KeyboardMove.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnKeyboardMove;
+                @KeyboardMove.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnKeyboardMove;
+                @ControllerMove.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnControllerMove;
+                @ControllerMove.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnControllerMove;
+                @ControllerMove.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnControllerMove;
                 @PickUp.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPickUp;
                 @PickUp.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPickUp;
                 @PickUp.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPickUp;
@@ -325,9 +295,12 @@ public class @InputActions : IInputActionCollection, IDisposable
             m_Wrapper.m_PlayerMovementActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
+                @KeyboardMove.started += instance.OnKeyboardMove;
+                @KeyboardMove.performed += instance.OnKeyboardMove;
+                @KeyboardMove.canceled += instance.OnKeyboardMove;
+                @ControllerMove.started += instance.OnControllerMove;
+                @ControllerMove.performed += instance.OnControllerMove;
+                @ControllerMove.canceled += instance.OnControllerMove;
                 @PickUp.started += instance.OnPickUp;
                 @PickUp.performed += instance.OnPickUp;
                 @PickUp.canceled += instance.OnPickUp;
@@ -343,7 +316,8 @@ public class @InputActions : IInputActionCollection, IDisposable
     public PlayerMovementActions @PlayerMovement => new PlayerMovementActions(this);
     public interface IPlayerMovementActions
     {
-        void OnMove(InputAction.CallbackContext context);
+        void OnKeyboardMove(InputAction.CallbackContext context);
+        void OnControllerMove(InputAction.CallbackContext context);
         void OnPickUp(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnSpecial(InputAction.CallbackContext context);

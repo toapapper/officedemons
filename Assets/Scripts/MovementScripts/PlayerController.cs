@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
 	private float pickupInput; 
 	private float attackInput;
 	private float specialInput;
-
+	
 	//Playermovement
 	CharacterController character;
 	private Vector3 moveDirection;
@@ -27,7 +27,10 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private float speed = 1f; //Movement speed
 	[SerializeField]
-	const float rotationSpeed = 500f; // Rotation speed
+	private float rotationSpeed = 500f; // Rotation speed
+	[SerializeField]
+	private float controllerSensitivity = 0.5f; // Rotation speed
+
 
 	//Helper variables
 	private bool objectNearby;
@@ -41,10 +44,22 @@ public class PlayerController : MonoBehaviour
 		right = new Vector3(forward.z, 0, -forward.x);
 	}
 
-	public void OnMove(InputAction.CallbackContext context)
+	public void OnKeyboardMove(InputAction.CallbackContext context)
 	{
 		moveInput = context.ReadValue<Vector2>();
 		moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+	}
+	public void OnControllerMove(InputAction.CallbackContext context)
+	{
+		moveInput = context.ReadValue<Vector2>();
+		if (moveInput.magnitude > controllerSensitivity)
+		{
+			moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+		}
+		else
+		{
+			moveDirection = Vector3.zero;
+		}
 	}
 	public void OnPickUp(InputAction.CallbackContext context)
 	{
@@ -81,7 +96,6 @@ public class PlayerController : MonoBehaviour
 		{
 			PerformMovement();
 		}
-		
 	}
 
 
