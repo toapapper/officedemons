@@ -61,7 +61,7 @@ public class @InputActions : IInputActionCollection, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector [Keyboard]"",
+                    ""name"": ""WASD [Keyboard]"",
                     ""id"": ""6393aa6a-8a88-4f1e-82f6-41190f44c94e"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
@@ -116,6 +116,61 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Arrows [Keyboard]"",
+                    ""id"": ""564e5243-ade1-4bc5-8137-181d024701ed"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KeyboardMove"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""a47b5abd-c6e9-4c77-b110-03d807aeb6f7"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KeyboardMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""13e832cd-0f81-412e-8fcb-c7139f38c1a7"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KeyboardMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""9d3f8b5e-c1cb-4e55-8c2a-b1b233c21689"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KeyboardMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""721a2a69-6b9f-49aa-8743-9e40cad84f24"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""KeyboardMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""a70934ce-1ff4-4cd5-9234-15d5c3795a0b"",
                     ""path"": ""<Gamepad>/buttonSouth"",
@@ -128,8 +183,8 @@ public class @InputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1cfb525c-7b81-4e86-8f26-6d4fd690dd6c"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""68bc6508-2272-41fb-8708-5b0a6c67894c"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -150,8 +205,8 @@ public class @InputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""184f3965-eba5-4a8e-81dd-cd34958c5e91"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""id"": ""06a12317-b0fa-43c2-97f9-822b97536431"",
+                    ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -173,7 +228,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ef37025e-334a-464e-941d-e416a420bc66"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

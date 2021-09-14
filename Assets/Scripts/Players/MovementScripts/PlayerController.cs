@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 	private float pickupInput; 
 	private float attackInput;
 	private float specialInput;
+	private float throwInput;
 	
 	//Playermovement
 	CharacterController character;
@@ -66,8 +67,13 @@ public class PlayerController : MonoBehaviour
 		if (objectNearby)
 		{
 			pickupInput = context.ReadValue<float>();
+			Debug.Log("Pick up" + pickupInput);
 		}
-		Debug.Log("Pick up" + pickupInput);
+		else
+		{
+			Debug.Log("Throw" + pickupInput);
+		}
+		
 	}
 	public void OnAttack(InputAction.CallbackContext context)
 	{
@@ -78,6 +84,11 @@ public class PlayerController : MonoBehaviour
 	{
 		specialInput = context.ReadValue<float>();
 		Debug.Log("Special" + specialInput);
+	}
+	public void OnThrow(InputAction.CallbackContext context)
+	{
+		throwInput = context.ReadValue<float>();
+		Debug.Log("Special" + throwInput);
 	}
 
 
