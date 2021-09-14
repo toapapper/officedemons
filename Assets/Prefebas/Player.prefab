@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 874733130444593051}
   - component: {fileID: 874733130444593050}
   - component: {fileID: 874733130444593048}
+  - component: {fileID: 2800376825448936809}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -243,6 +244,19 @@ MonoBehaviour:
   speed: 10
   rotationSpeed: 500
   controllerSensitivity: 0.5
+--- !u!65 &2800376825448936809
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874733130444593041}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 0, z: 0.5}
 --- !u!1 &874733131032940070
 GameObject:
   m_ObjectHideFlags: 0

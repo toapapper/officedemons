@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerManager : MonoBehaviour
 {
 
-    public static List<PlayerController> players;
+    public static List<GameObject> players;
 
     void Update()
     {

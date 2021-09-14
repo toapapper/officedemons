@@ -39,9 +39,9 @@ public class PlayerController : MonoBehaviour
 	void OnEnable()
 	{
 		if (PlayerManager.players == null)
-			PlayerManager.players = new List<PlayerController>();
+			PlayerManager.players = new List<GameObject>();
 
-		PlayerManager.players.Add(this);
+		PlayerManager.players.Add(this.gameObject);
 	}
 
 	private void Start()
