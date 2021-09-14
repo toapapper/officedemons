@@ -36,6 +36,14 @@ public class PlayerController : MonoBehaviour
 	//Helper variables
 	private bool objectNearby;
 
+	void OnEnable()
+	{
+		if (PlayerManager.players == null)
+			PlayerManager.players = new List<PlayerController>();
+
+		PlayerManager.players.Add(this);
+	}
+
 	private void Start()
 	{
 		character = GetComponent<CharacterController>();
@@ -44,7 +52,7 @@ public class PlayerController : MonoBehaviour
 		forward.Normalize();
 		right = new Vector3(forward.z, 0, -forward.x);
 	}
-
+	
 	public void OnKeyboardMove(InputAction.CallbackContext context)
 	{
 		moveInput = context.ReadValue<Vector2>();
