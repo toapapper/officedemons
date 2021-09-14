@@ -18,13 +18,14 @@ public class Node
     }
 
 
-    public Node(Vector2 size, int counter, int num)
+    public Node(Vector2 size, Vector2 lastSize)
     {
         this.size = size;
         parent = null;
-        position = new Vector2(size.x * counter, size.y * num);
+        origin = new Vector2(lastSize.x, lastSize.y);
+        position = new Vector2(origin.x + (size.x / 2),origin.y - (size.y / 2));
         children = new Node[2];
-        origin = new Vector2(position.x - (size.x / 2), position.y + (size.y / 2));
+        //origin = new Vector2(position.x - (size.x / 2), position.y + (size.y / 2));
         leaf = true;
     }
 

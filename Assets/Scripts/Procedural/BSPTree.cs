@@ -10,27 +10,35 @@ public class BSPTree : MonoBehaviour
     public List<Node> nodes;
     public List<GameObject> cubes = new List<GameObject>();
     public int generations = 3;
-    public int height;
-    public int width;
-    public int zValue;
-    public int counter = 1;
+    int width, oldWidth;
+    int height, oldHeight;
+    public Vector2 widthLimits = new Vector2(800,1000);
+    public Vector2 heightLimits = new Vector2(800,1000);
     int missfallMultiplier;
     public int missfallTop = 6;
+    Vector2 lastSize;
+    int lastDirection;
 
+
+    private void Start()
+
+    {
+        width = Random.Range((int)widthLimits.x, (int)widthLimits.y);
+        height = Random.Range((int)heightLimits.x, (int)heightLimits.y);
+    }
 
     public void MakeBigBSP()
     {
-        MakeBSP(1);
-        MakeBSP(2);
-        MakeBSP(3);
-        counter++;
+        MakeBSP();
     }
 
-    public void MakeBSP(int num)
+    public void MakeBSP()
     {
+        oldWidth = width;
+        oldHeight = height;
         missfallMultiplier = 0;
         nodes = new List<Node>();
-        root = new Node(new Vector2(width, height),counter, num);
+        root = new Node(new Vector2(width, height),lastSize);
         CreateCube(root);
         BSP(root);
         for (int i = 0; i < nodes.Count; i++)
@@ -39,6 +47,10 @@ public class BSPTree : MonoBehaviour
                 CreateRoom(nodes[i]);
         }
         Debug.Log(nodes.Count);
+
+        width = Random.Range((int)widthLimits.x,(int)widthLimits.y);
+        height = Random.Range((int)heightLimits.x, (int)heightLimits.y);
+        GO();
     }
 
 
@@ -130,8 +142,8 @@ public class BSPTree : MonoBehaviour
     }
     private void CreateCube(Node node)
     {
-        GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, node.position.y, -node.generation), Quaternion.identity);
-        cube.transform.localScale = new Vector3(node.size.x, node.size.y, 1);
+        GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, 1, node.position.y), Quaternion.identity);
+        cube.transform.localScale = new Vector3(node.size.x, 1, node.size.y);
         cube.GetComponent<MeshRenderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0f, 1f);
         cube.gameObject.name = node.generation.ToString();
         node.cube = cube;
@@ -142,14 +154,15 @@ public class BSPTree : MonoBehaviour
     {
         float x, y;
         BufferMaker(out x, out y, node);
-        if (node.size.x * node.size.y < width * height / 50)
-            return;
+        //If they become too small use this
+        //if (node.size.x * node.size.y < width * height / 200)
+        //    return;
 
         if (TooCloseCheck(node,20))
             return;
 
-        GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, node.position.y, -node.generation), Quaternion.identity);
-        cube.transform.localScale = new Vector3(x, y, 1);
+        GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, 1, node.position.y), Quaternion.identity);
+        cube.transform.localScale = new Vector3(x, 100, y);
         node.cube = cube;
         cube.transform.parent = root.cube.transform;
         cubes.Add(cube);
@@ -199,5 +212,56 @@ public class BSPTree : MonoBehaviour
             return true;
 
         return false;
+    }
+
+    /// <summary>
+    /// Get a random number between 0 and 2
+    /// 0 = foward
+    /// 1 = up
+    /// 2 = down
+    /// </summary>
+    /// <returns></returns>
+    private int GetDirection()
+    {
+        int d;
+        while (true)
+        {
+            d = Random.Range(0, 2);
+            if (d == 0)
+                break;
+            else if (d == 1 && lastDirection != 2)
+                break;
+            else if (d == 2 && lastDirection != 1)
+                break;
+  
+        }
+        return d;
+    }
+
+    private void GO()
+    {
+        int direction = GetDirection();
+
+        if (direction == 0)
+            GoRight();
+        else if (direction == 1)
+            GoUp();
+        else if(direction == 2)
+            GoDown();
+    }
+    private void GoRight()
+    {
+        lastSize.x += oldWidth;
+        Debug.Log("Went right");
+    }
+    private void GoUp()
+    {
+        lastSize.y += height;
+        Debug.Log("Went up");
+    }
+    private void GoDown()
+    {
+        lastSize.y -= (oldHeight + height);
+        Debug.Log("Went down");
     }
 }
