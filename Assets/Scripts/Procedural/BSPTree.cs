@@ -7,6 +7,7 @@ public class BSPTree : MonoBehaviour
 {
     Node root;
     public GameObject cubePrefab;
+    public GameObject groundPrefab;
     public List<Node> nodes;
     public List<GameObject> cubes = new List<GameObject>();
     public int generations = 3;
@@ -126,13 +127,16 @@ public class BSPTree : MonoBehaviour
             BSP(node2);
         }
     }
-
+    /// <summary>
+    /// Instansiates a ground model from a quad prefab.
+    /// </summary>
+    /// <param name="node"></param>
     private void GenerateGround(Node node)
     {
-        GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, 1, node.position.y), Quaternion.identity);
-        cube.transform.localScale = new Vector3(node.size.x, 1, node.size.y);
-        cube.GetComponent<MeshRenderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0f, 1f);
-        cube.gameObject.name = node.generation.ToString();
+        GameObject cube = Instantiate(groundPrefab, new Vector3(node.position.x, 1, node.position.y), Quaternion.identity);
+        cube.transform.localScale = new Vector3(node.size.x, node.size.y, 1);
+        cube.transform.rotation = Quaternion.Euler(90, 0, 0);
+        cube.gameObject.name = "Ground";
         node.cube = cube;
         cubes.Add(cube);
     }
@@ -217,7 +221,7 @@ public class BSPTree : MonoBehaviour
             if (d == 0)
                 break;
             else if (d == 1)
-                break; 
+                break;
         }
         return d;
     }
