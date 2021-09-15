@@ -261,7 +261,7 @@ public class BSPTree : MonoBehaviour
     }
     private void GoDown()
     {
-        lastSize.y -= (oldHeight + height);
+        lastSize.y -= oldHeight;
         Debug.Log("Went down");
     }
 }
