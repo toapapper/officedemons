@@ -7,6 +7,7 @@ public class BSPTree : MonoBehaviour
 {
     Node root;
     public GameObject cubePrefab;
+    public GameObject groundPrefab;
     public List<Node> nodes;
     public List<GameObject> cubes = new List<GameObject>();
     public int generations = 3;
@@ -21,7 +22,6 @@ public class BSPTree : MonoBehaviour
 
 
     private void Start()
-
     {
         width = Random.Range((int)widthLimits.x, (int)widthLimits.y);
         height = Random.Range((int)heightLimits.x, (int)heightLimits.y);
@@ -39,12 +39,12 @@ public class BSPTree : MonoBehaviour
         missfallMultiplier = 0;
         nodes = new List<Node>();
         root = new Node(new Vector2(width, height),lastSize);
-        CreateCube(root);
+        GenerateGround(root);
         BSP(root);
         for (int i = 0; i < nodes.Count; i++)
         {
             if (nodes[i].leaf)
-                CreateRoom(nodes[i]);
+                GenerateObstacles(nodes[i]);
         }
         Debug.Log(nodes.Count);
 
@@ -129,28 +129,21 @@ public class BSPTree : MonoBehaviour
             BSP(node2);
         }
     }
-
-    private void CreateCube(Node node, Node parent)
+    /// <summary>
+    /// Instansiates a ground model from a quad prefab.
+    /// </summary>
+    /// <param name="node"></param>
+    private void GenerateGround(Node node)
     {
-        GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, node.position.y, -node.generation), Quaternion.identity);
+        GameObject cube = Instantiate(groundPrefab, new Vector3(node.position.x, 1, node.position.y), Quaternion.identity);
         cube.transform.localScale = new Vector3(node.size.x, node.size.y, 1);
-        cube.GetComponent<MeshRenderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
-        cube.gameObject.name = node.generation.ToString();
-        node.cube = cube;
-        cube.transform.parent = parent.cube.transform;
-        cubes.Add(cube);
-    }
-    private void CreateCube(Node node)
-    {
-        GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, 1, node.position.y), Quaternion.identity);
-        cube.transform.localScale = new Vector3(node.size.x, 1, node.size.y);
-        cube.GetComponent<MeshRenderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0f, 1f);
-        cube.gameObject.name = node.generation.ToString();
+        cube.transform.rotation = Quaternion.Euler(90, 0, 0);
+        cube.gameObject.name = "Ground";
         node.cube = cube;
         cubes.Add(cube);
     }
 
-    private void CreateRoom(Node node)
+    private void GenerateObstacles(Node node)
     {
         float x, y;
         BufferMaker(out x, out y, node);
