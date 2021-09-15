@@ -152,9 +152,10 @@ public class BSPTree : MonoBehaviour
         if (TooCloseCheck(node,20))
             return;
 
-        GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, 1, node.position.y), Quaternion.identity);
+        GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, 50, node.position.y), Quaternion.identity);
         cube.transform.localScale = new Vector3(x, 100, y);
         node.cube = cube;
+        cube.GetComponent<MeshRenderer>().material.color = Color.red;
         cube.transform.parent = root.cube.transform;
         cubes.Add(cube);
     }
