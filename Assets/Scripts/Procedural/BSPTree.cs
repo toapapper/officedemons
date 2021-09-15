@@ -17,11 +17,8 @@ public class BSPTree : MonoBehaviour
     int missfallMultiplier;
     public int missfallTop = 6;
     Vector2 lastSize;
-    int lastDirection;
-
 
     private void Start()
-
     {
         width = Random.Range((int)widthLimits.x, (int)widthLimits.y);
         height = Random.Range((int)heightLimits.x, (int)heightLimits.y);
@@ -39,12 +36,12 @@ public class BSPTree : MonoBehaviour
         missfallMultiplier = 0;
         nodes = new List<Node>();
         root = new Node(new Vector2(width, height),lastSize);
-        CreateCube(root);
+        GenerateGround(root);
         BSP(root);
         for (int i = 0; i < nodes.Count; i++)
         {
             if (nodes[i].leaf)
-                CreateRoom(nodes[i]);
+                GenerateObstacles(nodes[i]);
         }
         Debug.Log(nodes.Count);
 
@@ -130,17 +127,7 @@ public class BSPTree : MonoBehaviour
         }
     }
 
-    private void CreateCube(Node node, Node parent)
-    {
-        GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, node.position.y, -node.generation), Quaternion.identity);
-        cube.transform.localScale = new Vector3(node.size.x, node.size.y, 1);
-        cube.GetComponent<MeshRenderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
-        cube.gameObject.name = node.generation.ToString();
-        node.cube = cube;
-        cube.transform.parent = parent.cube.transform;
-        cubes.Add(cube);
-    }
-    private void CreateCube(Node node)
+    private void GenerateGround(Node node)
     {
         GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, 1, node.position.y), Quaternion.identity);
         cube.transform.localScale = new Vector3(node.size.x, 1, node.size.y);
@@ -150,7 +137,7 @@ public class BSPTree : MonoBehaviour
         cubes.Add(cube);
     }
 
-    private void CreateRoom(Node node)
+    private void GenerateObstacles(Node node)
     {
         float x, y;
         BufferMaker(out x, out y, node);
@@ -229,11 +216,8 @@ public class BSPTree : MonoBehaviour
             d = Random.Range(0, 2);
             if (d == 0)
                 break;
-            else if (d == 1 && lastDirection != 2)
-                break;
-            else if (d == 2 && lastDirection != 1)
-                break;
-  
+            else if (d == 1)
+                break; 
         }
         return d;
     }
@@ -246,22 +230,16 @@ public class BSPTree : MonoBehaviour
             GoRight();
         else if (direction == 1)
             GoUp();
-        else if(direction == 2)
-            GoDown();
     }
     private void GoRight()
     {
         lastSize.x += oldWidth;
+        height = oldHeight;
         Debug.Log("Went right");
     }
     private void GoUp()
     {
         lastSize.y += height;
         Debug.Log("Went up");
-    }
-    private void GoDown()
-    {
-        lastSize.y -= oldHeight;
-        Debug.Log("Went down");
     }
 }
