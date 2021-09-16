@@ -39,13 +39,25 @@ public class TransformMesh : MonoBehaviour
     private string Evaluate(GameObject gameObject)
     {
         string mesh;
+        int fitness = 0;
         Vector3 scale = gameObject.transform.localScale;
         Debug.Log(scale.x * scale.y);
-        if (scale.x * scale.y < 15)
-            mesh = "Bush";
-        else
-            mesh = "Car";
+        if (scale.x * scale.y > 15)
+            fitness += 100;
 
+        if (scale.x < 5 || scale.z < 5)
+        {
+            fitness -= 10;
+        }
+
+        if (fitness < 10)
+        {
+            mesh = "Bush";
+        }
+        else
+        {
+            mesh = "Car";
+        }
         return mesh;
     }
 
