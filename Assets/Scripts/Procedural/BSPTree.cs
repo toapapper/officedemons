@@ -167,7 +167,7 @@ public class BSPTree : MonoBehaviour
                 break;
             else if (d == 2 && lastDirection != 1)
                 break;
-  
+
         }
         return d;
     }
@@ -191,7 +191,6 @@ public class BSPTree : MonoBehaviour
     private void GoUp()
     {
         lastSize.y += height;
-        Debug.Log("Went up");
     }
     private void GoDown()
     {
