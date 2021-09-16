@@ -9,6 +9,7 @@ public class BSPTree : MonoBehaviour
     public GameObject cubePrefab;
     public GameObject groundPrefab;
     public List<Node> nodes;
+    public TransformMesh transformMesh;
     public List<GameObject> cubes = new List<GameObject>();
     public int generations = 3;
     int width, oldWidth;
@@ -23,12 +24,9 @@ public class BSPTree : MonoBehaviour
     {
         width = Random.Range((int)widthLimits.x, (int)widthLimits.y);
         height = Random.Range((int)heightLimits.x, (int)heightLimits.y);
+        transformMesh = GetComponent<TransformMesh>();
     }
 
-    public void MakeBigBSP()
-    {
-        MakeBSP();
-    }
 
     public void MakeBSP()
     {
@@ -155,9 +153,9 @@ public class BSPTree : MonoBehaviour
         GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, 50, node.position.y), Quaternion.identity);
         cube.transform.localScale = new Vector3(x, 100, y);
         node.cube = cube;
-        cube.GetComponent<MeshRenderer>().material.color = Color.red;
         cube.transform.parent = root.cube.transform;
         cubes.Add(cube);
+        transformMesh.GetTexture(cube);
     }
 
     private void BufferMaker(out float x, out float y, Node node)
@@ -240,11 +238,9 @@ public class BSPTree : MonoBehaviour
     {
         lastSize.x += oldWidth;
         height = oldHeight;
-        Debug.Log("Went right");
     }
     private void GoUp()
     {
         lastSize.y += height;
-        Debug.Log("Went up");
     }
 }

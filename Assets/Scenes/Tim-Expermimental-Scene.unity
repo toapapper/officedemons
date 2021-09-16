@@ -477,7 +477,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2028610339}
         m_TargetAssemblyTypeName: BSPTree, Assembly-CSharp
-        m_MethodName: MakeBigBSP
+        m_MethodName: MakeBSP
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -728,6 +728,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2028610340}
   - component: {fileID: 2028610339}
+  - component: {fileID: 2028610341}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -749,6 +750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cubePrefab: {fileID: 6499459433196731798, guid: 7388b22408c70a340bd0a1a5b2cd2639, type: 3}
   groundPrefab: {fileID: 2597626372045865958, guid: de478330e52d0534a81d6d3ceabf42df, type: 3}
+  transformMesh: {fileID: 2028610341}
   cubes: []
   generations: 4
   widthLimits: {x: 500, y: 1000}
@@ -768,3 +770,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2028610341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028610338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95d7986d2038bbe4e985e2467af42cb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: 5324cad33a11a284483931775945b49d, type: 2}
+  - {fileID: 2100000, guid: 5324cad33a11a284483931775945b49d, type: 2}
+  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
