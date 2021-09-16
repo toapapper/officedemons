@@ -5,14 +5,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-
+    [SerializeField]
     public static List<GameObject> players;
-
-    void Update()
-    {
-        if(players != null)
-		{
-            Debug.Log(players.Count);
-        }
-    }
 }

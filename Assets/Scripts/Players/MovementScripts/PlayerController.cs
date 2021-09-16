@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 	//World transform
+	private GameObject worldCenter;
 	private Vector3 forward;
 	private Vector3 right;
 
@@ -32,8 +33,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private float controllerSensitivity = 0.5f; // Rotation speed
 
-
 	//Helper variables
+	private int playerNr;
 	private bool objectNearby;
 
 	void OnEnable()
@@ -42,15 +43,26 @@ public class PlayerController : MonoBehaviour
 			PlayerManager.players = new List<GameObject>();
 
 		PlayerManager.players.Add(this.gameObject);
+		playerNr = PlayerManager.players.Count;
 	}
 
 	private void Start()
 	{
-		character = GetComponent<CharacterController>();
+		EnterGame();
+	}
+
+	private void EnterGame()
+	{
 		forward = Camera.main.transform.forward;
 		forward.y = 0;
 		forward.Normalize();
 		right = new Vector3(forward.z, 0, -forward.x);
+
+		worldCenter = GameObject.Find("WorldCenter");
+
+		transform.position = worldCenter.transform.position + new Vector3(0,0,playerNr);
+
+		character = GetComponent<CharacterController>();
 	}
 	
 	public void OnKeyboardMove(InputAction.CallbackContext context)
@@ -117,7 +129,6 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-
 	private void CalculateRotation()
 	{
 		rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up);
@@ -135,5 +146,12 @@ public class PlayerController : MonoBehaviour
 	{
 		Vector3 localMove = moveAmount * Time.fixedDeltaTime;
 		character.Move(localMove);
+	}
+	private void OnTriggerEnter(Collider other)
+	{
+		if(other.tag == "WeaponObject")
+		{
+
+		}
 	}
 }
