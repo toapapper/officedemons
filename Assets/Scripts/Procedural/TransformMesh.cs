@@ -21,14 +21,13 @@ public class TransformMesh : MonoBehaviour
     public void GetTexture(GameObject gameObject)
     {
         string type = Evaluate(gameObject);
-        Debug.Log(type);
         switch (type)
         {
             case "Car":
-                gameObject.GetComponent<MeshRenderer>().material = GetNameFromList("Car");
+                gameObject.GetComponent<MeshRenderer>().material = GetNameFromList(type);
                 break;
-            case "Cube":
-                gameObject.GetComponent<MeshRenderer>().material = GetNameFromList("CarScuffed");
+            case "Bush":
+                gameObject.GetComponent<MeshRenderer>().material = GetNameFromList(type);
                 break;
             default:
                 break;
@@ -41,9 +40,9 @@ public class TransformMesh : MonoBehaviour
     {
         string mesh;
         Vector3 scale = gameObject.transform.localScale;
-
-        if (scale.x * scale.z > 20 * valueCorrector)
-            mesh = "CarScuffed";
+        Debug.Log(scale.x * scale.y);
+        if (scale.x * scale.y < 15)
+            mesh = "Bush";
         else
             mesh = "Car";
 
@@ -55,6 +54,7 @@ public class TransformMesh : MonoBehaviour
     {
         for (int i = 0; i < materials.Count; i++)
         {
+            Debug.Log(materials[i].name + i);
             if (materials[i].name == textureName)
             {
                 return materials[i];

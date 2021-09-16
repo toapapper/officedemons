@@ -186,7 +186,6 @@ public class BSPTree : MonoBehaviour
     private void GoRight()
     {
         lastSize.x += oldWidth;
-        Debug.Log("Went right");
     }
     private void GoUp()
     {
@@ -195,6 +194,5 @@ public class BSPTree : MonoBehaviour
     private void GoDown()
     {
         lastSize.y -= oldHeight;
-        Debug.Log("Went down");
     }
 }
