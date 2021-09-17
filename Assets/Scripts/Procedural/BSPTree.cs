@@ -92,11 +92,6 @@ public class BSPTree : MonoBehaviour
             node2 = new Node(node, new Vector2(node.size.x - splitPoint, node.size.y), new Vector2(node.origin.x + splitPoint, node.origin.y), node.generation + 1);
             node.children[1] = node2;
 
-
-            //CreateCube(node1,node);
-            //CreateCube(node2,node);
-
-
             BSP(node1);
             BSP(node2);
         }
@@ -112,11 +107,6 @@ public class BSPTree : MonoBehaviour
             node.children[0] = node1;
             node2 = new Node(node, new Vector2(node.size.x, node.size.y - splitPoint), new Vector2(node.origin.x, node.origin.y - splitPoint), node.generation + 1);
             node.children[1] = node2;
-
-
-            //CreateCube(node1, node);
-            //CreateCube(node2, node);
-
 
             BSP(node1);
             BSP(node2);
@@ -180,19 +170,15 @@ public class BSPTree : MonoBehaviour
             GoRight();
         else if (direction == 1)
             GoUp();
-        else if(direction == 2)
-            GoDown();
     }
     private void GoRight()
     {
+        lastDirection = 0;
         lastSize.x += oldWidth;
     }
     private void GoUp()
     {
+        lastDirection = 1;
         lastSize.y += height;
-    }
-    private void GoDown()
-    {
-        lastSize.y -= oldHeight;
     }
 }
