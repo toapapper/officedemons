@@ -36,7 +36,7 @@ public class BSPTree : MonoBehaviour
         for (int i = 0; i < nodes.Count; i++)
         {
             if (nodes[i].leaf)
-                generateTerrain.GenerateObstacles(nodes[i], root, width, height);
+                generateTerrain.GenerateObstacles(nodes[i], root, width, height, heightLimits.y);
         }
         Debug.Log(nodes.Count);
 
@@ -76,7 +76,7 @@ public class BSPTree : MonoBehaviour
 
         int split;
         int missfall = Random.Range(missfallMultiplier, missfallTop);
-        if (missfall == missfallMultiplier && node.generation > 2)
+        if (missfall == missfallMultiplier && node.generation > generations/2)
             return;
         split = Random.Range(0, 2);
         float buffer = 0;
@@ -128,7 +128,6 @@ public class BSPTree : MonoBehaviour
         {
             buffer = node.size.x / 4;
             value = Random.Range(buffer, node.size.x - buffer);
-
         }
         else
         {

@@ -10,6 +10,7 @@ public class GenerateTerrain : MonoBehaviour
     public Material mat;
     public List<GameObject> cubes = new List<GameObject>();
     public TransformMesh transformMesh;
+    int yvalue;
     private void Start()
     {
         transformMesh = GetComponent<TransformMesh>();
@@ -53,7 +54,7 @@ public class GenerateTerrain : MonoBehaviour
         quad.GetComponent<MeshRenderer>().material = mat;
     }
 
-    public void GenerateObstacles(Node node, Node root, int width, int height)
+    public void GenerateObstacles(Node node, Node root, int width, int height, float limit)
     {
         float x, y;
         BufferMaker(out x, out y, node);
@@ -64,8 +65,9 @@ public class GenerateTerrain : MonoBehaviour
         if (TooCloseCheck(node, 20, root, width, height))
             return;
 
-        GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, 50, node.position.y), Quaternion.identity);
-        cube.transform.localScale = new Vector3(x, 100, y);
+        yvalue =(int)limit / 20;
+        GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, yvalue, node.position.y), Quaternion.identity);
+        cube.transform.localScale = new Vector3(x, yvalue * 2, y);
         node.cube = cube;
         cube.transform.parent = root.cube.transform;
         cube.isStatic = true;
