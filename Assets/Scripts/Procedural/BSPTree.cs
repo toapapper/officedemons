@@ -6,10 +6,7 @@ public class BSPTree : MonoBehaviour
 {
     Node root;
     public GenerateTerrain generateTerrain;
-    //public GameObject cubePrefab;
-    //public GameObject groundPrefab;
     public List<Node> nodes;
-    //public List<GameObject> cubes = new List<GameObject>();
     public int generations = 3;
     int width, oldWidth;
     int height, oldHeight;
@@ -45,6 +42,9 @@ public class BSPTree : MonoBehaviour
 
         width = Random.Range((int)widthLimits.x,(int)widthLimits.y);
         height = Random.Range((int)heightLimits.x, (int)heightLimits.y);
+        if (lastDirection == 1 && height > oldHeight)
+            height = oldHeight;
+
         GO();
     }
 
