@@ -5,6 +5,7 @@ using UnityEngine;
 public class BSPTree : MonoBehaviour
 {
     Node root;
+    Node lastRoot;
     public GenerateTerrain generateTerrain;
     public List<Node> nodes;
     public int generations = 3;
@@ -15,6 +16,9 @@ public class BSPTree : MonoBehaviour
     int missfallMultiplier;
     public int missfallTop = 6;
     Vector2 lastSize;
+
+    //Maybe throw them into node?
+    int nextDirection;
     int lastDirection;
 
     private void Start()
@@ -30,6 +34,9 @@ public class BSPTree : MonoBehaviour
         oldHeight = height;
         missfallMultiplier = 0;
         nodes = new List<Node>();
+        if (root != null)
+            lastRoot = root;
+
         root = new Node(new Vector2(width, height),lastSize);
         generateTerrain.GenerateGround(root);
         BSP(root);
@@ -42,10 +49,12 @@ public class BSPTree : MonoBehaviour
 
         width = Random.Range((int)widthLimits.x,(int)widthLimits.y);
         height = Random.Range((int)heightLimits.x, (int)heightLimits.y);
-        if (lastDirection == 1 && height > oldHeight)
+        if (nextDirection == 1 && height > oldHeight)
             height = oldHeight;
 
+        lastDirection = nextDirection;
         GO();
+        generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection,new Vector2(width,height),lastRoot.size,new Vector2(1,1), heightLimits.y);
     }
 
     public void BSP(Node node)
@@ -138,26 +147,17 @@ public class BSPTree : MonoBehaviour
 
 
     /// <summary>
-    /// Get a random number between 0 and 2
+    /// Get a random number between 0 and 1
     /// 0 = foward
     /// 1 = up
-    /// 2 = down
     /// </summary>
     /// <returns></returns>
     private int GetDirection()
     {
-        int d;
-        while (true)
-        {
-            d = Random.Range(0, 2);
-            if (d == 0)
-                break;
-            else if (d == 1 && lastDirection != 2)
-                break;
-            else if (d == 2 && lastDirection != 1)
-                break;
 
-        }
+
+        int d = Random.Range(0, 2);
+
         return d;
     }
 
@@ -172,12 +172,12 @@ public class BSPTree : MonoBehaviour
     }
     private void GoRight()
     {
-        lastDirection = 0;
+        nextDirection = 0;
         lastSize.x += oldWidth;
     }
     private void GoUp()
     {
-        lastDirection = 1;
+        nextDirection = 1;
         lastSize.y += height;
     }
 }
