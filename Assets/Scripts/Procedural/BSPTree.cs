@@ -28,6 +28,15 @@ public class BSPTree : MonoBehaviour
         generateTerrain = GetComponent<GenerateTerrain>();
     }
 
+    public void Make100BSP()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            MakeBSP();
+        }
+    }
+
+
     public void MakeBSP()
     {
         oldWidth = width;
@@ -156,7 +165,7 @@ public class BSPTree : MonoBehaviour
     {
 
 
-        int d = Random.Range(0, 2);
+        int d = Random.Range(0, 6);
 
         return d;
     }
@@ -167,7 +176,7 @@ public class BSPTree : MonoBehaviour
 
         if (direction == 0)
             GoRight();
-        else if (direction == 1)
+        else
             GoUp();
     }
     private void GoRight()

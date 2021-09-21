@@ -7,6 +7,7 @@ public class GenerateTerrain : MonoBehaviour
 {
     public GameObject cubePrefab;
     public GameObject groundPrefab;
+    public GameObject level;
     public Material mat;
     public List<GameObject> cubes = new List<GameObject>();
     public TransformMesh transformMesh;
@@ -52,6 +53,7 @@ public class GenerateTerrain : MonoBehaviour
         quad.isStatic = true;
         cubes.Add(quad);
         quad.GetComponent<MeshRenderer>().material = mat;
+        quad.transform.parent = level.transform;
     }
 
     //Optimize
