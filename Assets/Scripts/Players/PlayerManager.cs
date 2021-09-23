@@ -5,6 +5,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField]
+	[SerializeField]
     public static List<GameObject> players;
+
+	[SerializeField]
+	GameObject viciousVicky;
+	[SerializeField]
+	GameObject terribleTim;
+	[SerializeField]
+	GameObject susanTheDestroyer;
+	[SerializeField]
+	GameObject devin;
 }
