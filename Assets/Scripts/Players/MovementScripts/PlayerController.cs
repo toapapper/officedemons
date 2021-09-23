@@ -111,6 +111,15 @@ public class PlayerController : MonoBehaviour
 		Debug.Log("Special" + throwInput);
 	}
 
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.canceled && transform.name != "Player")
+        {
+            GameManager.Instance.OnPause();
+            Debug.Log("Pause");
+            Debug.Log(this.ToString() + " " + this.transform.position);
+        }
+    }
 
 	private void FixedUpdate()
 	{
