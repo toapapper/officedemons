@@ -224,7 +224,9 @@ GameObject:
   - component: {fileID: 4297036912314797471}
   - component: {fileID: 2235572091995276797}
   - component: {fileID: 3889168608585262852}
-  m_Layer: 0
+  - component: {fileID: 4773847260600361808}
+  - component: {fileID: 571394262688282377}
+  m_Layer: 7
   m_Name: NewTestPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -490,6 +492,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4773847260600361808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889168608585262853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f0ffcfbcab732469fb0d5308b1af2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &571394262688282377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889168608585262853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045394b85f26e804b916a3ed3c696019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 10
+  health: 0
+  stamina: 10
 --- !u!1 &5991680956662319853
 GameObject:
   m_ObjectHideFlags: 0
