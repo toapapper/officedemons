@@ -9,8 +9,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 	private bool isHeld;
     private bool isProjectile;
 
-    private float damage = 10f;
-    private float throwDamage = 15f;
+    private int damage = 10;
+    private int throwDamage = 15;
 
 	public bool IsHeld
 	{
@@ -22,12 +22,12 @@ public abstract class AbstractWeapon : MonoBehaviour
 		get { return isProjectile; }
 		set { isProjectile = value; }
 	}
-	protected float Damage
+	public int Damage
 	{
 		get { return damage; }
 		set { damage = value; }
 	}
-	protected float ThrowDamage
+	protected int ThrowDamage
 	{
 		get { return throwDamage; }
 		set { throwDamage = value; }

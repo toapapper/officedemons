@@ -7,9 +7,9 @@ public class PointyStick : ThrustWeapon
 	[SerializeField]
 	private GameObject poleHandle;
 	[SerializeField]
-	private float poleDamage = 10f;
+	private int poleDamage = 10;
 	[SerializeField]
-	private float poleThrowDamage = 15f;
+	private int poleThrowDamage = 15;
 
 	private void Start()
 	{

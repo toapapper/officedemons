@@ -4,9 +4,5 @@ using UnityEngine;
 
 public abstract class MeleeWeapon : AbstractWeapon
 {
-	//private Bounds hitbox;
-
-
-
 	public override abstract void Hit(Animator animator);
 }

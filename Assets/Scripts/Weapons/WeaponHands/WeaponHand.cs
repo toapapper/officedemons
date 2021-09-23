@@ -9,7 +9,9 @@ public class WeaponHand : MonoBehaviour
 	private AbstractWeapon objectInHand;
 
 	[SerializeField]
-	private float damage = 5f;
+	private int damage = 5;
+
+	private Actions actions;
 
     //Throwing variables
     [SerializeField]
@@ -17,7 +19,10 @@ public class WeaponHand : MonoBehaviour
     [SerializeField]
     private float maxThrowForce = 30f;
     public float addedForce;
-
+	private void Start()
+	{
+		actions = GetComponent<Actions>();
+	}
 	public void Equip(GameObject newObject)
 	{
 		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
@@ -33,10 +38,12 @@ public class WeaponHand : MonoBehaviour
 
 	public void Hit(Animator animator)
 	{
+		//Actions Attack(objectinHand)
 		Debug.Log(objectInHand);
 		if (objectInHand != null)
 		{
 			objectInHand.Hit(animator);
+			actions.Attack(objectInHand);
 		}
 		else
 		{
