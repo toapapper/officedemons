@@ -259,9 +259,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04dc22ae0692b9045b38cd5de4fcce84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponHand: {fileID: 3327192763686608388}
   speed: 10
   rotationSpeed: 500
-  weaponHand: {fileID: 3327192763686608388}
 --- !u!114 &3327192763686608388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,7 +274,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49854cd6b540df14abff5d2e5cd4b767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwForce: 500
+  throwForce: 25
+  maxThrowForce: 40
+  addedForce: 0
   handObject: {fileID: 5091335231850223990}
 --- !u!65 &759116604975765094
 BoxCollider:

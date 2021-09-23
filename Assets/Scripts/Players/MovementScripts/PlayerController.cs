@@ -37,7 +37,12 @@ public class PlayerController : MonoBehaviour
 	private int playerNr;
 	private List<GameObject> nearbyObjects = new List<GameObject>();
 	private bool weaponEquipped;
-	
+	private bool isThrowing;
+
+	//Animation
+	[SerializeField]
+	private Animator animator;
+
 
 	void OnEnable()
 	{
@@ -50,8 +55,10 @@ public class PlayerController : MonoBehaviour
 
 	private void Start()
 	{
+		
 		EnterGame();
 	}
+
 
 	private void EnterGame()
 	{
@@ -61,7 +68,7 @@ public class PlayerController : MonoBehaviour
 		right = new Vector3(forward.z, 0, -forward.x);
 
 		worldCenter = GameObject.Find("WorldCenter");
-		transform.position = worldCenter.transform.position + new Vector3(0,0,playerNr);
+		transform.position = worldCenter.transform.position + new Vector3(0, 0, playerNr);
 
 		character = GetComponent<CharacterController>();
 	}
@@ -85,7 +92,7 @@ public class PlayerController : MonoBehaviour
 				{
 					foreach(GameObject neabyObject in nearbyObjects)
 					{
-						if (!neabyObject.GetComponent<Weapon>().isHeld)
+						if (!neabyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
 						{
 							weaponHand.Equip(neabyObject);
 							weaponEquipped = true;
@@ -96,17 +103,17 @@ public class PlayerController : MonoBehaviour
 			}
 			else
 			{
-				weaponHand.DropObject();
+				weaponHand.DropObject(transform.forward);
 				weaponEquipped = false;
 			}
-			
 		}		
 	}
 	public void OnAttack(InputAction.CallbackContext context)
 	{
 		if (name != "Player" && context.performed)
 		{
-			weaponHand.Hit();
+			attackInput = context.ReadValue<float>();
+			weaponHand.Hit(animator);
 		}			
 	}
 	public void OnSpeciel(InputAction.CallbackContext context)
@@ -119,19 +126,32 @@ public class PlayerController : MonoBehaviour
 	}
 	public void OnThrow(InputAction.CallbackContext context)
 	{
-		if (name != "Player" && context.performed)
+		if (name != "Player")
 		{
 			if (weaponEquipped)
 			{
-				weaponHand.Throw(transform.forward);
-				weaponEquipped = false;
+				if (context.started)
+				{
+					isThrowing = true;
+					isThrowing = true;
+					weaponHand.AimThrow(animator);
+				}
+				else if (context.canceled)
+				{
+					Vector3 throwDirection = transform.forward;
+					throwDirection.y += 0.3f;
+					weaponHand.Throw(animator, throwDirection.normalized);
+					weaponEquipped = false;
+					isThrowing = false;
+					//isThrowing = true;
+				}
 			}
 		}
 	}
 
-
 	private void FixedUpdate()
 	{
+		//Rotation
 		if (moveDirection != Vector3.zero)
 		{
 			CalculateRotation();
@@ -140,11 +160,19 @@ public class PlayerController : MonoBehaviour
 		{
 			PerformRotation();
 		}
-
-		CalculateMovement();
-		if(moveAmount != Vector3.zero)
+		//Throwing
+		if (isThrowing)
 		{
-			PerformMovement();
+			weaponHand.AddThrowForce();
+		}
+		//Movement
+		else
+		{
+			CalculateMovement();
+			if (moveAmount != Vector3.zero)
+			{
+				PerformMovement();
+			}
 		}
 	}
 
@@ -173,7 +201,6 @@ public class PlayerController : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		
 		if (other.gameObject.tag == "WeaponObject")
 		{
 			nearbyObjects.Add(other.gameObject);
@@ -185,6 +212,14 @@ public class PlayerController : MonoBehaviour
 		if (other.gameObject.tag == "WeaponObject")
 		{
 			nearbyObjects.Remove(other.gameObject);
+		}
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.tag == "WeaponObject")
+		{
+			Physics.IgnoreCollision(character, collision.collider);
 		}
 	}
 }
