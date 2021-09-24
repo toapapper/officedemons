@@ -8,11 +8,9 @@ using UnityEngine.EventSystems;
 
 public class MainMenu : MonoBehaviour
 {
-
     public bool InGame = false;
     public GameObject OptionsMenu;
     public GameObject FirstSelectedOptionsMenu;
-    
 
     public void Play()
     {
@@ -22,9 +20,7 @@ public class MainMenu : MonoBehaviour
 
     public void Resume()
     {
-        //GameManager.Unpause()??? egentligen men just nu mycket fulgjort.
-        Time.timeScale = 1;
-        gameObject.SetActive(false);
+        GameManager.Instance.Unpause();
     }
     
 

@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
 	//Inputs
 	private Vector2 moveInput;
-	private float pickupInput; 
+	private float pickupInput;
 	private float attackInput;
 	private float specialInput;
 	private float throwInput;
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Start()
 	{
-		
+
 		EnterGame();
 	}
 
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
 				weaponHand.DropObject(transform.forward);
 				weaponEquipped = false;
 			}
-		}		
+		}
 	}
 	public void OnAttack(InputAction.CallbackContext context)
 	{
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
 		{
 			attackInput = context.ReadValue<float>();
 			weaponHand.Hit(animator);
-		}			
+		}
 	}
 	public void OnSpeciel(InputAction.CallbackContext context)
 	{
@@ -148,6 +148,16 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 	}
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.canceled && transform.name != "Player")
+        {
+            GameManager.Instance.OnPause();
+            Debug.Log("Pause");
+            Debug.Log(this.ToString() + " " + this.transform.position);
+        }
+    }
 
 	private void FixedUpdate()
 	{
