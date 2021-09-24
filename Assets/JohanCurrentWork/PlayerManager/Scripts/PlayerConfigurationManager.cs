@@ -10,7 +10,10 @@ public class PlayerConfigurationManager : MonoBehaviour
     private List<PlayerConfiguration> playerConfigurations;
 
     [SerializeField]
-    private int maxPlayers = 4;
+    private int maxPlayers = 1;
+
+	[SerializeField]
+	private string gameSceneName;
 
     public static PlayerConfigurationManager Instance { get; private set; }
 
@@ -28,6 +31,11 @@ public class PlayerConfigurationManager : MonoBehaviour
 		}
 	}
 
+	public List<PlayerConfiguration> GetPlayerConfigurations()
+	{
+		return playerConfigurations;
+	}
+
 	//Change to specific player prefab instead of color?????
 	public void SetPlayerColor(int index, Material color)
 	{
@@ -36,9 +44,9 @@ public class PlayerConfigurationManager : MonoBehaviour
 	public void ReadyPlayer(int index)
 	{
 		playerConfigurations[index].IsReady = true;
-		if (playerConfigurations.Count == maxPlayers && playerConfigurations.All(p => p.IsReady == true))
+		if (playerConfigurations.Count >= maxPlayers && playerConfigurations.All(p => p.IsReady == true))
 		{
-			SceneManager.LoadScene("JohanScene");
+			SceneManager.LoadScene(gameSceneName);
 		}
 	}
 	public void HandlePlayerJoin(PlayerInput playerInput)

@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 public class SpawnPlayerSetupMenu : MonoBehaviour
 {
 	public GameObject playerSetupMenuPrefab;
+	public PlayerInput playerInput;
 
 	private void Awake()
 	{
@@ -12,6 +15,8 @@ public class SpawnPlayerSetupMenu : MonoBehaviour
 		if(rootMenu != null)
 		{
 			var menu = Instantiate(playerSetupMenuPrefab, rootMenu.transform);
+			playerInput.uiInputModule = menu.GetComponentInChildren<InputSystemUIInputModule>();
+			menu.GetComponent<PlayerSetupMenuController>().SetPlayerIndex(playerInput.playerIndex);
 		}
 	}
 }
