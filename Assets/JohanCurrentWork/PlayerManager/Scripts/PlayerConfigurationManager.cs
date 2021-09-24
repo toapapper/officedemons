@@ -13,7 +13,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     private List<PlayerConfiguration> playerConfigurations;
 
     [SerializeField]
-    private int maxPlayers = 1;
+    private int minimumPlayers = 1;
 
 	[SerializeField]
 	private string gameSceneName;
@@ -45,7 +45,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 	public void ReadyPlayer(int index)
 	{
 		playerConfigurations[index].IsReady = true;
-		if (playerConfigurations.Count >= maxPlayers && playerConfigurations.All(p => p.IsReady == true))
+		if (playerConfigurations.Count >= minimumPlayers && playerConfigurations.All(p => p.IsReady == true))
 		{
 			SceneManager.LoadScene(gameSceneName);
 		}
