@@ -15,12 +15,14 @@ public class PlayerController : MonoBehaviour
 
 	//Inputs
 	private Vector2 moveInput;
-	private float pickupInput; 
+	private float pickupInput;
 	private float attackInput;
 	private float specialInput;
 	private float throwInput;
-	
+
 	//Playermovement
+	[SerializeField]
+	private WeaponHand weaponHand;
 	CharacterController character;
 	private Vector3 moveDirection;
 	private Vector3 moveAmount = Vector3.zero;
@@ -30,12 +32,17 @@ public class PlayerController : MonoBehaviour
 	private float speed = 1f; //Movement speed
 	[SerializeField]
 	private float rotationSpeed = 500f; // Rotation speed
-	[SerializeField]
-	private float controllerSensitivity = 0.5f; // Rotation speed
 
 	//Helper variables
 	private int playerNr;
-	private bool objectNearby;
+	private List<GameObject> nearbyObjects = new List<GameObject>();
+	private bool weaponEquipped;
+	private bool isThrowing;
+
+	//Animation
+	[SerializeField]
+	private Animator animator;
+
 
 	void OnEnable()
 	{
@@ -48,8 +55,10 @@ public class PlayerController : MonoBehaviour
 
 	private void Start()
 	{
+
 		EnterGame();
 	}
+
 
 	private void EnterGame()
 	{
@@ -59,56 +68,85 @@ public class PlayerController : MonoBehaviour
 		right = new Vector3(forward.z, 0, -forward.x);
 
 		worldCenter = GameObject.Find("WorldCenter");
-
-		transform.position = worldCenter.transform.position + new Vector3(0,0,playerNr);
+		transform.position = worldCenter.transform.position + new Vector3(0, 0, playerNr);
 
 		character = GetComponent<CharacterController>();
 	}
-	
-	public void OnKeyboardMove(InputAction.CallbackContext context)
+
+
+	public void OnMove(InputAction.CallbackContext context)
 	{
-		moveInput = context.ReadValue<Vector2>();
-		moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
-	}
-	public void OnControllerMove(InputAction.CallbackContext context)
-	{
-		moveInput = context.ReadValue<Vector2>();
-		if (moveInput.magnitude > controllerSensitivity)
+		if (name != "Player")
 		{
+			moveInput = context.ReadValue<Vector2>();
 			moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
-		}
-		else
-		{
-			moveDirection = Vector3.zero;
 		}
 	}
 	public void OnPickUp(InputAction.CallbackContext context)
 	{
-		if (objectNearby)
+		if(name != "Player" && context.performed)
 		{
-			pickupInput = context.ReadValue<float>();
-			Debug.Log("Pick up" + pickupInput);
+			if (!weaponEquipped)
+			{
+				if (nearbyObjects.Count > 0)
+				{
+					foreach(GameObject neabyObject in nearbyObjects)
+					{
+						if (!neabyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
+						{
+							weaponHand.Equip(neabyObject);
+							weaponEquipped = true;
+							break;
+						}
+					}
+				}
+			}
+			else
+			{
+				weaponHand.DropObject(transform.forward);
+				weaponEquipped = false;
+			}
 		}
-		else
-		{
-			Debug.Log("Throw" + pickupInput);
-		}
-		
 	}
 	public void OnAttack(InputAction.CallbackContext context)
 	{
-		attackInput = context.ReadValue<float>();
-		Debug.Log("Attack" + attackInput);
+		if (name != "Player" && context.performed)
+		{
+			attackInput = context.ReadValue<float>();
+			weaponHand.Hit(animator);
+		}
 	}
 	public void OnSpeciel(InputAction.CallbackContext context)
 	{
-		specialInput = context.ReadValue<float>();
-		Debug.Log("Special" + specialInput);
+		if (name != "Player" && context.performed)
+		{
+			specialInput = context.ReadValue<float>();
+			Debug.Log("Special" + specialInput);
+		}
 	}
 	public void OnThrow(InputAction.CallbackContext context)
 	{
-		throwInput = context.ReadValue<float>();
-		Debug.Log("Special" + throwInput);
+		if (name != "Player")
+		{
+			if (weaponEquipped)
+			{
+				if (context.started)
+				{
+					isThrowing = true;
+					isThrowing = true;
+					weaponHand.AimThrow(animator);
+				}
+				else if (context.canceled)
+				{
+					Vector3 throwDirection = transform.forward;
+					throwDirection.y += 0.3f;
+					weaponHand.Throw(animator, throwDirection.normalized);
+					weaponEquipped = false;
+					isThrowing = false;
+					//isThrowing = true;
+				}
+			}
+		}
 	}
 
     public void OnPause(InputAction.CallbackContext context)
@@ -123,6 +161,7 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		//Rotation
 		if (moveDirection != Vector3.zero)
 		{
 			CalculateRotation();
@@ -131,10 +170,19 @@ public class PlayerController : MonoBehaviour
 		{
 			PerformRotation();
 		}
-		CalculateMovement();
-		if(moveAmount != Vector3.zero)
+		//Throwing
+		if (isThrowing)
 		{
-			PerformMovement();
+			weaponHand.AddThrowForce();
+		}
+		//Movement
+		else
+		{
+			CalculateMovement();
+			if (moveAmount != Vector3.zero)
+			{
+				PerformMovement();
+			}
 		}
 	}
 
@@ -150,17 +198,38 @@ public class PlayerController : MonoBehaviour
 	{
 		Vector3 targetMoveAmount = moveDirection * speed;
 		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
+		if(transform.position.y > 0)
+		{
+			character.Move(Vector3.down);
+		}
 	}
 	private void PerformMovement()
 	{
 		Vector3 localMove = moveAmount * Time.fixedDeltaTime;
 		character.Move(localMove);
 	}
+
 	private void OnTriggerEnter(Collider other)
 	{
-		if(other.tag == "WeaponObject")
+		if (other.gameObject.tag == "WeaponObject")
 		{
+			nearbyObjects.Add(other.gameObject);
+		}
+	}
 
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.gameObject.tag == "WeaponObject")
+		{
+			nearbyObjects.Remove(other.gameObject);
+		}
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.tag == "WeaponObject")
+		{
+			Physics.IgnoreCollision(character, collision.collider);
 		}
 	}
 }

@@ -56,6 +56,28 @@ public class BSPTree : MonoBehaviour
         missfallMultiplier++;
     }
 
+    /// <summary>
+    /// Evaluates the BSP tree after a set of desirable traits that correlates to a fitness value.
+    /// </summary>
+    /// <param name="nodes"></param>
+    public void FitnessFuntion(List<Node> nodes, int desiredFitnessValue)
+    {
+        int fitnessValue = 0;
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            //Evaluate fitness.
+        }
+
+        if(fitnessValue == desiredFitnessValue)
+        {
+            return;
+        }
+        else
+        {
+            MakeBSP();
+            FitnessFuntion(nodes, desiredFitnessValue);
+        }
+    }
 
     public void Split(Node node)
     {

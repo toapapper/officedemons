@@ -6,17 +6,9 @@
             "id": "38ef6f9e-86c3-4a3f-a044-b9fab1415b05",
             "actions": [
                 {
-                    "name": "KeyboardMove",
+                    "name": "Move",
                     "type": "PassThrough",
                     "id": "db05cccb-e03b-40c0-913f-b24ca7f59830",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ControllerMove",
-                    "type": "PassThrough",
-                    "id": "6f3f11be-e702-4f09-94fc-8bbf3254226c",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
@@ -49,6 +41,13 @@
                     "name": "Pause",
                     "type": "Button",
                     "id": "bab93117-d7db-45c8-abef-f9d78b96c54d",
+                    "processors": "",
+                    "interactions": ""
+                }
+                {
+                    "name": "Throw",
+                    "type": "Button",
+                    "id": "c49f1803-d6a1-4a67-9b0b-9845411f4d90",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -62,7 +61,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMove",
+                    "action": "Move",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -73,7 +72,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMove",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -84,7 +83,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMove",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -95,7 +94,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMove",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -106,7 +105,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMove",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -117,7 +116,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMove",
+                    "action": "Move",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -128,7 +127,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMove",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -139,7 +138,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMove",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -150,7 +149,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMove",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -161,9 +160,20 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "KeyboardMove",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "dfb78707-3efd-4ecd-a059-4910fe93e132",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone(min=0.3)",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -223,7 +233,7 @@
                 {
                     "name": "",
                     "id": "ef37025e-334a-464e-941d-e416a420bc66",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -233,12 +243,23 @@
                 },
                 {
                     "name": "",
-                    "id": "1d9d60b0-d3fa-4634-a690-08b6646d997d",
-                    "path": "<Gamepad>/leftStick",
+                    "id": "2a12b4e2-1473-4f32-bfa1-565193b97c4e",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ControllerMove",
+                    "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "234b3e70-9ea2-4198-8361-cd9f3484daeb",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -19,17 +19,9 @@ public class @InputActions : IInputActionCollection, IDisposable
             ""id"": ""38ef6f9e-86c3-4a3f-a044-b9fab1415b05"",
             ""actions"": [
                 {
-                    ""name"": ""KeyboardMove"",
+                    ""name"": ""Move"",
                     ""type"": ""PassThrough"",
                     ""id"": ""db05cccb-e03b-40c0-913f-b24ca7f59830"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""ControllerMove"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""6f3f11be-e702-4f09-94fc-8bbf3254226c"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -65,6 +57,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                  },
+                  {
+                    ""name"": ""Throw"",
+                    ""type"": ""Button"",
+                    ""id"": ""c49f1803-d6a1-4a67-9b0b-9845411f4d90"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -75,7 +75,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMove"",
+                    ""action"": ""Move"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -86,7 +86,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMove"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -97,7 +97,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMove"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -108,7 +108,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMove"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -119,7 +119,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMove"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -130,7 +130,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMove"",
+                    ""action"": ""Move"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -141,7 +141,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMove"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -152,7 +152,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMove"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -163,7 +163,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMove"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -174,9 +174,20 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""KeyboardMove"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dfb78707-3efd-4ecd-a059-4910fe93e132"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone(min=0.3)"",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -236,7 +247,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ef37025e-334a-464e-941d-e416a420bc66"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -246,12 +257,23 @@ public class @InputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1d9d60b0-d3fa-4634-a690-08b6646d997d"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""id"": ""2a12b4e2-1473-4f32-bfa1-565193b97c4e"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ControllerMove"",
+                    ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""234b3e70-9ea2-4198-8361-cd9f3484daeb"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -284,12 +306,12 @@ public class @InputActions : IInputActionCollection, IDisposable
 }");
         // PlayerMovement
         m_PlayerMovement = asset.FindActionMap("PlayerMovement", throwIfNotFound: true);
-        m_PlayerMovement_KeyboardMove = m_PlayerMovement.FindAction("KeyboardMove", throwIfNotFound: true);
-        m_PlayerMovement_ControllerMove = m_PlayerMovement.FindAction("ControllerMove", throwIfNotFound: true);
+        m_PlayerMovement_Move = m_PlayerMovement.FindAction("Move", throwIfNotFound: true);
         m_PlayerMovement_PickUp = m_PlayerMovement.FindAction("PickUp", throwIfNotFound: true);
         m_PlayerMovement_Attack = m_PlayerMovement.FindAction("Attack", throwIfNotFound: true);
         m_PlayerMovement_Special = m_PlayerMovement.FindAction("Special", throwIfNotFound: true);
         m_PlayerMovement_Pause = m_PlayerMovement.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerMovement_Throw = m_PlayerMovement.FindAction("Throw", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -339,22 +361,22 @@ public class @InputActions : IInputActionCollection, IDisposable
     // PlayerMovement
     private readonly InputActionMap m_PlayerMovement;
     private IPlayerMovementActions m_PlayerMovementActionsCallbackInterface;
-    private readonly InputAction m_PlayerMovement_KeyboardMove;
-    private readonly InputAction m_PlayerMovement_ControllerMove;
+    private readonly InputAction m_PlayerMovement_Move;
     private readonly InputAction m_PlayerMovement_PickUp;
     private readonly InputAction m_PlayerMovement_Attack;
     private readonly InputAction m_PlayerMovement_Special;
     private readonly InputAction m_PlayerMovement_Pause;
+    private readonly InputAction m_PlayerMovement_Throw;
     public struct PlayerMovementActions
     {
         private @InputActions m_Wrapper;
         public PlayerMovementActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @KeyboardMove => m_Wrapper.m_PlayerMovement_KeyboardMove;
-        public InputAction @ControllerMove => m_Wrapper.m_PlayerMovement_ControllerMove;
+        public InputAction @Move => m_Wrapper.m_PlayerMovement_Move;
         public InputAction @PickUp => m_Wrapper.m_PlayerMovement_PickUp;
         public InputAction @Attack => m_Wrapper.m_PlayerMovement_Attack;
         public InputAction @Special => m_Wrapper.m_PlayerMovement_Special;
         public InputAction @Pause => m_Wrapper.m_PlayerMovement_Pause;
+        public InputAction @Throw => m_Wrapper.m_PlayerMovement_Throw;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -364,12 +386,9 @@ public class @InputActions : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerMovementActionsCallbackInterface != null)
             {
-                @KeyboardMove.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnKeyboardMove;
-                @KeyboardMove.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnKeyboardMove;
-                @KeyboardMove.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnKeyboardMove;
-                @ControllerMove.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnControllerMove;
-                @ControllerMove.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnControllerMove;
-                @ControllerMove.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnControllerMove;
+                @Move.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnMove;
                 @PickUp.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPickUp;
                 @PickUp.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPickUp;
                 @PickUp.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPickUp;
@@ -382,16 +401,16 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPause;
+                @Throw.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnThrow;
+                @Throw.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnThrow;
+                @Throw.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnThrow;
             }
             m_Wrapper.m_PlayerMovementActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @KeyboardMove.started += instance.OnKeyboardMove;
-                @KeyboardMove.performed += instance.OnKeyboardMove;
-                @KeyboardMove.canceled += instance.OnKeyboardMove;
-                @ControllerMove.started += instance.OnControllerMove;
-                @ControllerMove.performed += instance.OnControllerMove;
-                @ControllerMove.canceled += instance.OnControllerMove;
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
                 @PickUp.started += instance.OnPickUp;
                 @PickUp.performed += instance.OnPickUp;
                 @PickUp.canceled += instance.OnPickUp;
@@ -404,17 +423,20 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @Throw.started += instance.OnThrow;
+                @Throw.performed += instance.OnThrow;
+                @Throw.canceled += instance.OnThrow;
             }
         }
     }
     public PlayerMovementActions @PlayerMovement => new PlayerMovementActions(this);
     public interface IPlayerMovementActions
     {
-        void OnKeyboardMove(InputAction.CallbackContext context);
-        void OnControllerMove(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
         void OnPickUp(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnSpecial(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnThrow(InputAction.CallbackContext context);
     }
 }

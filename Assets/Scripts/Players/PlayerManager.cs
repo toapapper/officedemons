@@ -5,10 +5,20 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField]
+		[SerializeField]
     public static List<GameObject> players;
 
-    //Extremt fult implementerade allihopa, men men.. Ossian som har skrivit allt detta förresten om ni inte pallar kolla i github efter vem som skrivit detta fönster vars enda utsikt är en grå kyrkogård i form av kod.
+		[SerializeField]
+		GameObject viciousVicky;
+		[SerializeField]
+		GameObject terribleTim;
+		[SerializeField]
+		GameObject susanTheDestroyer;
+		[SerializeField]
+		GameObject devin;
+
+
+    //Extremt fult implementerade allihopa, men men.. Ossian som har skrivit allt detta fï¿½rresten om ni inte pallar kolla i github efter vem som skrivit detta fï¿½nster vars enda utsikt ï¿½r en grï¿½ kyrkogï¿½rd i form av kod.
     public void BeginCombat()
     {
         Debug.Log("Begin combat");
@@ -41,8 +51,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         //foreach player beginTurn
-        //Kanske kan ha något alertsystem som rapporterar upp till Gamemanager när alla spelare har låst in sina actions
-        //Om turordning av actions är viktigt får ju det systemet finnas här i denna klassen t. ex. och till viss del implementeras här
+        //Kanske kan ha nï¿½got alertsystem som rapporterar upp till Gamemanager nï¿½r alla spelare har lï¿½st in sina actions
+        //Om turordning av actions ï¿½r viktigt fï¿½r ju det systemet finnas hï¿½r i denna klassen t. ex. och till viss del implementeras hï¿½r
     }
 
     public void EndTurn()
@@ -54,8 +64,10 @@ public class PlayerManager : MonoBehaviour
         }
 
         //foreach player forcibly endTurn
-        //execute actions och sådant.
+        //execute actions och sï¿½dant.
 
-        //Behöver ett sätt för spelet att veta när spelarna har gjort färdigt sina rundor också.
+        //Behï¿½ver ett sï¿½tt fï¿½r spelet att veta nï¿½r spelarna har gjort fï¿½rdigt sina rundor ocksï¿½.
     }
+
+
 }
