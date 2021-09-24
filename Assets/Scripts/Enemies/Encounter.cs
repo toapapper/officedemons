@@ -17,6 +17,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class Encounter : MonoBehaviour
 {
+    //[HideInInspector]
     public List<GameObject> enemies;
 
     private bool myTurn = false;

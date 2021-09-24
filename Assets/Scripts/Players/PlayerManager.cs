@@ -5,17 +5,17 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-		[SerializeField]
+	[SerializeField]
     public static List<GameObject> players;
 
-		[SerializeField]
-		GameObject viciousVicky;
-		[SerializeField]
-		GameObject terribleTim;
-		[SerializeField]
-		GameObject susanTheDestroyer;
-		[SerializeField]
-		GameObject devin;
+	[SerializeField]
+	GameObject viciousVicky;
+	[SerializeField]
+	GameObject terribleTim;
+	[SerializeField]
+	GameObject susanTheDestroyer;
+	[SerializeField]
+	GameObject devin;
 
 
     //Extremt fult implementerade allihopa, men men.. Ossian som har skrivit allt detta f�rresten om ni inte pallar kolla i github efter vem som skrivit detta f�nster vars enda utsikt �r en gr� kyrkog�rd i form av kod.
@@ -26,7 +26,7 @@ public class PlayerManager : MonoBehaviour
         {
             p.GetComponent<PlayerController>().enabled = false;
         }
-        //disabled player movement, now automatically move them somewhere, should perhaps be contained in the encounter where to
+        //disabled player movement, now automatically move them somewhere,maybe, should perhaps be contained in the encounter where to
 
         //And begin the first turn
         BeginTurn();
