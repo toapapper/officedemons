@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Code by Johan
+/// </summary>
 public class PlayerConfigurationManager : MonoBehaviour
 {
     private List<PlayerConfiguration> playerConfigurations;
@@ -35,11 +38,9 @@ public class PlayerConfigurationManager : MonoBehaviour
 	{
 		return playerConfigurations;
 	}
-
-	//Change to specific player prefab instead of color?????
-	public void SetPlayerColor(int index, Material color)
+	public void SetPlayerCharacter(int playerIndex, int characterIndex)
 	{
-		playerConfigurations[index].PlayerMaterial = color;
+		playerConfigurations[playerIndex].CharacterIndex = characterIndex;
 	}
 	public void ReadyPlayer(int index)
 	{
@@ -70,6 +71,5 @@ public class PlayerConfiguration
     public PlayerInput Input { get; set; }
 	public int PlayerIndex { get; set; }
     public bool IsReady { get; set; }
-
-    public Material PlayerMaterial { get; set; }
+	public int CharacterIndex { get; set; }
 }

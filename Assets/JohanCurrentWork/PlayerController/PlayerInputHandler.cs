@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
+/// <summary>
+/// Code by Johan
+/// </summary>
 public class PlayerInputHandler : MonoBehaviour
 {
     private PlayerConfiguration playerConfiguration;
@@ -24,7 +27,7 @@ public class PlayerInputHandler : MonoBehaviour
     public void InitializePlayer(PlayerConfiguration pc)
 	{
         playerConfiguration = pc;
-        playerMesh.material = pc.PlayerMaterial;
+        //playerMesh.material = pc.PlayerMaterial;
 		playerConfiguration.Input.onActionTriggered += Input_onActionTriggered;
     }
 

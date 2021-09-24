@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Code by Johan
+/// </summary>
 public class PlayerSetupMenuController : MonoBehaviour
 {
     private int playerIndex;
@@ -27,7 +30,6 @@ public class PlayerSetupMenuController : MonoBehaviour
         ignoreInutTime += Time.time;
 	}
 
-    // Update is called once per frame
     void Update()
     {
         if(inputEnabled == false && Time.time > ignoreInutTime)
@@ -36,15 +38,15 @@ public class PlayerSetupMenuController : MonoBehaviour
         }
     }
 
-    public void SetColor(Material color)
+    public void SetCharacterChoice(int characterIndex)
 	{
-		if (!inputEnabled) { return; }
+        if (!inputEnabled) { return; }
 
-        PlayerConfigurationManager.Instance.SetPlayerColor(playerIndex, color);
+        PlayerConfigurationManager.Instance.SetPlayerCharacter(playerIndex, characterIndex);
         menuPanel.SetActive(false);
         readyPanel.SetActive(true);
         readyButton.Select();
-	}
+    }
 
     public void ReadyPlayer()
 	{

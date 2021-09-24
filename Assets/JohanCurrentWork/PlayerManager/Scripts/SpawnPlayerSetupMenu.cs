@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 
+/// <summary>
+/// Code by Johan
+/// </summary>
 public class SpawnPlayerSetupMenu : MonoBehaviour
 {
 	public GameObject playerSetupMenuPrefab;
