@@ -140,18 +140,17 @@ public class GenerateTerrain : MonoBehaviour
 
     }
 
-    public void GenerateObstacles(Node node, Node root, int width, int height, float heightLimit)
+    public bool GenerateObstacles(Node node, Node root, int width, int height, float heightLimit)
     {
+
+        if (!CheckGenerateObstacles(node, root, width, height, heightLimit))
+            return false;
+
+
         float x, y;
         BufferMaker(out x, out y, node);
-        //If they become too small use this
-        //if (node.size.x * node.size.y < width * height / 200)
-        //    return;
 
-        if (TooCloseCheck(node, 20, root, width, height))
-            return;
-
-        yvalue =(int)heightLimit / 20;
+        yvalue = (int)heightLimit / 20;
         GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, yvalue, node.position.y), Quaternion.identity);
         cube.transform.localScale = new Vector3(x, yvalue * 2, y);
         node.gameObject = cube;
@@ -159,5 +158,41 @@ public class GenerateTerrain : MonoBehaviour
         cube.isStatic = true;
         cubes.Add(cube);
         transformMesh.GetTexture(cube);
+
+        return true;
+    }
+
+    //Put limiters in here! return false if requirement isn't met
+    public bool CheckGenerateObstacles(Node node, Node root, int width, int height, float heightLimit)
+    {
+        //If they become too small use this
+        //if (node.size.x * node.size.y < width * height / 200)
+        //    return false;
+
+        if (TooCloseCheck(node, 20, root, width, height))
+            return false;
+
+        return true;
+    }
+
+
+
+
+    public bool SearchForObstacles(List<Node> nodes, Node root, int width, int height, int heightLimit)
+    {
+        int obstacles = 0;
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            if (nodes[i].leaf)
+                if(GenerateObstacles(nodes[i], root, width, height, heightLimit))
+                    obstacles++;
+
+        }
+        Debug.Log(obstacles);
+        if (obstacles > 0)
+        {
+            return true;
+        }
+        return false;
     }
 }

@@ -41,7 +41,6 @@ public class TransformMesh : MonoBehaviour
         string mesh;
         int fitness = 0;
         Vector3 scale = gameObject.transform.localScale;
-        Debug.Log(scale.x * scale.y);
         if (scale.x * scale.y > 15)
             fitness += 100;
 
@@ -66,7 +65,6 @@ public class TransformMesh : MonoBehaviour
     {
         for (int i = 0; i < materials.Count; i++)
         {
-            Debug.Log(materials[i].name + i);
             if (materials[i].name == textureName)
             {
                 return materials[i];

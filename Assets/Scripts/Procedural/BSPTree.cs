@@ -47,14 +47,10 @@ public class BSPTree : MonoBehaviour
             lastRoot = root;
 
         root = new Node(new Vector2(width, height),lastSize);
+
         generateTerrain.GenerateGround(root);
-        BSP(root);
-        for (int i = 0; i < nodes.Count; i++)
-        {
-            if (nodes[i].leaf)
-                generateTerrain.GenerateObstacles(nodes[i], root, width, height, heightLimits.y);
-        }
-        Debug.Log(nodes.Count);
+
+        SearchObstacles(10);
 
         width = Random.Range((int)widthLimits.x,(int)widthLimits.y);
         height = Random.Range((int)heightLimits.x, (int)heightLimits.y);
@@ -65,6 +61,29 @@ public class BSPTree : MonoBehaviour
         GO();
         generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection,new Vector2(width,height),lastRoot.size,new Vector2(1,1), heightLimits.y);
     }
+
+
+    //The parameters might not be necessary but I made them anyways to remove unforseen bugs.
+    private void SearchObstacles(int totalTries)
+    {
+        for (int i = 0; i < totalTries; i++)
+        {
+            BSP(root);
+            //Search again
+            if (!generateTerrain.SearchForObstacles(nodes, root, width, height, (int)heightLimits.y))
+            {
+                Debug.Log("didn't make it do a retry");
+                nodes = new List<Node>();
+            }
+            else
+            {
+                Debug.Log("made it!");
+                break;
+            }
+        }
+    }
+
+
 
     public void BSP(Node node)
     {
@@ -98,7 +117,6 @@ public class BSPTree : MonoBehaviour
             return;
         split = Random.Range(0, 2);
         float buffer = 0;
-
         if (split == 0)
         {
             //Split vertically
