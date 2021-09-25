@@ -13,36 +13,38 @@ public class WeaponHand : MonoBehaviour
 
 	private Actions actions;
 
-    //Throwing variables
-    [SerializeField]
-    private float throwForce = 25f;
-    [SerializeField]
-    private float maxThrowForce = 30f;
-    public float addedForce;
-	private void Start()
+    public float throwForce;
+
+	private Animator animator;
+
+	private void Awake()
 	{
 		actions = GetComponent<Actions>();
+		animator = GetComponent<Animator>();
 	}
+
 	public void Equip(GameObject newObject)
 	{
 		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
 	}
-
-	public void DropObject(Vector3 direction)
+	//TODO
+	//public void StartAttack()
+	//{
+	//	if (objectInHand != null)
+	//	{
+	//		objectInHand.StartAttack(animator);
+	//	}
+	//	else
+	//	{
+	//		Debug.Log("HandHit" + damage);
+	//	}
+	//}
+	public void Attack()
 	{
-		objectInHand.Drop(direction);
-		Debug.Log("Drop");
-		objectInHand = null;
-	}
-
-	public void Hit(Animator animator)
-	{
-		//Actions Attack(objectinHand)
-		Debug.Log(objectInHand);
 		if (objectInHand != null)
 		{
-			objectInHand.Hit(animator);
+			objectInHand.Attack(animator);
 			actions.Attack(objectInHand);
 		}
 		else
@@ -50,25 +52,19 @@ public class WeaponHand : MonoBehaviour
 			Debug.Log("HandHit" + damage);
 		}
 	}
-	public void AddThrowForce()
-	{
-		if (addedForce <= maxThrowForce)
-		{
-			addedForce += throwForce * Time.fixedDeltaTime;
-		}
-	}
 
-	public void AimThrow(Animator animator)
+	public void AimThrow()
 	{
 		if (objectInHand != null)
 		{
 			animator.SetTrigger("isAimThrow");
 		}
 	}
-	public void Throw(Animator animator, Vector3 direction)
+	public void Throw(float throwForce)
 	{
 		if (objectInHand != null)
 		{
+			this.throwForce = throwForce;
 			animator.SetTrigger("isThrow");
 		}
 	}
@@ -76,9 +72,9 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand != null)
 		{
-			objectInHand.ReleaseThrow(addedForce);
+			objectInHand.ReleaseThrow(throwForce);
 
-			addedForce = 0;
+			throwForce = 0;
 			objectInHand = null;
 		}
 	}

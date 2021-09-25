@@ -53,11 +53,10 @@ public abstract class AbstractWeapon : MonoBehaviour
 		handle.transform.parent = null;
 		handle.GetComponent<Rigidbody>().isKinematic = false;
 		GetComponent<Rigidbody>().isKinematic = false;
-		//handle.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
 		isHeld = false;
 	}
 
-	public abstract void Hit(Animator animator);
+	public abstract void Attack(Animator animator);
 
 	public void ReleaseThrow(float force)
 	{
@@ -74,9 +73,5 @@ public abstract class AbstractWeapon : MonoBehaviour
 			Debug.Log(throwDamage + "throwDamage to " + collision.gameObject);
 			isProjectile = false;
 		}
-		//else if (collision.gameObject.tag == "Player")
-		//{
-		//	Physics.IgnoreCollision(collision.gameObject.GetComponents<CharacterController>(), GetComponent<Collider>());
-		//}
 	}
 }

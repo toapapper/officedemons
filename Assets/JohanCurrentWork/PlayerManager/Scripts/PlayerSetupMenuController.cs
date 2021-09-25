@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Code by Johan
+/// Code by: Johan Melkersson
 /// </summary>
 public class PlayerSetupMenuController : MonoBehaviour
 {

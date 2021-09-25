@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Code by Johan
+/// Code by: Johan Melkersson
 /// </summary>
 public class PlayerConfigurationManager : MonoBehaviour
 {

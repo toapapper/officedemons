@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 
 /// <summary>
-/// Code by Johan
+/// Code by: Johan Melkersson
 /// </summary>
 public class SpawnPlayerSetupMenu : MonoBehaviour
 {

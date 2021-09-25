@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Code by Johan
+/// Code by: Johan Melkersson
 /// </summary>
 public class InitializeLevel : MonoBehaviour
 {

@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (name != "Player")
 		{
+			Debug.Log(name);
 			moveInput = context.ReadValue<Vector2>();
 			moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
 		}
@@ -101,11 +102,11 @@ public class PlayerController : MonoBehaviour
 					}
 				}
 			}
-			else
-			{
-				weaponHand.DropObject(transform.forward);
-				weaponEquipped = false;
-			}
+			//else
+			//{
+			//	weaponHand.DropObject(transform.forward);
+			//	weaponEquipped = false;
+			//}
 		}		
 	}
 	public void OnAttack(InputAction.CallbackContext context)
@@ -113,7 +114,7 @@ public class PlayerController : MonoBehaviour
 		if (name != "Player" && context.performed)
 		{
 			attackInput = context.ReadValue<float>();
-			weaponHand.Hit(animator);
+			weaponHand.Attack();
 		}			
 	}
 	public void OnSpeciel(InputAction.CallbackContext context)
@@ -133,17 +134,13 @@ public class PlayerController : MonoBehaviour
 				if (context.started)
 				{
 					isThrowing = true;
-					isThrowing = true;
-					weaponHand.AimThrow(animator);
+					weaponHand.AimThrow();
 				}
 				else if (context.canceled)
 				{
-					Vector3 throwDirection = transform.forward;
-					throwDirection.y += 0.3f;
-					weaponHand.Throw(animator, throwDirection.normalized);
+					//weaponHand.Throw();
 					weaponEquipped = false;
 					isThrowing = false;
-					//isThrowing = true;
 				}
 			}
 		}
@@ -163,7 +160,7 @@ public class PlayerController : MonoBehaviour
 		//Throwing
 		if (isThrowing)
 		{
-			weaponHand.AddThrowForce();
+			//weaponHand.AddThrowForce();
 		}
 		//Movement
 		else

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SwingWeapon : MeleeWeapon
 {
-	public override void Hit(Animator animator)
+	public override void Attack(Animator animator)
 	{
 		animator.SetTrigger("isMeleeSwing");
 		Debug.Log("MeleeSwing" + Damage);
