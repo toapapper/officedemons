@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 3889168608585262852}
   - component: {fileID: 4773847260600361808}
   - component: {fileID: 571394262688282377}
+  - component: {fileID: 8039427340478739089}
   m_Layer: 7
   m_Name: Devin
   m_TagString: Player
@@ -530,6 +531,29 @@ MonoBehaviour:
   startHealth: 10
   health: 0
   stamina: 10
+--- !u!114 &8039427340478739089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889168608585262853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 2
+  viewAngle: 100
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 256
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 8
+  visibleTargets: []
+  meshResolution: 1
+  viewMeshFilter: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
 --- !u!1 &5991680956662319853
 GameObject:
   m_ObjectHideFlags: 0
