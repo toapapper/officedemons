@@ -143,7 +143,7 @@ public class GenerateTerrain : MonoBehaviour
     public bool GenerateObstacles(Node node, Node root, int width, int height, float heightLimit)
     {
 
-        if (!CheckGenerateObstacles(node, root, width, height, heightLimit))
+        if (!CheckGenerateObstacles(node, root, width, height))
             return false;
 
 
@@ -163,7 +163,7 @@ public class GenerateTerrain : MonoBehaviour
     }
 
     //Put limiters in here! return false if requirement isn't met
-    public bool CheckGenerateObstacles(Node node, Node root, int width, int height, float heightLimit)
+    public bool CheckGenerateObstacles(Node node, Node root, int width, int height)
     {
         //If they become too small use this
         //if (node.size.x * node.size.y < width * height / 200)
@@ -186,7 +186,7 @@ public class GenerateTerrain : MonoBehaviour
             if (nodes[i].leaf)
                 if(GenerateObstacles(nodes[i], root, width, height, heightLimit))
                     obstacles++;
-
+            
         }
         Debug.Log(obstacles);
         if (obstacles > 0)

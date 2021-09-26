@@ -63,17 +63,19 @@ public class BSPTree : MonoBehaviour
     }
 
 
-    //The parameters might not be necessary but I made them anyways to remove unforseen bugs.
     private void SearchObstacles(int totalTries)
     {
         for (int i = 0; i < totalTries; i++)
         {
             BSP(root);
             //Search again
+            Debug.Log("Nodes counter before: " + nodes.Count);
             if (!generateTerrain.SearchForObstacles(nodes, root, width, height, (int)heightLimits.y))
             {
                 Debug.Log("didn't make it do a retry");
                 nodes = new List<Node>();
+                root.children = new Node[2];
+                Debug.Log("Nodes counter after: " + nodes.Count);
             }
             else
             {
