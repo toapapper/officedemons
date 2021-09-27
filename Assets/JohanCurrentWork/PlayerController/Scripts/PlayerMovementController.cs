@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharController : MonoBehaviour
+public class PlayerMovementController : MonoBehaviour
 {
+    //Character movers
+    private CharacterController character;
+    private WeaponHand weaponHand;
+	//private SpecialHand specialHand;
+
 	//World transform variables
 	private Vector3 forward;
 	private Vector3 right;
-
-	//Character movers
-	private CharacterController character;
-	private WeaponHand weaponHand;
-	//private SpecialHand specialHand;
 
 	//Movement variables
 	private Vector3 moveDirection = Vector3.zero;
@@ -34,10 +34,7 @@ public class CharController : MonoBehaviour
 
 	//Helper variables
 	private List<GameObject> nearbyObjects = new List<GameObject>();
-	private bool isweaponEquipped;
-	private bool isActionStarted;
-	private bool isAttack, isSpecialAttack, isThrow, isAddingThrowForce;
-
+	private bool isWeaponEquipped;
 
 
 	private void Awake()
@@ -48,53 +45,14 @@ public class CharController : MonoBehaviour
 		right = new Vector3(forward.z, 0, -forward.x);
 
 		character = GetComponent<CharacterController>();
-		weaponHand = GetComponent<WeaponHand>();
-		//specialHand = GetComponent<SpecialHand>();
-	}
+        weaponHand = GetComponent<WeaponHand>();
+        //specialHand = GetComponent<SpecialHand>();
+    }
 
-	//Move
-	public void SetMoveDirection(Vector2 direction)
+	public void SetMoveDirection(Vector2 moveInput)
 	{
-		moveDirection = (direction.x * right + direction.y * forward).normalized;
-	}
-
-	//CombatActions
-	public void AcceptCombatAction()
-	{
-		//TODO:
-		//End Turn
-	}
-	public void PerformCombatAction()
-	{
-		if (isAttack)
-		{
-			PerformAttack();
-		}
-		else if (isSpecialAttack)
-		{
-			PerformSpecialAttack();
-		}
-		else if (isThrow)
-		{
-			PerformThrow();
-		}
-	}
-	public void CancelCombatAction()
-	{
-		if (isAttack)
-		{
-			CancelAttack();
-		}
-		else if (isSpecialAttack)
-		{
-			CancelSpecialAttack();
-		}
-		else if (isThrow)
-		{
-			CancelThrow();
-		}
-	}
-
+		moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+	} 
 	//Attack
 	public void StartAttack()
 	{
@@ -154,19 +112,17 @@ public class CharController : MonoBehaviour
 	}
 
 	//Throw
-	public void StartThrow()
+	public bool StartThrow()
 	{
-		if (weaponHand != null && isweaponEquipped && !isActionStarted)
+		if (weaponHand != null && isWeaponEquipped && !isActionStarted)
 		{
 			isActionStarted = true;
 			isThrow = true;
 			isAddingThrowForce = true;
 			weaponHand.AimThrow();
+			return true;
 		}
-	}
-	public void StopAddingThrowForce()
-	{
-		isAddingThrowForce = false;
+		return false;
 	}
 	public void PerformThrow()
 	{
@@ -186,18 +142,22 @@ public class CharController : MonoBehaviour
 		isThrow = false;
 		isActionStarted = false;
 	}
+	public void StopAddingThrowForce()
+	{
+		isAddingThrowForce = false;
+	}
 
 	//Pick up
 	public void PerformPickup()
 	{
-		if (weaponHand != null && !isweaponEquipped && nearbyObjects.Count > 0)
+		if (weaponHand != null && !isWeaponEquipped && nearbyObjects.Count > 0)
 		{
 			foreach (GameObject neabyObject in nearbyObjects)
 			{
 				if (!neabyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
 				{
 					weaponHand.Equip(neabyObject);
-					isweaponEquipped = true;
+					isWeaponEquipped = true;
 					break;
 				}
 			}
@@ -205,57 +165,29 @@ public class CharController : MonoBehaviour
 	}
 
 
-	private void FixedUpdate()
-	{
-		//Rotation
-		if (moveDirection != Vector3.zero)
-		{
-			CalculateRotation();
-		}
-		if (transform.rotation != rotationDirection)
-		{
-			PerformRotation();
-		}
-		if (isActionStarted)
-		{
-			//Throwing
-			if (isAddingThrowForce && addedThrowForce <= maxThrowForce)
-			{
-				addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
-			}
-		}
-		//Movement
-		else
-		{
-			CalculateMovement();
-			if (moveAmount != Vector3.zero)
-			{
-				PerformMovement();
-			}
-		}
-	}
-
-	private void CalculateRotation()
+	public Quaternion CalculateRotation()
 	{
 		rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up);
+		return rotationDirection;
 	}
-	private void PerformRotation()
+	public void PerformRotation()
 	{
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotationDirection, rotationSpeed * Time.fixedDeltaTime);
 	}
-	private void CalculateMovement()
+	public Vector3 CalculateMovement()
 	{
+		//moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
 		Vector3 targetMoveAmount = moveDirection * moveSpeed;
 		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
-		if (transform.position.y > 0)
-		{
-			character.Move(Vector3.down);
-		}
+		return moveAmount;
 	}
-	private void PerformMovement()
+	public void PerformMovement()
 	{
-		Vector3 localMove = moveAmount * Time.fixedDeltaTime;
-		character.Move(localMove);
+		character.Move(moveAmount * Time.fixedDeltaTime);
+	}
+	public void PerformFall()
+	{
+		character.Move(Vector3.down * Time.fixedDeltaTime);
 	}
 
 
@@ -272,6 +204,14 @@ public class CharController : MonoBehaviour
 		if (other.gameObject.tag == "WeaponObject")
 		{
 			nearbyObjects.Remove(other.gameObject);
+		}
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.tag == "WeaponObject")
+		{
+			Physics.IgnoreCollision(character, collision.collider);
 		}
 	}
 }
