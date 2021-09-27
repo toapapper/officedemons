@@ -21,16 +21,16 @@ public class PlayerStateController : MonoBehaviour
         playerContext = new PlayerStateContext(states[PlayerStates.OUTOFCOMBAT]);
     }
 
-    void OnEnable()
-    {
-        if (PlayerManager.players == null)
-            PlayerManager.players = new List<GameObject>();
+	void OnEnable()
+	{
+		if (PlayerManager.players == null)
+			PlayerManager.players = new List<GameObject>();
 
-        PlayerManager.players.Add(this.gameObject);
-        playerNr = PlayerManager.players.Count;
-    }
+		PlayerManager.players.Add(this.gameObject);
+		playerNr = PlayerManager.players.Count;
+	}
 
-    private void SetupStates()
+	private void SetupStates()
     {
         //Add all new states here. 
         states = new Dictionary<PlayerStates, IPlayerState>();

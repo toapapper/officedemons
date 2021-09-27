@@ -79,12 +79,12 @@ public class OutOfCombatState : AbstractPlayerState
                 playerMovement.PerformMovement();
             }
         }
-        //Falling
-        if (transform.position.y > 0)
-        {
-            playerMovement.PerformFall();
-        }
-    }
+		//Falling
+		if (transform.position.y > 0)
+		{
+			playerMovement.PerformFall();
+		}
+	}
 
     public override void OnStateEnter()
     {
