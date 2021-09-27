@@ -9,9 +9,36 @@ public abstract class AbstractWeapon : MonoBehaviour
 	private bool isHeld;
     private bool isProjectile;
 
-    private int damage = 10;
-    private int throwDamage = 15;
+    private int damage;
+    private int throwDamage;
+	private float viewDistance;
+	private float viewAngle;
 
+	protected GameObject Handle
+	{
+		get { return handle; }
+		set { handle = value; }
+	}
+	protected int ThrowDamage
+	{
+		get { return throwDamage; }
+		set { throwDamage = value; }
+	}
+	public int Damage
+	{
+		get { return damage; }
+		set { damage = value; }
+	}
+	public float ViewAngle
+	{
+		get { return viewAngle; }
+		set { viewAngle = value; }
+	}
+	public float ViewDistance
+	{
+		get { return viewDistance; }
+		set { viewDistance = value; }
+	}
 	public bool IsHeld
 	{
 		get { return isHeld; }
@@ -22,21 +49,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 		get { return isProjectile; }
 		set { isProjectile = value; }
 	}
-	public int Damage
-	{
-		get { return damage; }
-		set { damage = value; }
-	}
-	protected int ThrowDamage
-	{
-		get { return throwDamage; }
-		set { throwDamage = value; }
-	}
-	protected GameObject Handle
-	{
-		get { return handle; }
-		set { handle = value; }
-	}
+
+
 
 	public void PickUpIn(GameObject hand)
 	{

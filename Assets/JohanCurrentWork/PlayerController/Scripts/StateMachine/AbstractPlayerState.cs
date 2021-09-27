@@ -7,8 +7,6 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 {
 	protected PlayerMovementController playerMovement;
 
-
-    //Helper variables
     private bool isThrowing;
     private bool isAddingThrowForce;
 
@@ -26,10 +24,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 
     private void Awake()
     {
-        //playerStateCtrl = GetComponent<PlayerStateController>();
         playerMovement = GetComponent<PlayerMovementController>();
-        //playerStateCtrl = (PlayerStateController)FindObjectOfType(typeof(PlayerStateController));
-        //playerMovement = (PlayerMovementController)FindObjectOfType(typeof(PlayerMovementController));
     }
 
     public abstract void OnMove(CallbackContext context);

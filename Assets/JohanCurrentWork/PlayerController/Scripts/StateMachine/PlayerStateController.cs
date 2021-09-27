@@ -7,6 +7,8 @@ public class PlayerStateController : MonoBehaviour
     private PlayerStateContext playerContext;
     private Dictionary<PlayerStates, IPlayerState> states;
 
+    private int playerNr;
+
     public void StartOutOfCombat() => playerContext.MakeStateTransistion(states[PlayerStates.OUTOFCOMBAT]);
     public void StartCombat() => playerContext.MakeStateTransistion(states[PlayerStates.ENTERCOMBAT]);
     public void StartTurn() => playerContext.MakeStateTransistion(states[PlayerStates.COMBATTURN]);
@@ -17,6 +19,15 @@ public class PlayerStateController : MonoBehaviour
     {
         SetupStates();
         playerContext = new PlayerStateContext(states[PlayerStates.OUTOFCOMBAT]);
+    }
+
+    void OnEnable()
+    {
+        if (PlayerManager.players == null)
+            PlayerManager.players = new List<GameObject>();
+
+        PlayerManager.players.Add(this.gameObject);
+        playerNr = PlayerManager.players.Count;
     }
 
     private void SetupStates()

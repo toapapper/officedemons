@@ -7,9 +7,13 @@ public class WeaponHand : MonoBehaviour
 	[SerializeField]
 	private GameObject handObject;
 	private AbstractWeapon objectInHand;
+	private FieldOfView fov;
+	[SerializeField]
+	private float handHitDistance = 1.5f;
+	private float handHitAngle = 100f;
 
 	[SerializeField]
-	private int damage = 5;
+	private int HandHitdamage = 5;
 
 	private Actions actions;
 
@@ -21,12 +25,18 @@ public class WeaponHand : MonoBehaviour
 	{
 		actions = GetComponent<Actions>();
 		animator = GetComponent<Animator>();
+		fov = GetComponent<FieldOfView>();
+		fov.viewRadius = handHitDistance;
+		fov.viewAngle = handHitAngle;
 	}
 
 	public void Equip(GameObject newObject)
 	{
 		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
+		fov.viewAngle = objectInHand.ViewAngle;
+		fov.viewRadius = objectInHand.ViewDistance;
+		
 	}
 	//TODO
 	//public void StartAttack()
@@ -45,11 +55,10 @@ public class WeaponHand : MonoBehaviour
 		if (objectInHand != null)
 		{
 			objectInHand.Attack(animator);
-			actions.Attack(objectInHand);
 		}
 		else
 		{
-			Debug.Log("HandHit" + damage);
+			Debug.Log("HandHit" + HandHitdamage);
 		}
 	}
 
@@ -76,6 +85,18 @@ public class WeaponHand : MonoBehaviour
 
 			throwForce = 0;
 			objectInHand = null;
+		}
+	}
+
+	public void DoDamage()
+	{
+		if (objectInHand != null)
+		{
+			actions.Attack(objectInHand);
+		}
+		else
+		{
+			actions.Hit(HandHitdamage);
 		}
 	}
 }

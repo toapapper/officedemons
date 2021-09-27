@@ -41,9 +41,12 @@ public class Actions : MonoBehaviour
 
 		if (abstractWeapon is RangedWeapon)
 		{
-			GameObject target = targetList[targetList.Count - 1];
-			Attributes targetAttributes = target.GetComponent<Attributes>();
-			targetAttributes.Health -= abstractWeapon.Damage;
+			if(targetList.Count > 0)
+			{
+				GameObject target = targetList[targetList.Count - 1];
+				Attributes targetAttributes = target.GetComponent<Attributes>();
+				targetAttributes.Health -= abstractWeapon.Damage;
+			}
 		}
 		else if (abstractWeapon is MeleeWeapon)
 		{
@@ -53,6 +56,17 @@ public class Actions : MonoBehaviour
 				targetAttributes.Health -= abstractWeapon.Damage;
 			}
 
+		}
+	}
+
+	public void Hit(int damage)
+	{
+		List<GameObject> targetList = fov.visibleTargets;
+
+		foreach (GameObject target in targetList)
+		{
+			Attributes targetAttributes = target.GetComponent<Attributes>();
+			targetAttributes.Health -= damage;
 		}
 	}
 
