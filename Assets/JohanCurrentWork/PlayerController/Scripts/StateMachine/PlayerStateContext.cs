@@ -10,19 +10,10 @@ public class PlayerStateContext
         set;
     }
 
-    private readonly PlayerStateController playerStateCtrl;
-
-    public PlayerStateContext(PlayerStateController playerStateCtrl)
+    public PlayerStateContext(IPlayerState state)
     {
-        this.playerStateCtrl = playerStateCtrl;
-        CurrentState = new OutOfCombatState();
+        CurrentState = state;
     }
-
-    //public void MakeStateAction()
-    //{
-    //    CurrentState.DoAction();
-    //}
-
 
     public void MakeStateTransistion(IPlayerState playerStateTo)
     {
@@ -30,14 +21,9 @@ public class PlayerStateContext
         CurrentState = playerStateTo;
         CurrentState.OnStateEnter();
     }
-    /// <summary>
-    /// Same as above, but the new state's DoAction() method will also be called after OnStateExit/Enter
-    /// </summary>
-    /// <param name="playerStateTo"></param>
-    //public void MakeStateTransistionWithAction(IPlayerState playerStateTo)
-    //{
-    //    MakeStateTransistion(playerStateTo);
-    //    CurrentState.DoAction();
-    //}
 
+    public void FixedUpdateContext()
+    {
+        CurrentState.OnFixedUpdateState();
+    }
 }

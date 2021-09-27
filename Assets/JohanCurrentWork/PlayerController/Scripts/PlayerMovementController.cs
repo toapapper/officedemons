@@ -32,8 +32,14 @@ public class PlayerMovementController : MonoBehaviour
 	private float maxThrowForce = 30f;
 	private float addedThrowForce;
 
+	//Healing variables
+	[SerializeField]
+	private int lowHeathMark = 10;
+	private int lowestHealth;
+
 	//Helper variables
 	private List<GameObject> nearbyObjects = new List<GameObject>();
+	private List<GameObject> nearbyPlayers = new List<GameObject>();
 	private bool isWeaponEquipped;
 
 
@@ -48,25 +54,24 @@ public class PlayerMovementController : MonoBehaviour
         weaponHand = GetComponent<WeaponHand>();
         //specialHand = GetComponent<SpecialHand>();
     }
-
+	//Movement
 	public void SetMoveDirection(Vector2 moveInput)
 	{
 		moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
-	} 
+	}
+
 	//Attack
 	public void StartAttack()
 	{
-		if (weaponHand != null && !isActionStarted)
+		if (weaponHand != null)
 		{
-			isActionStarted = true;
-			isAttack = true;
 			//TODO
-			//weaponHand.StartHit();
+			//weaponHand.StartAttack();
 		}
 	}
 	public void PerformAttack()
 	{
-		if (weaponHand != null && isAttack)
+		if (weaponHand != null)
 		{
 			weaponHand.Attack();
 			CancelAttack();
@@ -74,89 +79,83 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public void CancelAttack()
 	{
-		//TODO
-		//weaponHand.CancelHit();
-		isAttack = false;
-		isActionStarted = false;
+		if (weaponHand != null)
+		{
+			//TODO
+			//weaponHand.CancelAttack();
+		}
 	}
 
 	//Special attack
 	public void StartSpecialAttack()
 	{
-		if (!isActionStarted)
-		{
-			isActionStarted = true;
-			isSpecialAttack = true;
-			//TODO
-			//specialWeaponHand.StartSpecialAttack();
-		}
+		////TODO
+		//if ((specialWeaponHand != null)
+		//{
+		//	specialWeaponHand.StartSpecialAttack();
+		//}
 	}
 	public void PerformSpecialAttack()
 	{
-		if (isSpecialAttack)
-		{
-			//TODO
-			//if (specialHand != null)
-			//{
-			//	specialHand.Attack();
-			//}
-			CancelSpecialAttack();
-		}
+		////TODO
+		//if ((specialWeaponHand != null)
+		//{
+		//	specialWeaponHand.PerformSpecialAttack();
+		//}
 	}
 	public void CancelSpecialAttack()
 	{
-		//TODO
-		//specialWeaponHand.CancelSpecialAttack();
-		isSpecialAttack = false;
-		isActionStarted = false;
+		////TODO
+		//if ((specialWeaponHand != null)
+		//{
+		//	specialWeaponHand.CancelSpecialAttack();
+		//}
 	}
 
 	//Throw
 	public bool StartThrow()
 	{
-		if (weaponHand != null && isWeaponEquipped && !isActionStarted)
+		if (weaponHand != null && isWeaponEquipped)
 		{
-			isActionStarted = true;
-			isThrow = true;
-			isAddingThrowForce = true;
 			weaponHand.AimThrow();
 			return true;
 		}
 		return false;
 	}
-	public void PerformThrow()
+	public bool PerformThrow()
 	{
-		if (weaponHand != null && isweaponEquipped && isThrow)
+		if (weaponHand != null && isWeaponEquipped)
 		{
 			weaponHand.Throw(addedThrowForce);
-			isweaponEquipped = false;
-			CancelThrow();
+			isWeaponEquipped = false;
+			addedThrowForce = 0;
+			return true;
 		}
+		return false;
 	}
 	public void CancelThrow()
 	{
 		//TODO
 		//weaponHand.CancelThrow();
-		StopAddingThrowForce();
-		addedThrowForce = 0;
-		isThrow = false;
-		isActionStarted = false;
 	}
-	public void StopAddingThrowForce()
+	public void AddThrowForce()
 	{
-		isAddingThrowForce = false;
+		if(addedThrowForce <= maxThrowForce)
+		{
+			addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
+		}
 	}
 
-	//Pick up
+	//Pickup
 	public void PerformPickup()
 	{
 		if (weaponHand != null && !isWeaponEquipped && nearbyObjects.Count > 0)
 		{
-			foreach (GameObject neabyObject in nearbyObjects)
+			foreach (GameObject nearbyObject in nearbyObjects)
 			{
-				if (!neabyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
+				if (!nearbyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
 				{
-					weaponHand.Equip(neabyObject);
+					weaponHand.Equip(nearbyObject);
 					isWeaponEquipped = true;
 					break;
 				}
@@ -164,10 +163,35 @@ public class PlayerMovementController : MonoBehaviour
 		}
 	}
 
+	//Revive
+	public void Revive()
+	{
+		if(nearbyPlayers.Count > 0)
+		{
+			GameObject playerToHeal = null;
+			lowestHealth = lowHeathMark;
+			foreach (GameObject nearbyPlayer in nearbyPlayers)
+			{
+				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health < lowestHealth)
+				{
+					playerToHeal = nearbyPlayer;
+					lowestHealth = nearbyPlayer.GetComponentInChildren<Attributes>().Health;
+				}
+			}
+			if(playerToHeal != null)
+			{
+				Debug.Log("Heal player " + playerToHeal.name);
+			}
+		}
+	}
+
 
 	public Quaternion CalculateRotation()
 	{
-		rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up);
+		if(moveDirection != Vector3.zero)
+		{
+			rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up);
+		}
 		return rotationDirection;
 	}
 	public void PerformRotation()
@@ -176,7 +200,6 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public Vector3 CalculateMovement()
 	{
-		//moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
 		Vector3 targetMoveAmount = moveDirection * moveSpeed;
 		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
 		return moveAmount;
@@ -198,6 +221,10 @@ public class PlayerMovementController : MonoBehaviour
 		{
 			nearbyObjects.Add(other.gameObject);
 		}
+		else if(other.gameObject.tag == "Player")
+		{
+			nearbyPlayers.Add(other.gameObject);
+		}
 	}
 	private void OnTriggerExit(Collider other)
 	{
@@ -205,13 +232,9 @@ public class PlayerMovementController : MonoBehaviour
 		{
 			nearbyObjects.Remove(other.gameObject);
 		}
-	}
-
-	private void OnCollisionEnter(Collision collision)
-	{
-		if (collision.gameObject.tag == "WeaponObject")
+		else if(other.gameObject.tag == "Player")
 		{
-			Physics.IgnoreCollision(character, collision.collider);
+			nearbyPlayers.Remove(other.gameObject);
 		}
 	}
 }

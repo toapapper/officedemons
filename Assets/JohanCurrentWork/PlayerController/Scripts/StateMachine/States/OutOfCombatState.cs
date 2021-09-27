@@ -5,7 +5,6 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class OutOfCombatState : AbstractPlayerState
 {
-    //Move
     public override void OnMove(CallbackContext context)
 	{
 		playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
@@ -25,56 +24,52 @@ public class OutOfCombatState : AbstractPlayerState
         //{
         //    SpecialWeaponHand.Attack();
         //}
-        throw new System.NotImplementedException();
     }
     public override void OnThrow(CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !IsThrowing)
         {
-            IsThrowing = playerMovement.StartThrow();
+			if (playerMovement.StartThrow())
+			{
+                IsThrowing = true;
+                IsAddingThrowForce = true;
+			}
         }
         else if (context.canceled && IsThrowing)
         {
-            playerMovement.PerformThrow(AddedThrowForce);
-            IsThrowing = false;
-        }
-
-        if (IsWeaponEquipped)
-        {
-            if (context.started)
-            {
-                IsThrowing = true;
-                WeaponHand.AimThrow();
-            }
-            else if (context.canceled)
-            {
-                WeaponHand.Throw(AddedThrowForce);
-                IsWeaponEquipped = false;
+			if (playerMovement.PerformThrow())
+			{
                 IsThrowing = false;
+                IsAddingThrowForce = true;
             }
         }
-        throw new System.NotImplementedException();
     }
 	public override void OnPickup(CallbackContext context)
 	{
-        playerMovement.PerformPickup();
+		if (context.performed)
+        {
+            playerMovement.PerformPickup();
+        }
     }
+	public override void OnRevive(CallbackContext context)
+	{
+		if (context.performed)
+		{
+            throw new System.NotImplementedException();
+        }
+	}
 
-
-    private void FixedUpdate()
+	public override void OnFixedUpdateState()
     {
         //Rotation
-        if (transform.rotation != playerMovement.CalculateRotation())
+        if (playerMovement.CalculateRotation() != transform.rotation)
         {
             playerMovement.PerformRotation();
         }
-        if (IsThrowing)
+        //Throwing
+        if (IsThrowing && IsAddingThrowForce)
         {
-            //Throwing
-            if (isAddingThrowForce && addedThrowForce <= maxThrowForce)
-            {
-                addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
-            }
+            playerMovement.AddThrowForce();
         }
         //Movement
         else
@@ -84,22 +79,20 @@ public class OutOfCombatState : AbstractPlayerState
                 playerMovement.PerformMovement();
             }
         }
+        //Falling
         if (transform.position.y > 0)
         {
             playerMovement.PerformFall();
         }
     }
 
-
-
-
     public override void OnStateEnter()
     {
-        Debug.Log("Enters OutOfCombatState");
+        Debug.Log("Enters OutOfCombatState" + this);
     }
 
     public override void OnStateExit()
     {
-        Debug.Log("Exits OutOfCombatState");
+        Debug.Log("Exits OutOfCombatState" + this);
     }
 }
