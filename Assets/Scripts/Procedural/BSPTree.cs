@@ -5,11 +5,9 @@ using UnityEngine;
 public class BSPTree : MonoBehaviour
 {
     Node root;
+    Node lastRoot;
     public GenerateTerrain generateTerrain;
-    //public GameObject cubePrefab;
-    //public GameObject groundPrefab;
     public List<Node> nodes;
-    //public List<GameObject> cubes = new List<GameObject>();
     public int generations = 3;
     int width, oldWidth;
     int height, oldHeight;
@@ -18,6 +16,9 @@ public class BSPTree : MonoBehaviour
     int missfallMultiplier;
     public int missfallTop = 6;
     Vector2 lastSize;
+
+    //Maybe throw them into node?
+    int nextDirection;
     int lastDirection;
 
     private void Start()
@@ -27,26 +28,64 @@ public class BSPTree : MonoBehaviour
         generateTerrain = GetComponent<GenerateTerrain>();
     }
 
+    public void Make100BSP()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            MakeBSP();
+        }
+    }
+
+
     public void MakeBSP()
     {
         oldWidth = width;
         oldHeight = height;
         missfallMultiplier = 0;
         nodes = new List<Node>();
+        if (root != null)
+            lastRoot = root;
+
         root = new Node(new Vector2(width, height),lastSize);
+
         generateTerrain.GenerateGround(root);
-        BSP(root);
-        for (int i = 0; i < nodes.Count; i++)
-        {
-            if (nodes[i].leaf)
-                generateTerrain.GenerateObstacles(nodes[i], root, width, height);
-        }
-        Debug.Log(nodes.Count);
+
+        SearchObstacles(10);
 
         width = Random.Range((int)widthLimits.x,(int)widthLimits.y);
         height = Random.Range((int)heightLimits.x, (int)heightLimits.y);
+        if (nextDirection == 1 && height > oldHeight)
+            height = oldHeight;
+
+        lastDirection = nextDirection;
         GO();
+        generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection,new Vector2(width,height),lastRoot.size,new Vector2(1,1), heightLimits.y);
     }
+
+
+    private void SearchObstacles(int totalTries)
+    {
+        for (int i = 0; i < totalTries; i++)
+        {
+            BSP(root);
+            //Search again
+            Debug.Log("Nodes counter before: " + nodes.Count);
+            if (!generateTerrain.SearchForObstacles(nodes, root, width, height, (int)heightLimits.y))
+            {
+                Debug.Log("didn't make it do a retry");
+                nodes = new List<Node>();
+                root.children = new Node[2];
+                Debug.Log("Nodes counter after: " + nodes.Count);
+            }
+            else
+            {
+                Debug.Log("made it!");
+                break;
+            }
+        }
+    }
+
+
 
     public void BSP(Node node)
     {
@@ -98,11 +137,10 @@ public class BSPTree : MonoBehaviour
 
         int split;
         int missfall = Random.Range(missfallMultiplier, missfallTop);
-        if (missfall == missfallMultiplier && node.generation > 2)
+        if (missfall == missfallMultiplier && node.generation > generations/2)
             return;
         split = Random.Range(0, 2);
         float buffer = 0;
-
         if (split == 0)
         {
             //Split vertically
@@ -150,7 +188,6 @@ public class BSPTree : MonoBehaviour
         {
             buffer = node.size.x / 4;
             value = Random.Range(buffer, node.size.x - buffer);
-
         }
         else
         {
@@ -161,26 +198,17 @@ public class BSPTree : MonoBehaviour
 
 
     /// <summary>
-    /// Get a random number between 0 and 2
+    /// Get a random number between 0 and 1
     /// 0 = foward
     /// 1 = up
-    /// 2 = down
     /// </summary>
     /// <returns></returns>
     private int GetDirection()
     {
-        int d;
-        while (true)
-        {
-            d = Random.Range(0, 2);
-            if (d == 0)
-                break;
-            else if (d == 1 && lastDirection != 2)
-                break;
-            else if (d == 2 && lastDirection != 1)
-                break;
 
-        }
+
+        int d = Random.Range(0, 6);
+
         return d;
     }
 
@@ -190,17 +218,17 @@ public class BSPTree : MonoBehaviour
 
         if (direction == 0)
             GoRight();
-        else if (direction == 1)
+        else
             GoUp();
     }
     private void GoRight()
     {
-        lastDirection = 0;
+        nextDirection = 0;
         lastSize.x += oldWidth;
     }
     private void GoUp()
     {
-        lastDirection = 1;
+        nextDirection = 1;
         lastSize.y += height;
     }
 }

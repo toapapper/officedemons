@@ -6,7 +6,7 @@ public class Node
 {
     public Node parent;
     public Node[] children;
-    public GameObject cube;
+    public GameObject gameObject;
     public Vector2 size;
     public Vector2 position;
     public Vector2 origin;
