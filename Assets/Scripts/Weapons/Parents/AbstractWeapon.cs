@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Code by: Johan Melkersson
+/// </summary>
 public abstract class AbstractWeapon : MonoBehaviour
 {
 	private GameObject handle;
@@ -9,9 +12,36 @@ public abstract class AbstractWeapon : MonoBehaviour
 	private bool isHeld;
     private bool isProjectile;
 
-    private int damage = 10;
-    private int throwDamage = 15;
+    private int damage;
+    private int throwDamage;
+	private float viewDistance;
+	private float viewAngle;
 
+	protected GameObject Handle
+	{
+		get { return handle; }
+		set { handle = value; }
+	}
+	protected int ThrowDamage
+	{
+		get { return throwDamage; }
+		set { throwDamage = value; }
+	}
+	public int Damage
+	{
+		get { return damage; }
+		set { damage = value; }
+	}
+	public float ViewAngle
+	{
+		get { return viewAngle; }
+		set { viewAngle = value; }
+	}
+	public float ViewDistance
+	{
+		get { return viewDistance; }
+		set { viewDistance = value; }
+	}
 	public bool IsHeld
 	{
 		get { return isHeld; }
@@ -22,21 +52,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 		get { return isProjectile; }
 		set { isProjectile = value; }
 	}
-	public int Damage
-	{
-		get { return damage; }
-		set { damage = value; }
-	}
-	protected int ThrowDamage
-	{
-		get { return throwDamage; }
-		set { throwDamage = value; }
-	}
-	protected GameObject Handle
-	{
-		get { return handle; }
-		set { handle = value; }
-	}
+
+
 
 	public void PickUpIn(GameObject hand)
 	{
@@ -53,11 +70,10 @@ public abstract class AbstractWeapon : MonoBehaviour
 		handle.transform.parent = null;
 		handle.GetComponent<Rigidbody>().isKinematic = false;
 		GetComponent<Rigidbody>().isKinematic = false;
-		//handle.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
 		isHeld = false;
 	}
 
-	public abstract void Hit(Animator animator);
+	public abstract void Attack(Animator animator);
 
 	public void ReleaseThrow(float force)
 	{
@@ -74,9 +90,5 @@ public abstract class AbstractWeapon : MonoBehaviour
 			Debug.Log(throwDamage + "throwDamage to " + collision.gameObject);
 			isProjectile = false;
 		}
-		//else if (collision.gameObject.tag == "Player")
-		//{
-		//	Physics.IgnoreCollision(collision.gameObject.GetComponents<CharacterController>(), GetComponent<Collider>());
-		//}
 	}
 }

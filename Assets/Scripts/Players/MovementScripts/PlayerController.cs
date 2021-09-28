@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (name != "Player")
 		{
+			Debug.Log(name);
 			moveInput = context.ReadValue<Vector2>();
 			moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
 		}
@@ -133,17 +134,13 @@ public class PlayerController : MonoBehaviour
 				if (context.started)
 				{
 					isThrowing = true;
-					isThrowing = true;
-					weaponHand.AimThrow(animator);
+					weaponHand.AimThrow();
 				}
 				else if (context.canceled)
 				{
-					Vector3 throwDirection = transform.forward;
-					throwDirection.y += 0.3f;
-					weaponHand.Throw(animator, throwDirection.normalized);
+					//weaponHand.Throw();
 					weaponEquipped = false;
 					isThrowing = false;
-					//isThrowing = true;
 				}
 			}
 		}
@@ -173,7 +170,7 @@ public class PlayerController : MonoBehaviour
 		//Throwing
 		if (isThrowing)
 		{
-			weaponHand.AddThrowForce();
+			//weaponHand.AddThrowForce();
 		}
 		//Movement
 		else

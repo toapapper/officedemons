@@ -10,11 +10,17 @@ public class PointyStick : ThrustWeapon
 	private int poleDamage = 10;
 	[SerializeField]
 	private int poleThrowDamage = 15;
+	[SerializeField]
+	private float pointyStickViewDistance = 3.5f;
+	[SerializeField]
+	private float pointyStickViewAngle = 10f;
 
 	private void Start()
 	{
 		Handle = poleHandle;
 		Damage = poleDamage;
 		ThrowDamage = poleThrowDamage;
+		ViewDistance = pointyStickViewDistance;
+		ViewAngle = pointyStickViewAngle;
 	}
 }

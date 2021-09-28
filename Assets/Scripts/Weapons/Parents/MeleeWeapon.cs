@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class MeleeWeapon : AbstractWeapon
 {
-	public override abstract void Hit(Animator animator);
+	public override abstract void Attack(Animator animator);
 }

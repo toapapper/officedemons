@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ThrustWeapon : MeleeWeapon
 {
-	public override void Hit(Animator animator)
+	public override void Attack(Animator animator)
 	{
 		animator.SetTrigger("isMeleeThrust");
 		Debug.Log("MeleeTHrust" + Damage);
