@@ -13,13 +13,14 @@ public class PlayerInputHandler : MonoBehaviour
 	private PlayerConfiguration playerConfiguration;
 	private InputActions inputControls;
 
-	private AbstractPlayerState player;
+	private PlayerStateController player;
 
 
 	public void Start()
 	{
 		inputControls = new InputActions();
-		player = GetComponent<AbstractPlayerState>();
+		player = GetComponent<PlayerStateController>();
+
 	}
 
 	public void InitializePlayer(PlayerConfiguration pc)
@@ -44,18 +45,14 @@ public class PlayerInputHandler : MonoBehaviour
 			{
 				player.OnSpecial(obj);
 			}
-			//else if (obj.action.name == inputControls.PlayerMovement.Throw.name)
-			//{
-			//	player.OnThrow(obj);
-			//}
 			else if (obj.action.name == inputControls.PlayerMovement.PickUp.name)
 			{
 				player.OnPickupThrow(obj);
 			}
-			//else if(obj.action.name == inputControls.PlayerMovement.Revive.name)
-			//{
-			//	player.OnRevive(obj);
-			//}
+			else if (obj.action.name == inputControls.PlayerMovement.Revive.name)
+			{
+				player.OnRevive(obj);
+			}
 		}
 	}
 }

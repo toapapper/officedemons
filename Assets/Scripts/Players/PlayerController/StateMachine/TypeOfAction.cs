@@ -8,6 +8,6 @@ public enum TypeOfAction
 	ATTACK,
 	SPECIALATTACK,
 	THROW,
-	HEAL,
+	REVIVE,
 	PICKUP
 }
