@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Code by: Johan Melkersson
+/// </summary>
 public abstract class AbstractWeapon : MonoBehaviour
 {
 	private GameObject handle;

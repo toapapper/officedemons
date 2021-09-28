@@ -11,7 +11,7 @@ public class Pole: SwingWeapon
     [SerializeField]
     private int poleThrowDamage = 15;
 	[SerializeField]
-	private float poleViewDistance = 4f;
+	private float poleViewDistance = 5.5f;
 	[SerializeField]
 	private float poleViewAngle = 100f;
 

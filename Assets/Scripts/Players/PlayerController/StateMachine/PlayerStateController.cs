@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Code by: Johan Melkersson
+/// </summary>
 public class PlayerStateController : MonoBehaviour
 {
     private PlayerStateContext playerContext;
@@ -35,11 +38,11 @@ public class PlayerStateController : MonoBehaviour
         //Add all new states here. 
         states = new Dictionary<PlayerStates, IPlayerState>();
         states.Add(PlayerStates.OUTOFCOMBAT, gameObject.AddComponent<OutOfCombatState>());
-        //states.Add(PlayerStates.ENTERCOMBAT, gameObject.AddComponent<CombatEnterState>());
-        //states.Add(PlayerStates.COMBATTURN, gameObject.AddComponent<CombatTurnState>());
-        //states.Add(PlayerStates.COMBATWAIT, gameObject.AddComponent<CombatWaitState>());
-        //states.Add(PlayerStates.DEAD, gameObject.AddComponent<DeadState>());
-    }
+		//states.Add(PlayerStates.ENTERCOMBAT, gameObject.AddComponent<CombatEnterState>());
+		states.Add(PlayerStates.COMBATTURN, gameObject.AddComponent<CombatTurnState>());
+		//states.Add(PlayerStates.COMBATWAIT, gameObject.AddComponent<CombatWaitState>());
+		//states.Add(PlayerStates.DEAD, gameObject.AddComponent<DeadState>());
+	}
 
 	private void FixedUpdate() => playerContext.FixedUpdateContext();
 }

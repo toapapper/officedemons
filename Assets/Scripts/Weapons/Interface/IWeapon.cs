@@ -10,5 +10,4 @@ public interface IWeapon
 	//public void Drop(Vector3 direction);
 	//public void Hit();
 	//public void Throw(Vector3 direction, float force);
-	public void Hej();
 }

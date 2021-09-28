@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
+/// <summary>
+/// Code by: Johan Melkersson
+/// </summary>
 public class OutOfCombatState : AbstractPlayerState
 {
     public override void OnMove(CallbackContext context)
@@ -22,7 +25,7 @@ public class OutOfCombatState : AbstractPlayerState
         //TODO
         //if (context.performed)
         //{
-        //    SpecialWeaponHand.Attack();
+        //    playerMovement.PerformSpecialAttack();
         //}
     }
     public override void OnThrow(CallbackContext context)
@@ -49,6 +52,14 @@ public class OutOfCombatState : AbstractPlayerState
 		if (context.performed)
         {
             playerMovement.PerformPickup();
+        }
+    }
+    public override void OnHeal(CallbackContext context)
+	{
+        if (context.performed)
+		{
+            playerMovement.PerformHeal();
+
         }
     }
 	public override void OnRevive(CallbackContext context)

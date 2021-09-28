@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Coded by: Johan Melkersson
+/// </summary>
 public class PlayerMovementController : MonoBehaviour
 {
     //Character movers
@@ -34,7 +38,7 @@ public class PlayerMovementController : MonoBehaviour
 
 	//Healing variables
 	[SerializeField]
-	private int lowHeathMark = 10;
+	private int maxHealthMark = 100;
 	private int lowestHealth;
 
 	//Helper variables
@@ -163,13 +167,39 @@ public class PlayerMovementController : MonoBehaviour
 		}
 	}
 
-	//Revive
-	public void Revive()
+	//Heal
+	public bool StartHeal()
 	{
-		if(nearbyPlayers.Count > 0)
+		if (GetComponent<Attributes>().Health < GetComponent<Attributes>().StartHealth)
 		{
-			GameObject playerToHeal = null;
-			lowestHealth = lowHeathMark;
+			return true;
+		}
+		if (nearbyPlayers.Count > 0)
+		{
+			foreach (GameObject nearbyPlayer in nearbyPlayers)
+			{
+				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health < GetComponent<Attributes>().StartHealth)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public void PerformHeal()
+	{
+		GameObject playerToHeal = null;
+		if (GetComponent<Attributes>().Health < GetComponent<Attributes>().StartHealth)
+		{
+			playerToHeal = gameObject;
+			lowestHealth = GetComponent<Attributes>().Health;
+		}
+		else
+		{
+			lowestHealth = GetComponent<Attributes>().StartHealth;
+		}
+		if (nearbyPlayers.Count > 0)
+		{
 			foreach (GameObject nearbyPlayer in nearbyPlayers)
 			{
 				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health < lowestHealth)
@@ -178,12 +208,52 @@ public class PlayerMovementController : MonoBehaviour
 					lowestHealth = nearbyPlayer.GetComponentInChildren<Attributes>().Health;
 				}
 			}
-			if(playerToHeal != null)
+		}
+		if (playerToHeal != null)
+		{
+			Debug.Log("Heal player " + playerToHeal.name);
+		}
+	}
+	public void CancelHeal()
+	{
+
+	}
+
+	//Revive
+	public bool StartRevive()
+	{
+		if (nearbyPlayers.Count > 0)
+		{
+			foreach (GameObject nearbyPlayer in nearbyPlayers)
 			{
-				Debug.Log("Heal player " + playerToHeal.name);
+				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public void PerformRevive()
+	{
+		if (nearbyPlayers.Count > 0)
+		{
+			foreach (GameObject nearbyPlayer in nearbyPlayers)
+			{
+				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
+				{
+					Debug.Log("Revive player " + nearbyPlayer.name);
+					return;
+				}
 			}
 		}
 	}
+	public void CancelRevive()
+	{
+
+	}
+
+
 
 
 	public Quaternion CalculateRotation()
