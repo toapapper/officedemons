@@ -62,9 +62,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     public abstract void OnMove(CallbackContext context);
     public abstract void OnAttack(CallbackContext context);
     public abstract void OnSpecial(CallbackContext context);
-    //public abstract void OnThrow(CallbackContext context);
     public abstract void OnPickupThrow(CallbackContext context);
-    public abstract void OnHeal(CallbackContext context);
     public abstract void OnRevive(CallbackContext context);
 
 	public abstract void OnFixedUpdateState();

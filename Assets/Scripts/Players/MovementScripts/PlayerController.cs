@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
 				if (context.started)
 				{
 					isThrowing = true;
-					weaponHand.AimThrow();
+					weaponHand.StartThrow();
 				}
 				else if (context.canceled)
 				{

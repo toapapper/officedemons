@@ -10,6 +10,7 @@ public enum PlayerStates
     OUTOFCOMBAT,
     ENTERCOMBAT,
     COMBATTURN,
+    COMBATACTION,
     COMBATWAIT,
 	DEAD
 }

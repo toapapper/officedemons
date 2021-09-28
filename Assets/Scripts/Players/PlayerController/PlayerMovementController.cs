@@ -91,28 +91,28 @@ public class PlayerMovementController : MonoBehaviour
 	}
 
 	//Special attack
-	public void StartSpecialAttack()
+	public void StartSpecial()
 	{
 		////TODO
 		//if ((specialWeaponHand != null)
 		//{
-		//	specialWeaponHand.StartSpecialAttack();
+		//	specialWeaponHand.StartSpecial();
 		//}
 	}
-	public void PerformSpecialAttack()
+	public void PerformSpecial()
 	{
 		////TODO
 		//if ((specialWeaponHand != null)
 		//{
-		//	specialWeaponHand.PerformSpecialAttack();
+		//	specialWeaponHand.PerformSpecial();
 		//}
 	}
-	public void CancelSpecialAttack()
+	public void CancelSpecial()
 	{
 		////TODO
 		//if ((specialWeaponHand != null)
 		//{
-		//	specialWeaponHand.CancelSpecialAttack();
+		//	specialWeaponHand.CancelSpecial();
 		//}
 	}
 
@@ -121,7 +121,7 @@ public class PlayerMovementController : MonoBehaviour
 	{
 		if (weaponHand != null)
 		{
-			weaponHand.AimThrow();
+			weaponHand.StartThrow();
 			return true;
 		}
 		return false;

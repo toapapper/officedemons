@@ -8,8 +8,8 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class CombatTurnState : AbstractPlayerState
 {
-
-    public override void OnMove(CallbackContext context)
+	//Move action
+	public override void OnMove(CallbackContext context)
 	{
 		Debug.Log("CombatTurnState.OnMove  " + attributes.gameObject.ToString());
 		if(attributes.Stamina > 0)
@@ -18,7 +18,7 @@ public class CombatTurnState : AbstractPlayerState
 			attributes.Stamina -= Time.deltaTime;
         }
 	}
-
+	//Attack Action
 	public override void OnAttack(CallbackContext context)
 	{
 		if (context.performed && !IsActionLocked)
@@ -37,6 +37,7 @@ public class CombatTurnState : AbstractPlayerState
 
 		}
 	}
+	//Special Action
 	public override void OnSpecial(CallbackContext context)
 	{
 		//TODO
@@ -44,7 +45,7 @@ public class CombatTurnState : AbstractPlayerState
 		{
 			if (!IsActionTriggered)
 			{
-				playerMovement.StartSpecialAttack();
+				playerMovement.StartSpecial();
 				ChosenAction = TypeOfAction.SPECIALATTACK;
 				IsActionTriggered = true;
 			}
@@ -56,16 +57,13 @@ public class CombatTurnState : AbstractPlayerState
 						playerMovement.CancelAttack();
 						break;
 					case TypeOfAction.SPECIALATTACK:
-						playerMovement.CancelSpecialAttack();
+						playerMovement.CancelSpecial();
 						break;
 					case TypeOfAction.THROW:
 						playerMovement.CancelThrow();
 						break;
-					case TypeOfAction.HEAL:
-						//playerMovement.CancelHeal();
-						break;
-					case TypeOfAction.PICKUP:
-						//playerMovement.CancelPickup();
+					case TypeOfAction.REVIVE:
+						playerMovement.CancelRevive();
 						break;
 					case TypeOfAction.NOACTION:
 						break;
@@ -74,35 +72,14 @@ public class CombatTurnState : AbstractPlayerState
 			}
 		}
 	}
-
-	//public override void OnThrow(CallbackContext context)
-	//{
-	//	if (context.started && !IsActionTriggered && !IsActionLocked)
-	//	{
-	//		if (playerMovement.StartThrow())
-	//		{
-	//			ChosenAction = TypeOfAction.THROW;
-	//			IsActionTriggered = true;
-	//			IsAddingThrowForce = true;
-	//		}
-	//	}
-	//	else if (context.canceled && IsActionTriggered && !IsActionLocked)
-	//	{
-	//		if (IsAddingThrowForce)
-	//		{
-	//			IsAddingThrowForce = false;
-	//		}
-	//	}
-	//}
-
-
+	//Pickup/Throw action
 	public override void OnPickupThrow(CallbackContext context)
 	{
 		if(!IsActionLocked)
 		{
-			if (playerMovement.isWeaponEquipped)
+			if (!playerMovement.isWeaponEquipped)
 			{
-				if (!IsActionTriggered && context.performed)
+				if (!IsActionTriggered && context.canceled)
 				{
 					playerMovement.PerformPickup();
 				}
@@ -128,28 +105,41 @@ public class CombatTurnState : AbstractPlayerState
 			}
 		}
 	}
-	public override void OnHeal(CallbackContext context)
-	{
-		if (context.performed && !IsActionTriggered && !IsActionLocked)
-		{
-			if (playerMovement.StartHeal())
-			{
-				ChosenAction = TypeOfAction.HEAL;
-				IsActionTriggered = true;
-			}
-		}
-	}
+	//Revive action
 	public override void OnRevive(CallbackContext context)
 	{
-		if (context.performed && !IsActionTriggered && !IsActionLocked)
+		if (!IsActionLocked)
 		{
-			if (playerMovement.StartRevive())
+			if(context.started && !IsActionTriggered)
 			{
-				ChosenAction = TypeOfAction.HEAL;
 				IsActionTriggered = true;
+			}
+			else if(context.canceled && IsActionTriggered)
+			{
+				if (playerMovement.StartRevive())
+				{
+					ChosenAction = TypeOfAction.REVIVE;
+				}
+				else
+				{
+					IsActionTriggered = false;
+				}
 			}
 		}
 	}
+	//Heal action
+	//public override void OnHeal(CallbackContext context)
+	//{
+	//	if (context.performed && !IsActionTriggered && !IsActionLocked)
+	//	{
+	//		if (playerMovement.StartHeal())
+	//		{
+	//			ChosenAction = TypeOfAction.HEAL;
+	//			IsActionTriggered = true;
+	//		}
+	//	}
+	//}
+
 
 	public override void OnFixedUpdateState()
 	{
