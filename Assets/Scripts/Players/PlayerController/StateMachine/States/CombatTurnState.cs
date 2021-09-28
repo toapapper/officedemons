@@ -13,9 +13,8 @@ public class CombatTurnState : AbstractPlayerState
 	{
 		playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
 		Debug.Log("CombatTurnState.OnMove  " + attributes.gameObject.ToString());
+
 		
-		if(!IsStaminaDepleted)
-			attributes.Stamina -= Time.deltaTime;
 	}
 	//Attack Action
 	public override void OnAttack(CallbackContext context)
@@ -164,6 +163,7 @@ public class CombatTurnState : AbstractPlayerState
 		{
 			if (playerMovement.CalculateMovement() != Vector3.zero)
 			{
+				attributes.Stamina -= Time.deltaTime;
 				playerMovement.PerformMovement();
 			}
 		}

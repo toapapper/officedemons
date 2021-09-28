@@ -10,6 +10,9 @@ using static UnityEngine.InputSystem.InputAction;
 public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 {
 	protected PlayerMovementController playerMovement;
+    protected Attributes attributes;//ossian o jonas
+    protected CharacterController characterController;
+
     private Array typeOfActions;
 
     private bool isActionTriggered;
@@ -18,7 +21,6 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     private bool isAddingThrowForce;
     private Enum chosenAction;
     private bool isStaminaDepleted;
-    protected Attributes attributes;//ossian o jonas
 
     protected Array TypeOfActions
 	{
@@ -61,7 +63,8 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         typeOfActions = Enum.GetValues(typeof(TypeOfAction));
         playerMovement = GetComponent<PlayerMovementController>();
 
-        attributes = GetComponent<Attributes>();//j+o
+        attributes = GetComponent<Attributes>();//ossian o jonas
+        characterController = GetComponent<CharacterController>();
     }
 
     public abstract void OnMove(CallbackContext context);
