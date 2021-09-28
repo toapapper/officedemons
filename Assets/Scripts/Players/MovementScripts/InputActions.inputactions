@@ -38,17 +38,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Throw",
+                    "name": "Pause",
                     "type": "Button",
-                    "id": "c49f1803-d6a1-4a67-9b0b-9845411f4d90",
+                    "id": "bab93117-d7db-45c8-abef-f9d78b96c54d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 },
                 {
-                    "name": "Pause",
+                    "name": "Revive",
                     "type": "Button",
-                    "id": "bab93117-d7db-45c8-abef-f9d78b96c54d",
+                    "id": "b8c76961-971c-48a7-bffa-e9f94fce1897",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -234,33 +234,11 @@
                 {
                     "name": "",
                     "id": "ef37025e-334a-464e-941d-e416a420bc66",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PickUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2a12b4e2-1473-4f32-bfa1-565193b97c4e",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Throw",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "234b3e70-9ea2-4198-8361-cd9f3484daeb",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Throw",
+                    "action": "PickUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -283,6 +261,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "db26eda7-3e34-465c-a470-03cbf5dcfb94",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Revive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9cd27f02-f013-4b52-b7fa-81368e459aca",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Revive",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

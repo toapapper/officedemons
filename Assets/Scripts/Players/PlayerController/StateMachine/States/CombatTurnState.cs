@@ -68,30 +68,58 @@ public class CombatTurnState : AbstractPlayerState
 			}
 		}
 	}
-	public override void OnThrow(CallbackContext context)
+
+	//public override void OnThrow(CallbackContext context)
+	//{
+	//	if (context.started && !IsActionTriggered && !IsActionLocked)
+	//	{
+	//		if (playerMovement.StartThrow())
+	//		{
+	//			ChosenAction = TypeOfAction.THROW;
+	//			IsActionTriggered = true;
+	//			IsAddingThrowForce = true;
+	//		}
+	//	}
+	//	else if (context.canceled && IsActionTriggered && !IsActionLocked)
+	//	{
+	//		if (IsAddingThrowForce)
+	//		{
+	//			IsAddingThrowForce = false;
+	//		}
+	//	}
+	//}
+
+
+	public override void OnPickupThrow(CallbackContext context)
 	{
-		if (context.started && !IsActionTriggered && !IsActionLocked)
+		if(!IsActionLocked)
 		{
-			if (playerMovement.StartThrow())
+			if (playerMovement.isWeaponEquipped)
 			{
-				ChosenAction = TypeOfAction.THROW;
-				IsActionTriggered = true;
-				IsAddingThrowForce = true;
+				if (!IsActionTriggered && context.performed)
+				{
+					playerMovement.PerformPickup();
+				}
 			}
-		}
-		else if (context.canceled && IsActionTriggered && !IsActionLocked)
-		{
-			if (IsAddingThrowForce)
+			else
 			{
-				IsAddingThrowForce = false;
+				if (context.started && !IsActionTriggered)
+				{
+					if (playerMovement.StartThrow())
+					{
+						ChosenAction = TypeOfAction.THROW;
+						IsActionTriggered = true;
+						IsAddingThrowForce = true;
+					}
+				}
+				else if (context.canceled && IsActionTriggered)
+				{
+					if (IsAddingThrowForce)
+					{
+						IsAddingThrowForce = false;
+					}
+				}
 			}
-		}
-	}
-	public override void OnPickup(CallbackContext context)
-	{
-		if (context.performed && !IsActionTriggered && !IsActionLocked)
-		{
-			playerMovement.PerformPickup();
 		}
 	}
 	public override void OnHeal(CallbackContext context)

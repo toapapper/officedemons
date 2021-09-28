@@ -12,8 +12,8 @@ public interface IPlayerState
     void OnMove(CallbackContext context);
     void OnAttack(CallbackContext context);
     void OnSpecial(CallbackContext context);
-    void OnThrow(CallbackContext context);
-    void OnPickup(CallbackContext context);
+    //void OnThrow(CallbackContext context);
+    void OnPickupThrow(CallbackContext context);
     void OnHeal(CallbackContext context);
     void OnRevive(CallbackContext context);
     void OnFixedUpdateState();

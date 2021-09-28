@@ -51,17 +51,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Throw"",
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
-                    ""id"": ""c49f1803-d6a1-4a67-9b0b-9845411f4d90"",
+                    ""id"": ""bab93117-d7db-45c8-abef-f9d78b96c54d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Pause"",
+                    ""name"": ""Revive"",
                     ""type"": ""Button"",
-                    ""id"": ""bab93117-d7db-45c8-abef-f9d78b96c54d"",
+                    ""id"": ""b8c76961-971c-48a7-bffa-e9f94fce1897"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -247,33 +247,11 @@ public class @InputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ef37025e-334a-464e-941d-e416a420bc66"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PickUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2a12b4e2-1473-4f32-bfa1-565193b97c4e"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Throw"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""234b3e70-9ea2-4198-8361-cd9f3484daeb"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Throw"",
+                    ""action"": ""PickUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -298,6 +276,28 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""db26eda7-3e34-465c-a470-03cbf5dcfb94"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Revive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9cd27f02-f013-4b52-b7fa-81368e459aca"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Revive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -310,8 +310,8 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_PlayerMovement_PickUp = m_PlayerMovement.FindAction("PickUp", throwIfNotFound: true);
         m_PlayerMovement_Attack = m_PlayerMovement.FindAction("Attack", throwIfNotFound: true);
         m_PlayerMovement_Special = m_PlayerMovement.FindAction("Special", throwIfNotFound: true);
-        m_PlayerMovement_Throw = m_PlayerMovement.FindAction("Throw", throwIfNotFound: true);
         m_PlayerMovement_Pause = m_PlayerMovement.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerMovement_Revive = m_PlayerMovement.FindAction("Revive", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -365,8 +365,8 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerMovement_PickUp;
     private readonly InputAction m_PlayerMovement_Attack;
     private readonly InputAction m_PlayerMovement_Special;
-    private readonly InputAction m_PlayerMovement_Throw;
     private readonly InputAction m_PlayerMovement_Pause;
+    private readonly InputAction m_PlayerMovement_Revive;
     public struct PlayerMovementActions
     {
         private @InputActions m_Wrapper;
@@ -375,8 +375,8 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @PickUp => m_Wrapper.m_PlayerMovement_PickUp;
         public InputAction @Attack => m_Wrapper.m_PlayerMovement_Attack;
         public InputAction @Special => m_Wrapper.m_PlayerMovement_Special;
-        public InputAction @Throw => m_Wrapper.m_PlayerMovement_Throw;
         public InputAction @Pause => m_Wrapper.m_PlayerMovement_Pause;
+        public InputAction @Revive => m_Wrapper.m_PlayerMovement_Revive;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -398,12 +398,12 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Special.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnSpecial;
                 @Special.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnSpecial;
                 @Special.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnSpecial;
-                @Throw.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnThrow;
-                @Throw.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnThrow;
-                @Throw.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnThrow;
                 @Pause.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPause;
+                @Revive.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnRevive;
+                @Revive.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnRevive;
+                @Revive.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnRevive;
             }
             m_Wrapper.m_PlayerMovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -420,12 +420,12 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Special.started += instance.OnSpecial;
                 @Special.performed += instance.OnSpecial;
                 @Special.canceled += instance.OnSpecial;
-                @Throw.started += instance.OnThrow;
-                @Throw.performed += instance.OnThrow;
-                @Throw.canceled += instance.OnThrow;
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @Revive.started += instance.OnRevive;
+                @Revive.performed += instance.OnRevive;
+                @Revive.canceled += instance.OnRevive;
             }
         }
     }
@@ -436,7 +436,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnPickUp(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnSpecial(InputAction.CallbackContext context);
-        void OnThrow(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnRevive(InputAction.CallbackContext context);
     }
 }

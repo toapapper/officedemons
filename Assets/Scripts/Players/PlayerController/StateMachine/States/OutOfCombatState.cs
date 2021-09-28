@@ -28,31 +28,52 @@ public class OutOfCombatState : AbstractPlayerState
         //    playerMovement.PerformSpecialAttack();
         //}
     }
-    public override void OnThrow(CallbackContext context)
-    {
-        if (context.started && !IsThrowing)
-        {
-			if (playerMovement.StartThrow())
-			{
-                IsThrowing = true;
-                IsAddingThrowForce = true;
-			}
-        }
-        else if (context.canceled && IsThrowing)
-        {
-			if (playerMovement.PerformThrow())
-			{
-                IsThrowing = false;
-                IsAddingThrowForce = true;
+   // public override void OnThrow(CallbackContext context)
+   // {
+   //     if (context.started && !IsThrowing)
+   //     {
+			//if (playerMovement.StartThrow())
+			//{
+   //             IsThrowing = true;
+   //             IsAddingThrowForce = true;
+			//}
+   //     }
+   //     else if (context.canceled && IsThrowing)
+   //     {
+			//if (playerMovement.PerformThrow())
+			//{
+   //             IsThrowing = false;
+   //             IsAddingThrowForce = true;
+   //         }
+   //     }
+   // }
+	public override void OnPickupThrow(CallbackContext context)
+	{
+		if (!playerMovement.isWeaponEquipped)
+		{
+            if (context.canceled)
+            {
+                playerMovement.PerformPickup();
             }
         }
-    }
-	public override void OnPickup(CallbackContext context)
-	{
-		if (context.performed)
-        {
-            playerMovement.PerformPickup();
+		else
+		{
+            if (context.started)
+            {
+                if (playerMovement.StartThrow())
+                {
+                    IsAddingThrowForce = true;
+                }
+            }
+            else if (context.canceled)
+            {
+                if (playerMovement.PerformThrow())
+                {
+                    IsAddingThrowForce = false;
+                }
+            }
         }
+		
     }
     public override void OnHeal(CallbackContext context)
 	{
@@ -78,7 +99,7 @@ public class OutOfCombatState : AbstractPlayerState
             playerMovement.PerformRotation();
         }
         //Throwing
-        if (IsThrowing && IsAddingThrowForce)
+        if (IsAddingThrowForce)
         {
             playerMovement.AddThrowForce();
         }

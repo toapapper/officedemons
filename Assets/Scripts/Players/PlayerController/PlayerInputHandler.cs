@@ -44,13 +44,13 @@ public class PlayerInputHandler : MonoBehaviour
 			{
 				player.OnSpecial(obj);
 			}
-			else if (obj.action.name == inputControls.PlayerMovement.Throw.name)
-			{
-				player.OnThrow(obj);
-			}
+			//else if (obj.action.name == inputControls.PlayerMovement.Throw.name)
+			//{
+			//	player.OnThrow(obj);
+			//}
 			else if (obj.action.name == inputControls.PlayerMovement.PickUp.name)
 			{
-				player.OnPickup(obj);
+				player.OnPickupThrow(obj);
 			}
 			//else if(obj.action.name == inputControls.PlayerMovement.Revive.name)
 			//{

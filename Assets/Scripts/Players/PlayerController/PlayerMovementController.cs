@@ -44,7 +44,7 @@ public class PlayerMovementController : MonoBehaviour
 	//Helper variables
 	private List<GameObject> nearbyObjects = new List<GameObject>();
 	private List<GameObject> nearbyPlayers = new List<GameObject>();
-	private bool isWeaponEquipped;
+	public bool isWeaponEquipped;
 
 
 	private void Awake()
@@ -119,7 +119,7 @@ public class PlayerMovementController : MonoBehaviour
 	//Throw
 	public bool StartThrow()
 	{
-		if (weaponHand != null && isWeaponEquipped)
+		if (weaponHand != null)
 		{
 			weaponHand.AimThrow();
 			return true;
@@ -128,7 +128,7 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public bool PerformThrow()
 	{
-		if (weaponHand != null && isWeaponEquipped)
+		if (weaponHand != null)
 		{
 			weaponHand.Throw(addedThrowForce);
 			isWeaponEquipped = false;
@@ -153,7 +153,7 @@ public class PlayerMovementController : MonoBehaviour
 	//Pickup
 	public void PerformPickup()
 	{
-		if (weaponHand != null && !isWeaponEquipped && nearbyObjects.Count > 0)
+		if (weaponHand != null && nearbyObjects.Count > 0)
 		{
 			foreach (GameObject nearbyObject in nearbyObjects)
 			{
