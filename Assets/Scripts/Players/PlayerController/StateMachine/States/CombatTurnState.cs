@@ -11,12 +11,11 @@ public class CombatTurnState : AbstractPlayerState
 	//Move action
 	public override void OnMove(CallbackContext context)
 	{
+		playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
 		Debug.Log("CombatTurnState.OnMove  " + attributes.gameObject.ToString());
-		if(attributes.Stamina > 0)
-        {
-			playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
+		
+		if(!IsStaminaDepleted)
 			attributes.Stamina -= Time.deltaTime;
-        }
 	}
 	//Attack Action
 	public override void OnAttack(CallbackContext context)
@@ -152,7 +151,7 @@ public class CombatTurnState : AbstractPlayerState
 		{
 			playerMovement.PerformRotation();
 		}
-		if (IsActionTriggered)
+		if (IsActionTriggered || IsStaminaDepleted)
 		{
 			//Throwing
 			if (IsAddingThrowForce)

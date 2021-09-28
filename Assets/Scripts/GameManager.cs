@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
         currentEncounter = encounter;
         combatState = CombatState.player;
         roundTimer = RoundTime;
+        playerManager.BeginCombat();
     }
 
     public void EndEncounter()

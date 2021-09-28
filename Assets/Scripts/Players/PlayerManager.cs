@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("Begin combat");
         foreach (GameObject p in players)
         {
-            //p.GetComponent<PlayerStateController>().StartCombat();
+            p.GetComponent<PlayerStateController>().StartCombat();
 
             Debug.Log(p.ToString());
         }
@@ -66,7 +66,7 @@ public class PlayerManager : MonoBehaviour
         foreach (GameObject p in players)
         {
             Debug.Log(p.ToString());
-            //p.GetComponent<PlayerStateController>().StartWaitForTurn();//borde antagligen göra actions och så istället
+            p.GetComponent<PlayerStateController>().StartWaitForTurn();//borde antagligen göra actions och så istället
         }
 
         //foreach player forcibly endTurn

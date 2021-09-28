@@ -17,6 +17,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     private bool isThrowing;
     private bool isAddingThrowForce;
     private Enum chosenAction;
+    private bool isStaminaDepleted;
     protected Attributes attributes;//ossian o jonas
 
     protected Array TypeOfActions
@@ -50,6 +51,10 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         set { isAddingThrowForce = value; }
     }
 
+    protected bool IsStaminaDepleted
+    {
+        get { return attributes.Stamina <= 0; }
+    }
 
     private void Awake()
     {
