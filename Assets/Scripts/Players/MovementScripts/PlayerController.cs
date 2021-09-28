@@ -102,11 +102,11 @@ public class PlayerController : MonoBehaviour
 					}
 				}
 			}
-			else
-			{
-				weaponHand.DropObject(transform.forward);
-				weaponEquipped = false;
-			}
+			//else
+			//{
+			//	weaponHand.DropObject(transform.forward);
+			//	weaponEquipped = false;
+			//}
 		}
 	}
 	public void OnAttack(InputAction.CallbackContext context)
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
 		if (name != "Player" && context.performed)
 		{
 			attackInput = context.ReadValue<float>();
-			weaponHand.Hit(animator);
+			weaponHand.Attack();
 		}
 	}
 	public void OnSpeciel(InputAction.CallbackContext context)
