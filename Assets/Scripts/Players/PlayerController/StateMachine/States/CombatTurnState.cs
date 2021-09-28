@@ -8,9 +8,15 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class CombatTurnState : AbstractPlayerState
 {
-	public override void OnMove(CallbackContext context)
+
+    public override void OnMove(CallbackContext context)
 	{
-		playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
+		Debug.Log("CombatTurnState.OnMove  " + attributes.gameObject.ToString());
+		if(attributes.Stamina > 0)
+        {
+			playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
+			attributes.Stamina -= Time.deltaTime;
+        }
 	}
 
 	public override void OnAttack(CallbackContext context)
@@ -181,11 +187,12 @@ public class CombatTurnState : AbstractPlayerState
 
 	public override void OnStateEnter()
 	{
-		Debug.Log("Enters OutOfCombatState" + this);
+		attributes.Stamina = attributes.StartStamina;
+		Debug.Log("Enters CombatTurnState" + this);
 	}
 
 	public override void OnStateExit()
 	{
-		Debug.Log("Exits OutOfCombatState" + this);
+		Debug.Log("Exits CombatTurnState" + this);
 	}
 }

@@ -41,7 +41,10 @@ public class Encounter : MonoBehaviour
             if (enemies.Count > 0)
                 OssianUtils.CleanList(enemies);
             else
+            {
                 GameManager.Instance.EndEncounter();
+                Destroy(gameObject);
+            }
         }
 
         if (myTurn)//utkommenterad kod på hur signalsystemet till fienderna skulle kunna funka

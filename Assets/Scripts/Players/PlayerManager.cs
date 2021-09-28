@@ -24,7 +24,9 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("Begin combat");
         foreach (GameObject p in players)
         {
-            p.GetComponent<PlayerController>().enabled = false;
+            //p.GetComponent<PlayerStateController>().StartCombat();
+
+            Debug.Log(p.ToString());
         }
         //disabled player movement, now automatically move them somewhere,maybe, should perhaps be contained in the encounter where to
 
@@ -36,18 +38,20 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("End combat");
 
-        for (int i = 0; i < players.Count; i++)
+        foreach (GameObject p in players)
         {
-            players[i].GetComponent<PlayerController>().enabled = true;
+            p.GetComponent<PlayerStateController>().StartOutOfCombat();
+            Debug.Log(p.ToString());
         }
     }
 
     public void BeginTurn()
     {
         Debug.Log("Begin turn");
-        for(int i = 0; i < players.Count; i++)
+        foreach (GameObject p in players)
         {
-            players[i].GetComponent<PlayerController>().enabled = true;
+            p.GetComponent<PlayerStateController>().StartTurn();
+            Debug.Log(p.ToString());
         }
 
         //foreach player beginTurn
@@ -58,9 +62,11 @@ public class PlayerManager : MonoBehaviour
     public void EndTurn()
     {
         Debug.Log("End turn");
-        for (int i = 0; i < players.Count; i++)
+
+        foreach (GameObject p in players)
         {
-            players[i].GetComponent<PlayerController>().enabled = false;
+            Debug.Log(p.ToString());
+            //p.GetComponent<PlayerStateController>().StartWaitForTurn();//borde antagligen göra actions och så istället
         }
 
         //foreach player forcibly endTurn

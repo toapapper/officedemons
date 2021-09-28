@@ -17,6 +17,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     private bool isThrowing;
     private bool isAddingThrowForce;
     private Enum chosenAction;
+    protected Attributes attributes;//ossian o jonas
 
     protected Array TypeOfActions
 	{
@@ -54,6 +55,8 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     {
         typeOfActions = Enum.GetValues(typeof(TypeOfAction));
         playerMovement = GetComponent<PlayerMovementController>();
+
+        attributes = GetComponent<Attributes>();//j+o
     }
 
     public abstract void OnMove(CallbackContext context);

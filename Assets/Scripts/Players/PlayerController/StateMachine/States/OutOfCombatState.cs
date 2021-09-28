@@ -10,7 +10,7 @@ public class OutOfCombatState : AbstractPlayerState
 {
     public override void OnMove(CallbackContext context)
 	{
-		playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
+        playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
     }
 
     public override void OnAttack(CallbackContext context)
