@@ -12,9 +12,6 @@ public class CombatTurnState : AbstractPlayerState
 	public override void OnMove(CallbackContext context)
 	{
 		playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
-		Debug.Log("CombatTurnState.OnMove  " + attributes.gameObject.ToString());
-
-		
 	}
 	//Attack Action
 	public override void OnAttack(CallbackContext context)

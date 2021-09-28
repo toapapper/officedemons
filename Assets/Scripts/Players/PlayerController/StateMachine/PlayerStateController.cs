@@ -31,8 +31,6 @@ public class PlayerStateController : MonoBehaviour
 		if (PlayerManager.players == null)
 			PlayerManager.players = new List<GameObject>();
 
-        Debug.Log("Added me!");
-
 		PlayerManager.players.Add(this.gameObject);
 		playerNr = PlayerManager.players.Count;
 	}
