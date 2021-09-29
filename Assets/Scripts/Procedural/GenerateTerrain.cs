@@ -159,7 +159,7 @@ public class GenerateTerrain : MonoBehaviour
             return fitness += 40;
 
         else
-            fitness += 0;
+            fitness += 10;
 
         fitness = TooCloseCheck(node, 20, root, width, height, fitness, 400);
 
@@ -187,12 +187,19 @@ public class GenerateTerrain : MonoBehaviour
     public bool SearchForObstacles(List<Node> nodes, Node root, int width, int height, int heightLimit, float fitnessGoal)
     {
         float fitness = 0;
+        int obstacles = 0;
         for (int i = 0; i < nodes.Count; i++)
         {
             if (nodes[i].leaf)
+            {
                 fitness = FitnessCheck(nodes[i], root, width, height, heightLimit, fitness);
-
+                obstacles++;
+            }
             Debug.Log("fitness after check = " + fitness);
+        }
+        if (obstacles > 6)
+        {
+            fitness -= 400;
         }
         if (fitness >= fitnessGoal)
         {
@@ -202,6 +209,7 @@ public class GenerateTerrain : MonoBehaviour
                 if (nodes[i].leaf)
                     GenerateObstacles(nodes[i], root, width, height, heightLimit);
             }
+            ResetLastFitness();
             return true;
         }
         else
@@ -227,6 +235,19 @@ public class GenerateTerrain : MonoBehaviour
             if (lbNodes[i].leaf)
                 GenerateObstacles(lbNodes[i], lbRoot, lbWidth, lbHeight, lbHeightLimit);
         }
+        ResetLastFitness();
         Debug.Log("Last resort was used");
+    }
+
+
+
+    public void ResetLastFitness()
+    {
+        lbFitness = 0;
+        lbNodes = new List<Node>();
+        lbRoot = new Node(Vector2.zero,Vector2.zero);
+        lbWidth = 0;
+        lbHeight = 0;
+        lbHeightLimit = 0;
     }
 }
