@@ -1080,10 +1080,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generateTerrain: {fileID: 2028610341}
-  generations: 4
+  generations: 3
   widthLimits: {x: 50, y: 100}
   heightLimits: {x: 50, y: 100}
   missfallTop: 20
+  fitnessGoal: 50
+  bspRemakeTries: 100
 --- !u!4 &2028610340
 Transform:
   m_ObjectHideFlags: 0
