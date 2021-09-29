@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class GenerateTerrain : MonoBehaviour
 {
+    [HideInInspector]
     public GameObject cubePrefab;
     public GameObject groundPrefab;
     public GameObject level;
@@ -136,7 +137,7 @@ public class GenerateTerrain : MonoBehaviour
         y = Random.Range(bufferY, node.size.y - bufferY);
 
     }
-    private float TooCloseCheck(Node node, float distanceMultiplier, Node root, int width, int height, float fitness, float penalty)
+    private float TooCloseBorders(Node node, float distanceMultiplier, Node root, int width, int height, float fitness, float penalty)
     {
         if (Mathf.Abs(node.origin.x - root.origin.x) < width / distanceMultiplier)
             fitness -= penalty;
@@ -146,6 +147,21 @@ public class GenerateTerrain : MonoBehaviour
 
         if (Mathf.Abs((node.origin.y - node.size.y) - (root.origin.y - root.size.y)) < height / distanceMultiplier)
             fitness -= penalty;
+
+        return fitness;
+    }
+
+    private float TooCloseObstacles(List<Node> nodes, Node node, float distanceMultiplier, int width, int height, float fitness, float penalty)
+    {
+
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            
+        }
+
+
+
+
 
         return fitness;
     }
@@ -161,7 +177,7 @@ public class GenerateTerrain : MonoBehaviour
         else
             fitness += 10;
 
-        fitness = TooCloseCheck(node, 20, root, width, height, fitness, 400);
+        fitness = TooCloseBorders(node, 20, root, width, height, fitness, 400);
 
         return fitness;
     }
