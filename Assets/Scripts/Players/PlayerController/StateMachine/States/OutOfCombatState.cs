@@ -8,11 +8,12 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class OutOfCombatState : AbstractPlayerState
 {
+    //Move action
     public override void OnMove(CallbackContext context)
 	{
-		playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
+        playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
     }
-
+    //Attack action
     public override void OnAttack(CallbackContext context)
 	{
 		if (context.performed)
@@ -20,34 +21,17 @@ public class OutOfCombatState : AbstractPlayerState
             playerMovement.PerformAttack();
         }
     }
+    //Special action
     public override void OnSpecial(CallbackContext context)
     {
         //TODO
         //if (context.performed)
         //{
-        //    playerMovement.PerformSpecialAttack();
+        //    playerMovement.PerformSpecial();
         //}
     }
-   // public override void OnThrow(CallbackContext context)
-   // {
-   //     if (context.started && !IsThrowing)
-   //     {
-			//if (playerMovement.StartThrow())
-			//{
-   //             IsThrowing = true;
-   //             IsAddingThrowForce = true;
-			//}
-   //     }
-   //     else if (context.canceled && IsThrowing)
-   //     {
-			//if (playerMovement.PerformThrow())
-			//{
-   //             IsThrowing = false;
-   //             IsAddingThrowForce = true;
-   //         }
-   //     }
-   // }
-	public override void OnPickupThrow(CallbackContext context)
+    //Pickup/Throw action
+    public override void OnPickupThrow(CallbackContext context)
 	{
 		if (!playerMovement.isWeaponEquipped)
 		{
@@ -75,14 +59,7 @@ public class OutOfCombatState : AbstractPlayerState
         }
 		
     }
-    public override void OnHeal(CallbackContext context)
-	{
-        if (context.performed)
-		{
-            playerMovement.PerformHeal();
-
-        }
-    }
+    //Revive action
 	public override void OnRevive(CallbackContext context)
 	{
 		if (context.performed)
@@ -90,8 +67,18 @@ public class OutOfCombatState : AbstractPlayerState
             throw new System.NotImplementedException();
         }
 	}
+    //Heal action
+    //   public override void OnHeal(CallbackContext context)
+    //{
+    //       if (context.performed)
+    //	{
+    //           playerMovement.PerformHeal();
 
-	public override void OnFixedUpdateState()
+    //       }
+    //   }
+
+
+    public override void OnFixedUpdateState()
     {
         //Rotation
         if (playerMovement.CalculateRotation() != transform.rotation)

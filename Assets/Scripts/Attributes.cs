@@ -23,8 +23,19 @@ public class Attributes : MonoBehaviour
         set { health = value; } 
     }
 
+   
     [SerializeField]
-    [Header("Stamina Points")]
+    [Header("Stamina")]
+    [Tooltip("Stamina drains at a rate of one per second")]
+    float startStamina = 3.5f;
+
+    public float StartStamina
+    {
+        get { return startStamina; }
+    }
+
+
+    [SerializeField]
     float stamina;
 
     public float Stamina
@@ -36,5 +47,6 @@ public class Attributes : MonoBehaviour
     private void Start()
     {
         Health = StartHealth;
+        Stamina = StartStamina;
     }
 }

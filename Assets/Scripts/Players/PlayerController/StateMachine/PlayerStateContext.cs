@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
 /// Code by: Johan Melkersson
@@ -23,6 +24,26 @@ public class PlayerStateContext
         CurrentState.OnStateExit();
         CurrentState = playerStateTo;
         CurrentState.OnStateEnter();
+    }
+    public void OnMove(CallbackContext context)
+    {
+        CurrentState.OnMove(context);
+    }
+    public void OnAttack(CallbackContext context)
+    {
+        CurrentState.OnAttack(context);
+    }
+    public void OnSpecial(CallbackContext context)
+    {
+        CurrentState.OnSpecial(context);
+    }
+    public void OnPickupThrow(CallbackContext context)
+    {
+        CurrentState.OnPickupThrow(context);
+    }
+    public void OnRevive(CallbackContext context)
+    {
+        CurrentState.OnRevive(context);
     }
 
     public void FixedUpdateContext()

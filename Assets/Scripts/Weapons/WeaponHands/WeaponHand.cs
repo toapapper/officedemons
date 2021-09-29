@@ -65,7 +65,7 @@ public class WeaponHand : MonoBehaviour
 		}
 	}
 
-	public void AimThrow()
+	public void StartThrow()
 	{
 		if (objectInHand != null)
 		{
