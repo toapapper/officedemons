@@ -12,6 +12,8 @@ public class WeaponHand : MonoBehaviour
 	private AbstractWeapon objectInHand;
 	private FieldOfView fov;
 	[SerializeField]
+	private GameObject FovView;
+	[SerializeField]
 	private float handHitDistance = 1.5f;
 	private float handHitAngle = 100f;
 
@@ -42,17 +44,17 @@ public class WeaponHand : MonoBehaviour
 		
 	}
 	//TODO
-	//public void StartAttack()
-	//{
-	//	if (objectInHand != null)
-	//	{
-	//		objectInHand.StartAttack(animator);
-	//	}
-	//	else
-	//	{
-	//		Debug.Log("HandHit" + damage);
-	//	}
-	//}
+	public void StartAttack()
+	{
+		if (objectInHand != null)
+		{
+			objectInHand.StartAttack(animator);
+		}
+		else
+		{
+			animator.SetTrigger("isStartHandAttack");
+		}
+	}
 	public void Attack()
 	{
 		if (objectInHand != null)
@@ -61,8 +63,13 @@ public class WeaponHand : MonoBehaviour
 		}
 		else
 		{
+			animator.SetTrigger("isHandAttack");
 			Debug.Log("HandHit" + HandHitdamage);
 		}
+	}
+	public void CancelAction()
+	{
+		animator.SetTrigger("isCancelAction");
 	}
 
 	public void StartThrow()
@@ -80,6 +87,19 @@ public class WeaponHand : MonoBehaviour
 			animator.SetTrigger("isThrow");
 		}
 	}
+
+	public void ToggleAimView(bool isActive)
+	{
+		if (objectInHand != null && objectInHand is RangedWeapon)
+		{
+			//TODO
+		}
+		else
+		{
+			FovView.SetActive(isActive);
+		}
+	}
+
 	public void ReleaseThrow()
 	{
 		if (objectInHand != null)
@@ -88,6 +108,9 @@ public class WeaponHand : MonoBehaviour
 
 			throwForce = 0;
 			objectInHand = null;
+			fov.viewAngle = handHitAngle;
+			fov.viewRadius = handHitDistance;
+
 		}
 	}
 

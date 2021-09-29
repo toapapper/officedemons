@@ -72,7 +72,9 @@ public abstract class AbstractWeapon : MonoBehaviour
 		GetComponent<Rigidbody>().isKinematic = false;
 		isHeld = false;
 	}
-
+	//public virtual void DisplayAim() { }
+	//public virtual void DisplayFov(GameObject fovView) { }
+	public virtual void StartAttack(Animator animator) { }
 	public abstract void Attack(Animator animator);
 
 	public void ReleaseThrow(float force)
