@@ -10,9 +10,10 @@ public class WeaponHand : MonoBehaviour
 	[SerializeField]
 	private GameObject handObject;
 	private AbstractWeapon objectInHand;
-	private FieldOfView fov;
 	[SerializeField]
-	private GameObject FovView;
+	private FieldOfView FOV;
+	[SerializeField]
+	private GameObject FOVVisualization;
 	[SerializeField]
 	private float handHitDistance = 1.5f;
 	private float handHitAngle = 100f;
@@ -30,9 +31,8 @@ public class WeaponHand : MonoBehaviour
 	{
 		actions = GetComponent<Actions>();
 		animator = GetComponent<Animator>();
-		fov = GetComponent<FieldOfView>();
-		fov.viewRadius = handHitDistance;
-		fov.viewAngle = handHitAngle;
+		FOV.viewRadius = handHitDistance;
+		FOV.viewAngle = handHitAngle;
 	}
 
 	public void Equip(GameObject newObject)
@@ -40,10 +40,10 @@ public class WeaponHand : MonoBehaviour
 		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
 		objectInHand.GetComponentInChildren<Collider>().enabled = false;
-		fov.viewAngle = objectInHand.ViewAngle;
-		fov.viewRadius = objectInHand.ViewDistance;
+		FOV.viewAngle = objectInHand.ViewAngle;
+		FOV.viewRadius = objectInHand.ViewDistance;
 	}
-	//TODO
+
 	public void StartAttack()
 	{
 		if (objectInHand != null)
@@ -72,20 +72,24 @@ public class WeaponHand : MonoBehaviour
 		animator.SetTrigger("isCancelAction");
 	}
 
-	public void StartThrow()
+	public bool StartThrow()
 	{
 		if (objectInHand != null)
 		{
 			animator.SetTrigger("isAimThrow");
+			return true;
 		}
+		return false;
 	}
-	public void Throw(float throwForce)
+	public bool Throw(float throwForce)
 	{
 		if (objectInHand != null)
 		{
 			this.throwForce = throwForce;
 			animator.SetTrigger("isThrow");
+			return true;
 		}
+		return false;
 	}
 	public void ToggleAimView(bool isActive)
 	{
@@ -95,7 +99,7 @@ public class WeaponHand : MonoBehaviour
 		}
 		else
 		{
-			FovView.SetActive(isActive);
+			FOVVisualization.SetActive(isActive);
 		}
 	}
 
@@ -108,9 +112,8 @@ public class WeaponHand : MonoBehaviour
 
 			throwForce = 0;
 			objectInHand = null;
-			fov.viewAngle = handHitAngle;
-			fov.viewRadius = handHitDistance;
-
+			FOV.viewAngle = handHitAngle;
+			FOV.viewRadius = handHitDistance;
 		}
 	}
 

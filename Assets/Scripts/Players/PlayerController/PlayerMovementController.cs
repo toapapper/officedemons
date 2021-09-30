@@ -62,7 +62,7 @@ public class PlayerMovementController : MonoBehaviour
 	//Pickup
 	public void PerformPickup()
 	{
-		if (weaponHand != null && nearbyObjects.Count > 0)
+		if (/*weaponHand != null && */nearbyObjects.Count > 0)
 		{
 			foreach (GameObject nearbyObject in nearbyObjects)
 			{
@@ -79,28 +79,30 @@ public class PlayerMovementController : MonoBehaviour
 	//Throw
 	public bool StartThrow()
 	{
-		if (weaponHand != null)
-		{
-			weaponHand.StartThrow();
-			return true;
-		}
-		return false;
+		return weaponHand.StartThrow();
 	}
 	public bool PerformThrow()
 	{
-		if (weaponHand != null)
+		if (weaponHand.Throw(addedThrowForce))
 		{
-			weaponHand.Throw(addedThrowForce);
 			isWeaponEquipped = false;
 			addedThrowForce = 0;
 			return true;
 		}
 		return false;
+		//if (weaponHand != null)
+		//{
+		//	weaponHand.Throw(addedThrowForce);
+		//	isWeaponEquipped = false;
+		//	addedThrowForce = 0;
+		//	return true;
+		//}
+		//return false;
 	}
 	public void CancelThrow()
 	{
-		//TODO
-		//weaponHand.CancelThrow();
+		//weaponHand.CancelAction();
+		addedThrowForce = 0;
 	}
 	public void AddThrowForce()
 	{
@@ -113,24 +115,27 @@ public class PlayerMovementController : MonoBehaviour
 	//Attack
 	public void StartAttack()
 	{
-		if (weaponHand != null)
-		{
-			weaponHand.StartAttack();
-		}
+		//if (weaponHand != null)
+		//{
+		//	weaponHand.StartAttack();
+		//}
+		weaponHand.StartAttack();
 	}
 	public void PerformAttack()
 	{
-		if (weaponHand != null)
-		{
-			weaponHand.Attack();
-		}
+		//if (weaponHand != null)
+		//{
+		//	weaponHand.Attack();
+		//}
+		weaponHand.Attack();
 	}
-	public void CancelAttack()
+	public void CancelWeaponAction()
 	{
-		if (weaponHand != null)
-		{
-			weaponHand.CancelAction();
-		}
+		//if (weaponHand != null)
+		//{
+		//	weaponHand.CancelAction();
+		//}
+		weaponHand.CancelAction();
 	}
 
 	//Special attack
@@ -150,7 +155,7 @@ public class PlayerMovementController : MonoBehaviour
 		//	specialHand.PerformSpecial();
 		//}
 	}
-	public void CancelSpecial()
+	public void CancelSpecialAction()
 	{
 		////TODO
 		//if ((specialWeaponHand != null)

@@ -56,11 +56,23 @@ public class CombatTurnState : AbstractPlayerState
 			}
 			else
 			{
+				switch (ChosenAction)
+				{
+					case TypeOfAction.ATTACK:
+						playerMovement.ToggleWeaponAimView(false);
+						break;
+					case TypeOfAction.SPECIALATTACK:
+						//TODO
+						//playerMovement.ToggleSpecialAimView(false);
+						break;
+					case TypeOfAction.THROW:
+						//TODO
+						//playerMovement.ToggleThrowAimView(false);
+						break;
+				}
 				IsActionTriggered = false;
 				IsActionLocked = true;
-				playerMovement.ToggleWeaponAimView(false);
 			}
-
 		}
 	}
 	//Special Action
@@ -81,18 +93,19 @@ public class CombatTurnState : AbstractPlayerState
 				{
 					case TypeOfAction.ATTACK:
 						playerMovement.ToggleWeaponAimView(false);
-						playerMovement.CancelAttack();
+						playerMovement.CancelWeaponAction();
 						break;
 					case TypeOfAction.SPECIALATTACK:
-						playerMovement.CancelSpecial();
+						playerMovement.ToggleSpecialAimView(false);
+						playerMovement.CancelSpecialAction();
 						break;
 					case TypeOfAction.THROW:
-						playerMovement.CancelThrow();
+						//TODO
+						//playerMovement.ToggleThrowAimView(false);
+						playerMovement.CancelWeaponAction();
 						break;
 					case TypeOfAction.REVIVE:
 						playerMovement.CancelRevive();
-						break;
-					case TypeOfAction.NOACTION:
 						break;
 				}
 				ChosenAction = TypeOfAction.NOACTION;
