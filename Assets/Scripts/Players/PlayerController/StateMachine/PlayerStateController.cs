@@ -8,22 +8,26 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class PlayerStateController : MonoBehaviour
 {
-    private PlayerStateContext playerContext;
+    public IPlayerState CurrentState
+    {
+        get;
+        set;
+    }
+
     private Dictionary<PlayerStates, IPlayerState> states;
 
-    private int playerNr;
 
-    public void StartOutOfCombat() => playerContext.MakeStateTransistion(states[PlayerStates.OUTOFCOMBAT]);
-    public void StartCombat() => playerContext.MakeStateTransistion(states[PlayerStates.ENTERCOMBAT]);
-    public void StartTurn() => playerContext.MakeStateTransistion(states[PlayerStates.COMBATTURN]);
-    public void StartCombatAction() => playerContext.MakeStateTransistion(states[PlayerStates.COMBATACTION]);
-    public void StartWaitForTurn() => playerContext.MakeStateTransistion(states[PlayerStates.COMBATWAIT]);
-    public void Die() => playerContext.MakeStateTransistion(states[PlayerStates.DEAD]);
+    public void StartOutOfCombat() => MakeStateTransistion(states[PlayerStates.OUTOFCOMBAT]);
+    public void StartCombat() => MakeStateTransistion(states[PlayerStates.ENTERCOMBAT]);
+    public void StartTurn() => MakeStateTransistion(states[PlayerStates.COMBATTURN]);
+    public void StartCombatAction() => MakeStateTransistion(states[PlayerStates.COMBATACTION]);
+    public void StartWaitForTurn() => MakeStateTransistion(states[PlayerStates.COMBATWAIT]);
+    public void Die() => MakeStateTransistion(states[PlayerStates.DEAD]);
 
     private void Awake()
     {
         SetupStates();
-        playerContext = new PlayerStateContext(states[PlayerStates.OUTOFCOMBAT]);
+        CurrentState = states[PlayerStates.OUTOFCOMBAT];
     }
 
 	void OnEnable()
@@ -32,7 +36,6 @@ public class PlayerStateController : MonoBehaviour
 			PlayerManager.players = new List<GameObject>();
 
 		PlayerManager.players.Add(this.gameObject);
-		playerNr = PlayerManager.players.Count;
 	}
 
 	private void SetupStates()
@@ -47,27 +50,32 @@ public class PlayerStateController : MonoBehaviour
 		states.Add(PlayerStates.DEAD, gameObject.AddComponent<DeadState>());
 	}
 
-
+    public void MakeStateTransistion(IPlayerState playerStateTo)
+    {
+        CurrentState.OnStateExit();
+        CurrentState = playerStateTo;
+        CurrentState.OnStateEnter();
+    }
     public void OnMove(CallbackContext context)
     {
-        playerContext.OnMove(context);
+        CurrentState.OnMove(context);
     }
-    public void OnAttack(CallbackContext context)
+    public void OnAttack()
     {
-        playerContext.OnAttack(context);
+        CurrentState.OnAttack();
     }
-    public void OnSpecial(CallbackContext context)
+    public void OnSpecial()
     {
-        playerContext.OnSpecial(context);
+        CurrentState.OnSpecial();
     }
     public void OnPickupThrow(CallbackContext context)
     {
-        playerContext.OnPickupThrow(context);
+        CurrentState.OnPickupThrow(context);
     }
     public void OnRevive(CallbackContext context)
     {
-        playerContext.OnRevive(context);
+        CurrentState.OnRevive(context);
     }
 
-    private void FixedUpdate() => playerContext.FixedUpdateContext();
+    private void FixedUpdate() => CurrentState.OnFixedUpdateState();
 }

@@ -9,7 +9,7 @@ public class WeaponHand : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject handObject;
-	private AbstractWeapon objectInHand;
+	public AbstractWeapon objectInHand;
 	[SerializeField]
 	private FieldOfView FOV;
 	[SerializeField]

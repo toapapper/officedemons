@@ -41,10 +41,16 @@ public class PlayerMovementController : MonoBehaviour
 	private int maxHealthMark = 100;
 	private int lowestHealth;
 
-	//Helper variables
+	////Helper variables
 	private List<GameObject> nearbyObjects = new List<GameObject>();
 	private List<GameObject> nearbyPlayers = new List<GameObject>();
 	public bool isWeaponEquipped;
+
+	public Vector3 MoveDirection
+	{
+		get { return moveDirection; }
+		set { moveDirection = value; }
+	}
 
 
 	private void Awake()
@@ -112,58 +118,6 @@ public class PlayerMovementController : MonoBehaviour
 		}
 	}
 
-	//Attack
-	public void StartAttack()
-	{
-		//if (weaponHand != null)
-		//{
-		//	weaponHand.StartAttack();
-		//}
-		weaponHand.StartAttack();
-	}
-	public void PerformAttack()
-	{
-		//if (weaponHand != null)
-		//{
-		//	weaponHand.Attack();
-		//}
-		weaponHand.Attack();
-	}
-	public void CancelWeaponAction()
-	{
-		//if (weaponHand != null)
-		//{
-		//	weaponHand.CancelAction();
-		//}
-		weaponHand.CancelAction();
-	}
-
-	//Special attack
-	public void StartSpecial()
-	{
-		////TODO
-		//if ((specialHand != null)
-		//{
-		//	specialHand.StartSpecial();
-		//}
-	}
-	public void PerformSpecial()
-	{
-		////TODO
-		//if ((specialHand != null)
-		//{
-		//	specialHand.PerformSpecial();
-		//}
-	}
-	public void CancelSpecialAction()
-	{
-		////TODO
-		//if ((specialWeaponHand != null)
-		//{
-		//	specialHand.CancelSpecial();
-		//}
-	}
-
 	//Revive
 	public bool StartRevive()
 	{
@@ -198,30 +152,6 @@ public class PlayerMovementController : MonoBehaviour
 
 	}
 
-	//Toggle Aim
-	public void ToggleWeaponAimView(bool isActive)
-	{
-		if(weaponHand != null)
-		{
-			weaponHand.ToggleAimView(isActive);
-		}
-	}
-	public void ToggleSpecialAimView(bool isActive)
-	{
-		//TODO
-		//if (specialHand != null)
-		//{
-		//	specialHand.ToggleAimView(isActive);
-		//}
-	}
-	public void ToggeThrowAimView(bool isActive)
-	{
-		if (weaponHand != null)
-		{
-			//TODO
-			//weaponHand.ToggeThrowAimView(isActive);
-		}
-	}
 
 	////Heal
 	//public bool StartHeal()
@@ -317,7 +247,7 @@ public class PlayerMovementController : MonoBehaviour
 		{
 			nearbyObjects.Add(other.gameObject);
 		}
-		else if(other.gameObject.tag == "Player")
+		else if (other.gameObject.tag == "Player")
 		{
 			nearbyPlayers.Add(other.gameObject);
 		}
@@ -328,7 +258,7 @@ public class PlayerMovementController : MonoBehaviour
 		{
 			nearbyObjects.Remove(other.gameObject);
 		}
-		else if(other.gameObject.tag == "Player")
+		else if (other.gameObject.tag == "Player")
 		{
 			nearbyPlayers.Remove(other.gameObject);
 		}

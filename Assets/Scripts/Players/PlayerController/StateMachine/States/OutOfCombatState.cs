@@ -14,21 +14,15 @@ public class OutOfCombatState : AbstractPlayerState
         playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
     }
     //Attack action
-    public override void OnAttack(CallbackContext context)
+    public override void OnAttack()
 	{
-		if (context.performed)
-		{
-            playerMovement.PerformAttack();
-        }
+        weaponHand.Attack();
     }
     //Special action
-    public override void OnSpecial(CallbackContext context)
+    public override void OnSpecial()
     {
         //TODO
-        //if (context.performed)
-        //{
-        //    playerMovement.PerformSpecial();
-        //}
+        //specialHand.Attack();
     }
     //Pickup/Throw action
     public override void OnPickupThrow(CallbackContext context)

@@ -10,6 +10,7 @@ using static UnityEngine.InputSystem.InputAction;
 public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 {
 	protected PlayerMovementController playerMovement;
+    protected WeaponHand weaponHand;
     protected Attributes attributes;//ossian o jonas
     protected CharacterController characterController;
 
@@ -36,7 +37,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         get { return isActionTriggered; }
         set { isActionTriggered = value; }
     }
-    protected bool IsActionLocked
+    public bool IsActionLocked
     {
         get { return isActionLocked; }
         set { isActionLocked = value; }
@@ -56,14 +57,15 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     {
 		ChosenAction = TypeOfAction.NOACTION;
 		playerMovement = GetComponent<PlayerMovementController>();
+        weaponHand = GetComponent<WeaponHand>();
 
         attributes = GetComponent<Attributes>();//ossian o jonas
         characterController = GetComponent<CharacterController>();
     }
 
     public abstract void OnMove(CallbackContext context);
-    public abstract void OnAttack(CallbackContext context);
-    public abstract void OnSpecial(CallbackContext context);
+    public abstract void OnAttack();
+    public abstract void OnSpecial();
     public abstract void OnPickupThrow(CallbackContext context);
     public abstract void OnRevive(CallbackContext context);
 

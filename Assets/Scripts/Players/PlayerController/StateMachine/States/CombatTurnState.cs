@@ -43,14 +43,14 @@ public class CombatTurnState : AbstractPlayerState
 	}
 
 	//Attack Action
-	public override void OnAttack(CallbackContext context)
+	public override void OnAttack()
 	{
-		if (context.performed && !IsActionLocked)
+		if (!IsActionLocked)
 		{
 			if (!IsActionTriggered)
 			{
-				playerMovement.ToggleWeaponAimView(true);
-				playerMovement.StartAttack();
+				weaponHand.ToggleAimView(true);
+				weaponHand.StartAttack();
 				ChosenAction = TypeOfAction.ATTACK;
 				IsActionTriggered = true;
 			}
@@ -59,7 +59,7 @@ public class CombatTurnState : AbstractPlayerState
 				switch (ChosenAction)
 				{
 					case TypeOfAction.ATTACK:
-						playerMovement.ToggleWeaponAimView(false);
+						weaponHand.ToggleAimView(false);
 						break;
 					case TypeOfAction.SPECIALATTACK:
 						//TODO
@@ -76,14 +76,15 @@ public class CombatTurnState : AbstractPlayerState
 		}
 	}
 	//Special Action
-	public override void OnSpecial(CallbackContext context)
+	public override void OnSpecial()
 	{
 		//TODO
-		if (context.performed && !IsActionLocked)
+		if (!IsActionLocked)
 		{
 			if (!IsActionTriggered)
 			{
-				playerMovement.StartSpecial();
+				//specialHand.ToggleAimView(true);
+				//specialHand.StartAttack();
 				ChosenAction = TypeOfAction.SPECIALATTACK;
 				IsActionTriggered = true;
 			}
@@ -92,17 +93,18 @@ public class CombatTurnState : AbstractPlayerState
 				switch (ChosenAction)
 				{
 					case TypeOfAction.ATTACK:
-						playerMovement.ToggleWeaponAimView(false);
-						playerMovement.CancelWeaponAction();
+						weaponHand.ToggleAimView(false);
+						weaponHand.CancelAction();
 						break;
 					case TypeOfAction.SPECIALATTACK:
-						playerMovement.ToggleSpecialAimView(false);
-						playerMovement.CancelSpecialAction();
+						//TODO
+						//specialHand.ToggleAimView(false);
+						//specialHand.CancelAction();
 						break;
 					case TypeOfAction.THROW:
 						//TODO
 						//playerMovement.ToggleThrowAimView(false);
-						playerMovement.CancelWeaponAction();
+						weaponHand.CancelAction();
 						break;
 					case TypeOfAction.REVIVE:
 						playerMovement.CancelRevive();
@@ -198,7 +200,7 @@ public class CombatTurnState : AbstractPlayerState
 
 	public override void OnStateExit()
 	{
-		playerMovement.ToggleWeaponAimView(false);
+		weaponHand.ToggleAimView(false);
 		IsActionLocked = false;
 		IsActionTriggered = false;
 		IsAddingThrowForce = false;

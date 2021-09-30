@@ -9,9 +9,10 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public interface IPlayerState
 {
+    bool IsActionLocked { get; set; }
     void OnMove(CallbackContext context);
-    void OnAttack(CallbackContext context);
-    void OnSpecial(CallbackContext context);
+    void OnAttack();
+    void OnSpecial();
     void OnPickupThrow(CallbackContext context);
     void OnRevive(CallbackContext context);
     void OnFixedUpdateState();
