@@ -5,17 +5,21 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-	[SerializeField]
+    [SerializeField]
     public static List<GameObject> players;
 
-	[SerializeField]
-	GameObject viciousVicky;
-	[SerializeField]
-	GameObject terribleTim;
-	[SerializeField]
-	GameObject susanTheDestroyer;
-	[SerializeField]
-	GameObject devin;
+    [SerializeField]
+    GameObject viciousVicky;
+    [SerializeField]
+    GameObject terribleTim;
+    [SerializeField]
+    GameObject susanTheDestroyer;
+    [SerializeField]
+    GameObject devin;
+
+    public static PlayerManager instance;
+
+    private Queue<GameObject> actions;
 
 
     //Extremt fult implementerade allihopa, men men.. Ossian som har skrivit allt detta f�rresten om ni inte pallar kolla i github efter vem som skrivit detta f�nster vars enda utsikt �r en gr� kyrkog�rd i form av kod.
@@ -48,6 +52,7 @@ public class PlayerManager : MonoBehaviour
     public void BeginTurn()
     {
         Debug.Log("Begin turn");
+        actions.Clear();
         foreach (GameObject p in players)
         {
             p.GetComponent<PlayerStateController>().StartTurn();
@@ -66,8 +71,13 @@ public class PlayerManager : MonoBehaviour
         foreach (GameObject p in players)
         {
             Debug.Log(p.ToString());
-            p.GetComponent<PlayerStateController>().StartCombatAction();//borde antagligen göra actions och så istället
+            p.GetComponent<PlayerStateController>().StartWaitForTurn();//borde antagligen göra actions och så istället
             //p.GetComponent<PlayerStateController>().StartWaitForTurn();//borde antagligen göra actions och så istället
+        }
+        while (actions.Count > 0)
+        {
+            Debug.LogError("Queue object: " + actions.Peek());
+            actions.Dequeue().GetComponent<PlayerStateController>().StartCombatAction();
         }
 
         //foreach player forcibly endTurn
@@ -76,5 +86,14 @@ public class PlayerManager : MonoBehaviour
         //Beh�ver ett s�tt f�r spelet att veta n�r spelarna har gjort f�rdigt sina rundor ocks�.
     }
 
+    private void Start()
+    {
+        instance = this;
+        actions = new Queue<GameObject>();
+    }
 
+    public void ActionDone(GameObject player)
+    {
+        actions.Enqueue(player);
+    }
 }

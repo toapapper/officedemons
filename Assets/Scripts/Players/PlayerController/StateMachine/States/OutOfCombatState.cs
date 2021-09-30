@@ -108,6 +108,7 @@ public class OutOfCombatState : AbstractPlayerState
     public override void OnStateEnter()
     {
         Debug.Log("Enters OutOfCombatState" + this);
+        Debug.LogWarning("Reset action");
         ChosenAction = TypeOfAction.NOACTION;
     }
 

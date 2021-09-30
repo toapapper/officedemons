@@ -59,6 +59,8 @@ public class CombatTurnState : AbstractPlayerState
 				IsActionTriggered = false;
 				IsActionLocked = true;
 				playerMovement.ToggleWeaponAimView(false);
+				Debug.Log("Chosenaction: " + ChosenAction);
+				PlayerManager.instance.ActionDone(gameObject);
 			}
 
 		}
@@ -95,6 +97,7 @@ public class CombatTurnState : AbstractPlayerState
 					case TypeOfAction.NOACTION:
 						break;
 				}
+				Debug.LogWarning("Reset action");
 				ChosenAction = TypeOfAction.NOACTION;
 				IsActionTriggered = false;
 			}
@@ -186,6 +189,10 @@ public class CombatTurnState : AbstractPlayerState
 	public override void OnStateExit()
 	{
 		playerMovement.ToggleWeaponAimView(false);
+   //     if (IsActionLocked || IsActionTriggered)
+   //     {
+			//PlayerManager.instance.ActionDone(gameObject);
+   //     }
 		IsActionLocked = false;
 		IsActionTriggered = false;
 		IsAddingThrowForce = false;
