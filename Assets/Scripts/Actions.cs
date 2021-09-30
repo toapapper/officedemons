@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Actions : MonoBehaviour
 {
@@ -8,9 +9,9 @@ public class Actions : MonoBehaviour
 	Attributes attributes;
 	CharacterController cc;
 	FieldOfView fov;
-
-	// Start is called before the first frame update
-	void Start()
+    
+    // Start is called before the first frame update
+    void Start()
 	{
 		attributes = GetComponent<Attributes>();
 		cc = GetComponent<CharacterController>();
@@ -55,7 +56,6 @@ public class Actions : MonoBehaviour
 				Attributes targetAttributes = target.GetComponent<Attributes>();
 				targetAttributes.Health -= abstractWeapon.Damage;
 			}
-
 		}
 	}
 
@@ -89,4 +89,15 @@ public class Actions : MonoBehaviour
 		Attributes targetAttributes = target.GetComponent<Attributes>();
 		targetAttributes.Health = targetAttributes.StartHealth;
 	}
+
+    void MoveTowards(NavMeshAgent agent, NavMeshAgent target)
+    {
+        //if agent.stamina != 0
+        float agentStamina = agent.gameObject.GetComponent<Attributes>().Stamina;
+
+        if (agentStamina > 0)
+        {
+            agent.SetDestination(target.transform.position);
+        }
+    }
 }

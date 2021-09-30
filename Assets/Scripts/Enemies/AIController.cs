@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// Decisions are made and the corresponding action is called
+
 public class AIController : MonoBehaviour
 {
     FieldOfView fov;
@@ -12,6 +14,7 @@ public class AIController : MonoBehaviour
 
     [SerializeField]
     private Animator animator;
+    private PlayerStateController stateController;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +23,7 @@ public class AIController : MonoBehaviour
 		actions = GetComponent<Actions>();
 		agent = GetComponent<NavMeshAgent>();
         objectInHand = GetComponent<AbstractWeapon>();
+       
     }
 
     // Update is called once per frame
