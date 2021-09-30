@@ -189,11 +189,13 @@ public class CombatTurnState : AbstractPlayerState
 	public override void OnStateExit()
 	{
 		playerMovement.ToggleWeaponAimView(false);
-   //     if (IsActionLocked || IsActionTriggered)
-   //     {
-			//PlayerManager.instance.ActionDone(gameObject);
-   //     }
-		IsActionLocked = false;
+        
+		if (IsActionTriggered && !IsActionLocked)
+        {
+			PlayerManager.instance.ActionDone(gameObject);
+		}
+
+        IsActionLocked = false;
 		IsActionTriggered = false;
 		IsAddingThrowForce = false;
 		Debug.Log("Exits CombatTurnState" + this);

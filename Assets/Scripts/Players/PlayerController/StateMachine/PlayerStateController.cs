@@ -24,6 +24,7 @@ public class PlayerStateController : MonoBehaviour
     {
         SetupStates();
         playerContext = new PlayerStateContext(states[PlayerStates.OUTOFCOMBAT]);
+		PlayerManager.players.Add(this.gameObject);
     }
 
 	void OnEnable()
@@ -31,7 +32,6 @@ public class PlayerStateController : MonoBehaviour
 		if (PlayerManager.players == null)
 			PlayerManager.players = new List<GameObject>();
 
-		PlayerManager.players.Add(this.gameObject);
 		playerNr = PlayerManager.players.Count;
 	}
 
