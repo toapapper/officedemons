@@ -80,7 +80,7 @@ public class Actions : MonoBehaviour
 		{
 			//Disable Movement
 			//Play death animation
-			// bool targetIsDead so it's not targetet and attacked again while dead 
+			//bool targetIsDead so it's not targetet and attacked again while dead 
 		}
 	}
 

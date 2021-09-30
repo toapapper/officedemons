@@ -19,6 +19,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.AI;
 
 public enum CombatState
 {
@@ -39,6 +40,8 @@ public class GameManager : MonoBehaviour
     public float roundTimer { get; private set; } = 0;
     public Encounter currentEncounter { get; private set; }
     public bool enemiesTurnDone = false;
+
+    
 
     /// <summary> DONT TOUCH, unless you want the rounds to go quicker of course </summary>
     [Header("Settings")]
@@ -80,7 +83,6 @@ public class GameManager : MonoBehaviour
                 roundTimer = RoundTime;
             }
         }
-
     }
 
     public void StartEncounter(Encounter encounter)
@@ -130,6 +132,4 @@ public class GameManager : MonoBehaviour
 
         paused = false;
     }
-    
-   
 }

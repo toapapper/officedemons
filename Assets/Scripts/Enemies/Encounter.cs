@@ -12,6 +12,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 [RequireComponent(typeof(BoxCollider))]
@@ -19,6 +20,10 @@ public class Encounter : MonoBehaviour
 {
     //[HideInInspector]
     public List<GameObject> enemies;
+
+    
+    
+    public List<NavMeshAgent> navMeshAgents;
 
     private bool myTurn = false;
     private int currentEnemysTurn = 0;
@@ -31,7 +36,11 @@ public class Encounter : MonoBehaviour
             GameObject child = transform.GetChild(i).gameObject;
             if (child.CompareTag("Enemy"))
                 enemies.Add(child);
+
+            navMeshAgents.Add(child.GetComponent<NavMeshAgent>()); ///// FRÅGA JONAS OCH OSSIAN
         }
+
+        
     }
 
     private void Update()

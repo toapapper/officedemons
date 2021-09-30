@@ -10,11 +10,20 @@ public class AIController : MonoBehaviour
     FieldOfView fov;
 	Actions actions;
 	NavMeshAgent agent;
-    private AbstractWeapon objectInHand;
 
     [SerializeField]
     private Animator animator;
     private PlayerStateController stateController;
+
+    AIStates.States currentState;
+
+    public AIStates.States CurrentState
+    {
+        get { return currentState; }
+        set { currentState = value; }
+    }
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -22,27 +31,17 @@ public class AIController : MonoBehaviour
         fov = GetComponent<FieldOfView>();
 		actions = GetComponent<Actions>();
 		agent = GetComponent<NavMeshAgent>();
-        objectInHand = GetComponent<AbstractWeapon>();
-       
+        CurrentState = AIStates.States.Unassigned;
     }
 
     // Update is called once per frame
     void Update()
     {
-        List<GameObject> targetList = fov.visibleTargets;
+        // Check currentState and call corresponding Action
 
-        if (targetList.Count > 0)
-        {
-			//objectInHand.Hit(animator);
-			//actions.Attack(objectInHand);
+        // if currentState == MOve eller Unnasigned, FindCover, kalla på AIStateHandler
 
-			MoveToTarget(targetList);
-        }
     }
 
-    public void MoveToTarget(List<GameObject> targetList)
-    {
-        GameObject target = targetList[targetList.Count - 1];
-        agent.SetDestination(target.transform.position);
-    }
+    
 }
