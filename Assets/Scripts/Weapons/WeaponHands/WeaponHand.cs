@@ -39,9 +39,9 @@ public class WeaponHand : MonoBehaviour
 	{
 		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
+		objectInHand.GetComponentInChildren<Collider>().enabled = false;
 		fov.viewAngle = objectInHand.ViewAngle;
 		fov.viewRadius = objectInHand.ViewDistance;
-		
 	}
 	//TODO
 	public void StartAttack()
@@ -87,7 +87,6 @@ public class WeaponHand : MonoBehaviour
 			animator.SetTrigger("isThrow");
 		}
 	}
-
 	public void ToggleAimView(bool isActive)
 	{
 		if (objectInHand != null && objectInHand is RangedWeapon)
@@ -104,6 +103,7 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand != null)
 		{
+			objectInHand.GetComponentInChildren<Collider>().enabled = true;
 			objectInHand.ReleaseThrow(throwForce);
 
 			throwForce = 0;
