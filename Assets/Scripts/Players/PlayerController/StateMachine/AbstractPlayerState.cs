@@ -13,20 +13,19 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     protected Attributes attributes;//ossian o jonas
     protected CharacterController characterController;
 
-    private Array typeOfActions;
+    private TypeOfAction typeOfActions;
 
     private bool isActionTriggered;
     private bool isActionLocked;
-    private bool isThrowing;
     private bool isAddingThrowForce;
-    private Enum chosenAction;
+    private static Enum chosenAction;
     private bool isStaminaDepleted;
 
-    protected Array TypeOfActions
+    protected TypeOfAction TypeOfActions
 	{
         get { return typeOfActions; }
-        set { typeOfActions = value; }
-    }
+		set { typeOfActions = value; }
+	}
     protected Enum ChosenAction
 	{
         get { return chosenAction; }
@@ -42,11 +41,6 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         get { return isActionLocked; }
         set { isActionLocked = value; }
     }
-    protected bool IsThrowing
-    {
-        get { return isThrowing; }
-        set { isThrowing = value; }
-    }
     protected bool IsAddingThrowForce
     {
         get { return isAddingThrowForce; }
@@ -60,8 +54,8 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 
     private void Awake()
     {
-        typeOfActions = Enum.GetValues(typeof(TypeOfAction));
-        playerMovement = GetComponent<PlayerMovementController>();
+		ChosenAction = TypeOfAction.NOACTION;
+		playerMovement = GetComponent<PlayerMovementController>();
 
         attributes = GetComponent<Attributes>();//ossian o jonas
         characterController = GetComponent<CharacterController>();
