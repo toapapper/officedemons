@@ -8,5 +8,9 @@ using UnityEngine.AI;
 /// </summary>
 public abstract class RangedWeapon : AbstractWeapon
 {
-    public override abstract void Attack(Animator animator);
+	public override void StartAttack(Animator animator)
+	{
+		animator.SetTrigger("isStartRangedSingleShot");
+	}
+	public override abstract void Attack(Animator animator);
 }

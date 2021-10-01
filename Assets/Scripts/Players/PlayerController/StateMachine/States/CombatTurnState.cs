@@ -8,69 +8,10 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class CombatTurnState : AbstractPlayerState
 {
-	//Move action
-	public override void OnMove(CallbackContext context)
-	{
-		playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
-	}
-	//Attack Action
-	public override void OnAttack(CallbackContext context)
-	{
-		if (context.performed && !IsActionLocked)
-		{
-			if (!IsActionTriggered)
-			{
-				playerMovement.StartAttack();
-				ChosenAction = TypeOfAction.ATTACK;
-				IsActionTriggered = true;
-			}
-			else
-			{
-				IsActionTriggered = false;
-				IsActionLocked = true;
-			}
-
-		}
-	}
-	//Special Action
-	public override void OnSpecial(CallbackContext context)
-	{
-		//TODO
-		if (context.performed && !IsActionLocked)
-		{
-			if (!IsActionTriggered)
-			{
-				playerMovement.StartSpecial();
-				ChosenAction = TypeOfAction.SPECIALATTACK;
-				IsActionTriggered = true;
-			}
-			else
-			{
-				switch (ChosenAction)
-				{
-					case TypeOfAction.ATTACK:
-						playerMovement.CancelAttack();
-						break;
-					case TypeOfAction.SPECIALATTACK:
-						playerMovement.CancelSpecial();
-						break;
-					case TypeOfAction.THROW:
-						playerMovement.CancelThrow();
-						break;
-					case TypeOfAction.REVIVE:
-						playerMovement.CancelRevive();
-						break;
-					case TypeOfAction.NOACTION:
-						break;
-				}
-				IsActionTriggered = false;
-			}
-		}
-	}
 	//Pickup/Throw action
 	public override void OnPickupThrow(CallbackContext context)
 	{
-		if(!IsActionLocked)
+		if (!IsActionLocked)
 		{
 			if (!playerMovement.isWeaponEquipped)
 			{
@@ -100,6 +41,66 @@ public class CombatTurnState : AbstractPlayerState
 			}
 		}
 	}
+
+	//Attack Action
+	public override void OnAttack(CallbackContext context)
+	{
+		if (context.performed && !IsActionLocked)
+		{
+			if (!IsActionTriggered)
+			{
+				playerMovement.ToggleWeaponAimView(true);
+				playerMovement.StartAttack();
+				ChosenAction = TypeOfAction.ATTACK;
+				IsActionTriggered = true;
+			}
+			else
+			{
+				IsActionTriggered = false;
+				IsActionLocked = true;
+				playerMovement.ToggleWeaponAimView(false);
+			}
+
+		}
+	}
+	//Special Action
+	public override void OnSpecial(CallbackContext context)
+	{
+		//TODO
+		if (context.performed && !IsActionLocked)
+		{
+			if (!IsActionTriggered)
+			{
+				playerMovement.StartSpecial();
+				ChosenAction = TypeOfAction.SPECIALATTACK;
+				IsActionTriggered = true;
+			}
+			else
+			{
+				switch (ChosenAction)
+				{
+					case TypeOfAction.ATTACK:
+						playerMovement.ToggleWeaponAimView(false);
+						playerMovement.CancelAttack();
+						break;
+					case TypeOfAction.SPECIALATTACK:
+						playerMovement.CancelSpecial();
+						break;
+					case TypeOfAction.THROW:
+						playerMovement.CancelThrow();
+						break;
+					case TypeOfAction.REVIVE:
+						playerMovement.CancelRevive();
+						break;
+					case TypeOfAction.NOACTION:
+						break;
+				}
+				ChosenAction = TypeOfAction.NOACTION;
+				IsActionTriggered = false;
+			}
+		}
+	}
+
 	//Revive action
 	public override void OnRevive(CallbackContext context)
 	{
@@ -135,6 +136,11 @@ public class CombatTurnState : AbstractPlayerState
 	//	}
 	//}
 
+	//Move action
+	public override void OnMove(CallbackContext context)
+	{
+		playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
+	}
 
 	public override void OnFixedUpdateState()
 	{
@@ -173,12 +179,16 @@ public class CombatTurnState : AbstractPlayerState
 
 	public override void OnStateEnter()
 	{
-		attributes.Stamina = attributes.StartStamina;
 		Debug.Log("Enters CombatTurnState" + this);
+		attributes.Stamina = attributes.StartStamina;
 	}
 
 	public override void OnStateExit()
 	{
+		playerMovement.ToggleWeaponAimView(false);
+		IsActionLocked = false;
+		IsActionTriggered = false;
+		IsAddingThrowForce = false;
 		Debug.Log("Exits CombatTurnState" + this);
 	}
 }

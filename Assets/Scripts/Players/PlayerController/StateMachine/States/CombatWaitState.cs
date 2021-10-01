@@ -16,11 +16,11 @@ public class CombatWaitState : AbstractPlayerState
 
 	public override void OnStateEnter()
 	{
-		Debug.Log("Enters OutOfCombatState" + this);
+		Debug.Log("Enters CombatWaitState" + this);
 	}
 
 	public override void OnStateExit()
 	{
-		Debug.Log("Exits OutOfCombatState" + this);
+		Debug.Log("Exits CombatWaitState" + this);
 	}
 }

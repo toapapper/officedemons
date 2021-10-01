@@ -16,11 +16,13 @@ public class DeadState : AbstractPlayerState
 
 	public override void OnStateEnter()
 	{
-		Debug.Log("Enters OutOfCombatState" + this);
+		Debug.Log("Enters DeadState" + this);
+		//Die animation
+
 	}
 
 	public override void OnStateExit()
 	{
-		Debug.Log("Exits OutOfCombatState" + this);
+		Debug.Log("Exits DeadState" + this);
 	}
 }

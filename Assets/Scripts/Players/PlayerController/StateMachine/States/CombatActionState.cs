@@ -16,7 +16,7 @@ public class CombatActionState : AbstractPlayerState
 
 	public override void OnStateEnter()
 	{
-		Debug.Log("Enters OutOfCombatState" + this);
+		Debug.Log("Enters CombatActionState" + this);
 		switch (ChosenAction)
 		{
 			case TypeOfAction.ATTACK:

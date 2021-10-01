@@ -58,62 +58,22 @@ public class PlayerMovementController : MonoBehaviour
         weaponHand = GetComponent<WeaponHand>();
         //specialHand = GetComponent<SpecialHand>();
     }
-	//Movement
-	public void SetMoveDirection(Vector2 moveInput)
-	{
-		moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
-	}
 
-	//Attack
-	public void StartAttack()
+	//Pickup
+	public void PerformPickup()
 	{
-		if (weaponHand != null)
+		if (weaponHand != null && nearbyObjects.Count > 0)
 		{
-			//TODO
-			//weaponHand.StartAttack();
+			foreach (GameObject nearbyObject in nearbyObjects)
+			{
+				if (!nearbyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
+				{
+					weaponHand.Equip(nearbyObject);
+					isWeaponEquipped = true;
+					break;
+				}
+			}
 		}
-	}
-	public void PerformAttack()
-	{
-		if (weaponHand != null)
-		{
-			weaponHand.Attack();
-			CancelAttack();
-		}
-	}
-	public void CancelAttack()
-	{
-		if (weaponHand != null)
-		{
-			//TODO
-			//weaponHand.CancelAttack();
-		}
-	}
-
-	//Special attack
-	public void StartSpecial()
-	{
-		////TODO
-		//if ((specialWeaponHand != null)
-		//{
-		//	specialWeaponHand.StartSpecial();
-		//}
-	}
-	public void PerformSpecial()
-	{
-		////TODO
-		//if ((specialWeaponHand != null)
-		//{
-		//	specialWeaponHand.PerformSpecial();
-		//}
-	}
-	public void CancelSpecial()
-	{
-		////TODO
-		//if ((specialWeaponHand != null)
-		//{
-		//	specialWeaponHand.CancelSpecial();
-		//}
 	}
 
 	//Throw
@@ -144,79 +104,59 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public void AddThrowForce()
 	{
-		if(addedThrowForce <= maxThrowForce)
+		if (addedThrowForce <= maxThrowForce)
 		{
 			addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
 		}
 	}
 
-	//Pickup
-	public void PerformPickup()
+	//Attack
+	public void StartAttack()
 	{
-		if (weaponHand != null && nearbyObjects.Count > 0)
+		if (weaponHand != null)
 		{
-			foreach (GameObject nearbyObject in nearbyObjects)
-			{
-				if (!nearbyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
-				{
-					weaponHand.Equip(nearbyObject);
-					isWeaponEquipped = true;
-					break;
-				}
-			}
+			weaponHand.StartAttack();
+		}
+	}
+	public void PerformAttack()
+	{
+		if (weaponHand != null)
+		{
+			weaponHand.Attack();
+		}
+	}
+	public void CancelAttack()
+	{
+		if (weaponHand != null)
+		{
+			weaponHand.CancelAction();
 		}
 	}
 
-	//Heal
-	public bool StartHeal()
+	//Special attack
+	public void StartSpecial()
 	{
-		if (GetComponent<Attributes>().Health < GetComponent<Attributes>().StartHealth)
-		{
-			return true;
-		}
-		if (nearbyPlayers.Count > 0)
-		{
-			foreach (GameObject nearbyPlayer in nearbyPlayers)
-			{
-				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health < GetComponent<Attributes>().StartHealth)
-				{
-					return true;
-				}
-			}
-		}
-		return false;
+		////TODO
+		//if ((specialHand != null)
+		//{
+		//	specialHand.StartSpecial();
+		//}
 	}
-	public void PerformHeal()
+	public void PerformSpecial()
 	{
-		GameObject playerToHeal = null;
-		if (GetComponent<Attributes>().Health < GetComponent<Attributes>().StartHealth)
-		{
-			playerToHeal = gameObject;
-			lowestHealth = GetComponent<Attributes>().Health;
-		}
-		else
-		{
-			lowestHealth = GetComponent<Attributes>().StartHealth;
-		}
-		if (nearbyPlayers.Count > 0)
-		{
-			foreach (GameObject nearbyPlayer in nearbyPlayers)
-			{
-				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health < lowestHealth)
-				{
-					playerToHeal = nearbyPlayer;
-					lowestHealth = nearbyPlayer.GetComponentInChildren<Attributes>().Health;
-				}
-			}
-		}
-		if (playerToHeal != null)
-		{
-			Debug.Log("Heal player " + playerToHeal.name);
-		}
+		////TODO
+		//if ((specialHand != null)
+		//{
+		//	specialHand.PerformSpecial();
+		//}
 	}
-	public void CancelHeal()
+	public void CancelSpecial()
 	{
-
+		////TODO
+		//if ((specialWeaponHand != null)
+		//{
+		//	specialHand.CancelSpecial();
+		//}
 	}
 
 	//Revive
@@ -253,9 +193,89 @@ public class PlayerMovementController : MonoBehaviour
 
 	}
 
+	//Toggle Aim
+	public void ToggleWeaponAimView(bool isActive)
+	{
+		if(weaponHand != null)
+		{
+			weaponHand.ToggleAimView(isActive);
+		}
+	}
+	public void ToggleSpecialAimView(bool isActive)
+	{
+		//TODO
+		//if (specialHand != null)
+		//{
+		//	specialHand.ToggleAimView(isActive);
+		//}
+	}
+	public void ToggeThrowAimView(bool isActive)
+	{
+		if (weaponHand != null)
+		{
+			//TODO
+			//weaponHand.ToggeThrowAimView(isActive);
+		}
+	}
 
+	////Heal
+	//public bool StartHeal()
+	//{
+	//	if (GetComponent<Attributes>().Health < GetComponent<Attributes>().StartHealth)
+	//	{
+	//		return true;
+	//	}
+	//	if (nearbyPlayers.Count > 0)
+	//	{
+	//		foreach (GameObject nearbyPlayer in nearbyPlayers)
+	//		{
+	//			if (nearbyPlayer.GetComponentInChildren<Attributes>().Health < GetComponent<Attributes>().StartHealth)
+	//			{
+	//				return true;
+	//			}
+	//		}
+	//	}
+	//	return false;
+	//}
+	//public void PerformHeal()
+	//{
+	//	GameObject playerToHeal = null;
+	//	if (GetComponent<Attributes>().Health < GetComponent<Attributes>().StartHealth)
+	//	{
+	//		playerToHeal = gameObject;
+	//		lowestHealth = GetComponent<Attributes>().Health;
+	//	}
+	//	else
+	//	{
+	//		lowestHealth = GetComponent<Attributes>().StartHealth;
+	//	}
+	//	if (nearbyPlayers.Count > 0)
+	//	{
+	//		foreach (GameObject nearbyPlayer in nearbyPlayers)
+	//		{
+	//			if (nearbyPlayer.GetComponentInChildren<Attributes>().Health < lowestHealth)
+	//			{
+	//				playerToHeal = nearbyPlayer;
+	//				lowestHealth = nearbyPlayer.GetComponentInChildren<Attributes>().Health;
+	//			}
+	//		}
+	//	}
+	//	if (playerToHeal != null)
+	//	{
+	//		Debug.Log("Heal player " + playerToHeal.name);
+	//	}
+	//}
+	//public void CancelHeal()
+	//{
 
+	//}
 
+	//Set Movement
+	public void SetMoveDirection(Vector2 moveInput)
+	{
+		moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+	}
+	//Calculate movement
 	public Quaternion CalculateRotation()
 	{
 		if(moveDirection != Vector3.zero)
@@ -264,15 +284,16 @@ public class PlayerMovementController : MonoBehaviour
 		}
 		return rotationDirection;
 	}
-	public void PerformRotation()
-	{
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotationDirection, rotationSpeed * Time.fixedDeltaTime);
-	}
 	public Vector3 CalculateMovement()
 	{
 		Vector3 targetMoveAmount = moveDirection * moveSpeed;
 		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
 		return moveAmount;
+	}
+	//Perform movement
+	public void PerformRotation()
+	{
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotationDirection, rotationSpeed * Time.fixedDeltaTime);
 	}
 	public void PerformMovement()
 	{

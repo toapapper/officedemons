@@ -62,10 +62,10 @@ public class OutOfCombatState : AbstractPlayerState
     //Revive action
 	public override void OnRevive(CallbackContext context)
 	{
-		if (context.performed)
-		{
-            throw new System.NotImplementedException();
-        }
+		//if (context.performed)
+		//{
+  //          throw new System.NotImplementedException();
+  //      }
 	}
     //Heal action
     //   public override void OnHeal(CallbackContext context)
@@ -108,10 +108,16 @@ public class OutOfCombatState : AbstractPlayerState
     public override void OnStateEnter()
     {
         Debug.Log("Enters OutOfCombatState" + this);
+        ChosenAction = TypeOfAction.NOACTION;
     }
 
     public override void OnStateExit()
     {
+        if (IsAddingThrowForce)
+        {
+            playerMovement.CancelThrow();
+            IsAddingThrowForce = false;
+        }
         Debug.Log("Exits OutOfCombatState" + this);
     }
 }
