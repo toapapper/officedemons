@@ -69,7 +69,6 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     public abstract void OnSpecial();
     public abstract void OnPickUp(GameObject weapon);
     public abstract void OnThrow(CallbackContext context);
-    //public abstract void OnPickupThrow(CallbackContext context);
     public abstract void OnRevive(CallbackContext context);
 
 	public abstract void OnFixedUpdateState();

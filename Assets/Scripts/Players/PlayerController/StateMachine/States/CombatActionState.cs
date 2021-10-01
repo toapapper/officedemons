@@ -5,7 +5,6 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class CombatActionState : AbstractPlayerState
 {
-	//public override void OnMove(CallbackContext context) { }
 	public override void LockAction() { }
 	public override void CancelAction() { }
 	public override void OnAttack() { }
