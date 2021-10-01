@@ -24,6 +24,7 @@ public enum CombatState
 {
     none,
     player,
+    playerActions,
     enemy
 }
 
@@ -40,10 +41,27 @@ public class GameManager : MonoBehaviour
     public Encounter currentEncounter { get; private set; }
     public bool enemiesTurnDone = false;
 
+
+    public bool playerActionsDone = false;
+
+    public List<GameObject> stillCheckList;
+    
+    [SerializeField]
+    private bool allStill = false;
+    public bool AllStill
+    {
+        get { return allStill; }
+        set { allStill = value; }
+    }
+
     /// <summary> DONT TOUCH, unless you want the rounds to go quicker of course </summary>
     [Header("Settings")]
     public int RoundTime = 10;//seconds
-    
+
+    /// <summary>
+    /// för att testa så den väntar tills allt står stilla innan den går vidare i rundan
+    /// </summary>
+    public GameObject testCube;
 
     public PlayerManager playerManager { get; private set; }
     
@@ -52,6 +70,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        //stillCheckList = new List<GameObject>();
+        stillCheckList.AddRange(PlayerManager.players);
         Instance = this;
         roundTimer = RoundTime;
     }
@@ -59,13 +79,46 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //är alla/allt stilla-check
+        AllStill = true;
+        foreach(GameObject gObject in stillCheckList)
+        {
+            if (gObject.CompareTag("Player"))
+            {
+                if(gObject.GetComponent<CharacterController>().velocity.magnitude > 0)
+                {
+                    AllStill = false;
+                }
+            }
+            else if (gObject.CompareTag("test"))//ENDAST FÖR ATT TESTA
+            {
+                if(gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
+                {
+                    AllStill = false;
+                }
+            }
+            //else if projektil eller fiende eller whatever
+        }
+
         if(combatState == CombatState.player)
         {
             roundTimer -= Time.deltaTime;
             if(roundTimer <= 0)
             {
-                combatState = CombatState.enemy;
+                playerActionsDone = false;
+                combatState = CombatState.playerActions;
+
+                if(testCube != null)//TEST
+                    testCube.GetComponent<Rigidbody>().AddForce(testCube.transform.up * 1000);
+
                 playerManager.EndTurn();
+            }
+        }
+        else if(combatState == CombatState.playerActions)
+        {
+            if (playerActionsDone)
+            {
+                combatState = CombatState.enemy;
                 currentEncounter.EnemiesTurn();
                 enemiesTurnDone = false;
             }
