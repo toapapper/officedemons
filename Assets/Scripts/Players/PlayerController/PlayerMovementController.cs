@@ -13,10 +13,6 @@ public class PlayerMovementController : MonoBehaviour
     private WeaponHand weaponHand;
 	//private SpecialHand specialHand;
 
-	//World transform variables
-	private Vector3 forward;
-	private Vector3 right;
-
 	//Movement variables
 	private Vector3 moveDirection = Vector3.zero;
 	private Vector3 moveAmount = Vector3.zero;
@@ -41,57 +37,41 @@ public class PlayerMovementController : MonoBehaviour
 	private int maxHealthMark = 100;
 	private int lowestHealth;
 
-	//Helper variables
-	private List<GameObject> nearbyObjects = new List<GameObject>();
-	private List<GameObject> nearbyPlayers = new List<GameObject>();
-	public bool isWeaponEquipped;
+
+	public Vector3 MoveDirection
+	{
+		get { return moveDirection; }
+		set { moveDirection = value; }
+	}
+	public Vector3 MoveAmount
+	{
+		get { return moveAmount; }
+		set { moveAmount = value; }
+	}
+	//public bool IsStaminaDepleted
+	//{
+	//	get { return attributes.Stamina <= 0; }
+	//}
 
 
 	private void Awake()
 	{
-		forward = Camera.main.transform.forward;
-		forward.y = 0;
-		forward.Normalize();
-		right = new Vector3(forward.z, 0, -forward.x);
-
 		character = GetComponent<CharacterController>();
         weaponHand = GetComponent<WeaponHand>();
         //specialHand = GetComponent<SpecialHand>();
     }
 
-	//Pickup
-	public void PerformPickup()
-	{
-		if (weaponHand != null && nearbyObjects.Count > 0)
-		{
-			foreach (GameObject nearbyObject in nearbyObjects)
-			{
-				if (!nearbyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
-				{
-					weaponHand.Equip(nearbyObject);
-					isWeaponEquipped = true;
-					break;
-				}
-			}
-		}
-	}
+	//public void SetMoveDirection(Vector2 moveInput)
+	//{
+	//	moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+	//}
 
-	//Throw
-	public bool StartThrow()
-	{
-		if (weaponHand != null)
-		{
-			weaponHand.StartThrow();
-			return true;
-		}
-		return false;
-	}
+	//TODO Added force to player input
 	public bool PerformThrow()
 	{
-		if (weaponHand != null)
+		if (weaponHand.Throw(addedThrowForce))
 		{
-			weaponHand.Throw(addedThrowForce);
-			isWeaponEquipped = false;
+			//isWeaponEquipped = false;
 			addedThrowForce = 0;
 			return true;
 		}
@@ -99,8 +79,8 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public void CancelThrow()
 	{
-		//TODO
-		//weaponHand.CancelThrow();
+		weaponHand.CancelAction();
+		addedThrowForce = 0;
 	}
 	public void AddThrowForce()
 	{
@@ -110,114 +90,62 @@ public class PlayerMovementController : MonoBehaviour
 		}
 	}
 
-	//Attack
-	public void StartAttack()
+	//Calculate movement
+	public Quaternion CalculateRotation()
 	{
-		if (weaponHand != null)
+		if(moveDirection != Vector3.zero)
 		{
-			weaponHand.StartAttack();
+			rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up);
 		}
+		return rotationDirection;
 	}
-	public void PerformAttack()
+	public Vector3 CalculateMovement()
 	{
-		if (weaponHand != null)
-		{
-			weaponHand.Attack();
-		}
+		Vector3 targetMoveAmount = moveDirection * moveSpeed;
+		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
+		return moveAmount;
 	}
-	public void CancelAttack()
+	//Perform movement
+	public void PerformRotation()
 	{
-		if (weaponHand != null)
-		{
-			weaponHand.CancelAction();
-		}
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotationDirection, rotationSpeed * Time.fixedDeltaTime);
+	}
+	public void PerformMovement()
+	{
+		character.Move(moveAmount * Time.fixedDeltaTime);
+	}
+	public void PerformFall()
+	{
+		character.Move(Vector3.down * Time.fixedDeltaTime);
 	}
 
-	//Special attack
-	public void StartSpecial()
-	{
-		////TODO
-		//if ((specialHand != null)
-		//{
-		//	specialHand.StartSpecial();
-		//}
-	}
-	public void PerformSpecial()
-	{
-		////TODO
-		//if ((specialHand != null)
-		//{
-		//	specialHand.PerformSpecial();
-		//}
-	}
-	public void CancelSpecial()
-	{
-		////TODO
-		//if ((specialWeaponHand != null)
-		//{
-		//	specialHand.CancelSpecial();
-		//}
-	}
 
-	//Revive
-	public bool StartRevive()
-	{
-		if (nearbyPlayers.Count > 0)
-		{
-			foreach (GameObject nearbyPlayer in nearbyPlayers)
-			{
-				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	public void PerformRevive()
-	{
-		if (nearbyPlayers.Count > 0)
-		{
-			foreach (GameObject nearbyPlayer in nearbyPlayers)
-			{
-				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
-				{
-					Debug.Log("Revive player " + nearbyPlayer.name);
-					GetComponent<Actions>().Revive(nearbyPlayer);
-					return;
-				}
-			}
-		}
-	}
-	public void CancelRevive()
-	{
 
-	}
 
-	//Toggle Aim
-	public void ToggleWeaponAimView(bool isActive)
-	{
-		if(weaponHand != null)
-		{
-			weaponHand.ToggleAimView(isActive);
-		}
-	}
-	public void ToggleSpecialAimView(bool isActive)
-	{
-		//TODO
-		//if (specialHand != null)
-		//{
-		//	specialHand.ToggleAimView(isActive);
-		//}
-	}
-	public void ToggeThrowAimView(bool isActive)
-	{
-		if (weaponHand != null)
-		{
-			//TODO
-			//weaponHand.ToggeThrowAimView(isActive);
-		}
-	}
+	//private void OnTriggerEnter(Collider other)
+	//{
+	//	if (other.gameObject.tag == "WeaponObject")
+	//	{
+	//		nearbyObjects.Add(other.gameObject);
+	//	}
+	//	else if (other.gameObject.tag == "Player")
+	//	{
+	//		nearbyPlayers.Add(other.gameObject);
+	//	}
+	//}
+	//private void OnTriggerExit(Collider other)
+	//{
+	//	if (other.gameObject.tag == "WeaponObject")
+	//	{
+	//		nearbyObjects.Remove(other.gameObject);
+	//	}
+	//	else if (other.gameObject.tag == "Player")
+	//	{
+	//		nearbyPlayers.Remove(other.gameObject);
+	//	}
+	//}
+
+
 
 	////Heal
 	//public bool StartHeal()
@@ -271,63 +199,4 @@ public class PlayerMovementController : MonoBehaviour
 
 	//}
 
-	//Set Movement
-	public void SetMoveDirection(Vector2 moveInput)
-	{
-		moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
-	}
-	//Calculate movement
-	public Quaternion CalculateRotation()
-	{
-		if(moveDirection != Vector3.zero)
-		{
-			rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up);
-		}
-		return rotationDirection;
-	}
-	public Vector3 CalculateMovement()
-	{
-		Vector3 targetMoveAmount = moveDirection * moveSpeed;
-		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
-		return moveAmount;
-	}
-	//Perform movement
-	public void PerformRotation()
-	{
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotationDirection, rotationSpeed * Time.fixedDeltaTime);
-	}
-	public void PerformMovement()
-	{
-		character.Move(moveAmount * Time.fixedDeltaTime);
-	}
-	public void PerformFall()
-	{
-		character.Move(Vector3.down * Time.fixedDeltaTime);
-	}
-
-
-
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject.tag == "WeaponObject")
-		{
-			if(!nearbyObjects.Contains(other.gameObject))
-				nearbyObjects.Add(other.gameObject);
-		}
-		else if(other.gameObject.tag == "Player")
-		{
-			nearbyPlayers.Add(other.gameObject);
-		}
-	}
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.gameObject.tag == "WeaponObject")
-		{
-			nearbyObjects.Remove(other.gameObject);
-		}
-		else if(other.gameObject.tag == "Player")
-		{
-			nearbyPlayers.Remove(other.gameObject);
-		}
-	}
 }

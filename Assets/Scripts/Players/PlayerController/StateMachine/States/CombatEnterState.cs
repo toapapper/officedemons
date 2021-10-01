@@ -5,11 +5,15 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class CombatEnterState : AbstractPlayerState
 {
-	public override void OnMove(CallbackContext context) { }
-	public override void OnAttack(CallbackContext context) { }
-	public override void OnSpecial(CallbackContext context) { }
-	public override void OnPickupThrow(CallbackContext context) { }
-	public override void OnRevive(CallbackContext context) { }
+	//public override void OnMove(CallbackContext context) { }
+	public override void LockAction() { }
+	public override void CancelAction() { }
+	public override void OnAttack() { }
+	public override void OnSpecial() { }
+	public override void OnPickUp(GameObject weapon) { }
+	public override void OnStartThrow() { }
+	public override void OnThrow() { }
+	public override void OnRevive(GameObject player) { }
 
 	public override void OnFixedUpdateState() { }
 
