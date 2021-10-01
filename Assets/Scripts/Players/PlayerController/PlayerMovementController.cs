@@ -311,7 +311,8 @@ public class PlayerMovementController : MonoBehaviour
 	{
 		if (other.gameObject.tag == "WeaponObject")
 		{
-			nearbyObjects.Add(other.gameObject);
+			if(!nearbyObjects.Contains(other.gameObject))
+				nearbyObjects.Add(other.gameObject);
 		}
 		else if(other.gameObject.tag == "Player")
 		{
