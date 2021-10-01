@@ -17,9 +17,9 @@ public interface IPlayerState
 	void OnAttack();
     void OnSpecial();
     void OnPickUp(GameObject weapon);
-	void OnThrow(CallbackContext context);
-	//void OnPickupThrow(CallbackContext context);
-    void OnRevive(CallbackContext context);
+    void OnStartThrow();
+	void OnThrow();
+    void OnRevive(GameObject player);
     void OnFixedUpdateState();
     void OnStateExit();
     void OnStateEnter();

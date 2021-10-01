@@ -22,6 +22,8 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     private TypeOfAction chosenAction;
     private bool isStaminaDepleted;
 
+    private GameObject playerToRevive;
+
     protected TypeOfAction TypeOfActions
 	{
         get { return typeOfActions; }
@@ -51,6 +53,11 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     {
         get { return attributes.Stamina <= 0; }
     }
+    public GameObject PlayerToRevive
+	{
+        get { return playerToRevive; }
+        set { playerToRevive = value; }
+    }
 
     private void Awake()
     {
@@ -69,8 +76,9 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 	public abstract void OnAttack();
     public abstract void OnSpecial();
     public abstract void OnPickUp(GameObject weapon);
-    public abstract void OnThrow(CallbackContext context);
-    public abstract void OnRevive(CallbackContext context);
+    public abstract void OnStartThrow();
+    public abstract void OnThrow();
+    public abstract void OnRevive(GameObject player);
 
 	public abstract void OnFixedUpdateState();
 

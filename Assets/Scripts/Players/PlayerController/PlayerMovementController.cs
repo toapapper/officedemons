@@ -8,15 +8,10 @@ using UnityEngine;
 /// </summary>
 public class PlayerMovementController : MonoBehaviour
 {
-	Attributes attributes;
     //Character movers
     private CharacterController character;
     private WeaponHand weaponHand;
 	//private SpecialHand specialHand;
-
-	//World transform variables
-	private Vector3 forward;
-	private Vector3 right;
 
 	//Movement variables
 	private Vector3 moveDirection = Vector3.zero;
@@ -42,78 +37,48 @@ public class PlayerMovementController : MonoBehaviour
 	private int maxHealthMark = 100;
 	private int lowestHealth;
 
-	////Helper variables
-	private List<GameObject> nearbyObjects = new List<GameObject>();
-	private List<GameObject> nearbyPlayers = new List<GameObject>();
-	public bool isWeaponEquipped;
 
 	public Vector3 MoveDirection
 	{
 		get { return moveDirection; }
 		set { moveDirection = value; }
 	}
-	public bool IsStaminaDepleted
+	public Vector3 MoveAmount
 	{
-		get { return attributes.Stamina <= 0; }
+		get { return moveAmount; }
+		set { moveAmount = value; }
 	}
+	//public bool IsStaminaDepleted
+	//{
+	//	get { return attributes.Stamina <= 0; }
+	//}
 
 
 	private void Awake()
 	{
-		attributes = GetComponent<Attributes>();
-		//forward = Camera.main.transform.forward;
-		//forward.y = 0;
-		//forward.Normalize();
-		//right = new Vector3(forward.z, 0, -forward.x);
-
 		character = GetComponent<CharacterController>();
         weaponHand = GetComponent<WeaponHand>();
         //specialHand = GetComponent<SpecialHand>();
     }
 
-	//Pickup
-	public void PerformPickup()
-	{
-		if (/*weaponHand != null && */nearbyObjects.Count > 0)
-		{
-			foreach (GameObject nearbyObject in nearbyObjects)
-			{
-				if (!nearbyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
-				{
-					weaponHand.Equip(nearbyObject);
-					isWeaponEquipped = true;
-					break;
-				}
-			}
-		}
-	}
+	//public void SetMoveDirection(Vector2 moveInput)
+	//{
+	//	moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+	//}
 
-	//Throw
-	public bool StartThrow()
-	{
-		return weaponHand.StartThrow();
-	}
 	public bool PerformThrow()
 	{
 		if (weaponHand.Throw(addedThrowForce))
 		{
-			isWeaponEquipped = false;
+			//isWeaponEquipped = false;
 			addedThrowForce = 0;
 			return true;
 		}
 		return false;
-		//if (weaponHand != null)
-		//{
-		//	weaponHand.Throw(addedThrowForce);
-		//	isWeaponEquipped = false;
-		//	addedThrowForce = 0;
-		//	return true;
-		//}
-		//return false;
 	}
 	public void CancelThrow()
 	{
-		//weaponHand.CancelAction();
+		weaponHand.CancelAction();
 		addedThrowForce = 0;
 	}
 	public void AddThrowForce()
@@ -124,39 +89,60 @@ public class PlayerMovementController : MonoBehaviour
 		}
 	}
 
-	//Revive
-	public bool StartRevive()
+	//Calculate movement
+	public Quaternion CalculateRotation()
 	{
-		if (nearbyPlayers.Count > 0)
+		if(moveDirection != Vector3.zero)
 		{
-			foreach (GameObject nearbyPlayer in nearbyPlayers)
-			{
-				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
-				{
-					return true;
-				}
-			}
+			rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up);
 		}
-		return false;
+		return rotationDirection;
 	}
-	public void PerformRevive()
+	public Vector3 CalculateMovement()
 	{
-		if (nearbyPlayers.Count > 0)
-		{
-			foreach (GameObject nearbyPlayer in nearbyPlayers)
-			{
-				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
-				{
-					Debug.Log("Revive player " + nearbyPlayer.name);
-					return;
-				}
-			}
-		}
+		Vector3 targetMoveAmount = moveDirection * moveSpeed;
+		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
+		return moveAmount;
 	}
-	public void CancelRevive()
+	//Perform movement
+	public void PerformRotation()
 	{
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotationDirection, rotationSpeed * Time.fixedDeltaTime);
+	}
+	public void PerformMovement()
+	{
+		character.Move(moveAmount * Time.fixedDeltaTime);
+	}
+	public void PerformFall()
+	{
+		character.Move(Vector3.down * Time.fixedDeltaTime);
+	}
 
-	}
+
+
+	//private void OnTriggerEnter(Collider other)
+	//{
+	//	if (other.gameObject.tag == "WeaponObject")
+	//	{
+	//		nearbyObjects.Add(other.gameObject);
+	//	}
+	//	else if (other.gameObject.tag == "Player")
+	//	{
+	//		nearbyPlayers.Add(other.gameObject);
+	//	}
+	//}
+	//private void OnTriggerExit(Collider other)
+	//{
+	//	if (other.gameObject.tag == "WeaponObject")
+	//	{
+	//		nearbyObjects.Remove(other.gameObject);
+	//	}
+	//	else if (other.gameObject.tag == "Player")
+	//	{
+	//		nearbyPlayers.Remove(other.gameObject);
+	//	}
+	//}
+
 
 
 	////Heal
@@ -210,63 +196,4 @@ public class PlayerMovementController : MonoBehaviour
 	//{
 
 	//}
-
-	//Set Movement
-	public void SetMoveDirection(Vector2 moveInput)
-	{
-		moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
-	}
-	//Calculate movement
-	public Quaternion CalculateRotation()
-	{
-		if(moveDirection != Vector3.zero)
-		{
-			rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up);
-		}
-		return rotationDirection;
-	}
-	public Vector3 CalculateMovement()
-	{
-		Vector3 targetMoveAmount = moveDirection * moveSpeed;
-		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
-		return moveAmount;
-	}
-	//Perform movement
-	public void PerformRotation()
-	{
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotationDirection, rotationSpeed * Time.fixedDeltaTime);
-	}
-	public void PerformMovement()
-	{
-		character.Move(moveAmount * Time.fixedDeltaTime);
-	}
-	public void PerformFall()
-	{
-		character.Move(Vector3.down * Time.fixedDeltaTime);
-	}
-
-
-
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject.tag == "WeaponObject")
-		{
-			nearbyObjects.Add(other.gameObject);
-		}
-		else if (other.gameObject.tag == "Player")
-		{
-			nearbyPlayers.Add(other.gameObject);
-		}
-	}
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.gameObject.tag == "WeaponObject")
-		{
-			nearbyObjects.Remove(other.gameObject);
-		}
-		else if (other.gameObject.tag == "Player")
-		{
-			nearbyPlayers.Remove(other.gameObject);
-		}
-	}
 }

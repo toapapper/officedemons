@@ -11,8 +11,9 @@ public class CombatWaitState : AbstractPlayerState
 	public override void OnAttack() { }
 	public override void OnSpecial() { }
 	public override void OnPickUp(GameObject weapon) { }
-	public override void OnThrow(CallbackContext context) { }
-	public override void OnRevive(CallbackContext context) { }
+	public override void OnStartThrow() { }
+	public override void OnThrow() { }
+	public override void OnRevive(GameObject player) { }
 
 	public override void OnFixedUpdateState() { }
 

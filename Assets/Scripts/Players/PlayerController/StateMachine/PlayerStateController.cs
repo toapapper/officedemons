@@ -27,19 +27,14 @@ public class PlayerStateController : MonoBehaviour
     private void Awake()
     {
         SetupStates();
-        playerContext = new PlayerStateContext(states[PlayerStates.OUTOFCOMBAT]);
-		PlayerManager.players.Add(this.gameObject);
+        CurrentState = states[PlayerStates.OUTOFCOMBAT];
+
+        if (PlayerManager.players == null)
+            PlayerManager.players = new List<GameObject>();
+        PlayerManager.players.Add(this.gameObject);
     }
 
-	void OnEnable()
-	{
-		if (PlayerManager.players == null)
-			PlayerManager.players = new List<GameObject>();
-
-		playerNr = PlayerManager.players.Count;
-	}
-
-	private void SetupStates()
+    private void SetupStates()
     {
         //Add all new states here.
         states = new Dictionary<PlayerStates, IPlayerState>();
@@ -81,13 +76,17 @@ public class PlayerStateController : MonoBehaviour
 	{
         CurrentState.OnPickUp(weapon);
     }
-    public void OnThrow(CallbackContext context)
+    public void OnStartThrow()
 	{
-        CurrentState.OnThrow(context);
+        CurrentState.OnStartThrow();
 	}
-    public void OnRevive(CallbackContext context)
+    public void OnThrow()
+	{
+        CurrentState.OnThrow();
+	}
+    public void OnRevive(GameObject player)
     {
-        CurrentState.OnRevive(context);
+        CurrentState.OnRevive(player);
     }
 
     private void FixedUpdate() => CurrentState.OnFixedUpdateState();

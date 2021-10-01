@@ -131,68 +131,38 @@ public class PlayerInputHandler : MonoBehaviour
 					}
 					else
 					{
-						player.OnThrow(context);
+						if (context.started)
+						{
+							player.OnStartThrow();
+						}
+						if (context.canceled)
+						{
+							player.OnThrow();
+						}
 					}
-					//	else
-					//	{
-					//		if (context.started)
-					//		{
-					//			player.StartThrow();
-					//		}
-					//		else if (context.canceled)
-					//		{
-					//			player.Throw(addedThrowForce);
-					//			addedThrowForce = 0f;
-					//		}
-					//	}
-
-
-					//player.OnPickupThrow(context);
 				}
 				else if (context.action.name == inputControls.PlayerMovement.Revive.name)
 				{
-					player.OnRevive(context);
+					if (context.performed)
+					{
+						if (nearbyPlayers.Count > 0)
+						{
+							foreach (GameObject nearbyPlayer in nearbyPlayers)
+							{
+								//if (nearbyPlayer.GetComponentInChildren<AbstractPlayerState>() is DeadState)
+								if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
+								{
+									player.OnRevive(nearbyPlayer);
+									return;
+								}
+							}
+						}
+					}
 				}
-				//else if (context.action.name == inputControls.PlayerMovement.PickUp.name)
-				//{
-				//	if (weaponHand.objectInHand == null)
-				//	{
-				//		if (context.canceled && nearbyObjects.Count > 0)
-				//		{
-				//			foreach (GameObject nearbyObject in nearbyObjects)
-				//			{
-				//				if (!nearbyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
-				//				{
-				//					player.PickUp(nearbyObject);
-				//					break;
-				//				}
-				//			}
-				//		}
-				//	}
-				//	else
-				//	{
-				//		if (context.started)
-				//		{
-				//			player.StartThrow();
-				//		}
-				//		else if (context.canceled)
-				//		{
-				//			player.Throw(addedThrowForce);
-				//			addedThrowForce = 0f;
-				//		}
-				//	}
-				//}
-				//else if (context.action.name == inputControls.PlayerMovement.Revive.name)
-				//{
-				//	if (context.performed)
-				//	{
-				//		player.OnRevive();
-				//	}
-				//}
 			}
-			else if (playerMovement.MoveDirection != Vector3.zero)
+			else if (playerMovement.MoveAmount != Vector3.zero)
 			{
-				playerMovement.MoveDirection = Vector3.zero;
+				playerMovement.MoveAmount = Vector3.zero;
 			}
 		}
 	}
@@ -202,11 +172,13 @@ public class PlayerInputHandler : MonoBehaviour
 	{
 		if (other.gameObject.tag == "WeaponObject")
 		{
-			nearbyObjects.Add(other.gameObject);
+			if(!nearbyObjects.Contains(other.gameObject))
+				nearbyObjects.Add(other.gameObject);
 		}
 		else if (other.gameObject.tag == "Player")
 		{
-			nearbyPlayers.Add(other.gameObject);
+			if (!nearbyPlayers.Contains(other.gameObject))
+				nearbyPlayers.Add(other.gameObject);
 		}
 	}
 	private void OnTriggerExit(Collider other)

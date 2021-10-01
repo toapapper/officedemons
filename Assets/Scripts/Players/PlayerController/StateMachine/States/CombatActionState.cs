@@ -10,8 +10,9 @@ public class CombatActionState : AbstractPlayerState
 	public override void OnAttack() { }
 	public override void OnSpecial() { }
 	public override void OnPickUp(GameObject weapon) { }
-	public override void OnThrow(CallbackContext context) { }
-	public override void OnRevive(CallbackContext context) { }
+	public override void OnStartThrow() { }
+	public override void OnThrow() { }
+	public override void OnRevive(GameObject player) { }
 
 	public override void OnFixedUpdateState() { }
 
@@ -31,7 +32,7 @@ public class CombatActionState : AbstractPlayerState
 				playerMovement.PerformThrow();
 				break;
 			case TypeOfAction.REVIVE:
-				playerMovement.PerformRevive();
+				GetComponent<CombatTurnState>().PlayerToRevive.GetComponentInChildren<Attributes>().Health = 100;
 				break;
 			case TypeOfAction.NOACTION:
 				break;
