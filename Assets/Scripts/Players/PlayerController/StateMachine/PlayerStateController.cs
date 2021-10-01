@@ -27,7 +27,8 @@ public class PlayerStateController : MonoBehaviour
     private void Awake()
     {
         SetupStates();
-        CurrentState = states[PlayerStates.OUTOFCOMBAT];
+        playerContext = new PlayerStateContext(states[PlayerStates.OUTOFCOMBAT]);
+		PlayerManager.players.Add(this.gameObject);
     }
 
 	void OnEnable()
@@ -35,12 +36,12 @@ public class PlayerStateController : MonoBehaviour
 		if (PlayerManager.players == null)
 			PlayerManager.players = new List<GameObject>();
 
-		PlayerManager.players.Add(this.gameObject);
+		playerNr = PlayerManager.players.Count;
 	}
 
 	private void SetupStates()
     {
-        //Add all new states here. 
+        //Add all new states here.
         states = new Dictionary<PlayerStates, IPlayerState>();
         states.Add(PlayerStates.OUTOFCOMBAT, gameObject.AddComponent<OutOfCombatState>());
 		states.Add(PlayerStates.ENTERCOMBAT, gameObject.AddComponent<CombatEnterState>());

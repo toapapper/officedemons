@@ -18,8 +18,8 @@ public class CombatActionState : AbstractPlayerState
 
 	public override void OnStateEnter()
 	{
-		Debug.Log("Enters CombatActionState" + this);
-		switch (ChosenAction)
+		Debug.Log("Enters CombatActionState" + this + " Action: " + GetComponent<CombatTurnState>().ChosenAction);
+		switch (GetComponent<CombatTurnState>().ChosenAction)
 		{
 			case TypeOfAction.ATTACK:
 				weaponHand.Attack();
@@ -36,11 +36,29 @@ public class CombatActionState : AbstractPlayerState
 			case TypeOfAction.NOACTION:
 				break;
 		}
-		ChosenAction = TypeOfAction.NOACTION;
+		Debug.LogWarning("Reset action");
+		GetComponent<CombatTurnState>().ChosenAction = TypeOfAction.NOACTION;
+
+		StartCoroutine("WaitDone");
 	}
+
+	IEnumerator WaitDone()
+    {
+		yield return new WaitForSeconds(1);
+        while (true)
+        {
+			Debug.Log("CombatActionState Coroutine");
+			if (GameManager.Instance.AllStill)
+			{
+				PlayerManager.doneEvent.Invoke();
+				StopCoroutine("WaitDone");
+			}
+			yield return null;
+        }
+    }
 
 	public override void OnStateExit()
 	{
-		Debug.Log("Exits OutOfCombatState" + this);
+		Debug.Log("Exits CombatActionState" + this);
 	}
 }
