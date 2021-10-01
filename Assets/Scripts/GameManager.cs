@@ -26,7 +26,8 @@ public enum CombatState
     none,
     player,
     playerActions,
-    enemy
+    enemy,
+    enemyActions
 }
 
 public class GameManager : MonoBehaviour
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
 
 
     public bool playerActionsDone = false;
+    public bool enemiesActionsDone = false;
 
     public List<GameObject> stillCheckList;
 
@@ -65,14 +67,17 @@ public class GameManager : MonoBehaviour
     public GameObject testCube;
 
     public PlayerManager playerManager { get; private set; }
+    public AIManager aiManager;
 
 
     // Start is called before the first frame update
     void Start()
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
         //stillCheckList = new List<GameObject>();
         stillCheckList.AddRange(PlayerManager.players);
+        //stillCheckList.AddRange();
         Instance = this;
         roundTimer = RoundTime;
     }
@@ -98,6 +103,13 @@ public class GameManager : MonoBehaviour
                     AllStill = false;
                 }
             }
+            else if (gObject.CompareTag("Enemy"))
+            {
+                if (gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
+                {
+                    AllStill = false;
+                }
+            }
             //else if projektil eller fiende eller whatever
         }
 
@@ -106,6 +118,7 @@ public class GameManager : MonoBehaviour
             roundTimer -= Time.deltaTime;
             if(roundTimer <= 0)
             {
+                Debug.Log("PLAYER MOVE DONE");
                 playerActionsDone = false;
                 combatState = CombatState.playerActions;
 
@@ -119,19 +132,38 @@ public class GameManager : MonoBehaviour
         {
             if (playerActionsDone)
             {
+                Debug.Log("PLAYER ACTIONS DONE");
                 combatState = CombatState.enemy;
-                currentEncounter.EnemiesTurn();
                 enemiesTurnDone = false;
+
+                //aiManager.BeginTurn();
             }
         }
         else if(combatState == CombatState.enemy)
         {
+            Debug.Log("INNE GAMEMANAGER CURRENTSTAE == ENEMY (MOVE)");
+            Debug.Log(aiManager);
+            aiManager.PerformTurn();
+
             if (enemiesTurnDone)
             {
-                playerManager.BeginTurn();
-                enemiesTurnDone = false;
-                combatState = CombatState.player;
+                Debug.Log("ENEMY MOVE DONE");
+                enemiesActionsDone = false;
+                combatState = CombatState.enemyActions;
                 roundTimer = RoundTime;
+
+            }
+        }
+        else if (combatState == CombatState.enemyActions)
+        {
+            //aiManager.PerformActions();
+
+            if (enemiesActionsDone)
+            {
+                Debug.Log("ENEMY ACTIONS DONE");
+                combatState = CombatState.player;
+                playerManager.BeginTurn();
+                enemiesTurnDone = true;
             }
         }
     }
@@ -182,5 +214,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
 
         paused = false;
+    }
+
+    public List<GameObject> GetPlayers()
+    {
+        return PlayerManager.players;
     }
 }

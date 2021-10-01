@@ -33,7 +33,7 @@ public class AIStateHandler : MonoBehaviour
         
     }
 
-    void ChangeState() // Kallas på om turn OCH om State == Move
+    public void UpdateState() // Kallas på om turn OCH om State == Move
     {
         //GameObject weapon = rightHand.transform.GetChild(0).gameObject;
         if (aiController.CurrentState == AIStates.States.Unassigned)
@@ -51,8 +51,9 @@ public class AIStateHandler : MonoBehaviour
         }
         else
         {
+            Debug.Log("HALLÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅ");
             // turn to player
-            
+
 
             if (fov.visibleTargets.Count > 0) // <- om target finns i line of sight för vapnet
             {
@@ -62,10 +63,12 @@ public class AIStateHandler : MonoBehaviour
             {
                 if (attributes.Stamina > 0)
                 {
+                    Debug.Log("MOVING");
                     aiController.CurrentState = AIStates.States.Move; // rör sig mot target tills man target finns i line of sight    // kanske ta hänsyn till sin stamina och då ta  ett annat beslut?
                 }
                 else
                 {
+                    Debug.Log("Stamina depleted");
                     aiController.CurrentState = AIStates.States.Wait;
                 }
             }

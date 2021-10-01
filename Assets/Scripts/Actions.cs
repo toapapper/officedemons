@@ -21,10 +21,7 @@ public class Actions : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (Mathf.Abs(cc.velocity.x) > 0 || Mathf.Abs(cc.velocity.y) > 0)
-		{
-			attributes.Stamina -= 1 * Time.deltaTime;
-		}
+		
 
 		if (attributes.Health <= 0)
 		{
@@ -70,7 +67,7 @@ public class Actions : MonoBehaviour
 		}
 	}
 
-	void Die()
+	public void Die()
 	{
 		if (this.tag == "Enemy")
 		{
@@ -84,13 +81,13 @@ public class Actions : MonoBehaviour
 		}
 	}
 
-	void Revive(GameObject target)
+	public void Revive(GameObject target)
 	{
 		Attributes targetAttributes = target.GetComponent<Attributes>();
 		targetAttributes.Health = targetAttributes.StartHealth;
 	}
 
-    void MoveTowards(NavMeshAgent agent, NavMeshAgent target)
+    public void MoveTowards(NavMeshAgent agent, GameObject target)
     {
         //if agent.stamina != 0
         float agentStamina = agent.gameObject.GetComponent<Attributes>().Stamina;
@@ -98,6 +95,13 @@ public class Actions : MonoBehaviour
         if (agentStamina > 0)
         {
             agent.SetDestination(target.transform.position);
+            agent.Move(agent.destination);
+
+            agentStamina -= 1 * Time.deltaTime;
+
+            
         }
+
+        
     }
 }
