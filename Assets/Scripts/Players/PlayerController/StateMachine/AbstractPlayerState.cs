@@ -32,7 +32,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         get { return chosenAction; }
         set { chosenAction = value; }
     }
-    protected bool IsActionTriggered
+    public bool IsActionTriggered
 	{
         get { return isActionTriggered; }
         set { isActionTriggered = value; }
@@ -47,8 +47,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         get { return isAddingThrowForce; }
         set { isAddingThrowForce = value; }
     }
-
-    protected bool IsStaminaDepleted
+    public bool IsStaminaDepleted
     {
         get { return attributes.Stamina <= 0; }
     }
@@ -63,10 +62,14 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         characterController = GetComponent<CharacterController>();
     }
 
-    public abstract void OnMove(CallbackContext context);
-    public abstract void OnAttack();
+    //public abstract void OnMove(CallbackContext context);
+    public abstract void LockAction();
+    public abstract void CancelAction();
+	public abstract void OnAttack();
     public abstract void OnSpecial();
-    public abstract void OnPickupThrow(CallbackContext context);
+    public abstract void OnPickUp(GameObject weapon);
+    public abstract void OnThrow(CallbackContext context);
+    //public abstract void OnPickupThrow(CallbackContext context);
     public abstract void OnRevive(CallbackContext context);
 
 	public abstract void OnFixedUpdateState();

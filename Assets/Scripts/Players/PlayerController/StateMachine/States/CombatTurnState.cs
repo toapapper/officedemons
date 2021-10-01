@@ -8,133 +8,145 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class CombatTurnState : AbstractPlayerState
 {
-	//Pickup/Throw action
-	public override void OnPickupThrow(CallbackContext context)
+	public override void LockAction()
 	{
-		if (!IsActionLocked)
+		switch (ChosenAction)
 		{
-			if (!playerMovement.isWeaponEquipped)
+			case TypeOfAction.ATTACK:
+				weaponHand.ToggleAimView(false);
+				break;
+			case TypeOfAction.SPECIALATTACK:
+				//TODO
+				//playerMovement.ToggleSpecialAimView(false);
+				break;
+			case TypeOfAction.THROW:
+				//TODO
+				//playerMovement.ToggleThrowAimView(false);
+				break;
+		}
+		IsActionLocked = true;
+	}
+	public override void CancelAction()
+	{
+		switch (ChosenAction)
+		{
+			case TypeOfAction.ATTACK:
+				weaponHand.ToggleAimView(false);
+				weaponHand.CancelAction();
+				break;
+			case TypeOfAction.SPECIALATTACK:
+				//TODO
+				//specialHand.ToggleAimView(false);
+				//specialHand.CancelAction();
+				break;
+			case TypeOfAction.THROW:
+				//TODO
+				//playerMovement.ToggleThrowAimView(false);
+				weaponHand.CancelAction();
+				break;
+			case TypeOfAction.REVIVE:
+				playerMovement.CancelRevive();
+				break;
+		}
+		ChosenAction = TypeOfAction.NOACTION;
+		IsActionTriggered = false;
+	}
+	//PickUp
+	public override void OnPickUp(GameObject weapon)
+	{
+		if (!IsActionTriggered)
+		{
+			weaponHand.Equip(weapon);
+		}
+	}
+	//Throw
+	public override void OnThrow(CallbackContext context)
+	{
+		if (context.started && !IsActionTriggered)
+		{
+			if (weaponHand.StartThrow())
 			{
-				if (!IsActionTriggered && context.canceled)
-				{
-					playerMovement.PerformPickup();
-				}
+				ChosenAction = TypeOfAction.THROW;
+				IsActionTriggered = true;
+				IsAddingThrowForce = true;
 			}
-			else
+		}
+		else if (context.canceled && IsActionTriggered)
+		{
+			if (IsAddingThrowForce)
 			{
-				if (context.started && !IsActionTriggered)
-				{
-					if (playerMovement.StartThrow())
-					{
-						ChosenAction = TypeOfAction.THROW;
-						IsActionTriggered = true;
-						IsAddingThrowForce = true;
-					}
-				}
-				else if (context.canceled && IsActionTriggered)
-				{
-					if (IsAddingThrowForce)
-					{
-						IsAddingThrowForce = false;
-					}
-				}
+				IsAddingThrowForce = false;
 			}
 		}
 	}
 
+
+	//Pickup/Throw action
+	//public override void OnPickupThrow(CallbackContext context)
+	//{
+	//	if (!playerMovement.isWeaponEquipped)
+	//	{
+	//		if (!IsActionTriggered && context.canceled)
+	//		{
+	//			playerMovement.PerformPickup();
+	//		}
+	//	}
+	//	else
+	//	{
+	//		if (context.started && !IsActionTriggered)
+	//		{
+	//			if (playerMovement.StartThrow())
+	//			{
+	//				ChosenAction = TypeOfAction.THROW;
+	//				IsActionTriggered = true;
+	//				IsAddingThrowForce = true;
+	//			}
+	//		}
+	//		else if (context.canceled && IsActionTriggered)
+	//		{
+	//			if (IsAddingThrowForce)
+	//			{
+	//				IsAddingThrowForce = false;
+	//			}
+	//		}
+	//	}
+	//}
+
 	//Attack Action
 	public override void OnAttack()
 	{
-		if (!IsActionLocked)
-		{
-			if (!IsActionTriggered)
-			{
-				weaponHand.ToggleAimView(true);
-				weaponHand.StartAttack();
-				ChosenAction = TypeOfAction.ATTACK;
-				IsActionTriggered = true;
-			}
-			else
-			{
-				switch (ChosenAction)
-				{
-					case TypeOfAction.ATTACK:
-						weaponHand.ToggleAimView(false);
-						break;
-					case TypeOfAction.SPECIALATTACK:
-						//TODO
-						//playerMovement.ToggleSpecialAimView(false);
-						break;
-					case TypeOfAction.THROW:
-						//TODO
-						//playerMovement.ToggleThrowAimView(false);
-						break;
-				}
-				IsActionTriggered = false;
-				IsActionLocked = true;
-			}
-		}
+		weaponHand.ToggleAimView(true);
+		weaponHand.StartAttack();
+		ChosenAction = TypeOfAction.ATTACK;
+		IsActionTriggered = true;
 	}
 	//Special Action
 	public override void OnSpecial()
 	{
 		//TODO
-		if (!IsActionLocked)
-		{
-			if (!IsActionTriggered)
-			{
-				//specialHand.ToggleAimView(true);
-				//specialHand.StartAttack();
-				ChosenAction = TypeOfAction.SPECIALATTACK;
-				IsActionTriggered = true;
-			}
-			else
-			{
-				switch (ChosenAction)
-				{
-					case TypeOfAction.ATTACK:
-						weaponHand.ToggleAimView(false);
-						weaponHand.CancelAction();
-						break;
-					case TypeOfAction.SPECIALATTACK:
-						//TODO
-						//specialHand.ToggleAimView(false);
-						//specialHand.CancelAction();
-						break;
-					case TypeOfAction.THROW:
-						//TODO
-						//playerMovement.ToggleThrowAimView(false);
-						weaponHand.CancelAction();
-						break;
-					case TypeOfAction.REVIVE:
-						playerMovement.CancelRevive();
-						break;
-				}
-				ChosenAction = TypeOfAction.NOACTION;
-				IsActionTriggered = false;
-			}
-		}
+		//specialHand.ToggleAimView(true);
+		//specialHand.StartAttack();
+		ChosenAction = TypeOfAction.SPECIALATTACK;
+		IsActionTriggered = true;
+
 	}
 
 	//Revive action
 	public override void OnRevive(CallbackContext context)
 	{
-		if (!IsActionLocked)
+		if (context.started && !IsActionTriggered)
 		{
-			if(context.started && !IsActionTriggered)
+			IsActionTriggered = true;
+		}
+		else if (context.canceled && IsActionTriggered)
+		{
+			if (playerMovement.StartRevive())
 			{
-				IsActionTriggered = true;
+				ChosenAction = TypeOfAction.REVIVE;
 			}
-			else if(context.canceled && IsActionTriggered)
+			else
 			{
-				if (playerMovement.StartRevive())
-				{
-					ChosenAction = TypeOfAction.REVIVE;
-				}
-				else
-				{
-					IsActionTriggered = false;
-				}
+				IsActionTriggered = false;
 			}
 		}
 	}
@@ -152,15 +164,15 @@ public class CombatTurnState : AbstractPlayerState
 	//}
 
 	//Move action
-	public override void OnMove(CallbackContext context)
-	{
-		playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
-	}
+	//public override void OnMove(CallbackContext context)
+	//{
+	//	playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
+	//}
 
 	public override void OnFixedUpdateState()
 	{
-		if (IsActionLocked)
-			return;
+		//if (IsActionLocked)
+		//	return;
 
 
 		//Rotation

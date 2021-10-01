@@ -9,11 +9,16 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public interface IPlayerState
 {
+    bool IsActionTriggered { get; set; }
     bool IsActionLocked { get; set; }
-    void OnMove(CallbackContext context);
-    void OnAttack();
+    bool IsStaminaDepleted { get; }
+    void LockAction();
+    void CancelAction();
+	void OnAttack();
     void OnSpecial();
-    void OnPickupThrow(CallbackContext context);
+    void OnPickUp(GameObject weapon);
+	void OnThrow(CallbackContext context);
+	//void OnPickupThrow(CallbackContext context);
     void OnRevive(CallbackContext context);
     void OnFixedUpdateState();
     void OnStateExit();

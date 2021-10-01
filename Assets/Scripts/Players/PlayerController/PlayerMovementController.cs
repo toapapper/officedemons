@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class PlayerMovementController : MonoBehaviour
 {
+	Attributes attributes;
     //Character movers
     private CharacterController character;
     private WeaponHand weaponHand;
@@ -51,14 +52,19 @@ public class PlayerMovementController : MonoBehaviour
 		get { return moveDirection; }
 		set { moveDirection = value; }
 	}
+	public bool IsStaminaDepleted
+	{
+		get { return attributes.Stamina <= 0; }
+	}
 
 
 	private void Awake()
 	{
-		forward = Camera.main.transform.forward;
-		forward.y = 0;
-		forward.Normalize();
-		right = new Vector3(forward.z, 0, -forward.x);
+		attributes = GetComponent<Attributes>();
+		//forward = Camera.main.transform.forward;
+		//forward.y = 0;
+		//forward.Normalize();
+		//right = new Vector3(forward.z, 0, -forward.x);
 
 		character = GetComponent<CharacterController>();
         weaponHand = GetComponent<WeaponHand>();

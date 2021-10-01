@@ -56,10 +56,18 @@ public class PlayerStateController : MonoBehaviour
         CurrentState = playerStateTo;
         CurrentState.OnStateEnter();
     }
-    public void OnMove(CallbackContext context)
-    {
-        CurrentState.OnMove(context);
-    }
+    //public void OnMove(CallbackContext context)
+    //{
+    //    CurrentState.OnMove(context);
+    //}
+    public void LockAction()
+	{
+        CurrentState.LockAction();
+	}
+    public void CancelAction()
+	{
+        CurrentState.CancelAction();
+	}
     public void OnAttack()
     {
         CurrentState.OnAttack();
@@ -68,10 +76,14 @@ public class PlayerStateController : MonoBehaviour
     {
         CurrentState.OnSpecial();
     }
-    public void OnPickupThrow(CallbackContext context)
-    {
-        CurrentState.OnPickupThrow(context);
+    public void OnPickUp(GameObject weapon)
+	{
+        CurrentState.OnPickUp(weapon);
     }
+    public void OnThrow(CallbackContext context)
+	{
+        CurrentState.OnThrow(context);
+	}
     public void OnRevive(CallbackContext context)
     {
         CurrentState.OnRevive(context);

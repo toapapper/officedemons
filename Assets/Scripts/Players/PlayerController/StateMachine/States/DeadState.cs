@@ -5,10 +5,13 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class DeadState : AbstractPlayerState
 {
-	public override void OnMove(CallbackContext context) { }
+	//public override void OnMove(CallbackContext context) { }
+	public override void LockAction() { }
+	public override void CancelAction() { }
 	public override void OnAttack() { }
 	public override void OnSpecial() { }
-	public override void OnPickupThrow(CallbackContext context) { }
+	public override void OnPickUp(GameObject weapon) { }
+	public override void OnThrow(CallbackContext context) { }
 	public override void OnRevive(CallbackContext context) { }
 
 	public override void OnFixedUpdateState() { }
