@@ -18,7 +18,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     private bool isActionTriggered;
     private bool isActionLocked;
     private bool isAddingThrowForce;
-    private static Enum chosenAction;
+    private TypeOfAction chosenAction;
     private bool isStaminaDepleted;
 
     protected TypeOfAction TypeOfActions
@@ -26,7 +26,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         get { return typeOfActions; }
 		set { typeOfActions = value; }
 	}
-    protected Enum ChosenAction
+    public TypeOfAction ChosenAction
 	{
         get { return chosenAction; }
         set { chosenAction = value; }
@@ -54,6 +54,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 
     private void Awake()
     {
+        Debug.LogWarning("Reset action");
 		ChosenAction = TypeOfAction.NOACTION;
 		playerMovement = GetComponent<PlayerMovementController>();
 
