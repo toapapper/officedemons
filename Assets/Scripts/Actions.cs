@@ -20,16 +20,16 @@ public class Actions : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (Mathf.Abs(cc.velocity.x) > 0 || Mathf.Abs(cc.velocity.y) > 0)
-		{
-			attributes.Stamina -= 1 * Time.deltaTime;
-		}
-
 		if (attributes.Health <= 0)
 		{
 			Die();
 		}
 	}
+
+	public void PickUp(AbstractWeapon weapon)
+    {
+		//gör något
+    }
 
 	public void Attack(AbstractWeapon abstractWeapon)
 	{
@@ -70,7 +70,7 @@ public class Actions : MonoBehaviour
 		}
 	}
 
-	void Die()
+	public void Die()
 	{
 		if (this.tag == "Enemy")
 		{
@@ -81,10 +81,13 @@ public class Actions : MonoBehaviour
 			//Disable Movement
 			//Play death animation
 			// bool targetIsDead so it's not targetet and attacked again while dead 
+
+			GetComponent<PlayerStateController>().Die();
+			//if inte in combat reviva ganska snart.
 		}
 	}
 
-	void Revive(GameObject target)
+	public void Revive(GameObject target)
 	{
 		Attributes targetAttributes = target.GetComponent<Attributes>();
 		targetAttributes.Health = targetAttributes.StartHealth;
