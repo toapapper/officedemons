@@ -39,7 +39,7 @@ public class AIStateHandler : MonoBehaviour
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
             Debug.Log("UNNASSIGNED -> WAIT");
-            aiController.CurrentState = AIStates.States.Wait;
+            //Turn towards nearest player
         }
 
         if (HealthLow())
@@ -50,6 +50,7 @@ public class AIStateHandler : MonoBehaviour
         {
             if (fov.visibleTargets.Count > 0) // <- om target finns i line of sight för vapnet
             {
+                Debug.Log("TARGET FOUND");
                 aiController.CurrentState = AIStates.States.Attack;
             }
             else

@@ -31,14 +31,20 @@ public class Encounter : MonoBehaviour
     {
         aIManager = GetComponentInChildren<AIManager>();
 
-        for(int i = 0; i < transform.childCount; i++)
+    }
+
+
+    public List<GameObject> GetEnemylist()
+    {
+        List<GameObject> enemies = new List<GameObject>();
+        for (int i = 0; i < transform.childCount; i++)
         {
             GameObject child = transform.GetChild(i).gameObject;
             if (child.CompareTag("Enemy"))
-                aIManager.enemies.Add(child);
-
-            navMeshAgents.Add(child.GetComponent<NavMeshAgent>());    ///// 
+                enemies.Add(child);
         }
+
+        return enemies;
     }
 
     private void Update()

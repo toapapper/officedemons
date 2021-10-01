@@ -50,40 +50,37 @@ public class AIController : MonoBehaviour
         // Check currentState and call corresponding Action
 
         Debug.Log("INNE I PERFORMBEHAVIOUR");
-        //aiStateHandler.UpdateState();                  
+        aiStateHandler.UpdateState();                  
         Debug.Log("CURRENTSTATE: " + CurrentState);
 
-        //switch (CurrentState) // FindCover, CallForHealing, Attack, Move, Wait , Unassigned
-        //{
-        //    case AIStates.States.FindCover:
-        //        // Kan inte hända just nu, inte implementerat
-        //        break;
-        //
-        //    case AIStates.States.CallForHealing:
-        //        // Kan inte hända just nu, inte implementerat
-        //        break;
-        //
-        //    case AIStates.States.Attack:
-        //
-        //        aiManager.SaveAction(this.gameObject);
-        //        break;
-        //
-        //    case AIStates.States.Move:
-        //        
-        //        GameObject closestPlayer = CalculateClosest(GameManager.Instance.GetPlayers());
-        //
-        //        actions.MoveTowards(agent, closestPlayer);
-        //        break;
-        //
-        //    case AIStates.States.Wait:
-        //
-        //        aiManager.SaveAction(this.gameObject);
-        //        break;
-        //
-        //}
+        switch (CurrentState) // FindCover, CallForHealing, Attack, Move, Wait , Unassigned
+        {
+            case AIStates.States.FindCover:
+                // Kan inte hända just nu, inte implementerat
+                break;
 
-        //När action är bestämt kalla AIManager.SaveAction();
-        CurrentState = AIStates.States.Wait;                        
+            case AIStates.States.CallForHealing:
+                // Kan inte hända just nu, inte implementerat
+                break;
+
+            case AIStates.States.Attack:
+                aiManager.SaveAction(this.gameObject);
+                break;
+
+            case AIStates.States.Move:
+                GameObject closestPlayer = CalculateClosest(PlayerManager.players);
+                actions.MoveTowards(agent, closestPlayer);
+                break;
+
+            case AIStates.States.Wait:
+                aiManager.SaveAction(this.gameObject);
+                break;
+
+        }
+
+        ////När action är bestämt kalla AIManager.SaveAction();
+        //CurrentState = AIStates.States.Attack;
+        //aiManager.SaveAction(this.gameObject);
     }
 
     public void PerformAction()
@@ -91,30 +88,38 @@ public class AIController : MonoBehaviour
         // Utför action för this enemy
         Debug.Log("ACTION PERFORMED");
 
-        
+        switch (currentState)
+        {
+            case AIStates.States.Attack:
+                Debug.Log("he attacked");
+                break;
+            default:
+                Debug.Log("default");
+                break;
+        }
         // Ta bort ifrån AIManager.actions (deque)
     }
 
     public GameObject CalculateClosest(List<GameObject> players)
     {
-        
+        GameObject closestPlayer = PlayerManager.players[0];
 
-        GameObject closestPlayer = this.gameObject;
-        float closestDistance = float.MaxValue;
+        //float closestDistance = float.MaxValue;
 
-        for (int i=0; i<players.Count; i++)
-        {
-            Debug.Log("PLayer position: " + players[i].transform.position);
-            agent.SetDestination(players[i].transform.position);
-            float f = agent.remainingDistance;
-            Debug.Log("f: " + f);
+        //for (int i=0; i<players.Count; i++)
+        //{
+        //    Debug.Log("PLayer position: " + players[i].transform.position);
+        //    agent.SetDestination(players[i].transform.position);
+        //    float f = agent.remainingDistance;
+        //    Debug.Log("f: " + f);
 
-            if (f < closestDistance)
-            {
-                closestDistance = f;
-                closestPlayer = players[i];
-            }
-        }
+        //    if (f < closestDistance)
+        //    {
+        //        closestDistance = f;
+        //        closestPlayer = players[i];
+        //        Debug.Log("Closest player is " + closestDistance + " m from  " + closestPlayer + " which is the closest player");
+        //    }
+        //}
         return closestPlayer;
     }
 }

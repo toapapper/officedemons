@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
             }
             else if (gObject.CompareTag("Enemy"))
             {
-                if (gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
+                if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
                 {
                     AllStill = false;
                 }
@@ -136,16 +136,14 @@ public class GameManager : MonoBehaviour
                 combatState = CombatState.enemy;
                 enemiesTurnDone = false;
 
-                //aiManager.BeginTurn();
+                aiManager.BeginTurn();
             }
         }
         else if(combatState == CombatState.enemy)
         {
             Debug.Log("INNE GAMEMANAGER CURRENTSTAE == ENEMY (MOVE)");
-
-            aiManager.PerformTurn();
-
-            enemiesTurnDone = true; // DeBuG
+            if (!enemiesTurnDone)
+                aiManager.PerformTurn();
 
 
             if (enemiesTurnDone)
@@ -153,21 +151,21 @@ public class GameManager : MonoBehaviour
                 Debug.Log("ENEMY MOVE DONE");
                 enemiesActionsDone = false;
                 combatState = CombatState.enemyActions;
-                roundTimer = RoundTime;
 
             }
         }
         else if (combatState == CombatState.enemyActions)
         {
-            //aiManager.PerformActions();
-            enemiesActionsDone = true;
+            Debug.Log("ENEMY ACTIONS ONGOING");
+
+            aiManager.PerformActions();
 
             if (enemiesActionsDone)
             {
                 Debug.Log("ENEMY ACTIONS DONE");
                 combatState = CombatState.player;
                 playerManager.BeginTurn();
-                enemiesTurnDone = true;
+                roundTimer = RoundTime;
             }
         }
     }
@@ -175,6 +173,7 @@ public class GameManager : MonoBehaviour
     public void StartEncounter(Encounter encounter)
     {
         currentEncounter = encounter;
+        stillCheckList.AddRange(aiManager.enemies);
         combatState = CombatState.player;
         roundTimer = RoundTime;
         playerManager.BeginCombat();
