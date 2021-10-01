@@ -66,6 +66,7 @@ public class PlayerMovementController : MonoBehaviour
 	//	moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
 	//}
 
+	//TODO Added force to player input
 	public bool PerformThrow()
 	{
 		if (weaponHand.Throw(addedThrowForce))
