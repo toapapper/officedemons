@@ -12,32 +12,20 @@ public class GenerateTerrain : MonoBehaviour
     public List<GameObject> cubes = new List<GameObject>();
     public TransformMesh transformMesh;
     int yvalue;
+
+    //lb = last best
+    List<Node> lbNodes;
+    Node lbRoot;
+    int lbWidth;
+    int lbHeight;
+    int lbHeightLimit;
+    float lbFitness;
     private void Start()
     {
         transformMesh = GetComponent<TransformMesh>();
-    }
-    private void BufferMaker(out float x, out float y, Node node)
-    {
-        float bufferX = node.size.x / 4;
-        float bufferY = node.size.y / 4;
-        x = Random.Range(bufferX, node.size.x - bufferX);
-        y = Random.Range(bufferY, node.size.y - bufferY);
-
+        lbNodes = new List<Node>();
     }
 
-    private bool TooCloseCheck(Node node, float distanceMultiplier, Node root, int width, int height)
-    {
-        if (Mathf.Abs(node.origin.x - root.origin.x) < width / distanceMultiplier)
-            return true;
-
-        if (Mathf.Abs(node.origin.y - root.origin.y) < height / distanceMultiplier)
-            return true;
-
-        if (Mathf.Abs((node.origin.y - node.size.y) - (root.origin.y - root.size.y)) < height / distanceMultiplier)
-            return true;
-
-        return false;
-    }
 
     /// <summary>
     /// Instansiates a ground model from a quad prefab.
@@ -140,13 +128,49 @@ public class GenerateTerrain : MonoBehaviour
 
     }
 
-    public bool GenerateObstacles(Node node, Node root, int width, int height, float heightLimit)
+    private void BufferMaker(out float x, out float y, Node node)
+    {
+        float bufferX = node.size.x / 4;
+        float bufferY = node.size.y / 4;
+        x = Random.Range(bufferX, node.size.x - bufferX);
+        y = Random.Range(bufferY, node.size.y - bufferY);
+
+    }
+    private float TooCloseCheck(Node node, float distanceMultiplier, Node root, int width, int height, float fitness, float penalty)
+    {
+        if (Mathf.Abs(node.origin.x - root.origin.x) < width / distanceMultiplier)
+            fitness -= penalty;
+
+        if (Mathf.Abs(node.origin.y - root.origin.y) < height / distanceMultiplier)
+            fitness -= penalty;
+
+        if (Mathf.Abs((node.origin.y - node.size.y) - (root.origin.y - root.size.y)) < height / distanceMultiplier)
+            fitness -= penalty;
+
+        return fitness;
+    }
+    public float FitnessCheck(Node node, Node root, int width, int height, float heightLimit, float fitness)
     {
 
-        if (!CheckGenerateObstacles(node, root, width, height))
-            return false;
+        if (node.size.x * node.size.y < width * height / 200)
+            return fitness -= 20;
+
+        else if (node.size.x * node.size.y > width * height / 100)
+            return fitness += 40;
+
+        else
+            fitness += 10;
+
+        fitness = TooCloseCheck(node, 20, root, width, height, fitness, 400);
+
+        return fitness;
+    }
 
 
+
+
+    public void GenerateObstacles(Node node, Node root, int width, int height, float heightLimit)
+    {
         float x, y;
         BufferMaker(out x, out y, node);
 
@@ -158,41 +182,72 @@ public class GenerateTerrain : MonoBehaviour
         cube.isStatic = true;
         cubes.Add(cube);
         transformMesh.GetTexture(cube);
-
-        return true;
     }
 
-    //Put limiters in here! return false if requirement isn't met
-    public bool CheckGenerateObstacles(Node node, Node root, int width, int height)
+    public bool SearchForObstacles(List<Node> nodes, Node root, int width, int height, int heightLimit, float fitnessGoal)
     {
-        //If they become too small use this
-        //if (node.size.x * node.size.y < width * height / 200)
-        //    return false;
-
-        if (TooCloseCheck(node, 20, root, width, height))
-            return false;
-
-        return true;
-    }
-
-
-
-
-    public bool SearchForObstacles(List<Node> nodes, Node root, int width, int height, int heightLimit)
-    {
+        float fitness = 0;
         int obstacles = 0;
         for (int i = 0; i < nodes.Count; i++)
         {
             if (nodes[i].leaf)
-                if(GenerateObstacles(nodes[i], root, width, height, heightLimit))
-                    obstacles++;
-            
+            {
+                fitness = FitnessCheck(nodes[i], root, width, height, heightLimit, fitness);
+                obstacles++;
+            }
+            Debug.Log("fitness after check = " + fitness);
         }
-        Debug.Log(obstacles);
-        if (obstacles > 0)
+        if (obstacles > 6)
         {
+            fitness -= 400;
+        }
+        if (fitness >= fitnessGoal)
+        {
+            Debug.Log("Sucessesful fitness = " + fitness);
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i].leaf)
+                    GenerateObstacles(nodes[i], root, width, height, heightLimit);
+            }
+            ResetLastFitness();
             return true;
         }
+        else
+        {
+            if (lbFitness < fitness)
+            {
+                lbFitness = fitness;
+                lbNodes = nodes;
+                lbRoot = root;
+                lbWidth = width;
+                lbHeight = height;
+                lbHeightLimit = heightLimit;
+            }
+        }
+        //Debug.Log(fitness);
         return false;
+    }
+
+    public void UseBestVariant()
+    {
+        for (int i = 0; i < lbNodes.Count; i++)
+        {
+            if (lbNodes[i].leaf)
+                GenerateObstacles(lbNodes[i], lbRoot, lbWidth, lbHeight, lbHeightLimit);
+        }
+        ResetLastFitness();
+        Debug.Log("Last resort was used");
+    }
+
+
+
+    public void ResetLastFitness()
+    {
+        lbFitness = 0;
+        lbNodes = new List<Node>();
+        lbRoot = new Node(Vector2.zero,Vector2.zero);
+        lbWidth = 0;
+        lbHeight = 0;
+        lbHeightLimit = 0;
     }
 }

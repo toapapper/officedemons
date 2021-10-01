@@ -16,7 +16,8 @@ public class BSPTree : MonoBehaviour
     int missfallMultiplier;
     public int missfallTop = 6;
     Vector2 lastSize;
-
+    public float fitnessGoal = 50;
+    public int bspRemakeTries = 100;
     //Maybe throw them into node?
     int nextDirection;
     int lastDirection;
@@ -45,12 +46,14 @@ public class BSPTree : MonoBehaviour
         nodes = new List<Node>();
         if (root != null)
             lastRoot = root;
+        else
+            lastRoot = new Node(Vector2.zero,Vector2.zero);
 
         root = new Node(new Vector2(width, height),lastSize);
 
         generateTerrain.GenerateGround(root);
 
-        SearchObstacles(10);
+        SearchObstaclesFitness(bspRemakeTries);
 
         width = Random.Range((int)widthLimits.x,(int)widthLimits.y);
         height = Random.Range((int)heightLimits.x, (int)heightLimits.y);
@@ -63,26 +66,26 @@ public class BSPTree : MonoBehaviour
     }
 
 
-    private void SearchObstacles(int totalTries)
+    private void SearchObstaclesFitness(int totalTries)
     {
+        bool foundSuitableObstacles = false;
         for (int i = 0; i < totalTries; i++)
         {
             BSP(root);
             //Search again
-            Debug.Log("Nodes counter before: " + nodes.Count);
-            if (!generateTerrain.SearchForObstacles(nodes, root, width, height, (int)heightLimits.y))
+            if (!generateTerrain.SearchForObstacles(nodes, root, width, height, (int)heightLimits.y, fitnessGoal))
             {
-                Debug.Log("didn't make it do a retry");
                 nodes = new List<Node>();
                 root.children = new Node[2];
-                Debug.Log("Nodes counter after: " + nodes.Count);
             }
             else
             {
-                Debug.Log("made it!");
+                foundSuitableObstacles = true;
                 break;
             }
         }
+        if (!foundSuitableObstacles)
+            generateTerrain.UseBestVariant();
     }
 
 
