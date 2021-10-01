@@ -183,6 +183,7 @@ public class PlayerMovementController : MonoBehaviour
 				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
 				{
 					Debug.Log("Revive player " + nearbyPlayer.name);
+					GetComponent<Actions>().Revive(nearbyPlayer);
 					return;
 				}
 			}
