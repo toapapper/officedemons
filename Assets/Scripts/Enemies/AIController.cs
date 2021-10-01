@@ -50,41 +50,40 @@ public class AIController : MonoBehaviour
         // Check currentState and call corresponding Action
 
         Debug.Log("INNE I PERFORMBEHAVIOUR");
-        aiStateHandler.UpdateState();
-                                                                //DEBUG
-        
+        //aiStateHandler.UpdateState();                  
+        Debug.Log("CURRENTSTATE: " + CurrentState);
 
-        switch (CurrentState) // FindCover, CallForHealing, Attack, Move, Wait , Unassigned
-        {
-            case AIStates.States.FindCover:
-                // Kan inte hända just nu, inte implementerat
-                break;
-
-            case AIStates.States.CallForHealing:
-                // Kan inte hända just nu, inte implementerat
-                break;
-
-            case AIStates.States.Attack:
-
-                aiManager.SaveAction(this.gameObject);
-                break;
-
-            case AIStates.States.Move:
-                
-                GameObject closestPlayer = CalculateClosest(GameManager.Instance.GetPlayers());
-
-                actions.MoveTowards(agent, closestPlayer);
-                break;
-
-            case AIStates.States.Wait:
-
-                aiManager.SaveAction(this.gameObject);
-                break;
-
-        }
-
+        //switch (CurrentState) // FindCover, CallForHealing, Attack, Move, Wait , Unassigned
+        //{
+        //    case AIStates.States.FindCover:
+        //        // Kan inte hända just nu, inte implementerat
+        //        break;
+        //
+        //    case AIStates.States.CallForHealing:
+        //        // Kan inte hända just nu, inte implementerat
+        //        break;
+        //
+        //    case AIStates.States.Attack:
+        //
+        //        aiManager.SaveAction(this.gameObject);
+        //        break;
+        //
+        //    case AIStates.States.Move:
+        //        
+        //        GameObject closestPlayer = CalculateClosest(GameManager.Instance.GetPlayers());
+        //
+        //        actions.MoveTowards(agent, closestPlayer);
+        //        break;
+        //
+        //    case AIStates.States.Wait:
+        //
+        //        aiManager.SaveAction(this.gameObject);
+        //        break;
+        //
+        //}
 
         //När action är bestämt kalla AIManager.SaveAction();
+        CurrentState = AIStates.States.Wait;                        
     }
 
     public void PerformAction()

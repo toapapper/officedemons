@@ -18,7 +18,6 @@ public class AIManager : MonoBehaviour
         players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
         doneEvent = new UnityEvent();
         doneEvent.AddListener(NextAgentAction);
-        
     }
 
     private void NextAgentAction()
@@ -49,34 +48,6 @@ public class AIManager : MonoBehaviour
         }
     }
 
-    //Extremt fult implementerade allihopa, men men.. Ossian som har skrivit allt detta f�rresten om ni inte pallar kolla i github efter vem som skrivit detta f�nster vars enda utsikt �r en gr� kyrkog�rd i form av kod.
-    public void BeginCombat()
-    {
-        Debug.Log("Begin combat");
-        foreach (GameObject p in players)
-        {
-            p.GetComponent<PlayerStateController>().StartCombat();
-
-            Debug.Log(p.ToString());
-        }
-        //disabled player movement, now automatically move them somewhere,maybe, should perhaps be contained in the encounter where to
-
-        //And begin the first turn
-        BeginTurn();
-    }
-
-    //public void EndCombat()
-    //{
-    //    Debug.Log("End combat");
-    //
-    //    foreach (GameObject p in players)
-    //    {
-    //        p.GetComponent<PlayerStateController>().StartOutOfCombat();
-    //        Debug.Log(p.ToString());
-    //    }
-    //}
-    //
-
     public void BeginTurn() //kanske lägga till mer? annars kanske ta bort metoden
     {
         Debug.Log("Begin turn ENEMY");
@@ -91,17 +62,21 @@ public class AIManager : MonoBehaviour
     {
         Debug.Log("INNE I PERFORM TURN");
         bool allDone = true;
+
         foreach (GameObject e in enemies)
-        { 
+        {
+            //Debug.Log("LockedAction(): " + e.GetComponent<AIController>().LockedAction());
             if (!e.GetComponent<AIController>().LockedAction())
             {
-                Debug.Log("allDone == false");
-
+                Debug.Log("Locked == false");
+                //e.GetComponent<AIController>().CurrentState = AIStates.States.Wait; // DEBUG
                 e.GetComponent<AIController>().PerformBehaviour();
+                
                 allDone = false;
+
             }
         }
-
+        
         // enemiesTurnDone = true när alla låst in sin action
         if (!allDone)
         {

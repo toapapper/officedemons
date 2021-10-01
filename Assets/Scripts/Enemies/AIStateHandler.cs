@@ -38,11 +38,8 @@ public class AIStateHandler : MonoBehaviour
         //GameObject weapon = rightHand.transform.GetChild(0).gameObject;
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            //rotera mot närmsta spelaren på NavMesh
-            NavMeshAgent navmesh = GetComponent<NavMeshAgent>();
-
-            // Closest TArget = Encounter.navMeshAGents.Closest() //                                                  <------------------
-            //transform.LookAt(ClosestTarget)
+            Debug.Log("UNNASSIGNED -> WAIT");
+            aiController.CurrentState = AIStates.States.Wait;
         }
 
         if (HealthLow())
@@ -51,10 +48,6 @@ public class AIStateHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("HALLÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅ");
-            // turn to player
-
-
             if (fov.visibleTargets.Count > 0) // <- om target finns i line of sight för vapnet
             {
                 aiController.CurrentState = AIStates.States.Attack;
@@ -107,7 +100,7 @@ public class AIStateHandler : MonoBehaviour
         }
         else
         {
-            aiController.CurrentState = AIStates.States.Attack;
+            aiController.CurrentState = AIStates.States.Wait;
         }
     }
 

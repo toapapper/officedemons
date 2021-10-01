@@ -142,8 +142,11 @@ public class GameManager : MonoBehaviour
         else if(combatState == CombatState.enemy)
         {
             Debug.Log("INNE GAMEMANAGER CURRENTSTAE == ENEMY (MOVE)");
-            Debug.Log(aiManager);
+
             aiManager.PerformTurn();
+
+            enemiesTurnDone = true; // DeBuG
+
 
             if (enemiesTurnDone)
             {
@@ -157,6 +160,7 @@ public class GameManager : MonoBehaviour
         else if (combatState == CombatState.enemyActions)
         {
             //aiManager.PerformActions();
+            enemiesActionsDone = true;
 
             if (enemiesActionsDone)
             {
