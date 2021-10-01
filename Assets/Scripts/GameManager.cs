@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
                 playerActionsDone = false;
                 combatState = CombatState.playerActions;
 
-                if(testCube != null)
+                if(testCube != null)//TEST
                     testCube.GetComponent<Rigidbody>().AddForce(testCube.transform.up * 1000);
 
                 playerManager.EndTurn();
