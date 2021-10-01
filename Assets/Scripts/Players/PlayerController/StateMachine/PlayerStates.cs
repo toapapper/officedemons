@@ -12,5 +12,6 @@ public enum PlayerStates
     COMBATTURN,
     COMBATACTION,
     COMBATWAIT,
-	DEAD
+	DEAD,
+    REVIVE
 }

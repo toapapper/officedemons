@@ -14,15 +14,16 @@ public class PlayerStateController : MonoBehaviour
         set;
     }
 
-    private Dictionary<PlayerStates, IPlayerState> states;
+    public Dictionary<PlayerStates, IPlayerState> states { get; private set; }
 
 
-    public void StartOutOfCombat() => MakeStateTransistion(states[PlayerStates.OUTOFCOMBAT]);
-    public void StartCombat() => MakeStateTransistion(states[PlayerStates.ENTERCOMBAT]);
-    public void StartTurn() => MakeStateTransistion(states[PlayerStates.COMBATTURN]);
-    public void StartCombatAction() => MakeStateTransistion(states[PlayerStates.COMBATACTION]);
-    public void StartWaitForTurn() => MakeStateTransistion(states[PlayerStates.COMBATWAIT]);
-    public void Die() => MakeStateTransistion(states[PlayerStates.DEAD]);
+    public void StartOutOfCombat() => MakeStateTransition(states[PlayerStates.OUTOFCOMBAT]);
+    public void StartCombat() => MakeStateTransition(states[PlayerStates.ENTERCOMBAT]);
+    public void StartTurn() => MakeStateTransition(states[PlayerStates.COMBATTURN]);
+    public void StartCombatAction() => MakeStateTransition(states[PlayerStates.COMBATACTION]);
+    public void StartWaitForTurn() => MakeStateTransition(states[PlayerStates.COMBATWAIT]);
+    public void Die() => MakeStateTransition(states[PlayerStates.DEAD]);
+    public void Revive() => MakeStateTransition(states[PlayerStates.REVIVE]);
 
     private void Awake()
     {
@@ -44,18 +45,14 @@ public class PlayerStateController : MonoBehaviour
         states.Add(PlayerStates.COMBATACTION, gameObject.AddComponent<CombatActionState>());
 		states.Add(PlayerStates.COMBATWAIT, gameObject.AddComponent<CombatWaitState>());
 		states.Add(PlayerStates.DEAD, gameObject.AddComponent<DeadState>());
+        states.Add(PlayerStates.REVIVE, gameObject.AddComponent<ReviveState>());
 	}
 
-    public void MakeStateTransistion(IPlayerState playerStateTo)
+    public void MakeStateTransition(IPlayerState playerStateTo)
     {
-        CurrentState.OnStateExit();
-        CurrentState = playerStateTo;
-        CurrentState.OnStateEnter();
+        CurrentState.TransitionState(playerStateTo);
     }
-    //public void OnMove(CallbackContext context)
-    //{
-    //    CurrentState.OnMove(context);
-    //}
+
     public void LockAction()
 	{
         CurrentState.LockAction();

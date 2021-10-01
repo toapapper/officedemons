@@ -20,6 +20,7 @@ public interface IPlayerState
     void OnStartThrow();
 	void OnThrow();
     void OnRevive(GameObject player);
+    void TransitionState(IPlayerState state);
     void OnFixedUpdateState();
     void OnStateExit();
     void OnStateEnter();

@@ -8,9 +8,6 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class OutOfCombatState : AbstractPlayerState
 {
-	//Attack action
-	public override void LockAction() { }
-    public override void CancelAction() { }
 	public override void OnAttack()
 	{
         weaponHand.Attack();

@@ -145,6 +145,8 @@ public class PlayerInputHandler : MonoBehaviour
 				{
 					if (context.performed)
 					{
+						Debug.Log(name);
+						Debug.Log("Revive " + nearbyPlayers.Count);
 						if (nearbyPlayers.Count > 0)
 						{
 							foreach (GameObject nearbyPlayer in nearbyPlayers)
@@ -152,6 +154,7 @@ public class PlayerInputHandler : MonoBehaviour
 								//if (nearbyPlayer.GetComponentInChildren<AbstractPlayerState>() is DeadState)
 								if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
 								{
+									Debug.Log("Player name " + nearbyPlayer.ToString());
 									player.OnRevive(nearbyPlayer);
 									return;
 								}
@@ -177,7 +180,7 @@ public class PlayerInputHandler : MonoBehaviour
 		}
 		else if (other.gameObject.tag == "Player")
 		{
-			if (!nearbyPlayers.Contains(other.gameObject))
+			if (!nearbyPlayers.Contains(other.gameObject) && other != gameObject)
 				nearbyPlayers.Add(other.gameObject);
 		}
 	}

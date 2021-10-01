@@ -5,18 +5,6 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class CombatActionState : AbstractPlayerState
 {
-	public override void LockAction() { }
-	public override void CancelAction() { }
-	public override void OnAttack() { }
-	public override void OnSpecial() { }
-	public override void OnPickUp(GameObject weapon) { }
-	public override void OnStartThrow() { }
-	public override void OnThrow() { }
-	public override void OnRevive(GameObject player) { }
-
-	public override void OnFixedUpdateState() { }
-
-
 	public override void OnStateEnter()
 	{
 		Debug.Log("Enters CombatActionState" + this + " Action: " + GetComponent<CombatTurnState>().ChosenAction);
@@ -32,7 +20,8 @@ public class CombatActionState : AbstractPlayerState
 				playerMovement.PerformThrow();
 				break;
 			case TypeOfAction.REVIVE:
-				GetComponent<CombatTurnState>().PlayerToRevive.GetComponentInChildren<Attributes>().Health = 100;
+				GetComponent<Actions>().Revive(GetComponent<CombatTurnState>().PlayerToRevive);
+				Debug.LogWarning("combatActionState revive " + GetComponent<CombatTurnState>().PlayerToRevive);
 				break;
 			case TypeOfAction.NOACTION:
 				break;
@@ -52,6 +41,7 @@ public class CombatActionState : AbstractPlayerState
 			if (GameManager.Instance.AllStill)
 			{
 				PlayerManager.doneEvent.Invoke();
+				GetComponent<PlayerStateController>().StartWaitForTurn();
 				StopCoroutine("WaitDone");
 			}
 			yield return null;

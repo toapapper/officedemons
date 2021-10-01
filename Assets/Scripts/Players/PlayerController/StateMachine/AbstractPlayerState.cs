@@ -71,17 +71,23 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     }
 
     //public abstract void OnMove(CallbackContext context);
-    public abstract void LockAction();
-    public abstract void CancelAction();
-	public abstract void OnAttack();
-    public abstract void OnSpecial();
-    public abstract void OnPickUp(GameObject weapon);
-    public abstract void OnStartThrow();
-    public abstract void OnThrow();
-    public abstract void OnRevive(GameObject player);
+    public virtual void LockAction() { }
+    public virtual void CancelAction() { }
+	public virtual void OnAttack() { }
+    public virtual void OnSpecial() { }
+    public virtual void OnPickUp(GameObject weapon) { }
+    public virtual void OnStartThrow() { }
+    public virtual void OnThrow() { }
+    public virtual void OnRevive(GameObject player) { }
+    public virtual void TransitionState(IPlayerState state)
+    {
+        OnStateExit();
+        GetComponent<PlayerStateController>().CurrentState = state;
+        state.OnStateEnter();
+    }
 
-	public abstract void OnFixedUpdateState();
+	public virtual void OnFixedUpdateState() { }
 
-	public abstract void OnStateExit();
+    public abstract void OnStateExit();
     public abstract void OnStateEnter();
 }
