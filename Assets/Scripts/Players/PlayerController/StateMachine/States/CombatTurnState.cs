@@ -8,147 +8,122 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class CombatTurnState : AbstractPlayerState
 {
-	//Pickup/Throw action
-	public override void OnPickupThrow(CallbackContext context)
-	{
-		if (!IsActionLocked)
-		{
-			if (!playerMovement.isWeaponEquipped)
-			{
-				if (!IsActionTriggered && context.canceled)
-				{
-					playerMovement.PerformPickup();
-				}
-			}
-			else
-			{
-				if (context.started && !IsActionTriggered)
-				{
-					if (playerMovement.StartThrow())
-					{
-						ChosenAction = TypeOfAction.THROW;
-						IsActionTriggered = true;
-						IsAddingThrowForce = true;
-					}
-				}
-				else if (context.canceled && IsActionTriggered)
-				{
-					if (IsAddingThrowForce)
-					{
-						IsAddingThrowForce = false;
-					}
-				}
-			}
-		}
-	}
-
 	//Attack Action
-	public override void OnAttack(CallbackContext context)
+	public override void OnAttack()
 	{
-		if (context.performed && !IsActionLocked)
-		{
-			if (!IsActionTriggered)
-			{
-				playerMovement.ToggleWeaponAimView(true);
-				playerMovement.StartAttack();
-				ChosenAction = TypeOfAction.ATTACK;
-				IsActionTriggered = true;
-			}
-			else
-			{
-				IsActionTriggered = false;
-				IsActionLocked = true;
-				playerMovement.ToggleWeaponAimView(false);
-				Debug.Log("Chosenaction: " + ChosenAction);
-				PlayerManager.instance.ActionDone(gameObject);
-			}
-
-		}
+		weaponHand.ToggleAimView(true);
+		weaponHand.StartAttack();
+		ChosenAction = TypeOfAction.ATTACK;
+		IsActionTriggered = true;
 	}
+
 	//Special Action
-	public override void OnSpecial(CallbackContext context)
+	public override void OnSpecial()
 	{
 		//TODO
-		if (context.performed && !IsActionLocked)
+		//specialHand.ToggleAimView(true);
+		//specialHand.StartAttack();
+		ChosenAction = TypeOfAction.SPECIALATTACK;
+		IsActionTriggered = true;
+	}
+
+	//PickUp
+	public override void OnPickUp(GameObject weapon)
+	{
+		if (!IsActionTriggered)
 		{
-			if (!IsActionTriggered)
+			weaponHand.Equip(weapon);
+		}
+	}
+
+	//Throw
+	public override void OnStartThrow()
+	{
+		if (!IsActionTriggered)
+		{
+			if (weaponHand.StartThrow())
 			{
-				playerMovement.StartSpecial();
-				ChosenAction = TypeOfAction.SPECIALATTACK;
+				ChosenAction = TypeOfAction.THROW;
 				IsActionTriggered = true;
+				IsAddingThrowForce = true;
 			}
-			else
-			{
-				switch (ChosenAction)
-				{
-					case TypeOfAction.ATTACK:
-						playerMovement.ToggleWeaponAimView(false);
-						playerMovement.CancelAttack();
-						break;
-					case TypeOfAction.SPECIALATTACK:
-						playerMovement.CancelSpecial();
-						break;
-					case TypeOfAction.THROW:
-						playerMovement.CancelThrow();
-						break;
-					case TypeOfAction.REVIVE:
-						playerMovement.CancelRevive();
-						break;
-					case TypeOfAction.NOACTION:
-						break;
-				}
-				Debug.LogWarning("Reset action");
-				ChosenAction = TypeOfAction.NOACTION;
-				IsActionTriggered = false;
-			}
+		}
+	}
+	public override void OnThrow()
+	{
+		if (IsActionTriggered)
+		{
+			IsAddingThrowForce = false;
 		}
 	}
 
 	//Revive action
-	public override void OnRevive(CallbackContext context)
+	public override void OnRevive(GameObject player)
 	{
-		if (!IsActionLocked)
+		if (!IsActionTriggered)
 		{
-			if(context.started && !IsActionTriggered)
-			{
-				IsActionTriggered = true;
-			}
-			else if(context.canceled && IsActionTriggered)
-			{
-				if (playerMovement.StartRevive())
-				{
-					ChosenAction = TypeOfAction.REVIVE;
-				}
-				else
-				{
-					IsActionTriggered = false;
-				}
-			}
+			PlayerToRevive = player;
+			ChosenAction = TypeOfAction.REVIVE;
+			IsActionTriggered = true;
 		}
 	}
-	//Heal action
-	//public override void OnHeal(CallbackContext context)
-	//{
-	//	if (context.performed && !IsActionTriggered && !IsActionLocked)
-	//	{
-	//		if (playerMovement.StartHeal())
-	//		{
-	//			ChosenAction = TypeOfAction.HEAL;
-	//			IsActionTriggered = true;
-	//		}
-	//	}
-	//}
 
-	//Move action
-	public override void OnMove(CallbackContext context)
+    //Lock action
+    public override void LockAction()
 	{
-		playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
+		switch (ChosenAction)
+		{
+			case TypeOfAction.ATTACK:
+				weaponHand.ToggleAimView(false);
+				break;
+			case TypeOfAction.SPECIALATTACK:
+				//TODO
+				//playerMovement.ToggleSpecialAimView(false);
+				break;
+			case TypeOfAction.THROW:
+				//TODO
+				//playerMovement.ToggleThrowAimView(false);
+				break;
+		}
+		IsActionLocked = true;
+		Debug.Log("Chosenaction: " + ChosenAction);
+		PlayerManager.instance.ActionDone(gameObject);
 	}
+
+	//Cancel action
+	public override void CancelAction()
+	{
+		switch (ChosenAction)
+		{
+			case TypeOfAction.ATTACK:
+				weaponHand.ToggleAimView(false);
+				weaponHand.CancelAction();
+				break;
+			case TypeOfAction.SPECIALATTACK:
+				//TODO
+				//specialHand.ToggleAimView(false);
+				//specialHand.CancelAction();
+				break;
+			case TypeOfAction.THROW:
+				//TODO
+				//weaponHand.ToggleThrowAimView(false);
+				playerMovement.CancelThrow();
+				weaponHand.CancelAction();
+				break;
+			case TypeOfAction.REVIVE:
+				PlayerToRevive = null;
+				break;
+		}
+		Debug.LogWarning("Reset action");
+		ChosenAction = TypeOfAction.NOACTION;
+		IsActionTriggered = false;
+	}
+	
 
 	public override void OnFixedUpdateState()
 	{
-		if (IsActionLocked)
-			return;
+		//if (IsActionLocked)
+		//	return;
 
 
 		//Rotation
@@ -188,8 +163,8 @@ public class CombatTurnState : AbstractPlayerState
 
 	public override void OnStateExit()
 	{
-		playerMovement.ToggleWeaponAimView(false);
-        
+		weaponHand.ToggleAimView(false);
+
 		if (IsActionTriggered && !IsActionLocked)
         {
 			PlayerManager.instance.ActionDone(gameObject);
@@ -200,4 +175,20 @@ public class CombatTurnState : AbstractPlayerState
 		IsAddingThrowForce = false;
 		Debug.Log("Exits CombatTurnState" + this);
 	}
+
+
+
+
+	//Heal action
+	//public override void OnHeal(CallbackContext context)
+	//{
+	//	if (context.performed && !IsActionTriggered && !IsActionLocked)
+	//	{
+	//		if (playerMovement.StartHeal())
+	//		{
+	//			ChosenAction = TypeOfAction.HEAL;
+	//			IsActionTriggered = true;
+	//		}
+	//	}
+	//}
 }

@@ -10,6 +10,7 @@ using static UnityEngine.InputSystem.InputAction;
 public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 {
 	protected PlayerMovementController playerMovement;
+    protected WeaponHand weaponHand;
     protected Attributes attributes;//ossian o jonas
     protected CharacterController characterController;
 
@@ -21,6 +22,8 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     private TypeOfAction chosenAction;
     private bool isStaminaDepleted;
 
+    private GameObject playerToRevive;
+
     protected TypeOfAction TypeOfActions
 	{
         get { return typeOfActions; }
@@ -31,12 +34,12 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         get { return chosenAction; }
         set { chosenAction = value; }
     }
-    protected bool IsActionTriggered
+    public bool IsActionTriggered
 	{
         get { return isActionTriggered; }
         set { isActionTriggered = value; }
     }
-    protected bool IsActionLocked
+    public bool IsActionLocked
     {
         get { return isActionLocked; }
         set { isActionLocked = value; }
@@ -46,10 +49,14 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         get { return isAddingThrowForce; }
         set { isAddingThrowForce = value; }
     }
-
-    protected bool IsStaminaDepleted
+    public bool IsStaminaDepleted
     {
         get { return attributes.Stamina <= 0; }
+    }
+    public GameObject PlayerToRevive
+	{
+        get { return playerToRevive; }
+        set { playerToRevive = value; }
     }
 
     private void Awake()
@@ -57,19 +64,30 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         Debug.LogWarning("Reset action");
 		ChosenAction = TypeOfAction.NOACTION;
 		playerMovement = GetComponent<PlayerMovementController>();
+        weaponHand = GetComponent<WeaponHand>();
 
         attributes = GetComponent<Attributes>();//ossian o jonas
         characterController = GetComponent<CharacterController>();
     }
 
-    public abstract void OnMove(CallbackContext context);
-    public abstract void OnAttack(CallbackContext context);
-    public abstract void OnSpecial(CallbackContext context);
-    public abstract void OnPickupThrow(CallbackContext context);
-    public abstract void OnRevive(CallbackContext context);
+    //public abstract void OnMove(CallbackContext context);
+    public virtual void LockAction() { }
+    public virtual void CancelAction() { }
+	public virtual void OnAttack() { }
+    public virtual void OnSpecial() { }
+    public virtual void OnPickUp(GameObject weapon) { }
+    public virtual void OnStartThrow() { }
+    public virtual void OnThrow() { }
+    public virtual void OnRevive(GameObject player) { }
+    public virtual void TransitionState(IPlayerState state)
+    {
+        OnStateExit();
+        GetComponent<PlayerStateController>().CurrentState = state;
+        state.OnStateEnter();
+    }
 
-	public abstract void OnFixedUpdateState();
+	public virtual void OnFixedUpdateState() { }
 
-	public abstract void OnStateExit();
+    public abstract void OnStateExit();
     public abstract void OnStateEnter();
 }

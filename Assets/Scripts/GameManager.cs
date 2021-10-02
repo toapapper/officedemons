@@ -3,14 +3,14 @@
 /*
  * Anteckningar:
  *
- * Pausa, hantera s�dant.
+ * Pausa, hantera sï¿½dant.
  *
- * Hantera encounters, starta, l�sa av n�r de e avslutade etc.
+ * Hantera encounters, starta, lï¿½sa av nï¿½r de e avslutade etc.
  * enum combatState?: player, enemy, none
  * timer.
  * spelare.
  *
- * ha koll p� spelare, kanske statiskt s� kan h�lla koll mellan menyer
+ * ha koll pï¿½ spelare, kanske statiskt sï¿½ kan hï¿½lla koll mellan menyer
  *
  *
  */
@@ -35,15 +35,13 @@ public class GameManager : MonoBehaviour
     /// <summary> static current instance of GameManager </summary>
     public static GameManager Instance { get; private set; }
 
-    //n�n static om vilka karakt�rer spelare har och timer-settings, s� de kan laddas i b�rjan av spelet(?)
-    //Kanske ska sparas i en helt separat static-klass som kollas vid start av scen, m�jligtvis hanterar denna klassen det.
+    //nï¿½n static om vilka karaktï¿½rer spelare har och timer-settings, sï¿½ de kan laddas i bï¿½rjan av spelet(?)
+    //Kanske ska sparas i en helt separat static-klass som kollas vid start av scen, mï¿½jligtvis hanterar denna klassen det.
     public CombatState combatState { get; private set; } = CombatState.none;
     public bool paused { get; private set; } = false;
     public float roundTimer { get; private set; } = 0;
     public Encounter currentEncounter { get; private set; }
     public bool enemiesTurnDone = false;
-
-
     public bool playerActionsDone = false;
     public bool enemiesActionsDone = false;
 
@@ -56,13 +54,14 @@ public class GameManager : MonoBehaviour
         get { return allStill; }
         set { allStill = value; }
     }
-
-    /// <summary> DONT TOUCH, unless you want the rounds to go quicker of course </summary>
     [Header("Settings")]
     public int RoundTime = 10;//seconds
 
+
+    public PlayerManager playerManager { get; private set; }
+
     /// <summary>
-    /// f�r att testa s� den v�ntar tills allt st�r stilla innan den g�r vidare i rundan
+    /// fï¿½r att testa sï¿½ den vï¿½ntar tills allt stï¿½r stilla innan den gï¿½r vidare i rundan
     /// </summary>
     public GameObject testCube;
 
@@ -85,18 +84,18 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //�r alla/allt stilla-check
+        //ï¿½r alla/allt stilla-check
         AllStill = true;
         foreach(GameObject gObject in stillCheckList)
         {
             if (gObject.CompareTag("Player"))
             {
-                if(gObject.GetComponent<CharacterController>().velocity.magnitude > 0)
+                if(gObject.GetComponent<CharacterController>().velocity.magnitude > 0)//fixa, det funkar inte. fråga johan hur det funkar med movement
                 {
                     AllStill = false;
                 }
             }
-            else if (gObject.CompareTag("test"))//ENDAST F�R ATT TESTA
+            else if (gObject.CompareTag("test"))//ENDAST Fï¿½R ATT TESTA
             {
                 if(gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
                 {
@@ -181,7 +180,7 @@ public class GameManager : MonoBehaviour
         currentEncounter = null;
         combatState = CombatState.none;
         playerManager.EndCombat();
-        roundTimer = RoundTime;//f�r snygghetens skull. Kanske bara borde disablea klockan iofs.
+        roundTimer = RoundTime;//fï¿½r snygghetens skull. Kanske bara borde disablea klockan iofs.
     }
 
 
@@ -200,7 +199,7 @@ public class GameManager : MonoBehaviour
             return;
 
         UIManager.Instance.OpenMenu();
-        Time.timeScale = 0; //fult m�h�nda att anv�nda timescale men �n s� l�nge �r det simplast.
+        Time.timeScale = 0; //fult mï¿½hï¿½nda att anvï¿½nda timescale men ï¿½n sï¿½ lï¿½nge ï¿½r det simplast.
 
         paused = true;
     }

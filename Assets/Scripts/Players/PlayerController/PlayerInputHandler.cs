@@ -14,13 +14,29 @@ public class PlayerInputHandler : MonoBehaviour
 	private InputActions inputControls;
 
 	private PlayerStateController player;
+	private PlayerMovementController playerMovement;
+	private WeaponHand weaponHand;
+	//private WeaponHand weaponHand;
 
+	//World transform variables
+	private Vector3 forward;
+	private Vector3 right;
+
+	//Helper variables
+	private List<GameObject> nearbyObjects = new List<GameObject>();
+	private List<GameObject> nearbyPlayers = new List<GameObject>();
 
 	public void Start()
 	{
+		forward = Camera.main.transform.forward;
+		forward.y = 0;
+		forward.Normalize();
+		right = new Vector3(forward.z, 0, -forward.x);
+
 		inputControls = new InputActions();
 		player = GetComponent<PlayerStateController>();
-
+		playerMovement = GetComponent<PlayerMovementController>();
+		weaponHand = GetComponent<WeaponHand>();
 	}
 
 	public void InitializePlayer(PlayerConfiguration pc)
@@ -29,30 +45,154 @@ public class PlayerInputHandler : MonoBehaviour
 		playerConfiguration.Input.onActionTriggered += Input_onActionTriggered;
 	}
 
-	private void Input_onActionTriggered(CallbackContext obj)
+	private void Input_onActionTriggered(CallbackContext context)
 	{
 		if (player != null)
 		{
-			if (obj.action.name == inputControls.PlayerMovement.Move.name)
+			if (!player.CurrentState.IsActionLocked)
 			{
-				player.OnMove(obj);
+				if (context.action.name == inputControls.PlayerMovement.Move.name)
+				{
+					Vector2 moveInput = context.ReadValue<Vector2>();
+					playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+
+
+
+					//Vector2 moveInput = context.ReadValue<Vector2>();
+
+					//Vector3 direction = (context.ReadValue<Vector2>().x * right + context.ReadValue<Vector2>().y * forward).normalized;
+					//player.RotationDirection = Quaternion.LookRotation(direction, Vector3.up);
+					//if (!player.CurrentState.IsActionTriggered && !player.CurrentState.IsStaminaDepleted)
+					//{
+					//	playerMovement.MoveDirection = direction;
+					//}
+					//else
+					//{
+					//	playerMovement.MoveDirection = Vector3.zero;
+					//}
+
+					//Quaternion rotationDirection = Quaternion.LookRotation(direction, Vector3.up);
+					//playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+					//if (!player.CurrentState.IsActionTriggered/* && !player.CurrentState.IsStaminaDepleted*/)
+					//{
+					//	Vector2 moveInput = context.ReadValue<Vector2>();
+					//	playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+					//	//playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
+					//}
+					//else
+					//{
+					//	playerMovement.MoveDirection = Vector3.zero;
+					//}
+				}
+				else if (context.action.name == inputControls.PlayerMovement.Attack.name)
+				{
+					if (context.performed)
+					{
+						if (!player.CurrentState.IsActionTriggered)
+						{
+							player.OnAttack();
+						}
+						else
+						{
+							player.LockAction();
+						}
+							
+					}
+				}
+				else if (context.action.name == inputControls.PlayerMovement.Special.name)
+				{
+					if (context.performed)
+					{
+						if (!player.CurrentState.IsActionTriggered)
+						{
+							player.OnSpecial();
+						}
+						else
+						{
+							player.CancelAction();
+						}
+					}
+				}
+				else if (context.action.name == inputControls.PlayerMovement.PickUp.name)
+				{
+					if (weaponHand.objectInHand == null)
+					{
+						if (context.canceled && nearbyObjects.Count > 0)
+						{
+							foreach (GameObject nearbyObject in nearbyObjects)
+							{
+								if (!nearbyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
+								{
+									player.OnPickUp(nearbyObject);
+									break;
+								}
+							}
+						}
+					}
+					else
+					{
+						if (context.started)
+						{
+							player.OnStartThrow();
+						}
+						if (context.canceled)
+						{
+							player.OnThrow();
+						}
+					}
+				}
+				else if (context.action.name == inputControls.PlayerMovement.Revive.name)
+				{
+					if (context.performed)
+					{
+						Debug.Log(name);
+						Debug.Log("Revive " + nearbyPlayers.Count);
+						if (nearbyPlayers.Count > 0)
+						{
+							foreach (GameObject nearbyPlayer in nearbyPlayers)
+							{
+								//if (nearbyPlayer.GetComponentInChildren<AbstractPlayerState>() is DeadState)
+								if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
+								{
+									Debug.Log("Player name " + nearbyPlayer.ToString());
+									player.OnRevive(nearbyPlayer);
+									return;
+								}
+							}
+						}
+					}
+				}
 			}
-			else if (obj.action.name == inputControls.PlayerMovement.Attack.name)
+			else if (playerMovement.MoveAmount != Vector3.zero)
 			{
-				player.OnAttack(obj);
+				playerMovement.MoveAmount = Vector3.zero;
 			}
-			else if (obj.action.name == inputControls.PlayerMovement.Special.name)
-			{
-				player.OnSpecial(obj);
-			}
-			else if (obj.action.name == inputControls.PlayerMovement.PickUp.name)
-			{
-				player.OnPickupThrow(obj);
-			}
-			else if (obj.action.name == inputControls.PlayerMovement.Revive.name)
-			{
-				player.OnRevive(obj);
-			}
+		}
+	}
+
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.tag == "WeaponObject")
+		{
+			if(!nearbyObjects.Contains(other.gameObject))
+				nearbyObjects.Add(other.gameObject);
+		}
+		else if (other.gameObject.tag == "Player")
+		{
+			if (!nearbyPlayers.Contains(other.gameObject) && other != gameObject)
+				nearbyPlayers.Add(other.gameObject);
+		}
+	}
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.gameObject.tag == "WeaponObject")
+		{
+			nearbyObjects.Remove(other.gameObject);
+		}
+		else if (other.gameObject.tag == "Player")
+		{
+			nearbyPlayers.Remove(other.gameObject);
 		}
 	}
 }
