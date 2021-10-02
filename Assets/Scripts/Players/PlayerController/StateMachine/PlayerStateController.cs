@@ -33,6 +33,10 @@ public class PlayerStateController : MonoBehaviour
         if (PlayerManager.players == null)
             PlayerManager.players = new List<GameObject>();
         PlayerManager.players.Add(this.gameObject);
+
+        if(GameManager.Instance.stillCheckList == null)
+            GameManager.Instance.stillCheckList = new List<GameObject>();
+        GameManager.Instance.stillCheckList.Add(gameObject);
     }
 
     private void SetupStates()

@@ -40,12 +40,8 @@ public class GameManager : MonoBehaviour
     public float roundTimer { get; private set; } = 0;
     public Encounter currentEncounter { get; private set; }
     public bool enemiesTurnDone = false;
-
-
     public bool playerActionsDone = false;
-
     public List<GameObject> stillCheckList;
-    
     [SerializeField]
     private bool allStill = false;
     public bool AllStill
@@ -53,24 +49,22 @@ public class GameManager : MonoBehaviour
         get { return allStill; }
         set { allStill = value; }
     }
-
-    /// <summary> DONT TOUCH, unless you want the rounds to go quicker of course </summary>
     [Header("Settings")]
     public int RoundTime = 10;//seconds
+
+
+    public PlayerManager playerManager { get; private set; }
 
     /// <summary>
     /// för att testa så den väntar tills allt står stilla innan den går vidare i rundan
     /// </summary>
     public GameObject testCube;
 
-    public PlayerManager playerManager { get; private set; }
-    
 
     // Start is called before the first frame update
     void Start()
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
-        //stillCheckList = new List<GameObject>();
         stillCheckList.AddRange(PlayerManager.players);
         Instance = this;
         roundTimer = RoundTime;
@@ -85,7 +79,7 @@ public class GameManager : MonoBehaviour
         {
             if (gObject.CompareTag("Player"))
             {
-                if(gObject.GetComponent<CharacterController>().velocity.magnitude > 0)
+                if(gObject.GetComponent<CharacterController>().velocity.magnitude > 0)//fixa, det funkar inte. fråga johan hur det funkar med movement
                 {
                     AllStill = false;
                 }
