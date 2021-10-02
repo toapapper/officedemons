@@ -12,6 +12,8 @@ public class AIController : MonoBehaviour
     NavMeshAgent agent;
     AIManager aiManager;
     GameObject closestPlayer;
+    AbstractWeapon weapon;
+
 
     [SerializeField]
     private Animator animator;
@@ -97,6 +99,7 @@ public class AIController : MonoBehaviour
         switch (currentState)
         {
             case AIStates.States.Attack:
+                //actions.Attack();
                 Debug.Log("he attacked");
                 break;
             default:
@@ -114,7 +117,6 @@ public class AIController : MonoBehaviour
 
         for (int i = 0; i < players.Count; i++)
         {
-            Debug.Log("PLayer position: " + players[i].transform.position);
             agent.SetDestination(players[i].transform.position);
 
             float distance = 0;

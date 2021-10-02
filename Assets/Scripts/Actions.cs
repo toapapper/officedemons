@@ -92,8 +92,6 @@ public class Actions : MonoBehaviour
 		agent.isStopped = false;
 		
 		agent.destination = target.transform.position;
-        //agent.Move(agent.destination);
-
         agent.gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
     }
 }
