@@ -65,7 +65,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public GameObject testCube;
 
-    public PlayerManager playerManager { get; private set; }
     public AIManager aiManager;
 
 
