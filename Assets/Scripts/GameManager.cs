@@ -141,7 +141,6 @@ public class GameManager : MonoBehaviour
         }
         else if(combatState == CombatState.enemy)
         {
-            Debug.Log("INNE GAMEMANAGER CURRENTSTAE == ENEMY (MOVE)");
             if (!enemiesTurnDone)
                 aiManager.PerformTurn();
 
@@ -156,8 +155,6 @@ public class GameManager : MonoBehaviour
         }
         else if (combatState == CombatState.enemyActions)
         {
-            Debug.Log("ENEMY ACTIONS ONGOING");
-
             aiManager.PerformActions();
 
             if (enemiesActionsDone)
@@ -173,7 +170,7 @@ public class GameManager : MonoBehaviour
     public void StartEncounter(Encounter encounter)
     {
         currentEncounter = encounter;
-        stillCheckList.AddRange(aiManager.enemies);
+        aiManager.BeginCombat();
         combatState = CombatState.player;
         roundTimer = RoundTime;
         playerManager.BeginCombat();

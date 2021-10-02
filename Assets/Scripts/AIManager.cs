@@ -16,9 +16,9 @@ public class AIManager : MonoBehaviour
     private void Start()
     {
         actions = new Queue<GameObject>();
-        players = PlayerManager.players;
         doneEvent = new UnityEvent();
         doneEvent.AddListener(NextAgentAction);
+        players = PlayerManager.players;
     }
 
 
@@ -58,9 +58,15 @@ public class AIManager : MonoBehaviour
         }
     }
 
-    public void BeginTurn() //kanske lägga till mer? annars kanske ta bort metoden
+
+    public void BeginCombat()
     {
         enemies = GameManager.Instance.currentEncounter.GetEnemylist();
+        GameManager.Instance.stillCheckList.AddRange(enemies);
+    }
+
+    public void BeginTurn() //kanske lägga till mer? annars kanske ta bort metoden
+    {
         Debug.Log("Begin turn ENEMY");
         actions.Clear();
         foreach (GameObject e in enemies)
@@ -76,7 +82,6 @@ public class AIManager : MonoBehaviour
 
     public void PerformTurn()
     {
-        Debug.Log("INNE I PERFORM TURN");
         bool allDone = true;
 
         foreach (GameObject e in enemies)
@@ -84,7 +89,6 @@ public class AIManager : MonoBehaviour
             //Debug.Log("LockedAction(): " + e.GetComponent<AIController>().LockedAction());
             if (!e.GetComponent<AIController>().LockedAction())
             {
-                Debug.Log("Locked == false");
                 //e.GetComponent<AIController>().CurrentState = AIStates.States.Wait; // DEBUG
                 e.GetComponent<AIController>().PerformBehaviour();
                 

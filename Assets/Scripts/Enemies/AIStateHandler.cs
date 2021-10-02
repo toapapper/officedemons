@@ -38,7 +38,6 @@ public class AIStateHandler : MonoBehaviour
         //GameObject weapon = rightHand.transform.GetChild(0).gameObject;
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            Debug.Log("UNNASSIGNED -> WAIT");
             //Turn towards nearest player
         }
 
@@ -57,7 +56,6 @@ public class AIStateHandler : MonoBehaviour
             {
                 if (attributes.Stamina > 0)
                 {
-                    Debug.Log("MOVING");
                     aiController.CurrentState = AIStates.States.Move; // rör sig mot target tills man target finns i line of sight    // kanske ta hänsyn till sin stamina och då ta  ett annat beslut?
                 }
                 else

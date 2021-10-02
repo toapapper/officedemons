@@ -11,6 +11,7 @@ public class AIController : MonoBehaviour
     Actions actions;
     NavMeshAgent agent;
     AIManager aiManager;
+    GameObject closestPlayer;
 
     [SerializeField]
     private Animator animator;
@@ -49,9 +50,7 @@ public class AIController : MonoBehaviour
     {
         // Check currentState and call corresponding Action
 
-        Debug.Log("INNE I PERFORMBEHAVIOUR");
         aiStateHandler.UpdateState();                  
-        Debug.Log("CURRENTSTATE: " + CurrentState);
 
         switch (CurrentState) // FindCover, CallForHealing, Attack, Move, Wait , Unassigned
         {
@@ -65,15 +64,22 @@ public class AIController : MonoBehaviour
 
             case AIStates.States.Attack:
                 aiManager.SaveAction(this.gameObject);
+                agent.destination = transform.position;
+                agent.isStopped = true;
                 break;
 
             case AIStates.States.Move:
-                GameObject closestPlayer = CalculateClosest(PlayerManager.players);
+                closestPlayer = CalculateClosest(PlayerManager.players);
+                if (closestPlayer == null)
+                    currentState = AIStates.States.Wait;
+
                 actions.MoveTowards(agent, closestPlayer);
                 break;
 
             case AIStates.States.Wait:
                 aiManager.SaveAction(this.gameObject);
+                agent.destination = transform.position;
+                agent.isStopped = true;
                 break;
 
         }
@@ -102,24 +108,31 @@ public class AIController : MonoBehaviour
 
     public GameObject CalculateClosest(List<GameObject> players)
     {
-        GameObject closestPlayer = PlayerManager.players[0];
+        closestPlayer = null;
 
-        //float closestDistance = float.MaxValue;
+        float closestDistance = float.MaxValue;
 
-        //for (int i=0; i<players.Count; i++)
-        //{
-        //    Debug.Log("PLayer position: " + players[i].transform.position);
-        //    agent.SetDestination(players[i].transform.position);
-        //    float f = agent.remainingDistance;
-        //    Debug.Log("f: " + f);
+        for (int i = 0; i < players.Count; i++)
+        {
+            Debug.Log("PLayer position: " + players[i].transform.position);
+            agent.SetDestination(players[i].transform.position);
 
-        //    if (f < closestDistance)
-        //    {
-        //        closestDistance = f;
-        //        closestPlayer = players[i];
-        //        Debug.Log("Closest player is " + closestDistance + " m from  " + closestPlayer + " which is the closest player");
-        //    }
-        //}
+            float distance = 0;
+
+            for (int j = 0; j < agent.path.corners.Length - 1; j++)
+            {
+                distance += Vector3.Distance(agent.path.corners[j], agent.path.corners[j + 1]);
+            }
+
+            Debug.Log("distance: " + distance);
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestPlayer = players[i];
+                Debug.Log("Closest player is " + closestDistance + " m from  " + closestPlayer + " which is the closest player");
+            }
+        }
         return closestPlayer;
     }
 }

@@ -89,7 +89,9 @@ public class Actions : MonoBehaviour
 
     public void MoveTowards(NavMeshAgent agent, GameObject target)
     {
-        agent.destination = target.transform.position;
+		agent.isStopped = false;
+		
+		agent.destination = target.transform.position;
         //agent.Move(agent.destination);
 
         agent.gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
