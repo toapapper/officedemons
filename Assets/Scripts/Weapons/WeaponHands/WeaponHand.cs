@@ -15,6 +15,7 @@ public class WeaponHand : MonoBehaviour
 	[SerializeField]
 	private GameObject FOVVisualization;
 	[SerializeField]
+	private Gradient laserSightMaterial;
 	private float handHitDistance = 1.5f;
 	private float handHitAngle = 100f;
 
@@ -40,8 +41,15 @@ public class WeaponHand : MonoBehaviour
 		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
 		objectInHand.GetComponentInChildren<Collider>().enabled = false;
-		FOV.viewAngle = objectInHand.ViewAngle;
-		FOV.viewRadius = objectInHand.ViewDistance;
+		if(objectInHand is RangedWeapon)
+		{
+			objectInHand.ToggleLaserAim(true, laserSightMaterial);
+		}
+		else
+		{
+			FOV.viewAngle = objectInHand.ViewAngle;
+			FOV.viewRadius = objectInHand.ViewDistance;
+		}
 	}
 
 	public void StartAttack()
@@ -96,6 +104,7 @@ public class WeaponHand : MonoBehaviour
 		if (objectInHand != null && objectInHand is RangedWeapon)
 		{
 			//TODO
+			objectInHand.ToggleLaserAim(isActive, laserSightMaterial);
 		}
 		else
 		{
@@ -121,7 +130,14 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand != null)
 		{
-			actions.Attack(objectInHand);
+			if(objectInHand is RangedWeapon)
+			{
+				objectInHand.Shoot();
+			}
+			else
+			{
+				actions.Attack(objectInHand);
+			}
 		}
 		else
 		{

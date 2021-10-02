@@ -8,6 +8,7 @@ using UnityEngine;
 public abstract class AbstractWeapon : MonoBehaviour
 {
 	private GameObject handle;
+	private GameObject weaponMuzzle;
 
 	private bool isHeld;
     private bool isProjectile;
@@ -21,6 +22,16 @@ public abstract class AbstractWeapon : MonoBehaviour
 	{
 		get { return handle; }
 		set { handle = value; }
+	}
+	protected GameObject WeaponMuzzle
+	{
+		get { return weaponMuzzle; }
+		set { weaponMuzzle = value; }
+	}
+	protected GameObject LaserAim
+	{
+		get { return weaponMuzzle; }
+		set { weaponMuzzle = value; }
 	}
 	protected int ThrowDamage
 	{
@@ -76,6 +87,9 @@ public abstract class AbstractWeapon : MonoBehaviour
 	//public virtual void DisplayFov(GameObject fovView) { }
 	public virtual void StartAttack(Animator animator) { }
 	public abstract void Attack(Animator animator);
+	public virtual void ToggleLaserAim(bool isActive, Gradient laserSightMaterial) { }
+	public virtual void Shoot() { }
+	
 
 	public void ReleaseThrow(float force)
 	{
