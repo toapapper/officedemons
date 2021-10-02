@@ -12,41 +12,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 [RequireComponent(typeof(BoxCollider))]
 public class Encounter : MonoBehaviour
 {
     //[HideInInspector]
-    public List<GameObject> enemies;
+    //public List<GameObject> enemies;    
+    
+    public List<NavMeshAgent> navMeshAgents;
+    public AIManager aIManager;
 
     private bool myTurn = false;
     private int currentEnemysTurn = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        for(int i = 0; i < transform.childCount; i++)
+        aIManager = GetComponentInChildren<AIManager>();
+
+    }
+
+
+    public List<GameObject> GetEnemylist()
+    {
+        List<GameObject> enemies = new List<GameObject>();
+        for (int i = 0; i < transform.childCount; i++)
         {
             GameObject child = transform.GetChild(i).gameObject;
             if (child.CompareTag("Enemy"))
                 enemies.Add(child);
         }
+
+        return enemies;
     }
 
     private void Update()
     {
-        if(GameManager.Instance.currentEncounter == this)
-        {
-            if (enemies.Count > 0)
-                OssianUtils.CleanList(enemies);
-            else
-            {
-                GameManager.Instance.EndEncounter();
-                Destroy(gameObject);
-            }
-        }
-
+        
         if (myTurn)//utkommenterad kod på hur signalsystemet till fienderna skulle kunna funka
         {
             /*
@@ -76,7 +79,7 @@ public class Encounter : MonoBehaviour
         }
         else
         {
-            Destroy(enemies[0]);
+            Destroy(aIManager.enemies[0]);
             GameManager.Instance.enemiesTurnDone = true;
             waited = false;
             myTurn = false;
@@ -98,19 +101,5 @@ public class Encounter : MonoBehaviour
         {
             GameManager.Instance.StartEncounter(this);
         }
-    }
-    
-
-    public void EnemiesTurn()
-    {
-        myTurn = true;
-        //enemies[0].StartTurn();
-        currentEnemysTurn = 0;
-        Debug.Log("Enemies turn start");
-    }
-
-    public void AddEnemy(GameObject enemy)
-    {
-        enemies.Add(enemy);
     }
 }

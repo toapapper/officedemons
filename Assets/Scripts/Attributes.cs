@@ -30,7 +30,6 @@ public class Attributes : MonoBehaviour
         } 
     }
 
-   
     [SerializeField]
     [Header("Stamina")]
     [Tooltip("Stamina drains at a rate of one per second")]
@@ -40,7 +39,6 @@ public class Attributes : MonoBehaviour
     {
         get { return startStamina; }
     }
-
 
     [SerializeField]
     float stamina;

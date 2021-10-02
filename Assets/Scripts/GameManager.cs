@@ -2,46 +2,51 @@
 
 /*
  * Anteckningar:
- * 
- * Pausa, hantera s�dant.
- *  
- * Hantera encounters, starta, l�sa av n�r de e avslutade etc.
+ *
+ * Pausa, hantera sï¿½dant.
+ *
+ * Hantera encounters, starta, lï¿½sa av nï¿½r de e avslutade etc.
  * enum combatState?: player, enemy, none
  * timer.
  * spelare.
- * 
- * ha koll p� spelare, kanske statiskt s� kan h�lla koll mellan menyer
- * 
- * 
+ *
+ * ha koll pï¿½ spelare, kanske statiskt sï¿½ kan hï¿½lla koll mellan menyer
+ *
+ *
  */
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.AI;
 
 public enum CombatState
 {
     none,
     player,
     playerActions,
-    enemy
+    enemy,
+    enemyActions
 }
 
 public class GameManager : MonoBehaviour
 {
     /// <summary> static current instance of GameManager </summary>
-    public static GameManager Instance { get; private set; } 
+    public static GameManager Instance { get; private set; }
 
-    //n�n static om vilka karakt�rer spelare har och timer-settings, s� de kan laddas i b�rjan av spelet(?)   
-    //Kanske ska sparas i en helt separat static-klass som kollas vid start av scen, m�jligtvis hanterar denna klassen det.
+    //nï¿½n static om vilka karaktï¿½rer spelare har och timer-settings, sï¿½ de kan laddas i bï¿½rjan av spelet(?)
+    //Kanske ska sparas i en helt separat static-klass som kollas vid start av scen, mï¿½jligtvis hanterar denna klassen det.
     public CombatState combatState { get; private set; } = CombatState.none;
     public bool paused { get; private set; } = false;
     public float roundTimer { get; private set; } = 0;
     public Encounter currentEncounter { get; private set; }
     public bool enemiesTurnDone = false;
     public bool playerActionsDone = false;
+    public bool enemiesActionsDone = false;
+
     public List<GameObject> stillCheckList;
+
     [SerializeField]
     private bool allStill = false;
     public bool AllStill
@@ -56,16 +61,22 @@ public class GameManager : MonoBehaviour
     public PlayerManager playerManager { get; private set; }
 
     /// <summary>
-    /// f�r att testa s� den v�ntar tills allt st�r stilla innan den g�r vidare i rundan
+    /// fï¿½r att testa sï¿½ den vï¿½ntar tills allt stï¿½r stilla innan den gï¿½r vidare i rundan
     /// </summary>
     public GameObject testCube;
+
+    public PlayerManager playerManager { get; private set; }
+    public AIManager aiManager;
 
 
     // Start is called before the first frame update
     void Start()
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
+        //stillCheckList = new List<GameObject>();
         stillCheckList.AddRange(PlayerManager.players);
+        //stillCheckList.AddRange();
         Instance = this;
         roundTimer = RoundTime;
     }
@@ -73,20 +84,27 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //�r alla/allt stilla-check
+        //ï¿½r alla/allt stilla-check
         AllStill = true;
         foreach(GameObject gObject in stillCheckList)
         {
             if (gObject.CompareTag("Player"))
             {
-                if(gObject.GetComponent<CharacterController>().velocity.magnitude > 0)//fixa, det funkar inte. fr�ga johan hur det funkar med movement
+                if(gObject.GetComponent<CharacterController>().velocity.magnitude > 0)//fixa, det funkar inte. fråga johan hur det funkar med movement
                 {
                     AllStill = false;
                 }
             }
-            else if (gObject.CompareTag("test"))//ENDAST F�R ATT TESTA
+            else if (gObject.CompareTag("test"))//ENDAST Fï¿½R ATT TESTA
             {
                 if(gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
+                {
+                    AllStill = false;
+                }
+            }
+            else if (gObject.CompareTag("Enemy"))
+            {
+                if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
                 {
                     AllStill = false;
                 }
@@ -99,6 +117,7 @@ public class GameManager : MonoBehaviour
             roundTimer -= Time.deltaTime;
             if(roundTimer <= 0)
             {
+                Debug.Log("PLAYER MOVE DONE");
                 playerActionsDone = false;
                 combatState = CombatState.playerActions;
 
@@ -112,27 +131,45 @@ public class GameManager : MonoBehaviour
         {
             if (playerActionsDone)
             {
+                Debug.Log("PLAYER ACTIONS DONE");
                 combatState = CombatState.enemy;
-                currentEncounter.EnemiesTurn();
                 enemiesTurnDone = false;
+
+                aiManager.BeginTurn();
             }
         }
         else if(combatState == CombatState.enemy)
         {
+            if (!enemiesTurnDone)
+                aiManager.PerformTurn();
+
+
             if (enemiesTurnDone)
             {
-                playerManager.BeginTurn();
-                enemiesTurnDone = false;
+                Debug.Log("ENEMY MOVE DONE");
+                enemiesActionsDone = false;
+                combatState = CombatState.enemyActions;
+
+            }
+        }
+        else if (combatState == CombatState.enemyActions)
+        {
+            aiManager.PerformActions();
+
+            if (enemiesActionsDone)
+            {
+                Debug.Log("ENEMY ACTIONS DONE");
                 combatState = CombatState.player;
+                playerManager.BeginTurn();
                 roundTimer = RoundTime;
             }
         }
-
     }
 
     public void StartEncounter(Encounter encounter)
     {
         currentEncounter = encounter;
+        aiManager.BeginCombat();
         combatState = CombatState.player;
         roundTimer = RoundTime;
         playerManager.BeginCombat();
@@ -143,10 +180,10 @@ public class GameManager : MonoBehaviour
         currentEncounter = null;
         combatState = CombatState.none;
         playerManager.EndCombat();
-        roundTimer = RoundTime;//f�r snygghetens skull. Kanske bara borde disablea klockan iofs.
+        roundTimer = RoundTime;//fï¿½r snygghetens skull. Kanske bara borde disablea klockan iofs.
     }
 
-    
+
     //toggles between pause and unpause
     public void OnPause()
     {
@@ -162,7 +199,7 @@ public class GameManager : MonoBehaviour
             return;
 
         UIManager.Instance.OpenMenu();
-        Time.timeScale = 0; //fult m�h�nda att anv�nda timescale men �n s� l�nge �r det simplast.
+        Time.timeScale = 0; //fult mï¿½hï¿½nda att anvï¿½nda timescale men ï¿½n sï¿½ lï¿½nge ï¿½r det simplast.
 
         paused = true;
     }
@@ -177,6 +214,9 @@ public class GameManager : MonoBehaviour
 
         paused = false;
     }
-    
-   
+
+    public List<GameObject> GetPlayers()
+    {
+        return PlayerManager.players;
+    }
 }
