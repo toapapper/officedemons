@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     public bool playerActionsDone = false;
     public bool enemiesActionsDone = false;
 
-    public List<GameObject> stillCheckList;
+    public List<GameObject> stillCheckList = new List<GameObject>();
 
     [SerializeField]
     private bool allStill = false;
@@ -69,14 +69,11 @@ public class GameManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        Instance = this;
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
-        //stillCheckList = new List<GameObject>();
-        stillCheckList.AddRange(PlayerManager.players);
-        //stillCheckList.AddRange();
-        Instance = this;
         roundTimer = RoundTime;
     }
 

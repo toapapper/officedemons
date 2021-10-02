@@ -25,7 +25,7 @@ public class PlayerStateController : MonoBehaviour
     public void Die() => MakeStateTransition(states[PlayerStates.DEAD]);
     public void Revive() => MakeStateTransition(states[PlayerStates.REVIVE]);
 
-    private void Awake()
+    private void Start()
     {
         SetupStates();
         CurrentState = states[PlayerStates.OUTOFCOMBAT];
