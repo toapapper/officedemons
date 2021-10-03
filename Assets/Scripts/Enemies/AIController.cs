@@ -12,7 +12,7 @@ public class AIController : MonoBehaviour
     NavMeshAgent agent;
     AIManager aiManager;
     GameObject closestPlayer;
-    AbstractWeapon weapon;
+    WeaponHand weapon;
 
 
     [SerializeField]
@@ -45,6 +45,7 @@ public class AIController : MonoBehaviour
         CurrentState = AIStates.States.Unassigned;
         aiStateHandler = GetComponent<AIStateHandler>();
         aiManager = transform.parent.GetComponentInChildren<AIManager>();
+        weapon = GetComponent<WeaponHand>();
     }
 
     // peforms the corresponding behaviour to the enemy's current state (Called in AIManager)
@@ -67,6 +68,7 @@ public class AIController : MonoBehaviour
             case AIStates.States.Attack:
                 aiManager.SaveAction(this.gameObject);
                 agent.destination = transform.position;
+                weapon.StartAttack();
                 agent.isStopped = true;
                 break;
 
@@ -99,7 +101,7 @@ public class AIController : MonoBehaviour
         switch (currentState)
         {
             case AIStates.States.Attack:
-                //actions.Attack();
+                weapon.Attack();
                 Debug.Log("he attacked");
                 break;
             default:
@@ -111,29 +113,32 @@ public class AIController : MonoBehaviour
 
     public GameObject CalculateClosest(List<GameObject> players)
     {
-        closestPlayer = null;
+        NavMeshPath path = new NavMeshPath();
 
         float closestDistance = float.MaxValue;
 
         for (int i = 0; i < players.Count; i++)
         {
-            agent.SetDestination(players[i].transform.position);
-
-            float distance = 0;
-
-            for (int j = 0; j < agent.path.corners.Length - 1; j++)
+            if (players[i] == null)
             {
-                distance += Vector3.Distance(agent.path.corners[j], agent.path.corners[j + 1]);
+                continue;
+            }
+            if (NavMesh.CalculatePath(transform.position, players[i].gameObject.transform.position, agent.areaMask, path))
+            {
+                float distance = Vector3.Distance(transform.position, path.corners[0]);
+                for (int j = 1; j < path.corners.Length; j++)
+                {
+                    distance += Vector3.Distance(path.corners[j-1],path.corners[j]);
+                }
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestPlayer = players[i];
+                    Debug.Log("Closest player is " + closestDistance + " m from  " + closestPlayer + " which is the closest player");
+                }
             }
 
-            Debug.Log("distance: " + distance);
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestPlayer = players[i];
-                Debug.Log("Closest player is " + closestDistance + " m from  " + closestPlayer + " which is the closest player");
-            }
         }
         return closestPlayer;
     }

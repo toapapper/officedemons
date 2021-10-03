@@ -9,6 +9,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 {
 	private GameObject handle;
 
+	[SerializeField]
 	private bool isHeld;
     private bool isProjectile;
 
