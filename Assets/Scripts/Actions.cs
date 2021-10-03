@@ -56,7 +56,7 @@ public class Actions : MonoBehaviour
 		}
 	}
 
-	public void Hit(int damage)
+	public void Hit(int damage, Vector3 fromPosition)
 	{
 		List<GameObject> targetList = fov.visibleTargets;
 
@@ -65,6 +65,11 @@ public class Actions : MonoBehaviour
 			Attributes targetAttributes = target.GetComponent<Attributes>();
 			targetAttributes.Health -= damage;
 		}
+	}
+
+	public void TakeBulletDamage(int damage, Vector3 fromPosition)
+	{
+
 	}
 
 	public void Die()

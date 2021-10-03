@@ -15,7 +15,7 @@ public class WeaponHand : MonoBehaviour
 	[SerializeField]
 	private GameObject FOVVisualization;
 	[SerializeField]
-	private Gradient laserSightMaterial;
+	private Gradient laserSightGradient;
 	private float handHitDistance = 1.5f;
 	private float handHitAngle = 100f;
 
@@ -43,7 +43,7 @@ public class WeaponHand : MonoBehaviour
 		objectInHand.GetComponentInChildren<Collider>().enabled = false;
 		if(objectInHand is RangedWeapon)
 		{
-			objectInHand.ToggleLaserAim(true, laserSightMaterial);
+			objectInHand.ToggleLaserAim(true, laserSightGradient);
 		}
 		else
 		{
@@ -104,7 +104,7 @@ public class WeaponHand : MonoBehaviour
 		if (objectInHand != null && objectInHand is RangedWeapon)
 		{
 			//TODO
-			objectInHand.ToggleLaserAim(isActive, laserSightMaterial);
+			objectInHand.ToggleLaserAim(isActive, laserSightGradient);
 		}
 		else
 		{
@@ -141,7 +141,7 @@ public class WeaponHand : MonoBehaviour
 		}
 		else
 		{
-			actions.Hit(HandHitdamage);
+			actions.Hit(HandHitdamage, transform.position);
 		}
 	}
 }
