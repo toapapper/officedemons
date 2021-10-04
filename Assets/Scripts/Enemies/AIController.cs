@@ -115,7 +115,6 @@ public class AIController : MonoBehaviour
 
         for (int i = 0; i < players.Count; i++)
         {
-            Debug.Log(players[i]);
             if (players[i] == null)
             {
                 continue;
@@ -132,7 +131,6 @@ public class AIController : MonoBehaviour
                 {
                     closestDistance = distance;
                     closestPlayer = players[i];
-                    Debug.Log("closest player == " + players[i]);
                     //Debug.Log("Closest player is " + closestDistance + " m from  " + closestPlayer + " which is the closest player");
                 }
             }
