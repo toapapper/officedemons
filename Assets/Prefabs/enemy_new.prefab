@@ -239,8 +239,6 @@ GameObject:
   - component: {fileID: 6667637750996314532}
   - component: {fileID: 8536423501050563414}
   - component: {fileID: 8536423501050563421}
-  - component: {fileID: 7056811443969017486}
-  - component: {fileID: 6703389109869860241}
   - component: {fileID: 8659377007084872134}
   - component: {fileID: 4927058671730580304}
   - component: {fileID: 130165711136296713}
@@ -372,35 +370,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7056811443969017486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8536423501050563420}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38d6b35c7ce046742b828b5588a9a26d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6703389109869860241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8536423501050563420}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71258b3fae9cad54aacf7278c082c9e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
-  rotationSpeed: 500
-  throwForceMultiplier: 25
-  maxThrowForce: 30
-  maxHealthMark: 100
 --- !u!114 &8659377007084872134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,7 +385,7 @@ MonoBehaviour:
   handObject: {fileID: 1200446630376892084}
   objectInHand: {fileID: 8559958708082085348}
   FOV: {fileID: 4562979356348074481}
-  FOVVisualization: {fileID: 0}
+  FOVVisualization: {fileID: 1720770877806713279}
   handHitDistance: 1.5
   HandHitdamage: 5
   throwForce: 25
@@ -678,6 +647,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+--- !u!1 &1720770877806713279 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6084092835874375796, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+  m_PrefabInstance: {fileID: 4867948970330755531}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &745645547168825740 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5320859338818097223, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
