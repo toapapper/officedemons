@@ -5,31 +5,23 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class CombatActionState : AbstractPlayerState
 {
-	public override void OnMove(CallbackContext context) { }
-	public override void OnAttack(CallbackContext context) { }
-	public override void OnSpecial(CallbackContext context) { }
-	public override void OnPickupThrow(CallbackContext context) { }
-	public override void OnRevive(CallbackContext context) { }
-
-	public override void OnFixedUpdateState() { }
-
-
 	public override void OnStateEnter()
 	{
 		Debug.Log("Enters CombatActionState" + this + " Action: " + GetComponent<CombatTurnState>().ChosenAction);
 		switch (GetComponent<CombatTurnState>().ChosenAction)
 		{
 			case TypeOfAction.ATTACK:
-				playerMovement.PerformAttack();
+				weaponHand.Attack();
 				break;
 			case TypeOfAction.SPECIALATTACK:
-				playerMovement.PerformSpecial();
+				//specialHand.Attack();
 				break;
 			case TypeOfAction.THROW:
 				playerMovement.PerformThrow();
 				break;
 			case TypeOfAction.REVIVE:
-				playerMovement.PerformRevive();
+				GetComponent<Actions>().Revive(GetComponent<CombatTurnState>().PlayerToRevive);
+				Debug.LogWarning("combatActionState revive " + GetComponent<CombatTurnState>().PlayerToRevive);
 				break;
 			case TypeOfAction.NOACTION:
 				break;
@@ -49,6 +41,7 @@ public class CombatActionState : AbstractPlayerState
 			if (GameManager.Instance.AllStill)
 			{
 				PlayerManager.doneEvent.Invoke();
+				GetComponent<PlayerStateController>().StartWaitForTurn();
 				StopCoroutine("WaitDone");
 			}
 			yield return null;

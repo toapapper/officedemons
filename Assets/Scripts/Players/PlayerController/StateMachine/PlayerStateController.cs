@@ -8,36 +8,40 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class PlayerStateController : MonoBehaviour
 {
-    private PlayerStateContext playerContext;
-    private Dictionary<PlayerStates, IPlayerState> states;
-
-    private int playerNr;
-
-    public void StartOutOfCombat() => playerContext.MakeStateTransistion(states[PlayerStates.OUTOFCOMBAT]);
-    public void StartCombat() => playerContext.MakeStateTransistion(states[PlayerStates.ENTERCOMBAT]);
-    public void StartTurn() => playerContext.MakeStateTransistion(states[PlayerStates.COMBATTURN]);
-    public void StartCombatAction() => playerContext.MakeStateTransistion(states[PlayerStates.COMBATACTION]);
-    public void StartWaitForTurn() => playerContext.MakeStateTransistion(states[PlayerStates.COMBATWAIT]);
-    public void Die() => playerContext.MakeStateTransistion(states[PlayerStates.DEAD]);
-
-    private void Awake()
+    public IPlayerState CurrentState
     {
-        SetupStates();
-        playerContext = new PlayerStateContext(states[PlayerStates.OUTOFCOMBAT]);
-		PlayerManager.players.Add(this.gameObject);
+        get;
+        set;
     }
 
-	void OnEnable()
-	{
-		if (PlayerManager.players == null)
-			PlayerManager.players = new List<GameObject>();
+    public Dictionary<PlayerStates, IPlayerState> states { get; private set; }
 
-		playerNr = PlayerManager.players.Count;
-	}
 
-	private void SetupStates()
+    public void StartOutOfCombat() => MakeStateTransition(states[PlayerStates.OUTOFCOMBAT]);
+    public void StartCombat() => MakeStateTransition(states[PlayerStates.ENTERCOMBAT]);
+    public void StartTurn() => MakeStateTransition(states[PlayerStates.COMBATTURN]);
+    public void StartCombatAction() => MakeStateTransition(states[PlayerStates.COMBATACTION]);
+    public void StartWaitForTurn() => MakeStateTransition(states[PlayerStates.COMBATWAIT]);
+    public void Die() => MakeStateTransition(states[PlayerStates.DEAD]);
+    public void Revive() => MakeStateTransition(states[PlayerStates.REVIVE]);
+
+    private void Start()
     {
-        //Add all new states here. 
+        SetupStates();
+        CurrentState = states[PlayerStates.OUTOFCOMBAT];
+
+        if (PlayerManager.players == null)
+            PlayerManager.players = new List<GameObject>();
+        PlayerManager.players.Add(this.gameObject);
+
+        if(GameManager.Instance.stillCheckList == null)
+            GameManager.Instance.stillCheckList = new List<GameObject>();
+        GameManager.Instance.stillCheckList.Add(gameObject);
+    }
+
+    private void SetupStates()
+    {
+        //Add all new states here.
         states = new Dictionary<PlayerStates, IPlayerState>();
         states.Add(PlayerStates.OUTOFCOMBAT, gameObject.AddComponent<OutOfCombatState>());
 		states.Add(PlayerStates.ENTERCOMBAT, gameObject.AddComponent<CombatEnterState>());
@@ -45,29 +49,46 @@ public class PlayerStateController : MonoBehaviour
         states.Add(PlayerStates.COMBATACTION, gameObject.AddComponent<CombatActionState>());
 		states.Add(PlayerStates.COMBATWAIT, gameObject.AddComponent<CombatWaitState>());
 		states.Add(PlayerStates.DEAD, gameObject.AddComponent<DeadState>());
+        states.Add(PlayerStates.REVIVE, gameObject.AddComponent<ReviveState>());
 	}
 
-
-    public void OnMove(CallbackContext context)
+    public void MakeStateTransition(IPlayerState playerStateTo)
     {
-        playerContext.OnMove(context);
-    }
-    public void OnAttack(CallbackContext context)
-    {
-        playerContext.OnAttack(context);
-    }
-    public void OnSpecial(CallbackContext context)
-    {
-        playerContext.OnSpecial(context);
-    }
-    public void OnPickupThrow(CallbackContext context)
-    {
-        playerContext.OnPickupThrow(context);
-    }
-    public void OnRevive(CallbackContext context)
-    {
-        playerContext.OnRevive(context);
+        CurrentState.TransitionState(playerStateTo);
     }
 
-    private void FixedUpdate() => playerContext.FixedUpdateContext();
+    public void LockAction()
+	{
+        CurrentState.LockAction();
+	}
+    public void CancelAction()
+	{
+        CurrentState.CancelAction();
+	}
+    public void OnAttack()
+    {
+        CurrentState.OnAttack();
+    }
+    public void OnSpecial()
+    {
+        CurrentState.OnSpecial();
+    }
+    public void OnPickUp(GameObject weapon)
+	{
+        CurrentState.OnPickUp(weapon);
+    }
+    public void OnStartThrow()
+	{
+        CurrentState.OnStartThrow();
+	}
+    public void OnThrow()
+	{
+        CurrentState.OnThrow();
+	}
+    public void OnRevive(GameObject player)
+    {
+        CurrentState.OnRevive(player);
+    }
+
+    private void FixedUpdate() => CurrentState.OnFixedUpdateState();
 }

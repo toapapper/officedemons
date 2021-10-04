@@ -8,65 +8,42 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class OutOfCombatState : AbstractPlayerState
 {
-    //Move action
-    public override void OnMove(CallbackContext context)
+	public override void OnAttack()
 	{
-        playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
-    }
-    //Attack action
-    public override void OnAttack(CallbackContext context)
-	{
-		if (context.performed)
-		{
-            playerMovement.PerformAttack();
-        }
+        weaponHand.Attack();
     }
     //Special action
-    public override void OnSpecial(CallbackContext context)
+    public override void OnSpecial()
     {
         //TODO
-        //if (context.performed)
-        //{
-        //    playerMovement.PerformSpecial();
-        //}
+        //specialHand.Attack();
     }
-    //Pickup/Throw action
-    public override void OnPickupThrow(CallbackContext context)
+    //PickUp
+    public override void OnPickUp(GameObject weapon)
 	{
-		if (!playerMovement.isWeaponEquipped)
-		{
-            if (context.canceled)
-            {
-                playerMovement.PerformPickup();
-            }
-        }
-		else
-		{
-            if (context.started)
-            {
-                if (playerMovement.StartThrow())
-                {
-                    IsAddingThrowForce = true;
-                }
-            }
-            else if (context.canceled)
-            {
-                if (playerMovement.PerformThrow())
-                {
-                    IsAddingThrowForce = false;
-                }
-            }
-        }
-		
-    }
-    //Revive action
-	public override void OnRevive(CallbackContext context)
-	{
-		//if (context.performed)
-		//{
-  //          throw new System.NotImplementedException();
-  //      }
+        weaponHand.Equip(weapon);
 	}
+	public override void OnStartThrow()
+	{
+        if (weaponHand.StartThrow())
+        {
+            IsAddingThrowForce = true;
+        }
+    }
+	public override void OnThrow()
+    {
+        if (playerMovement.PerformThrow())
+        {
+            IsAddingThrowForce = false;
+        }
+    }
+
+    //Revive action
+	public override void OnRevive(GameObject player)
+	{
+        player.GetComponentInChildren<Attributes>().Health = 100;
+        Debug.Log("Revive player " + player.name);
+    }
     //Heal action
     //   public override void OnHeal(CallbackContext context)
     //{

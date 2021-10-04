@@ -20,10 +20,16 @@ public class Attributes : MonoBehaviour
     public int Health
     {
         get { return health; }
-        set { health = value; } 
+        set { //kanske bör flyttas någon annan stans.
+            health = value;
+            if (health <= 0)
+            {
+                health = 0;
+                GetComponent<Actions>().Die();
+            }
+        } 
     }
 
-   
     [SerializeField]
     [Header("Stamina")]
     [Tooltip("Stamina drains at a rate of one per second")]
@@ -34,7 +40,6 @@ public class Attributes : MonoBehaviour
         get { return startStamina; }
     }
 
-
     [SerializeField]
     float stamina;
 
@@ -44,7 +49,7 @@ public class Attributes : MonoBehaviour
         set { stamina = value; }
     }
 
-    private void Start()
+    private void Awake()
     {
         Health = StartHealth;
         Stamina = StartStamina;
