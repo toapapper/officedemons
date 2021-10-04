@@ -15,15 +15,15 @@ public abstract class RangedWeapon : AbstractWeapon
 
 	public override void Shoot()
 	{
-		Vector3 forward = transform.forward;
-		forward.y = 0;
-		forward.Normalize();
+		Vector3 bulletDirection = transform.forward;
+		bulletDirection.y = 0;
+		bulletDirection.Normalize();
 
 		//GameObject newBullet = bullet;
 		//Instantiate(newBullet, WeaponMuzzle.transform.position + forward, Quaternion.LookRotation(forward));
 		//newBullet.GetComponent<Rigidbody>().AddForce(forward * bulletForce, ForceMode.VelocityChange);
-
-		bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, forward, Damage);
+		Debug.Log(Damage);
+		bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, bulletDirection, BulletFireForce, BulletHitForce, Damage);
 
 
 

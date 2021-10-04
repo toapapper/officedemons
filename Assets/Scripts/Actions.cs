@@ -67,9 +67,10 @@ public class Actions : MonoBehaviour
 		}
 	}
 
-	public void TakeBulletDamage(int damage, Vector3 fromPosition)
+	public void TakeBulletDamage(int damage, Vector3 bulletHitForce)
 	{
-
+		attributes.Health -= damage;
+		GetComponent<Rigidbody>().AddForce(bulletHitForce, ForceMode.VelocityChange);
 	}
 
 	public void Die()

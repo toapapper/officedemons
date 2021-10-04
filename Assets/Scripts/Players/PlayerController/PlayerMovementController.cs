@@ -8,8 +8,9 @@ using UnityEngine;
 /// </summary>
 public class PlayerMovementController : MonoBehaviour
 {
+	private Rigidbody rb;
     //Character movers
-    private CharacterController character;
+    //private CharacterController character;
     private WeaponHand weaponHand;
 	//private SpecialHand specialHand;
 
@@ -24,6 +25,7 @@ public class PlayerMovementController : MonoBehaviour
 	private float moveSpeed = 10f;
 	[SerializeField]
 	private float rotationSpeed = 500f;
+
 
 	//Throwing variables
 	[SerializeField]
@@ -56,7 +58,8 @@ public class PlayerMovementController : MonoBehaviour
 
 	private void Awake()
 	{
-		character = GetComponent<CharacterController>();
+		rb = GetComponent<Rigidbody>();
+		//character = GetComponent<CharacterController>();
         weaponHand = GetComponent<WeaponHand>();
         //specialHand = GetComponent<SpecialHand>();
     }
@@ -104,6 +107,8 @@ public class PlayerMovementController : MonoBehaviour
 		Vector3 targetMoveAmount = moveDirection * moveSpeed;
 		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
 		return moveAmount;
+
+		//return moveDirection;
 	}
 	//Perform movement
 	public void PerformRotation()
@@ -112,11 +117,12 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public void PerformMovement()
 	{
-		character.Move(moveAmount * Time.fixedDeltaTime);
+		//character.Move(moveAmount * Time.fixedDeltaTime);
+		rb.MovePosition(transform.position + moveAmount * Time.fixedDeltaTime);
 	}
 	public void PerformFall()
 	{
-		character.Move(Vector3.down * Time.fixedDeltaTime);
+		//character.Move(Vector3.down * Time.fixedDeltaTime);
 	}
 
 

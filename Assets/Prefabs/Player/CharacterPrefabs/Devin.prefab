@@ -219,7 +219,9 @@ GameObject:
   - component: {fileID: 5000025348800010995}
   - component: {fileID: 5000025348800010992}
   - component: {fileID: 8042560695173691398}
+  - component: {fileID: 6743994904553947358}
   - component: {fileID: 5000025348800010996}
+  - component: {fileID: 4728817241116783531}
   - component: {fileID: 5000025348800011007}
   - component: {fileID: 5979104635936921388}
   - component: {fileID: 3091092235463708865}
@@ -315,6 +317,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.5, y: 2.5, z: 2.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &6743994904553947358
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5000025348800011006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &5000025348800010996
 CharacterController:
   m_ObjectHideFlags: 0
@@ -324,7 +340,7 @@ CharacterController:
   m_GameObject: {fileID: 5000025348800011006}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Height: 2
   m_Radius: 0.5
@@ -333,6 +349,22 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &4728817241116783531
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5000025348800011006}
+  serializedVersion: 2
+  m_Mass: 20
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!95 &5000025348800011007
 Animator:
   serializedVersion: 3

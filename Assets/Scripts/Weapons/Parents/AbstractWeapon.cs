@@ -19,6 +19,9 @@ public abstract class AbstractWeapon : MonoBehaviour
     private bool isProjectile;
 
     private int damage;
+	private int bulletHitForce;
+	private int bulletFireForce;
+
     private int throwDamage;
 	private float viewDistance;
 	private float viewAngle;
@@ -47,6 +50,16 @@ public abstract class AbstractWeapon : MonoBehaviour
 	{
 		get { return damage; }
 		set { damage = value; }
+	}
+	public int BulletFireForce
+	{
+		get { return bulletFireForce; }
+		set { bulletFireForce = value; }
+	}
+	public int BulletHitForce
+	{
+		get { return bulletHitForce; }
+		set { bulletHitForce = value; }
 	}
 	public float ViewAngle
 	{

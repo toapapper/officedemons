@@ -4,24 +4,29 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-	float bulletForce = 1f;
 	int bulletDamage;
+	Vector3 bulletHitForce;
 	private Bullet bulletObject;
 
-	public void CreateBullet(Vector3 position, Vector3 direction, int bulletDamage)
+	public void CreateBullet(Vector3 position, Vector3 direction, int bulletFireForce, int bulletHitForce, int bulletDamage)
 	{
-		this.bulletDamage = bulletDamage;
 		bulletObject = Instantiate(this, position, Quaternion.LookRotation(direction));
-		bulletObject.GetComponent<Rigidbody>().AddForce(direction * bulletForce, ForceMode.VelocityChange);
+		bulletObject.bulletDamage = bulletDamage;
+		Debug.Log(bulletHitForce);
+		bulletObject.bulletHitForce = direction * bulletHitForce;
+		bulletObject.GetComponent<Rigidbody>().AddForce(direction * bulletFireForce, ForceMode.VelocityChange);
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		Debug.Log("Collision triggered");
-		if (other.gameObject.GetComponent<Actions>() != null)
+		if (!other.isTrigger)
 		{
-			other.gameObject.GetComponent<Actions>().TakeBulletDamage(bulletDamage, transform.position);
+			Debug.Log("BulletDamage: " + bulletDamage + " HitForce: " + bulletHitForce);
+			if (other.gameObject.GetComponent<Actions>() != null)
+			{
+				other.gameObject.GetComponent<Actions>().TakeBulletDamage(bulletDamage, bulletHitForce);
+			}
+			Destroy(gameObject);
 		}
-		Destroy(this.gameObject);
 	}
 }
