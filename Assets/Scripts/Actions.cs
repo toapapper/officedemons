@@ -64,6 +64,7 @@ public class Actions : MonoBehaviour
 		{
 			Attributes targetAttributes = target.GetComponent<Attributes>();
 			targetAttributes.Health -= damage;
+			target.GetComponent<Rigidbody>().AddForce((transform.position - fromPosition) * 5, ForceMode.VelocityChange);
 		}
 	}
 
