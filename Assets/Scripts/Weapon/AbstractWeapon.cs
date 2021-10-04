@@ -8,6 +8,14 @@ using UnityEngine;
 public abstract class AbstractWeapon : MonoBehaviour
 {
 	private GameObject handle;
+	private int damage;
+	private int throwDamage;
+	private float viewDistance;
+	private float viewAngle;
+
+	private bool isHeld;
+	private bool isProjectile;
+
 	//private GameObject weaponMuzzle;
 	//private GameObject laserAim;
 
@@ -16,52 +24,29 @@ public abstract class AbstractWeapon : MonoBehaviour
 	//[SerializeField]
 	//public LayerMask ignoreLayer;
 
-	private bool isHeld;
-    private bool isProjectile;
 
-    private int damage;
+
+
 	//private int bulletHitForce;
 	//private int bulletFireForce;
 
-    private int throwDamage;
-	private float viewDistance;
-	private float viewAngle;
+
 
 	protected GameObject Handle
 	{
 		get { return handle; }
 		set { handle = value; }
 	}
-	//protected GameObject WeaponMuzzle
-	//{
-	//	get { return weaponMuzzle; }
-	//	set { weaponMuzzle = value; }
-	//}
-	//protected GameObject LaserAim
-	//{
-	//	get { return weaponMuzzle; }
-	//	set { weaponMuzzle = value; }
-	//}
-	protected int ThrowDamage
-	{
-		get { return throwDamage; }
-		set { throwDamage = value; }
-	}
 	public int Damage
 	{
 		get { return damage; }
 		set { damage = value; }
 	}
-	//public int BulletFireForce
-	//{
-	//	get { return bulletFireForce; }
-	//	set { bulletFireForce = value; }
-	//}
-	//public int BulletHitForce
-	//{
-	//	get { return bulletHitForce; }
-	//	set { bulletHitForce = value; }
-	//}
+	protected int ThrowDamage
+	{
+		get { return throwDamage; }
+		set { throwDamage = value; }
+	}
 	public float ViewAngle
 	{
 		get { return viewAngle; }
@@ -77,6 +62,30 @@ public abstract class AbstractWeapon : MonoBehaviour
 		get { return isHeld; }
 		set { isHeld = value; }
 	}
+
+	//protected GameObject WeaponMuzzle
+	//{
+	//	get { return weaponMuzzle; }
+	//	set { weaponMuzzle = value; }
+	//}
+	//protected GameObject LaserAim
+	//{
+	//	get { return weaponMuzzle; }
+	//	set { weaponMuzzle = value; }
+	//}
+
+
+	//public int BulletFireForce
+	//{
+	//	get { return bulletFireForce; }
+	//	set { bulletFireForce = value; }
+	//}
+	//public int BulletHitForce
+	//{
+	//	get { return bulletHitForce; }
+	//	set { bulletHitForce = value; }
+	//}
+
 	//public bool IsProjectile
 	//{
 	//	get { return isProjectile; }
