@@ -10,6 +10,11 @@ public abstract class AbstractWeapon : MonoBehaviour
 	private GameObject handle;
 	private GameObject weaponMuzzle;
 
+	public LineRenderer bulletTrail;
+	public int maxBulletDistance = 30;
+	[SerializeField]
+	public LayerMask ignoreLayer;
+
 	private bool isHeld;
     private bool isProjectile;
 
@@ -58,11 +63,11 @@ public abstract class AbstractWeapon : MonoBehaviour
 		get { return isHeld; }
 		set { isHeld = value; }
 	}
-	public bool IsProjectile
-	{
-		get { return isProjectile; }
-		set { isProjectile = value; }
-	}
+	//public bool IsProjectile
+	//{
+	//	get { return isProjectile; }
+	//	set { isProjectile = value; }
+	//}
 
 
 

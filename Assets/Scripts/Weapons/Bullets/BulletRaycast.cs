@@ -9,6 +9,7 @@ public static class BulletRaycast
 		RaycastHit hit;
 		if (Physics.Raycast(shootPosition, shootDirection, out hit, maxDistance))
 		{
+			if(hit.transform.GetComponent<Actions>())
 			if (hit.collider != null)
 			{
 				Actions targetActions = hit.collider.gameObject.GetComponent<Actions>();
@@ -17,6 +18,10 @@ public static class BulletRaycast
 					targetActions.TakeBulletDamage(bulletDamage, shootPosition);
 				}
 			}
+		}
+		else
+		{
+			//SpawnBullet() maxDistance
 		}
 	}
 }
