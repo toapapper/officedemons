@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Code by: Johan Melkersson
+/// </summary>
 public class Laser : MonoBehaviour
 {
     private LineRenderer laserBeam;
@@ -10,7 +13,6 @@ public class Laser : MonoBehaviour
     [SerializeField]
     private LayerMask ignoreLayer;
 
-    // Start is called before the first frame update
     void Start()
     {
         laserBeam = GetComponent<LineRenderer>();
