@@ -13,12 +13,22 @@ public class AIManager : MonoBehaviour
     
     private Queue<GameObject> actions;
 
-    private void Awake()
+    private void Start()
     {
-        players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
+        actions = new Queue<GameObject>();
         doneEvent = new UnityEvent();
         doneEvent.AddListener(NextAgentAction);
+        players = PlayerManager.players;
     }
+
+
+
+    private void Update()
+    {
+        if (GameManager.Instance.combatState == CombatState.enemy)
+            PerformTurn();
+    }
+
 
     private void NextAgentAction()
     {
@@ -48,10 +58,22 @@ public class AIManager : MonoBehaviour
         }
     }
 
+
+    public void BeginCombat()
+    {
+        enemies = GameManager.Instance.currentEncounter.GetEnemylist();
+        GameManager.Instance.stillCheckList.AddRange(enemies);
+    }
+
     public void BeginTurn() //kanske lägga till mer? annars kanske ta bort metoden
     {
         Debug.Log("Begin turn ENEMY");
         actions.Clear();
+        foreach (GameObject e in enemies)
+        {
+            e.GetComponent<Attributes>().Stamina = e.GetComponent<Attributes>().StartStamina;
+            e.GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
+        }
         Debug.Log("KOMMER FÖRBI CLEAR");
 
 
@@ -60,7 +82,6 @@ public class AIManager : MonoBehaviour
 
     public void PerformTurn()
     {
-        Debug.Log("INNE I PERFORM TURN");
         bool allDone = true;
 
         foreach (GameObject e in enemies)
@@ -68,47 +89,36 @@ public class AIManager : MonoBehaviour
             //Debug.Log("LockedAction(): " + e.GetComponent<AIController>().LockedAction());
             if (!e.GetComponent<AIController>().LockedAction())
             {
-                Debug.Log("Locked == false");
                 //e.GetComponent<AIController>().CurrentState = AIStates.States.Wait; // DEBUG
                 e.GetComponent<AIController>().PerformBehaviour();
                 
                 allDone = false;
-
             }
         }
-        
         // enemiesTurnDone = true när alla låst in sin action
-        if (!allDone)
-        {
-            PerformTurn();
-        }
-        else
-        {
+        if (!GameManager.Instance.AllStill)
+            allDone = false;
+
+        if (allDone)
             GameManager.Instance.enemiesTurnDone = true;
-        }
-        
+       
     }
 
     public void PerformActions()
     {
+        Debug.Log("actions count : " + actions.Count);
         while (actions.Count > 0)
         {
             GameObject agent = actions.Dequeue();
+            Debug.Log("agent : " + agent);
             agent.GetComponent<AIController>().PerformAction();
         }
         GameManager.Instance.enemiesActionsDone = true;
     }
-
-    private void Start()
-    {
-        instance = this;
-        actions = new Queue<GameObject>();
-    }
-
     public void SaveAction(GameObject agent)
     {
+        Debug.Log("Action is in queue");
         actions.Enqueue(agent);
     }
-
-    
+  
 }

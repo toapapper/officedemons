@@ -38,8 +38,7 @@ public class AIStateHandler : MonoBehaviour
         //GameObject weapon = rightHand.transform.GetChild(0).gameObject;
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            Debug.Log("UNNASSIGNED -> WAIT");
-            aiController.CurrentState = AIStates.States.Wait;
+            //Turn towards nearest player
         }
 
         if (HealthLow())
@@ -50,13 +49,13 @@ public class AIStateHandler : MonoBehaviour
         {
             if (fov.visibleTargets.Count > 0) // <- om target finns i line of sight för vapnet
             {
+                Debug.Log("TARGET FOUND");
                 aiController.CurrentState = AIStates.States.Attack;
             }
             else
             {
                 if (attributes.Stamina > 0)
                 {
-                    Debug.Log("MOVING");
                     aiController.CurrentState = AIStates.States.Move; // rör sig mot target tills man target finns i line of sight    // kanske ta hänsyn till sin stamina och då ta  ett annat beslut?
                 }
                 else
