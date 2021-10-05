@@ -9,7 +9,7 @@ public class Actions : MonoBehaviour
 	Attributes attributes;
 	CharacterController cc;
 	FieldOfView fov;
-    
+
     // Start is called before the first frame update
     void Start()
 	{
@@ -21,19 +21,22 @@ public class Actions : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		
-
 		if (attributes.Health <= 0)
 		{
 			Die();
 		}
 	}
 
+	public void PickUp(AbstractWeapon weapon)
+    {
+		//g�r n�got
+    }
+
 	public void Attack(AbstractWeapon abstractWeapon)
 	{
 		//Currently Equipped
 		//weapon = GetComponent<Weapon>();
-		//weapon.damage; 
+		//weapon.damage;
 
 		List<GameObject> targetList = fov.visibleTargets;
 
@@ -77,7 +80,10 @@ public class Actions : MonoBehaviour
 		{
 			//Disable Movement
 			//Play death animation
-			//bool targetIsDead so it's not targetet and attacked again while dead 
+			// bool targetIsDead so it's not targetet and attacked again while dead
+
+			GetComponent<PlayerStateController>().Die();
+			//if inte in combat reviva ganska snart.
 		}
 	}
 
@@ -99,9 +105,9 @@ public class Actions : MonoBehaviour
 
             agentStamina -= 1 * Time.deltaTime;
 
-            
+
         }
 
-        
+
     }
 }

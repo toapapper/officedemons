@@ -5,11 +5,14 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class CombatActionState : AbstractPlayerState
 {
-	public override void OnMove(CallbackContext context) { }
-	public override void OnAttack(CallbackContext context) { }
-	public override void OnSpecial(CallbackContext context) { }
-	public override void OnPickupThrow(CallbackContext context) { }
-	public override void OnRevive(CallbackContext context) { }
+	public override void LockAction() { }
+	public override void CancelAction() { }
+	public override void OnAttack() { }
+	public override void OnSpecial() { }
+	public override void OnPickUp(GameObject weapon) { }
+	public override void OnStartThrow() { }
+	public override void OnThrow() { }
+	public override void OnRevive(GameObject player) { }
 
 	public override void OnFixedUpdateState() { }
 
@@ -20,16 +23,16 @@ public class CombatActionState : AbstractPlayerState
 		switch (GetComponent<CombatTurnState>().ChosenAction)
 		{
 			case TypeOfAction.ATTACK:
-				playerMovement.PerformAttack();
+				weaponHand.Attack();
 				break;
 			case TypeOfAction.SPECIALATTACK:
-				playerMovement.PerformSpecial();
+				//specialHand.Attack();
 				break;
 			case TypeOfAction.THROW:
 				playerMovement.PerformThrow();
 				break;
 			case TypeOfAction.REVIVE:
-				playerMovement.PerformRevive();
+				GetComponent<CombatTurnState>().PlayerToRevive.GetComponentInChildren<Attributes>().Health = 100;
 				break;
 			case TypeOfAction.NOACTION:
 				break;
