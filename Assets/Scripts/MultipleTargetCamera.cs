@@ -60,7 +60,7 @@ public class MultipleTargetCamera : MonoBehaviour
         {
             bounds.Encapsulate(PlayerManager.players[i].transform.position);
         }
-        //DrawBounds(bounds, 0);
+        DrawBounds(bounds, 0);
         if (bounds.size.x > bounds.size.z)
         {
             return bounds.size.x;
