@@ -82,9 +82,9 @@ public abstract class AbstractWeapon : MonoBehaviour
 	public abstract void Attack(Animator animator);
 	public virtual void ToggleLaserAim(bool isActive, Gradient laserSightMaterial) { }
 	public virtual void Shoot() { }
-	
 
-	
+
+
 
 	private void OnCollisionEnter(Collision collision)
 	{
