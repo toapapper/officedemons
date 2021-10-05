@@ -71,8 +71,11 @@ public class Actions : MonoBehaviour
 	{
 		if (this.tag == "Enemy")
 		{
-			//Destroy GameObject
-		}
+            // Tillfällig
+            Debug.Log("Enemy died");
+            GetComponent<MeshRenderer>().material.color = Color.black;
+            gameObject.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
+        }
 		else if (this.tag == "Player")
 		{
 			//Disable Movement
