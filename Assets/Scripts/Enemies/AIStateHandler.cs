@@ -27,12 +27,6 @@ public class AIStateHandler : MonoBehaviour
         aiController = GetComponent<AIController>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void UpdateState() // Kallas på om turn OCH om State == Move
     {
         //GameObject weapon = rightHand.transform.GetChild(0).gameObject;
