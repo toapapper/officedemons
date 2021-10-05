@@ -68,8 +68,8 @@ public class CombatTurnState : AbstractPlayerState
 		}
 	}
 
-	//Lock action
-	public override void LockAction()
+    //Lock action
+    public override void LockAction()
 	{
 		switch (ChosenAction)
 		{

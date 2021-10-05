@@ -505,7 +505,6 @@ MonoBehaviour:
   throwForceMultiplier: 25
   maxThrowForce: 30
   maxHealthMark: 100
-  isWeaponEquipped: 0
 --- !u!114 &7921343603313587028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,7 +518,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handObject: {fileID: 390364365310063654}
-  FovView: {fileID: 154083862970354132}
+  objectInHand: {fileID: 0}
+  FOV: {fileID: 3067224057146137443}
+  FOVVisualization: {fileID: 154083862970354132}
   handHitDistance: 1.5
   HandHitdamage: 5
   throwForce: 25

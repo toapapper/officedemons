@@ -5,20 +5,15 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class DeadState : AbstractPlayerState
 {
-	//public override void OnMove(CallbackContext context) { }
-	public override void LockAction() { }
-	public override void CancelAction() { }
-	public override void OnAttack() { }
-	public override void OnSpecial() { }
-	public override void OnPickUp(GameObject weapon) { }
-	public override void OnStartThrow() { }
-	public override void OnThrow() { }
-	public override void OnRevive(GameObject player) { }
+    public override void TransitionState(IPlayerState state)
+    {
+        if (state.GetType() == typeof(ReviveState))//if ska inte va död längre
+        {
+			base.TransitionState(state);
+        }
+    }
 
-	public override void OnFixedUpdateState() { }
-
-
-	Color originalColor;
+    Color originalColor;
 	public override void OnStateEnter()
 	{
 		Debug.Log("Enters DeadState" + this);

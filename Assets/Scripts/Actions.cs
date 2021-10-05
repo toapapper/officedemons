@@ -21,15 +21,12 @@ public class Actions : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (attributes.Health <= 0)
-		{
-			Die();
-		}
+
 	}
 
 	public void PickUp(AbstractWeapon weapon)
     {
-		//g�r n�got
+		//gör något
     }
 
 	public void Attack(AbstractWeapon abstractWeapon)
@@ -83,21 +80,30 @@ public class Actions : MonoBehaviour
 			// bool targetIsDead so it's not targetet and attacked again while dead
 
 			GetComponent<PlayerStateController>().Die();
-			//if inte in combat reviva ganska snart.
+			if (GameManager.Instance.combatState == CombatState.none)
+				StartCoroutine("DelayedSelfRevive");
 		}
 	}
+	IEnumerator DelayedSelfRevive()
+    {
+		Debug.Log("DelayedSelfrevive");
+		yield return new WaitForSeconds(1);
+		Debug.Log("DelayedSelfrevive");
+		Revive(gameObject);
+		yield return null;
+    }
 
 	public void Revive(GameObject target)
 	{
-		Attributes targetAttributes = target.GetComponent<Attributes>();
-		targetAttributes.Health = targetAttributes.StartHealth;
+		attributes.Health = attributes.StartHealth/2;
+		target.GetComponent<PlayerStateController>().Revive();
 	}
 
     public void MoveTowards(NavMeshAgent agent, GameObject target)
     {
 		agent.isStopped = false;
 
-		agent.destination = target.transform.position;
+		agent.SetDestination(target.transform.position);
         agent.gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
     }
 }
