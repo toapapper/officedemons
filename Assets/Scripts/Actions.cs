@@ -56,15 +56,29 @@ public class Actions : MonoBehaviour
 		}
 	}
 
-	public void Hit(int damage)
+	public void Hit(Vector3 fromPosition, int damage, int force)
 	{
-		List<GameObject> targetList = fov.visibleTargets;
-
-		foreach (GameObject target in targetList)
+		if (fov.visibleTargets.Count > 0)
 		{
-			Attributes targetAttributes = target.GetComponent<Attributes>();
-			targetAttributes.Health -= damage;
+			List<GameObject> targetList = fov.visibleTargets;
+			Vector3 hitForce = (fromPosition - transform.position).normalized * force;
+
+			foreach (GameObject target in targetList)
+			{
+				Debug.Log(target);
+				Attributes targetAttributes = target.GetComponent<Attributes>();
+				targetAttributes.Health -= damage;
+				target.GetComponent<Rigidbody>().AddForce(hitForce, ForceMode.VelocityChange);
+			}
 		}
+		
+
+	}
+
+	public void TakeBulletDamage(int damage, Vector3 bulletHitForce)
+	{
+		attributes.Health -= damage;
+		GetComponent<Rigidbody>().AddForce(bulletHitForce, ForceMode.VelocityChange);
 	}
 
 	public void Die()
