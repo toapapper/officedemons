@@ -21,7 +21,6 @@ public class Bullet : MonoBehaviour
 	{
 		if (!other.isTrigger)
 		{
-			Debug.Log("BulletDamage: " + bulletDamage + " HitForce: " + bulletHitForce);
 			if (other.gameObject.GetComponentInParent<Actions>() != null)
 			{
 				other.gameObject.GetComponentInParent<Actions>().TakeBulletDamage(bulletDamage, bulletHitForce);

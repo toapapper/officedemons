@@ -8,29 +8,15 @@ using UnityEngine;
 public abstract class AbstractWeapon : MonoBehaviour
 {
 	private GameObject handle;
+
 	private int damage;
+	private int hitForce;
 	private int throwDamage;
 	private float viewDistance;
 	private float viewAngle;
 
 	private bool isHeld;
 	private bool isProjectile;
-
-	//private GameObject weaponMuzzle;
-	//private GameObject laserAim;
-
-	//public LineRenderer bulletTrail;
-	//public int maxBulletDistance = 30;
-	//[SerializeField]
-	//public LayerMask ignoreLayer;
-
-
-
-
-	//private int bulletHitForce;
-	//private int bulletFireForce;
-
-
 
 	protected GameObject Handle
 	{
@@ -41,6 +27,11 @@ public abstract class AbstractWeapon : MonoBehaviour
 	{
 		get { return damage; }
 		set { damage = value; }
+	}
+	public int HitForce
+	{
+		get { return hitForce; }
+		set { hitForce = value; }
 	}
 	protected int ThrowDamage
 	{
@@ -63,37 +54,6 @@ public abstract class AbstractWeapon : MonoBehaviour
 		set { isHeld = value; }
 	}
 
-	//protected GameObject WeaponMuzzle
-	//{
-	//	get { return weaponMuzzle; }
-	//	set { weaponMuzzle = value; }
-	//}
-	//protected GameObject LaserAim
-	//{
-	//	get { return weaponMuzzle; }
-	//	set { weaponMuzzle = value; }
-	//}
-
-
-	//public int BulletFireForce
-	//{
-	//	get { return bulletFireForce; }
-	//	set { bulletFireForce = value; }
-	//}
-	//public int BulletHitForce
-	//{
-	//	get { return bulletHitForce; }
-	//	set { bulletHitForce = value; }
-	//}
-
-	//public bool IsProjectile
-	//{
-	//	get { return isProjectile; }
-	//	set { isProjectile = value; }
-	//}
-
-
-
 	public void PickUpIn(GameObject hand)
 	{
 		isHeld = true;
@@ -104,28 +64,27 @@ public abstract class AbstractWeapon : MonoBehaviour
 		handle.transform.position = hand.transform.position;
 		handle.transform.rotation = hand.transform.rotation;
 	}
-	public void Drop(Vector3 direction)
+	public void ReleaseThrow(float force)
+	{
+		Drop();
+		GetComponentInChildren<Rigidbody>().AddForce(transform.up * force, ForceMode.VelocityChange);
+		isProjectile = true;
+	}
+	public void Drop()
 	{
 		handle.transform.parent = null;
 		handle.GetComponent<Rigidbody>().isKinematic = false;
 		GetComponent<Rigidbody>().isKinematic = false;
 		isHeld = false;
 	}
-	//public virtual void DisplayAim() { }
-	//public virtual void DisplayFov(GameObject fovView) { }
+
 	public virtual void StartAttack(Animator animator) { }
 	public abstract void Attack(Animator animator);
 	public virtual void ToggleLaserAim(bool isActive, Gradient laserSightMaterial) { }
 	public virtual void Shoot() { }
 	
 
-	public void ReleaseThrow(float force)
-	{
-		Drop(transform.up);
-
-		GetComponentInChildren<Rigidbody>().AddForce(transform.up * force, ForceMode.VelocityChange);
-		isProjectile = true;
-	}
+	
 
 	private void OnCollisionEnter(Collision collision)
 	{

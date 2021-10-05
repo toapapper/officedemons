@@ -8,7 +8,9 @@ public class Pole: SwingWeapon
     private GameObject poleHandle;
     [SerializeField]
     private int poleDamage = 10;
-    [SerializeField]
+	[SerializeField]
+	private int poleHitForce = 30;
+	[SerializeField]
     private int poleThrowDamage = 15;
 	[SerializeField]
 	private float poleViewDistance = 5.5f;
@@ -20,6 +22,7 @@ public class Pole: SwingWeapon
 	{
 		Handle = poleHandle;
 		Damage = poleDamage;
+		HitForce = poleHitForce;
 		ThrowDamage = poleThrowDamage;
 		ViewDistance = poleViewDistance;
 		ViewAngle = poleViewAngle;

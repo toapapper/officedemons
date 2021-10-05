@@ -5,21 +5,24 @@ using UnityEngine;
 public class PointyStick : ThrustWeapon
 {
 	[SerializeField]
-	private GameObject poleHandle;
+	private GameObject pointyStickHandle;
 	[SerializeField]
-	private int poleDamage = 10;
+	private int pointyStickDamage = 10;
 	[SerializeField]
-	private int poleThrowDamage = 15;
+	private int pointyStickHitForce = 15;
+	[SerializeField]
+	private int pointyStickThrowDamage = 15;
 	[SerializeField]
 	private float pointyStickViewDistance = 3.5f;
 	[SerializeField]
-	private float pointyStickViewAngle = 10f;
+	private float pointyStickViewAngle = 20f;
 
 	private void Start()
 	{
-		Handle = poleHandle;
-		Damage = poleDamage;
-		ThrowDamage = poleThrowDamage;
+		Handle = pointyStickHandle;
+		Damage = pointyStickDamage;
+		HitForce = pointyStickHitForce;
+		ThrowDamage = pointyStickThrowDamage;
 		ViewDistance = pointyStickViewDistance;
 		ViewAngle = pointyStickViewAngle;
 	}

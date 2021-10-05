@@ -43,6 +43,7 @@ public class CombatTurnState : AbstractPlayerState
 		{
 			if (weaponHand.StartThrow())
 			{
+				//weaponHand.ToggleThrowAimView(true);
 				ChosenAction = TypeOfAction.THROW;
 				IsActionTriggered = true;
 				IsAddingThrowForce = true;
@@ -78,11 +79,11 @@ public class CombatTurnState : AbstractPlayerState
 				break;
 			case TypeOfAction.SPECIALATTACK:
 				//TODO
-				//playerMovement.ToggleSpecialAimView(false);
+				//specialHand.ToggleAimView(false);
 				break;
 			case TypeOfAction.THROW:
 				//TODO
-				//playerMovement.ToggleThrowAimView(false);
+				//weaponHand.ToggleThrowAimView(false);
 				break;
 		}
 		IsActionLocked = true;
@@ -108,7 +109,7 @@ public class CombatTurnState : AbstractPlayerState
 				//TODO
 				//weaponHand.ToggleThrowAimView(false);
 				playerMovement.CancelThrow();
-				weaponHand.CancelAction();
+				//weaponHand.CancelAction();
 				break;
 			case TypeOfAction.REVIVE:
 				PlayerToRevive = null;

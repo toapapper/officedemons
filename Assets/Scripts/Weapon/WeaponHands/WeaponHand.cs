@@ -17,8 +17,12 @@ public class WeaponHand : MonoBehaviour
 	[SerializeField]
 	private GameObject FOVVisualization;
 	[SerializeField]
-	private int HandHitdamage = 5;
+	private int handHitDamage = 5;
+	[SerializeField]
+	private int handHitForce = 5;
+	[SerializeField]
 	private float handHitDistance = 1.5f;
+	[SerializeField]
 	private float handHitAngle = 100f;
 
 	public AbstractWeapon objectInHand;
@@ -35,6 +39,8 @@ public class WeaponHand : MonoBehaviour
 		animator = GetComponent<Animator>();
 		FOV.viewRadius = handHitDistance;
 		FOV.viewAngle = handHitAngle;
+		////For test
+		//ToggleAimView(true);
 	}
 
 	public void Equip(GameObject newObject)
@@ -42,15 +48,28 @@ public class WeaponHand : MonoBehaviour
 		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
 		objectInHand.GetComponentInChildren<Collider>().enabled = false;
-		if(objectInHand is RangedWeapon)
+
+		//For test
+		if (objectInHand is RangedWeapon)
 		{
 			objectInHand.ToggleLaserAim(true, laserSightGradient);
 		}
-		else
-		{
-			FOV.viewAngle = objectInHand.ViewAngle;
-			FOV.viewRadius = objectInHand.ViewDistance;
-		}
+
+		//if(objectInHand is MeleeWeapon)
+		//{
+
+		//}
+		//else if (objectInHand is RangedWeapon)
+		//{
+		//	//For test
+		//	objectInHand.ToggleLaserAim(true, laserSightGradient);
+		//}
+
+		FOV.viewAngle = objectInHand.ViewAngle;
+		FOV.viewRadius = objectInHand.ViewDistance;
+
+		////For Test
+		//ToggleAimView(true);
 	}
 
 	public void StartAttack()
@@ -73,7 +92,7 @@ public class WeaponHand : MonoBehaviour
 		else
 		{
 			animator.SetTrigger("isHandAttack");
-			Debug.Log("HandHit" + HandHitdamage);
+			Debug.Log("HandHit" + handHitDamage);
 		}
 	}
 	public void CancelAction()
@@ -120,10 +139,16 @@ public class WeaponHand : MonoBehaviour
 			objectInHand.GetComponentInChildren<Collider>().enabled = true;
 			objectInHand.ReleaseThrow(throwForce);
 
+			//For test
+			if (objectInHand is RangedWeapon)
+			{
+				objectInHand.ToggleLaserAim(false, laserSightGradient);
+			}
+
 			throwForce = 0;
 			objectInHand = null;
 			FOV.viewAngle = handHitAngle;
-			FOV.viewRadius = handHitDistance;
+			FOV.viewRadius = handHitDistance;			
 		}
 	}
 
@@ -135,15 +160,14 @@ public class WeaponHand : MonoBehaviour
 			{
 				objectInHand.Shoot();
 			}
-			else
+			else if(objectInHand is MeleeWeapon)
 			{
-				//actions.Attack(objectInHand);
-				actions.Hit(objectInHand.Damage, objectInHand.transform.position);
+				actions.Hit(objectInHand.transform.position, objectInHand.Damage, objectInHand.HitForce);
 			}
 		}
 		else
 		{
-			actions.Hit(HandHitdamage, transform.position);
+			actions.Hit(handObject.transform.position, handHitDamage, handHitForce);
 		}
 	}
 }

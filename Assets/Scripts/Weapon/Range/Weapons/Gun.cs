@@ -12,13 +12,13 @@ public class Gun : SingleShotWeapon
 	[SerializeField]
 	private GameObject gunMuzzle;
 	[SerializeField]
-	private GameObject laserAim;
+	private GameObject gunLaserAim;
 	[SerializeField]
 	private int gunDamage = 10;
 	[SerializeField]
-	private int gunBulletFireForce = 5;
+	private int gunBulletFireForce = 20;
 	[SerializeField]
-	private int gunBulletHitForce = 100;
+	private int gunBulletHitForce = 10;
 	[SerializeField]
 	private int gunThrowDamage = 2;
 	[SerializeField]
@@ -30,10 +30,10 @@ public class Gun : SingleShotWeapon
 	{
 		Handle = gunHandle;
 		WeaponMuzzle = gunMuzzle;
-		LaserAim = laserAim;
-		Damage = gunDamage;
+		LaserAim = gunLaserAim;
 		BulletFireForce = gunBulletFireForce;
-		BulletHitForce = gunBulletHitForce;
+		Damage = gunDamage;
+		HitForce = gunBulletHitForce;
 		ThrowDamage = gunThrowDamage;
 		ViewDistance = gunViewDistance;
 		ViewAngle = gunViewAngle;
