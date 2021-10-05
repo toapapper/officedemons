@@ -145,13 +145,11 @@ public class GameManager : MonoBehaviour
                 Debug.Log("ENEMY MOVE DONE");
                 enemiesActionsDone = false;
                 combatState = CombatState.enemyActions;
-
+                aiManager.PerformNextAction();
             }
         }
         else if (combatState == CombatState.enemyActions)
         {
-            aiManager.PerformActions();
-
             if (enemiesActionsDone)
             {
                 Debug.Log("ENEMY ACTIONS DONE");
