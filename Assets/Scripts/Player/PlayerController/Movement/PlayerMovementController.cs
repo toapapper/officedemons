@@ -117,9 +117,19 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public void PerformMovement()
 	{
+
+		Vector3 pos = Camera.main.WorldToViewportPoint(transform.position + moveAmount * Time.fixedDeltaTime);
+		pos.x = Mathf.Clamp01(pos.x);
+		pos.y = Mathf.Clamp01(pos.y);
+		pos = Camera.main.ViewportToWorldPoint(pos);
+		pos.y = Mathf.Clamp(pos.y, 0, 1.05f);
+		rb.MovePosition(pos);
+
+
 		//character.Move(moveAmount * Time.fixedDeltaTime);
 		//rb.AddForce(moveAmount * Time.fixedDeltaTime, ForceMode.VelocityChange);
-		rb.MovePosition(transform.position + moveAmount * Time.fixedDeltaTime);
+		//rb.MovePosition(transform.position + moveAmount * Time.fixedDeltaTime);
+
 	}
 	public void PerformFall()
 	{

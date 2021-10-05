@@ -160,6 +160,8 @@ public class CombatTurnState : AbstractPlayerState
 	{
 		Debug.Log("Enters CombatTurnState" + this);
 		attributes.Stamina = attributes.StartStamina;
+		playerMovement.MoveDirection = Vector3.zero;
+		playerMovement.MoveAmount = Vector3.zero;
 	}
 
 	public override void OnStateExit()
