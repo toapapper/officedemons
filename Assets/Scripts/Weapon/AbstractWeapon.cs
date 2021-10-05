@@ -15,6 +15,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	private float viewDistance;
 	private float viewAngle;
 
+	[SerializeField]
 	private bool isHeld;
 	private bool isProjectile;
 
