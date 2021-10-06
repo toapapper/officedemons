@@ -21,18 +21,11 @@ public static class OssianUtils
             if (ts[i].Equals(null))
                 rmvAt.Add(i);
 
+        int removed = 0;
         foreach (int i in rmvAt)
         {
-            try 
-            { 
-                ts.RemoveAt(i);
-            }
-            catch(IndexOutOfRangeException e)
-            {
-                Debug.LogWarning("Index out of range, vet inte varför. Kanske bara kan skita i....");
-                Debug.LogWarning(e.Message);
-            }
-
+            ts.RemoveAt(i - removed);
+            removed++;
         }
     }
     
