@@ -16,46 +16,7 @@ public class AIManager : MonoBehaviour
     private void Start()
     {
         actions = new Queue<GameObject>();
-        doneEvent = new UnityEvent();
-        doneEvent.AddListener(NextAgentAction);
         players = PlayerManager.players;
-    }
-
-
-
-    private void Update()
-    {
-        if (GameManager.Instance.combatState == CombatState.enemy)
-            PerformTurn();
-    }
-
-
-    private void NextAgentAction()
-    {
-        if (actions.Count > 0)
-        {
-            GameObject currentAgent = actions.Dequeue();
-            currentAgent.GetComponent<AIController>().PerformAction();
-        }
-        else
-        {
-            StartCoroutine("WaitDone");
-        }
-    }
-
-    IEnumerator WaitDone()
-    {
-        yield return new WaitForSeconds(.1f);
-
-        while (true)
-        {
-            if (GameManager.Instance.AllStill)
-            {
-                GameManager.Instance.enemiesActionsDone = true;
-                StopCoroutine("WaitDone");
-            }
-            yield return null;
-        }
     }
 
 
@@ -104,17 +65,36 @@ public class AIManager : MonoBehaviour
        
     }
 
-    public void PerformActions()
+    public void PerformNextAction()
     {
-        Debug.Log("actions count : " + actions.Count);
-        while (actions.Count > 0)
+        if (actions.Count > 0)
         {
             GameObject agent = actions.Dequeue();
-            Debug.Log("agent : " + agent);
             agent.GetComponent<AIController>().PerformAction();
+            StartCoroutine("WaitDone");
         }
-        GameManager.Instance.enemiesActionsDone = true;
+        else
+        {
+            GameManager.Instance.enemiesActionsDone = true;
+        }
     }
+    IEnumerator WaitDone()
+    {
+        yield return new WaitForSeconds(1f);
+
+        while (true)
+        {
+            if (GameManager.Instance.AllStill)
+            {
+                StopCoroutine("WaitDone");
+                PerformNextAction();
+            }
+            yield return null;
+        }
+    }
+
+
+
     public void SaveAction(GameObject agent)
     {
         Debug.Log("Action is in queue");

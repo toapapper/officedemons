@@ -9,7 +9,7 @@ public class Actions : MonoBehaviour
 	Attributes attributes;
 	CharacterController cc;
 	FieldOfView fov;
-    
+
     // Start is called before the first frame update
     void Start()
 	{
@@ -33,7 +33,7 @@ public class Actions : MonoBehaviour
 	{
 		//Currently Equipped
 		//weapon = GetComponent<Weapon>();
-		//weapon.damage; 
+		//weapon.damage;
 
 		List<GameObject> targetList = fov.visibleTargets;
 
@@ -56,28 +56,45 @@ public class Actions : MonoBehaviour
 		}
 	}
 
-	public void Hit(int damage)
+	public void Hit(Vector3 fromPosition, int damage, int force)
 	{
-		List<GameObject> targetList = fov.visibleTargets;
-
-		foreach (GameObject target in targetList)
+		if (fov.visibleTargets.Count > 0)
 		{
-			Attributes targetAttributes = target.GetComponent<Attributes>();
-			targetAttributes.Health -= damage;
+			List<GameObject> targetList = fov.visibleTargets;
+			Vector3 hitForce = (fromPosition - transform.position).normalized * force;
+
+			foreach (GameObject target in targetList)
+			{
+				Debug.Log(target);
+				Attributes targetAttributes = target.GetComponent<Attributes>();
+				targetAttributes.Health -= damage;
+				target.GetComponent<Rigidbody>().AddForce(hitForce, ForceMode.VelocityChange);
+			}
 		}
+		
+
+	}
+
+	public void TakeBulletDamage(int damage, Vector3 bulletHitForce)
+	{
+		attributes.Health -= damage;
+		GetComponent<Rigidbody>().AddForce(bulletHitForce, ForceMode.VelocityChange);
 	}
 
 	public void Die()
 	{
 		if (this.tag == "Enemy")
 		{
-			//Destroy GameObject
-		}
+            // Tillfällig
+            Debug.Log("Enemy died");
+            GetComponent<MeshRenderer>().material.color = Color.black;
+            gameObject.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
+        }
 		else if (this.tag == "Player")
 		{
 			//Disable Movement
 			//Play death animation
-			// bool targetIsDead so it's not targetet and attacked again while dead 
+			// bool targetIsDead so it's not targetet and attacked again while dead
 
 			GetComponent<PlayerStateController>().Die();
 			if (GameManager.Instance.combatState == CombatState.none)
