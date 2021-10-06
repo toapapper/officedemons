@@ -37,6 +37,12 @@ public class UIManager : MonoBehaviour
     [Header("Polis")]
     public GameObject enemys_turn_card;
 
+    [Header("player colors, temporary")]
+    public Color susanColor = Color.blue;
+    public Color devinColor = Color.green;
+    public Color timColor = Color.red;
+    public Color vickyColor = Color.black;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,7 +55,6 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Uppdatera timer ifrån gamemanager,
         //Uppdatera liv på spelarna
 
         //includes the displaying of enemys_turn_card
@@ -83,9 +88,9 @@ public class UIManager : MonoBehaviour
 
             timer_backGround_with_color_image.color = clockColor;
 
-            float segmentedPercent = Mathf.Floor(percent * 12) / 12;
-            timer_backGround_with_color_image.fillAmount = segmentedPercent;
-            timer_indicator.transform.rotation = Quaternion.Euler(0, 0, 360 * (1 - segmentedPercent));
+            //float segmentedPercent = (Mathf.Floor(percent * 12) / 12) + 1;
+            timer_backGround_with_color_image.fillAmount = percent;
+            timer_indicator.transform.rotation = Quaternion.Euler(0, 0, 360 * (1 - percent));
         }
         else if(GameManager.Instance.combatState == CombatState.enemy)
         {
