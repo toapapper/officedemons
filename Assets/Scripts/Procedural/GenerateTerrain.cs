@@ -29,7 +29,7 @@ public class GenerateTerrain : MonoBehaviour
         quad.transform.rotation = Quaternion.Euler(90, 0, 0);
         quad.gameObject.name = "Ground";
         node.gameObject = quad;
-        quad.isStatic = true;
+        //quad.isStatic = true;
         cubes.Add(quad);
         quad.GetComponent<MeshRenderer>().material = mat;
         quad.transform.parent = level.transform;
@@ -43,75 +43,88 @@ public class GenerateTerrain : MonoBehaviour
     {
         if (nextDirection == 0)
         {
-            GameObject upWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x / 2, howTall / 2, node.origin.y), Quaternion.identity);
+            GameObject upWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x / 2, howTall / 2, node.origin.y), Quaternion.Euler(new Vector3(0, 0, 0)));
             upWall.transform.localScale = new Vector3(node.size.x, howTall, wallSize.y);
-            upWall.transform.parent = node.gameObject.transform;
+            upWall.transform.parent = level.transform;
+            upWall.name = "upWall";
 
             if (lastDirection == 0)
             {
-                GameObject downWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x / 2, howTall / 2, node.origin.y - node.size.y), Quaternion.identity);
+                GameObject downWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x / 2, howTall / 2, node.origin.y - node.size.y), Quaternion.Euler(new Vector3(0, 180, 0)));
                 downWall.transform.localScale = new Vector3(node.size.x, howTall, wallSize.y);
-                downWall.transform.parent = node.gameObject.transform;
+                downWall.transform.parent = level.transform;
+                downWall.name = "downWall";
             }
             else if (lastDirection == 1)
             {
-                GameObject leftWall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y - node.size.y / 2), Quaternion.identity);
-                leftWall.transform.localScale = new Vector3(wallSize.x, howTall, node.size.y);
-                leftWall.transform.parent = node.gameObject.transform;
+                GameObject leftWall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y - node.size.y / 2), Quaternion.Euler(new Vector3(0,-90,0)));
+                leftWall.transform.localScale = new Vector3(node.size.y, howTall, wallSize.y);
+                leftWall.transform.parent = level.transform;
+                leftWall.name = "leftWall";
             }
 
             if (node.size.y > nextSize.y)
             {
-                GameObject rightWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x, howTall / 2, node.origin.y - nextSize.y - ((node.size.y - nextSize.y) / 2)), Quaternion.identity);
-                rightWall.transform.localScale = new Vector3(wallSize.x, howTall, node.size.y - nextSize.y);
-                rightWall.transform.parent = node.gameObject.transform;
+                GameObject rightWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x, howTall / 2, node.origin.y - nextSize.y - ((node.size.y - nextSize.y) / 2)), Quaternion.Euler(new Vector3(0, 90, 0)));
+                rightWall.transform.localScale = new Vector3(node.size.y, howTall, wallSize.y);
+                rightWall.transform.parent = level.transform;
+                rightWall.name = "rightWall";
             }
         }
 
 
         else if (nextDirection == 1)
         {
-            GameObject rightWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x, howTall / 2, node.origin.y - node.size.y / 2), Quaternion.identity);
-            rightWall.transform.localScale = new Vector3(wallSize.x, howTall, node.size.y);
-            rightWall.transform.parent = node.gameObject.transform;
+            GameObject rightWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x, howTall / 2, node.origin.y - node.size.y / 2), Quaternion.Euler(new Vector3(0, 90, 0)));
+            rightWall.transform.localScale = new Vector3(node.size.y, howTall, wallSize.y);
+            rightWall.transform.parent = level.transform;
+            rightWall.name = "rightWall";
+
             if (lastDirection == 1)
             {
-                GameObject leftWall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y - node.size.y / 2), Quaternion.identity);
-                leftWall.transform.localScale = new Vector3(wallSize.x, howTall, node.size.y);
-                leftWall.transform.parent = node.gameObject.transform;
+                GameObject leftWall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y - node.size.y / 2), Quaternion.Euler(new Vector3(0, -90, 0)));
+                leftWall.transform.localScale = new Vector3(node.size.y, howTall, wallSize.y);
+                leftWall.transform.parent = level.transform;
+                leftWall.name = "leftWall";
             }
             else if (lastDirection == 0)
             {
-                GameObject downWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x / 2, howTall / 2 /*+ howTall/100*/, node.origin.y - node.size.y), Quaternion.identity);
+                GameObject downWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x / 2, howTall / 2 /*+ howTall/100*/, node.origin.y - node.size.y), Quaternion.Euler(new Vector3(0, 180, 0)));
                 downWall.transform.localScale = new Vector3(node.size.x, howTall, wallSize.y);
-                downWall.transform.parent = node.gameObject.transform;
+                downWall.transform.parent = level.transform;
+                downWall.name = "downWall";
             }
 
             if (node.size.x > nextSize.x)
             {
                 GameObject upWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x + nextSize.x + ((node.size.x - nextSize.x)/2), howTall / 2, node.origin.y), Quaternion.identity);
                 upWallsmall.transform.localScale = new Vector3(node.size.x - nextSize.x, howTall, wallSize.y);
-                upWallsmall.transform.parent = node.gameObject.transform;
+                upWallsmall.transform.parent = level.transform;
+                upWallsmall.name = "upWallsmall";
             }
         }
 
 
-        if (lastDirection == 0)
-        {
-            if (node.size.y > lastSize.y)
-            {
-                GameObject leftWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y - lastSize.y - ((node.size.y - lastSize.y) / 2)), Quaternion.identity);
-                leftWallsmall.transform.localScale = new Vector3(wallSize.x, howTall, node.size.y - lastSize.y);
-                leftWallsmall.transform.parent = node.gameObject.transform;
-            }
-        }
-        else if (lastDirection == 1)
+        //if (lastDirection == 0)
+        //{
+        //    if (node.size.y > lastSize.y)
+        //    {
+        //        GameObject leftWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y - lastSize.y - ((node.size.y - lastSize.y) / 2)), Quaternion.Euler(new Vector3(0, -90, 0)));
+        //        leftWallsmall.transform.localScale = new Vector3(wallSize.x, howTall, node.size.y - lastSize.y);
+        //        leftWallsmall.transform.parent = level.transform;
+        //        leftWallsmall.name = "leftWallsmall";
+
+        //    }
+        //}
+        if (lastDirection == 1)
         {
             if (node.size.x > lastSize.x)
             {
-                GameObject downWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x + lastSize.x + ((node.size.x - lastSize.x) / 2), howTall / 2 /*+ howTall/100*/, node.origin.y - node.size.y), Quaternion.identity);
+                GameObject downWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x + lastSize.x + ((node.size.x - lastSize.x) / 2), howTall / 2 /*+ howTall/100*/, node.origin.y - node.size.y), Quaternion.Euler(new Vector3(0, 180, 0)));
                 downWallsmall.transform.localScale = new Vector3(node.size.x - lastSize.x, howTall, wallSize.y);
-                downWallsmall.transform.parent = node.gameObject.transform;
+                downWallsmall.transform.parent = level.transform;
+                downWallsmall.name = "downWallsmall";
+
             }
         }
     }
