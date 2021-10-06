@@ -1,22 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Code by: Tim & Kristian
+/// </summary>
 public class BSPTree : MonoBehaviour
 {
     Node root;
     Node lastRoot;
     public GenerateTerrain generateTerrain;
+    public FitnessFunction fitnessFunction;
+
     public List<Node> nodes;
+
     public int generations = 3;
-    int width, oldWidth;
-    int height, oldHeight;
+    public Vector2 size, oldSize;
     public Vector2 widthLimits = new Vector2(800,1000);
     public Vector2 heightLimits = new Vector2(800,1000);
     int missfallMultiplier;
     public int missfallTop = 6;
     Vector2 lastSize;
-    public float fitnessGoal = 50;
+    public int fitnessGoal = 50;
     public int bspRemakeTries = 100;
     //Maybe throw them into node?
     int nextDirection;
@@ -24,9 +28,10 @@ public class BSPTree : MonoBehaviour
 
     private void Start()
     {
-        width = Random.Range((int)widthLimits.x, (int)widthLimits.y);
-        height = Random.Range((int)heightLimits.x, (int)heightLimits.y);
+        size.x = Random.Range((int)widthLimits.x, (int)widthLimits.y);
+        size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
         generateTerrain = GetComponent<GenerateTerrain>();
+        fitnessFunction = GetComponent<FitnessFunction>();
     }
 
     public void Make100BSP()
@@ -40,31 +45,32 @@ public class BSPTree : MonoBehaviour
 
     public void MakeBSP()
     {
-        oldWidth = width;
-        oldHeight = height;
         missfallMultiplier = 0;
         nodes = new List<Node>();
+        oldSize.x = size.x;
+        oldSize.y = size.y;
         if (root != null)
+        {
             lastRoot = root;
+        } 
         else
-            lastRoot = new Node(Vector2.zero,Vector2.zero);
+        {
+            lastRoot = new Node(Vector2.zero, Vector2.zero);
+        }
 
-        root = new Node(new Vector2(width, height),lastSize);
-
+        root = new Node(size,lastSize);
         generateTerrain.GenerateGround(root);
 
         SearchObstaclesFitness(bspRemakeTries);
-
-        width = Random.Range((int)widthLimits.x,(int)widthLimits.y);
-        height = Random.Range((int)heightLimits.x, (int)heightLimits.y);
-        if (nextDirection == 1 && height > oldHeight)
-            height = oldHeight;
+        
+        size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits, size);
+        if (nextDirection == 1 && size.y < oldSize.y)
+            size.y = oldSize.y;
 
         lastDirection = nextDirection;
         GO();
-        generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection,new Vector2(width,height),lastRoot.size,new Vector2(1,1), heightLimits.y);
+        generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection, size,lastRoot.size,new Vector2(1,1), heightLimits.y);
     }
-
 
     private void SearchObstaclesFitness(int totalTries)
     {
@@ -72,8 +78,9 @@ public class BSPTree : MonoBehaviour
         for (int i = 0; i < totalTries; i++)
         {
             BSP(root);
+
             //Search again
-            if (!generateTerrain.SearchForObstacles(nodes, root, width, height, (int)heightLimits.y, fitnessGoal))
+            if (!fitnessFunction.FitnessFuntion(nodes, root, foundSuitableObstacles, (int)heightLimits.y))
             {
                 nodes = new List<Node>();
                 root.children = new Node[2];
@@ -85,10 +92,8 @@ public class BSPTree : MonoBehaviour
             }
         }
         if (!foundSuitableObstacles)
-            generateTerrain.UseBestVariant();
+            fitnessFunction.UseBestVariant();
     }
-
-
 
     public void BSP(Node node)
     {
@@ -96,29 +101,6 @@ public class BSPTree : MonoBehaviour
 
         Split(node);
         missfallMultiplier++;
-    }
-
-    /// <summary>
-    /// Evaluates the BSP tree after a set of desirable traits that correlates to a fitness value.
-    /// </summary>
-    /// <param name="nodes"></param>
-    public void FitnessFuntion(List<Node> nodes, int desiredFitnessValue)
-    {
-        int fitnessValue = 0;
-        for (int i = 0; i < nodes.Count; i++)
-        {
-            //Evaluate fitness.
-        }
-
-        if(fitnessValue == desiredFitnessValue)
-        {
-            return;
-        }
-        else
-        {
-            MakeBSP();
-            FitnessFuntion(nodes, desiredFitnessValue);
-        }
     }
 
     public void Split(Node node)
@@ -199,7 +181,6 @@ public class BSPTree : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Get a random number between 0 and 1
     /// 0 = foward
@@ -208,8 +189,6 @@ public class BSPTree : MonoBehaviour
     /// <returns></returns>
     private int GetDirection()
     {
-
-
         int d = Random.Range(0, 6);
 
         return d;
@@ -223,15 +202,18 @@ public class BSPTree : MonoBehaviour
             GoRight();
         else
             GoUp();
+
     }
+
     private void GoRight()
     {
         nextDirection = 0;
-        lastSize.x += oldWidth;
+        lastSize.x += oldSize.x;
     }
+
     private void GoUp()
     {
         nextDirection = 1;
-        lastSize.y += height;
+        lastSize.y += size.y;
     }
 }

@@ -13,11 +13,6 @@ public class Node
     public int generation;
     public bool leaf;
 
-    private void Start()
-    {
-    }
-
-
     public Node(Vector2 size, Vector2 lastSize)
     {
         this.size = size;

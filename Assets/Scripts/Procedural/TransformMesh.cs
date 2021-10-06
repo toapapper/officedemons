@@ -6,16 +6,6 @@ public class TransformMesh : MonoBehaviour
 {
     public List<Material> materials;
     double valueCorrector = 0.001;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
 
     public void GetTexture(GameObject gameObject)
