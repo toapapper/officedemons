@@ -1,5 +1,6 @@
 //Initially     written by Ossian, feel free to add to it.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +22,18 @@ public static class OssianUtils
                 rmvAt.Add(i);
 
         foreach (int i in rmvAt)
-            ts.RemoveAt(i);
+        {
+            try 
+            { 
+                ts.RemoveAt(i);
+            }
+            catch(IndexOutOfRangeException e)
+            {
+                Debug.LogWarning("Index out of range, vet inte varför. Kanske bara kan skita i....");
+                Debug.LogWarning(e.Message);
+            }
+
+        }
     }
     
 }
