@@ -44,6 +44,7 @@ public class AIManager : MonoBehaviour
     public void PerformTurn()
     {
         bool allDone = true;
+        bool allDead = true;
 
         foreach (GameObject e in enemies)
         {
@@ -55,6 +56,11 @@ public class AIManager : MonoBehaviour
                 
                 allDone = false;
             }
+
+            if (e.GetComponent<Attributes>().Health > 0)
+            {
+                allDead = false;
+            }
         }
         // enemiesTurnDone = true när alla låst in sin action
         if (!GameManager.Instance.AllStill)
@@ -62,7 +68,9 @@ public class AIManager : MonoBehaviour
 
         if (allDone)
             GameManager.Instance.enemiesTurnDone = true;
-       
+
+        if (allDead)
+            GameManager.Instance.EndEncounter();
     }
 
     public void PerformNextAction()
