@@ -47,27 +47,7 @@ public class Encounter : MonoBehaviour
         return enemies;
     }
 
-    private void Update()
-    {
-        
-        if (myTurn)//utkommenterad kod på hur signalsystemet till fienderna skulle kunna funka
-        {
-            /*
-             * if(enemies[currentEnemysTurn].turnDone){
-             *      currentEnemysTurn++;
-             *      if(currentEnemysTurn >= Enemies.Count)
-             *          GameManager.enemiesTurnDone = true;
-             *          myTurn = false
-             *       else
-             *          enemies[currentEnemysTurn].StartTurn();
-             * }
-             */
-
-            //TEMPORÄRT HÄR FÖR TESTSYFTEN:
-            //DEN VÄNTAR NÅN SEKUND SEN RADERAR DEN EN FIENDE OCH SIGNALERAR ATT DEN ÄR KLAR
-            StartCoroutine("TemporaryDoneSignal");
-        }
-    }
+    
 
     bool waited = false;
     IEnumerator TemporaryDoneSignal()//ALLTSÅ TEMPORÄR METOD SOM BÖR RADERAS SENARE
@@ -101,5 +81,11 @@ public class Encounter : MonoBehaviour
         {
             GameManager.Instance.StartEncounter(this);
         }
+    }
+
+    public void EndEncounter()
+    {
+        Debug.Log("ALLA DÖDA");
+        Destroy(gameObject);
     }
 }

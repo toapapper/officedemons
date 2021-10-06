@@ -82,6 +82,8 @@ public class GameManager : MonoBehaviour
     {
         //ï¿½r alla/allt stilla-check
         AllStill = true;
+
+        OssianUtils.CleanList(stillCheckList);
         foreach(GameObject gObject in stillCheckList)
         {
             if (gObject.CompareTag("Player"))
@@ -171,6 +173,7 @@ public class GameManager : MonoBehaviour
 
     public void EndEncounter()
     {
+        currentEncounter.EndEncounter();
         currentEncounter = null;
         combatState = CombatState.none;
         playerManager.EndCombat();
