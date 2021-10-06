@@ -1,5 +1,6 @@
 //Initially     written by Ossian, feel free to add to it.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,12 @@ public static class OssianUtils
             if (ts[i].Equals(null))
                 rmvAt.Add(i);
 
+        int removed = 0;
         foreach (int i in rmvAt)
-            ts.RemoveAt(i);
+        {
+            ts.RemoveAt(i - removed);
+            removed++;
+        }
     }
     
 }

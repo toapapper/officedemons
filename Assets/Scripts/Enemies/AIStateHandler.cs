@@ -35,7 +35,7 @@ public class AIStateHandler : MonoBehaviour
             //Turn towards nearest player
         }
 
-        if (HealthLow())
+        if (HealthLow() && aiController.CurrentState != AIStates.States.Dead)
         {
             LowHealthBehaviour();
         }

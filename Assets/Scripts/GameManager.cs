@@ -80,8 +80,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //ï¿½r alla/allt stilla-check
+        #region är alla/allt stilla-check
         AllStill = true;
+        OssianUtils.CleanList(stillCheckList);
         foreach(GameObject gObject in stillCheckList)
         {
             if (gObject.CompareTag("Player"))
@@ -107,8 +108,10 @@ public class GameManager : MonoBehaviour
             }
             //else if projektil eller fiende eller whatever
         }
+        #endregion
 
-        if(combatState == CombatState.player)
+        #region combatState-update
+        if (combatState == CombatState.player)
         {
             roundTimer -= Time.deltaTime;
             if(roundTimer <= 0)
@@ -158,6 +161,7 @@ public class GameManager : MonoBehaviour
                 roundTimer = RoundTime;
             }
         }
+        #endregion
     }
 
     public void StartEncounter(Encounter encounter)
@@ -171,12 +175,17 @@ public class GameManager : MonoBehaviour
 
     public void EndEncounter()
     {
+        currentEncounter.EndEncounter();
         currentEncounter = null;
         combatState = CombatState.none;
         playerManager.EndCombat();
         roundTimer = RoundTime;//fï¿½r snygghetens skull. Kanske bara borde disablea klockan iofs.
     }
 
+    public void AllPlayersLockedIn()
+    {
+        roundTimer = 0;
+    }
 
     //toggles between pause and unpause
     public void OnPause()

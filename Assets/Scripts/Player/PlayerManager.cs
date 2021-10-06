@@ -29,6 +29,19 @@ public class PlayerManager : MonoBehaviour
         doneEvent = new UnityEvent();
         doneEvent.AddListener(NextPlayerAction);
     }
+    private void Start()
+    {
+        instance = this;
+        actions = new Queue<GameObject>();
+    }
+
+    private void Update()
+    {
+        if(GameManager.Instance.combatState == CombatState.player && actions.Count == players.Count)
+        {
+            GameManager.Instance.AllPlayersLockedIn();
+        }
+    }
 
     private void NextPlayerAction()
     {
@@ -109,12 +122,7 @@ public class PlayerManager : MonoBehaviour
         NextPlayerAction();
     }
 
-    private void Start()
-    {
-        instance = this;
-        actions = new Queue<GameObject>();
-    }
-
+    
 
 
     public void ActionDone(GameObject player)

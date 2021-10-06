@@ -39,11 +39,27 @@ public class WeaponHand : MonoBehaviour
 		animator = GetComponent<Animator>();
 		FOV.viewRadius = handHitDistance;
 		FOV.viewAngle = handHitAngle;
+
+
 		////For test
 		//ToggleAimView(true);
 	}
 
-	public void Equip(GameObject newObject)
+    private void Start()
+    {
+		if (objectInHand != null)
+		{
+			FOV.viewRadius = objectInHand.ViewDistance;
+			FOV.viewAngle = objectInHand.ViewAngle;
+		}
+		else
+		{
+			FOV.viewRadius = handHitDistance;
+			FOV.viewAngle = handHitAngle;
+		}
+	}
+
+    public void Equip(GameObject newObject)
 	{
 		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
