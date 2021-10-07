@@ -43,18 +43,43 @@ public class UIManager : MonoBehaviour
     public Color timColor = Color.red;
     public Color vickyColor = Color.black;
 
+    private bool playerCardsInitialized = false;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        Debug.LogWarning("HELLO UI MANAGER HERE!");
         Instance = this;
 
         timerText = timer.GetComponentInChildren<TMP_Text>();
         timer_backGround_with_color_image = timer_backGround_with_color.GetComponent<Image>();
+
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        #region fulInitialize här eftersom det typ alltid blir fel annars
+        if (!playerCardsInitialized)
+        {
+            Debug.Log("Initialize player cards " + PlayerManager.instance.localPlayerList.Count);
+            //för varje spelare som finns, enablea ett playercard och mata in rätt spelare där.
+            for (int i = 0; i < PlayerManager.players.Count; i++)
+            {
+                Debug.Log("UIcard init for player " + i);
+                UIPlayerCard card = transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>();
+                card.gameObject.SetActive(true);
+                card.Initialize(PlayerManager.players[i]);
+
+                StaminaCircle stamCirc = transform.Find("Canvas").transform.Find("StaminaCircle" + i).GetComponent<StaminaCircle>();
+                stamCirc.gameObject.SetActive(true);
+                stamCirc.SetPlayer(PlayerManager.players[i]);
+            }
+            playerCardsInitialized = true;
+        }
+
+        #endregion
+
         //Uppdatera liv på spelarna
 
         //includes the displaying of enemys_turn_card
