@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
 /// Visualize the FOV of players and NPCs
-/// Script by: Kristian
+/// The raycast function also works as a targeting system.
+/// Code by: Kristian
 /// </summary>
 public class FieldOfView : MonoBehaviour
 {
