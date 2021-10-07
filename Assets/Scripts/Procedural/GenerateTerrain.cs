@@ -109,7 +109,7 @@ public class GenerateTerrain : MonoBehaviour
         {
             if (node.size.y > lastSize.y)
             {
-                GameObject leftWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y + lastSize.y - ((node.size.y - lastSize.y) / 2)), Quaternion.Euler(new Vector3(0, -90, 0)));
+                GameObject leftWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y + lastSize.y + ((node.size.y - lastSize.y) / 2)), Quaternion.Euler(new Vector3(0, -90, 0)));
                 leftWallsmall.transform.localScale = new Vector3(node.size.y - lastSize.y, howTall,wallSize.y);
                 leftWallsmall.transform.parent = level.transform;
                 leftWallsmall.name = "leftWallsmall";
