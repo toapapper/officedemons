@@ -123,8 +123,9 @@ public class PlayerMovementController : MonoBehaviour
 		pos.y = Mathf.Clamp01(pos.y);
 		pos = Camera.main.ViewportToWorldPoint(pos);
 		pos.y = Mathf.Clamp(pos.y, 0, 1.05f);
-		rb.MovePosition(pos);
+		//rb.MovePosition(pos);
 
+		rb.velocity = moveAmount;
 
 		//character.Move(moveAmount * Time.fixedDeltaTime);
 		//rb.AddForce(moveAmount * Time.fixedDeltaTime, ForceMode.VelocityChange);

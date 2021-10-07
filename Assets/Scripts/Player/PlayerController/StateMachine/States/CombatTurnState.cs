@@ -145,8 +145,9 @@ public class CombatTurnState : AbstractPlayerState
 		{
 			if (playerMovement.CalculateMovement() != Vector3.zero)
 			{
-				attributes.Stamina -= Time.deltaTime;
 				playerMovement.PerformMovement();
+				if(GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
+					attributes.Stamina -= Time.deltaTime;
 			}
 		}
 		//Falling
