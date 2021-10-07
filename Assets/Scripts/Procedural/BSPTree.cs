@@ -66,6 +66,8 @@ public class BSPTree : MonoBehaviour
         size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits, size);
         if (nextDirection == 1 && size.y < oldSize.y)
             size.y = oldSize.y;
+        if (nextDirection == 0 && lastDirection == 0 && size.y > oldSize.y)
+            size.y = oldSize.y;
 
         lastDirection = nextDirection;
         GO();
