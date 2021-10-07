@@ -64,10 +64,6 @@ public class BSPTree : MonoBehaviour
         SearchObstaclesFitness(bspRemakeTries);
         
         size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits, size);
-        if (nextDirection == 1 && size.y < oldSize.y)
-            size.y = oldSize.y;
-        if (nextDirection == 0 && lastDirection == 0 && size.y > oldSize.y)
-            size.y = oldSize.y;
 
         lastDirection = nextDirection;
         GO();
@@ -150,9 +146,9 @@ public class BSPTree : MonoBehaviour
             float splitPoint = Random.Range(buffer, node.size.y - buffer);
 
 
-            node1 = new Node(node, new Vector2(node.size.x, splitPoint), node.origin, node.generation + 1);
+            node1 = new Node(node, new Vector2(node.size.x, splitPoint), new Vector2(node.origin.x,node.origin.y + splitPoint), node.generation + 1);
             node.children[0] = node1;
-            node2 = new Node(node, new Vector2(node.size.x, node.size.y - splitPoint), new Vector2(node.origin.x, node.origin.y - splitPoint), node.generation + 1);
+            node2 = new Node(node, new Vector2(node.size.x, node.size.y - splitPoint), new Vector2(node.origin.x, node.origin.y), node.generation + 1);
             node.children[1] = node2;
 
             BSP(node1);
@@ -216,6 +212,6 @@ public class BSPTree : MonoBehaviour
     private void GoUp()
     {
         nextDirection = 1;
-        lastSize.y += size.y;
+        lastSize.y += oldSize.y;
     }
 }

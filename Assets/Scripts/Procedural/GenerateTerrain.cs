@@ -43,61 +43,61 @@ public class GenerateTerrain : MonoBehaviour
     {
         if (nextDirection == 0)
         {
-            GameObject upWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x / 2, howTall / 2, node.origin.y), Quaternion.Euler(new Vector3(0, 0, 0)));
+            GameObject upWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x / 2, howTall / 2, node.origin.y + node.size.y), Quaternion.Euler(new Vector3(0, 0, 0)));
             upWall.transform.localScale = new Vector3(node.size.x, howTall, wallSize.y);
             upWall.transform.parent = level.transform;
-            upWall.name = "upWall";
+            upWall.name = "upWall1";
 
             if (lastDirection == 0)
             {
-                GameObject downWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x / 2, howTall / 2, node.origin.y - node.size.y), Quaternion.Euler(new Vector3(0, 180, 0)));
+                GameObject downWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x / 2, howTall / 2, node.origin.y), Quaternion.Euler(new Vector3(0, 180, 0)));
                 downWall.transform.localScale = new Vector3(node.size.x, howTall, wallSize.y);
                 downWall.transform.parent = level.transform;
-                downWall.name = "downWall";
+                downWall.name = "downWall1";
             }
             else if (lastDirection == 1)
             {
-                GameObject leftWall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y - node.size.y / 2), Quaternion.Euler(new Vector3(0,-90,0)));
+                GameObject leftWall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y + node.size.y / 2), Quaternion.Euler(new Vector3(0,-90,0)));
                 leftWall.transform.localScale = new Vector3(node.size.y, howTall, wallSize.y);
                 leftWall.transform.parent = level.transform;
-                leftWall.name = "leftWall";
+                leftWall.name = "leftWall1";
             }
 
             if (node.size.y > nextSize.y)
             {
-                GameObject rightWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x, howTall / 2, node.origin.y - nextSize.y - ((node.size.y - nextSize.y) / 2)), Quaternion.Euler(new Vector3(0, 90, 0)));
-                rightWall.transform.localScale = new Vector3(node.size.y - nextSize.y, howTall, wallSize.y);
-                rightWall.transform.parent = level.transform;
-                rightWall.name = "rightWall1";
+                GameObject rightWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x, howTall / 2, node.origin.y + nextSize.y + ((node.size.y - nextSize.y) / 2)), Quaternion.Euler(new Vector3(0, 90, 0)));
+                rightWallsmall.transform.localScale = new Vector3(node.size.y - nextSize.y, howTall, wallSize.y);
+                rightWallsmall.transform.parent = level.transform;
+                rightWallsmall.name = "rightWallsmall";
             }
         }
 
 
         else if (nextDirection == 1)
         {
-            GameObject rightWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x, howTall / 2, node.origin.y - node.size.y / 2), Quaternion.Euler(new Vector3(0, 90, 0)));
+            GameObject rightWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x, howTall / 2, node.origin.y + node.size.y / 2), Quaternion.Euler(new Vector3(0, 90, 0)));
             rightWall.transform.localScale = new Vector3(node.size.y, howTall, wallSize.y);
             rightWall.transform.parent = level.transform;
             rightWall.name = "rightWall2";
 
             if (lastDirection == 1)
             {
-                GameObject leftWall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y - node.size.y / 2), Quaternion.Euler(new Vector3(0, -90, 0)));
+                GameObject leftWall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y + node.size.y / 2), Quaternion.Euler(new Vector3(0, -90, 0)));
                 leftWall.transform.localScale = new Vector3(node.size.y, howTall, wallSize.y);
                 leftWall.transform.parent = level.transform;
-                leftWall.name = "leftWall";
+                leftWall.name = "leftWall2";
             }
             else if (lastDirection == 0)
             {
-                GameObject downWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x / 2, howTall / 2 /*+ howTall/100*/, node.origin.y - node.size.y), Quaternion.Euler(new Vector3(0, 180, 0)));
+                GameObject downWall = Instantiate(groundPrefab, new Vector3(node.origin.x + node.size.x / 2, howTall / 2 /*+ howTall/100*/, node.origin.y), Quaternion.Euler(new Vector3(0, 180, 0)));
                 downWall.transform.localScale = new Vector3(node.size.x, howTall, wallSize.y);
                 downWall.transform.parent = level.transform;
-                downWall.name = "downWall";
+                downWall.name = "downWall2";
             }
 
             if (node.size.x > nextSize.x)
             {
-                GameObject upWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x + nextSize.x + ((node.size.x - nextSize.x)/2), howTall / 2, node.origin.y), Quaternion.identity);
+                GameObject upWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x + nextSize.x + ((node.size.x - nextSize.x)/2), howTall / 2, node.origin.y + node.size.y), Quaternion.identity);
                 upWallsmall.transform.localScale = new Vector3(node.size.x - nextSize.x, howTall, wallSize.y);
                 upWallsmall.transform.parent = level.transform;
                 upWallsmall.name = "upWallsmall";
@@ -109,7 +109,7 @@ public class GenerateTerrain : MonoBehaviour
         {
             if (node.size.y > lastSize.y)
             {
-                GameObject leftWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y - lastSize.y - ((node.size.y - lastSize.y) / 2)), Quaternion.Euler(new Vector3(0, -90, 0)));
+                GameObject leftWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x, howTall / 2, node.origin.y + lastSize.y - ((node.size.y - lastSize.y) / 2)), Quaternion.Euler(new Vector3(0, -90, 0)));
                 leftWallsmall.transform.localScale = new Vector3(node.size.y - lastSize.y, howTall,wallSize.y);
                 leftWallsmall.transform.parent = level.transform;
                 leftWallsmall.name = "leftWallsmall";
@@ -120,7 +120,7 @@ public class GenerateTerrain : MonoBehaviour
         {
             if (node.size.x > lastSize.x)
             {
-                GameObject downWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x + lastSize.x + ((node.size.x - lastSize.x) / 2), howTall / 2 /*+ howTall/100*/, node.origin.y - node.size.y), Quaternion.Euler(new Vector3(0, 180, 0)));
+                GameObject downWallsmall = Instantiate(groundPrefab, new Vector3(node.origin.x + lastSize.x + ((node.size.x - lastSize.x) / 2), howTall / 2 /*+ howTall/100*/, node.origin.y), Quaternion.Euler(new Vector3(0, 180, 0)));
                 downWallsmall.transform.localScale = new Vector3(node.size.x - lastSize.x, howTall, wallSize.y);
                 downWallsmall.transform.parent = level.transform;
                 downWallsmall.name = "downWallsmall";
