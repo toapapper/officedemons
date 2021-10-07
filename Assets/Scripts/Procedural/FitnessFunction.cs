@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class FitnessFunction : MonoBehaviour
 {
+    public float bigRoomMultiplier = 4;
     BSPTree bsp;
     GenerateTerrain generateTerrain;
     SpawnItemsFromLibrary itemLibrary;
@@ -184,8 +185,8 @@ public class FitnessFunction : MonoBehaviour
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
         if (roomCounter % encounterFreq == 0)
         {
-            size.x *= 2;
-            size.y *= 2;
+            size.x *= bigRoomMultiplier;
+            size.y *= bigRoomMultiplier;
         }
 
         roomCounter++;
