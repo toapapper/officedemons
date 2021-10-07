@@ -6,8 +6,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField]
     public static List<GameObject> players;
+
+    //for debugging and solving strange problems....
+    //is anyway just a reference to PlayerManager.players
+    public List<GameObject> localPlayerList;
 
     public static UnityEvent doneEvent;
 
@@ -25,14 +28,12 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         players = new List<GameObject>();
+        localPlayerList = players;
+        actions = new Queue<GameObject>();
         doneEvent = new UnityEvent();
         doneEvent.AddListener(NextPlayerAction);
-    }
-    private void Start()
-    {
-        instance = this;
-        actions = new Queue<GameObject>();
     }
 
     private void Update()
@@ -122,7 +123,10 @@ public class PlayerManager : MonoBehaviour
         NextPlayerAction();
     }
 
-    
+    public List<GameObject> GetPlayers()
+    {
+        return players;
+    }
 
 
     public void ActionDone(GameObject player)
