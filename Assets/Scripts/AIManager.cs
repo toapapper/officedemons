@@ -50,7 +50,8 @@ public class AIManager : MonoBehaviour
 
         for (int i = 0; i < players.Count; i++)
         {
-            if (players[i].GetComponent<Attributes>().Health <= players[i].GetComponent<Attributes>().StartHealth / 3)
+            if (players[i].GetComponent<Attributes>().Health <= players[i].GetComponent<Attributes>().StartHealth / 3
+                && players[i].GetComponent<Attributes>().Health > 0)
             {
                 killOnSight.Add(players[i]);
             }

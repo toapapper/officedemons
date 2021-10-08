@@ -113,6 +113,23 @@ public class AIStateHandler : MonoBehaviour
     private void HealerClassUpdate()
     {
         //Implement this
+        //for (int i = 0; i < enemies.Count; i++)
+        //{
+        //    if (enemies[i].aiController.CurrentState = AIStates.States.CallForHealing)
+        //    {
+        //        //AgentsCallingForHelp.add(enemies[i]);
+        //        //GameObject closestAgentCallingForHelp = GetClosest(CallingForHelpAgentsList);
+        //        if (fov.visibleTargets.Contains(closestAgentCallingForHelp))
+        //        {
+        //            //Heal
+        //        }
+        //        else
+        //        {
+        //            //Move towards closestAgentCallingForHelp
+        //        }
+        //    }
+
+        //}
     }
 
         //REMOVE?

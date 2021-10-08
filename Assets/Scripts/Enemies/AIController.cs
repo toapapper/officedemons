@@ -119,17 +119,31 @@ public class AIController : MonoBehaviour
         // Ta bort ifrån AIManager.actions (deque)
     }
 
+
+
+    //A lot of checks atm might need some cleanups!
+    //If we can have the player itself notify when it's in down state that would also work
     public GameObject CalculateClosest(List<GameObject> players, List<GameObject> priorities)
     {
         NavMeshPath path = new NavMeshPath();
 
         float closestDistance = float.MaxValue;
-
+        for (int i = 0; i < priorites.Count; i++)
+        {
+            if (priorites[i].GetComponent<Attributes>().Health <=0)
+            {
+                priorites.RemoveAt(i);
+            }
+        }
         if (priorites.Count < 0)
         {
             for (int i = 0; i < players.Count; i++)
             {
                 if (players[i] == null)
+                {
+                    continue;
+                }
+                else if(players[i].GetComponent<Attributes>().Health <= 0)
                 {
                     continue;
                 }
@@ -155,6 +169,10 @@ public class AIController : MonoBehaviour
         {
             for (int i = 0; i < priorites.Count; i++)
             {
+                if (priorites[i].GetComponent<Attributes>().Health <= 0)
+                {
+                    continue;
+                }
                 if (NavMesh.CalculatePath(transform.position, priorites[i].gameObject.transform.position, agent.areaMask, path))
                 {
                     float distance = Vector3.Distance(transform.position, path.corners[0]);
