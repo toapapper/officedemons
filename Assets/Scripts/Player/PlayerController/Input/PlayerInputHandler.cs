@@ -26,6 +26,8 @@ public class PlayerInputHandler : MonoBehaviour
 	private List<GameObject> nearbyObjects = new List<GameObject>();
 	private List<GameObject> nearbyPlayers = new List<GameObject>();
 
+	public bool recentlySpawned = false;
+
 	public void Start()
 	{
 		forward = Camera.main.transform.forward;
@@ -37,6 +39,14 @@ public class PlayerInputHandler : MonoBehaviour
 		player = GetComponent<PlayerStateController>();
 		playerMovement = GetComponent<PlayerMovementController>();
 		weaponHand = GetComponent<WeaponHand>();
+
+		//if you spawned while the game was running this will be set to true.
+		//It's here just in order to put you into the proper state, if for example you where to spawn in combat.
+        if (recentlySpawned)
+        {
+			GetComponent<PlayerStateController>().Revive();
+			recentlySpawned = false;
+        }
 	}
 
 	public void InitializePlayer(PlayerConfiguration pc)

@@ -9,9 +9,9 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
 	private Rigidbody rb;
-    //Character movers
-    //private CharacterController character;
-    private WeaponHand weaponHand;
+	//Character movers
+	//private CharacterController character;
+	private WeaponHand weaponHand;
 	//private SpecialHand specialHand;
 
 	//Movement variables
@@ -26,6 +26,7 @@ public class PlayerMovementController : MonoBehaviour
 	[SerializeField]
 	private float rotationSpeed = 500f;
 
+	public float getMoveSpeed{ get{ return moveSpeed; }}
 
 	//Throwing variables
 	[SerializeField]
@@ -125,7 +126,8 @@ public class PlayerMovementController : MonoBehaviour
 		pos.y = Mathf.Clamp(pos.y, 0, 1.05f);
 		//rb.MovePosition(pos);
 
-		rb.velocity = moveAmount;
+		rb.velocity = (pos - transform.position)/Time.fixedDeltaTime; // with clamping to screen
+		//rb.velocity = moveAmount; //no clamping to screen
 
 		//character.Move(moveAmount * Time.fixedDeltaTime);
 		//rb.AddForce(moveAmount * Time.fixedDeltaTime, ForceMode.VelocityChange);

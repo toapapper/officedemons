@@ -37,12 +37,6 @@ public class UIManager : MonoBehaviour
     [Header("Polis")]
     public GameObject enemys_turn_card;
 
-    [Header("player colors, temporary")]
-    public Color susanColor = Color.blue;
-    public Color devinColor = Color.green;
-    public Color timColor = Color.red;
-    public Color vickyColor = Color.black;
-
     private bool playerCardsInitialized = false;
 
     // Start is called before the first frame update
@@ -66,14 +60,7 @@ public class UIManager : MonoBehaviour
             //för varje spelare som finns, enablea ett playercard och mata in rätt spelare där.
             for (int i = 0; i < PlayerManager.players.Count; i++)
             {
-                Debug.Log("UIcard init for player " + i);
-                UIPlayerCard card = transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>();
-                card.gameObject.SetActive(true);
-                card.Initialize(PlayerManager.players[i]);
-
-                StaminaCircle stamCirc = transform.Find("Canvas").transform.Find("StaminaCircle" + i).GetComponent<StaminaCircle>();
-                stamCirc.gameObject.SetActive(true);
-                stamCirc.SetPlayer(PlayerManager.players[i]);
+                EnablePlayerCard(i);
             }
             playerCardsInitialized = true;
         }
@@ -123,6 +110,29 @@ public class UIManager : MonoBehaviour
             timer.SetActive(false);
         }
         #endregion
+    }
+
+    public void EnablePlayerCard(GameObject player)
+    {
+        int index = PlayerManager.players.IndexOf(player);
+        EnablePlayerCard(index);
+    }
+    public void EnablePlayerCard(int i)
+    {
+        Debug.Log("UIcard init for player " + i);
+        UIPlayerCard card = transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>();
+        if (card.gameObject.activeSelf)
+        {
+            Debug.LogWarning("Card already active");
+            return;
+        }
+
+        card.gameObject.SetActive(true);
+        card.Initialize(PlayerManager.players[i]);
+
+        StaminaCircle stamCirc = transform.Find("Canvas").transform.Find("StaminaCircle" + i).GetComponent<StaminaCircle>();
+        stamCirc.gameObject.SetActive(true);
+        stamCirc.SetPlayer(PlayerManager.players[i]);
     }
 
     public void OpenMenu()

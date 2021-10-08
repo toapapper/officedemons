@@ -53,11 +53,24 @@ public class PlayerConfigurationManager : MonoBehaviour
 	public void HandlePlayerJoin(PlayerInput playerInput)
 	{
 		Debug.Log("Player joined " + playerInput.playerIndex);
-		if(!playerConfigurations.Any(p => p.PlayerIndex == playerInput.playerIndex))
+		PlayerConfiguration newPlayerConfig = null;
+		//if(!playerConfigurations.Any(p => p.PlayerIndex == playerInput.playerIndex))
+		if(playerConfigurations.Count < playerInput.playerIndex + 1)
 		{
+			Debug.Log("Creating new playerConfiguration");
+			newPlayerConfig = new PlayerConfiguration(playerInput);
 			playerInput.transform.SetParent(transform);
-			playerConfigurations.Add(new PlayerConfiguration(playerInput));
+			playerConfigurations.Add(newPlayerConfig);
 		}
+
+		if(SceneManager.GetActiveScene().name != "PlayerSelection" && newPlayerConfig != null)
+        {
+			if(PlayerManager.instance.joinAnyTime)
+			{
+				Debug.Log("Spawning new player");
+				PlayerManager.instance.SpawnNewPlayer(newPlayerConfig);
+			}
+        }
 	}
 }
 

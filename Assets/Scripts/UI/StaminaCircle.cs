@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class StaminaCircle : MonoBehaviour
 {
-    public float yOffset = 10f;//pixlar typ antar jag..
-    public float xOffset = 5f;
+    [Tooltip("offset in real space")]
+    public Vector2 offset = new Vector2(0f, 1.5f);
 
     public GameObject player;
     private Attributes playerAttributes;
@@ -23,43 +23,33 @@ public class StaminaCircle : MonoBehaviour
     {
         this.player = player;
         playerAttributes = player.GetComponent<Attributes>();
-        switch (player.name)
-        {
-            case "Devin 1(Clone)":
-                image.color = UIManager.Instance.devinColor;
-                break;
-            case "TerribleTim(Clone)":
-                image.color = UIManager.Instance.timColor;
-                break;
-            case "SusanTheDestroyer(Clone)":
-                image.color = UIManager.Instance.susanColor;
-                break;
-            case "ViciousVicky(Clone)":
-                image.color = UIManager.Instance.vickyColor;
-                break;
-        }
+        image.color = playerAttributes.PlayerColor;
+        image.color = new Color(image.color.r, image.color.g, image.color.b, .6f);
     }
 
     // Update is called once per frame
     void Update()
     {
         //position ovanför spelaren, implementera senare
-        //if (player != null && Camera.main != null)
-        //{
-        //    Vector2 position = Camera.main.WorldToViewportPoint(player.transform.position);
-        //    RectTransform canv = canvas.transform as RectTransform;
-        //    Vector2 canvasPos = new Vector2();
+        if (player != null && Camera.main != null)
+        {
+            Vector2 position = Camera.main.WorldToViewportPoint(new Vector3(player.transform.position.x + offset.x, player.transform.position.y, player.transform.position.z + offset.y));
 
-        //    RectTransformUtility.ScreenPointToLocalPointInRectangle(canv, position, null, out canvasPos);
-        //    transform.localPosition = canvasPos;
-
-        //    Debug.Log(position);
-        //}
+            transform.position = position * canvas.pixelRect.size;
+        }
 
         if (player != null)
         {
-            float stamPercent = playerAttributes.Stamina/playerAttributes.StartStamina;
-            image.fillAmount = stamPercent;
+            if(GameManager.Instance.combatState == CombatState.player)
+            {
+                image.enabled = true;
+                float stamPercent = playerAttributes.Stamina/playerAttributes.StartStamina;
+                image.fillAmount = stamPercent;
+            }
+            else
+            {
+                image.enabled = false;
+            }
         }
     }
 }
