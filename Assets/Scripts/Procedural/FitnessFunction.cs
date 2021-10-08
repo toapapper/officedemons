@@ -71,10 +71,10 @@ public class FitnessFunction : MonoBehaviour
                 }
                 Debug.Log("fitness after check = " + fitnessValue);
                 
-                if (obstacles > 6)
-                {
-                    fitnessValue -= 400;
-                }
+                //if (obstacles > 6)
+                //{
+                //    fitnessValue -= 400;
+                //}
             }
         }
 
