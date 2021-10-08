@@ -27,14 +27,63 @@ public class AIStateHandler : MonoBehaviour
         aiController = GetComponent<AIController>();
     }
 
-    public void UpdateState() // Kallas på om turn OCH om State == Move
+    public void GetState(Class currentClass)
+    {
+        switch (currentClass)
+        {
+            case Class.Aggresive:
+                AggresiveClassUpdate();
+                break;
+            case Class.Defensive:
+                DefensiveClassUpdate();
+                break;
+            case Class.Healer:
+                HealerClassUpdate();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AggresiveClassUpdate()
     {
         //GameObject weapon = rightHand.transform.GetChild(0).gameObject;
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
+            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, aiController.Priorites);
+            Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             //Turn towards nearest player
         }
+        if(aiController.CurrentState != AIStates.States.Dead)
+        {
+            if (fov.visibleTargets.Count > 0) // <- om target finns i line of sight för vapnet
+            {
+                Debug.Log("TARGET FOUND");
+                aiController.CurrentState = AIStates.States.Attack;
+            }
+            else
+            {
+                if (attributes.Stamina > 0)
+                {
+                    aiController.CurrentState = AIStates.States.Move; // rör sig mot target tills man target finns i line of sight    // kanske ta hänsyn till sin stamina och då ta  ett annat beslut?
+                }
+                else
+                {
+                    Debug.Log("Stamina depleted");
+                    aiController.CurrentState = AIStates.States.Wait;
+                }
+            }
+        }
+    }
 
+    private void DefensiveClassUpdate()
+    {
+        if (aiController.CurrentState == AIStates.States.Unassigned)
+        {
+            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, aiController.Priorites);
+            Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
+            //Turn towards nearest player
+        }
         if (HealthLow() && aiController.CurrentState != AIStates.States.Dead)
         {
             LowHealthBehaviour();
@@ -59,6 +108,11 @@ public class AIStateHandler : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void HealerClassUpdate()
+    {
+        //Implement this
     }
 
         //REMOVE?

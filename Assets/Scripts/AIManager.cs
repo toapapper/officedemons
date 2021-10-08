@@ -46,12 +46,24 @@ public class AIManager : MonoBehaviour
         bool allDone = true;
         bool allDead = true;
 
+        List<GameObject> killOnSight = new List<GameObject>();
+
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i].GetComponent<Attributes>().Health <= players[i].GetComponent<Attributes>().StartHealth / 3)
+            {
+                killOnSight.Add(players[i]);
+            }
+        }
+
+
         foreach (GameObject e in enemies)
         {
             //Debug.Log("LockedAction(): " + e.GetComponent<AIController>().LockedAction());
             if (!e.GetComponent<AIController>().LockedAction())
             {
                 //e.GetComponent<AIController>().CurrentState = AIStates.States.Wait; // DEBUG
+                e.GetComponent<AIController>().Priorites = killOnSight;
                 e.GetComponent<AIController>().PerformBehaviour();
                 
                 allDone = false;

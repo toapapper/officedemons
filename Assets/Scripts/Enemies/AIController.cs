@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 
 // Decisions are made and the corresponding action is called
+//Used more for behaviours than anything.
+//No other uses other than to make different decisions based on the class
+public enum Class { Aggresive, Defensive, Healer};
 
 public class AIController : MonoBehaviour
 {
@@ -13,7 +16,16 @@ public class AIController : MonoBehaviour
     AIManager aiManager;
     GameObject closestPlayer;
     WeaponHand weapon;
+    public GameObject target;
+    public Class currentClass;
 
+
+    List<GameObject> priorites;
+    public List<GameObject> Priorites
+    {
+        get { return priorites; }
+        set { priorites = value; }
+    }
 
     [SerializeField]
     private Animator animator;
@@ -40,8 +52,8 @@ public class AIController : MonoBehaviour
     void Start()
     {
         fov = GetComponent<FieldOfView>();
-		actions = GetComponent<Actions>();
-		agent = GetComponent<NavMeshAgent>();
+        actions = GetComponent<Actions>();
+        agent = GetComponent<NavMeshAgent>();
         CurrentState = AIStates.States.Unassigned;
         aiStateHandler = GetComponent<AIStateHandler>();
         aiManager = transform.parent.GetComponentInChildren<AIManager>();
@@ -53,7 +65,7 @@ public class AIController : MonoBehaviour
     {
         // Check currentState and call corresponding Action
 
-        aiStateHandler.UpdateState();                  
+        aiStateHandler.GetState(currentClass);
 
         switch (CurrentState) // FindCover, CallForHealing, Attack, Move, Wait , Unassigned
         {
@@ -73,7 +85,7 @@ public class AIController : MonoBehaviour
                 break;
 
             case AIStates.States.Move:
-                closestPlayer = CalculateClosest(PlayerManager.players);
+                closestPlayer = CalculateClosest(PlayerManager.players, priorites);
                 if (closestPlayer == null)
                     currentState = AIStates.States.Wait;
 
@@ -107,35 +119,57 @@ public class AIController : MonoBehaviour
         // Ta bort ifrån AIManager.actions (deque)
     }
 
-    public GameObject CalculateClosest(List<GameObject> players)
+    public GameObject CalculateClosest(List<GameObject> players, List<GameObject> priorities)
     {
         NavMeshPath path = new NavMeshPath();
 
         float closestDistance = float.MaxValue;
 
-        for (int i = 0; i < players.Count; i++)
+        if (priorites.Count < 0)
         {
-            if (players[i] == null)
+            for (int i = 0; i < players.Count; i++)
             {
-                continue;
-            }
-            if (NavMesh.CalculatePath(transform.position, players[i].gameObject.transform.position, agent.areaMask, path))
-            {
-                float distance = Vector3.Distance(transform.position, path.corners[0]);
-                for (int j = 1; j < path.corners.Length; j++)
+                if (players[i] == null)
                 {
-                    distance += Vector3.Distance(path.corners[j-1],path.corners[j]);
+                    continue;
+                }
+                if (NavMesh.CalculatePath(transform.position, players[i].gameObject.transform.position, agent.areaMask, path))
+                {
+                    float distance = Vector3.Distance(transform.position, path.corners[0]);
+                    for (int j = 1; j < path.corners.Length; j++)
+                    {
+                        distance += Vector3.Distance(path.corners[j - 1], path.corners[j]);
+                    }
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestPlayer = players[i];
+                    }
+
                 }
 
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestPlayer = players[i];
-                    //Debug.Log("Closest player is " + closestDistance + " m from  " + closestPlayer + " which is the closest player");
-                }
             }
-
+            return closestPlayer;
         }
-        return closestPlayer;
+        else
+        {
+            for (int i = 0; i < priorites.Count; i++)
+            {
+                if (NavMesh.CalculatePath(transform.position, priorites[i].gameObject.transform.position, agent.areaMask, path))
+                {
+                    float distance = Vector3.Distance(transform.position, path.corners[0]);
+                    for (int j = 1; j < path.corners.Length; j++)
+                    {
+                        distance += Vector3.Distance(path.corners[j - 1], path.corners[j]);
+                    }
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestPlayer = priorites[i];
+                    }
+                }
+            }
+            return closestPlayer;
+        }
     }
 }
