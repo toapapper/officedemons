@@ -58,7 +58,7 @@ public class AIStateHandler : MonoBehaviour
         {
             if (fov.visibleTargets.Count > 0) // <- om target finns i line of sight för vapnet
             {
-                Debug.Log("TARGET FOUND");
+                //Debug.Log("TARGET FOUND");
                 aiController.CurrentState = AIStates.States.Attack;
             }
             else
@@ -69,7 +69,7 @@ public class AIStateHandler : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Stamina depleted");
+                    //Debug.Log("Stamina depleted");
                     aiController.CurrentState = AIStates.States.Wait;
                 }
             }
@@ -92,7 +92,7 @@ public class AIStateHandler : MonoBehaviour
         {
             if (fov.visibleTargets.Count > 0) // <- om target finns i line of sight för vapnet
             {
-                Debug.Log("TARGET FOUND");
+                //Debug.Log("TARGET FOUND");
                 aiController.CurrentState = AIStates.States.Attack;
             }
             else
@@ -103,7 +103,7 @@ public class AIStateHandler : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Stamina depleted");
+                    //Debug.Log("Stamina depleted");
                     aiController.CurrentState = AIStates.States.Wait;
                 }
             }
@@ -182,4 +182,9 @@ public class AIStateHandler : MonoBehaviour
     {
         return false;
     }
+
+
+
+
+
 }

@@ -28,14 +28,14 @@ public class AIManager : MonoBehaviour
 
     public void BeginTurn() //kanske lägga till mer? annars kanske ta bort metoden
     {
-        Debug.Log("Begin turn ENEMY");
+        //Debug.Log("Begin turn ENEMY");
         actions.Clear();
         foreach (GameObject e in enemies)
         {
             e.GetComponent<Attributes>().Stamina = e.GetComponent<Attributes>().StartStamina;
             e.GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
         }
-        Debug.Log("KOMMER FÖRBI CLEAR");
+        //Debug.Log("KOMMER FÖRBI CLEAR");
 
 
         // enemiesTurnDone = true när alla låst in sin action
@@ -118,7 +118,7 @@ public class AIManager : MonoBehaviour
 
     public void SaveAction(GameObject agent)
     {
-        Debug.Log("Action is in queue");
+        //Debug.Log("Action is in queue");
         actions.Enqueue(agent);
     }
   

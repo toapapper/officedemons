@@ -125,7 +125,6 @@ public class AIController : MonoBehaviour
     //If we can have the player itself notify when it's in down state that would also work
     public GameObject CalculateClosest(List<GameObject> players, List<GameObject> priorities)
     {
-        NavMeshPath path = new NavMeshPath();
 
         float closestDistance = float.MaxValue;
         for (int i = 0; i < priorites.Count; i++)
@@ -135,59 +134,84 @@ public class AIController : MonoBehaviour
                 priorites.RemoveAt(i);
             }
         }
-        if (priorites.Count < 0)
+
+
+        for (int i = 0; i < priorites.Count; i++)
         {
+            if (priorites[i].GetComponent<Attributes>().Health <= 0)
+            {
+                continue;
+            }
+            float distance = CalculateDistance(priorites[i]);
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestPlayer = priorites[i];
+            }
+        }
+        if (closestDistance == float.MaxValue)
+        {
+            Debug.Log("No priority player is reachable");
             for (int i = 0; i < players.Count; i++)
             {
                 if (players[i] == null)
                 {
                     continue;
                 }
-                else if(players[i].GetComponent<Attributes>().Health <= 0)
+                else if (players[i].GetComponent<Attributes>().Health <= 0)
                 {
                     continue;
                 }
-                if (NavMesh.CalculatePath(transform.position, players[i].gameObject.transform.position, agent.areaMask, path))
+                float distance = CalculateDistance(players[i]);
+                if (distance < closestDistance)
                 {
-                    float distance = Vector3.Distance(transform.position, path.corners[0]);
-                    for (int j = 1; j < path.corners.Length; j++)
-                    {
-                        distance += Vector3.Distance(path.corners[j - 1], path.corners[j]);
-                    }
-                    if (distance < closestDistance)
-                    {
-                        closestDistance = distance;
-                        closestPlayer = players[i];
-                    }
-
+                    closestDistance = distance;
+                    closestPlayer = players[i];
                 }
-
             }
+
+            if (closestDistance == float.MaxValue)
+                Debug.Log("No player is reachable");
+
+            Debug.LogError(closestDistance);
             return closestPlayer;
         }
-        else
+        return closestPlayer;
+    }
+
+    public bool ReachableTarget(GameObject target)
+    {
+        float stamina = agent.gameObject.GetComponent<Attributes>().Stamina;
+
+        float targetDistance = CalculateDistance(target);
+
+        //With some testing: with acceleration 10 we get about 1m * speed per stamina 
+        //Turns make it take longer
+        //made the estimated travel distance 20% longer to ensure that if we think we can make it we make it
+        //Right now it does not take into consideration FOV
+        //Check the last path from calculatedistance if that path is less than fov.viewradius then subtract the last path.length from targetdistance
+        if (targetDistance <= stamina * agent.speed / 1.2f)
         {
-            for (int i = 0; i < priorites.Count; i++)
-            {
-                if (priorites[i].GetComponent<Attributes>().Health <= 0)
-                {
-                    continue;
-                }
-                if (NavMesh.CalculatePath(transform.position, priorites[i].gameObject.transform.position, agent.areaMask, path))
-                {
-                    float distance = Vector3.Distance(transform.position, path.corners[0]);
-                    for (int j = 1; j < path.corners.Length; j++)
-                    {
-                        distance += Vector3.Distance(path.corners[j - 1], path.corners[j]);
-                    }
-                    if (distance < closestDistance)
-                    {
-                        closestDistance = distance;
-                        closestPlayer = priorites[i];
-                    }
-                }
-            }
-            return closestPlayer;
+            return true;
         }
+
+        return false;
+    }
+    private float CalculateDistance(GameObject target)
+    {
+        NavMeshPath path = new NavMeshPath();
+        float distance = float.MaxValue;
+
+        if (NavMesh.CalculatePath(transform.position, target.gameObject.transform.position, agent.areaMask, path))
+        {
+            distance = Vector3.Distance(transform.position, path.corners[0]);
+            for (int i = 1; i < path.corners.Length; i++)
+            {
+                distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+            }
+
+        }
+        return distance;
     }
 }
