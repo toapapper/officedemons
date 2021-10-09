@@ -97,13 +97,15 @@ public class AIStateHandler : MonoBehaviour
             }
             else
             {
-                if (attributes.Stamina > 0)
+                if (attributes.Stamina > 0 && aiController.FindClosestAndCheckIfReachable())
                 {
-                    aiController.CurrentState = AIStates.States.Move; // rör sig mot target tills man target finns i line of sight    // kanske ta hänsyn till sin stamina och då ta  ett annat beslut?
+                    aiController.CurrentState = AIStates.States.Move;
                 }
                 else
                 {
                     //Debug.Log("Stamina depleted");
+                    //Defensive unit won't move unless he thinks he can reach the closest player
+                    Debug.LogError("NO PLAYER REACHABLE");
                     aiController.CurrentState = AIStates.States.Wait;
                 }
             }

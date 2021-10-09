@@ -174,30 +174,51 @@ public class AIController : MonoBehaviour
             if (closestDistance == float.MaxValue)
                 Debug.Log("No player is reachable");
 
-            Debug.LogError(closestDistance);
             return closestPlayer;
         }
         return closestPlayer;
     }
 
+
+
+    /// <summary>
+    /// Check if the agent will be able to reach the player
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
     public bool ReachableTarget(GameObject target)
     {
         float stamina = agent.gameObject.GetComponent<Attributes>().Stamina;
 
         float targetDistance = CalculateDistance(target);
 
+        float lastPathDistance = CalculateLastPathDistance(target);
         //With some testing: with acceleration 10 we get about 1m * speed per stamina 
         //Turns make it take longer
         //made the estimated travel distance 20% longer to ensure that if we think we can make it we make it
-        //Right now it does not take into consideration FOV
-        //Check the last path from calculatedistance if that path is less than fov.viewradius then subtract the last path.length from targetdistance
-        if (targetDistance <= stamina * agent.speed / 1.2f)
+
+        if ( lastPathDistance <= fov.viewRadius)
+        {
+            if (targetDistance - lastPathDistance <= stamina * agent.speed / 1.2f)
+            {
+                return true;
+            }
+        }
+        else if (targetDistance - fov.viewRadius <= stamina * agent.speed / 1.2f)
         {
             return true;
         }
 
         return false;
     }
+
+
+
+    /// <summary>
+    /// Calulate navmesh path distance from agent to player
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
     private float CalculateDistance(GameObject target)
     {
         NavMeshPath path = new NavMeshPath();
@@ -213,5 +234,40 @@ public class AIController : MonoBehaviour
 
         }
         return distance;
+    }
+
+
+    /// <summary>
+    /// Get the last straight length from agent to player
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    private float CalculateLastPathDistance(GameObject target)
+    {
+        NavMeshPath path = new NavMeshPath();
+        float distance = 0;
+        if (NavMesh.CalculatePath(transform.position, target.gameObject.transform.position, agent.areaMask, path))
+        {
+            for (int i = path.corners.Length - 1; i > 1; i--)
+            {
+                distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+                break;
+            }
+        }
+
+        return distance;
+    }
+
+
+
+
+    public bool FindClosestAndCheckIfReachable()
+    {
+       GameObject closest = CalculateClosest(PlayerManager.players, Priorites);
+        if (ReachableTarget(closest))
+        {
+            return true;
+        }
+        return false;
     }
 }
