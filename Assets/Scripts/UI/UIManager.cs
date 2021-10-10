@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     public Color timer_color1 = Color.green;
     public Color timer_color2 = Color.yellow;
     public Color timer_color3 = Color.red;
+    public Color[] timerColors = { Color.white, Color.yellow, new Color(1, 1, 0), Color.red };
     private TMP_Text timerText;
 
     [Header("Polis")]
@@ -81,24 +82,9 @@ public class UIManager : MonoBehaviour
             timer.SetActive(true);
             enemys_turn_card.SetActive(false);
             timerText.text = ("" + Mathf.Max(Mathf.Floor(GameManager.Instance.roundTimer),0));
-            //fixa klockans display, rotera visare, byt färg på bakgrund_färg och minska dess synliga del
+
             float percent = 1 - GameManager.Instance.roundTimer / GameManager.Instance.RoundTime;
-
-            Color clockColor = Color.white;
-            if(percent < .5)
-            {
-                clockColor = Color.Lerp(timer_color0, timer_color1, percent);
-            }
-            else if(percent >= .5f && percent < .75f)
-            {
-                clockColor = Color.Lerp(timer_color1, timer_color2, percent);
-            }
-            else if(percent >= .75f)
-            {
-                clockColor = Color.Lerp(timer_color2, timer_color3, percent);
-            }
-
-            timer_backGround_with_color_image.color = clockColor;
+            timer_backGround_with_color_image.color = OssianUtils.MultiColorLerp(timerColors, percent);
 
             //float segmentedPercent = (Mathf.Floor(percent * 12) / 12) + 1;
             timer_backGround_with_color_image.fillAmount = percent;

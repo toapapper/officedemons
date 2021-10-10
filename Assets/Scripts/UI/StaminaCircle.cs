@@ -7,6 +7,9 @@ public class StaminaCircle : MonoBehaviour
 {
     [Tooltip("offset in real space")]
     public Vector2 offset = new Vector2(0f, 1.5f);
+    public float imageAlpha = .7f;
+
+    public Color[] colours = { Color.green, Color.yellow, Color.red };
 
     public GameObject player;
     private Attributes playerAttributes;
@@ -23,8 +26,8 @@ public class StaminaCircle : MonoBehaviour
     {
         this.player = player;
         playerAttributes = player.GetComponent<Attributes>();
-        image.color = playerAttributes.PlayerColor;
-        image.color = new Color(image.color.r, image.color.g, image.color.b, .6f);
+        //image.color = playerAttributes.PlayerColor;
+        //image.color = new Color(image.color.r, image.color.g, image.color.b, imageAlpha);
     }
 
     // Update is called once per frame
@@ -45,6 +48,8 @@ public class StaminaCircle : MonoBehaviour
                 image.enabled = true;
                 float stamPercent = playerAttributes.Stamina/playerAttributes.StartStamina;
                 image.fillAmount = stamPercent;
+
+                image.color = OssianUtils.MultiColorLerp(colours, 1 - stamPercent);
             }
             else
             {
