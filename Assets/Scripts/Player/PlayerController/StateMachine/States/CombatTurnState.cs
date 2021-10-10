@@ -146,8 +146,10 @@ public class CombatTurnState : AbstractPlayerState
 			if (playerMovement.CalculateMovement() != Vector3.zero)
 			{
 				playerMovement.PerformMovement();
-				if(GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
-					attributes.Stamina -= Time.deltaTime;
+
+				//lite så att den drainar stamina beroend på hur snabbt du går, kanske känns lite bättre eller så gör det ingen skillnad.
+				if (GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
+					attributes.Stamina -= Time.deltaTime * GetComponent<Rigidbody>().velocity.magnitude/GetComponent<PlayerMovementController>().getMoveSpeed;
 			}
 		}
 		//Falling
