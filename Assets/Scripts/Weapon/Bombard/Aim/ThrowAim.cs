@@ -11,15 +11,21 @@ public class ThrowAim : MonoBehaviour
     private RaycastHit hit;
 
     [SerializeField]
-    private float initialAngle = 45f;
+    public float initialAngle = 45f;
     [SerializeField]
-    private float initialVelocity = 5f;
-    [SerializeField]
-    [Range(0.1f, 0.95f)]
-    private float initialFriction = 0.9f;
+    public float initialVelocity = 5f;
     [SerializeField]
     [Range(0.1f, 0.95f)]
-    private float initialBounce = 0.7f;
+    private float initialFriction = 0.7f;
+    [SerializeField]
+    [Range(0.1f, 0.95f)]
+    private float initialBounce = 0.4f;
+    [SerializeField]
+    private int maxLineLength = 200;
+    [SerializeField]
+    private float stopVelocity = 0.5f;
+    [SerializeField]
+    private float maxRayDistance = 0.2f;
 
     private Vector3 currentPosition;
     private Vector3 newPosition;
@@ -52,18 +58,16 @@ public class ThrowAim : MonoBehaviour
         lineRenderer.positionCount = 1;
         lineRenderer.SetPosition(0, newPosition);
 
-        while (velocity.magnitude > 0.1f && lineRenderer.positionCount < 200)
+        while (velocity.magnitude > stopVelocity && lineRenderer.positionCount < maxLineLength)
         {
             currentPosition = newPosition;
             newPosition += velocity * Time.fixedDeltaTime;
             velocity.y -= gravity * Time.fixedDeltaTime;
 
-            Debug.Log(Time.fixedDeltaTime);
-
-            if (Physics.Raycast(newPosition, velocity, out hit, /*Mathf.Abs((currentPosition - newPosition).magnitude + */0.1f))
+            if (Physics.Raycast(newPosition, velocity, out hit, maxRayDistance))
             {
-                newPosition = hit.point;
-                u = Vector3.Dot(velocity, hit.normal) * hit.normal;
+				newPosition = hit.point;
+				u = Vector3.Dot(velocity, hit.normal) * hit.normal;
                 w = velocity - u;
                 velocity = friction * w - bounce * u;
             }

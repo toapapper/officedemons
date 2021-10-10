@@ -9,6 +9,9 @@ public class WeaponHand : MonoBehaviour
 {
 	private Actions actions;
 	private Animator animator;
+	[SerializeField]
+	private ThrowAim throwAim;
+	private GameObject laserAim;
 
 	[SerializeField]
 	private GameObject handObject;
@@ -31,7 +34,13 @@ public class WeaponHand : MonoBehaviour
 	
 	private float throwForce;
 
-	
+	public ThrowAim ThrowAim
+	{
+		get { return throwAim; }
+		set { throwAim = value; }
+	}
+
+
 
 	private void Awake()
 	{
@@ -39,10 +48,6 @@ public class WeaponHand : MonoBehaviour
 		animator = GetComponent<Animator>();
 		FOV.viewRadius = handHitDistance;
 		FOV.viewAngle = handHitAngle;
-
-
-		////For test
-		//ToggleAimView(true);
 	}
 
     private void Start()
@@ -63,29 +68,20 @@ public class WeaponHand : MonoBehaviour
 	{
 		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
-		objectInHand.GetComponentInChildren<Collider>().enabled = false;
+		foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
+		{
+			collider.enabled = false;
+		}
+		//objectInHand.GetComponentInChildren<Collider>().enabled = false;
 
 		//For test
-		if (objectInHand is RangedWeapon)
-		{
-			objectInHand.ToggleLaserAim(true, laserSightGradient);
-		}
-
-		//if(objectInHand is MeleeWeapon)
+		//if (objectInHand is RangedWeapon || objectInHand is BombardWeapon)
 		//{
-
-		//}
-		//else if (objectInHand is RangedWeapon)
-		//{
-		//	//For test
-		//	objectInHand.ToggleLaserAim(true, laserSightGradient);
+		//	ToggleAimView(true);
 		//}
 
 		FOV.viewAngle = objectInHand.ViewAngle;
 		FOV.viewRadius = objectInHand.ViewDistance;
-
-		////For Test
-		//ToggleAimView(true);
 	}
 
 	public void StartAttack()
@@ -110,6 +106,34 @@ public class WeaponHand : MonoBehaviour
 			animator.SetTrigger("isHandAttack");
 			Debug.Log("HandHit" + handHitDamage);
 		}
+	}
+	public bool StartBombard()
+	{
+		if (objectInHand != null && objectInHand is BombardWeapon)
+		{
+			objectInHand.StartAttack(animator);
+			return true;
+		}
+		return false;
+	}
+	public bool SetBombardForce(float bombardForce)
+	{
+		if(objectInHand != null && objectInHand is BombardWeapon)
+		{
+			throwAim.initialVelocity = bombardForce;
+			return true;
+		}
+		return false;
+	}
+	public bool PerformBombard(float bombardForce)
+	{
+		if (objectInHand != null && objectInHand is BombardWeapon)
+		{
+			throwAim.initialVelocity = bombardForce;
+			objectInHand.Attack(animator);
+			return true;
+		}
+		return false;
 	}
 	public void CancelAction()
 	{
@@ -137,10 +161,20 @@ public class WeaponHand : MonoBehaviour
 	}
 	public void ToggleAimView(bool isActive)
 	{
-		if (objectInHand != null && objectInHand is RangedWeapon)
+		if (objectInHand != null)
 		{
-			//TODO
-			objectInHand.ToggleLaserAim(isActive, laserSightGradient);
+			if(objectInHand is RangedWeapon)
+			{
+				objectInHand.ToggleAim(isActive, laserSightGradient);
+			}
+			else if(objectInHand is BombardWeapon)
+			{
+				throwAim.gameObject.SetActive(isActive);
+				if (isActive)
+				{
+					GetComponentInChildren<LineRenderer>().colorGradient = laserSightGradient;
+				}
+			}
 		}
 		else
 		{
@@ -152,13 +186,17 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand != null)
 		{
-			objectInHand.GetComponentInChildren<Collider>().enabled = true;
 			objectInHand.ReleaseThrow(throwForce);
+			foreach(Collider collider in objectInHand.GetComponentsInChildren<Collider>())
+			{
+				collider.enabled = true;
+			}
+			//objectInHand.GetComponentInChildren<Collider>().enabled = true;
 
 			//For test
 			if (objectInHand is RangedWeapon)
 			{
-				objectInHand.ToggleLaserAim(false, laserSightGradient);
+				objectInHand.ToggleAim(false, laserSightGradient);
 			}
 
 			throwForce = 0;
@@ -172,9 +210,9 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand != null)
 		{
-			if(objectInHand is RangedWeapon)
+			if(objectInHand is RangedWeapon || objectInHand is BombardWeapon)
 			{
-				objectInHand.Shoot();
+				objectInHand.ReleaseProjectile();
 			}
 			else if(objectInHand is MeleeWeapon)
 			{

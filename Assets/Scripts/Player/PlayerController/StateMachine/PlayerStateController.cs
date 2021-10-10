@@ -69,6 +69,15 @@ public class PlayerStateController : MonoBehaviour
     {
         CurrentState.OnAttack();
     }
+    public void OnStartBombard()
+	{
+        CurrentState.OnStartBombard();
+    }
+    public void OnBombard()
+	{
+        CurrentState.OnBombard();
+
+    }
     public void OnSpecial()
     {
         CurrentState.OnSpecial();

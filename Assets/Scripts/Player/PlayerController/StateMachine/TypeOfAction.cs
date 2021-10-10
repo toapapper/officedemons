@@ -6,6 +6,7 @@ public enum TypeOfAction
 {
 	NOACTION,
 	ATTACK,
+	BOMBARD,
 	SPECIALATTACK,
 	THROW,
 	REVIVE,

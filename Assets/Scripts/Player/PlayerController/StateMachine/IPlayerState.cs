@@ -15,6 +15,8 @@ public interface IPlayerState
     void LockAction();
     void CancelAction();
 	void OnAttack();
+    void OnStartBombard();
+    void OnBombard();
     void OnSpecial();
     void OnPickUp(GameObject weapon);
     void OnStartThrow();

@@ -13,6 +13,9 @@ public class CombatActionState : AbstractPlayerState
 			case TypeOfAction.ATTACK:
 				weaponHand.Attack();
 				break;
+			case TypeOfAction.BOMBARD:
+				playerMovement.PerformBombard();
+				break;
 			case TypeOfAction.SPECIALATTACK:
 				//specialHand.Attack();
 				break;

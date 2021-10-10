@@ -81,8 +81,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 
 	public virtual void StartAttack(Animator animator) { }
 	public abstract void Attack(Animator animator);
-	public virtual void ToggleLaserAim(bool isActive, Gradient laserSightMaterial) { }
-	public virtual void Shoot() { }
+	public virtual void ToggleAim(bool isActive, Gradient laserSightMaterial) { }
+	public virtual void ReleaseProjectile() { }
 
 
 

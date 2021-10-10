@@ -17,6 +17,29 @@ public class CombatTurnState : AbstractPlayerState
 		IsActionTriggered = true;
 	}
 
+	//Bombard action
+	public override void OnStartBombard()
+	{
+		if (!IsActionTriggered)
+		{
+			if (weaponHand.StartBombard())
+			{
+				weaponHand.ToggleAimView(true);
+				ChosenAction = TypeOfAction.BOMBARD;
+				IsActionTriggered = true;
+				IsAddingBombardForce = true;
+			}
+		}
+			
+	}
+	public override void OnBombard()
+	{
+		if (IsActionTriggered)
+		{
+			IsAddingBombardForce = false;
+		}
+	}
+
 	//Special Action
 	public override void OnSpecial()
 	{
@@ -77,6 +100,9 @@ public class CombatTurnState : AbstractPlayerState
 			case TypeOfAction.ATTACK:
 				weaponHand.ToggleAimView(false);
 				break;
+			case TypeOfAction.BOMBARD:
+				weaponHand.ToggleAimView(false);
+				break;
 			case TypeOfAction.SPECIALATTACK:
 				//TODO
 				//specialHand.ToggleAimView(false);
@@ -97,6 +123,10 @@ public class CombatTurnState : AbstractPlayerState
 		switch (ChosenAction)
 		{
 			case TypeOfAction.ATTACK:
+				weaponHand.ToggleAimView(false);
+				weaponHand.CancelAction();
+				break;
+			case TypeOfAction.BOMBARD:
 				weaponHand.ToggleAimView(false);
 				weaponHand.CancelAction();
 				break;
@@ -139,6 +169,10 @@ public class CombatTurnState : AbstractPlayerState
 			{
 				playerMovement.AddThrowForce();
 			}
+			else if (IsAddingBombardForce)
+			{
+				playerMovement.AddBombardForce();
+			}
 		}
 		//Movement
 		else
@@ -149,11 +183,6 @@ public class CombatTurnState : AbstractPlayerState
 				if(GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
 					attributes.Stamina -= Time.deltaTime;
 			}
-		}
-		//Falling
-		if (transform.position.y > 0)
-		{
-			playerMovement.PerformFall();
 		}
 	}
 

@@ -81,6 +81,12 @@ public class Actions : MonoBehaviour
 		GetComponent<Rigidbody>().AddForce(bulletHitForce, ForceMode.VelocityChange);
 	}
 
+	public void TakeExplosionDamage(int damage, Vector3 explosionForce)
+	{
+		attributes.Health -= damage;
+		GetComponent<Rigidbody>().AddForce(explosionForce, ForceMode.VelocityChange);
+	}
+
 	public void Die()
 	{
 		if (this.tag == "Enemy")

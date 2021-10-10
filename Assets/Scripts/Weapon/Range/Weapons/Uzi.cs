@@ -31,8 +31,8 @@ public class Uzi : BurstShotWeapon
 		Handle = uziHandle;
 		WeaponMuzzle = uziMuzzle;
 		LaserAim = uziLaserAim;
-		BulletFireForce = uziBulletFireForce;
 		Damage = uziDamage;
+		BulletFireForce = uziBulletFireForce;
 		HitForce = uziBulletHitForce;
 		ThrowDamage = uziThrowDamage;
 		ViewDistance = uziViewDistance;

@@ -34,10 +34,18 @@ public class PlayerMovementController : MonoBehaviour
 	private float maxThrowForce = 30f;
 	private float addedThrowForce;
 
-	//Healing variables
+	//Bombard variables
 	[SerializeField]
-	private int maxHealthMark = 100;
-	private int lowestHealth;
+	private float bombardForceMultiplier = 5f;
+	[SerializeField]
+	private float maxBombardForce = 10f;
+	private float addedBombardForce;
+
+
+	////Healing variables
+	//[SerializeField]
+	//private int maxHealthMark = 100;
+	//private int lowestHealth;
 
 
 	public Vector3 MoveDirection
@@ -50,10 +58,6 @@ public class PlayerMovementController : MonoBehaviour
 		get { return moveAmount; }
 		set { moveAmount = value; }
 	}
-	//public bool IsStaminaDepleted
-	//{
-	//	get { return attributes.Stamina <= 0; }
-	//}
 
 
 	private void Awake()
@@ -74,23 +78,46 @@ public class PlayerMovementController : MonoBehaviour
 	{
 		if (weaponHand.Throw(addedThrowForce))
 		{
-			//isWeaponEquipped = false;
 			addedThrowForce = 0;
 			return true;
 		}
 		return false;
+	}
+	public void AddThrowForce()
+	{
+		if (addedThrowForce < maxThrowForce)
+		{
+			addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
+		}
 	}
 	public void CancelThrow()
 	{
 		weaponHand.CancelAction();
 		addedThrowForce = 0;
 	}
-	public void AddThrowForce()
+	
+	public bool PerformBombard()
 	{
-		if (addedThrowForce <= maxThrowForce)
+		if (weaponHand.PerformBombard(addedBombardForce))
 		{
-			addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
+			addedBombardForce = 0;
+			return true;
 		}
+		return false;
+	}
+	public void AddBombardForce()
+	{
+		if(addedBombardForce < maxBombardForce)
+		{
+			addedBombardForce += bombardForceMultiplier * Time.fixedDeltaTime;
+			weaponHand.SetBombardForce(addedBombardForce);
+		}
+	}
+	public void CancelBombard()
+	{
+		weaponHand.CancelAction();
+		addedBombardForce = 0;
+		weaponHand.SetBombardForce(addedBombardForce);
 	}
 
 	//Calculate movement
@@ -117,24 +144,12 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public void PerformMovement()
 	{
-
 		Vector3 pos = Camera.main.WorldToViewportPoint(transform.position + moveAmount * Time.fixedDeltaTime);
 		pos.x = Mathf.Clamp01(pos.x);
 		pos.y = Mathf.Clamp01(pos.y);
 		pos = Camera.main.ViewportToWorldPoint(pos);
 		pos.y = Mathf.Clamp(pos.y, 0, 1.05f);
-		//rb.MovePosition(pos);
-
 		rb.velocity = moveAmount;
-
-		//character.Move(moveAmount * Time.fixedDeltaTime);
-		//rb.AddForce(moveAmount * Time.fixedDeltaTime, ForceMode.VelocityChange);
-		//rb.MovePosition(transform.position + moveAmount * Time.fixedDeltaTime);
-
-	}
-	public void PerformFall()
-	{
-		//character.Move(Vector3.down * Time.fixedDeltaTime);
 	}
 
 

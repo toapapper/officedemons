@@ -30,17 +30,15 @@ public abstract class RangedWeapon : AbstractWeapon
 		set { bulletFireForce = value; }
 	}
 
-	public override void Shoot()
+	public override void ReleaseProjectile()
 	{
 		Vector3 bulletDirection = transform.forward;
 		bulletDirection.y = 0;
 		bulletDirection.Normalize();
 
 		bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, bulletDirection, BulletFireForce, HitForce, Damage);
-
-
 	}
-	public override void ToggleLaserAim(bool isActive, Gradient laserSightMaterial)
+	public override void ToggleAim(bool isActive, Gradient laserSightMaterial)
 	{
 		LaserAim.SetActive(isActive);
 		if (isActive)

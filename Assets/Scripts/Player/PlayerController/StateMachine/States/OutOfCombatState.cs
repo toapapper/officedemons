@@ -8,9 +8,27 @@ using static UnityEngine.InputSystem.InputAction;
 /// </summary>
 public class OutOfCombatState : AbstractPlayerState
 {
+    //Attack action
 	public override void OnAttack()
 	{
         weaponHand.Attack();
+    }
+    //Bombard action
+    public override void OnStartBombard()
+    {
+		if (weaponHand.StartBombard())
+		{
+            weaponHand.ToggleAimView(true);
+            IsAddingBombardForce = true;
+        }
+    }
+    public override void OnBombard()
+    {
+		if (playerMovement.PerformBombard())
+		{
+            IsAddingBombardForce = false;
+            weaponHand.ToggleAimView(false);
+        }
     }
     //Special action
     public override void OnSpecial()
@@ -67,6 +85,10 @@ public class OutOfCombatState : AbstractPlayerState
         {
             playerMovement.AddThrowForce();
         }
+        else if (IsAddingBombardForce)
+		{
+            playerMovement.AddBombardForce();
+		}
         //Movement
         else
         {
@@ -75,11 +97,6 @@ public class OutOfCombatState : AbstractPlayerState
                 playerMovement.PerformMovement();
             }
         }
-		//Falling
-		if (transform.position.y > 0)
-		{
-			playerMovement.PerformFall();
-		}
 	}
 
     public override void OnStateEnter()
