@@ -95,6 +95,7 @@ public class WeaponHand : MonoBehaviour
 			animator.SetTrigger("isStartHandAttack");
 		}
 	}
+
 	public void Attack()
 	{
 		if (objectInHand != null)
@@ -104,7 +105,6 @@ public class WeaponHand : MonoBehaviour
 		else
 		{
 			animator.SetTrigger("isHandAttack");
-			Debug.Log("HandHit" + handHitDamage);
 		}
 	}
 	public bool StartBombard()
@@ -219,6 +219,7 @@ public class WeaponHand : MonoBehaviour
 		}
 	}
 
+	//do in each weapon
 	public void DoDamage()
 	{
 		if (objectInHand != null)
