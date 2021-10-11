@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class FitnessFunction : MonoBehaviour
 {
+    public float bigRoomMultiplier = 4;
     BSPTree bsp;
     GenerateTerrain generateTerrain;
     SpawnItemsFromLibrary itemLibrary;
@@ -69,11 +70,11 @@ public class FitnessFunction : MonoBehaviour
                     obstacles++;
                 }
                 Debug.Log("fitness after check = " + fitnessValue);
-                
-                if (obstacles > 6)
-                {
-                    fitnessValue -= 400;
-                }
+
+                //if (obstacles > 6)
+                //{
+                //    fitnessValue -= 400;
+                //}
             }
         }
 
@@ -90,7 +91,7 @@ public class FitnessFunction : MonoBehaviour
                     {
                         itemLibrary.SpawnItems(nodes[i], root);
                     }
-                    
+
                     //TODO : Use items from SpawnItemLibrary
                 }
             }
@@ -201,9 +202,8 @@ public class FitnessFunction : MonoBehaviour
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
         if (roomCounter % encounterFreq == 0)
         {
-            generations = 4;
-            size.x *= 10;
-            size.y *= 10;
+            size.x *= bigRoomMultiplier;
+            size.y *= bigRoomMultiplier;
         }
         generations = 3;
         roomCounter++;

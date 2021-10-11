@@ -28,14 +28,14 @@ public class AIManager : MonoBehaviour
 
     public void BeginTurn() //kanske lägga till mer? annars kanske ta bort metoden
     {
-        Debug.Log("Begin turn ENEMY");
+        //Debug.Log("Begin turn ENEMY");
         actions.Clear();
         foreach (GameObject e in enemies)
         {
             e.GetComponent<Attributes>().Stamina = e.GetComponent<Attributes>().StartStamina;
             e.GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
         }
-        Debug.Log("KOMMER FÖRBI CLEAR");
+        //Debug.Log("KOMMER FÖRBI CLEAR");
 
 
         // enemiesTurnDone = true när alla låst in sin action
@@ -44,6 +44,19 @@ public class AIManager : MonoBehaviour
     public void PerformTurn()
     {
         bool allDone = true;
+        bool allDead = true;
+
+        List<GameObject> killOnSight = new List<GameObject>();
+
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i].GetComponent<Attributes>().Health <= players[i].GetComponent<Attributes>().StartHealth / 3
+                && players[i].GetComponent<Attributes>().Health > 0)
+            {
+                killOnSight.Add(players[i]);
+            }
+        }
+
 
         foreach (GameObject e in enemies)
         {
@@ -51,9 +64,15 @@ public class AIManager : MonoBehaviour
             if (!e.GetComponent<AIController>().LockedAction())
             {
                 //e.GetComponent<AIController>().CurrentState = AIStates.States.Wait; // DEBUG
+                e.GetComponent<AIController>().Priorites = killOnSight;
                 e.GetComponent<AIController>().PerformBehaviour();
                 
                 allDone = false;
+            }
+
+            if (e.GetComponent<Attributes>().Health > 0)
+            {
+                allDead = false;
             }
         }
         // enemiesTurnDone = true när alla låst in sin action
@@ -62,7 +81,9 @@ public class AIManager : MonoBehaviour
 
         if (allDone)
             GameManager.Instance.enemiesTurnDone = true;
-       
+
+        if (allDead)
+            GameManager.Instance.EndEncounter();
     }
 
     public void PerformNextAction()
@@ -97,7 +118,7 @@ public class AIManager : MonoBehaviour
 
     public void SaveAction(GameObject agent)
     {
-        Debug.Log("Action is in queue");
+        //Debug.Log("Action is in queue");
         actions.Enqueue(agent);
     }
   

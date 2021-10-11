@@ -32,24 +32,42 @@ public class UIManager : MonoBehaviour
     public Color timer_color1 = Color.green;
     public Color timer_color2 = Color.yellow;
     public Color timer_color3 = Color.red;
+    public Color[] timerColors = { Color.white, Color.yellow, new Color(1, 1, 0), Color.red };
     private TMP_Text timerText;
 
     [Header("Polis")]
     public GameObject enemys_turn_card;
 
+    private bool playerCardsInitialized = false;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        Debug.LogWarning("HELLO UI MANAGER HERE!");
         Instance = this;
 
         timerText = timer.GetComponentInChildren<TMP_Text>();
         timer_backGround_with_color_image = timer_backGround_with_color.GetComponent<Image>();
+
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        //Uppdatera timer ifrån gamemanager,
+        #region fulInitialize här eftersom det typ alltid blir fel annars
+        if (!playerCardsInitialized)
+        {
+            Debug.Log("Initialize player cards " + PlayerManager.instance.localPlayerList.Count);
+            //för varje spelare som finns, enablea ett playercard och mata in rätt spelare där.
+            for (int i = 0; i < PlayerManager.players.Count; i++)
+            {
+                EnablePlayerCard(i);
+            }
+            playerCardsInitialized = true;
+        }
+
+        #endregion
+
         //Uppdatera liv på spelarna
 
         //includes the displaying of enemys_turn_card
@@ -64,28 +82,13 @@ public class UIManager : MonoBehaviour
             timer.SetActive(true);
             enemys_turn_card.SetActive(false);
             timerText.text = ("" + Mathf.Max(Mathf.Floor(GameManager.Instance.roundTimer),0));
-            //fixa klockans display, rotera visare, byt färg på bakgrund_färg och minska dess synliga del
+
             float percent = 1 - GameManager.Instance.roundTimer / GameManager.Instance.RoundTime;
+            timer_backGround_with_color_image.color = OssianUtils.MultiColorLerp(timerColors, percent);
 
-            Color clockColor = Color.white;
-            if(percent < .5)
-            {
-                clockColor = Color.Lerp(timer_color0, timer_color1, percent);
-            }
-            else if(percent >= .5f && percent < .75f)
-            {
-                clockColor = Color.Lerp(timer_color1, timer_color2, percent);
-            }
-            else if(percent >= .75f)
-            {
-                clockColor = Color.Lerp(timer_color2, timer_color3, percent);
-            }
-
-            timer_backGround_with_color_image.color = clockColor;
-
-            float segmentedPercent = Mathf.Floor(percent * 12) / 12;
-            timer_backGround_with_color_image.fillAmount = segmentedPercent;
-            timer_indicator.transform.rotation = Quaternion.Euler(0, 0, 360 * (1 - segmentedPercent));
+            //float segmentedPercent = (Mathf.Floor(percent * 12) / 12) + 1;
+            timer_backGround_with_color_image.fillAmount = percent;
+            timer_indicator.transform.rotation = Quaternion.Euler(0, 0, 360 * (1 - percent));
         }
         else if(GameManager.Instance.combatState == CombatState.enemy)
         {
@@ -93,6 +96,29 @@ public class UIManager : MonoBehaviour
             timer.SetActive(false);
         }
         #endregion
+    }
+
+    public void EnablePlayerCard(GameObject player)
+    {
+        int index = PlayerManager.players.IndexOf(player);
+        EnablePlayerCard(index);
+    }
+    public void EnablePlayerCard(int i)
+    {
+        Debug.Log("UIcard init for player " + i);
+        UIPlayerCard card = transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>();
+        if (card.gameObject.activeSelf)
+        {
+            Debug.LogWarning("Card already active");
+            return;
+        }
+
+        card.gameObject.SetActive(true);
+        card.Initialize(PlayerManager.players[i]);
+
+        StaminaCircle stamCirc = transform.Find("Canvas").transform.Find("StaminaCircle" + i).GetComponent<StaminaCircle>();
+        stamCirc.gameObject.SetActive(true);
+        stamCirc.SetPlayer(PlayerManager.players[i]);
     }
 
     public void OpenMenu()

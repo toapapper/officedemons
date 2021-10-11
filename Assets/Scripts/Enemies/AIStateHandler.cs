@@ -27,23 +27,38 @@ public class AIStateHandler : MonoBehaviour
         aiController = GetComponent<AIController>();
     }
 
-    public void UpdateState() // Kallas på om turn OCH om State == Move
+    public void GetState(Class currentClass)
+    {
+        switch (currentClass)
+        {
+            case Class.Aggresive:
+                AggresiveClassUpdate();
+                break;
+            case Class.Defensive:
+                DefensiveClassUpdate();
+                break;
+            case Class.Healer:
+                HealerClassUpdate();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void AggresiveClassUpdate()
     {
         //GameObject weapon = rightHand.transform.GetChild(0).gameObject;
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
+            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, aiController.Priorites);
+            Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             //Turn towards nearest player
         }
-
-        if (HealthLow())
-        {
-            LowHealthBehaviour();
-        }
-        else
+        if(aiController.CurrentState != AIStates.States.Dead)
         {
             if (fov.visibleTargets.Count > 0) // <- om target finns i line of sight för vapnet
             {
-                Debug.Log("TARGET FOUND");
+                //Debug.Log("TARGET FOUND");
                 aiController.CurrentState = AIStates.States.Attack;
             }
             else
@@ -54,11 +69,69 @@ public class AIStateHandler : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Stamina depleted");
+                    //Debug.Log("Stamina depleted");
                     aiController.CurrentState = AIStates.States.Wait;
                 }
             }
         }
+    }
+
+    private void DefensiveClassUpdate()
+    {
+        if (aiController.CurrentState == AIStates.States.Unassigned)
+        {
+            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, aiController.Priorites);
+            Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
+            //Turn towards nearest player
+        }
+        if (HealthLow() && aiController.CurrentState != AIStates.States.Dead)
+        {
+            LowHealthBehaviour();
+        }
+        else
+        {
+            if (fov.visibleTargets.Count > 0) // <- om target finns i line of sight för vapnet
+            {
+                //Debug.Log("TARGET FOUND");
+                aiController.CurrentState = AIStates.States.Attack;
+            }
+            else
+            {
+                if (attributes.Stamina > 0 && aiController.FindClosestAndCheckIfReachable())
+                {
+                    aiController.CurrentState = AIStates.States.Move;
+                }
+                else
+                {
+                    //Debug.Log("Stamina depleted");
+                    //Defensive unit won't move unless he thinks he can reach the closest player
+                    Debug.LogError("NO PLAYER REACHABLE");
+                    aiController.CurrentState = AIStates.States.Wait;
+                }
+            }
+        }
+    }
+
+    private void HealerClassUpdate()
+    {
+        //Implement this
+        //for (int i = 0; i < enemies.Count; i++)
+        //{
+        //    if (enemies[i].aiController.CurrentState = AIStates.States.CallForHealing)
+        //    {
+        //        //AgentsCallingForHelp.add(enemies[i]);
+        //        //GameObject closestAgentCallingForHelp = GetClosest(CallingForHelpAgentsList);
+        //        if (fov.visibleTargets.Contains(closestAgentCallingForHelp))
+        //        {
+        //            //Heal
+        //        }
+        //        else
+        //        {
+        //            //Move towards closestAgentCallingForHelp
+        //        }
+        //    }
+
+        //}
     }
 
         //REMOVE?
@@ -111,4 +184,9 @@ public class AIStateHandler : MonoBehaviour
     {
         return false;
     }
+
+
+
+
+
 }
