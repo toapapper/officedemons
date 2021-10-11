@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
     private bool playerCardsInitialized = false;
 
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         Debug.LogWarning("HELLO UI MANAGER HERE!");
         Instance = this;
