@@ -16,13 +16,41 @@ public class PlayerStateController : MonoBehaviour
 
     public Dictionary<PlayerStates, IPlayerState> states { get; private set; }
 
-    public void StartOutOfCombat() => MakeStateTransition(states[PlayerStates.OUTOFCOMBAT]);
-    public void StartCombat() => MakeStateTransition(states[PlayerStates.ENTERCOMBAT]);
-    public void StartTurn() => MakeStateTransition(states[PlayerStates.COMBATTURN]);
-    public void StartCombatAction() => MakeStateTransition(states[PlayerStates.COMBATACTION]);
-    public void StartWaitForTurn() => MakeStateTransition(states[PlayerStates.COMBATWAIT]);
-    public void Die() => MakeStateTransition(states[PlayerStates.DEAD]);
-    public void Revive() => MakeStateTransition(states[PlayerStates.REVIVE]);
+	#region State Transitions
+	public void StartOutOfCombat()
+    {
+        MakeStateTransition(states[PlayerStates.OUTOFCOMBAT]);
+    }
+    public void StartCombat()
+    {
+        MakeStateTransition(states[PlayerStates.ENTERCOMBAT]);
+    }
+    public void StartTurn()
+    {
+        MakeStateTransition(states[PlayerStates.COMBATTURN]);
+    }
+    public void StartCombatAction()
+    {
+        MakeStateTransition(states[PlayerStates.COMBATACTION]);
+    }
+    public void StartWaitForTurn()
+    {
+        MakeStateTransition(states[PlayerStates.COMBATWAIT]);
+    }
+    public void Die()
+    {
+        MakeStateTransition(states[PlayerStates.DEAD]);
+    }
+    public void Revive()
+    {
+        MakeStateTransition(states[PlayerStates.REVIVE]);
+    }
+
+    public void MakeStateTransition(IPlayerState playerStateTo)
+    {
+        CurrentState.TransitionState(playerStateTo);
+    }
+    #endregion
 
     private void Start()
     {
@@ -52,12 +80,8 @@ public class PlayerStateController : MonoBehaviour
         states.Add(PlayerStates.REVIVE, gameObject.AddComponent<ReviveState>());
 	}
 
-    public void MakeStateTransition(IPlayerState playerStateTo)
-    {
-        CurrentState.TransitionState(playerStateTo);
-    }
-
-    public void LockAction()
+	#region State input
+	public void LockAction()
 	{
         CurrentState.LockAction();
 	}
@@ -97,6 +121,7 @@ public class PlayerStateController : MonoBehaviour
     {
         CurrentState.OnRevive(player);
     }
+	#endregion
 
-    private void FixedUpdate() => CurrentState.OnFixedUpdateState();
+	private void FixedUpdate() => CurrentState.OnFixedUpdateState();
 }
