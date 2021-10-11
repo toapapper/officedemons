@@ -125,11 +125,11 @@ public class WeaponHand : MonoBehaviour
 		}
 		return false;
 	}
-	public bool PerformBombard(float bombardForce)
+	public bool PerformBombard()
 	{
 		if (objectInHand != null && objectInHand is BombardWeapon)
 		{
-			throwAim.initialVelocity = bombardForce;
+			//throwAim.initialVelocity = bombardForce;
 			objectInHand.Attack(animator);
 			return true;
 		}
@@ -149,11 +149,20 @@ public class WeaponHand : MonoBehaviour
 		}
 		return false;
 	}
-	public bool Throw(float throwForce)
+	public bool SetThrowForce(float throwForce)
 	{
 		if (objectInHand != null)
 		{
 			this.throwForce = throwForce;
+			return true;
+		}
+		return false;
+	}
+	public bool Throw(/*float throwForce*/)
+	{
+		if (objectInHand != null)
+		{
+			//this.throwForce = throwForce;
 			animator.SetTrigger("isThrow");
 			return true;
 		}
@@ -169,6 +178,10 @@ public class WeaponHand : MonoBehaviour
 			}
 			else if(objectInHand is BombardWeapon)
 			{
+				if (!isActive)
+				{
+					throwAim.GetComponent<LineRenderer>().positionCount = 0;
+				}				
 				throwAim.gameObject.SetActive(isActive);
 				if (isActive)
 				{

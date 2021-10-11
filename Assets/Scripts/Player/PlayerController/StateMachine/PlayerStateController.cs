@@ -69,14 +69,13 @@ public class PlayerStateController : MonoBehaviour
     {
         CurrentState.OnAttack();
     }
-    public void OnStartBombard()
+    public bool OnStartBombard()
 	{
-        CurrentState.OnStartBombard();
+        return CurrentState.OnStartBombard();
     }
-    public void OnBombard()
+    public bool OnBombard()
 	{
-        CurrentState.OnBombard();
-
+        return CurrentState.OnBombard();
     }
     public void OnSpecial()
     {
@@ -86,13 +85,13 @@ public class PlayerStateController : MonoBehaviour
 	{
         CurrentState.OnPickUp(weapon);
     }
-    public void OnStartThrow()
+    public bool OnStartThrow()
 	{
-        CurrentState.OnStartThrow();
+        return CurrentState.OnStartThrow();
 	}
-    public void OnThrow()
+    public bool OnThrow()
 	{
-        CurrentState.OnThrow();
+        return CurrentState.OnThrow();
 	}
     public void OnRevive(GameObject player)
     {

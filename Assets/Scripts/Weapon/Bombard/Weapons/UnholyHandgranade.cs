@@ -6,8 +6,6 @@ public class UnholyHandgranade : BombardWeapon
 {
 	[SerializeField]
 	private GameObject unholyHandgarnadeHandle;
-	//[SerializeField]
-	//private GameObject unholyHandgarnadeThrowAim;
 	[SerializeField]
 	private int unholyHandgarnadeDamage = 4;
 	[SerializeField]
@@ -25,7 +23,6 @@ public class UnholyHandgranade : BombardWeapon
 	void Start()
     {
 		Handle = unholyHandgarnadeHandle;
-		//ThrowAim = unholyHandgarnadeThrowAim;
 		Damage = unholyHandgarnadeDamage;
 		GranadeThrowForce = unholyHandgarnadeThrowForce;
 		HitForce = unholyHandgarnadeExplodeForce;

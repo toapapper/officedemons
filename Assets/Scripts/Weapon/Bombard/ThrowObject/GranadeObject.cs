@@ -18,13 +18,8 @@ public class GranadeObject : MonoBehaviour
 
 
 
-	public void CreateGranade(Vector3 position, Vector3 direction/*float throwAngle*/, float granadeThrowForce, int granadeExplodeForce, int granadeDamage)
+	public void CreateGranade(Vector3 position, Vector3 direction, float granadeThrowForce, int granadeExplodeForce, int granadeDamage)
 	{
-		Vector3 forward = transform.forward;
-		forward.y = 0;
-		forward.Normalize();
-		//Vector3 direction = (Quaternion.AngleAxis(-throwAngle, transform.right) * forward).normalized;
-
 		granadeObject = Instantiate(this, position, Quaternion.LookRotation(direction));
 		granadeObject.granadeDamage = granadeDamage;
 		granadeObject.granadeExplodeForce = granadeExplodeForce;
@@ -54,19 +49,6 @@ public class GranadeObject : MonoBehaviour
 		{
 			isObjectThrown = true;
 		}
-		//if (detonation)
-		//{
-		//	explodeTime -= Time.fixedDeltaTime;
-		//	if (explodeTime <= 0)
-		//	{
-		//		Explode();
-		//	}
-		//}
-		//else if(explodeTime == initialExplodeTime && GetComponent<Rigidbody>().velocity.magnitude < 0.1f)
-		//{
-		//	FOVVisualization.SetActive(true);
-		//	detonation = true;
-		//}
 	}
 
 	private void Explode()

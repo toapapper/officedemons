@@ -11,7 +11,7 @@ public class PlayerMovementController : MonoBehaviour
 	private Rigidbody rb;
     //Character movers
     //private CharacterController character;
-    private WeaponHand weaponHand;
+    //private WeaponHand weaponHand;
 	//private SpecialHand specialHand;
 
 	//Movement variables
@@ -27,19 +27,19 @@ public class PlayerMovementController : MonoBehaviour
 	private float rotationSpeed = 500f;
 
 
-	//Throwing variables
-	[SerializeField]
-	private float throwForceMultiplier = 25f;
-	[SerializeField]
-	private float maxThrowForce = 30f;
-	private float addedThrowForce;
+	////Throwing variables
+	//[SerializeField]
+	//private float throwForceMultiplier = 25f;
+	//[SerializeField]
+	//private float maxThrowForce = 30f;
+	//private float addedThrowForce;
 
-	//Bombard variables
-	[SerializeField]
-	private float bombardForceMultiplier = 5f;
-	[SerializeField]
-	private float maxBombardForce = 10f;
-	private float addedBombardForce;
+	////Bombard variables
+	//[SerializeField]
+	//private float bombardForceMultiplier = 5f;
+	//[SerializeField]
+	//private float maxBombardForce = 10f;
+	//private float addedBombardForce;
 
 
 	////Healing variables
@@ -64,7 +64,7 @@ public class PlayerMovementController : MonoBehaviour
 	{
 		rb = GetComponent<Rigidbody>();
 		//character = GetComponent<CharacterController>();
-        weaponHand = GetComponent<WeaponHand>();
+        //weaponHand = GetComponent<WeaponHand>();
         //specialHand = GetComponent<SpecialHand>();
     }
 
@@ -74,51 +74,51 @@ public class PlayerMovementController : MonoBehaviour
 	//}
 
 	//TODO Added force to player input
-	public bool PerformThrow()
-	{
-		if (weaponHand.Throw(addedThrowForce))
-		{
-			addedThrowForce = 0;
-			return true;
-		}
-		return false;
-	}
-	public void AddThrowForce()
-	{
-		if (addedThrowForce < maxThrowForce)
-		{
-			addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
-		}
-	}
-	public void CancelThrow()
-	{
-		weaponHand.CancelAction();
-		addedThrowForce = 0;
-	}
+	//public bool PerformThrow()
+	//{
+	//	if (weaponHand.Throw(addedThrowForce))
+	//	{
+	//		addedThrowForce = 0;
+	//		return true;
+	//	}
+	//	return false;
+	//}
+	//public void AddThrowForce()
+	//{
+	//	if (addedThrowForce < maxThrowForce)
+	//	{
+	//		addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
+	//	}
+	//}
+	//public void CancelThrow()
+	//{
+	//	weaponHand.CancelAction();
+	//	addedThrowForce = 0;
+	//}
 	
-	public bool PerformBombard()
-	{
-		if (weaponHand.PerformBombard(addedBombardForce))
-		{
-			addedBombardForce = 0;
-			return true;
-		}
-		return false;
-	}
-	public void AddBombardForce()
-	{
-		if(addedBombardForce < maxBombardForce)
-		{
-			addedBombardForce += bombardForceMultiplier * Time.fixedDeltaTime;
-			weaponHand.SetBombardForce(addedBombardForce);
-		}
-	}
-	public void CancelBombard()
-	{
-		weaponHand.CancelAction();
-		addedBombardForce = 0;
-		weaponHand.SetBombardForce(addedBombardForce);
-	}
+	//public bool PerformBombard()
+	//{
+	//	if (weaponHand.PerformBombard(addedBombardForce))
+	//	{
+	//		addedBombardForce = 0;
+	//		return true;
+	//	}
+	//	return false;
+	//}
+	//public void AddBombardForce()
+	//{
+	//	if(addedBombardForce < maxBombardForce)
+	//	{
+	//		addedBombardForce += bombardForceMultiplier * Time.fixedDeltaTime;
+	//		weaponHand.SetBombardForce(addedBombardForce);
+	//	}
+	//}
+	//public void CancelBombard()
+	//{
+	//	weaponHand.CancelAction();
+	//	addedBombardForce = 0;
+	//	weaponHand.SetBombardForce(addedBombardForce);
+	//}
 
 	//Calculate movement
 	public Quaternion CalculateRotation()

@@ -18,7 +18,7 @@ public class CombatTurnState : AbstractPlayerState
 	}
 
 	//Bombard action
-	public override void OnStartBombard()
+	public override bool OnStartBombard()
 	{
 		if (!IsActionTriggered)
 		{
@@ -27,17 +27,19 @@ public class CombatTurnState : AbstractPlayerState
 				weaponHand.ToggleAimView(true);
 				ChosenAction = TypeOfAction.BOMBARD;
 				IsActionTriggered = true;
-				IsAddingBombardForce = true;
+				return true;
 			}
 		}
-			
+		return false;
+
 	}
-	public override void OnBombard()
+	public override bool OnBombard()
 	{
 		if (IsActionTriggered)
 		{
-			IsAddingBombardForce = false;
+			return true;
 		}
+		return false;
 	}
 
 	//Special Action
@@ -60,7 +62,7 @@ public class CombatTurnState : AbstractPlayerState
 	}
 
 	//Throw
-	public override void OnStartThrow()
+	public override bool OnStartThrow()
 	{
 		if (!IsActionTriggered)
 		{
@@ -69,16 +71,18 @@ public class CombatTurnState : AbstractPlayerState
 				//weaponHand.ToggleThrowAimView(true);
 				ChosenAction = TypeOfAction.THROW;
 				IsActionTriggered = true;
-				IsAddingThrowForce = true;
+				return true;
 			}
 		}
+		return false;
 	}
-	public override void OnThrow()
+	public override bool OnThrow()
 	{
 		if (IsActionTriggered)
 		{
-			IsAddingThrowForce = false;
+			return true;
 		}
+		return false;
 	}
 
 	//Revive action
@@ -137,9 +141,8 @@ public class CombatTurnState : AbstractPlayerState
 				break;
 			case TypeOfAction.THROW:
 				//TODO
+				weaponHand.CancelAction();
 				//weaponHand.ToggleThrowAimView(false);
-				playerMovement.CancelThrow();
-				//weaponHand.CancelAction();
 				break;
 			case TypeOfAction.REVIVE:
 				PlayerToRevive = null;
@@ -162,28 +165,25 @@ public class CombatTurnState : AbstractPlayerState
 		{
 			playerMovement.PerformRotation();
 		}
-		if (IsActionTriggered || IsStaminaDepleted)
-		{
-			//Throwing
-			if (IsAddingThrowForce)
-			{
-				playerMovement.AddThrowForce();
-			}
-			else if (IsAddingBombardForce)
-			{
-				playerMovement.AddBombardForce();
-			}
-		}
-		//Movement
-		else
+		if (!IsActionTriggered && !IsStaminaDepleted)
 		{
 			if (playerMovement.CalculateMovement() != Vector3.zero)
 			{
 				playerMovement.PerformMovement();
-				if(GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
+				if (GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
 					attributes.Stamina -= Time.deltaTime;
 			}
 		}
+		////Movement
+		//else
+		//{
+		//	if (playerMovement.CalculateMovement() != Vector3.zero)
+		//	{
+		//		playerMovement.PerformMovement();
+		//		if(GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
+		//			attributes.Stamina -= Time.deltaTime;
+		//	}
+		//}
 	}
 
 	public override void OnStateEnter()

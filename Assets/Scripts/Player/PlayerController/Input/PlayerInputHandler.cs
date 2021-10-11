@@ -26,6 +26,24 @@ public class PlayerInputHandler : MonoBehaviour
 	private List<GameObject> nearbyObjects = new List<GameObject>();
 	private List<GameObject> nearbyPlayers = new List<GameObject>();
 
+	private bool isAddingThrowForce;
+	private bool isAddingBombardForce;
+
+	//Throwing variables
+	[SerializeField]
+	private float throwForceMultiplier = 25f;
+	[SerializeField]
+	private float maxThrowForce = 30f;
+	private float addedThrowForce;
+
+	//Bombard variables
+	[SerializeField]
+	private float bombardForceMultiplier = 5f;
+	[SerializeField]
+	private float maxBombardForce = 10f;
+	private float addedBombardForce;
+
+
 	public void Start()
 	{
 		forward = Camera.main.transform.forward;
@@ -66,11 +84,19 @@ public class PlayerInputHandler : MonoBehaviour
 					{
 						if (context.performed)
 						{
-							player.OnStartBombard();
+							if (player.OnStartBombard())
+							{
+								playerMovement.MoveAmount = Vector3.zero;
+								isAddingBombardForce = true;
+							}
 						}
 						else if(context.canceled)
 						{
-							player.OnBombard();
+							if (player.OnBombard())
+							{
+								isAddingBombardForce = false;
+								addedBombardForce = 0;
+							}
 						}
 					}
 					else if (context.performed)
@@ -89,6 +115,16 @@ public class PlayerInputHandler : MonoBehaviour
 						else
 						{
 							player.CancelAction();
+							if (isAddingThrowForce)
+							{
+								addedThrowForce = 0;
+								weaponHand.SetThrowForce(addedThrowForce);
+							}
+							else if (isAddingBombardForce)
+							{
+								addedBombardForce = 0;
+								weaponHand.SetBombardForce(addedBombardForce);
+							}
 						}
 					}
 				}
@@ -112,11 +148,19 @@ public class PlayerInputHandler : MonoBehaviour
 					{
 						if (context.started)
 						{
-							player.OnStartThrow();
+							if (player.OnStartThrow())
+							{
+								playerMovement.MoveAmount = Vector3.zero;
+								isAddingThrowForce = true;
+							}
 						}
 						if (context.canceled)
 						{
-							player.OnThrow();
+							if (player.OnThrow())
+							{
+								isAddingThrowForce = false;
+								addedThrowForce = 0;
+							}
 						}
 					}
 				}
@@ -145,6 +189,27 @@ public class PlayerInputHandler : MonoBehaviour
 			else if (playerMovement.MoveAmount != Vector3.zero)
 			{
 				playerMovement.MoveAmount = Vector3.zero;
+			}
+		}
+	}
+
+
+	private void FixedUpdate()
+	{
+		if (isAddingThrowForce)
+		{
+			if (addedThrowForce < maxThrowForce)
+			{
+				addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
+				weaponHand.SetThrowForce(addedThrowForce);
+			}
+		}
+		else if (isAddingBombardForce)
+		{
+			if (addedBombardForce < maxBombardForce)
+			{
+				addedBombardForce += bombardForceMultiplier * Time.fixedDeltaTime;
+				weaponHand.SetBombardForce(addedBombardForce);
 			}
 		}
 	}

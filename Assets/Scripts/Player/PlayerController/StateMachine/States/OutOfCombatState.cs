@@ -13,47 +13,59 @@ public class OutOfCombatState : AbstractPlayerState
 	{
         weaponHand.Attack();
     }
+
     //Bombard action
-    public override void OnStartBombard()
+    public override bool OnStartBombard()
     {
 		if (weaponHand.StartBombard())
 		{
             weaponHand.ToggleAimView(true);
-            IsAddingBombardForce = true;
+            IsActionTriggered = true;
+            return true;
         }
+        return false;
     }
-    public override void OnBombard()
+    public override bool OnBombard()
     {
-		if (playerMovement.PerformBombard())
+		if (weaponHand.PerformBombard())
 		{
-            IsAddingBombardForce = false;
+            IsActionTriggered = false;
             weaponHand.ToggleAimView(false);
+            return true;
         }
+        return false;
     }
+
     //Special action
     public override void OnSpecial()
     {
         //TODO
         //specialHand.Attack();
     }
+
     //PickUp
     public override void OnPickUp(GameObject weapon)
 	{
         weaponHand.Equip(weapon);
 	}
-	public override void OnStartThrow()
+	public override bool OnStartThrow()
 	{
         if (weaponHand.StartThrow())
         {
-            IsAddingThrowForce = true;
+            IsActionTriggered = true;
+
+            return true;
         }
+        return false;
     }
-	public override void OnThrow()
-    {
-        if (playerMovement.PerformThrow())
-        {
-            IsAddingThrowForce = false;
-        }
+	public override bool OnThrow()
+	{
+		if (weaponHand.Throw())
+		{
+			IsActionTriggered = false;
+			return true;
+		}
+		return false;
     }
 
     //Revive action
@@ -62,16 +74,6 @@ public class OutOfCombatState : AbstractPlayerState
         player.GetComponentInChildren<Attributes>().Health = 100;
         Debug.Log("Revive player " + player.name);
     }
-    //Heal action
-    //   public override void OnHeal(CallbackContext context)
-    //{
-    //       if (context.performed)
-    //	{
-    //           playerMovement.PerformHeal();
-
-    //       }
-    //   }
-
 
     public override void OnFixedUpdateState()
     {
@@ -80,18 +82,8 @@ public class OutOfCombatState : AbstractPlayerState
         {
             playerMovement.PerformRotation();
         }
-        //Throwing
-        if (IsAddingThrowForce)
-        {
-            playerMovement.AddThrowForce();
-        }
-        else if (IsAddingBombardForce)
+		if (!IsActionTriggered)
 		{
-            playerMovement.AddBombardForce();
-		}
-        //Movement
-        else
-        {
             if (playerMovement.CalculateMovement() != Vector3.zero)
             {
                 playerMovement.PerformMovement();
@@ -110,11 +102,12 @@ public class OutOfCombatState : AbstractPlayerState
 
     public override void OnStateExit()
     {
-        if (IsAddingThrowForce)
-        {
-            playerMovement.CancelThrow();
-            IsAddingThrowForce = false;
-        }
+        //if (IsAddingThrowForce)
+        //{
+        //    weaponHand.CancelAction();
+        //    playerMovement.CancelThrow();
+        //    IsAddingThrowForce = false;
+        //}
         Debug.Log("Exits OutOfCombatState" + this);
     }
 }

@@ -79,12 +79,12 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     public virtual void LockAction() { }
     public virtual void CancelAction() { }
 	public virtual void OnAttack() { }
-    public virtual void OnStartBombard() { }
-    public virtual void OnBombard() { }
+    public virtual bool OnStartBombard() { return false; }
+    public virtual bool OnBombard() { return false; }
     public virtual void OnSpecial() { }
     public virtual void OnPickUp(GameObject weapon) { }
-    public virtual void OnStartThrow() { }
-    public virtual void OnThrow() { }
+    public virtual bool OnStartThrow() { return false; }
+    public virtual bool OnThrow() { return false; }
     public virtual void OnRevive(GameObject player) { }
     public virtual void TransitionState(IPlayerState state)
     {
