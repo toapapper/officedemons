@@ -16,7 +16,6 @@ public class PlayerStateController : MonoBehaviour
 
     public Dictionary<PlayerStates, IPlayerState> states { get; private set; }
 
-
     public void StartOutOfCombat() => MakeStateTransition(states[PlayerStates.OUTOFCOMBAT]);
     public void StartCombat() => MakeStateTransition(states[PlayerStates.ENTERCOMBAT]);
     public void StartTurn() => MakeStateTransition(states[PlayerStates.COMBATTURN]);
@@ -33,8 +32,9 @@ public class PlayerStateController : MonoBehaviour
         if (PlayerManager.players == null)
             PlayerManager.players = new List<GameObject>();
         PlayerManager.players.Add(this.gameObject);
+        UIManager.Instance.EnablePlayerCard(this.gameObject);
 
-        if(GameManager.Instance.stillCheckList == null)
+        if (GameManager.Instance.stillCheckList == null)
             GameManager.Instance.stillCheckList = new List<GameObject>();
         GameManager.Instance.stillCheckList.Add(gameObject);
     }

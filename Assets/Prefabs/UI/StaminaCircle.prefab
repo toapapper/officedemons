@@ -88,8 +88,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cc02209a0a2f874da9bd21fe78db498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yOffset: -10
-  xOffset: 5
+  offset: {x: 1.15, y: 1.15}
+  imageAlpha: 0.7
+  colours:
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
   player: {fileID: 0}
   image: {fileID: 7893622050947946247}
   canvas: {fileID: 0}
