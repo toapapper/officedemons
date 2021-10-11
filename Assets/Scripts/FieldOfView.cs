@@ -81,7 +81,13 @@ public class FieldOfView : MonoBehaviour
 
         int vertexCount = viewPoints.Count + 1;
         Vector3[] verticies = new Vector3[vertexCount];
-        int[] triangles = new int[(vertexCount - 2) * 3];
+
+        //detta är en liten bugfix bara, ibland blev triangleCount mindre än noll och orsakade problem.
+        int triangleCount = (vertexCount - 2) * 3;
+        if (triangleCount <= 0)
+            return;//vet inte om detta är skitdåligt men det borde nog göra så inget händer istället för jobbiga errors
+
+        int[] triangles = new int[triangleCount];
 
         verticies[0] = Vector3.zero;
         for (int i = 0; i < vertexCount - 1; i++)

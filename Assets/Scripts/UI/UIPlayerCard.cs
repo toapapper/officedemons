@@ -25,35 +25,11 @@ public class UIPlayerCard : MonoBehaviour
         heartContainer.gameObject.SetActive(true);
         heartContainer.SetPlayer(player);
 
-        #region Character specifics
-        if(nameText != null && jobbText != null)
-        {
-            if (player.name == "Devin 1(Clone)")
-            {
-                colorBar.color = UIManager.Instance.devinColor;
-                nameText.text = "Devin";
-                jobbText.text = "Programmer";
-            }
-            else if (player.name == "SusanTheDestroyer(Clone)")
-            {
-                colorBar.color = UIManager.Instance.susanColor;
-                nameText.text = "Susan";
-                jobbText.text = "Paper pusher";
-            }
-            else if (player.name == "TerribleTim(Clone)")
-            {
-                colorBar.color = UIManager.Instance.timColor;
-                nameText.text = "Tim the terrible";
-                jobbText.text = "programmer, terrible";
-            }
-            else if (player.name == "ViciousVicky(Clone)")
-            {
-                colorBar.color = UIManager.Instance.vickyColor;
-                nameText.text = "Vicky Vicous";
-                jobbText.text = "we don't really know";
-            }
-        }
-        #endregion
+        Attributes attributes = player.GetComponent<Attributes>();
+
+        nameText.text = attributes.Name.ToString();
+        jobbText.text = attributes.JobTitle;
+        colorBar.color = attributes.PlayerColor;
     }
 
     // Update is called once per frame
