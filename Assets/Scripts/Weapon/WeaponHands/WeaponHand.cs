@@ -219,6 +219,18 @@ public class WeaponHand : MonoBehaviour
 		}
 	}
 
+	public void HandHit()
+	{
+		if (FOV.visibleTargets.Count > 0)
+		{
+			foreach (GameObject target in FOV.visibleTargets)
+			{
+				Effects.Damage(target, handHitDamage);
+				Effects.ApplyForce(target, (handObject.transform.position - target.transform.position).normalized * handHitForce);
+			}
+		}
+	}
+
 	//do in each weapon
 	public void DoDamage()
 	{
