@@ -25,7 +25,6 @@ public class SpawnItemsFromLibrary : MonoBehaviour
             }
         }
         node.size = bestfit;
-        Debug.LogError("BestFit = " + bestfit);
         item = ProceduralItemLibrary.Instance.GetItemFromDictionary(bestfit);
     }
 

@@ -22,9 +22,11 @@ public class BSPTree : MonoBehaviour
     Vector2 lastSize;
     public int fitnessGoal = 50;
     public int bspRemakeTries = 100;
+    int totalAmountOfTries = 0;
     //Maybe throw them into node?
     int nextDirection;
     int lastDirection;
+    
 
     private void Start()
     {
@@ -63,7 +65,7 @@ public class BSPTree : MonoBehaviour
 
         SearchObstaclesFitness(bspRemakeTries);
         
-        size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits, size);
+        size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits, size, generations);
         if (nextDirection == 1 && size.y < oldSize.y)
             size.y = oldSize.y;
         if (nextDirection == 0 && lastDirection == 0 && size.y > oldSize.y)
@@ -95,6 +97,22 @@ public class BSPTree : MonoBehaviour
         }
         if (!foundSuitableObstacles)
             fitnessFunction.UseBestVariant();
+        //while(foundSuitableObstacles == false)
+        //{
+        //    BSP(root);
+        //    if (!fitnessFunction.FitnessFuntion(nodes, root, foundSuitableObstacles, (int)heightLimits.y))
+        //    {
+        //        totalAmountOfTries++;
+        //        nodes = new List<Node>();
+        //        root.children = new Node[2];
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Total amount of tries: " + totalAmountOfTries);
+        //        foundSuitableObstacles = true;
+        //        break;
+        //    }
+        //}
     }
 
     public void BSP(Node node)

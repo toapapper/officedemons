@@ -12,7 +12,7 @@ public class FitnessFunction : MonoBehaviour
     SpawnItemsFromLibrary itemLibrary;
     List<Node> lbNodes;
     [SerializeField]
-    int encounterFreq = 7;
+    int encounterFreq = 3;
     int roomCounter = 1;
     Node lbRoot;
     int lbWidth;
@@ -35,7 +35,7 @@ public class FitnessFunction : MonoBehaviour
         if (roomCounter % encounterFreq == 0)
         {
             Debug.Log("==== Encounter Room ====");
-            return foundSuitableObstacle = EvaluateFitness(nodes, /*TODO :  Placeholder*/ 100, root, heightLimit);
+            return foundSuitableObstacle = EvaluateFitness(nodes, /*TODO :  Placeholder*/ 32, root, heightLimit);
         }
         else
         {
@@ -51,13 +51,13 @@ public class FitnessFunction : MonoBehaviour
         for (int i = 0; i < nodes.Count; i++)
         {
             //Evaluate fitness.
-            if(desiredFitness == 100)
+            if(desiredFitness == 32)
             {
                 //Give point to traits that are desirable for this room-type
                 //Encounter rooms should be...
                 if (nodes[i].leaf)
                 {
-                    fitnessValue = FitnessCheck(nodes[i], root, fitnessValue);
+                    fitnessValue = EncounterFitness(nodes[i], root, fitnessValue);
                     obstacles++;
                 }
             }
@@ -65,7 +65,7 @@ public class FitnessFunction : MonoBehaviour
             {
                 if (nodes[i].leaf)
                 {
-                    fitnessValue = FitnessCheck(nodes[i], root, fitnessValue);
+                    fitnessValue = StandardFitness(nodes[i], root, fitnessValue);
                     obstacles++;
                 }
                 Debug.Log("fitness after check = " + fitnessValue);
@@ -112,7 +112,7 @@ public class FitnessFunction : MonoBehaviour
         return false;
     }
 
-    public int FitnessCheck(Node node, Node root, int fitness)
+    public int StandardFitness(Node node, Node root, int fitness)
     {
         if (node.size.x * node.size.y < root.size.x * root.size.y / 200)
             return fitness -= 20;
@@ -125,6 +125,23 @@ public class FitnessFunction : MonoBehaviour
 
         fitness = TooCloseCheck(node, 20, root, fitness, 400);
 
+        return fitness;
+    }
+
+    public int EncounterFitness(Node node, Node root, int fitness)
+    {
+        if (node.size.x < root.size.x / 4)
+            fitness--;
+        else
+            fitness++;
+
+        if (node.size.y < root.size.y / 4)
+            fitness--;
+        else
+            fitness++;
+
+        fitness = TooCloseCheck(node, 20, root, fitness, 1);
+        Debug.Log("Encounter Fitness : " + fitness);
         return fitness;
     }
     private int TooCloseCheck(Node node, float distanceMultiplier, Node root, int fitness, int penalty)
@@ -171,23 +188,24 @@ public class FitnessFunction : MonoBehaviour
 
     private void BufferMaker(out float x, out float y, Node node)
     {
-        float bufferX = node.size.x / 4;
-        float bufferY = node.size.y / 4;
+        float bufferX = node.size.x / 16;
+        float bufferY = node.size.y / 16;
         x = Random.Range(bufferX, node.size.x - bufferX);
         y = Random.Range(bufferY, node.size.y - bufferY);
 
     }
 
-    public Vector2 NextRoomFitness(Vector2 widthLimits, Vector2 heightLimits, Vector2 size)
+    public Vector2 NextRoomFitness(Vector2 widthLimits, Vector2 heightLimits, Vector2 size, int generations)
     {
         size.x = Random.Range((int)widthLimits.x, (int)widthLimits.y);
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
         if (roomCounter % encounterFreq == 0)
         {
-            size.x *= 2;
-            size.y *= 2;
+            generations = 4;
+            size.x *= 10;
+            size.y *= 10;
         }
-
+        generations = 3;
         roomCounter++;
         return size;
     }

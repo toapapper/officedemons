@@ -33,7 +33,7 @@ public class ProceduralItemLibrary : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Key did not match any items in library");
+            //Debug.LogError("Key did not match any items in library");
             return null;
         }
     }
