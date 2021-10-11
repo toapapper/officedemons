@@ -27,6 +27,23 @@ public class PlayerInputHandler : MonoBehaviour
 	private List<GameObject> nearbyPlayers = new List<GameObject>();
 
 	public bool recentlySpawned = false;
+	private bool isAddingThrowForce;
+	private bool isAddingBombardForce;
+
+	//Throwing variables
+	[SerializeField]
+	private float throwForceMultiplier = 25f;
+	[SerializeField]
+	private float maxThrowForce = 30f;
+	private float addedThrowForce;
+
+	//Bombard variables
+	[SerializeField]
+	private float bombardForceMultiplier = 5f;
+	[SerializeField]
+	private float maxBombardForce = 10f;
+	private float addedBombardForce;
+
 
 	public void Start()
 	{
@@ -65,48 +82,35 @@ public class PlayerInputHandler : MonoBehaviour
 				{
 					Vector2 moveInput = context.ReadValue<Vector2>();
 					playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
-
-
-
-					//Vector2 moveInput = context.ReadValue<Vector2>();
-
-					//Vector3 direction = (context.ReadValue<Vector2>().x * right + context.ReadValue<Vector2>().y * forward).normalized;
-					//player.RotationDirection = Quaternion.LookRotation(direction, Vector3.up);
-					//if (!player.CurrentState.IsActionTriggered && !player.CurrentState.IsStaminaDepleted)
-					//{
-					//	playerMovement.MoveDirection = direction;
-					//}
-					//else
-					//{
-					//	playerMovement.MoveDirection = Vector3.zero;
-					//}
-
-					//Quaternion rotationDirection = Quaternion.LookRotation(direction, Vector3.up);
-					//playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
-					//if (!player.CurrentState.IsActionTriggered/* && !player.CurrentState.IsStaminaDepleted*/)
-					//{
-					//	Vector2 moveInput = context.ReadValue<Vector2>();
-					//	playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
-					//	//playerMovement.SetMoveDirection(context.ReadValue<Vector2>());
-					//}
-					//else
-					//{
-					//	playerMovement.MoveDirection = Vector3.zero;
-					//}
 				}
 				else if (context.action.name == inputControls.PlayerMovement.Attack.name)
 				{
-					if (context.performed)
+					if (player.CurrentState.IsActionTriggered && context.performed)
 					{
-						if (!player.CurrentState.IsActionTriggered)
+						player.LockAction();
+					}
+					else if(weaponHand.objectInHand != null && weaponHand.objectInHand is BombardWeapon)
+					{
+						if (context.performed)
 						{
-							player.OnAttack();
+							if (player.OnStartBombard())
+							{
+								playerMovement.MoveAmount = Vector3.zero;
+								isAddingBombardForce = true;
+							}
 						}
-						else
+						else if(context.canceled)
 						{
-							player.LockAction();
+							if (player.OnBombard())
+							{
+								isAddingBombardForce = false;
+								addedBombardForce = 0;
+							}
 						}
-							
+					}
+					else if (context.performed)
+					{
+						player.OnAttack();
 					}
 				}
 				else if (context.action.name == inputControls.PlayerMovement.Special.name)
@@ -120,6 +124,16 @@ public class PlayerInputHandler : MonoBehaviour
 						else
 						{
 							player.CancelAction();
+							if (isAddingThrowForce)
+							{
+								addedThrowForce = 0;
+								weaponHand.SetThrowForce(addedThrowForce);
+							}
+							else if (isAddingBombardForce)
+							{
+								addedBombardForce = 0;
+								weaponHand.SetBombardForce(addedBombardForce);
+							}
 						}
 					}
 				}
@@ -143,11 +157,19 @@ public class PlayerInputHandler : MonoBehaviour
 					{
 						if (context.started)
 						{
-							player.OnStartThrow();
+							if (player.OnStartThrow())
+							{
+								playerMovement.MoveAmount = Vector3.zero;
+								isAddingThrowForce = true;
+							}
 						}
 						if (context.canceled)
 						{
-							player.OnThrow();
+							if (player.OnThrow())
+							{
+								isAddingThrowForce = false;
+								addedThrowForce = 0;
+							}
 						}
 					}
 				}
@@ -181,11 +203,32 @@ public class PlayerInputHandler : MonoBehaviour
 	}
 
 
+	private void FixedUpdate()
+	{
+		if (isAddingThrowForce)
+		{
+			if (addedThrowForce < maxThrowForce)
+			{
+				addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
+				weaponHand.SetThrowForce(addedThrowForce);
+			}
+		}
+		else if (isAddingBombardForce)
+		{
+			if (addedBombardForce < maxBombardForce)
+			{
+				addedBombardForce += bombardForceMultiplier * Time.fixedDeltaTime;
+				weaponHand.SetBombardForce(addedBombardForce);
+			}
+		}
+	}
+
+
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.tag == "WeaponObject")
 		{
-			if(!nearbyObjects.Contains(other.gameObject))
+			if (!nearbyObjects.Contains(other.gameObject))
 				nearbyObjects.Add(other.gameObject);
 		}
 		else if (other.gameObject.tag == "Player")

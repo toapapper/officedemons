@@ -13,11 +13,14 @@ public class CombatActionState : AbstractPlayerState
 			case TypeOfAction.ATTACK:
 				weaponHand.Attack();
 				break;
+			case TypeOfAction.BOMBARD:
+				weaponHand.PerformBombard();
+				break;
 			case TypeOfAction.SPECIALATTACK:
 				//specialHand.Attack();
 				break;
 			case TypeOfAction.THROW:
-				playerMovement.PerformThrow();
+				weaponHand.Throw();
 				break;
 			case TypeOfAction.REVIVE:
 				GetComponent<Actions>().Revive(GetComponent<CombatTurnState>().PlayerToRevive);

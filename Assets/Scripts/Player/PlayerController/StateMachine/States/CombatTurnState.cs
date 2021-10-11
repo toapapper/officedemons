@@ -17,6 +17,31 @@ public class CombatTurnState : AbstractPlayerState
 		IsActionTriggered = true;
 	}
 
+	//Bombard action
+	public override bool OnStartBombard()
+	{
+		if (!IsActionTriggered)
+		{
+			if (weaponHand.StartBombard())
+			{
+				weaponHand.ToggleAimView(true);
+				ChosenAction = TypeOfAction.BOMBARD;
+				IsActionTriggered = true;
+				return true;
+			}
+		}
+		return false;
+
+	}
+	public override bool OnBombard()
+	{
+		if (IsActionTriggered)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	//Special Action
 	public override void OnSpecial()
 	{
@@ -37,7 +62,7 @@ public class CombatTurnState : AbstractPlayerState
 	}
 
 	//Throw
-	public override void OnStartThrow()
+	public override bool OnStartThrow()
 	{
 		if (!IsActionTriggered)
 		{
@@ -46,16 +71,18 @@ public class CombatTurnState : AbstractPlayerState
 				//weaponHand.ToggleThrowAimView(true);
 				ChosenAction = TypeOfAction.THROW;
 				IsActionTriggered = true;
-				IsAddingThrowForce = true;
+				return true;
 			}
 		}
+		return false;
 	}
-	public override void OnThrow()
+	public override bool OnThrow()
 	{
 		if (IsActionTriggered)
 		{
-			IsAddingThrowForce = false;
+			return true;
 		}
+		return false;
 	}
 
 	//Revive action
@@ -75,6 +102,9 @@ public class CombatTurnState : AbstractPlayerState
 		switch (ChosenAction)
 		{
 			case TypeOfAction.ATTACK:
+				weaponHand.ToggleAimView(false);
+				break;
+			case TypeOfAction.BOMBARD:
 				weaponHand.ToggleAimView(false);
 				break;
 			case TypeOfAction.SPECIALATTACK:
@@ -100,6 +130,10 @@ public class CombatTurnState : AbstractPlayerState
 				weaponHand.ToggleAimView(false);
 				weaponHand.CancelAction();
 				break;
+			case TypeOfAction.BOMBARD:
+				weaponHand.ToggleAimView(false);
+				weaponHand.CancelAction();
+				break;
 			case TypeOfAction.SPECIALATTACK:
 				//TODO
 				//specialHand.ToggleAimView(false);
@@ -107,9 +141,8 @@ public class CombatTurnState : AbstractPlayerState
 				break;
 			case TypeOfAction.THROW:
 				//TODO
+				weaponHand.CancelAction();
 				//weaponHand.ToggleThrowAimView(false);
-				playerMovement.CancelThrow();
-				//weaponHand.CancelAction();
 				break;
 			case TypeOfAction.REVIVE:
 				PlayerToRevive = null;
@@ -119,7 +152,7 @@ public class CombatTurnState : AbstractPlayerState
 		ChosenAction = TypeOfAction.NOACTION;
 		IsActionTriggered = false;
 	}
-	
+
 
 	public override void OnFixedUpdateState()
 	{
@@ -132,31 +165,27 @@ public class CombatTurnState : AbstractPlayerState
 		{
 			playerMovement.PerformRotation();
 		}
-		if (IsActionTriggered || IsStaminaDepleted)
-		{
-			//Throwing
-			if (IsAddingThrowForce)
-			{
-				playerMovement.AddThrowForce();
-			}
-		}
-		//Movement
-		else
+		if (!IsActionTriggered && !IsStaminaDepleted)
 		{
 			if (playerMovement.CalculateMovement() != Vector3.zero)
 			{
 				playerMovement.PerformMovement();
 
-				//lite så att den drainar stamina beroend på hur snabbt du går, kanske känns lite bättre eller så gör det ingen skillnad.
+				//lite sï¿½ att den drainar stamina beroend pï¿½ hur snabbt du gï¿½r, kanske kï¿½nns lite bï¿½ttre eller sï¿½ gï¿½r det ingen skillnad.
 				if (GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
 					attributes.Stamina -= Time.deltaTime * GetComponent<Rigidbody>().velocity.magnitude/GetComponent<PlayerMovementController>().getMoveSpeed;
 			}
 		}
-		//Falling
-		if (transform.position.y > 0)
-		{
-			playerMovement.PerformFall();
-		}
+		////Movement
+		//else
+		//{
+		//	if (playerMovement.CalculateMovement() != Vector3.zero)
+		//	{
+		//		playerMovement.PerformMovement();
+		//		if(GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
+		//			attributes.Stamina -= Time.deltaTime;
+		//	}
+		//}
 	}
 
 	public override void OnStateEnter()
