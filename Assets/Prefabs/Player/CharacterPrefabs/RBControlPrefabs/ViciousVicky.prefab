@@ -247,6 +247,7 @@ GameObject:
   - component: {fileID: 4927058671730580304}
   - component: {fileID: 130165711136296713}
   - component: {fileID: 4562979356348074481}
+  - component: {fileID: -4476860669811512560}
   m_Layer: 7
   m_Name: ViciousVicky
   m_TagString: Player
@@ -425,6 +426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2157886a6f61573458ea2641115cc551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  recentlySpawned: 0
 --- !u!114 &6703389109869860241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,6 +547,28 @@ MonoBehaviour:
   visibleTargets: []
   meshResolution: 1
   viewMeshFilter: {fileID: 5300250677712292339}
+--- !u!195 &-4476860669811512560
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8536423501050563420}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &8536423501672469227
 GameObject:
   m_ObjectHideFlags: 0
