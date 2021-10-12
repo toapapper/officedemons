@@ -197,6 +197,7 @@ public class PlayerInputHandler : MonoBehaviour
 			}
 			else if (playerMovement.MoveAmount != Vector3.zero)
 			{
+				playerMovement.MoveDirection = Vector3.zero;
 				playerMovement.MoveAmount = Vector3.zero;
 			}
 		}

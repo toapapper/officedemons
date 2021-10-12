@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// Coded by: Johan Melkersson
@@ -9,6 +10,7 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
 	private Rigidbody rb;
+	private NavMeshAgent navmeshAgent;
     //Character movers
     //private CharacterController character;
     //private WeaponHand weaponHand;
@@ -64,10 +66,11 @@ public class PlayerMovementController : MonoBehaviour
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody>();
+		navmeshAgent = GetComponent<NavMeshAgent>();
 		//character = GetComponent<CharacterController>();
-        //weaponHand = GetComponent<WeaponHand>();
-        //specialHand = GetComponent<SpecialHand>();
-    }
+		//weaponHand = GetComponent<WeaponHand>();
+		//specialHand = GetComponent<SpecialHand>();
+	}
 
 	//public void SetMoveDirection(Vector2 moveInput)
 	//{
@@ -132,11 +135,10 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public Vector3 CalculateMovement()
 	{
+		Debug.Log(navmeshAgent.velocity.magnitude);
 		Vector3 targetMoveAmount = moveDirection * moveSpeed;
 		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
 		return moveAmount;
-
-		//return moveDirection;
 	}
 	//Perform movement
 	public void PerformRotation()
@@ -151,95 +153,15 @@ public class PlayerMovementController : MonoBehaviour
 		pos = Camera.main.ViewportToWorldPoint(pos);
 		pos.y = Mathf.Clamp(pos.y, 0, 1.05f);
 
+		navmeshAgent.Move(pos - transform.position);
 		//rb.MovePosition(pos);
 
-		rb.velocity = (pos - transform.position)/Time.fixedDeltaTime; // with clamping to screen
+		//rb.velocity = (pos - transform.position) / Time.fixedDeltaTime; // with clamping to screen
+
 		//rb.velocity = moveAmount; //no clamping to screen
 
 		//character.Move(moveAmount * Time.fixedDeltaTime);
 		//rb.AddForce(moveAmount * Time.fixedDeltaTime, ForceMode.VelocityChange);
 		//rb.MovePosition(transform.position + moveAmount * Time.fixedDeltaTime);
-
 	}
-
-
-
-
-	//private void OnTriggerEnter(Collider other)
-	//{
-	//	if (other.gameObject.tag == "WeaponObject")
-	//	{
-	//		nearbyObjects.Add(other.gameObject);
-	//	}
-	//	else if (other.gameObject.tag == "Player")
-	//	{
-	//		nearbyPlayers.Add(other.gameObject);
-	//	}
-	//}
-	//private void OnTriggerExit(Collider other)
-	//{
-	//	if (other.gameObject.tag == "WeaponObject")
-	//	{
-	//		nearbyObjects.Remove(other.gameObject);
-	//	}
-	//	else if (other.gameObject.tag == "Player")
-	//	{
-	//		nearbyPlayers.Remove(other.gameObject);
-	//	}
-	//}
-
-
-
-	////Heal
-	//public bool StartHeal()
-	//{
-	//	if (GetComponent<Attributes>().Health < GetComponent<Attributes>().StartHealth)
-	//	{
-	//		return true;
-	//	}
-	//	if (nearbyPlayers.Count > 0)
-	//	{
-	//		foreach (GameObject nearbyPlayer in nearbyPlayers)
-	//		{
-	//			if (nearbyPlayer.GetComponentInChildren<Attributes>().Health < GetComponent<Attributes>().StartHealth)
-	//			{
-	//				return true;
-	//			}
-	//		}
-	//	}
-	//	return false;
-	//}
-	//public void PerformHeal()
-	//{
-	//	GameObject playerToHeal = null;
-	//	if (GetComponent<Attributes>().Health < GetComponent<Attributes>().StartHealth)
-	//	{
-	//		playerToHeal = gameObject;
-	//		lowestHealth = GetComponent<Attributes>().Health;
-	//	}
-	//	else
-	//	{
-	//		lowestHealth = GetComponent<Attributes>().StartHealth;
-	//	}
-	//	if (nearbyPlayers.Count > 0)
-	//	{
-	//		foreach (GameObject nearbyPlayer in nearbyPlayers)
-	//		{
-	//			if (nearbyPlayer.GetComponentInChildren<Attributes>().Health < lowestHealth)
-	//			{
-	//				playerToHeal = nearbyPlayer;
-	//				lowestHealth = nearbyPlayer.GetComponentInChildren<Attributes>().Health;
-	//			}
-	//		}
-	//	}
-	//	if (playerToHeal != null)
-	//	{
-	//		Debug.Log("Heal player " + playerToHeal.name);
-	//	}
-	//}
-	//public void CancelHeal()
-	//{
-
-	//}
-
 }

@@ -58,6 +58,7 @@ public class Actions : MonoBehaviour
 
 	public void Die()
 	{
+		GameObject target = this.gameObject;
 		if (this.tag == "Enemy")
 		{
             // Tillfällig
@@ -73,21 +74,20 @@ public class Actions : MonoBehaviour
 
 			GetComponent<PlayerStateController>().Die();
 			if (GameManager.Instance.combatState == CombatState.none)
-				StartCoroutine("DelayedSelfRevive");
+				StartCoroutine(DelayedSelfRevive(target));
 		}
 	}
-	IEnumerator DelayedSelfRevive()
+	IEnumerator DelayedSelfRevive(GameObject target)
     {
 		Debug.Log("DelayedSelfrevive");
 		yield return new WaitForSeconds(1);
 		Debug.Log("DelayedSelfrevive");
-		Revive(gameObject);
+		Revive(target);
 		yield return null;
     }
 
 	public void Revive(GameObject target)
 	{
-		target.GetComponent<Attributes>().Health = target.GetComponent<Attributes>().StartHealth /2;
 		target.GetComponent<PlayerStateController>().Revive();
 	}
 

@@ -91,11 +91,15 @@ public class GameManager : MonoBehaviour
                 //{
                 //    AllStill = false;
                 //}
-                if (gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
+                if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
                 {
                     AllStill = false;
                 }
-            }
+    //            if (gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
+				//{
+				//	AllStill = false;
+				//}
+			}
             else if (gObject.CompareTag("test"))//ENDAST Fï¿½R ATT TESTA
             {
                 if(gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)

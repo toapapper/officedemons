@@ -164,6 +164,19 @@ public class WeaponHand : MonoBehaviour
 		}
 		return false;
 	}
+
+	public void ToggleAim(bool isActive)
+	{
+		if (objectInHand)
+		{
+			objectInHand.ToggleAim(isActive, laserSightGradient);
+		}
+		else
+		{
+			FOVVisualization.SetActive(isActive);
+		}
+	}
+
 	public void ToggleAimView(bool isActive)
 	{
 		if (objectInHand != null)
