@@ -9,12 +9,8 @@ using UnityEngine.AI;
 /// </summary>
 public class PlayerMovementController : MonoBehaviour
 {
-	private Rigidbody rb;
+	//private Rigidbody rb;
 	private NavMeshAgent navmeshAgent;
-    //Character movers
-    //private CharacterController character;
-    //private WeaponHand weaponHand;
-	//private SpecialHand specialHand;
 
 	//Movement variables
 	private Vector3 moveDirection = Vector3.zero;
@@ -30,27 +26,6 @@ public class PlayerMovementController : MonoBehaviour
 
 	public float getMoveSpeed{ get{ return moveSpeed; }}
 
-	////Throwing variables
-	//[SerializeField]
-	//private float throwForceMultiplier = 25f;
-	//[SerializeField]
-	//private float maxThrowForce = 30f;
-	//private float addedThrowForce;
-
-	////Bombard variables
-	//[SerializeField]
-	//private float bombardForceMultiplier = 5f;
-	//[SerializeField]
-	//private float maxBombardForce = 10f;
-	//private float addedBombardForce;
-
-
-	////Healing variables
-	//[SerializeField]
-	//private int maxHealthMark = 100;
-	//private int lowestHealth;
-
-
 	public Vector3 MoveDirection
 	{
 		get { return moveDirection; }
@@ -65,65 +40,10 @@ public class PlayerMovementController : MonoBehaviour
 
 	private void Awake()
 	{
-		rb = GetComponent<Rigidbody>();
+		//rb = GetComponent<Rigidbody>();
 		navmeshAgent = GetComponent<NavMeshAgent>();
-		//character = GetComponent<CharacterController>();
-		//weaponHand = GetComponent<WeaponHand>();
-		//specialHand = GetComponent<SpecialHand>();
 	}
-
-	//public void SetMoveDirection(Vector2 moveInput)
-	//{
-	//	moveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
-	//}
-
-	//TODO Added force to player input
-	//public bool PerformThrow()
-	//{
-	//	if (weaponHand.Throw(addedThrowForce))
-	//	{
-	//		addedThrowForce = 0;
-	//		return true;
-	//	}
-	//	return false;
-	//}
-	//public void AddThrowForce()
-	//{
-	//	if (addedThrowForce < maxThrowForce)
-	//	{
-	//		addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
-	//	}
-	//}
-	//public void CancelThrow()
-	//{
-	//	weaponHand.CancelAction();
-	//	addedThrowForce = 0;
-	//}
-
-	//public bool PerformBombard()
-	//{
-	//	if (weaponHand.PerformBombard(addedBombardForce))
-	//	{
-	//		addedBombardForce = 0;
-	//		return true;
-	//	}
-	//	return false;
-	//}
-	//public void AddBombardForce()
-	//{
-	//	if(addedBombardForce < maxBombardForce)
-	//	{
-	//		addedBombardForce += bombardForceMultiplier * Time.fixedDeltaTime;
-	//		weaponHand.SetBombardForce(addedBombardForce);
-	//	}
-	//}
-	//public void CancelBombard()
-	//{
-	//	weaponHand.CancelAction();
-	//	addedBombardForce = 0;
-	//	weaponHand.SetBombardForce(addedBombardForce);
-	//}
-
+		
 	//Calculate movement
 	public Quaternion CalculateRotation()
 	{
@@ -155,13 +75,5 @@ public class PlayerMovementController : MonoBehaviour
 
 		navmeshAgent.Move(pos - transform.position);
 		//rb.MovePosition(pos);
-
-		//rb.velocity = (pos - transform.position) / Time.fixedDeltaTime; // with clamping to screen
-
-		//rb.velocity = moveAmount; //no clamping to screen
-
-		//character.Move(moveAmount * Time.fixedDeltaTime);
-		//rb.AddForce(moveAmount * Time.fixedDeltaTime, ForceMode.VelocityChange);
-		//rb.MovePosition(transform.position + moveAmount * Time.fixedDeltaTime);
 	}
 }

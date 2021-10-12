@@ -395,6 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49854cd6b540df14abff5d2e5cd4b767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  throwAim: {fileID: 0}
   handObject: {fileID: 1200446630376892084}
   FOV: {fileID: 4562979356348074481}
   FOVVisualization: {fileID: 1720770877806713279}
@@ -444,6 +445,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045394b85f26e804b916a3ed3c696019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  characterName: 3
+  jobTitle: "arbetsl\xF6s"
   startHealth: 100
   health: 0
   startStamina: 3.5
@@ -529,6 +533,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b06464f5284c4489299a077c816afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  currentClass: 0
   animator: {fileID: 0}
 --- !u!1 &8536423501672469227
 GameObject:
@@ -541,7 +547,6 @@ GameObject:
   - component: {fileID: 8536423501672469226}
   - component: {fileID: 8536423501672469231}
   - component: {fileID: 8536423501672469224}
-  - component: {fileID: 8536423501672469225}
   m_Layer: 0
   m_Name: Nose
   m_TagString: Untagged
@@ -612,19 +617,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8536423501672469225
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8536423501672469227}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &4867948970330755531
 PrefabInstance:
   m_ObjectHideFlags: 0
