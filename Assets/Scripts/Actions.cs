@@ -18,44 +18,6 @@ public class Actions : MonoBehaviour
 		fov = GetComponent<FieldOfView>();
 	}
 
-	//// Update is called once per frame
-	//void Update()
-	//{
-
-	//}
-
-	//public void PickUp(AbstractWeapon weapon)
- //   {
-	//	//gör något
- //   }
-
-	//public void Attack(AbstractWeapon abstractWeapon)
-	//{
-	//	//Currently Equipped
-	//	//weapon = GetComponent<Weapon>();
-	//	//weapon.damage;
-
-	//	List<GameObject> targetList = fov.visibleTargets;
-
-	//	if (abstractWeapon is RangedWeapon)
-	//	{
-	//		if(targetList.Count > 0)
-	//		{
-	//			GameObject target = targetList[targetList.Count - 1];
-	//			Attributes targetAttributes = target.GetComponent<Attributes>();
-	//			targetAttributes.Health -= abstractWeapon.Damage;
-	//		}
-	//	}
-	//	else if (abstractWeapon is MeleeWeapon)
-	//	{
-	//		foreach (GameObject target in targetList)
-	//		{
-	//			Attributes targetAttributes = target.GetComponent<Attributes>();
-	//			targetAttributes.Health -= abstractWeapon.Damage;
-	//		}
-	//	}
-	//}
-
 	public void Die()
 	{
 		GameObject target = this.gameObject;
