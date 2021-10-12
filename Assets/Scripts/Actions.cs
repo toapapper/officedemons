@@ -18,74 +18,43 @@ public class Actions : MonoBehaviour
 		fov = GetComponent<FieldOfView>();
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
+	//// Update is called once per frame
+	//void Update()
+	//{
 
-	}
+	//}
 
-	public void PickUp(AbstractWeapon weapon)
-    {
-		//gör något
-    }
+	//public void PickUp(AbstractWeapon weapon)
+ //   {
+	//	//gör något
+ //   }
 
-	public void Attack(AbstractWeapon abstractWeapon)
-	{
-		//Currently Equipped
-		//weapon = GetComponent<Weapon>();
-		//weapon.damage;
+	//public void Attack(AbstractWeapon abstractWeapon)
+	//{
+	//	//Currently Equipped
+	//	//weapon = GetComponent<Weapon>();
+	//	//weapon.damage;
 
-		List<GameObject> targetList = fov.visibleTargets;
+	//	List<GameObject> targetList = fov.visibleTargets;
 
-		if (abstractWeapon is RangedWeapon)
-		{
-			if(targetList.Count > 0)
-			{
-				GameObject target = targetList[targetList.Count - 1];
-				Attributes targetAttributes = target.GetComponent<Attributes>();
-				targetAttributes.Health -= abstractWeapon.Damage;
-			}
-		}
-		else if (abstractWeapon is MeleeWeapon)
-		{
-			foreach (GameObject target in targetList)
-			{
-				Attributes targetAttributes = target.GetComponent<Attributes>();
-				targetAttributes.Health -= abstractWeapon.Damage;
-			}
-		}
-	}
-
-	public void Hit(Vector3 fromPosition, int damage, int force)
-	{
-		if (fov.visibleTargets.Count > 0)
-		{
-			List<GameObject> targetList = fov.visibleTargets;
-			Vector3 hitForce = (fromPosition - transform.position).normalized * force;
-
-			foreach (GameObject target in targetList)
-			{
-				Debug.Log(target);
-				Attributes targetAttributes = target.GetComponent<Attributes>();
-				targetAttributes.Health -= damage;
-				target.GetComponent<Rigidbody>().AddForce(hitForce, ForceMode.VelocityChange);
-			}
-		}
-		
-
-	}
-
-	public void TakeBulletDamage(int damage, Vector3 bulletHitForce)
-	{
-		attributes.Health -= damage;
-		GetComponent<Rigidbody>().AddForce(bulletHitForce, ForceMode.VelocityChange);
-	}
-
-	public void TakeExplosionDamage(int damage, Vector3 explosionForce)
-	{
-		attributes.Health -= damage;
-		GetComponent<Rigidbody>().AddForce(explosionForce, ForceMode.VelocityChange);
-	}
+	//	if (abstractWeapon is RangedWeapon)
+	//	{
+	//		if(targetList.Count > 0)
+	//		{
+	//			GameObject target = targetList[targetList.Count - 1];
+	//			Attributes targetAttributes = target.GetComponent<Attributes>();
+	//			targetAttributes.Health -= abstractWeapon.Damage;
+	//		}
+	//	}
+	//	else if (abstractWeapon is MeleeWeapon)
+	//	{
+	//		foreach (GameObject target in targetList)
+	//		{
+	//			Attributes targetAttributes = target.GetComponent<Attributes>();
+	//			targetAttributes.Health -= abstractWeapon.Damage;
+	//		}
+	//	}
+	//}
 
 	public void Die()
 	{
@@ -118,7 +87,7 @@ public class Actions : MonoBehaviour
 
 	public void Revive(GameObject target)
 	{
-		attributes.Health = attributes.StartHealth/2;
+		target.GetComponent<Attributes>().Health = target.GetComponent<Attributes>().StartHealth /2;
 		target.GetComponent<PlayerStateController>().Revive();
 	}
 

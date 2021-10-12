@@ -333,7 +333,6 @@ GameObject:
   - component: {fileID: 5281095905082456886}
   - component: {fileID: 4464944149620146231}
   - component: {fileID: 6523096834970701205}
-  - component: {fileID: 7184783443606198724}
   - component: {fileID: 7184783443606198735}
   - component: {fileID: 8371304493010408476}
   - component: {fileID: 879071552076076017}
@@ -461,24 +460,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!143 &7184783443606198724
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7184783443606198734}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &7184783443606198735
 Animator:
   serializedVersion: 3
@@ -523,6 +504,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recentlySpawned: 0
+  throwForceMultiplier: 25
+  maxThrowForce: 30
+  bombardForceMultiplier: 5
+  maxBombardForce: 10
 --- !u!114 &5243656074504488707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,10 +522,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   rotationSpeed: 500
-  throwForceMultiplier: 25
-  maxThrowForce: 30
-  bombardForceMultiplier: 5
-  maxBombardForce: 10
 --- !u!114 &7921343603313587028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -757,6 +738,10 @@ PrefabInstance:
     - target: {fileID: 573004846986535636, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
       propertyPath: m_Name
       value: ThrowAim
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957912097024091557, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
+      propertyPath: initialVelocity
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8459214144268528640, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
       propertyPath: m_RootOrder

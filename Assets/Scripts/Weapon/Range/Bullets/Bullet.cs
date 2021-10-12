@@ -12,7 +12,6 @@ public class Bullet : MonoBehaviour
 	{
 		bulletObject = Instantiate(this, position, Quaternion.LookRotation(direction));
 		bulletObject.bulletDamage = bulletDamage;
-		Debug.Log(bulletHitForce);
 		bulletObject.bulletHitForce = direction * bulletHitForce;
 		bulletObject.GetComponent<Rigidbody>().AddForce(direction * bulletFireForce, ForceMode.VelocityChange);
 	}
@@ -21,10 +20,12 @@ public class Bullet : MonoBehaviour
 	{
 		if (!other.isTrigger)
 		{
-			if (other.gameObject.GetComponentInParent<Actions>() != null)
+			if(other.tag == "Player" || other.tag == "Enemy")
 			{
-				other.gameObject.GetComponentInParent<Actions>().TakeBulletDamage(bulletDamage, bulletHitForce);
+				Effects.Damage(other.gameObject, bulletDamage);
+				Effects.ApplyForce(other.gameObject, bulletHitForce);
 			}
+
 			Destroy(gameObject);
 		}
 	}

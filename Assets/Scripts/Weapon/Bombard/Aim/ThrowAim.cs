@@ -13,7 +13,7 @@ public class ThrowAim : MonoBehaviour
     [SerializeField]
     public float initialAngle = 45f;
     [SerializeField]
-    public float initialVelocity = 5f;
+    public float initialVelocity;
     [SerializeField]
     [Range(0.1f, 0.95f)]
     private float initialFriction = 0.7f;

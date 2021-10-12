@@ -13,20 +13,6 @@ public class BombardWeapon : AbstractWeapon
 		get { return granadeThrowForce; }
 		set { granadeThrowForce = value; }
 	}
-	public override void ReleaseProjectile()
-	{
-		Vector3 granadeDirection = transform.forward;
-		granadeDirection.y = 0;
-		granadeDirection.Normalize();
-
-		Vector3 forward = transform.forward;
-		forward.y = 0;
-		forward.Normalize();
-
-		Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<WeaponHand>().ThrowAim.initialAngle, transform.right) * forward).normalized;
-		granade.GetComponent<GranadeObject>().CreateGranade(transform.position, direction,
-			GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity, HitForce, Damage);
-	}
 
 	public override void StartAttack(Animator animator)
 	{
@@ -36,5 +22,18 @@ public class BombardWeapon : AbstractWeapon
 	public override void Attack(Animator animator)
 	{
 		animator.SetTrigger("isBombard");
+	}
+
+	public override void DoAction(FieldOfView fov)
+	{
+		Vector3 forward = transform.forward;
+		forward.y = 0;
+		forward.Normalize();
+		Vector3 right = new Vector3(forward.z, 0, -forward.x);
+
+		Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<WeaponHand>().ThrowAim.initialAngle, right) * forward).normalized;
+		float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity;
+
+		granade.GetComponent<GranadeObject>().CreateGranade(transform.position, direction, throwForce, HitForce, Damage);
 	}
 }

@@ -30,14 +30,6 @@ public abstract class RangedWeapon : AbstractWeapon
 		set { bulletFireForce = value; }
 	}
 
-	public override void ReleaseProjectile()
-	{
-		Vector3 bulletDirection = transform.forward;
-		bulletDirection.y = 0;
-		bulletDirection.Normalize();
-
-		bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, bulletDirection, BulletFireForce, HitForce, Damage);
-	}
 	public override void ToggleAim(bool isActive, Gradient laserSightMaterial)
 	{
 		LaserAim.SetActive(isActive);
@@ -46,9 +38,19 @@ public abstract class RangedWeapon : AbstractWeapon
 			GetComponentInChildren<LineRenderer>().colorGradient = laserSightMaterial;
 		}
 	}
+
 	public override void StartAttack(Animator animator)
 	{
 		animator.SetTrigger("isStartRangedSingleShot");
 	}
 	public override abstract void Attack(Animator animator);
+
+	public override void DoAction(FieldOfView fov)
+	{
+		Vector3 direction = transform.forward;
+		direction.y = 0;
+		direction.Normalize();
+
+		bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage);
+	}
 }

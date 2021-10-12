@@ -9,9 +9,13 @@ public static class Effects
 		target.GetComponent<Attributes>().Health -= damage;
 		
 	}
-
 	public static void ApplyForce(GameObject target, Vector3 force)
 	{
 		target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
+	}
+	public static void Revive(GameObject target)
+	{
+		target.GetComponent<Attributes>().Health = target.GetComponent<Attributes>().StartHealth / 2;
+		target.GetComponent<PlayerStateController>().Revive();
 	}
 }

@@ -61,7 +61,10 @@ public class GranadeObject : MonoBehaviour
 			explosionForceDirection.y = 0;
 			explosionForceDirection.Normalize();
 
-			target.GetComponent<Actions>().TakeExplosionDamage(granadeDamage, explosionForceDirection * granadeExplodeForce);
+			Effects.Damage(target, granadeDamage);
+			Effects.ApplyForce(target, explosionForceDirection * granadeExplodeForce);
+
+			//target.GetComponent<Actions>().TakeExplosionDamage(granadeDamage, explosionForceDirection * granadeExplodeForce);
 		}
 
 		Destroy(gameObject);

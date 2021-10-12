@@ -40,8 +40,6 @@ public class WeaponHand : MonoBehaviour
 		set { throwAim = value; }
 	}
 
-
-
 	private void Awake()
 	{
 		actions = GetComponent<Actions>();
@@ -72,7 +70,6 @@ public class WeaponHand : MonoBehaviour
 		{
 			collider.enabled = false;
 		}
-		//objectInHand.GetComponentInChildren<Collider>().enabled = false;
 
 		//For test
 		//if (objectInHand is RangedWeapon || objectInHand is BombardWeapon)
@@ -129,7 +126,6 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand != null && objectInHand is BombardWeapon)
 		{
-			//throwAim.initialVelocity = bombardForce;
 			objectInHand.Attack(animator);
 			return true;
 		}
@@ -158,7 +154,7 @@ public class WeaponHand : MonoBehaviour
 		}
 		return false;
 	}
-	public bool Throw(/*float throwForce*/)
+	public bool Throw()
 	{
 		if (objectInHand != null)
 		{
@@ -219,35 +215,19 @@ public class WeaponHand : MonoBehaviour
 		}
 	}
 
-	public void HandHit()
+	public void DoAction()
 	{
-		if (FOV.visibleTargets.Count > 0)
+		if (objectInHand)
+		{
+			objectInHand.DoAction(FOV);
+		}
+		else if (FOV.visibleTargets.Count > 0)
 		{
 			foreach (GameObject target in FOV.visibleTargets)
 			{
 				Effects.Damage(target, handHitDamage);
-				Effects.ApplyForce(target, (handObject.transform.position - target.transform.position).normalized * handHitForce);
+				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
 			}
-		}
-	}
-
-	//do in each weapon
-	public void DoDamage()
-	{
-		if (objectInHand != null)
-		{
-			if(objectInHand is RangedWeapon || objectInHand is BombardWeapon)
-			{
-				objectInHand.ReleaseProjectile();
-			}
-			else if(objectInHand is MeleeWeapon)
-			{
-				actions.Hit(objectInHand.transform.position, objectInHand.Damage, objectInHand.HitForce);
-			}
-		}
-		else
-		{
-			actions.Hit(handObject.transform.position, handHitDamage, handHitForce);
 		}
 	}
 }
