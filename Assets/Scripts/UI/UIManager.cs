@@ -15,30 +15,24 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public static UIManager Instance;
 
+    private Image timerBackgroundWithColorImage; //hemskt, jag vet..
+    private bool playerCardsInitialized = false;
+    
     [Header("Menus")]
-    public GameObject pauseMenu;
-    public GameObject firstButtonSelectedOnPause;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject firstButtonSelectedOnPause;
 
     [Header("Timer")]
-    public GameObject timer;
-    public GameObject timer_backGround_with_color;
-    private Image timer_backGround_with_color_image; //hemskt, jag vet..
-    public GameObject timer_indicator;
+    [SerializeField] private GameObject timer;
+    [SerializeField] private GameObject timerBackgroundWithColor;
+    [SerializeField] private GameObject timer_indicator;
 
-    //From 0 to 0.5 merge between color 0 and 1
-    //from 0.5 to 0.75 between 1 and 2
-    //and lastly from 0.75 to 1 between 2 and 3
-    public Color timer_color0 = Color.white;
-    public Color timer_color1 = Color.green;
-    public Color timer_color2 = Color.yellow;
-    public Color timer_color3 = Color.red;
-    public Color[] timerColors = { Color.white, Color.yellow, new Color(1, 1, 0), Color.red };
-    private TMP_Text timerText;
+    [SerializeField] private Color[] timerColors = { Color.white, Color.yellow, new Color(1, 1, 0), Color.red };
+    [SerializeField] private TMP_Text timerText;
 
     [Header("Polis")]
-    public GameObject enemys_turn_card;
+    [SerializeField] private GameObject enemys_turn_card;
 
-    private bool playerCardsInitialized = false;
 
     // Start is called before the first frame update
     private void Awake()
@@ -46,9 +40,7 @@ public class UIManager : MonoBehaviour
         Debug.LogWarning("HELLO UI MANAGER HERE!");
         Instance = this;
 
-        timerText = timer.GetComponentInChildren<TMP_Text>();
-        timer_backGround_with_color_image = timer_backGround_with_color.GetComponent<Image>();
-
+        timerBackgroundWithColorImage = timerBackgroundWithColor.GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -61,7 +53,7 @@ public class UIManager : MonoBehaviour
             //för varje spelare som finns, enablea ett playercard och mata in rätt spelare där.
             for (int i = 0; i < PlayerManager.players.Count; i++)
             {
-                EnablePlayerCard(i);
+                EnablePlayerUI(i);
             }
             playerCardsInitialized = true;
         }
@@ -84,10 +76,10 @@ public class UIManager : MonoBehaviour
             timerText.text = ("" + Mathf.Max(Mathf.Floor(GameManager.Instance.roundTimer),0));
 
             float percent = 1 - GameManager.Instance.roundTimer / GameManager.Instance.RoundTime;
-            timer_backGround_with_color_image.color = OssianUtils.MultiColorLerp(timerColors, percent);
+            timerBackgroundWithColorImage.color = OssianUtils.MultiColorLerp(timerColors, percent);
 
             //float segmentedPercent = (Mathf.Floor(percent * 12) / 12) + 1;
-            timer_backGround_with_color_image.fillAmount = percent;
+            timerBackgroundWithColorImage.fillAmount = percent;
             timer_indicator.transform.rotation = Quaternion.Euler(0, 0, 360 * (1 - percent));
         }
         else if(GameManager.Instance.combatState == CombatState.enemy)
@@ -98,12 +90,12 @@ public class UIManager : MonoBehaviour
         #endregion
     }
 
-    public void EnablePlayerCard(GameObject player)
+    public void EnablePlayerUI(GameObject player)
     {
         int index = PlayerManager.players.IndexOf(player);
-        EnablePlayerCard(index);
+        EnablePlayerUI(index);
     }
-    public void EnablePlayerCard(int i)
+    public void EnablePlayerUI(int i)
     {
         Debug.Log("UIcard init for player " + i);
         UIPlayerCard card = transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>();
@@ -116,8 +108,10 @@ public class UIManager : MonoBehaviour
         card.gameObject.SetActive(true);
         card.Initialize(PlayerManager.players[i]);
 
-        StaminaCircle stamCirc = transform.Find("Canvas").transform.Find("StaminaCircle" + i).GetComponent<StaminaCircle>();
+        //StaminaCircle stamCirc = transform.Find("Canvas").transform.Find("StaminaCircle" + i).GetComponent<StaminaCircle>();
+        StaminaCircle stamCirc = transform.Find("StamCircle" + i).GetChild(0).GetComponent<StaminaCircle>();
         stamCirc.gameObject.SetActive(true);
+        Debug.LogWarning(PlayerManager.players[i]);
         stamCirc.SetPlayer(PlayerManager.players[i]);
     }
 
