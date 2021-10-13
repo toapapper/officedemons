@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// Coded by: Johan Melkersson
@@ -9,9 +10,10 @@ using UnityEngine;
 public class PlayerMovementController : MonoBehaviour
 {
 	private Rigidbody rb;
-	//Character movers
-	//private CharacterController character;
-	private WeaponHand weaponHand;
+	private NavMeshAgent navmeshAgent;
+    //Character movers
+    //private CharacterController character;
+    //private WeaponHand weaponHand;
 	//private SpecialHand specialHand;
 
 	//Movement variables
@@ -28,17 +30,25 @@ public class PlayerMovementController : MonoBehaviour
 
 	public float getMoveSpeed{ get{ return moveSpeed; }}
 
-	//Throwing variables
-	[SerializeField]
-	private float throwForceMultiplier = 25f;
-	[SerializeField]
-	private float maxThrowForce = 30f;
-	private float addedThrowForce;
+	////Throwing variables
+	//[SerializeField]
+	//private float throwForceMultiplier = 25f;
+	//[SerializeField]
+	//private float maxThrowForce = 30f;
+	//private float addedThrowForce;
 
-	//Healing variables
-	[SerializeField]
-	private int maxHealthMark = 100;
-	private int lowestHealth;
+	////Bombard variables
+	//[SerializeField]
+	//private float bombardForceMultiplier = 5f;
+	//[SerializeField]
+	//private float maxBombardForce = 10f;
+	//private float addedBombardForce;
+
+
+	////Healing variables
+	//[SerializeField]
+	//private int maxHealthMark = 100;
+	//private int lowestHealth;
 
 
 	public Vector3 MoveDirection
@@ -51,19 +61,16 @@ public class PlayerMovementController : MonoBehaviour
 		get { return moveAmount; }
 		set { moveAmount = value; }
 	}
-	//public bool IsStaminaDepleted
-	//{
-	//	get { return attributes.Stamina <= 0; }
-	//}
 
 
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody>();
+		navmeshAgent = GetComponent<NavMeshAgent>();
 		//character = GetComponent<CharacterController>();
-        weaponHand = GetComponent<WeaponHand>();
-        //specialHand = GetComponent<SpecialHand>();
-    }
+		//weaponHand = GetComponent<WeaponHand>();
+		//specialHand = GetComponent<SpecialHand>();
+	}
 
 	//public void SetMoveDirection(Vector2 moveInput)
 	//{
@@ -71,28 +78,51 @@ public class PlayerMovementController : MonoBehaviour
 	//}
 
 	//TODO Added force to player input
-	public bool PerformThrow()
-	{
-		if (weaponHand.Throw(addedThrowForce))
-		{
-			//isWeaponEquipped = false;
-			addedThrowForce = 0;
-			return true;
-		}
-		return false;
-	}
-	public void CancelThrow()
-	{
-		weaponHand.CancelAction();
-		addedThrowForce = 0;
-	}
-	public void AddThrowForce()
-	{
-		if (addedThrowForce <= maxThrowForce)
-		{
-			addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
-		}
-	}
+	//public bool PerformThrow()
+	//{
+	//	if (weaponHand.Throw(addedThrowForce))
+	//	{
+	//		addedThrowForce = 0;
+	//		return true;
+	//	}
+	//	return false;
+	//}
+	//public void AddThrowForce()
+	//{
+	//	if (addedThrowForce < maxThrowForce)
+	//	{
+	//		addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
+	//	}
+	//}
+	//public void CancelThrow()
+	//{
+	//	weaponHand.CancelAction();
+	//	addedThrowForce = 0;
+	//}
+
+	//public bool PerformBombard()
+	//{
+	//	if (weaponHand.PerformBombard(addedBombardForce))
+	//	{
+	//		addedBombardForce = 0;
+	//		return true;
+	//	}
+	//	return false;
+	//}
+	//public void AddBombardForce()
+	//{
+	//	if(addedBombardForce < maxBombardForce)
+	//	{
+	//		addedBombardForce += bombardForceMultiplier * Time.fixedDeltaTime;
+	//		weaponHand.SetBombardForce(addedBombardForce);
+	//	}
+	//}
+	//public void CancelBombard()
+	//{
+	//	weaponHand.CancelAction();
+	//	addedBombardForce = 0;
+	//	weaponHand.SetBombardForce(addedBombardForce);
+	//}
 
 	//Calculate movement
 	public Quaternion CalculateRotation()
@@ -105,11 +135,10 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public Vector3 CalculateMovement()
 	{
+		Debug.Log(navmeshAgent.velocity.magnitude);
 		Vector3 targetMoveAmount = moveDirection * moveSpeed;
 		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
 		return moveAmount;
-
-		//return moveDirection;
 	}
 	//Perform movement
 	public void PerformRotation()
@@ -118,105 +147,21 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public void PerformMovement()
 	{
-
 		Vector3 pos = Camera.main.WorldToViewportPoint(transform.position + moveAmount * Time.fixedDeltaTime);
 		pos.x = Mathf.Clamp01(pos.x);
 		pos.y = Mathf.Clamp01(pos.y);
 		pos = Camera.main.ViewportToWorldPoint(pos);
 		pos.y = Mathf.Clamp(pos.y, 0, 1.05f);
+
+		navmeshAgent.Move(pos - transform.position);
 		//rb.MovePosition(pos);
 
-		rb.velocity = (pos - transform.position)/Time.fixedDeltaTime; // with clamping to screen
+		//rb.velocity = (pos - transform.position) / Time.fixedDeltaTime; // with clamping to screen
+
 		//rb.velocity = moveAmount; //no clamping to screen
 
 		//character.Move(moveAmount * Time.fixedDeltaTime);
 		//rb.AddForce(moveAmount * Time.fixedDeltaTime, ForceMode.VelocityChange);
 		//rb.MovePosition(transform.position + moveAmount * Time.fixedDeltaTime);
-
 	}
-	public void PerformFall()
-	{
-		//character.Move(Vector3.down * Time.fixedDeltaTime);
-	}
-
-
-
-
-	//private void OnTriggerEnter(Collider other)
-	//{
-	//	if (other.gameObject.tag == "WeaponObject")
-	//	{
-	//		nearbyObjects.Add(other.gameObject);
-	//	}
-	//	else if (other.gameObject.tag == "Player")
-	//	{
-	//		nearbyPlayers.Add(other.gameObject);
-	//	}
-	//}
-	//private void OnTriggerExit(Collider other)
-	//{
-	//	if (other.gameObject.tag == "WeaponObject")
-	//	{
-	//		nearbyObjects.Remove(other.gameObject);
-	//	}
-	//	else if (other.gameObject.tag == "Player")
-	//	{
-	//		nearbyPlayers.Remove(other.gameObject);
-	//	}
-	//}
-
-
-
-	////Heal
-	//public bool StartHeal()
-	//{
-	//	if (GetComponent<Attributes>().Health < GetComponent<Attributes>().StartHealth)
-	//	{
-	//		return true;
-	//	}
-	//	if (nearbyPlayers.Count > 0)
-	//	{
-	//		foreach (GameObject nearbyPlayer in nearbyPlayers)
-	//		{
-	//			if (nearbyPlayer.GetComponentInChildren<Attributes>().Health < GetComponent<Attributes>().StartHealth)
-	//			{
-	//				return true;
-	//			}
-	//		}
-	//	}
-	//	return false;
-	//}
-	//public void PerformHeal()
-	//{
-	//	GameObject playerToHeal = null;
-	//	if (GetComponent<Attributes>().Health < GetComponent<Attributes>().StartHealth)
-	//	{
-	//		playerToHeal = gameObject;
-	//		lowestHealth = GetComponent<Attributes>().Health;
-	//	}
-	//	else
-	//	{
-	//		lowestHealth = GetComponent<Attributes>().StartHealth;
-	//	}
-	//	if (nearbyPlayers.Count > 0)
-	//	{
-	//		foreach (GameObject nearbyPlayer in nearbyPlayers)
-	//		{
-	//			if (nearbyPlayer.GetComponentInChildren<Attributes>().Health < lowestHealth)
-	//			{
-	//				playerToHeal = nearbyPlayer;
-	//				lowestHealth = nearbyPlayer.GetComponentInChildren<Attributes>().Health;
-	//			}
-	//		}
-	//	}
-	//	if (playerToHeal != null)
-	//	{
-	//		Debug.Log("Heal player " + playerToHeal.name);
-	//	}
-	//}
-	//public void CancelHeal()
-	//{
-
-	//}
-
 }

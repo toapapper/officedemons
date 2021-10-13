@@ -15,10 +15,12 @@ public interface IPlayerState
     void LockAction();
     void CancelAction();
 	void OnAttack();
+    bool OnStartBombard();
+    bool OnBombard();
     void OnSpecial();
     void OnPickUp(GameObject weapon);
-    void OnStartThrow();
-	void OnThrow();
+    bool OnStartThrow();
+	bool OnThrow();
     void OnRevive(GameObject player);
     void TransitionState(IPlayerState state);
     void OnFixedUpdateState();

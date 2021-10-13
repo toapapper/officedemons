@@ -18,71 +18,9 @@ public class Actions : MonoBehaviour
 		fov = GetComponent<FieldOfView>();
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
-
-	public void PickUp(AbstractWeapon weapon)
-    {
-		//gör något
-    }
-
-	public void Attack(AbstractWeapon abstractWeapon)
-	{
-		//Currently Equipped
-		//weapon = GetComponent<Weapon>();
-		//weapon.damage;
-
-		List<GameObject> targetList = fov.visibleTargets;
-
-		if (abstractWeapon is RangedWeapon)
-		{
-			if(targetList.Count > 0)
-			{
-				GameObject target = targetList[targetList.Count - 1];
-				Attributes targetAttributes = target.GetComponent<Attributes>();
-				targetAttributes.Health -= abstractWeapon.Damage;
-			}
-		}
-		else if (abstractWeapon is MeleeWeapon)
-		{
-			foreach (GameObject target in targetList)
-			{
-				Attributes targetAttributes = target.GetComponent<Attributes>();
-				targetAttributes.Health -= abstractWeapon.Damage;
-			}
-		}
-	}
-
-	public void Hit(Vector3 fromPosition, int damage, int force)
-	{
-		if (fov.visibleTargets.Count > 0)
-		{
-			List<GameObject> targetList = fov.visibleTargets;
-			Vector3 hitForce = (fromPosition - transform.position).normalized * force;
-
-			foreach (GameObject target in targetList)
-			{
-				Debug.Log(target);
-				Attributes targetAttributes = target.GetComponent<Attributes>();
-				targetAttributes.Health -= damage;
-				target.GetComponent<Rigidbody>().AddForce(hitForce, ForceMode.VelocityChange);
-			}
-		}
-		
-
-	}
-
-	public void TakeBulletDamage(int damage, Vector3 bulletHitForce)
-	{
-		attributes.Health -= damage;
-		GetComponent<Rigidbody>().AddForce(bulletHitForce, ForceMode.VelocityChange);
-	}
-
 	public void Die()
 	{
+		GameObject target = this.gameObject;
 		if (this.tag == "Enemy")
 		{
             // Tillfällig
@@ -98,21 +36,20 @@ public class Actions : MonoBehaviour
 
 			GetComponent<PlayerStateController>().Die();
 			if (GameManager.Instance.combatState == CombatState.none)
-				StartCoroutine("DelayedSelfRevive");
+				StartCoroutine(DelayedSelfRevive(target));
 		}
 	}
-	IEnumerator DelayedSelfRevive()
+	IEnumerator DelayedSelfRevive(GameObject target)
     {
 		Debug.Log("DelayedSelfrevive");
 		yield return new WaitForSeconds(1);
 		Debug.Log("DelayedSelfrevive");
-		Revive(gameObject);
+		Revive(target);
 		yield return null;
     }
 
 	public void Revive(GameObject target)
 	{
-		attributes.Health = attributes.StartHealth/2;
 		target.GetComponent<PlayerStateController>().Revive();
 	}
 

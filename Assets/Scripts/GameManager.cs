@@ -87,11 +87,19 @@ public class GameManager : MonoBehaviour
         {
             if (gObject.CompareTag("Player"))
             {
-                if(gObject.GetComponent<CharacterController>().velocity.magnitude > 0)//fixa, det funkar inte. fråga johan hur det funkar med movement
+                //if(gObject.GetComponent<CharacterController>().velocity.magnitude > 0)//fixa, det funkar inte. fråga johan hur det funkar med movement
+                //{
+                //    AllStill = false;
+                //}
+                if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
                 {
                     AllStill = false;
                 }
-            }
+    //            if (gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
+				//{
+				//	AllStill = false;
+				//}
+			}
             else if (gObject.CompareTag("test"))//ENDAST Fï¿½R ATT TESTA
             {
                 if(gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
