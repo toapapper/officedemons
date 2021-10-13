@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+/// <summary>
+/// Author: Tim & Kristian
+/// 
+/// </summary>
 public class GenerateTerrain : MonoBehaviour
 {
     public GameObject groundPrefab;

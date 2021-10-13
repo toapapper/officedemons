@@ -2,18 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// Code by: Kristian & Tim
-/// Evaluates the BSP tree after a set of desirable traits that correlates to a fitness value.
+/// <para>
+/// Evaluates and calculates fitness for different rooms in the level.
+/// </para>
+///  <para>
+///  Author: Tim & Kristian
+/// </para>
 /// </summary>
+
+// Last Edited: 13-10-2021
+
 public class FitnessFunction : MonoBehaviour
 {
-    public float bigRoomMultiplier = 4;
-    BSPTree bsp;
-    GenerateTerrain generateTerrain;
+    float bigRoomMultiplier = 4;
     SpawnItemsFromLibrary itemLibrary;
     List<Node> lbNodes;
     [SerializeField]
-    int encounterFreq = 3;
+    int encounterFreq = 7;
     int roomCounter = 1;
     Node lbRoot;
     int lbWidth;
@@ -24,19 +29,23 @@ public class FitnessFunction : MonoBehaviour
 
     private void Start()
     {
-        bsp = GetComponent<BSPTree>();
-        generateTerrain = GetComponent<GenerateTerrain>();
         itemLibrary = GetComponent<SpawnItemsFromLibrary>();
         lbNodes = new List<Node>();
     }
-
+    /// <summary>
+    /// Determines a fitness value for different room variants. And sends those values to EvaluateFitness
+    /// </summary>
+    /// <param name="nodes"> A list of segments for each room</param>
+    /// <param name="root">The root node represents the floor in which the rest of the objects are tied</param>
+    /// <param name="foundSuitableObstacle">A bool that returns whether or not the fitness value was achieved</param>
+    /// <param name="heightLimit"></param>
+    /// <returns></returns>
     public bool FitnessFuntion(List<Node> nodes, Node root, bool foundSuitableObstacle, int heightLimit)
     {
-        //Every third room created is an encounter room.
         if (roomCounter % encounterFreq == 0)
         {
             Debug.Log("==== Encounter Room ====");
-            return foundSuitableObstacle = EvaluateFitness(nodes, /*TODO :  Placeholder*/ 32, root, heightLimit);
+            return foundSuitableObstacle = EvaluateFitness(nodes, /*TODO :  Placeholder*/ 3, root, heightLimit);
         }
         else
         {
@@ -44,7 +53,14 @@ public class FitnessFunction : MonoBehaviour
             return foundSuitableObstacle = EvaluateFitness(nodes, /*TODO :  Placeholder*/ 50, root, heightLimit);
         }
     }
-
+    /// <summary>
+    /// Executes different calculations depending on the room variant.
+    /// </summary>
+    /// <param name="nodes"> A list of segments for each room</param>
+    /// <param name="desiredFitness">The desired value of the fitness function</param>
+    /// <param name="root">The root node represents the floor in which the rest of the objects are tied</param>
+    /// <param name="heightLimit"></param>
+    /// <returns></returns>
     public bool EvaluateFitness(List<Node> nodes, int desiredFitness, Node root, int heightLimit)
     {
         int fitnessValue = 0;
@@ -52,7 +68,7 @@ public class FitnessFunction : MonoBehaviour
         for (int i = 0; i < nodes.Count; i++)
         {
             //Evaluate fitness.
-            if(desiredFitness == 32)
+            if(desiredFitness == 3)
             {
                 //Give point to traits that are desirable for this room-type
                 //Encounter rooms should be...
@@ -71,10 +87,10 @@ public class FitnessFunction : MonoBehaviour
                 }
                 Debug.Log("fitness after check = " + fitnessValue);
 
-                //if (obstacles > 6)
-                //{
-                //    fitnessValue -= 400;
-                //}
+                if (obstacles > 6)
+                {
+                    fitnessValue -= 400;
+                }
             }
         }
 
@@ -112,7 +128,13 @@ public class FitnessFunction : MonoBehaviour
         }
         return false;
     }
-
+    /// <summary>
+    /// Gives fitness values to desired traits for a "roaming room" outside of combat.
+    /// </summary>
+    /// <param name="node"> A list of segments for each room</param>
+    /// <param name="root">The root node represents the floor in which the rest of the objects are tied</param>
+    /// <param name="fitness">The desired fitness value</param>
+    /// <returns></returns>
     public int StandardFitness(Node node, Node root, int fitness)
     {
         if (node.size.x * node.size.y < root.size.x * root.size.y / 200)
@@ -129,22 +151,42 @@ public class FitnessFunction : MonoBehaviour
         return fitness;
     }
 
+    /// <summary>
+    /// Gives fitness values to desired traits for a "encounter room".
+    /// </summary>
+    /// <param name="node"> A list of segments for each room</param>
+    /// <param name="root">The root node represents the floor in which the rest of the objects are tied</param>
+    /// <param name="fitness">The fitness value</param>
+    /// <returns></returns>
     public int EncounterFitness(Node node, Node root, int fitness)
     {
-        if (node.size.x < root.size.x / 4)
-            fitness--;
+        //Checks if the nodes are not to small
+        if (node.size.x <= root.size.x / 6 && node.size.y <= root.size.y / 6)
+        {
+            return fitness--;
+        }
         else
+        {
             fitness++;
+        }
 
-        if (node.size.y < root.size.y / 4)
-            fitness--;
-        else
-            fitness++;
+        //Additional values.
+        
 
         fitness = TooCloseCheck(node, 20, root, fitness, 1);
         Debug.Log("Encounter Fitness : " + fitness);
         return fitness;
     }
+
+    /// <summary>
+    /// Checks whether or not objects are too close to an entrance or exit.
+    /// </summary>
+    /// <param name="node"> A list of segments for each room</param>
+    /// <param name="distanceMultiplier"></param>
+    /// <param name="root">The root node represents the floor in which the rest of the objects are tied</param>
+    /// <param name="fitness">The fitness value</param>
+    /// <param name="penalty">A penalty value that will lower the fitness</param>
+    /// <returns></returns>
     private int TooCloseCheck(Node node, float distanceMultiplier, Node root, int fitness, int penalty)
     {
         if (Mathf.Abs(node.origin.x - root.origin.x) < root.size.x / distanceMultiplier)
@@ -158,7 +200,9 @@ public class FitnessFunction : MonoBehaviour
 
         return fitness;
     }
-
+    /// <summary>
+    /// If no desired fitness is found after the designated tries, the best one that was found is used.
+    /// </summary>
     public void UseBestVariant()
     {
         for (int i = 0; i < lbNodes.Count; i++)
@@ -176,7 +220,9 @@ public class FitnessFunction : MonoBehaviour
         ResetLastFitness();
         Debug.Log("Last resort was used");
     }
-
+    /// <summary>
+    /// Resets the last best fitness for future use.
+    /// </summary>
     public void ResetLastFitness()
     {
         lbFitness = 0;
@@ -195,13 +241,21 @@ public class FitnessFunction : MonoBehaviour
         y = Random.Range(bufferY, node.size.y - bufferY);
 
     }
-
+    /// <summary>
+    /// Gives new room size value to the next room if it is an encounter room.
+    /// </summary>
+    /// <param name="widthLimits"></param>
+    /// <param name="heightLimits"></param>
+    /// <param name="size"></param>
+    /// <param name="generations">A value that can change the amount of generations of perticular rooms</param>
+    /// <returns></returns>
     public Vector2 NextRoomFitness(Vector2 widthLimits, Vector2 heightLimits, Vector2 size, int generations)
     {
         size.x = Random.Range((int)widthLimits.x, (int)widthLimits.y);
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
         if (roomCounter % encounterFreq == 0)
         {
+            generations = 4;
             size.x *= bigRoomMultiplier;
             size.y *= bigRoomMultiplier;
         }

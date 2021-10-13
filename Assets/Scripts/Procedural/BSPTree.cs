@@ -44,7 +44,6 @@ public class BSPTree : MonoBehaviour
         }
     }
 
-
     public void MakeBSP()
     {
         missfallMultiplier = 0;
@@ -65,7 +64,7 @@ public class BSPTree : MonoBehaviour
 
         SearchObstaclesFitness(bspRemakeTries);
 
-        size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits, size);
+        size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits, size,generations);
 
         lastDirection = nextDirection;
         GO();
@@ -202,7 +201,7 @@ public class BSPTree : MonoBehaviour
     /// 0 = foward
     /// 1 = up
     /// </summary>
-    /// <returns></returns>
+    /// <returns>a random integer between 0 & 6</returns>
     private int GetDirection()
     {
         int d = Random.Range(0, 6);
