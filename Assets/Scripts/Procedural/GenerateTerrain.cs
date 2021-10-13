@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 /// <summary>
-/// Author: Tim & Kristian
+/// Author: Tim
 /// 
 /// </summary>
 public class GenerateTerrain : MonoBehaviour
@@ -131,19 +131,4 @@ public class GenerateTerrain : MonoBehaviour
             }
         }
     }
-
-    //public void GenerateObstacles(Node node, Node root, float heightLimit)
-    //{
-    //    float x, y;
-    //    BufferMaker(out x, out y, node);
-
-    //    yvalue = (int)heightLimit / 20;
-    //    GameObject cube = Instantiate(cubePrefab, new Vector3(node.position.x, yvalue, node.position.y), Quaternion.identity);
-    //    cube.transform.localScale = new Vector3(x, yvalue * 2, y);
-    //    node.gameObject = cube;
-    //    cube.transform.parent = root.gameObject.transform;
-    //    cube.isStatic = true;
-    //    cubes.Add(cube);
-    //    transformMesh.GetTexture(cube);
-    //}
 }

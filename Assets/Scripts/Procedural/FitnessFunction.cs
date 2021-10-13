@@ -26,7 +26,6 @@ public class FitnessFunction : MonoBehaviour
     int lbHeightLimit;
     int lbFitness;
 
-
     private void Start()
     {
         itemLibrary = GetComponent<SpawnItemsFromLibrary>();
@@ -131,7 +130,7 @@ public class FitnessFunction : MonoBehaviour
     /// <summary>
     /// Gives fitness values to desired traits for a "roaming room" outside of combat.
     /// </summary>
-    /// <param name="node"> A list of segments for each room</param>
+    /// <param name="node">A segment of the room</param>
     /// <param name="root">The root node represents the floor in which the rest of the objects are tied</param>
     /// <param name="fitness">The desired fitness value</param>
     /// <returns></returns>
@@ -154,7 +153,7 @@ public class FitnessFunction : MonoBehaviour
     /// <summary>
     /// Gives fitness values to desired traits for a "encounter room".
     /// </summary>
-    /// <param name="node"> A list of segments for each room</param>
+    /// <param name="node">A segment of the room</param>
     /// <param name="root">The root node represents the floor in which the rest of the objects are tied</param>
     /// <param name="fitness">The fitness value</param>
     /// <returns></returns>
@@ -181,7 +180,7 @@ public class FitnessFunction : MonoBehaviour
     /// <summary>
     /// Checks whether or not objects are too close to an entrance or exit.
     /// </summary>
-    /// <param name="node"> A list of segments for each room</param>
+    /// <param name="node">A segment of the room</param>
     /// <param name="distanceMultiplier"></param>
     /// <param name="root">The root node represents the floor in which the rest of the objects are tied</param>
     /// <param name="fitness">The fitness value</param>
@@ -221,7 +220,7 @@ public class FitnessFunction : MonoBehaviour
         Debug.Log("Last resort was used");
     }
     /// <summary>
-    /// Resets the last best fitness for future use.
+    /// Resets to zero the last best fitness for future use.
     /// </summary>
     public void ResetLastFitness()
     {
@@ -232,7 +231,12 @@ public class FitnessFunction : MonoBehaviour
         lbHeight = 0;
         lbHeightLimit = 0;
     }
-
+    /// <summary>
+    /// Creates a buffer for node
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="node"></param>
     private void BufferMaker(out float x, out float y, Node node)
     {
         float bufferX = node.size.x / 16;

@@ -91,23 +91,9 @@ public class BSPTree : MonoBehaviour
             }
         }
         if (!foundSuitableObstacles)
+        {
             fitnessFunction.UseBestVariant();
-        //while(foundSuitableObstacles == false)
-        //{
-        //    BSP(root);
-        //    if (!fitnessFunction.FitnessFuntion(nodes, root, foundSuitableObstacles, (int)heightLimits.y))
-        //    {
-        //        totalAmountOfTries++;
-        //        nodes = new List<Node>();
-        //        root.children = new Node[2];
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("Total amount of tries: " + totalAmountOfTries);
-        //        foundSuitableObstacles = true;
-        //        break;
-        //    }
-        //}
+        }
     }
 
     public void BSP(Node node)

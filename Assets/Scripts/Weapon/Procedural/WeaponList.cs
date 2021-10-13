@@ -1,7 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/// <summary>
+/// <para>
+/// Creates a list of Weapons and their status modifiers
+/// </para>
+///  <para>
+///  Author: Tim & Kristian
+/// </para>
+/// </summary>
 
+// Last Edited: 13-10-2021
 public class WeaponList : MonoBehaviour
 {
     public static List<string> weaponNames = new List<string> { "Stunning", "Long", "Heavy", "Light", "Dull", "Sharp", "Frail", "Toxic", "Durable", "Short" };
@@ -9,7 +18,7 @@ public class WeaponList : MonoBehaviour
     public static Dictionary<string, List<string>> weaponDictionary;
 
     /// <summary>
-    /// Order:
+    /// The order of attributes in each weapon:
     /// Damage
     /// Durability
     /// Range
@@ -34,7 +43,9 @@ public class WeaponList : MonoBehaviour
         weaponDictionary = new Dictionary<string, List<string>>();
         PopulateDictionary();
     }
-
+    /// <summary>
+    /// Populates the Dictinary with weapons with unique attributes.
+    /// </summary>
     void PopulateDictionary()
     {
         int indexCount = 0;

@@ -2,10 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+/// <summary>
+/// <para>
+/// Creates weapons from the attributes set in WeaponList.
+/// </para>
+///  <para>
+///  Author: Tim & Kristian
+/// </para>
+/// </summary>
 
+// Last Edited: 13-10-2021
 public class CreateWeapon : MonoBehaviour
 {  
-    // Start is called before the first frame update
     void Start()
     {
         int rnd = UnityEngine.Random.Range(0, 3);
@@ -13,7 +21,10 @@ public class CreateWeapon : MonoBehaviour
         GetStats(name);
         Destroy(this);
     }
-
+    /// <summary>
+    /// Gets the stats from the randomly generated name in the WeaponList
+    /// </summary>
+    /// <param name="name">The randomly generated name from a list of named attributes</param>
     void GetStats(string name)
     {
         List<string> stats;
@@ -25,8 +36,6 @@ public class CreateWeapon : MonoBehaviour
             // Weight GetComponent<AbstractWeapon>().Damage = Int32.Parse(stats[0]);
 
             this.gameObject.name = (name + " " + this.gameObject.name + " " + stats[4]);
-
-        }
-            
+        }            
     }
 }
