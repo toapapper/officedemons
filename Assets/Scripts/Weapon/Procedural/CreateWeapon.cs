@@ -35,7 +35,7 @@ public class CreateWeapon : MonoBehaviour
             GetComponent<AbstractWeapon>().ViewDistance = Int32.Parse(stats[2]);
             // Weight GetComponent<AbstractWeapon>().Damage = Int32.Parse(stats[0]);
 
-            this.gameObject.name = (name + " " + this.gameObject.name + " " + stats[4]);
+            transform.parent.name = (stats[4] + " " + name + " " + this.gameObject.name);
         }            
     }
 }
