@@ -3,9 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// Handles states for AI agent
-// Written by: Tinea & Tim
 
+/// <summary>
+/// <para>
+/// Agent handles what state to set depending on environment and status.
+/// </para>
+///   /// <para>
+/// What class(Behaviour) the agent has changes how it makes decisions
+/// </para>
+///  <para>
+///  Author: Tinea & Tim
+///  
+/// </para>
+///  
+/// </summary>
+/// 
+
+// Last Edited: 13/10/2021
 public class AIStateHandler : MonoBehaviour
 {
     Encounter encounter;
@@ -26,7 +40,14 @@ public class AIStateHandler : MonoBehaviour
         fov = GetComponent<FieldOfView>(); //weapon's fov
         aiController = GetComponent<AIController>();
     }
-
+    /// <summary>
+    /// Depending on what class it makes decisions differently 
+    /// <param name="currentClass">
+    /// Aggresive: Always moves towards target and tries to hit them no matter what <br/>
+    /// Defensive: If the agent does not reach the nearest target then it will wait  <br/>
+    /// Healer: Indented to heal if neccessary
+    /// </param>
+    /// </summary>
     public void GetState(Class currentClass)
     {
         switch (currentClass)
@@ -44,74 +65,87 @@ public class AIStateHandler : MonoBehaviour
                 break;
         }
     }
-
+    /// <summary>
+    /// How the Aggresive class get it's state
+    /// </summary>
     private void AggresiveClassUpdate()
     {
-        //GameObject weapon = rightHand.transform.GetChild(0).gameObject;
+        //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
             GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, aiController.Priorites);
             Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             //Turn towards nearest player
         }
+        //DeathCheck
         if(aiController.CurrentState != AIStates.States.Dead)
         {
-            if (fov.visibleTargets.Count > 0) // <- om target finns i line of sight för vapnet
+            if (fov.visibleTargets.Count > 0) // <- If one or more targets is within fov range
             {
-                //Debug.Log("TARGET FOUND");
+                //If there is then they are in our attack range so we attack
                 aiController.CurrentState = AIStates.States.Attack;
             }
+            //No target within range
             else
             {
+                //If we have stamina move(Later on will move towards target but for now only sets the next action to move)
                 if (attributes.Stamina > 0)
                 {
-                    aiController.CurrentState = AIStates.States.Move; // rör sig mot target tills man target finns i line of sight    // kanske ta hänsyn till sin stamina och då ta  ett annat beslut?
+                    aiController.CurrentState = AIStates.States.Move;
                 }
+                //No stamina wait
                 else
                 {
-                    //Debug.Log("Stamina depleted");
                     aiController.CurrentState = AIStates.States.Wait;
                 }
             }
         }
     }
-
+    /// <summary>
+    /// How the Defensive class get it's state
+    /// </summary>
     private void DefensiveClassUpdate()
     {
+        //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
             GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, aiController.Priorites);
             Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             //Turn towards nearest player
         }
+        //If we have low health and still alive then we go to LowHealthBehaviour instead to get our state
         if (HealthLow() && aiController.CurrentState != AIStates.States.Dead)
         {
             LowHealthBehaviour();
         }
         else
         {
-            if (fov.visibleTargets.Count > 0) // <- om target finns i line of sight för vapnet
+            if (fov.visibleTargets.Count > 0) // <- If one or more targets is within fov range
             {
-                //Debug.Log("TARGET FOUND");
+                //If there is then they are in our attack range so we attack
                 aiController.CurrentState = AIStates.States.Attack;
             }
+            //No target within range
             else
             {
+                //Checks if we have stamina and if the nearest target is reachable if not continue
                 if (attributes.Stamina > 0 && aiController.FindClosestAndCheckIfReachable())
                 {
                     aiController.CurrentState = AIStates.States.Move;
                 }
                 else
                 {
-                    //Debug.Log("Stamina depleted");
+                    //Either no stamina or no player is reachable
                     //Defensive unit won't move unless he thinks he can reach the closest player
-                    Debug.LogError("NO PLAYER REACHABLE");
+                    //We wait
                     aiController.CurrentState = AIStates.States.Wait;
                 }
             }
         }
     }
-
+    /// <summary>
+    /// How the Healer class get it's state
+    /// </summary>
     private void HealerClassUpdate()
     {
         //Implement this
@@ -134,6 +168,11 @@ public class AIStateHandler : MonoBehaviour
         //}
     }
 
+
+    /// <summary>
+    /// Maybe will keep these because we might have so that ranged weapons can shoot over some obstacles
+    /// </summary>
+    /// <returns></returns>
         //REMOVE?
     bool HoldingRangedWeapon()
     {
@@ -154,6 +193,18 @@ public class AIStateHandler : MonoBehaviour
         return false;
     }
 
+
+    /// <summary>
+    /// <param>
+    /// Checks if the agent has low health.
+    /// </param>
+    /// <param>
+    /// If there is a healer nearby then call for one else try to find cover 
+    /// </param>
+    /// <para>
+    /// If no healer nor viable cover then just stand still and wait
+    /// </para>
+    /// </summary>
     void LowHealthBehaviour()
     {
         if(HealerIsClose())
@@ -170,16 +221,26 @@ public class AIStateHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Return true if on low health
+    /// </summary>
+    /// <returns></returns>
     bool HealthLow()
     {
         return attributes.Health <= attributes.StartHealth / 3; // A THIRD OF MAX HEALTH - CHANGE ?
     }
-
+    /// <summary>
+    /// Returns true if there is a healer nearby
+    /// </summary>
+    /// <returns></returns>
     bool HealerIsClose() //IMPLEMENTERA SEN
     {
         return false;
     }
-
+    /// <summary>
+    /// Returns ture if viable cover nearby
+    /// </summary>
+    /// <returns></returns>
     bool CoverNear() //IMPLEMENTERA SEN
     {
         return false;
