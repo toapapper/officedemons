@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
@@ -171,9 +172,8 @@ public class CombatTurnState : AbstractPlayerState
 			{
 				playerMovement.PerformMovement();
 
-				//lite s� att den drainar stamina beroend p� hur snabbt du g�r, kanske k�nns lite b�ttre eller s� g�r det ingen skillnad.
 				if (GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
-					attributes.Stamina -= Time.deltaTime * GetComponent<Rigidbody>().velocity.magnitude/GetComponent<PlayerMovementController>().getMoveSpeed;
+					attributes.Stamina -= Time.deltaTime;
 			}
 		}
 		////Movement
