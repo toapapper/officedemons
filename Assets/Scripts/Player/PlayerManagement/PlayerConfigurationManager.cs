@@ -65,10 +65,10 @@ public class PlayerConfigurationManager : MonoBehaviour
 
 		if(SceneManager.GetActiveScene().name != "PlayerSelection" && newPlayerConfig != null)
         {
-			if(PlayerManager.instance.joinAnyTime)
+			if(PlayerManager.Instance.JoinAnyTime)
 			{
 				Debug.Log("Spawning new player");
-				PlayerManager.instance.SpawnNewPlayer(newPlayerConfig);
+				PlayerManager.Instance.SpawnNewPlayer(newPlayerConfig);
 			}
         }
 	}

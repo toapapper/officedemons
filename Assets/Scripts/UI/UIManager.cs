@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
         #region fulInitialize här eftersom det typ alltid blir fel annars
         if (!playerCardsInitialized)
         {
-            Debug.Log("Initialize player cards " + PlayerManager.instance.localPlayerList.Count);
+            Debug.Log("Initialize player cards " + PlayerManager.players.Count);
             //för varje spelare som finns, enablea ett playercard och mata in rätt spelare där.
             for (int i = 0; i < PlayerManager.players.Count; i++)
             {
@@ -64,25 +64,25 @@ public class UIManager : MonoBehaviour
 
         //includes the displaying of enemys_turn_card
         #region TimerUpdates
-        if (GameManager.Instance.combatState == CombatState.none)
+        if (GameManager.Instance.CurrentCombatState == CombatState.none)
         {
             timer.SetActive(false);
             enemys_turn_card.SetActive(false);
         }
-        else if (GameManager.Instance.combatState == CombatState.player)
+        else if (GameManager.Instance.CurrentCombatState == CombatState.player)
         {
             timer.SetActive(true);
             enemys_turn_card.SetActive(false);
-            timerText.text = ("" + Mathf.Max(Mathf.Floor(GameManager.Instance.roundTimer),0));
+            timerText.text = ("" + Mathf.Max(Mathf.Floor(GameManager.Instance.RoundTimer),0));
 
-            float percent = 1 - GameManager.Instance.roundTimer / GameManager.Instance.RoundTime;
+            float percent = 1 - GameManager.Instance.RoundTimer / GameManager.Instance.RoundTime;
             timerBackgroundWithColorImage.color = OssianUtils.MultiColorLerp(timerColors, percent);
 
             //float segmentedPercent = (Mathf.Floor(percent * 12) / 12) + 1;
             timerBackgroundWithColorImage.fillAmount = percent;
             timer_indicator.transform.rotation = Quaternion.Euler(0, 0, 360 * (1 - percent));
         }
-        else if(GameManager.Instance.combatState == CombatState.enemy)
+        else if(GameManager.Instance.CurrentCombatState == CombatState.enemy)
         {
             enemys_turn_card.SetActive(true);
             timer.SetActive(false);

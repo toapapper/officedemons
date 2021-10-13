@@ -119,7 +119,7 @@ public class CombatTurnState : AbstractPlayerState
 		}
 		IsActionLocked = true;
 		Debug.Log("Chosenaction: " + ChosenAction);
-		PlayerManager.instance.ActionDone(gameObject);
+		PlayerManager.Instance.ActionDone(gameObject);
 	}
 
 	//Cancel action
@@ -202,7 +202,7 @@ public class CombatTurnState : AbstractPlayerState
 
 		if (IsActionTriggered && !IsActionLocked)
         {
-			PlayerManager.instance.ActionDone(gameObject);
+			PlayerManager.Instance.ActionDone(gameObject);
 		}
 
         IsActionLocked = false;

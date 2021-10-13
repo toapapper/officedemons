@@ -35,44 +35,45 @@ public class GameManager : MonoBehaviour
     /// <summary> static current instance of GameManager </summary>
     public static GameManager Instance { get; private set; }
 
-    //nï¿½n static om vilka karaktï¿½rer spelare har och timer-settings, sï¿½ de kan laddas i bï¿½rjan av spelet(?)
-    //Kanske ska sparas i en helt separat static-klass som kollas vid start av scen, mï¿½jligtvis hanterar denna klassen det.
-    public CombatState combatState { get; private set; } = CombatState.none;
-    public bool paused { get; private set; } = false;
-    public float roundTimer { get; private set; } = 0;
-    public Encounter currentEncounter { get; private set; }
-    public bool enemiesTurnDone = false;
-    public bool playerActionsDone = false;
-    public bool enemiesActionsDone = false;
+    [Header("Settings")]
+    [SerializeField] private int roundTime = 10;//seconds
 
-    public List<GameObject> stillCheckList = new List<GameObject>();
+    private CombatState combatState = CombatState.none;
+    private bool paused = false;
+    private float roundTimer = 0;
 
-    [SerializeField]
+    private bool enemiesTurnDone = false;
+    private bool playerActionsDone = false;
+    private bool enemiesActionsDone = false;
     private bool allStill = false;
-    public bool AllStill
+
+    private Encounter currentEncounter;
+    private AIManager aiManager;
+    private List<GameObject> stillCheckList = new List<GameObject>();
+
+    public CombatState CurrentCombatState { get { return combatState; } }
+    public bool Paused { get { return paused; } }
+    public float RoundTimer { get { return roundTimer; } }
+    public Encounter CurrentEncounter { get { return currentEncounter; } }
+    public bool EnemiesTurnDone { set { enemiesTurnDone = value; } }
+    public bool PlayerActionsDone { set { playerActionsDone = value; } }
+    public bool EnemiesActionsDone { set { enemiesActionsDone = value; } }
+    public List<GameObject> StillCheckList { get { return stillCheckList; } }
+    [SerializeField] public bool AllStill
     {
         get { return allStill; }
         set { allStill = value; }
     }
-    [Header("Settings")]
-    public int RoundTime = 10;//seconds
+    public int RoundTime { get { return roundTime; } }
 
 
-    public PlayerManager playerManager { get; private set; }
 
-    /// <summary>
-    /// fï¿½r att testa sï¿½ den vï¿½ntar tills allt stï¿½r stilla innan den gï¿½r vidare i rundan
-    /// </summary>
-    public GameObject testCube;
-
-    public AIManager aiManager;
 
 
     // Start is called before the first frame update
     void Awake()
     {
         Instance = this;
-        playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
         roundTimer = RoundTime;
     }
@@ -87,26 +88,11 @@ public class GameManager : MonoBehaviour
         {
             if (gObject.CompareTag("Player"))
             {
-                //if(gObject.GetComponent<CharacterController>().velocity.magnitude > 0)//fixa, det funkar inte. fråga johan hur det funkar med movement
-                //{
-                //    AllStill = false;
-                //}
                 if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
                 {
                     AllStill = false;
                 }
-    //            if (gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
-				//{
-				//	AllStill = false;
-				//}
 			}
-            else if (gObject.CompareTag("test"))//ENDAST Fï¿½R ATT TESTA
-            {
-                if(gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
-                {
-                    AllStill = false;
-                }
-            }
             else if (gObject.CompareTag("Enemy"))
             {
                 if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
@@ -119,33 +105,30 @@ public class GameManager : MonoBehaviour
         #endregion
 
         #region combatState-update
-        if (combatState == CombatState.player)
+        if (CurrentCombatState == CombatState.player)
         {
             roundTimer -= Time.deltaTime;
-            if(roundTimer <= 0)
+            if(RoundTimer <= 0)
             {
                 Debug.Log("PLAYER MOVE DONE");
                 playerActionsDone = false;
                 combatState = CombatState.playerActions;
 
-                if(testCube != null)//TEST
-                    testCube.GetComponent<Rigidbody>().AddForce(testCube.transform.up * 1000);
-
-                playerManager.EndTurn();
+                PlayerManager.Instance.EndTurn();
             }
         }
-        else if(combatState == CombatState.playerActions)
+        else if(CurrentCombatState == CombatState.playerActions)
         {
             if (playerActionsDone)
             {
                 Debug.Log("PLAYER ACTIONS DONE");
                 combatState = CombatState.enemy;
-                enemiesTurnDone = false;
+                EnemiesTurnDone = false;
 
                 aiManager.BeginTurn();
             }
         }
-        else if(combatState == CombatState.enemy)
+        else if(CurrentCombatState == CombatState.enemy)
         {
             if (!enemiesTurnDone)
                 aiManager.PerformTurn();
@@ -154,48 +137,60 @@ public class GameManager : MonoBehaviour
             if (enemiesTurnDone)
             {
                 Debug.Log("ENEMY MOVE DONE");
-                enemiesActionsDone = false;
+                EnemiesActionsDone = false;
                 combatState = CombatState.enemyActions;
                 aiManager.PerformNextAction();
             }
         }
-        else if (combatState == CombatState.enemyActions)
+        else if (CurrentCombatState == CombatState.enemyActions)
         {
             if (enemiesActionsDone)
             {
                 Debug.Log("ENEMY ACTIONS DONE");
                 combatState = CombatState.player;
-                playerManager.BeginTurn();
+                PlayerManager.Instance.BeginTurn();
                 roundTimer = RoundTime;
             }
         }
         #endregion
     }
 
+    /// <summary>
+    /// Start this encounter and begin combat
+    /// </summary>
+    /// <param name="encounter"></param>
     public void StartEncounter(Encounter encounter)
     {
         currentEncounter = encounter;
         aiManager.BeginCombat();
         combatState = CombatState.player;
         roundTimer = RoundTime;
-        playerManager.BeginCombat();
+        PlayerManager.Instance.BeginCombat();
     }
 
+    /// <summary>
+    /// End the current encounter and transition to being out of combat
+    /// </summary>
     public void EndEncounter()
     {
-        currentEncounter.EndEncounter();
+        CurrentEncounter.EndEncounter();
         currentEncounter = null;
         combatState = CombatState.none;
-        playerManager.EndCombat();
-        roundTimer = RoundTime;//fï¿½r snygghetens skull. Kanske bara borde disablea klockan iofs.
+        PlayerManager.Instance.EndCombat();
+        roundTimer = RoundTime;
     }
 
+    /// <summary>
+    /// Signals that its time to end the turn before the timer runs down to zero because all the players have locked in their actions
+    /// </summary>
     public void AllPlayersLockedIn()
     {
         roundTimer = 0;
     }
 
-    //toggles between pause and unpause
+    /// <summary>
+    /// Toggles between pausing and unpausing the game
+    /// </summary>
     public void OnPause()
     {
         if (!paused)
@@ -204,6 +199,9 @@ public class GameManager : MonoBehaviour
             Unpause();
     }
 
+    /// <summary>
+    /// Pauses the game
+    /// </summary>
     public void Pause()
     {
         if (paused)
@@ -215,6 +213,9 @@ public class GameManager : MonoBehaviour
         paused = true;
     }
 
+    /// <summary>
+    /// Unpauses the game
+    /// </summary>
     public void Unpause()
     {
         if (!paused)
@@ -224,10 +225,5 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
 
         paused = false;
-    }
-
-    public List<GameObject> GetPlayers()
-    {
-        return PlayerManager.players;
     }
 }

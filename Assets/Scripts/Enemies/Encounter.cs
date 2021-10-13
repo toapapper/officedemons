@@ -60,7 +60,7 @@ public class Encounter : MonoBehaviour
         else
         {
             Destroy(aIManager.enemies[0]);
-            GameManager.Instance.enemiesTurnDone = true;
+            GameManager.Instance.EnemiesTurnDone = true;
             waited = false;
             myTurn = false;
             StopCoroutine("TemporaryDoneSignal");
@@ -77,7 +77,7 @@ public class Encounter : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("collision enter " + other.CompareTag("Player"));
-        if (other.gameObject.CompareTag("Player") && GameManager.Instance.combatState == CombatState.none)
+        if (other.gameObject.CompareTag("Player") && GameManager.Instance.CurrentCombatState == CombatState.none)
         {
             GameManager.Instance.StartEncounter(this);
         }

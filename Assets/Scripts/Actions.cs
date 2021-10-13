@@ -35,7 +35,7 @@ public class Actions : MonoBehaviour
 			// bool targetIsDead so it's not targetet and attacked again while dead
 
 			GetComponent<PlayerStateController>().Die();
-			if (GameManager.Instance.combatState == CombatState.none)
+			if (GameManager.Instance.CurrentCombatState == CombatState.none)
 				StartCoroutine(DelayedSelfRevive(target));
 		}
 	}

@@ -22,8 +22,8 @@ public class AIManager : MonoBehaviour
 
     public void BeginCombat()
     {
-        enemies = GameManager.Instance.currentEncounter.GetEnemylist();
-        GameManager.Instance.stillCheckList.AddRange(enemies);
+        enemies = GameManager.Instance.CurrentEncounter.GetEnemylist();
+        GameManager.Instance.StillCheckList.AddRange(enemies);
     }
 
     public void BeginTurn() //kanske lägga till mer? annars kanske ta bort metoden
@@ -80,7 +80,7 @@ public class AIManager : MonoBehaviour
             allDone = false;
 
         if (allDone)
-            GameManager.Instance.enemiesTurnDone = true;
+            GameManager.Instance.EnemiesTurnDone = true;
 
         if (allDead)
             GameManager.Instance.EndEncounter();
@@ -96,7 +96,7 @@ public class AIManager : MonoBehaviour
         }
         else
         {
-            GameManager.Instance.enemiesActionsDone = true;
+            GameManager.Instance.EnemiesActionsDone = true;
         }
     }
     IEnumerator WaitDone()
