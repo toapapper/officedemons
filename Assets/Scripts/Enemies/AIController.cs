@@ -3,29 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// Decisions are made and the corresponding action is called
+/// <summary>
+/// <para>
+/// Controls the AI-agent
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Tinea Larsson, Tim Wennerberg
+///  
+/// </para>
+///  
+/// </summary>
+
+// Last Edited: 2021-10-14
 
 public class AIController : MonoBehaviour
 {
-    FieldOfView fov;
-    Actions actions;
-    NavMeshAgent agent;
-    AIManager aiManager;
-    GameObject closestPlayer;
-    WeaponHand weapon;
-
+    private FieldOfView fov;
+    private Actions actions;
+    private NavMeshAgent navMeshAgent;
+    private AIManager aiManager;
+    private GameObject closestPlayer;
+    private WeaponHand weaponHand;
 
     [SerializeField]
     private Animator animator;
     private AIStateHandler aiStateHandler;
 
-    AIStates.States currentState;
-
-    public AIStates.States CurrentState
-    {
-        get { return currentState; }
-        set { currentState = value; }
-    }
+    private AIStates.States currentState;
+    public AIStates.States CurrentState { get; set; }
 
     public bool LockedAction()
     {
@@ -36,40 +43,40 @@ public class AIController : MonoBehaviour
         return false;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         fov = GetComponent<FieldOfView>();
 		actions = GetComponent<Actions>();
-		agent = GetComponent<NavMeshAgent>();
+		navMeshAgent = GetComponent<NavMeshAgent>();
         CurrentState = AIStates.States.Unassigned;
         aiStateHandler = GetComponent<AIStateHandler>();
         aiManager = transform.parent.GetComponentInChildren<AIManager>();
-        weapon = GetComponent<WeaponHand>();
+        weaponHand = GetComponent<WeaponHand>();
     }
 
-    // peforms the corresponding behaviour to the enemy's current state (Called in AIManager)
+    /// <summary>
+    /// Performs the behaviour corresponding to the current state.
+    /// </summary>
+    /// <param name=""></param>
     public void PerformBehaviour()
     {
-        // Check currentState and call corresponding Action
-
         aiStateHandler.UpdateState();                  
 
-        switch (CurrentState) // FindCover, CallForHealing, Attack, Move, Wait , Unassigned
+        switch (CurrentState) 
         {
             case AIStates.States.FindCover:
-                // Kan inte hända just nu, inte implementerat
+                // TODO: implement this behaviour
                 break;
 
             case AIStates.States.CallForHealing:
-                // Kan inte hända just nu, inte implementerat
+                // TODO: implement this behaviour
                 break;
 
             case AIStates.States.Attack:
                 aiManager.SaveAction(this.gameObject);
-                agent.destination = transform.position;
-                weapon.StartAttack();
-                agent.isStopped = true;
+                navMeshAgent.destination = transform.position;
+                weaponHand.StartAttack();
+                navMeshAgent.isStopped = true;
                 break;
 
             case AIStates.States.Move:
@@ -77,36 +84,39 @@ public class AIController : MonoBehaviour
                 if (closestPlayer == null)
                     currentState = AIStates.States.Wait;
 
-                actions.MoveTowards(agent, closestPlayer);
+                actions.MoveTowards(navMeshAgent, closestPlayer);
                 break;
 
             case AIStates.States.Wait:
                 aiManager.SaveAction(this.gameObject);
-                agent.destination = transform.position;
-                agent.isStopped = true;
+                navMeshAgent.destination = transform.position;
+                navMeshAgent.isStopped = true;
                 break;
-
         }
     }
 
+    /// <summary>
+    /// Calls the method corresponding to the action that was locked in.
+    /// </summary>
+    /// <param name=""></param>
     public void PerformAction()
     {
-        // Utför action för this enemy
-        Debug.Log("ACTION PERFORMED");
-
+        // TODO: Implement Revive
         switch (currentState)
         {
             case AIStates.States.Attack:
-                weapon.Attack();
-                Debug.Log("he attacked");
+                weaponHand.Attack();
                 break;
             default:
                 Debug.Log("default");
                 break;
         }
-        // Ta bort ifrån AIManager.actions (deque)
     }
 
+    /// <summary>
+    /// Calculates what player is the closest to the AI-agent.
+    /// </summary>
+    /// <param name="players"></param>
     public GameObject CalculateClosest(List<GameObject> players)
     {
         NavMeshPath path = new NavMeshPath();
@@ -119,7 +129,7 @@ public class AIController : MonoBehaviour
             {
                 continue;
             }
-            if (NavMesh.CalculatePath(transform.position, players[i].gameObject.transform.position, agent.areaMask, path))
+            if (NavMesh.CalculatePath(transform.position, players[i].gameObject.transform.position, navMeshAgent.areaMask, path))
             {
                 float distance = Vector3.Distance(transform.position, path.corners[0]);
                 for (int j = 1; j < path.corners.Length; j++)
@@ -131,10 +141,8 @@ public class AIController : MonoBehaviour
                 {
                     closestDistance = distance;
                     closestPlayer = players[i];
-                    //Debug.Log("Closest player is " + closestDistance + " m from  " + closestPlayer + " which is the closest player");
                 }
             }
-
         }
         return closestPlayer;
     }

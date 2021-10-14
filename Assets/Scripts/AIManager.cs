@@ -4,56 +4,75 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// <para>
+/// Handles the group behaviour of AI-agents
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Tinea Larsson, Tim Wennerberg
+///  
+/// </para>
+///  
+/// </summary>
+
+// Last Edited: 2021-10-14
+
 public class AIManager : MonoBehaviour
 {
-    public List<GameObject> enemies;
-    public List<GameObject> players;
-    public UnityEvent doneEvent;
+    private List<GameObject> enemyList;
+    public List<GameObject> EnemyList { get; set; }
+
+    private List<GameObject> playerList;
+    private Queue<GameObject> actionQueue;
     public AIManager instance;
-    
-    private Queue<GameObject> actions;
 
     private void Start()
     {
-        actions = new Queue<GameObject>();
-        players = PlayerManager.players;
+        actionQueue = new Queue<GameObject>();
+        playerList = PlayerManager.players;
     }
 
-
+    /// <summary>
+    /// Initializes necessary variables when entering an encounter.
+    /// </summary>
+    /// <param name=""></param>
     public void BeginCombat()
     {
-        enemies = GameManager.Instance.currentEncounter.GetEnemylist();
-        GameManager.Instance.stillCheckList.AddRange(enemies);
+        enemyList = GameManager.Instance.currentEncounter.GetEnemylist();
+        GameManager.Instance.stillCheckList.AddRange(enemyList);
     }
 
-    public void BeginTurn() //kanske lägga till mer? annars kanske ta bort metoden
+    /// <summary>
+    /// Resets variables to prepare for a new turn.
+    /// </summary>
+    /// <param name=""></param>
+    public void BeginTurn() 
     {
-        Debug.Log("Begin turn ENEMY");
-        actions.Clear();
-        foreach (GameObject e in enemies)
+        actionQueue.Clear();
+        foreach (GameObject e in enemyList)
         {
             e.GetComponent<Attributes>().Stamina = e.GetComponent<Attributes>().StartStamina;
             e.GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
         }
-        Debug.Log("KOMMER FÖRBI CLEAR");
-
-
-        // enemiesTurnDone = true när alla låst in sin action
     }
 
+    /// <summary>
+    /// Loops through AI-agents and performs the assigned behaviour. 
+    /// Checks if all agents' actions are locked in, or if all agents are dead, in which case the enemies' turn ends.
+    /// </summary>
+    /// <param name=""></param>
     public void PerformTurn()
     {
         bool allDone = true;
         bool allDead = true;
 
-        foreach (GameObject e in enemies)
+        foreach (GameObject e in enemyList)
         {
-            //Debug.Log("LockedAction(): " + e.GetComponent<AIController>().LockedAction());
             if (!e.GetComponent<AIController>().LockedAction())
             {
-                //e.GetComponent<AIController>().CurrentState = AIStates.States.Wait; // DEBUG
                 e.GetComponent<AIController>().PerformBehaviour();
-                
                 allDone = false;
             }
 
@@ -62,7 +81,6 @@ public class AIManager : MonoBehaviour
                 allDead = false;
             }
         }
-        // enemiesTurnDone = true när alla låst in sin action
         if (!GameManager.Instance.AllStill)
             allDone = false;
 
@@ -73,11 +91,15 @@ public class AIManager : MonoBehaviour
             GameManager.Instance.EndEncounter();
     }
 
+    /// <summary>
+    /// Performs the next action in the queue.
+    /// </summary>
+    /// <param name=""></param>
     public void PerformNextAction()
     {
-        if (actions.Count > 0)
+        if (actionQueue.Count > 0)
         {
-            GameObject agent = actions.Dequeue();
+            GameObject agent = actionQueue.Dequeue();
             agent.GetComponent<AIController>().PerformAction();
             StartCoroutine("WaitDone");
         }
@@ -101,12 +123,13 @@ public class AIManager : MonoBehaviour
         }
     }
 
-
-
+    /// <summary>
+    /// Saves the selected action in the queue.
+    /// </summary>
+    /// <param name="agent"></param>
     public void SaveAction(GameObject agent)
     {
-        Debug.Log("Action is in queue");
-        actions.Enqueue(agent);
+        actionQueue.Enqueue(agent);
     }
   
 }

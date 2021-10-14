@@ -3,14 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// <para>
+/// Contains actions that AI-agents can perform.
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Tinea Larsson, Kristian Svennson, Jonas Lundin
+///  
+/// </para>
+///  
+/// </summary>
+
+// Last Edited: 2021-10-14
+
 public class Actions : MonoBehaviour
 {
-	//[SerializeField]
-	Attributes attributes;
-	CharacterController cc;
-	FieldOfView fov;
+	private Attributes attributes;
+	private CharacterController cc;
+	private FieldOfView fov;
 
-    // Start is called before the first frame update
     void Start()
 	{
 		attributes = GetComponent<Attributes>();
@@ -18,23 +31,13 @@ public class Actions : MonoBehaviour
 		fov = GetComponent<FieldOfView>();
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
-
 	public void PickUp(AbstractWeapon weapon)
     {
-		//gör något
+		// TODO: Implement pickup
     }
 
 	public void Attack(AbstractWeapon abstractWeapon)
 	{
-		//Currently Equipped
-		//weapon = GetComponent<Weapon>();
-		//weapon.damage;
-
 		List<GameObject> targetList = fov.visibleTargets;
 
 		if (abstractWeapon is RangedWeapon)
@@ -71,8 +74,6 @@ public class Actions : MonoBehaviour
 				target.GetComponent<Rigidbody>().AddForce(hitForce, ForceMode.VelocityChange);
 			}
 		}
-		
-
 	}
 
 	public void TakeBulletDamage(int damage, Vector3 bulletHitForce)
@@ -85,17 +86,11 @@ public class Actions : MonoBehaviour
 	{
 		if (this.tag == "Enemy")
 		{
-            // Tillfällig
-            Debug.Log("Enemy died");
             GetComponent<MeshRenderer>().material.color = Color.black;
             gameObject.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
         }
 		else if (this.tag == "Player")
 		{
-			//Disable Movement
-			//Play death animation
-			// bool targetIsDead so it's not targetet and attacked again while dead
-
 			GetComponent<PlayerStateController>().Die();
 			if (GameManager.Instance.combatState == CombatState.none)
 				StartCoroutine("DelayedSelfRevive");
@@ -103,9 +98,7 @@ public class Actions : MonoBehaviour
 	}
 	IEnumerator DelayedSelfRevive()
     {
-		Debug.Log("DelayedSelfrevive");
 		yield return new WaitForSeconds(1);
-		Debug.Log("DelayedSelfrevive");
 		Revive(gameObject);
 		yield return null;
     }
@@ -119,7 +112,6 @@ public class Actions : MonoBehaviour
     public void MoveTowards(NavMeshAgent agent, GameObject target)
     {
 		agent.isStopped = false;
-
 		agent.SetDestination(target.transform.position);
         agent.gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
     }
