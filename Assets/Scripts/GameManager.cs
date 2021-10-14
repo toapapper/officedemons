@@ -78,7 +78,8 @@ public class GameManager : MonoBehaviour
         aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
         roundTimer = RoundTime;
 
-        mainCamera = /*GameObject.Find("Main Camera")*/Camera.main.GetComponent<MultipleTargetCamera>();
+        // Add maincamera to gamemanager
+        mainCamera = Camera.main.GetComponent<MultipleTargetCamera>(); 
     }
 
     // Update is called once per frame
@@ -184,12 +185,8 @@ public class GameManager : MonoBehaviour
         roundTimer = RoundTime;
         playerManager.BeginCombat();
 
-        // Add enemies to camera
-        //foreach(GameObject enemy in stillCheckList)
-        //{
-        //    mainCamera.ObjectsInCamera.Add(enemy);
-        //}
-        mainCamera.ObjectsInCamera = stillCheckList;
+        // Add all objects in checklist to maincamera
+        mainCamera.ObjectsInCamera = stillCheckList; 
     }
 
     public void EndEncounter()
