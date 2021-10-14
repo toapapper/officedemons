@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-	int bulletDamage;
-	Vector3 bulletHitForce;
+	protected int bulletDamage;
+	protected Vector3 bulletHitForce;
 	private Bullet bulletObject;
 
 	public void CreateBullet(Vector3 position, Vector3 direction, int bulletFireForce, int bulletHitForce, int bulletDamage)
