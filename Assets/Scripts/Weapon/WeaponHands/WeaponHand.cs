@@ -11,7 +11,6 @@ public class WeaponHand : MonoBehaviour
 	private Animator animator;
 	[SerializeField]
 	private ThrowAim throwAim;
-	private GameObject laserAim;
 
 	[SerializeField]
 	private GameObject handObject;
@@ -29,8 +28,8 @@ public class WeaponHand : MonoBehaviour
 	private float handHitAngle = 100f;
 
 	public AbstractWeapon objectInHand;
-	[SerializeField]
-	private Gradient laserSightGradient;
+
+	private Gradient aimGradient;
 	
 	private float throwForce;
 
@@ -60,8 +59,24 @@ public class WeaponHand : MonoBehaviour
 			FOV.viewRadius = handHitDistance;
 			FOV.viewAngle = handHitAngle;
 		}
-	}
 
+		aimGradient = new Gradient();
+		GradientColorKey[] colorKey = new GradientColorKey[2];
+		colorKey[0].color = GetComponent<Attributes>().PlayerColor;
+		GradientAlphaKey[] alphaKey = new GradientAlphaKey[2];
+		alphaKey[0].alpha = 1;
+		alphaKey[1].time = 1;
+		alphaKey[1].alpha = 0;
+		aimGradient.SetKeys(colorKey, alphaKey);
+
+		if(this.tag == "Player")
+		{
+			throwAim.gameObject.SetActive(true);
+			throwAim.GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
+			throwAim.gameObject.SetActive(false);
+		}
+	}
+		
     public void Equip(GameObject newObject)
 	{
 		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
@@ -70,12 +85,7 @@ public class WeaponHand : MonoBehaviour
 		{
 			collider.enabled = false;
 		}
-
-		//For test
-		//if (objectInHand is RangedWeapon || objectInHand is BombardWeapon)
-		//{
-		//	ToggleAimView(true);
-		//}
+		objectInHand.SetAimGradient(aimGradient);
 
 		FOV.viewAngle = objectInHand.ViewAngle;
 		FOV.viewRadius = objectInHand.ViewDistance;
@@ -158,45 +168,25 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand != null)
 		{
-			//this.throwForce = throwForce;
 			animator.SetTrigger("isThrow");
 			return true;
 		}
 		return false;
 	}
 
-	public void ToggleAim(bool isActive)
+	public void ToggleThrowAim()
 	{
 		if (objectInHand)
 		{
-			objectInHand.ToggleAim(isActive, laserSightGradient);
-		}
-		else
-		{
-			FOVVisualization.SetActive(isActive);
+			//objectInHand.ToggleThrowAim(isActive);
 		}
 	}
 
 	public void ToggleAimView(bool isActive)
 	{
-		if (objectInHand != null)
+		if (objectInHand)
 		{
-			if(objectInHand is RangedWeapon)
-			{
-				objectInHand.ToggleAim(isActive, laserSightGradient);
-			}
-			else if(objectInHand is BombardWeapon)
-			{
-				if (!isActive)
-				{
-					throwAim.GetComponent<LineRenderer>().positionCount = 0;
-				}				
-				throwAim.gameObject.SetActive(isActive);
-				if (isActive)
-				{
-					GetComponentInChildren<LineRenderer>().colorGradient = laserSightGradient;
-				}
-			}
+			objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
 		}
 		else
 		{
@@ -212,13 +202,6 @@ public class WeaponHand : MonoBehaviour
 			foreach(Collider collider in objectInHand.GetComponentsInChildren<Collider>())
 			{
 				collider.enabled = true;
-			}
-			//objectInHand.GetComponentInChildren<Collider>().enabled = true;
-
-			//For test
-			if (objectInHand is RangedWeapon)
-			{
-				objectInHand.ToggleAim(false, laserSightGradient);
 			}
 
 			throwForce = 0;

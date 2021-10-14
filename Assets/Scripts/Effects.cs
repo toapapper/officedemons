@@ -4,9 +4,9 @@ using UnityEngine;
 
 public static class Effects
 {
-    public static void Damage(GameObject target, int damage)
+    public static void Damage(GameObject target, float damage)
 	{
-		target.GetComponent<Attributes>().Health -= damage;
+		target.GetComponent<Attributes>().Health -= (int)damage;
 		
 	}
 	public static void ApplyForce(GameObject target, Vector3 force)

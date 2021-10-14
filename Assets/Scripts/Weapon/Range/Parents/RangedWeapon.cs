@@ -8,11 +8,14 @@ using UnityEngine.AI;
 /// </summary>
 public abstract class RangedWeapon : AbstractWeapon
 {
+	[SerializeField]
 	private GameObject weaponMuzzle;
+	[SerializeField]
 	private GameObject laserAim;
 	[SerializeField]
+	private float bulletFireForce = 20;
+	[SerializeField]
 	private GameObject bullet;
-	private int bulletFireForce;
 
 	protected GameObject WeaponMuzzle
 	{
@@ -24,19 +27,58 @@ public abstract class RangedWeapon : AbstractWeapon
 		get { return laserAim; }
 		set { laserAim = value; }
 	}
-	public int BulletFireForce
+	public float BulletFireForce
 	{
 		get { return bulletFireForce; }
 		set { bulletFireForce = value; }
 	}
 
-	public override void ToggleAim(bool isActive, Gradient laserSightMaterial)
+	//[SerializeField]
+	//private GameObject gunHandle;
+	//[SerializeField]
+	//private int gunDamage = 10;
+	//[SerializeField]
+	//private int gunBulletHitForce = 10;
+	//[SerializeField]
+	//private int gunThrowDamage = 2;
+	//[SerializeField]
+	//private float gunViewDistance = 20f;
+	//[SerializeField]
+	//private float gunViewAngle = 10f;
+
+	//private void Start()
+	//{
+	//	Handle = gunHandle;
+	//	WeaponMuzzle = gunMuzzle;
+	//	LaserAim = gunLaserAim;
+	//	BulletFireForce = gunBulletFireForce;
+	//	Damage = gunDamage;
+	//	HitForce = gunBulletHitForce;
+	//	ThrowDamage = gunThrowDamage;
+	//	ViewDistance = gunViewDistance;
+	//	ViewAngle = gunViewAngle;
+	//}
+
+
+
+
+
+
+
+	//private GameObject weaponMuzzle;
+	//private GameObject laserAim;
+	//private int bulletFireForce;
+
+	public override void SetAimGradient(Gradient gradient)
+	{
+		LaserAim.SetActive(true);
+		GetComponentInChildren<LineRenderer>().colorGradient = gradient;
+		LaserAim.SetActive(false);
+	}
+
+	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
 		LaserAim.SetActive(isActive);
-		if (isActive)
-		{
-			GetComponentInChildren<LineRenderer>().colorGradient = laserSightMaterial;
-		}
 	}
 
 	public override void StartAttack(Animator animator)

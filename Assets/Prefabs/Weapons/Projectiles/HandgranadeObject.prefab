@@ -13,11 +13,11 @@ GameObject:
   - component: {fileID: 6103510018640852287}
   - component: {fileID: 6103510018640852286}
   - component: {fileID: 6103510018640852273}
-  - component: {fileID: 6103510018640852275}
   - component: {fileID: 6103510018640852272}
+  - component: {fileID: 7483816813144081367}
   m_Layer: 0
   m_Name: HandgranadeObject
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,20 +115,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6103510018640852275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6103510018640852274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e34d9c3a129eb7a4e8da491d06855146, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FOVVisualization: {fileID: 61656443389572383}
-  initialExplodeTime: 2
 --- !u!114 &6103510018640852272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +138,20 @@ MonoBehaviour:
   visibleTargets: []
   meshResolution: 1
   viewMeshFilter: {fileID: 6824130062028662099}
+--- !u!114 &7483816813144081367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6103510018640852274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e34d9c3a129eb7a4e8da491d06855146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FOVVisualization: {fileID: 61656443389572383}
+  initialExplodeTime: 2
 --- !u!1001 &6103510019453746539
 PrefabInstance:
   m_ObjectHideFlags: 0

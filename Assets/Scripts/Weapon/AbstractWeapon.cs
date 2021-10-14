@@ -7,34 +7,63 @@ using UnityEngine;
 /// </summary>
 public abstract class AbstractWeapon : MonoBehaviour
 {
+	[SerializeField]
 	private GameObject handle;
-
-	private int damage;
-	private int hitForce;
-	private int throwDamage;
-	private float viewDistance;
-	private float viewAngle;
+	[SerializeField]
+	private float damage;
+	[SerializeField]
+	private float hitForce;
+	[SerializeField]
+	private float throwDamage = 2;
+	[SerializeField]
+	private float viewDistance = 20f;
+	[SerializeField]
+	private float viewAngle = 10f;
 
 	[SerializeField]
 	private bool isHeld;
 	private bool isProjectile;
+
+
+	//private void Start()
+	//{
+	//	Handle = handle;
+	//	//WeaponMuzzle = gunMuzzle;
+	//	//LaserAim = gunLaserAim;
+	//	//BulletFireForce = gunBulletFireForce;
+	//	Damage = damage;
+	//	HitForce = hitForce;
+	//	ThrowDamage = gunThrowDamage;
+	//	ViewDistance = gunViewDistance;
+	//	ViewAngle = gunViewAngle;
+	//}
+
+	//private GameObject handle;
+
+	//private int damage;
+	//private int hitForce;
+	//private int throwDamage;
+	//private float viewDistance;
+	//private float viewAngle;
+
+
 
 	protected GameObject Handle
 	{
 		get { return handle; }
 		set { handle = value; }
 	}
-	public int Damage
+	public float Damage
 	{
 		get { return damage; }
 		set { damage = value; }
 	}
-	public int HitForce
+	public float HitForce
 	{
 		get { return hitForce; }
 		set { hitForce = value; }
 	}
-	protected int ThrowDamage
+	protected float ThrowDamage
 	{
 		get { return throwDamage; }
 		set { throwDamage = value; }
@@ -81,8 +110,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 
 	public virtual void StartAttack(Animator animator) { }
 	public abstract void Attack(Animator animator);
-	public virtual void ToggleAim(bool isActive, Gradient laserSightMaterial) { }
-	//public virtual void ReleaseProjectile() { }
+	public virtual void SetAimGradient(Gradient gradient) { }
+	public virtual void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim) { }
 	public virtual void DoAction(FieldOfView fov) { }
 
 
