@@ -16,7 +16,8 @@ public class StapleBullet : Bullet
     {
         if (collision.gameObject.GetComponentInParent<Actions>() != null)
         {
-            collision.gameObject.GetComponentInParent<Actions>().TakeBulletDamage(bulletDamage, bulletHitForce);
+            Effects.Damage(collision.gameObject, bulletDamage);
+            Effects.ApplyForce(collision.gameObject, bulletHitForce);
         }
         if(collision.gameObject.tag != "StapleBullet" && !hasCollided)
         {
