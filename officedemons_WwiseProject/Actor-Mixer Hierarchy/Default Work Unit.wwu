@@ -5,7 +5,6 @@
 			<ChildrenList>
 				<Sound Name="ding" ID="{45A4529D-CCB3-4C97-A081-532C2864CADE}" ShortID="648165684">
 					<PropertyList>
-						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
 								<Value>8</Value>
@@ -35,6 +34,89 @@
 					<ObjectLists/>
 					<ActiveSourceList>
 						<ActiveSource Name="ding" ID="{0A1157C6-CF59-4972-935D-DEEC820AE35B}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="HOLYGRENADE_reverse" ID="{E1CF3778-235A-4B46-A674-8607A0DD423D}" ShortID="489909956">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-4</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+						</Reference>
+						<Reference Name="Effect0" PluginName="Wwise Flanger" CompanyID="0" PluginID="125" PluginType="3">
+							<ObjectRef Name="Heavy_Metal" ID="{9104321C-9E54-4879-A29A-EF8D46BE9035}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+						</Reference>
+						<Reference Name="Effect1" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+							<ObjectRef Name="Holy" ID="{CC7B8638-C670-4AD5-B3FB-331EA81037F6}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="HOLYGRENADE_reverse" ID="{A88D2CDB-4994-4BF5-9F6D-2495016BAE6A}">
+							<Language>SFX</Language>
+							<AudioFile>HOLYGRENADE_reverse.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="963075403"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ObjectLists/>
+					<ActiveSourceList>
+						<ActiveSource Name="HOLYGRENADE_reverse" ID="{A88D2CDB-4994-4BF5-9F6D-2495016BAE6A}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="HOLYGRENADE" ID="{8D61D636-9350-4FE4-9721-7D5FEB39CEB4}" ShortID="795306288">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-6</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+						</Reference>
+						<Reference Name="Effect0" PluginName="Wwise Flanger" CompanyID="0" PluginID="125" PluginType="3">
+							<ObjectRef Name="Heavy_Metal" ID="{9104321C-9E54-4879-A29A-EF8D46BE9035}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+						</Reference>
+						<Reference Name="Effect1">
+							<Custom>
+								<Effect Name="Wwise Guitar Distortion (Custom)" ID="{75B6B952-C294-430B-9128-E2F5E94DD942}" ShortID="791085548" PluginName="Wwise Guitar Distortion" CompanyID="0" PluginID="126" PluginType="3">
+									<PropertyList>
+										<Property Name="DistortionDrive" Type="Real32" Value="17"/>
+										<Property Name="DistortionTone" Type="Real32" Value="68"/>
+										<Property Name="DistortionType" Type="int32" Value="3"/>
+									</PropertyList>
+								</Effect>
+							</Custom>
+						</Reference>
+						<Reference Name="Effect2" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+							<ObjectRef Name="Holy" ID="{CC7B8638-C670-4AD5-B3FB-331EA81037F6}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="HOLYGRENADE" ID="{81DF0ECA-62B1-4033-B0E7-52A789FD5DD5}">
+							<Language>SFX</Language>
+							<AudioFile>HOLYGRENADE.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="64378487"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ObjectLists/>
+					<ActiveSourceList>
+						<ActiveSource Name="HOLYGRENADE" ID="{81DF0ECA-62B1-4033-B0E7-52A789FD5DD5}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
 			</ChildrenList>

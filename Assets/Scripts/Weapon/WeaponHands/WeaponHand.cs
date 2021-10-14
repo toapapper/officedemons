@@ -40,8 +40,6 @@ public class WeaponHand : MonoBehaviour
 		set { throwAim = value; }
 	}
 
-
-
 	private void Awake()
 	{
 		actions = GetComponent<Actions>();
@@ -72,7 +70,6 @@ public class WeaponHand : MonoBehaviour
 		{
 			collider.enabled = false;
 		}
-		//objectInHand.GetComponentInChildren<Collider>().enabled = false;
 
 		//For test
 		//if (objectInHand is RangedWeapon || objectInHand is BombardWeapon)
@@ -95,6 +92,7 @@ public class WeaponHand : MonoBehaviour
 			animator.SetTrigger("isStartHandAttack");
 		}
 	}
+
 	public void Attack()
 	{
 		if (objectInHand != null)
@@ -104,7 +102,6 @@ public class WeaponHand : MonoBehaviour
 		else
 		{
 			animator.SetTrigger("isHandAttack");
-			Debug.Log("HandHit" + handHitDamage);
 		}
 	}
 	public bool StartBombard()
@@ -129,7 +126,6 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand != null && objectInHand is BombardWeapon)
 		{
-			//throwAim.initialVelocity = bombardForce;
 			objectInHand.Attack(animator);
 			return true;
 		}
@@ -158,7 +154,7 @@ public class WeaponHand : MonoBehaviour
 		}
 		return false;
 	}
-	public bool Throw(/*float throwForce*/)
+	public bool Throw()
 	{
 		if (objectInHand != null)
 		{
@@ -168,6 +164,19 @@ public class WeaponHand : MonoBehaviour
 		}
 		return false;
 	}
+
+	public void ToggleAim(bool isActive)
+	{
+		if (objectInHand)
+		{
+			objectInHand.ToggleAim(isActive, laserSightGradient);
+		}
+		else
+		{
+			FOVVisualization.SetActive(isActive);
+		}
+	}
+
 	public void ToggleAimView(bool isActive)
 	{
 		if (objectInHand != null)
@@ -219,22 +228,19 @@ public class WeaponHand : MonoBehaviour
 		}
 	}
 
-	public void DoDamage()
+	public void DoAction()
 	{
-		if (objectInHand != null)
+		if (objectInHand)
 		{
-			if(objectInHand is RangedWeapon || objectInHand is BombardWeapon)
-			{
-				objectInHand.ReleaseProjectile();
-			}
-			else if(objectInHand is MeleeWeapon)
-			{
-				actions.Hit(objectInHand.transform.position, objectInHand.Damage, objectInHand.HitForce);
-			}
+			objectInHand.DoAction(FOV);
 		}
-		else
+		else if (FOV.visibleTargets.Count > 0)
 		{
-			actions.Hit(handObject.transform.position, handHitDamage, handHitForce);
+			foreach (GameObject target in FOV.visibleTargets)
+			{
+				Effects.Damage(target, handHitDamage);
+				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
+			}
 		}
 	}
 }

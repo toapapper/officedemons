@@ -182,7 +182,7 @@ public class CombatTurnState : AbstractPlayerState
 		//	if (playerMovement.CalculateMovement() != Vector3.zero)
 		//	{
 		//		playerMovement.PerformMovement();
-		//		if(GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
+		//		if (GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
 		//			attributes.Stamina -= Time.deltaTime;
 		//	}
 		//}

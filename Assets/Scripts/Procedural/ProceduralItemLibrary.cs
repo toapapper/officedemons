@@ -1,7 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/// <summary>
+/// <para>
+/// Holds a Dictionary of items that can be spawned in, using a key value.
+/// </para>
+///  <para>
+///  Author: Tim & Kristian
+/// </para>
+/// </summary>
 
+// Last Edited: 13-10-2021
 public class ProceduralItemLibrary : MonoBehaviour
 {
     public static ProceduralItemLibrary Instance { get; private set; }
@@ -23,7 +32,11 @@ public class ProceduralItemLibrary : MonoBehaviour
             itemLibrary.Add(new Vector2(itemList[i].transform.localScale.x, itemList[i].transform.localScale.z), itemList[i]);
         }
     }
-
+    /// <summary>
+    /// Gets an item from the dictinary with the right key value.
+    /// </summary>
+    /// <param name="key">The key value used to search the Dictionary</param>
+    /// <returns></returns>
     public GameObject GetItemFromDictionary(Vector2 key)
     {
         GameObject item;
@@ -33,7 +46,7 @@ public class ProceduralItemLibrary : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Key did not match any items in library");
+            //Debug.LogError("Key did not match any items in library");
             return null;
         }
     }

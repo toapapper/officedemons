@@ -1332,8 +1332,9 @@
 							<ChildrenList>
 								<Effect Name="Holy" ID="{CC7B8638-C670-4AD5-B3FB-331EA81037F6}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
 									<PropertyList>
-										<Property Name="DecayTime" Type="Real32" Value="8"/>
+										<Property Name="DecayTime" Type="Real32" Value="2.1"/>
 										<Property Name="Density" Type="Real32" Value="70"/>
+										<Property Name="DryLevel" Type="Real32" Value="-14.3"/>
 										<Property Name="ERLevel" Type="Real32" Value="-24"/>
 										<Property Name="ERPattern" Type="int32" Value="9"/>
 										<Property Name="Filter1Freq" Type="Real32" Value="490"/>
@@ -1342,11 +1343,11 @@
 										<Property Name="Filter2InsertPos" Type="int32" Value="0"/>
 										<Property Name="Filter3Freq" Type="Real32" Value="11000"/>
 										<Property Name="Filter3Gain" Type="Real32" Value="-4.5"/>
-										<Property Name="HFDamping" Type="Real32" Value="5.7"/>
-										<Property Name="PreDelay" Type="Real32" Value="180"/>
-										<Property Name="Quality" Type="int32" Value="14"/>
+										<Property Name="HFDamping" Type="Real32" Value="2.8"/>
+										<Property Name="PreDelay" Type="Real32" Value="128"/>
+										<Property Name="Quality" Type="int32" Value="16"/>
 										<Property Name="ReverbLevel" Type="Real32" Value="-23"/>
-										<Property Name="RoomSize" Type="Real32" Value="100"/>
+										<Property Name="RoomSize" Type="Real32" Value="9"/>
 										<Property Name="StereoWidth" Type="Real32" Value="172"/>
 									</PropertyList>
 								</Effect>
@@ -1574,11 +1575,13 @@
 								</Effect>
 								<Effect Name="Heavy_Metal" ID="{9104321C-9E54-4879-A29A-EF8D46BE9035}" PluginName="Wwise Flanger" CompanyID="0" PluginID="125" PluginType="3">
 									<PropertyList>
-										<Property Name="DelayTime" Type="Real32" Value="7"/>
-										<Property Name="FeedBackLevel" Type="Real32" Value="0.95"/>
-										<Property Name="ModDepth" Type="Real32" Value="2"/>
-										<Property Name="ModFrequency" Type="Real32" Value="0.25"/>
+										<Property Name="DelayTime" Type="Real32" Value="5.5"/>
+										<Property Name="DryLevel" Type="Real32" Value="0.43"/>
+										<Property Name="FeedBackLevel" Type="Real32" Value="0.75"/>
+										<Property Name="ModDepth" Type="Real32" Value="58.4"/>
+										<Property Name="ModFrequency" Type="Real32" Value="1.31"/>
 										<Property Name="ModPWM" Type="Real32" Value="0"/>
+										<Property Name="WetDryMix" Type="Real32" Value="53"/>
 									</PropertyList>
 								</Effect>
 							</ChildrenList>
