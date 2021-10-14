@@ -35,18 +35,11 @@ public class MultipleTargetCamera : MonoBehaviour
         set { objectsInCamera = value; }
     }
 
-    //public static MultipleTargetCamera instance;
-
     private void Start()
     {
-        //instance = this;
         cam = GetComponent<Camera>();
-        //foreach(GameObject player in PlayerManager.players)
-        //{
-        //    objectsInCamera.Add(player);
-        //}
+
         objectsInCamera = PlayerManager.instance.GetPlayers();
-        //ObjectsInCamera = GameManager.Instance.stillCheckList;
     }
 
     private void LateUpdate()

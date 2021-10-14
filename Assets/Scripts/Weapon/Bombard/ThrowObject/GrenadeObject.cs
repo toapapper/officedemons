@@ -2,12 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// Summary of what the component does 
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Johan Melkersson
+///  
+/// </para>
+///  
+/// </summary>
+
+// Last Edited: 14/10-21
 public class GrenadeObject : MonoBehaviour
 {
 	private GrenadeObject grenadeObject;
 	[SerializeField]
 	private GameObject FOVVisualization;
-	//FieldOfView fov;
 	private float grenadeDamage;
 	private float grenadeExplodeForce;
 	[SerializeField]
@@ -64,8 +77,6 @@ public class GrenadeObject : MonoBehaviour
 
 			Effects.Damage(target, grenadeDamage);
 			Effects.ApplyForce(target, explosionForceDirection * grenadeExplodeForce);
-
-			//target.GetComponent<Actions>().TakeExplosionDamage(grenadeDamage, explosionForceDirection * grenadeExplodeForce);
 		}
 
 		Destroy(gameObject);

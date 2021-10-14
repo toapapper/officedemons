@@ -3,8 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Coded by: Johan Melkersson
+/// <para>
+/// Summary of what the component does 
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Johan Melkersson
+///  
+/// </para>
+///  
 /// </summary>
+
+// Last Edited: 14/10-21
 public class SingleShotWeapon : RangedWeapon
 {
 	public override void Attack(Animator animator)

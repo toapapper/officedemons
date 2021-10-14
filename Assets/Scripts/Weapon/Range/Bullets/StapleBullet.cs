@@ -2,6 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// Summary of what the component does 
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Jonas Lundin
+///  
+/// </para>
+///  
+/// </summary>
+
+// Last Edited: 14/10-21
 public class StapleBullet : Bullet
 {
     private bool hasCollided;
@@ -12,14 +26,15 @@ public class StapleBullet : Bullet
         Destroy(gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected override void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponentInParent<Actions>() != null)
+        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
         {
             Effects.Damage(collision.gameObject, bulletDamage);
             Effects.ApplyForce(collision.gameObject, bulletHitForce);
+            Destroy(gameObject);
         }
-        if(collision.gameObject.tag != "StapleBullet" && !hasCollided)
+        if(collision.gameObject.tag != "Projectile" && !hasCollided)
         {
             hasCollided = true;
             if (Random.value > 0.7)

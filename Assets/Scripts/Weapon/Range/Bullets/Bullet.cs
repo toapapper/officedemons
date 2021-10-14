@@ -2,6 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// Summary of what the component does 
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Johan Melkersson
+///  
+/// </para>
+///  
+/// </summary>
+
+// Last Edited: 14/10-21
 public class Bullet : MonoBehaviour
 {
 	protected float bulletDamage;
@@ -26,17 +40,14 @@ public class Bullet : MonoBehaviour
 		}
 	}
 
-	private void OnTriggerEnter(Collider other)
-	{
-		if (!other.isTrigger)
+    protected virtual void OnCollisionEnter(Collision collision)
+    {
+		if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
 		{
-			if(other.tag == "Player" || other.tag == "Enemy")
-			{
-				Effects.Damage(other.gameObject, bulletDamage);
-				Effects.ApplyForce(other.gameObject, bulletHitForce);
-			}
-
-			Destroy(gameObject);
+			Effects.Damage(collision.gameObject, bulletDamage);
+			Effects.ApplyForce(collision.gameObject, bulletHitForce);
 		}
+
+		Destroy(gameObject);
 	}
 }

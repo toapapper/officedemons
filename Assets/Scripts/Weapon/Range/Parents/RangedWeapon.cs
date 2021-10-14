@@ -4,8 +4,19 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// Coded by: Johan Melkersson
+/// <para>
+/// Summary of what the component does 
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Johan Melkersson
+///  
+/// </para>
+///  
 /// </summary>
+
+// Last Edited: 14/10-21
 public abstract class RangedWeapon : AbstractWeapon
 {
 	[SerializeField]
@@ -32,42 +43,6 @@ public abstract class RangedWeapon : AbstractWeapon
 		get { return bulletFireForce; }
 		set { bulletFireForce = value; }
 	}
-
-	//[SerializeField]
-	//private GameObject gunHandle;
-	//[SerializeField]
-	//private int gunDamage = 10;
-	//[SerializeField]
-	//private int gunBulletHitForce = 10;
-	//[SerializeField]
-	//private int gunThrowDamage = 2;
-	//[SerializeField]
-	//private float gunViewDistance = 20f;
-	//[SerializeField]
-	//private float gunViewAngle = 10f;
-
-	//private void Start()
-	//{
-	//	Handle = gunHandle;
-	//	WeaponMuzzle = gunMuzzle;
-	//	LaserAim = gunLaserAim;
-	//	BulletFireForce = gunBulletFireForce;
-	//	Damage = gunDamage;
-	//	HitForce = gunBulletHitForce;
-	//	ThrowDamage = gunThrowDamage;
-	//	ViewDistance = gunViewDistance;
-	//	ViewAngle = gunViewAngle;
-	//}
-
-
-
-
-
-
-
-	//private GameObject weaponMuzzle;
-	//private GameObject laserAim;
-	//private int bulletFireForce;
 
 	public override void SetAimGradient(Gradient gradient)
 	{

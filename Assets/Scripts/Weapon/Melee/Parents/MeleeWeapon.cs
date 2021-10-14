@@ -2,31 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// Summary of what the component does 
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Johan Melkersson
+///  
+/// </para>
+///  
+/// </summary>
+
+// Last Edited: 14/10-21
 public abstract class MeleeWeapon : AbstractWeapon
 {
-	//[SerializeField]
-	//private GameObject meleeHandle;
-	//[SerializeField]
-	//private int meleeDamage = 10;
-	//[SerializeField]
-	//private int meleeHitForce = 15;
-	//[SerializeField]
-	//private int meleeThrowDamage = 15;
-	//[SerializeField]
-	//private float meleeViewDistance = 3.5f;
-	//[SerializeField]
-	//private float meleeViewAngle = 20f;
-
-	//private void Start()
-	//{
-	//	Handle = meleeHandle;
-	//	Damage = meleeDamage;
-	//	HitForce = meleeHitForce;
-	//	ThrowDamage = meleeThrowDamage;
-	//	ViewDistance = meleeViewDistance;
-	//	ViewAngle = meleeViewAngle;
-	//}
-
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
 		FOVView.SetActive(isActive);

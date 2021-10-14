@@ -3,8 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Summary of what the component does 
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Johan Melkersson
+///  
+/// </para>
+///  
 /// </summary>
+
+// Last Edited: 14/10-21
+
 public abstract class AbstractWeapon : MonoBehaviour
 {
 	[SerializeField]
@@ -23,29 +35,6 @@ public abstract class AbstractWeapon : MonoBehaviour
 	[SerializeField]
 	private bool isHeld;
 	private bool isProjectile;
-
-
-	//private void Start()
-	//{
-	//	Handle = handle;
-	//	//WeaponMuzzle = gunMuzzle;
-	//	//LaserAim = gunLaserAim;
-	//	//BulletFireForce = gunBulletFireForce;
-	//	Damage = damage;
-	//	HitForce = hitForce;
-	//	ThrowDamage = gunThrowDamage;
-	//	ViewDistance = gunViewDistance;
-	//	ViewAngle = gunViewAngle;
-	//}
-
-	//private GameObject handle;
-
-	//private int damage;
-	//private int hitForce;
-	//private int throwDamage;
-	//private float viewDistance;
-	//private float viewAngle;
-
 
 
 	protected GameObject Handle
