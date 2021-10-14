@@ -37,7 +37,7 @@ public class ThrowAim : MonoBehaviour
     private float bounce;
 
 
-    void Start()
+    void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
         gravity = Mathf.Abs(Physics.gravity.y);

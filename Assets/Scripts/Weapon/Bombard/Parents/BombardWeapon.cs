@@ -6,14 +6,24 @@ public class BombardWeapon : AbstractWeapon
 {
 	[SerializeField]
 	private GameObject granade;
-	private int granadeThrowForce;
-
-	public int GranadeThrowForce
+	[SerializeField]
+	private float granadeThrowForce = 10;
+	public float GranadeThrowForce
 	{
 		get { return granadeThrowForce; }
 		set { granadeThrowForce = value; }
 	}
 
+	//private int granadeThrowForce;
+
+	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
+	{
+		if (!isActive)
+		{
+			throwAim.GetComponent<LineRenderer>().positionCount = 0;
+		}
+		throwAim.SetActive(isActive);
+	}
 	public override void StartAttack(Animator animator)
 	{
 		animator.SetTrigger("isStartBombard");
@@ -34,6 +44,6 @@ public class BombardWeapon : AbstractWeapon
 		Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<WeaponHand>().ThrowAim.initialAngle, right) * forward).normalized;
 		float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity;
 
-		granade.GetComponent<GranadeObject>().CreateGranade(transform.position, direction, throwForce, HitForce, Damage);
+		granade.GetComponent<GrenadeObject>().CreateGrenade(transform.position, direction, throwForce, HitForce, Damage);
 	}
 }
