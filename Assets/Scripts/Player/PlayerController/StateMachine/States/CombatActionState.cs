@@ -52,7 +52,7 @@ public class CombatActionState : AbstractPlayerState
 			Debug.Log("CombatActionState Coroutine");
 			if (GameManager.Instance.AllStill)
 			{
-				PlayerManager.doneEvent.Invoke();
+				PlayerManager.Instance.NextPlayerAction();
 				GetComponent<PlayerStateController>().StartWaitForTurn();
 				StopCoroutine("WaitDone");
 			}

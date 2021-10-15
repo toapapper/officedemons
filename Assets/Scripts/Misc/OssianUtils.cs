@@ -1,4 +1,21 @@
-//Initially     written by Ossian, feel free to add to it.
+/// <summary>
+/// <para>
+/// Summary of what the component does 
+/// Miscelaneous static utilities
+/// </para>
+///   
+///  <para>
+///  Author: Ossian
+///  
+/// </para>
+///  
+/// </summary>
+
+/*
+ * Last Edited:
+ * 15-10-2021
+ */
+
 
 using System;
 using System.Collections;
@@ -9,7 +26,7 @@ public static class OssianUtils
 {
 
     /// <summary>
-    /// Cleans a list of null objects, repacking it
+    /// Cleans a list of destroyed gameObjects or otherwise null objects, repacking it
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="ts"></param>
@@ -30,7 +47,7 @@ public static class OssianUtils
     }
 
     /// <summary>
-    /// Somewhat smooth lerp between multiple colors
+    /// Lerp between multiple colors
     /// </summary>
     /// <param name="colors">Colors to lerp between</param>
     /// <param name="lerpNr">current lerpnr</param>
