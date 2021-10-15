@@ -170,8 +170,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
   outlineWidth: 2
@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 4229618764654016643}
   - component: {fileID: 4229618764654016640}
   - component: {fileID: 4229618764654016641}
-  - component: {fileID: 3612358076676157450}
+  - component: {fileID: 2371975244566114032}
   m_Layer: 0
   m_Name: Uzi
   m_TagString: WeaponObject
@@ -437,7 +437,7 @@ FixedJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &3612358076676157450
+--- !u!114 &2371975244566114032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -446,21 +446,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 4229618764654016647}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb27dc5586592444fa18b60846b8db5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
+  m_Script: {fileID: 11500000, guid: 463db60846c952643b4d0d9b78e7b2de, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  handle: {fileID: 4229618764198995258}
+  damage: 4
+  hitForce: 20
+  throwDamage: 2
+  viewDistance: 20
+  viewAngle: 10
   isHeld: 0
+  weaponMuzzle: {fileID: 2801722542778083995}
+  laserAim: {fileID: 5160506885529334138}
+  bulletFireForce: 20
   bullet: {fileID: 198003970889221192, guid: 7d8f5aa82bad9134da8f6611d160eaf5, type: 3}
-  uziHandle: {fileID: 4229618764198995258}
-  uziMuzzle: {fileID: 2801722542778083995}
-  uziLaserAim: {fileID: 5160506885529334138}
-  uziDamage: 4
-  uziBulletFireForce: 20
-  uziBulletHitForce: 10
-  uziThrowDamage: 2
-  uziViewDistance: 20
-  uziViewAngle: 10
 --- !u!1 &5160506885529334138
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,8 +502,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29fcf5ac573575a4a962266f8bdb4c2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   maxLaserDistance: 30
   ignoreLayer:
     serializedVersion: 2

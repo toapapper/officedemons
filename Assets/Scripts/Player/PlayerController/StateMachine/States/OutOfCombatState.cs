@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Handle character actions when roaming freely out of combat
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 2021-10-12
 public class OutOfCombatState : AbstractPlayerState
 {
     //Attack action
@@ -75,6 +81,7 @@ public class OutOfCombatState : AbstractPlayerState
         Debug.Log("Revive player " + player.name);
     }
 
+    //Update
     public override void OnFixedUpdateState()
     {
         //Rotation
@@ -84,6 +91,7 @@ public class OutOfCombatState : AbstractPlayerState
         }
 		if (!IsActionTriggered)
 		{
+            //Movement
             if (playerMovement.CalculateMovement() != Vector3.zero)
             {
                 playerMovement.PerformMovement();
@@ -102,12 +110,11 @@ public class OutOfCombatState : AbstractPlayerState
 
     public override void OnStateExit()
     {
-        //if (IsAddingThrowForce)
-        //{
-        //    weaponHand.CancelAction();
-        //    playerMovement.CancelThrow();
-        //    IsAddingThrowForce = false;
-        //}
-        Debug.Log("Exits OutOfCombatState" + this);
+		if (IsActionTriggered)
+		{
+			weaponHand.CancelAction();
+            IsActionTriggered = false;
+		}
+		Debug.Log("Exits OutOfCombatState" + this);
     }
 }

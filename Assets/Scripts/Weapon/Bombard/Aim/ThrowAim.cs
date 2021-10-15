@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// Aim used for the bombard weapons
+/// </para>
+///   
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
+/// </summary>
+
+// Last Edited: 14/10-21
 [RequireComponent(typeof(LineRenderer))]
 public class ThrowAim : MonoBehaviour
 {
@@ -37,7 +48,7 @@ public class ThrowAim : MonoBehaviour
     private float bounce;
 
 
-    void Start()
+    void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
         gravity = Mathf.Abs(Physics.gravity.y);

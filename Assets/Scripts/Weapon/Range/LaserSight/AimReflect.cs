@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// Aim that can reflect and bounce of walls (never used)
+/// </para>
+///   
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
+/// </summary>
+
+// Last Edited: 14/10-21
 public class AimReflect : MonoBehaviour
 {
     public int reflections;
