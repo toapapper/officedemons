@@ -1,24 +1,34 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// Decisions are made and the corresponding action is called
-//Used more for behaviours than anything.
-//No other uses other than to make different decisions based on the class
+/// <summary>
+/// <para>
+/// Controls the AI-agents
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Tinea Larsson, Tim Wennerberg
+///  
+/// </para>
+///  
+/// </summary>
+
+// Last Edited: 15-10-21
+
 public enum Class { Aggresive, Defensive, Healer};
 
 public class AIController : MonoBehaviour
 {
-    FieldOfView fov;
-    Actions actions;
-    NavMeshAgent agent;
-    AIManager aiManager;
-    GameObject closestPlayer;
-    WeaponHand weapon;
-    public GameObject target;
-    public Class currentClass;
-
+    private FieldOfView fov;
+    private Actions actions;
+    private NavMeshAgent navMeshAgent;
+    private AIManager aiManager;
+    private GameObject closestPlayer;
+    private WeaponHand weapon;
+    private GameObject target;
+    private Class currentClass;
 
     List<GameObject> priorites;
     public List<GameObject> Priorites
@@ -27,17 +37,16 @@ public class AIController : MonoBehaviour
         set { priorites = value; }
     }
 
-    [SerializeField]
-    private Animator animator;
-    private AIStateHandler aiStateHandler;
-
-    AIStates.States currentState;
-
+    private AIStates.States currentState;
     public AIStates.States CurrentState
     {
         get { return currentState; }
         set { currentState = value; }
     }
+
+    [SerializeField]
+    private Animator animator;
+    private AIStateHandler aiStateHandler;
 
     public bool LockedAction()
     {
@@ -48,84 +57,82 @@ public class AIController : MonoBehaviour
         return false;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         fov = GetComponent<FieldOfView>();
         actions = GetComponent<Actions>();
-        agent = GetComponent<NavMeshAgent>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
         CurrentState = AIStates.States.Unassigned;
         aiStateHandler = GetComponent<AIStateHandler>();
         aiManager = transform.parent.GetComponentInChildren<AIManager>();
         weapon = GetComponent<WeaponHand>();
     }
 
-    // peforms the corresponding behaviour to the enemy's current state (Called in AIManager)
+    /// <summary>
+    /// Performs the behaviour corresponding to the current state.
+    /// </summary>
+    /// <param name=""></param>
     public void PerformBehaviour()
     {
-        // Check currentState and call corresponding Action
-
         aiStateHandler.GetState(currentClass);
 
-        switch (CurrentState) // FindCover, CallForHealing, Attack, Move, Wait , Unassigned
+        switch (CurrentState) 
         {
             case AIStates.States.FindCover:
-                // Kan inte hända just nu, inte implementerat
+                // TO DO: Implement a behaviour for low health
                 break;
 
             case AIStates.States.CallForHealing:
-                // Kan inte hända just nu, inte implementerat
+                // TO DO: Implement a behaviour for low health
                 break;
 
             case AIStates.States.Attack:
                 aiManager.SaveAction(this.gameObject);
-                agent.destination = transform.position;
+                navMeshAgent.destination = transform.position;
                 weapon.StartAttack();
-                agent.isStopped = true;
+                navMeshAgent.isStopped = true;
                 break;
 
             case AIStates.States.Move:
                 closestPlayer = CalculateClosest(PlayerManager.players, priorites);
                 if (closestPlayer == null)
+                {
                     currentState = AIStates.States.Wait;
-
-                actions.MoveTowards(agent, closestPlayer);
+                }
+                actions.MoveTowards(navMeshAgent, closestPlayer);
                 break;
 
             case AIStates.States.Wait:
                 aiManager.SaveAction(this.gameObject);
-                agent.destination = transform.position;
-                agent.isStopped = true;
+                navMeshAgent.destination = transform.position;
+                navMeshAgent.isStopped = true;
                 break;
-
         }
     }
 
+    /// <summary>
+    /// Performs the action corresponding to the state.
+    /// </summary>
+    /// <param name=""></param>
     public void PerformAction()
     {
-        // Utför action för this enemy
-        Debug.Log("ACTION PERFORMED");
-
         switch (currentState)
         {
             case AIStates.States.Attack:
                 weapon.Attack();
-                Debug.Log("he attacked");
                 break;
             default:
                 Debug.Log("default");
                 break;
         }
-        // Ta bort ifrån AIManager.actions (deque)
     }
 
-
-
-    //A lot of checks atm might need some cleanups!
-    //If we can have the player itself notify when it's in down state that would also work
+    /// <summary>
+    /// Calculates what player is the closest to the AI-agent.
+    /// </summary>
+    /// <param name="players, priorities"></param>
     public GameObject CalculateClosest(List<GameObject> players, List<GameObject> priorities)
     {
-
         float closestDistance = float.MaxValue;
         for (int i = 0; i < priorites.Count; i++)
         {
@@ -134,7 +141,6 @@ public class AIController : MonoBehaviour
                 priorites.RemoveAt(i);
             }
         }
-
 
         for (int i = 0; i < priorites.Count; i++)
         {
@@ -150,9 +156,9 @@ public class AIController : MonoBehaviour
                 closestPlayer = priorites[i];
             }
         }
+
         if (closestDistance == float.MaxValue)
         {
-            Debug.Log("No priority player is reachable");
             for (int i = 0; i < players.Count; i++)
             {
                 if (players[i] == null)
@@ -170,83 +176,63 @@ public class AIController : MonoBehaviour
                     closestPlayer = players[i];
                 }
             }
-
-            if (closestDistance == float.MaxValue)
-                Debug.Log("No player is reachable");
-
-            return closestPlayer;
         }
         return closestPlayer;
     }
 
-
-
     /// <summary>
-    /// Check if the agent will be able to reach the player
+    /// Check if the agent will be able to reach the player.
     /// </summary>
     /// <param name="target"></param>
-    /// <returns></returns>
     public bool ReachableTarget(GameObject target)
     {
-        float stamina = agent.gameObject.GetComponent<Attributes>().Stamina;
-
+        float stamina = navMeshAgent.gameObject.GetComponent<Attributes>().Stamina;
         float targetDistance = CalculateDistance(target);
-
         float lastPathDistance = CalculateLastPathDistance(target);
-        //With some testing: with acceleration 10 we get about 1m * speed per stamina 
-        //Turns make it take longer
-        //made the estimated travel distance 20% longer to ensure that if we think we can make it we make it
 
         if ( lastPathDistance <= fov.viewRadius)
         {
-            if (targetDistance - lastPathDistance <= stamina * agent.speed / 1.2f)
+            if (targetDistance - lastPathDistance <= stamina * navMeshAgent.speed / 1.2f)
             {
                 return true;
             }
         }
-        else if (targetDistance - fov.viewRadius <= stamina * agent.speed / 1.2f)
+        else if (targetDistance - fov.viewRadius <= stamina * navMeshAgent.speed / 1.2f)
         {
             return true;
         }
-
         return false;
     }
 
-
-
     /// <summary>
-    /// Calulate navmesh path distance from agent to player
+    /// Calulate navmesh path distance from agent to target (another NavMeshAgent).
     /// </summary>
     /// <param name="target"></param>
-    /// <returns></returns>
     private float CalculateDistance(GameObject target)
     {
         NavMeshPath path = new NavMeshPath();
         float distance = float.MaxValue;
 
-        if (NavMesh.CalculatePath(transform.position, target.gameObject.transform.position, agent.areaMask, path))
+        if (NavMesh.CalculatePath(transform.position, target.gameObject.transform.position, navMeshAgent.areaMask, path))
         {
             distance = Vector3.Distance(transform.position, path.corners[0]);
             for (int i = 1; i < path.corners.Length; i++)
             {
                 distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
             }
-
         }
         return distance;
     }
 
-
     /// <summary>
-    /// Get the last straight length from agent to player
+    /// Get the last straight length from agent to target (another NavMeshAgent).
     /// </summary>
     /// <param name="target"></param>
-    /// <returns></returns>
     private float CalculateLastPathDistance(GameObject target)
     {
         NavMeshPath path = new NavMeshPath();
         float distance = 0;
-        if (NavMesh.CalculatePath(transform.position, target.gameObject.transform.position, agent.areaMask, path))
+        if (NavMesh.CalculatePath(transform.position, target.gameObject.transform.position, navMeshAgent.areaMask, path))
         {
             for (int i = path.corners.Length - 1; i > 1; i--)
             {
@@ -254,12 +240,8 @@ public class AIController : MonoBehaviour
                 break;
             }
         }
-
         return distance;
     }
-
-
-
 
     public bool FindClosestAndCheckIfReachable()
     {
