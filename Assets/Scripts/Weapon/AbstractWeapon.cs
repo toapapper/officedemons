@@ -6,7 +6,7 @@ using UnityEngine;
 /// <para>
 /// Abstract class controlling all weapons
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>
