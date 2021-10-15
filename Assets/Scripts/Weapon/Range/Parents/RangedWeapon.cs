@@ -5,15 +5,12 @@ using UnityEngine.AI;
 
 /// <summary>
 /// <para>
-/// Summary of what the component does 
-/// 
+/// Methods connected to all ranged weapons
 /// </para>
 ///   
 ///  <para>
 ///  Author: Johan Melkersson
-///  
 /// </para>
-///  
 /// </summary>
 
 // Last Edited: 14/10-21

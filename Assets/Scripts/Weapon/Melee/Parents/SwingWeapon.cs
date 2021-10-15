@@ -4,15 +4,12 @@ using UnityEngine;
 
 /// <summary>
 /// <para>
-/// Summary of what the component does 
-/// 
+/// Methods connected to all swing weapons
 /// </para>
 ///   
 ///  <para>
 ///  Author: Johan Melkersson
-///  
 /// </para>
-///  
 /// </summary>
 
 // Last Edited: 14/10-21

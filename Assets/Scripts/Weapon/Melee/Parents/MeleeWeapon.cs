@@ -4,15 +4,12 @@ using UnityEngine;
 
 /// <summary>
 /// <para>
-/// Summary of what the component does 
-/// 
+/// Methods connected to all melee weapons
 /// </para>
 ///   
 ///  <para>
 ///  Author: Johan Melkersson
-///  
 /// </para>
-///  
 /// </summary>
 
 // Last Edited: 14/10-21
@@ -22,7 +19,9 @@ public abstract class MeleeWeapon : AbstractWeapon
 	{
 		FOVView.SetActive(isActive);
 	}
+
 	public override abstract void Attack(Animator animator);
+
 	public override void DoAction(FieldOfView fov)
 	{
 		if (fov.visibleTargets.Count > 0)

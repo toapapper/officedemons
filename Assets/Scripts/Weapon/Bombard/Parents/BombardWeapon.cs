@@ -4,15 +4,12 @@ using UnityEngine;
 
 /// <summary>
 /// <para>
-/// Summary of what the component does 
-/// 
+/// Methods connected to all bombard weapons
 /// </para>
 ///   
 ///  <para>
 ///  Author: Johan Melkersson
-///  
 /// </para>
-///  
 /// </summary>
 
 // Last Edited: 14/10-21
@@ -22,12 +19,12 @@ public class BombardWeapon : AbstractWeapon
 	private GameObject granade;
 	[SerializeField]
 	private float granadeThrowForce = 10;
+
 	public float GranadeThrowForce
 	{
 		get { return granadeThrowForce; }
 		set { granadeThrowForce = value; }
 	}
-
 
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
@@ -37,11 +34,11 @@ public class BombardWeapon : AbstractWeapon
 		}
 		throwAim.SetActive(isActive);
 	}
+
 	public override void StartAttack(Animator animator)
 	{
 		animator.SetTrigger("isStartBombard");
 	}
-
 	public override void Attack(Animator animator)
 	{
 		animator.SetTrigger("isBombard");

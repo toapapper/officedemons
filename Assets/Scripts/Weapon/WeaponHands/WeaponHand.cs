@@ -4,18 +4,15 @@ using UnityEngine;
 
 /// <summary>
 /// <para>
-/// Summary of what the component does 
-/// 
+/// Control characters weapon hand
 /// </para>
 ///   
 ///  <para>
 ///  Author: Johan Melkersson
-///  
 /// </para>
-///  
 /// </summary>
 
-// Last Edited: 14/10-21
+// Last Edited: 15/10-21
 public class WeaponHand : MonoBehaviour
 {
 	private Actions actions;
@@ -71,6 +68,19 @@ public class WeaponHand : MonoBehaviour
 			FOV.viewAngle = handHitAngle;
 		}
 
+		SetAimGradient();
+
+		if (throwAim != null)
+		{
+			throwAim.gameObject.SetActive(true);
+			throwAim.GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
+			throwAim.gameObject.SetActive(false);
+		}
+	}
+
+	//Aim
+	private void SetAimGradient()
+	{
 		aimGradient = new Gradient();
 		GradientColorKey[] colorKey = new GradientColorKey[2];
 		colorKey[0].color = GetComponent<Attributes>().PlayerColor;
@@ -79,16 +89,28 @@ public class WeaponHand : MonoBehaviour
 		alphaKey[1].time = 1;
 		alphaKey[1].alpha = 0;
 		aimGradient.SetKeys(colorKey, alphaKey);
-
-		if(this.tag == "Player")
+	}
+	public void ToggleAimView(bool isActive)
+	{
+		if (objectInHand)
 		{
-			throwAim.gameObject.SetActive(true);
-			throwAim.GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
-			throwAim.gameObject.SetActive(false);
+			objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
+		}
+		else
+		{
+			FOVVisualization.SetActive(isActive);
 		}
 	}
-		
-    public void Equip(GameObject newObject)
+	//public void ToggleThrowAim()
+	//{
+	//	if (objectInHand)
+	//	{
+	//		//objectInHand.ToggleThrowAim(isActive);
+	//	}
+	//}
+
+	//Pick up
+	public void Equip(GameObject newObject)
 	{
 		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
@@ -102,6 +124,7 @@ public class WeaponHand : MonoBehaviour
 		FOV.viewRadius = objectInHand.ViewDistance;
 	}
 
+	//Attack
 	public void StartAttack()
 	{
 		if (objectInHand != null)
@@ -113,7 +136,6 @@ public class WeaponHand : MonoBehaviour
 			animator.SetTrigger("isStartHandAttack");
 		}
 	}
-
 	public void Attack()
 	{
 		if (objectInHand != null)
@@ -125,6 +147,8 @@ public class WeaponHand : MonoBehaviour
 			animator.SetTrigger("isHandAttack");
 		}
 	}
+
+	//Bombard attack
 	public bool StartBombard()
 	{
 		if (objectInHand != null && objectInHand is BombardWeapon)
@@ -152,11 +176,8 @@ public class WeaponHand : MonoBehaviour
 		}
 		return false;
 	}
-	public void CancelAction()
-	{
-		animator.SetTrigger("isCancelAction");
-	}
 
+	//Throw weapon
 	public bool StartThrow()
 	{
 		if (objectInHand != null)
@@ -185,26 +206,27 @@ public class WeaponHand : MonoBehaviour
 		return false;
 	}
 
-	public void ToggleThrowAim()
+	public void CancelAction()
+	{
+		animator.SetTrigger("isCancelAction");
+	}
+
+	//Animation events
+	public void DoAction()
 	{
 		if (objectInHand)
 		{
-			//objectInHand.ToggleThrowAim(isActive);
+			objectInHand.DoAction(FOV);
+		}
+		else if (FOV.visibleTargets.Count > 0)
+		{
+			foreach (GameObject target in FOV.visibleTargets)
+			{
+				Effects.Damage(target, handHitDamage);
+				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
+			}
 		}
 	}
-
-	public void ToggleAimView(bool isActive)
-	{
-		if (objectInHand)
-		{
-			objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
-		}
-		else
-		{
-			FOVVisualization.SetActive(isActive);
-		}
-	}
-
 	public void ReleaseThrow()
 	{
 		if (objectInHand != null)
@@ -219,22 +241,6 @@ public class WeaponHand : MonoBehaviour
 			objectInHand = null;
 			FOV.viewAngle = handHitAngle;
 			FOV.viewRadius = handHitDistance;			
-		}
-	}
-
-	public void DoAction()
-	{
-		if (objectInHand)
-		{
-			objectInHand.DoAction(FOV);
-		}
-		else if (FOV.visibleTargets.Count > 0)
-		{
-			foreach (GameObject target in FOV.visibleTargets)
-			{
-				Effects.Damage(target, handHitDamage);
-				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
-			}
 		}
 	}
 }

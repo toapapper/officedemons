@@ -4,19 +4,15 @@ using UnityEngine;
 
 /// <summary>
 /// <para>
-/// Summary of what the component does 
-/// 
+/// Abstract class controlling all weapons
 /// </para>
 ///   
 ///  <para>
 ///  Author: Johan Melkersson
-///  
 /// </para>
-///  
 /// </summary>
 
-// Last Edited: 14/10-21
-
+// Last Edited: 15/10-21
 public abstract class AbstractWeapon : MonoBehaviour
 {
 	[SerializeField]
@@ -35,7 +31,6 @@ public abstract class AbstractWeapon : MonoBehaviour
 	[SerializeField]
 	private bool isHeld;
 	private bool isProjectile;
-
 
 	protected GameObject Handle
 	{
@@ -97,22 +92,19 @@ public abstract class AbstractWeapon : MonoBehaviour
 		isHeld = false;
 	}
 
-	public virtual void StartAttack(Animator animator) { }
-	public abstract void Attack(Animator animator);
 	public virtual void SetAimGradient(Gradient gradient) { }
 	public virtual void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim) { }
+	public virtual void StartAttack(Animator animator) { }
+	public abstract void Attack(Animator animator);
 	public virtual void DoAction(FieldOfView fov) { }
-
-
-
 
 	private void OnCollisionEnter(Collision collision)
 	{
 		if (isProjectile)
 		{
-			if (!collision.collider.isTrigger)
+			if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
 			{
-				Debug.Log(throwDamage + "throwDamage to " + collision.gameObject);
+				Effects.Damage(collision.gameObject, throwDamage);
 				isProjectile = false;
 			}
 		}
