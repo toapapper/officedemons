@@ -16,6 +16,9 @@ public class NavigationBaker : MonoBehaviour
 {
     List<NavMeshSurface> surfaces = new List<NavMeshSurface>();
 
+    /// <summary>
+    /// Adds all NavMeshSurfaces to a list and bakes them.
+    /// </summary>
     public void BakeNavMesh()
     {
         NavMeshSurface navSurface = GetComponentInChildren<NavMeshSurface>();

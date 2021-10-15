@@ -17,6 +17,10 @@ public class BSPTree : MonoBehaviour
     public GenerateTerrain generateTerrain;
     public FitnessFunction fitnessFunction;
     /// <summary>
+    /// A GameObject that holds the script for NavMeshBaking
+    /// </summary>
+    public GameObject level;
+    /// <summary>
     /// A list of all the nodes in a room
     /// </summary>
     public List<Node> nodes;
@@ -72,6 +76,7 @@ public class BSPTree : MonoBehaviour
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
         generateTerrain = GetComponent<GenerateTerrain>();
         fitnessFunction = GetComponent<FitnessFunction>();
+        
     }
     /// <summary>
     /// Make 100 rooms
@@ -112,6 +117,9 @@ public class BSPTree : MonoBehaviour
         lastDirection = nextDirection;
         GO();
         generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection, size,lastRoot.size,new Vector2(1,1), heightLimits.y);
+
+        //Bakes a navMesh on the generated level
+        level.GetComponent<NavigationBaker>().BakeNavMesh();
     }
 
     /// <summary>
