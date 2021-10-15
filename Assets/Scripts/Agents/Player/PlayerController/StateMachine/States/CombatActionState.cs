@@ -32,7 +32,7 @@ public class CombatActionState : AbstractPlayerState
 				weaponHand.Throw();
 				break;
 			case TypeOfAction.REVIVE:
-				GetComponent<Actions>().Revive(GetComponent<CombatTurnState>().PlayerToRevive);
+				Effects.Revive(GetComponent<CombatTurnState>().PlayerToRevive);
 				Debug.LogWarning("combatActionState revive " + GetComponent<CombatTurnState>().PlayerToRevive);
 				break;
 			case TypeOfAction.NOACTION:
