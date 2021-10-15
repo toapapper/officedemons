@@ -58,7 +58,7 @@ public class Encounter : MonoBehaviour
         }
         else
         {
-            Destroy(aIManager.EnemyList[0]);
+            Destroy(aIManager.enemies[0]);
             GameManager.Instance.enemiesTurnDone = true;
             waited = false;
             myTurn = false;
