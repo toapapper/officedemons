@@ -2,45 +2,67 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
+
+/// <summary>
+/// <para>
+/// Manages the group behaviour of AI-agents.
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Tinea Larsson, Tim Wennerberg
+///  
+/// </para>
+///  
+/// </summary>
+
+// Last Edited: 15-10-21
 
 public class AIManager : MonoBehaviour
 {
-    public List<GameObject> enemies;
-    public List<GameObject> players;
-    public UnityEvent doneEvent;
-    public AIManager instance;
-    
-    private Queue<GameObject> actions;
+    private List<GameObject> playerList;
+    private UnityEvent doneEvent;
+    private AIManager instance;
+    private Queue<GameObject> actionsQueue;
+
+    private List<GameObject> enemyList;
+    public List<GameObject> EnemyList
+    {
+        get { return enemyList; }
+        set { enemyList = value; }
+    }
 
     private void Start()
     {
-        actions = new Queue<GameObject>();
-        players = PlayerManager.players;
+        actionsQueue = new Queue<GameObject>();
+        playerList = PlayerManager.players;
     }
-
 
     public void BeginCombat()
     {
-        enemies = GameManager.Instance.CurrentEncounter.GetEnemylist();
-        GameManager.Instance.StillCheckList.AddRange(enemies);
+        enemyList = GameManager.Instance.CurrentEncounter.GetEnemylist();
+        GameManager.Instance.StillCheckList.AddRange(enemyList);
     }
 
-    public void BeginTurn() //kanske lägga till mer? annars kanske ta bort metoden
+    /// <summary>
+    /// Resets variables to prepare for a new turn
+    /// </summary>
+    /// <param name=""></param>
+    public void BeginTurn() 
     {
-        //Debug.Log("Begin turn ENEMY");
-        actions.Clear();
-        foreach (GameObject e in enemies)
+        actionsQueue.Clear();
+        foreach (GameObject e in enemyList)
         {
             e.GetComponent<Attributes>().Stamina = e.GetComponent<Attributes>().StartStamina;
             e.GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
         }
-        //Debug.Log("KOMMER FÖRBI CLEAR");
-
-
-        // enemiesTurnDone = true när alla låst in sin action
     }
 
+    /// <summary>
+    /// Calls every AI-agent's "update" (AIController.PeformBehaviour).
+    /// Checks if agents are dead or all have locked in actions.
+    /// </summary>
+    /// <param name=""></param>
     public void PerformTurn()
     {
         bool allDone = true;
@@ -48,22 +70,19 @@ public class AIManager : MonoBehaviour
 
         List<GameObject> killOnSight = new List<GameObject>();
 
-        for (int i = 0; i < players.Count; i++)
+        for (int i = 0; i < playerList.Count; i++)
         {
-            if (players[i].GetComponent<Attributes>().Health <= players[i].GetComponent<Attributes>().StartHealth / 3
-                && players[i].GetComponent<Attributes>().Health > 0)
+            if (playerList[i].GetComponent<Attributes>().Health <= playerList[i].GetComponent<Attributes>().StartHealth / 3
+                && playerList[i].GetComponent<Attributes>().Health > 0)
             {
-                killOnSight.Add(players[i]);
+                killOnSight.Add(playerList[i]);
             }
         }
 
-
-        foreach (GameObject e in enemies)
+        foreach (GameObject e in enemyList)
         {
-            //Debug.Log("LockedAction(): " + e.GetComponent<AIController>().LockedAction());
             if (!e.GetComponent<AIController>().LockedAction())
             {
-                //e.GetComponent<AIController>().CurrentState = AIStates.States.Wait; // DEBUG
                 e.GetComponent<AIController>().Priorites = killOnSight;
                 e.GetComponent<AIController>().PerformBehaviour();
                 
@@ -75,7 +94,6 @@ public class AIManager : MonoBehaviour
                 allDead = false;
             }
         }
-        // enemiesTurnDone = true när alla låst in sin action
         if (!GameManager.Instance.AllStill)
             allDone = false;
 
@@ -86,11 +104,15 @@ public class AIManager : MonoBehaviour
             GameManager.Instance.EndEncounter();
     }
 
+    /// <summary>
+    /// Performs the next action in the queue and waits until it's finished.
+    /// </summary>
+    /// <param name=""></param>
     public void PerformNextAction()
     {
-        if (actions.Count > 0)
+        if (actionsQueue.Count > 0)
         {
-            GameObject agent = actions.Dequeue();
+            GameObject agent = actionsQueue.Dequeue();
             agent.GetComponent<AIController>().PerformAction();
             StartCoroutine("WaitDone");
         }
@@ -114,12 +136,8 @@ public class AIManager : MonoBehaviour
         }
     }
 
-
-
     public void SaveAction(GameObject agent)
     {
-        //Debug.Log("Action is in queue");
-        actions.Enqueue(agent);
+        actionsQueue.Enqueue(agent);
     }
-  
 }
