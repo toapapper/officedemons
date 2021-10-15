@@ -170,8 +170,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
   outlineWidth: 2
@@ -354,6 +354,7 @@ GameObject:
   - component: {fileID: 4229618764654016640}
   - component: {fileID: 4229618764654016641}
   - component: {fileID: 2371975244566114032}
+  - component: {fileID: 1873284019242393216}
   m_Layer: 0
   m_Name: Uzi
   m_TagString: WeaponObject
@@ -447,8 +448,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 463db60846c952643b4d0d9b78e7b2de, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   handle: {fileID: 4229618764198995258}
   damage: 4
   hitForce: 20
@@ -460,6 +461,18 @@ MonoBehaviour:
   laserAim: {fileID: 5160506885529334138}
   bulletFireForce: 20
   bullet: {fileID: 198003970889221192, guid: 7d8f5aa82bad9134da8f6611d160eaf5, type: 3}
+--- !u!114 &1873284019242393216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4229618764654016647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a77e37a2e2e2f24cbbfe7d7bfd5e08b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5160506885529334138
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,8 +515,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29fcf5ac573575a4a962266f8bdb4c2a, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   maxLaserDistance: 30
   ignoreLayer:
     serializedVersion: 2
