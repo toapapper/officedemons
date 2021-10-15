@@ -22,7 +22,6 @@ public enum Class { Aggresive, Defensive, Healer};
 public class AIController : MonoBehaviour
 {
     private FieldOfView fov;
-    private Actions actions;
     private NavMeshAgent navMeshAgent;
     private AIManager aiManager;
     private GameObject closestPlayer;
@@ -60,7 +59,6 @@ public class AIController : MonoBehaviour
     void Start()
     {
         fov = GetComponent<FieldOfView>();
-        actions = GetComponent<Actions>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         CurrentState = AIStates.States.Unassigned;
         aiStateHandler = GetComponent<AIStateHandler>();
@@ -99,7 +97,7 @@ public class AIController : MonoBehaviour
                 {
                     currentState = AIStates.States.Wait;
                 }
-                actions.MoveTowards(navMeshAgent, closestPlayer);
+                EnemyActions.Instance.MoveTowards(navMeshAgent, closestPlayer);
                 break;
 
             case AIStates.States.Wait:

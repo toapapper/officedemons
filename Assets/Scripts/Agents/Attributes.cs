@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Bara en enum med de olika karaktärerna, kommer användas främst i ui antar jag för att kunna avgöra vilken karaktär ett gameObject är
+/// Bara en enum med de olika karaktï¿½rerna, kommer anvï¿½ndas frï¿½mst i ui antar jag fï¿½r att kunna avgï¿½ra vilken karaktï¿½r ett gameObject ï¿½r
 /// </summary>
 public enum Characters
 {
@@ -24,7 +24,7 @@ public class Attributes : MonoBehaviour
     public Characters Name { get { return characterName; } }
 
     [SerializeField]
-    private string jobTitle = "arbetslös";
+    private string jobTitle = "arbetslï¿½s";
     public string JobTitle { get { return jobTitle; } }
 
     [SerializeField]
@@ -43,14 +43,14 @@ public class Attributes : MonoBehaviour
     public int Health
     {
         get { return health; }
-        set { //kanske bör flyttas någon annan stans.
+        set { //kanske bï¿½r flyttas nï¿½gon annan stans.
             health = value;
             if (health <= 0)
             {
                 health = 0;
                 Effects.Die(gameObject);
             }
-        } 
+        }
     }
 
     [SerializeField]
