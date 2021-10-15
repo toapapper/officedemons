@@ -3,38 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// Last Edited: 15/10-21
 public class Actions : MonoBehaviour
 {
-	//[SerializeField]
-	Attributes attributes;
-	CharacterController cc;
-	FieldOfView fov;
+	////[SerializeField]
+	//Attributes attributes;
+	//CharacterController cc;
+	//FieldOfView fov;
 
-    // Start is called before the first frame update
-    void Start()
-	{
-		attributes = GetComponent<Attributes>();
-		cc = GetComponent<CharacterController>();
-		fov = GetComponent<FieldOfView>();
-	}
+ //   // Start is called before the first frame update
+ //   void Start()
+	//{
+	//	attributes = GetComponent<Attributes>();
+	//	cc = GetComponent<CharacterController>();
+	//	fov = GetComponent<FieldOfView>();
+	//}
 
-	public void Die()
+	public void Die(GameObject target)
 	{
-		GameObject target = this.gameObject;
-		if (this.tag == "Enemy")
+		//GameObject target = this.gameObject;
+		if (target.tag == "Enemy")
 		{
             // Tillfällig
             Debug.Log("Enemy died");
-            GetComponent<MeshRenderer>().material.color = Color.black;
-            gameObject.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
+			target.GetComponent<MeshRenderer>().material.color = Color.black;
+			target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
         }
-		else if (this.tag == "Player")
+		else if (target.tag == "Player")
 		{
 			//Disable Movement
 			//Play death animation
 			// bool targetIsDead so it's not targetet and attacked again while dead
 
-			GetComponent<PlayerStateController>().Die();
+			target.GetComponent<PlayerStateController>().Die();
 			if (GameManager.Instance.combatState == CombatState.none)
 				StartCoroutine(DelayedSelfRevive(target));
 		}
