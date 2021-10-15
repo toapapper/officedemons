@@ -8,7 +8,7 @@ using UnityEngine;
 public abstract class AbstractWeapon : MonoBehaviour
 {
 	private GameObject handle;
-
+	[SerializeField]
 	private int damage;
 	private int hitForce;
 	private int throwDamage;
