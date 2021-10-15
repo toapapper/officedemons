@@ -25,7 +25,7 @@ public class Bullet : MonoBehaviour
 		bulletObject.bulletDamage = bulletDamage;
 		bulletObject.bulletHitForce = direction * bulletHitForce;
 		bulletObject.GetComponent<Rigidbody>().AddForce(direction * bulletFireForce, ForceMode.VelocityChange);
-		GameManager.Instance.stillCheckList.Add(bulletObject.gameObject);
+		GameManager.Instance.StillCheckList.Add(bulletObject.gameObject);
 	}
 
 	private void FixedUpdate()

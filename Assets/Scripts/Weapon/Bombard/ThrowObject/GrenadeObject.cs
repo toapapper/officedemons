@@ -32,7 +32,7 @@ public class GrenadeObject : MonoBehaviour
 		grenadeObject.grenadeExplodeForce = grenadeExplodeForce;
 		grenadeObject.GetComponent<Rigidbody>().AddForce(direction * grenadeThrowForce, ForceMode.Impulse);
 		grenadeObject.explodeTime = initialExplodeTime;
-		GameManager.Instance.stillCheckList.Add(grenadeObject.gameObject);
+		GameManager.Instance.StillCheckList.Add(grenadeObject.gameObject);
 	}
 
 	public void FixedUpdate()
