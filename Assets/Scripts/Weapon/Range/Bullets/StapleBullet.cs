@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// <para>
-/// Summary of what the component does 
+/// The staple object/projectile
 /// 
 /// </para>
 ///   

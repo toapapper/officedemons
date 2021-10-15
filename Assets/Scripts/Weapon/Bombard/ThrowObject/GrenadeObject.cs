@@ -12,7 +12,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 14/10-21
+// Last Edited: 15/10-21
 public class GrenadeObject : MonoBehaviour
 {
 	private GrenadeObject grenadeObject;
@@ -23,10 +23,7 @@ public class GrenadeObject : MonoBehaviour
 	[SerializeField]
 	private float initialExplodeTime = 2f;
 	private float explodeTime;
-	private bool detonation;
 	private bool isObjectThrown;
-
-
 
 	public void CreateGrenade(Vector3 position, Vector3 direction, float grenadeThrowForce, float grenadeExplodeForce, float grenadeDamage)
 	{
@@ -42,24 +39,22 @@ public class GrenadeObject : MonoBehaviour
 	{
 		if (isObjectThrown)
 		{
-			if (detonation)
-			{
-				explodeTime -= Time.fixedDeltaTime;
-				if (explodeTime <= 0)
-				{
-					Explode();
-				}
-			}
-			else if (GetComponent<Rigidbody>().velocity.magnitude < 0.5f)
+			if (GetComponent<Rigidbody>().velocity.magnitude < 0.5f)
 			{
 				FOVVisualization.SetActive(true);
-				detonation = true;
+				StartCoroutine(CountdownTime(explodeTime));
 			}
 		}
 		else
 		{
 			isObjectThrown = true;
 		}
+	}
+
+	private IEnumerator CountdownTime(float time)
+	{
+		yield return new WaitForSeconds(time);
+		Explode();
 	}
 
 	private void Explode()
