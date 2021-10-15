@@ -27,7 +27,6 @@ public static class Effects
 
 	public static void Die(GameObject target)
 	{
-		//GameObject target = this.gameObject;
 		if (target.tag == "Enemy")
 		{
 			// Tillfällig
