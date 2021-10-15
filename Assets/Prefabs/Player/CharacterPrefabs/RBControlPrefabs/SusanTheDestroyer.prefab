@@ -235,7 +235,6 @@ GameObject:
   - component: {fileID: 7184783443154223224}
   - component: {fileID: 7184783443154223229}
   - component: {fileID: 7184783443154223226}
-  - component: {fileID: 7184783443154223227}
   m_Layer: 0
   m_Name: Nose
   m_TagString: Untagged
@@ -306,19 +305,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7184783443154223227
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7184783443154223225}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7184783443606198734
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,6 +724,30 @@ PrefabInstance:
     - target: {fileID: 573004846986535636, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
       propertyPath: m_Name
       value: ThrowAim
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263854449851285674, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 0.105882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263854449851285674, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.105882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263854449851285674, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0.7254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263854449851285674, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 0.105882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263854449851285674, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0.105882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263854449851285674, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 0.7254902
       objectReference: {fileID: 0}
     - target: {fileID: 3957912097024091557, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
       propertyPath: initialVelocity

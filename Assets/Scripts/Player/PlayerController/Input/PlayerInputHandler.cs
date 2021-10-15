@@ -6,8 +6,15 @@ using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Handle player input and sends information to state controller
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 2021-10-12
 public class PlayerInputHandler : MonoBehaviour
 {
 	private PlayerConfiguration playerConfiguration;
@@ -16,7 +23,6 @@ public class PlayerInputHandler : MonoBehaviour
 	private PlayerStateController player;
 	private PlayerMovementController playerMovement;
 	private WeaponHand weaponHand;
-	//private WeaponHand weaponHand;
 
 	//World transform variables
 	private Vector3 forward;

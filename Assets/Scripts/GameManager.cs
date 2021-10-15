@@ -66,6 +66,8 @@ public class GameManager : MonoBehaviour
     }
     public int RoundTime { get { return roundTime; } }
 
+    public MultipleTargetCamera mainCamera;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -73,6 +75,9 @@ public class GameManager : MonoBehaviour
         Instance = this;
         aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
         roundTimer = RoundTime;
+
+        // Add maincamera to gamemanager
+        mainCamera = Camera.main.GetComponent<MultipleTargetCamera>(); 
     }
 
     // Update is called once per frame
@@ -163,6 +168,8 @@ public class GameManager : MonoBehaviour
         combatState = CombatState.player;
         roundTimer = RoundTime;
         PlayerManager.Instance.BeginCombat();
+        // Add all objects in checklist to maincamera
+        mainCamera.ObjectsInCamera = stillCheckList; 
     }
 
     /// <summary>
@@ -175,6 +182,8 @@ public class GameManager : MonoBehaviour
         combatState = CombatState.none;
         PlayerManager.Instance.EndCombat();
         roundTimer = RoundTime;
+        // Remove everything but players from the camera
+        mainCamera.ObjectsInCamera = playerManager.GetPlayers();
     }
 
     /// <summary>

@@ -5,8 +5,16 @@ using UnityEngine.AI;
 using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Handle character actions during combat turn
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 2021-10-12
+
 public class CombatTurnState : AbstractPlayerState
 {
 	//Attack Action
@@ -32,7 +40,6 @@ public class CombatTurnState : AbstractPlayerState
 			}
 		}
 		return false;
-
 	}
 	public override bool OnBombard()
 	{
@@ -53,7 +60,7 @@ public class CombatTurnState : AbstractPlayerState
 		IsActionTriggered = true;
 	}
 
-	//PickUp
+	//PickUp action
 	public override void OnPickUp(GameObject weapon)
 	{
 		if (!IsActionTriggered)
@@ -62,7 +69,7 @@ public class CombatTurnState : AbstractPlayerState
 		}
 	}
 
-	//Throw
+	//Throw action
 	public override bool OnStartThrow()
 	{
 		if (!IsActionTriggered)
@@ -154,13 +161,9 @@ public class CombatTurnState : AbstractPlayerState
 		IsActionTriggered = false;
 	}
 
-
+	//Update
 	public override void OnFixedUpdateState()
 	{
-		//if (IsActionLocked)
-		//	return;
-
-
 		//Rotation
 		if (playerMovement.CalculateRotation() != transform.rotation)
 		{
@@ -168,6 +171,7 @@ public class CombatTurnState : AbstractPlayerState
 		}
 		if (!IsActionTriggered && !IsStaminaDepleted)
 		{
+			//Movement
 			if (playerMovement.CalculateMovement() != Vector3.zero)
 			{
 				playerMovement.PerformMovement();
@@ -176,16 +180,6 @@ public class CombatTurnState : AbstractPlayerState
 					attributes.Stamina -= Time.deltaTime;
 			}
 		}
-		////Movement
-		//else
-		//{
-		//	if (playerMovement.CalculateMovement() != Vector3.zero)
-		//	{
-		//		playerMovement.PerformMovement();
-		//		if (GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
-		//			attributes.Stamina -= Time.deltaTime;
-		//	}
-		//}
 	}
 
 	public override void OnStateEnter()

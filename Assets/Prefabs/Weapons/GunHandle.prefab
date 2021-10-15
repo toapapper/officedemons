@@ -240,7 +240,8 @@ GameObject:
   - component: {fileID: 4904968821643305182}
   - component: {fileID: 4904968821643305181}
   - component: {fileID: 4904968821643305180}
-  - component: {fileID: 4904968821643305168}
+  - component: {fileID: 8315504031462791294}
+  - component: {fileID: 4394167073001246189}
   m_Layer: 0
   m_Name: Gun
   m_TagString: WeaponObject
@@ -324,7 +325,7 @@ FixedJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &4904968821643305168
+--- !u!114 &8315504031462791294
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -333,20 +334,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 4904968821643305178}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad51c3fa9f5a5024bbd30fb10c93dd1f, type: 3}
+  m_Script: {fileID: 11500000, guid: ebb09be3bd44b1c419eed9ad37fd8296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handle: {fileID: 4904968822265838951}
+  damage: 10
+  hitForce: 20
+  throwDamage: 2
+  viewDistance: 20
+  viewAngle: 10
   isHeld: 0
+  weaponMuzzle: {fileID: 6359886632728982214}
+  laserAim: {fileID: 4124911703853099303}
+  bulletFireForce: 20
   bullet: {fileID: 198003970889221192, guid: 7d8f5aa82bad9134da8f6611d160eaf5, type: 3}
-  gunHandle: {fileID: 4904968822265838951}
-  gunMuzzle: {fileID: 6359886632728982214}
-  gunLaserAim: {fileID: 4124911703853099303}
-  gunDamage: 10
-  gunBulletFireForce: 20
-  gunBulletHitForce: 10
-  gunThrowDamage: 2
-  gunViewDistance: 20
-  gunViewAngle: 10
+--- !u!114 &4394167073001246189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4904968821643305178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a77e37a2e2e2f24cbbfe7d7bfd5e08b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4904968822050194395
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,6 +532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4904968822265838936}
   - component: {fileID: 4904968822265838937}
+  - component: {fileID: 1851746786086626762}
   m_Layer: 0
   m_Name: GunHandle
   m_TagString: WeaponHandle
@@ -557,6 +571,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1851746786086626762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4904968822265838951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &6359886632728982214
 GameObject:
   m_ObjectHideFlags: 0
