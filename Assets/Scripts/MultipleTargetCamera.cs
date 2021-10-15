@@ -3,8 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Script by Jonas
+/// <para>
+/// Camera script that focuses on the midpoint between all players, and enemies when in an encounter
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Jonas
+///  
+/// </para>
+///  
 /// </summary>
+
+// Last Edited: 14/10-21
+
 [RequireComponent(typeof(Camera))]
 public class MultipleTargetCamera : MonoBehaviour
 {
@@ -16,19 +28,27 @@ public class MultipleTargetCamera : MonoBehaviour
     public float zoomLimiter = 30f;
 
     private Camera cam;
+    private List<GameObject> objectsInCamera;
+    public List<GameObject> ObjectsInCamera
+    {
+        get { return objectsInCamera; }
+        set { objectsInCamera = value; }
+    }
 
     private void Start()
     {
         cam = GetComponent<Camera>();
+
+        objectsInCamera = PlayerManager.instance.GetPlayers();
     }
 
     private void LateUpdate()
     {
-        if (PlayerManager.players == null)
+        if (objectsInCamera == null)
         {
             return;
         }
-        else if (PlayerManager.players.Count == 0)
+        else if (objectsInCamera.Count == 0)
         {
             return;
         }
@@ -40,7 +60,6 @@ public class MultipleTargetCamera : MonoBehaviour
     private void Zoom()
     {
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimiter);
-        //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
         cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, newZoom, Time.deltaTime);
     }
 
@@ -55,10 +74,10 @@ public class MultipleTargetCamera : MonoBehaviour
 
     private float GetGreatestDistance()
     {
-        var bounds = new Bounds(PlayerManager.players[0].transform.position, Vector3.zero);
-        for (int i = 0; i < PlayerManager.players.Count; i++)
+        var bounds = new Bounds(objectsInCamera[0].transform.position, Vector3.zero);
+        for (int i = 0; i < objectsInCamera.Count; i++)
         {
-            bounds.Encapsulate(PlayerManager.players[i].transform.position);
+            bounds.Encapsulate(objectsInCamera[i].transform.position);
         }
         DrawBounds(bounds, 0);
         if (bounds.size.x > bounds.size.z)
@@ -73,15 +92,15 @@ public class MultipleTargetCamera : MonoBehaviour
     }
     Vector3 GetCenterPoint()
     {
-        if (PlayerManager.players.Count == 1)
+        if (objectsInCamera.Count == 1)
         {
-            return PlayerManager.players[0].transform.position;
+            return objectsInCamera[0].transform.position;
         }
 
-        var bounds = new Bounds(PlayerManager.players[0].transform.position, Vector3.zero);
-        for (int i = 0; i < PlayerManager.players.Count; i++)
+        var bounds = new Bounds(objectsInCamera[0].transform.position, Vector3.zero);
+        for (int i = 0; i < objectsInCamera.Count; i++)
         {
-            bounds.Encapsulate(PlayerManager.players[i].transform.position);
+            bounds.Encapsulate(objectsInCamera[i].transform.position);
         }
 
         return bounds.center;

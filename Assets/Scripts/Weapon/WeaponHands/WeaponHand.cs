@@ -3,12 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Control characters weapon hand
+/// </para>
+///   
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 15/10-21
 public class WeaponHand : MonoBehaviour
 {
 	private Actions actions;
 	private Animator animator;
+	[SerializeField]
+	private ThrowAim throwAim;
 
 	[SerializeField]
 	private GameObject handObject;
@@ -26,12 +36,16 @@ public class WeaponHand : MonoBehaviour
 	private float handHitAngle = 100f;
 
 	public AbstractWeapon objectInHand;
-	[SerializeField]
-	private Gradient laserSightGradient;
+
+	private Gradient aimGradient;
 	
 	private float throwForce;
 
-	
+	public ThrowAim ThrowAim
+	{
+		get { return throwAim; }
+		set { throwAim = value; }
+	}
 
 	private void Awake()
 	{
@@ -39,39 +53,78 @@ public class WeaponHand : MonoBehaviour
 		animator = GetComponent<Animator>();
 		FOV.viewRadius = handHitDistance;
 		FOV.viewAngle = handHitAngle;
-		////For test
-		//ToggleAimView(true);
 	}
 
+    private void Start()
+    {
+		if (objectInHand != null)
+		{
+			FOV.viewRadius = objectInHand.ViewDistance;
+			FOV.viewAngle = objectInHand.ViewAngle;
+		}
+		else
+		{
+			FOV.viewRadius = handHitDistance;
+			FOV.viewAngle = handHitAngle;
+		}
+
+		SetAimGradient();
+
+		if (throwAim != null)
+		{
+			throwAim.gameObject.SetActive(true);
+			throwAim.GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
+			throwAim.gameObject.SetActive(false);
+		}
+	}
+
+	//Aim
+	private void SetAimGradient()
+	{
+		aimGradient = new Gradient();
+		GradientColorKey[] colorKey = new GradientColorKey[2];
+		colorKey[0].color = GetComponent<Attributes>().PlayerColor;
+		GradientAlphaKey[] alphaKey = new GradientAlphaKey[2];
+		alphaKey[0].alpha = 1;
+		alphaKey[1].time = 1;
+		alphaKey[1].alpha = 0;
+		aimGradient.SetKeys(colorKey, alphaKey);
+	}
+	public void ToggleAimView(bool isActive)
+	{
+		if (objectInHand)
+		{
+			objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
+		}
+		else
+		{
+			FOVVisualization.SetActive(isActive);
+		}
+	}
+	//public void ToggleThrowAim()
+	//{
+	//	if (objectInHand)
+	//	{
+	//		//objectInHand.ToggleThrowAim(isActive);
+	//	}
+	//}
+
+	//Pick up
 	public void Equip(GameObject newObject)
 	{
 		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
-		objectInHand.GetComponentInChildren<Collider>().enabled = false;
-
-		//For test
-		if (objectInHand is RangedWeapon)
+		foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
 		{
-			objectInHand.ToggleLaserAim(true, laserSightGradient);
+			collider.enabled = false;
 		}
-
-		//if(objectInHand is MeleeWeapon)
-		//{
-
-		//}
-		//else if (objectInHand is RangedWeapon)
-		//{
-		//	//For test
-		//	objectInHand.ToggleLaserAim(true, laserSightGradient);
-		//}
+		objectInHand.SetAimGradient(aimGradient);
 
 		FOV.viewAngle = objectInHand.ViewAngle;
 		FOV.viewRadius = objectInHand.ViewDistance;
-
-		////For Test
-		//ToggleAimView(true);
 	}
 
+	//Attack
 	public void StartAttack()
 	{
 		if (objectInHand != null)
@@ -92,14 +145,39 @@ public class WeaponHand : MonoBehaviour
 		else
 		{
 			animator.SetTrigger("isHandAttack");
-			Debug.Log("HandHit" + handHitDamage);
 		}
 	}
-	public void CancelAction()
+
+	//Bombard attack
+	public bool StartBombard()
 	{
-		animator.SetTrigger("isCancelAction");
+		if (objectInHand != null && objectInHand is BombardWeapon)
+		{
+			objectInHand.StartAttack(animator);
+			return true;
+		}
+		return false;
+	}
+	public bool SetBombardForce(float bombardForce)
+	{
+		if(objectInHand != null && objectInHand is BombardWeapon)
+		{
+			throwAim.initialVelocity = bombardForce;
+			return true;
+		}
+		return false;
+	}
+	public bool PerformBombard()
+	{
+		if (objectInHand != null && objectInHand is BombardWeapon)
+		{
+			objectInHand.Attack(animator);
+			return true;
+		}
+		return false;
 	}
 
+	//Throw weapon
 	public bool StartThrow()
 	{
 		if (objectInHand != null)
@@ -109,65 +187,60 @@ public class WeaponHand : MonoBehaviour
 		}
 		return false;
 	}
-	public bool Throw(float throwForce)
+	public bool SetThrowForce(float throwForce)
 	{
 		if (objectInHand != null)
 		{
 			this.throwForce = throwForce;
+			return true;
+		}
+		return false;
+	}
+	public bool Throw()
+	{
+		if (objectInHand != null)
+		{
 			animator.SetTrigger("isThrow");
 			return true;
 		}
 		return false;
 	}
-	public void ToggleAimView(bool isActive)
+
+	public void CancelAction()
 	{
-		if (objectInHand != null && objectInHand is RangedWeapon)
-		{
-			//TODO
-			objectInHand.ToggleLaserAim(isActive, laserSightGradient);
-		}
-		else
-		{
-			FOVVisualization.SetActive(isActive);
-		}
+		animator.SetTrigger("isCancelAction");
 	}
 
+	//Animation events
+	public void DoAction()
+	{
+		if (objectInHand)
+		{
+			objectInHand.DoAction(FOV);
+		}
+		else if (FOV.visibleTargets.Count > 0)
+		{
+			foreach (GameObject target in FOV.visibleTargets)
+			{
+				Effects.Damage(target, handHitDamage);
+				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
+			}
+		}
+	}
 	public void ReleaseThrow()
 	{
 		if (objectInHand != null)
 		{
-			objectInHand.GetComponentInChildren<Collider>().enabled = true;
 			objectInHand.ReleaseThrow(throwForce);
-
-			//For test
-			if (objectInHand is RangedWeapon)
+			foreach(Collider collider in objectInHand.GetComponentsInChildren<Collider>())
 			{
-				objectInHand.ToggleLaserAim(false, laserSightGradient);
+				collider.enabled = true;
 			}
 
 			throwForce = 0;
 			objectInHand = null;
 			FOV.viewAngle = handHitAngle;
 			FOV.viewRadius = handHitDistance;			
-		}
-	}
-
-	public void DoDamage()
-	{
-		if (objectInHand != null)
-		{
-			if(objectInHand is RangedWeapon)
-			{
-				objectInHand.Shoot();
-			}
-			else if(objectInHand is MeleeWeapon)
-			{
-				actions.Hit(objectInHand.transform.position, objectInHand.Damage, objectInHand.HitForce);
-			}
-		}
-		else
-		{
-			actions.Hit(handObject.transform.position, handHitDamage, handHitForce);
 		}
 	}
 }

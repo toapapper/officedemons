@@ -3,8 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Aim used for the ranged weapons
+/// </para>
+///   
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 14/10-21
 public class Laser : MonoBehaviour
 {
     private LineRenderer laserBeam;

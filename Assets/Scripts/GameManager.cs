@@ -67,6 +67,8 @@ public class GameManager : MonoBehaviour
 
     public AIManager aiManager;
 
+    public MultipleTargetCamera mainCamera;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -75,24 +77,26 @@ public class GameManager : MonoBehaviour
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
         aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
         roundTimer = RoundTime;
+
+        // Add maincamera to gamemanager
+        mainCamera = Camera.main.GetComponent<MultipleTargetCamera>(); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //ï¿½r alla/allt stilla-check
+        #region är alla/allt stilla-check
         AllStill = true;
-
         OssianUtils.CleanList(stillCheckList);
         foreach(GameObject gObject in stillCheckList)
         {
             if (gObject.CompareTag("Player"))
             {
-                if(gObject.GetComponent<CharacterController>().velocity.magnitude > 0)//fixa, det funkar inte. fråga johan hur det funkar med movement
+                if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
                 {
                     AllStill = false;
                 }
-            }
+			}
             else if (gObject.CompareTag("test"))//ENDAST Fï¿½R ATT TESTA
             {
                 if(gObject.GetComponent<Rigidbody>().velocity.magnitude > 0)
@@ -109,8 +113,10 @@ public class GameManager : MonoBehaviour
             }
             //else if projektil eller fiende eller whatever
         }
+        #endregion
 
-        if(combatState == CombatState.player)
+        #region combatState-update
+        if (combatState == CombatState.player)
         {
             roundTimer -= Time.deltaTime;
             if(roundTimer <= 0)
@@ -160,6 +166,7 @@ public class GameManager : MonoBehaviour
                 roundTimer = RoundTime;
             }
         }
+        #endregion
     }
 
     public void StartEncounter(Encounter encounter)
@@ -169,6 +176,9 @@ public class GameManager : MonoBehaviour
         combatState = CombatState.player;
         roundTimer = RoundTime;
         playerManager.BeginCombat();
+
+        // Add all objects in checklist to maincamera
+        mainCamera.ObjectsInCamera = stillCheckList; 
     }
 
     public void EndEncounter()
@@ -178,8 +188,15 @@ public class GameManager : MonoBehaviour
         combatState = CombatState.none;
         playerManager.EndCombat();
         roundTimer = RoundTime;//fï¿½r snygghetens skull. Kanske bara borde disablea klockan iofs.
+
+        // Remove everything but players from the camera
+        mainCamera.ObjectsInCamera = playerManager.GetPlayers();
     }
 
+    public void AllPlayersLockedIn()
+    {
+        roundTimer = 0;
+    }
 
     //toggles between pause and unpause
     public void OnPause()

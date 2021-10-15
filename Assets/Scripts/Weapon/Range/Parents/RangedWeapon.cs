@@ -4,15 +4,26 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// Coded by: Johan Melkersson
+/// <para>
+/// Methods connected to all ranged weapons
+/// </para>
+///   
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 14/10-21
 public abstract class RangedWeapon : AbstractWeapon
 {
+	[SerializeField]
 	private GameObject weaponMuzzle;
+	[SerializeField]
 	private GameObject laserAim;
 	[SerializeField]
+	private float bulletFireForce = 20;
+	[SerializeField]
 	private GameObject bullet;
-	private int bulletFireForce;
 
 	protected GameObject WeaponMuzzle
 	{
@@ -24,33 +35,36 @@ public abstract class RangedWeapon : AbstractWeapon
 		get { return laserAim; }
 		set { laserAim = value; }
 	}
-	public int BulletFireForce
+	public float BulletFireForce
 	{
 		get { return bulletFireForce; }
 		set { bulletFireForce = value; }
 	}
 
-	public override void Shoot()
+	public override void SetAimGradient(Gradient gradient)
 	{
-		Vector3 bulletDirection = transform.forward;
-		bulletDirection.y = 0;
-		bulletDirection.Normalize();
-
-		bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, bulletDirection, BulletFireForce, HitForce, Damage);
-
-
+		LaserAim.SetActive(true);
+		GetComponentInChildren<LineRenderer>().colorGradient = gradient;
+		LaserAim.SetActive(false);
 	}
-	public override void ToggleLaserAim(bool isActive, Gradient laserSightMaterial)
+
+	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
 		LaserAim.SetActive(isActive);
-		if (isActive)
-		{
-			GetComponentInChildren<LineRenderer>().colorGradient = laserSightMaterial;
-		}
 	}
+
 	public override void StartAttack(Animator animator)
 	{
 		animator.SetTrigger("isStartRangedSingleShot");
 	}
 	public override abstract void Attack(Animator animator);
+
+	public override void DoAction(FieldOfView fov)
+	{
+		Vector3 direction = transform.forward;
+		direction.y = 0;
+		direction.Normalize();
+
+		bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage);
+	}
 }

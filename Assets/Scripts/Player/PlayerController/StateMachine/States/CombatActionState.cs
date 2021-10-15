@@ -1,8 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.InputSystem.InputAction;
 
+/// <summary>
+/// <para>
+/// Makes the character perfom the actions chosen in the combat turn state
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
+/// </summary>
+
+// Last Edited: 2021-10-12
 public class CombatActionState : AbstractPlayerState
 {
 	public override void OnStateEnter()
@@ -13,11 +22,14 @@ public class CombatActionState : AbstractPlayerState
 			case TypeOfAction.ATTACK:
 				weaponHand.Attack();
 				break;
+			case TypeOfAction.BOMBARD:
+				weaponHand.PerformBombard();
+				break;
 			case TypeOfAction.SPECIALATTACK:
 				//specialHand.Attack();
 				break;
 			case TypeOfAction.THROW:
-				playerMovement.PerformThrow();
+				weaponHand.Throw();
 				break;
 			case TypeOfAction.REVIVE:
 				GetComponent<Actions>().Revive(GetComponent<CombatTurnState>().PlayerToRevive);

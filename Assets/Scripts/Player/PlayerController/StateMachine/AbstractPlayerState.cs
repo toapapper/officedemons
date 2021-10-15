@@ -19,6 +19,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     private bool isActionTriggered;
     private bool isActionLocked;
     private bool isAddingThrowForce;
+    private bool isAddingBombardForce;
     private TypeOfAction chosenAction;
     private bool isStaminaDepleted;
 
@@ -49,6 +50,11 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         get { return isAddingThrowForce; }
         set { isAddingThrowForce = value; }
     }
+    protected bool IsAddingBombardForce
+	{
+        get { return isAddingBombardForce; }
+        set { isAddingBombardForce = value; }
+    }
     public bool IsStaminaDepleted
     {
         get { return attributes.Stamina <= 0; }
@@ -61,7 +67,6 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 
     private void Awake()
     {
-        Debug.LogWarning("Reset action");
 		ChosenAction = TypeOfAction.NOACTION;
 		playerMovement = GetComponent<PlayerMovementController>();
         weaponHand = GetComponent<WeaponHand>();
@@ -74,10 +79,12 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     public virtual void LockAction() { }
     public virtual void CancelAction() { }
 	public virtual void OnAttack() { }
+    public virtual bool OnStartBombard() { return false; }
+    public virtual bool OnBombard() { return false; }
     public virtual void OnSpecial() { }
     public virtual void OnPickUp(GameObject weapon) { }
-    public virtual void OnStartThrow() { }
-    public virtual void OnThrow() { }
+    public virtual bool OnStartThrow() { return false; }
+    public virtual bool OnThrow() { return false; }
     public virtual void OnRevive(GameObject player) { }
     public virtual void TransitionState(IPlayerState state)
     {

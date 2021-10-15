@@ -1,5 +1,6 @@
 //Initially     written by Ossian, feel free to add to it.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,38 @@ public static class OssianUtils
             if (ts[i].Equals(null))
                 rmvAt.Add(i);
 
+        int removed = 0;
         foreach (int i in rmvAt)
-            ts.RemoveAt(i);
+        {
+            ts.RemoveAt(i - removed);
+            removed++;
+        }
+    }
+
+    /// <summary>
+    /// Somewhat smooth lerp between multiple colors
+    /// </summary>
+    /// <param name="colors">Colors to lerp between</param>
+    /// <param name="lerpNr">current lerpnr</param>
+    /// <returns></returns>
+    public static Color MultiColorLerp(Color[] colors, float lerpNr)
+    {
+        Color color = Color.black;
+
+        int colorIndex0 = Mathf.FloorToInt(lerpNr * (colors.Length - 1));
+        int colorIndex1 = colorIndex0 + 1;
+
+        if (colorIndex1 >= colors.Length)
+            return colors[colors.Length - 1];
+
+        float lerpFloor = (float)colorIndex0 / (float)(colors.Length - 1);
+        float lerpRoof = (float)colorIndex1 / (float)(colors.Length - 1);
+        float currentLerp = lerpNr - lerpFloor;
+        currentLerp /= lerpRoof - lerpFloor;
+
+        color = Color.Lerp(colors[colorIndex0], colors[colorIndex1], currentLerp);
+
+        return color;
     }
     
 }

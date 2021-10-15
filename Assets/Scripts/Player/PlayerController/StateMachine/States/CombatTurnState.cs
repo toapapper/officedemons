@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Handle character actions during combat turn
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 2021-10-12
+
 public class CombatTurnState : AbstractPlayerState
 {
 	//Attack Action
@@ -15,6 +22,30 @@ public class CombatTurnState : AbstractPlayerState
 		weaponHand.StartAttack();
 		ChosenAction = TypeOfAction.ATTACK;
 		IsActionTriggered = true;
+	}
+
+	//Bombard action
+	public override bool OnStartBombard()
+	{
+		if (!IsActionTriggered)
+		{
+			if (weaponHand.StartBombard())
+			{
+				weaponHand.ToggleAimView(true);
+				ChosenAction = TypeOfAction.BOMBARD;
+				IsActionTriggered = true;
+				return true;
+			}
+		}
+		return false;
+	}
+	public override bool OnBombard()
+	{
+		if (IsActionTriggered)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	//Special Action
@@ -27,7 +58,7 @@ public class CombatTurnState : AbstractPlayerState
 		IsActionTriggered = true;
 	}
 
-	//PickUp
+	//PickUp action
 	public override void OnPickUp(GameObject weapon)
 	{
 		if (!IsActionTriggered)
@@ -36,8 +67,8 @@ public class CombatTurnState : AbstractPlayerState
 		}
 	}
 
-	//Throw
-	public override void OnStartThrow()
+	//Throw action
+	public override bool OnStartThrow()
 	{
 		if (!IsActionTriggered)
 		{
@@ -46,16 +77,18 @@ public class CombatTurnState : AbstractPlayerState
 				//weaponHand.ToggleThrowAimView(true);
 				ChosenAction = TypeOfAction.THROW;
 				IsActionTriggered = true;
-				IsAddingThrowForce = true;
+				return true;
 			}
 		}
+		return false;
 	}
-	public override void OnThrow()
+	public override bool OnThrow()
 	{
 		if (IsActionTriggered)
 		{
-			IsAddingThrowForce = false;
+			return true;
 		}
+		return false;
 	}
 
 	//Revive action
@@ -75,6 +108,9 @@ public class CombatTurnState : AbstractPlayerState
 		switch (ChosenAction)
 		{
 			case TypeOfAction.ATTACK:
+				weaponHand.ToggleAimView(false);
+				break;
+			case TypeOfAction.BOMBARD:
 				weaponHand.ToggleAimView(false);
 				break;
 			case TypeOfAction.SPECIALATTACK:
@@ -100,6 +136,10 @@ public class CombatTurnState : AbstractPlayerState
 				weaponHand.ToggleAimView(false);
 				weaponHand.CancelAction();
 				break;
+			case TypeOfAction.BOMBARD:
+				weaponHand.ToggleAimView(false);
+				weaponHand.CancelAction();
+				break;
 			case TypeOfAction.SPECIALATTACK:
 				//TODO
 				//specialHand.ToggleAimView(false);
@@ -107,9 +147,8 @@ public class CombatTurnState : AbstractPlayerState
 				break;
 			case TypeOfAction.THROW:
 				//TODO
+				weaponHand.CancelAction();
 				//weaponHand.ToggleThrowAimView(false);
-				playerMovement.CancelThrow();
-				//weaponHand.CancelAction();
 				break;
 			case TypeOfAction.REVIVE:
 				PlayerToRevive = null;
@@ -119,40 +158,26 @@ public class CombatTurnState : AbstractPlayerState
 		ChosenAction = TypeOfAction.NOACTION;
 		IsActionTriggered = false;
 	}
-	
 
+	//Update
 	public override void OnFixedUpdateState()
 	{
-		//if (IsActionLocked)
-		//	return;
-
-
 		//Rotation
 		if (playerMovement.CalculateRotation() != transform.rotation)
 		{
 			playerMovement.PerformRotation();
 		}
-		if (IsActionTriggered || IsStaminaDepleted)
+		if (!IsActionTriggered && !IsStaminaDepleted)
 		{
-			//Throwing
-			if (IsAddingThrowForce)
-			{
-				playerMovement.AddThrowForce();
-			}
-		}
-		//Movement
-		else
-		{
+			//Movement
 			if (playerMovement.CalculateMovement() != Vector3.zero)
 			{
-				attributes.Stamina -= Time.deltaTime;
 				playerMovement.PerformMovement();
+
+				//lite s� att den drainar stamina beroend p� hur snabbt du g�r, kanske k�nns lite b�ttre eller s� g�r det ingen skillnad.
+				if (GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
+					attributes.Stamina -= Time.deltaTime * GetComponent<Rigidbody>().velocity.magnitude/GetComponent<PlayerMovementController>().getMoveSpeed;
 			}
-		}
-		//Falling
-		if (transform.position.y > 0)
-		{
-			playerMovement.PerformFall();
 		}
 	}
 
