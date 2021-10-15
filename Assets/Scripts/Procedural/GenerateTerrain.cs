@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-
-
 /// <summary>
 /// Generate Walls and floors 
 /// <para>
