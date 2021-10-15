@@ -15,7 +15,7 @@ class ReviveState : AbstractPlayerState
         Debug.Log("Entered ReviveState: " + gameObject.ToString());
 
         PlayerStates toState = PlayerStates.DEAD;
-        if(GameManager.Instance.combatState == CombatState.none)
+        if(GameManager.Instance.CurrentCombatState == CombatState.none)
         {
             attributes.Health = attributes.StartHealth;
             toState = PlayerStates.OUTOFCOMBAT;

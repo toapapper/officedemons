@@ -4,51 +4,57 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// <para>
+/// Handles the players. contains a static list containing all the active players.<br/>
+/// alerts the players when it's time to enter combat, exit combat, or wait for their turn to do an action, or just wait for the enemies to be done with their turn.
+/// </para>
+///   
+///  <para>
+///  Author: Ossian
+///  
+/// </para>
+///  
+/// </summary>
+
+/*
+ * Last Edited:
+ * 15-10-2021
+ */
+
 public class PlayerManager : MonoBehaviour
 {
     public static List<GameObject> players;
+    public static PlayerManager Instance;
 
-    //for debugging and solving strange problems....
-    //is anyway just a reference to PlayerManager.players
-    public List<GameObject> localPlayerList;
+    [SerializeField] private GameObject viciousVicky;
+    [SerializeField] private GameObject terribleTim;
+    [SerializeField] private GameObject susanTheDestroyer;
+    [SerializeField] private GameObject devin;
 
-    public static UnityEvent doneEvent;
+    [SerializeField] private bool joinAnyTime = false; 
+    public bool JoinAnyTime { get { return joinAnyTime; } } //checked by playerConfigurationManager to know if it should run SpawnNewPlayer when a new controller joins
 
-    [SerializeField]
-    GameObject viciousVicky;
-    [SerializeField]
-    GameObject terribleTim;
-    [SerializeField]
-    GameObject susanTheDestroyer;
-    [SerializeField]
-    GameObject devin;
-
-    public static PlayerManager instance;
     private Queue<GameObject> actions;
-
-    public bool joinAnyTime = false;
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
         players = new List<GameObject>();
-        localPlayerList = players;
         actions = new Queue<GameObject>();
-        doneEvent = new UnityEvent();
-        doneEvent.AddListener(NextPlayerAction);
     }
 
 
     private void Update()
     {
-        if(GameManager.Instance.combatState == CombatState.player && actions.Count == players.Count)
+        if(GameManager.Instance.CurrentCombatState == CombatState.player && actions.Count == players.Count)
         {
             GameManager.Instance.AllPlayersLockedIn();
         }
     }
 
     /// <summary>
-    /// För att kunna spawna nya spelare in game när folk joinar. kallas av playerconfigurationmanager om joinAnyTime är sann.
+    /// Spawns a new player, for use with "join any time" - joining
     /// </summary>
     /// <param name="playerconfig"></param>
     public void SpawnNewPlayer(PlayerConfiguration playerconfig)
@@ -80,7 +86,11 @@ public class PlayerManager : MonoBehaviour
         player.GetComponent<PlayerInputHandler>().recentlySpawned = true;
     }
 
-    private void NextPlayerAction()
+    /// <summary>
+    /// Signal the next player in line to do their action.<br/> 
+    /// If no players remain, wait untill all is still in the scene and then signal the gamemanager
+    /// </summary>
+    public void NextPlayerAction()
     {
         if(actions.Count > 0)
         {
@@ -89,10 +99,14 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine("WaitDone");
+            StartCoroutine(WaitDone());
         }
     }
 
+    /// <summary>
+    /// Waits for .1 seconds and untill all gameObjects are still. It then signals the gamemanager that all players are done
+    /// </summary>
+    /// <returns></returns>
     IEnumerator WaitDone()
     {
         yield return new WaitForSeconds(.1f);
@@ -101,26 +115,22 @@ public class PlayerManager : MonoBehaviour
         {
             if (GameManager.Instance.AllStill)
             {
-                GameManager.Instance.playerActionsDone = true;
+                GameManager.Instance.PlayerActionsDone = true;
                 StopCoroutine("WaitDone");
             }
             yield return null;
         }
     }
 
-    //Extremt fult implementerade allihopa, men men.. Ossian som har skrivit allt detta f�rresten om ni inte pallar kolla i github efter vem som skrivit detta f�nster vars enda utsikt �r en gr� kyrkog�rd i form av kod.
     public void BeginCombat()
     {
         Debug.Log("Begin combat");
         foreach (GameObject p in players)
         {
             p.GetComponent<PlayerStateController>().StartCombat();
-
             Debug.Log(p.ToString());
         }
-        //disabled player movement, now automatically move them somewhere,maybe, should perhaps be contained in the encounter where to
 
-        //And begin the first turn
         BeginTurn();
     }
 
@@ -158,12 +168,6 @@ public class PlayerManager : MonoBehaviour
 
         NextPlayerAction();
     }
-
-    public List<GameObject> GetPlayers()
-    {
-        return players;
-    }
-
 
     public void ActionDone(GameObject player)
     {
