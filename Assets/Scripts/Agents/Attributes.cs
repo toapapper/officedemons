@@ -48,7 +48,11 @@ public class Attributes : MonoBehaviour
             if (health <= 0)
             {
                 health = 0;
-                GetComponent<Actions>().Die(this.gameObject);
+                if (gameObject.tag == "Enemy")
+                {
+                    EnemyActions.Instance.Die(this.gameObject);
+                }
+                // TODO: if player where is Die() called?
             }
         } 
     }
