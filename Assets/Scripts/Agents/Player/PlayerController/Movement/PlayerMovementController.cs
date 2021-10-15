@@ -55,7 +55,6 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public Vector3 CalculateMovement()
 	{
-		Debug.Log(navmeshAgent.velocity.magnitude);
 		Vector3 targetMoveAmount = moveDirection * moveSpeed;
 		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
 		return moveAmount;
