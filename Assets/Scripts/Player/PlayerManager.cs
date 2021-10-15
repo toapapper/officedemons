@@ -4,6 +4,24 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// <para>
+/// Handles the players. contains a static list containing all the active players.<br/>
+/// alerts the players when it's time to enter combat, exit combat, or wait for their turn to do an action, or just wait for the enemies to be done with their turn.
+/// </para>
+///   
+///  <para>
+///  Author: Ossian
+///  
+/// </para>
+///  
+/// </summary>
+
+/*
+ * Last Edited:
+ * 15-10-2021
+ */
+
 public class PlayerManager : MonoBehaviour
 {
     public static List<GameObject> players;

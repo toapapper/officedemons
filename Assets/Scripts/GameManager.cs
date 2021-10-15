@@ -1,19 +1,3 @@
-//Initially written by Ossian, feel free to add to it.
-
-/*
- * Anteckningar:
- *
- * Pausa, hantera sï¿½dant.
- *
- * Hantera encounters, starta, lï¿½sa av nï¿½r de e avslutade etc.
- * enum combatState?: player, enemy, none
- * timer.
- * spelare.
- *
- * ha koll pï¿½ spelare, kanske statiskt sï¿½ kan hï¿½lla koll mellan menyer
- *
- *
- */
 
 using System.Collections;
 using System.Collections.Generic;
@@ -30,6 +14,22 @@ public enum CombatState
     enemyActions
 }
 
+/// <summary>
+/// <para>
+/// A singleton managing if it's the enemies turn or the players turn or you just aren't in combat.<br/>
+/// Also handles the turn timer and checks whether all is still.
+/// </para>
+///   
+/// <para>
+///  Author: Ossian
+/// </para>
+///  
+/// </summary>
+
+/*
+ * Last Edited:
+ * 15-10-2021
+ */
 public class GameManager : MonoBehaviour
 {
     /// <summary> static current instance of GameManager </summary>
@@ -65,9 +65,6 @@ public class GameManager : MonoBehaviour
         set { allStill = value; }
     }
     public int RoundTime { get { return roundTime; } }
-
-
-
 
 
     // Start is called before the first frame update
