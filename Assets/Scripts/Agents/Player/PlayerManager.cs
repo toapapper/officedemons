@@ -116,10 +116,10 @@ public class PlayerManager : MonoBehaviour
             if (GameManager.Instance.AllStill)
             {
                 GameManager.Instance.PlayerActionsDone = true;
-                StopCoroutine("WaitDone");
+                break;
             }
-            yield return null;
         }
+        yield return null;
     }
 
     public void BeginCombat()
@@ -128,7 +128,6 @@ public class PlayerManager : MonoBehaviour
         foreach (GameObject p in players)
         {
             p.GetComponent<PlayerStateController>().StartCombat();
-            Debug.Log(p.ToString());
         }
 
         BeginTurn();
@@ -141,7 +140,6 @@ public class PlayerManager : MonoBehaviour
         foreach (GameObject p in players)
         {
             p.GetComponent<PlayerStateController>().StartOutOfCombat();
-            Debug.Log(p.ToString());
         }
     }
 
@@ -152,7 +150,6 @@ public class PlayerManager : MonoBehaviour
         foreach (GameObject p in players)
         {
             p.GetComponent<PlayerStateController>().StartTurn();
-            Debug.Log(p.ToString());
         }
     }
 
@@ -162,7 +159,6 @@ public class PlayerManager : MonoBehaviour
 
         foreach (GameObject p in players)
         {
-            Debug.Log(p.ToString());
             p.GetComponent<PlayerStateController>().StartWaitForTurn();//borde antagligen göra actions och så istället
         }
 
