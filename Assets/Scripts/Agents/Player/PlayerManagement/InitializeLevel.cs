@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Instatiate all chosen players in level
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 18/10 -21
 public class InitializeLevel : MonoBehaviour
 {
     [SerializeField]

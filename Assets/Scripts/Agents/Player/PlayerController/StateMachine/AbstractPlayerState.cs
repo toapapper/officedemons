@@ -5,8 +5,15 @@ using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Character can not do anything during this state, waits for combat turn
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 2021-10-12
 public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 {
 	protected PlayerMovementController playerMovement;
