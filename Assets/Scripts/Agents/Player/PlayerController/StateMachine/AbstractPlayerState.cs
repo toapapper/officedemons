@@ -6,7 +6,7 @@ using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
 /// <para>
-/// Character can not do anything during this state, waits for combat turn
+/// Parent to player states
 /// </para> 
 ///  <para>
 ///  Author: Johan Melkersson
