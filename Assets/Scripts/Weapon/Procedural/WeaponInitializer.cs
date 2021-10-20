@@ -131,21 +131,29 @@ public class WeaponInitializer : MonoBehaviour
 
     private StatusEffect GetRandomEffect(List<StatusEffect> existingEffects)
     {
+        int maxTries = 20;
         int enumSize = Enum.GetNames(typeof(StatusEffect)).Length;
-        StatusEffect statusEffect = (StatusEffect)UnityEngine.Random.Range(0, enumSize);
-        bool foundNewStatus = false;
-        for (int i = 0; i < enumSize; i++)
+        StatusEffect statusEffect;
+        for (int i = 0; i < maxTries; i++)
         {
-            if (statusEffect == existingEffects[i])
+            bool foundNewStatus = true;
+            statusEffect = (StatusEffect)UnityEngine.Random.Range(0, enumSize);
+            for (int j = 0; j < existingEffects.Count; j++)
             {
-                GetRandomEffect(existingEffects);
-                foundNewStatus = true;
+                if (statusEffect == existingEffects[i])
+                {
+                    foundNewStatus = false;
+                    break;
+                }
             }
+            if (foundNewStatus)
+            {
+                return statusEffect;
+            }
+            
         }
-        if (foundNewStatus)
-        {
-            return statusEffect;
-        }
-        GetRandomEffect(existingEffects);
+        //Already has everything so we return nothing
+        statusEffect = StatusEffect.Nothing;
+        return statusEffect;
     }
 }
