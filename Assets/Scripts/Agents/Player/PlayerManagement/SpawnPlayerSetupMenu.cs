@@ -5,8 +5,15 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Spawns new player setup menu for every player joining in the menu
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 18/10 -21
 public class SpawnPlayerSetupMenu : MonoBehaviour
 {
 	public GameObject playerSetupMenuPrefab;
@@ -14,6 +21,7 @@ public class SpawnPlayerSetupMenu : MonoBehaviour
 
 	private void Awake()
 	{
+		Debug.Log("HEJ");
 		var rootMenu = GameObject.Find("MainLayout");
 		if(rootMenu != null)
 		{

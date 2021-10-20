@@ -23,7 +23,6 @@ using UnityEngine.AI;
 public class AIStateHandler : MonoBehaviour
 {
     Encounter encounter;
-    Actions actions;
     Attributes attributes;
     GameObject rightHand, leftHand;
     FieldOfView fov;
@@ -33,7 +32,6 @@ public class AIStateHandler : MonoBehaviour
     void Start()
     {
         encounter = transform.parent.gameObject.GetComponent<Encounter>();
-        actions = GetComponent<Actions>();
         attributes = GetComponent<Attributes>();
         rightHand = this.gameObject.transform.GetChild(1).gameObject;
         leftHand = this.gameObject.transform.GetChild(2).gameObject;

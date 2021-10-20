@@ -32,13 +32,12 @@ public class CombatActionState : AbstractPlayerState
 				weaponHand.Throw();
 				break;
 			case TypeOfAction.REVIVE:
-				GetComponent<Actions>().Revive(GetComponent<CombatTurnState>().PlayerToRevive);
+				Effects.Revive(GetComponent<CombatTurnState>().PlayerToRevive);
 				Debug.LogWarning("combatActionState revive " + GetComponent<CombatTurnState>().PlayerToRevive);
 				break;
 			case TypeOfAction.NOACTION:
 				break;
 		}
-		Debug.LogWarning("Reset action");
 		GetComponent<CombatTurnState>().ChosenAction = TypeOfAction.NOACTION;
 
 		StartCoroutine("WaitDone");
@@ -49,7 +48,6 @@ public class CombatActionState : AbstractPlayerState
 		yield return new WaitForSeconds(1);
         while (true)
         {
-			Debug.Log("CombatActionState Coroutine");
 			if (GameManager.Instance.AllStill)
 			{
 				PlayerManager.Instance.NextPlayerAction();

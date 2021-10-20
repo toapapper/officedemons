@@ -5,11 +5,17 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// Coded by: Johan Melkersson
+/// <para>
+/// Calculates and performs player movement
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 2021-10-12
 public class PlayerMovementController : MonoBehaviour
 {
-	//private Rigidbody rb;
 	private NavMeshAgent navmeshAgent;
 
 	//Movement variables
@@ -40,7 +46,6 @@ public class PlayerMovementController : MonoBehaviour
 
 	private void Awake()
 	{
-		//rb = GetComponent<Rigidbody>();
 		navmeshAgent = GetComponent<NavMeshAgent>();
 	}
 		
@@ -55,7 +60,6 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public Vector3 CalculateMovement()
 	{
-		Debug.Log(navmeshAgent.velocity.magnitude);
 		Vector3 targetMoveAmount = moveDirection * moveSpeed;
 		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
 		return moveAmount;
@@ -74,6 +78,5 @@ public class PlayerMovementController : MonoBehaviour
 		pos.y = Mathf.Clamp(pos.y, 0, 1.05f);
 
 		navmeshAgent.Move(pos - transform.position);
-		//rb.MovePosition(pos);
 	}
 }

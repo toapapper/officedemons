@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Bara en enum med de olika karaktärerna, kommer användas främst i ui antar jag för att kunna avgöra vilken karaktär ett gameObject är
+/// <para>
+/// Contains all stats and information about the agent
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Tinea Larsson, Johan Melkersson, Jonas Lundin, Kristian Svensson, Ossian SarÃ©n Gran
+///  
+/// </para>
+///  
 /// </summary>
-public enum Characters
-{
-    Tim,
-    Susan,
-    Vicky,
-    Devin
-}
+
+// Last Edited: 18-10-21
+
+public enum Characters { Tim, Susan, Vicky, Devin }
 
 public class Attributes : MonoBehaviour
 {
@@ -24,12 +30,12 @@ public class Attributes : MonoBehaviour
     public Characters Name { get { return characterName; } }
 
     [SerializeField]
-    private string jobTitle = "arbetslös";
+    private string jobTitle = "arbetslï¿½s";
     public string JobTitle { get { return jobTitle; } }
 
     [SerializeField]
     [Header("Start Health Points")]
-    int startHealth;
+    private int startHealth;
 
     public int StartHealth
     {
@@ -38,19 +44,19 @@ public class Attributes : MonoBehaviour
 
     [SerializeField]
     [Header("Current Health Points")]
-    int health;
+    private int health;
 
     public int Health
     {
         get { return health; }
-        set { //kanske bör flyttas någon annan stans.
+        set { 
             health = value;
             if (health <= 0)
             {
                 health = 0;
-                GetComponent<Actions>().Die(this.gameObject);
+                Effects.Die(gameObject);
             }
-        } 
+        }
     }
 
     [SerializeField]

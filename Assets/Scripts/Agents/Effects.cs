@@ -25,9 +25,26 @@ public static class Effects
 		target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
 	}
 
+	public static void Die(GameObject target)
+	{
+		if (target.tag == "Enemy")
+		{
+			// Tillfällig
+			Debug.Log("Enemy died");
+			target.GetComponent<MeshRenderer>().material.color = Color.black;
+			target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
+		}
+		else if (target.tag == "Player")
+		{
+			//Disable Movement
+			//Play death animation
+			// bool targetIsDead so it's not targetet and attacked again while dead
+			target.GetComponent<PlayerStateController>().Die();
+		}
+	}
+
 	public static void Revive(GameObject target)
 	{
-		target.GetComponent<Attributes>().Health = target.GetComponent<Attributes>().StartHealth / 2;
 		target.GetComponent<PlayerStateController>().Revive();
 	}
 }

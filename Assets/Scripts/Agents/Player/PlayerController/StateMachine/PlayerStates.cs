@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Enum containing all states player can have
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 2021-10-12
 public enum PlayerStates
 {
     OUTOFCOMBAT,

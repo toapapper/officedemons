@@ -6,8 +6,15 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Handles playerconfiguration and saves selections made in selection menu
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 18/10 -21
 public class PlayerConfigurationManager : MonoBehaviour
 {
     private List<PlayerConfiguration> playerConfigurations;

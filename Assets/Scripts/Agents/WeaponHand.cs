@@ -15,7 +15,6 @@ using UnityEngine;
 // Last Edited: 15/10-21
 public class WeaponHand : MonoBehaviour
 {
-	private Actions actions;
 	private Animator animator;
 	[SerializeField]
 	private ThrowAim throwAim;
@@ -49,7 +48,6 @@ public class WeaponHand : MonoBehaviour
 
 	private void Awake()
 	{
-		actions = GetComponent<Actions>();
 		animator = GetComponent<Animator>();
 		FOV.viewRadius = handHitDistance;
 		FOV.viewAngle = handHitAngle;
