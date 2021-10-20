@@ -15,12 +15,10 @@ public class StatusEffects : MonoBehaviour
 {
     enum StatusEffect
     {
-        Paralysis,
-        Poison,
-        Cripple,
-        Burn,
-        Blindness
+        Paralysis, // Stun agent
+        Poison, // Take damage per turn
+        Cripple, // Walk slower
+        Burn, // Take damage per turn
+        Blindness //Remove player fov aim
     }
-
-
 }

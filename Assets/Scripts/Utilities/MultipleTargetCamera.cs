@@ -57,12 +57,18 @@ public class MultipleTargetCamera : MonoBehaviour
         Zoom();
     }
 
+    /// <summary>
+    /// Adjust camera zoom by changing the orthographic size
+    /// </summary>
     private void Zoom()
     {
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimiter);
         cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, newZoom, Time.deltaTime);
     }
 
+    /// <summary>
+    /// Move the camera
+    /// </summary>
     private void Move()
     {
         Vector3 centerPoint = GetCenterPoint();
@@ -72,6 +78,10 @@ public class MultipleTargetCamera : MonoBehaviour
 		transform.parent.position = Vector3.SmoothDamp(transform.parent.position, centerPoint, ref velocity, smoothTime);
 	}
 
+    /// <summary>
+    /// Returns the greatest distance between all objects within the bounds
+    /// </summary>
+    /// <returns></returns>
     private float GetGreatestDistance()
     {
         var bounds = new Bounds(objectsInCamera[0].transform.position, Vector3.zero);
@@ -90,6 +100,11 @@ public class MultipleTargetCamera : MonoBehaviour
         }
 
     }
+
+    /// <summary>
+    /// Return the center point of the camera bounds
+    /// </summary>
+    /// <returns></returns>
     Vector3 GetCenterPoint()
     {
         if (objectsInCamera.Count == 1)
@@ -106,6 +121,11 @@ public class MultipleTargetCamera : MonoBehaviour
         return bounds.center;
     }
 
+    /// <summary>
+    /// Draws lines around the bounding box that surround objects within the camera bounds
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="delay"></param>
     void DrawBounds(Bounds b, float delay = 0)
     {
         // bottom
