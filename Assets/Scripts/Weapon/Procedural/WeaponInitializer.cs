@@ -11,7 +11,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 14-10-2021
+// Last Edited: 20-10-2021
 public class WeaponInitializer : MonoBehaviour
 {  
     void Start()
@@ -19,7 +19,7 @@ public class WeaponInitializer : MonoBehaviour
         //If a level is created using the PCG level creator, then this script is only called once.
         try
         {
-            int rnd = UnityEngine.Random.Range(0, 10);
+            int rnd = UnityEngine.Random.Range(0, WeaponList.weaponNames.Count - 1);
             string name = WeaponList.weaponNames[rnd];
             GetStats(name);
             Destroy(this);
@@ -37,55 +37,115 @@ public class WeaponInitializer : MonoBehaviour
     {
         int rnd = UnityEngine.Random.Range(0, 100);
         string rarity = "";
-        List<string> stats;
+        WeaponStatsGeneration stats;
         if(WeaponList.weaponDictionary.TryGetValue(name, out stats))
         {
             if(rnd < 50)
             {
                 rarity = "Common";
-                GetComponent<AbstractWeapon>().Damage *= Int32.Parse(stats[0]);
-                // Durability GetComponent<AbstractWeapon>().Damage = Int32.Parse(stats[0]);
-                GetComponent<AbstractWeapon>().ViewDistance = Int32.Parse(stats[2]);
-                // Weight GetComponent<AbstractWeapon>().Damage = Int32.Parse(stats[0]);
+                GetComponent<AbstractWeapon>().Damage *= stats.damage;
+                // Durability GetComponent<AbstractWeapon>().Durability += stats.durability;
+                GetComponent<AbstractWeapon>().ViewDistance *= stats.range;
+                // Weight GetComponent<AbstractWeapon>().Weight *= stats.weight);
+                //for (int i = 0; i < stats.effects.Count; i++)
+                //{
+                //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
+                //}
                 GetComponentInParent<Outline>().OutlineColor = Color.gray;
             }
             else if(rnd >= 50 && rnd < 75)
             {
                 rarity = "Uncommon";
-                GetComponent<AbstractWeapon>().Damage *= Int32.Parse(stats[0]);
-                // Durability GetComponent<AbstractWeapon>().Damage = Int32.Parse(stats[0]);
-                GetComponent<AbstractWeapon>().ViewDistance = Int32.Parse(stats[2]);
-                // Weight GetComponent<AbstractWeapon>().Damage = Int32.Parse(stats[0]);
+                GetComponent<AbstractWeapon>().Damage *= stats.damage;
+                // Durability GetComponent<AbstractWeapon>().Durability += stats.durability;
+                GetComponent<AbstractWeapon>().ViewDistance *= stats.range;
+                // Weight GetComponent<AbstractWeapon>().Weight *= stats.weight);
+                //for (int i = 0; i < stats.effects.Count; i++)
+                //{
+                //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
+                //}
                 GetComponentInParent<Outline>().OutlineColor = Color.green;
             }
             else if(rnd >= 75 && rnd < 90)
             {
                 rarity = "Rare";
-                GetComponent<AbstractWeapon>().Damage *= Int32.Parse(stats[0]);
-                // Durability GetComponent<AbstractWeapon>().Damage = Int32.Parse(stats[0]);
-                GetComponent<AbstractWeapon>().ViewDistance = Int32.Parse(stats[2]);
-                // Weight GetComponent<AbstractWeapon>().Damage = Int32.Parse(stats[0]);
+                GetComponent<AbstractWeapon>().Damage *= stats.damage;
+                // Durability GetComponent<AbstractWeapon>().Durability += stats.durability;
+                GetComponent<AbstractWeapon>().ViewDistance *= stats.range;
+                // Weight GetComponent<AbstractWeapon>().Weight *= stats.weight);
+                //for (int i = 0; i < stats.effects.Count; i++)
+                //{
+                //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
+                //}
                 GetComponentInParent<Outline>().OutlineColor = Color.blue;
             }
             else if(rnd >= 90 && rnd < 97)
             {
                 rarity = "Epic";
-                GetComponent<AbstractWeapon>().Damage *= Int32.Parse(stats[0]);
-                // Durability GetComponent<AbstractWeapon>().Damage = Int32.Parse(stats[0]);
-                GetComponent<AbstractWeapon>().ViewDistance = Int32.Parse(stats[2]);
-                // Weight GetComponent<AbstractWeapon>().Damage = Int32.Parse(stats[0]);
+                GetComponent<AbstractWeapon>().Damage *= stats.damage;
+                // Durability GetComponent<AbstractWeapon>().Durability += stats.durability;
+                GetComponent<AbstractWeapon>().ViewDistance *= stats.range;
+                // Weight GetComponent<AbstractWeapon>().Weight *= stats.weight);
+                //for (int i = 0; i < stats.effects.Count; i++)
+                //{
+                //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
+                //}
                 GetComponentInParent<Outline>().OutlineColor = Color.magenta;
             }
             else
             {
                 rarity = "Legendary";
-                GetComponent<AbstractWeapon>().Damage *= Int32.Parse(stats[0]);
-                // Durability GetComponent<AbstractWeapon>().Damage = Int32.Parse(stats[0]);
-                GetComponent<AbstractWeapon>().ViewDistance = Int32.Parse(stats[2]);
-                // Weight GetComponent<AbstractWeapon>().Damage = Int32.Parse(stats[0]);
+                GetComponent<AbstractWeapon>().Damage *= stats.damage;
+                // Durability GetComponent<AbstractWeapon>().Durability += stats.durability;
+                GetComponent<AbstractWeapon>().ViewDistance *= stats.range;
+                // Weight GetComponent<AbstractWeapon>().Weight *= stats.weight);
+                //for (int i = 0; i < stats.effects.Count; i++)
+                //{
+                //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
+                //}
                 GetComponentInParent<Outline>().OutlineColor = new Color(1,0.5f,0,1);
             }
             transform.parent.name = (rarity + " " + name + " " + this.gameObject.name);
         }            
+    }
+
+
+    /// <summary>
+    /// Add extra effects to the weapon
+    /// </summary>
+    /// <param name="desiredEffectCount">Write the desired amount of effects <br/> Takes into account already existing effects</param>
+    private void GainSpecialEffect(int desiredEffectCount, WeaponStatsGeneration weapon)
+    {
+        int effectsToAdd = desiredEffectCount - weapon.effects.Count;
+        List<StatusEffect> existingEffects = new List<StatusEffect>();
+        for (int i = 0; i < weapon.effects.Count; i++)
+        {
+            existingEffects.Add(weapon.effects[i]);
+        }
+        for (int i = 0; i < effectsToAdd; i++)
+        {
+
+        }
+    }
+
+
+    private StatusEffect GetRandomEffect(List<StatusEffect> existingEffects)
+    {
+        int enumSize = Enum.GetNames(typeof(StatusEffect)).Length;
+        StatusEffect statusEffect = (StatusEffect)UnityEngine.Random.Range(0, enumSize);
+        bool foundNewStatus = false;
+        for (int i = 0; i < enumSize; i++)
+        {
+            if (statusEffect == existingEffects[i])
+            {
+                GetRandomEffect(existingEffects);
+                foundNewStatus = true;
+            }
+        }
+        if (foundNewStatus)
+        {
+            return statusEffect;
+        }
+        GetRandomEffect(existingEffects);
     }
 }
