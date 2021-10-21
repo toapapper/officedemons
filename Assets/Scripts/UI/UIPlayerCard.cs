@@ -4,37 +4,51 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// <para>
+/// Container and handler for all the components of the player card ui element.
+/// </para>
+///   
+///  <para>
+///  Author: Ossian
+///  
+/// </para>
+///  
+/// </summary>
+
+// Last Edited: 20-10-21
+
+
 public class UIPlayerCard : MonoBehaviour
 {
     /// <summary>
     /// spelare tillhörande kortet
     /// </summary>
-    public GameObject player;
-    public Image colorBar;
-    public UIHeartContainer heartContainer;
+    [SerializeField] private GameObject player;
+    [SerializeField] private Image colorBar;
 
-    //Use later, ge olika beroende på vilken char, ang vapen, ge när vapen plockas upp
-    //public GameObject fotoPicture;
-    //public GameObject weapon
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text jobbText;
 
-    public TMP_Text nameText;
-    public TMP_Text jobbText;
-
+    /// <summary>
+    /// Initialize the playercard. Reading the relevant attributes of its asigned player and filling them in.
+    /// </summary>
+    /// <param name="player"> The player - gameobject this card belongs to</param>
     public void Initialize(GameObject player)
     {
-        heartContainer.gameObject.SetActive(true);
-        heartContainer.SetPlayer(player);
-
+        this.player = player;
         Attributes attributes = player.GetComponent<Attributes>();
 
         nameText.text = attributes.Name.ToString();
         jobbText.text = attributes.JobTitle;
         colorBar.color = attributes.PlayerColor;
     }
+    
 
-    // Update is called once per frame
     void Update()
     {
-        
+        float ratio =  (float)player.GetComponent<Attributes>().Health / (float)player.GetComponent<Attributes>().StartHealth;
+        colorBar.fillAmount = ratio;
     }
 }

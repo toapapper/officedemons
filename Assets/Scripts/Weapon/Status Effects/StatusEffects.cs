@@ -24,5 +24,4 @@ using UnityEngine;
 public class StatusEffects : MonoBehaviour
 {
 
-
 }
