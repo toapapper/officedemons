@@ -10,15 +10,18 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 14-10-2021
+// Last Edited: 20-10-2021
+    public enum StatusEffect
+    {
+        Nothing,
+        Paralysis,
+        Poison,
+        Stun,
+        Burn,
+        Bleeding,
+        Disarm
+    }
 public class StatusEffects : MonoBehaviour
 {
-    enum StatusEffect
-    {
-        Paralysis, // Stun agent
-        Poison, // Take damage per turn
-        Cripple, // Walk slower
-        Burn, // Take damage per turn
-        Blindness //Remove player fov aim
-    }
+
 }
