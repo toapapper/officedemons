@@ -20,12 +20,17 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class MultipleTargetCamera : MonoBehaviour
 {
-    public Vector3 offset;
     private Vector3 velocity;
-    public float smoothTime = .5f;
-    public float minZoom = 13f;
-    public float maxZoom = 7f;
-    public float zoomLimiter = 30f;
+    [SerializeField]
+    private Vector3 offset;
+    [SerializeField]
+    private float smoothTime = .5f;
+    [SerializeField]
+    private float minZoom = 13f;
+    [SerializeField]
+    private float maxZoom = 7f;
+    [SerializeField]
+    private float zoomLimiter = 30f;
 
     private Camera cam;
     private List<GameObject> objectsInCamera;
@@ -105,7 +110,7 @@ public class MultipleTargetCamera : MonoBehaviour
     /// Return the center point of the camera bounds
     /// </summary>
     /// <returns></returns>
-    Vector3 GetCenterPoint()
+    private Vector3 GetCenterPoint()
     {
         if (objectsInCamera.Count == 1)
         {
@@ -126,7 +131,7 @@ public class MultipleTargetCamera : MonoBehaviour
     /// </summary>
     /// <param name="b"></param>
     /// <param name="delay"></param>
-    void DrawBounds(Bounds b, float delay = 0)
+    private void DrawBounds(Bounds b, float delay = 0)
     {
         // bottom
         var p1 = new Vector3(b.min.x, b.min.y, b.min.z);
