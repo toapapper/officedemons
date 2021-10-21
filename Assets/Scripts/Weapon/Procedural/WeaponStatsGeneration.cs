@@ -40,12 +40,4 @@ public class WeaponStatsGeneration : MonoBehaviour
         this.weight = weight;
         this.effects = effects;
     }
-
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 }
