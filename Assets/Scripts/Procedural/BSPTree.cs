@@ -21,11 +21,14 @@ public class BSPTree : MonoBehaviour
     private List<Node> nodes;
     private int generations = 3;
     private Vector2 size, oldSize;
+    [SerializeField]
     private Vector2 widthLimits = new Vector2(800,1000);
+    [SerializeField]
     private Vector2 heightLimits = new Vector2(800,1000);
     /// <summary>A counter which gets bigger after each generation</summary>
     private int missfallMultiplier;
     /// <summary> If missfallMultiplier happens to land on missfallTop then no more children for the node </summary>
+    [SerializeField]
     private int missfallTop = 6;
     Vector2 lastSize;
     private int fitnessGoal = 50;
@@ -84,7 +87,7 @@ public class BSPTree : MonoBehaviour
         generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection, size,lastRoot.size,new Vector2(1,1), heightLimits.y);
 
         //Bakes a navMesh on the generated level
-        level.GetComponent<NavigationBaker>().BakeNavMesh();
+        //level.GetComponent<NavigationBaker>().BakeNavMesh();
     }
 
     /// <summary>
@@ -219,26 +222,11 @@ public class BSPTree : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns a random number between 0 and 1
-    /// 0 = foward
-    /// 1 = up
-    /// </summary>
-    private int GetDirection()
-    {
-        int d = Random.Range(0, 6);
-
-        return d;
-    }
-
-
-    /// <summary>
     /// Walk in either up och right direction
     /// </summary>
     private void GO()
     {
-        int direction = GetDirection();
-
-        if (direction == 0)
+        if (fitnessFunction.IsMyRoomThis(Rooms.Turn))
         {
             GoRight();
         }
@@ -246,7 +234,6 @@ public class BSPTree : MonoBehaviour
         {
             GoUp();
         }
-
     }
     /// <summary>
     /// Next Direction is right <br/>

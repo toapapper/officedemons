@@ -318,16 +318,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b6a7a8cf270bf40a3f421a2e57e7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generateTerrain: {fileID: 346796500}
-  fitnessFunction: {fileID: 0}
-  generations: 3
-  size: {x: 0, y: 0}
-  oldSize: {x: 0, y: 0}
-  widthLimits: {x: 50, y: 100}
-  heightLimits: {x: 50, y: 100}
-  missfallTop: 1000
-  fitnessGoal: 50
-  bspRemakeTries: 100
+  level: {fileID: 1731037152}
+  widthLimits: {x: 10, y: 20}
+  heightLimits: {x: 10, y: 10}
+  missfallTop: 6
 --- !u!114 &346796500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,7 +337,6 @@ MonoBehaviour:
   quadPrefab: {fileID: 2597626372045865958, guid: de478330e52d0534a81d6d3ceabf42df, type: 3}
   level: {fileID: 1731037152}
   mat: {fileID: 2100000, guid: 1a9cfe5b8af618149a8472b1fd640d3e, type: 2}
-  cubes: []
 --- !u!4 &346796501
 Transform:
   m_ObjectHideFlags: 0
@@ -386,7 +379,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a3d4a034cf088147bb1e67c3b897503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bigRoomMultiplier: {x: 2, y: 2}
   encounterFreq: 3
+  turnFrequency: 3
 --- !u!114 &346796504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1236,6 +1231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1731037153}
+  - component: {fileID: 1731037154}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -1257,6 +1253,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1731037154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731037152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2233485357674b40b0e49570aca2c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1809555973
 GameObject:
   m_ObjectHideFlags: 0

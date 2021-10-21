@@ -10,21 +10,28 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 13-10-2021
+// Last Edited: 21-10-2021
+
+    public enum Rooms { Normal, Encounter, Turn}
+
 
 public class FitnessFunction : MonoBehaviour
 {
-    float bigRoomMultiplier = 4;
-    SpawnItemsFromLibrary itemLibrary;
-    List<Node> lbNodes;
     [SerializeField]
-    int encounterFreq = 7;
-    int roomCounter = 1;
-    Node lbRoot;
-    int lbWidth;
-    int lbHeight;
-    int lbHeightLimit;
-    int lbFitness;
+    private Vector2 bigRoomMultiplier = new Vector2(2,4);
+    private SpawnItemsFromLibrary itemLibrary;
+    private List<Node> lbNodes;
+    [SerializeField]
+    private int encounterFreq = 7;
+    private int roomCounter = 1;
+    private Node lbRoot;
+    private int lbWidth;
+    private int lbHeight;
+    private int lbHeightLimit;
+    private int lbFitness;
+    private int turnCounter;
+    [SerializeField]
+    private int turnFrequency = 3;
 
     private void Start()
     {
@@ -43,14 +50,64 @@ public class FitnessFunction : MonoBehaviour
     {
         if (roomCounter % encounterFreq == 0)
         {
-            Debug.Log("==== Encounter Room ====");
+            //Debug.Log("==== Encounter Room ====");
             return foundSuitableObstacle = EvaluateFitness(nodes, /*TODO :  Placeholder*/ 3, root, heightLimit);
         }
         else
         {
-            Debug.Log("**** Roaming Room ****");
+            //Debug.Log("**** Roaming Room ****");
             return foundSuitableObstacle = EvaluateFitness(nodes, /*TODO :  Placeholder*/ 50, root, heightLimit);
         }
+    }
+
+    public bool IsMyRoomThis(Rooms room)
+    {
+        if (roomCounter % encounterFreq == 0)
+        {
+            if (room == Rooms.Encounter)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if (roomCounter % encounterFreq == 2 && TimeToTurn())
+        {
+            if (room == Rooms.Turn)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (room == Rooms.Normal)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+
+
+    private bool TimeToTurn()
+    {
+        turnCounter++;
+        if (turnCounter > turnFrequency)
+        {
+            turnCounter = 0;
+            return true;
+        }
+        return false;
     }
     /// <summary>
     /// Executes different calculations depending on the room variant.
@@ -84,7 +141,7 @@ public class FitnessFunction : MonoBehaviour
                     fitnessValue = StandardFitness(nodes[i], root, fitnessValue);
                     obstacles++;
                 }
-                Debug.Log("fitness after check = " + fitnessValue);
+                //Debug.Log("fitness after check = " + fitnessValue);
 
                 if (obstacles > 6)
                 {
@@ -95,7 +152,7 @@ public class FitnessFunction : MonoBehaviour
 
         if (fitnessValue >= desiredFitness)
         {
-            Debug.Log("Sucessesful fitness = " + fitnessValue);
+            //Debug.Log("Sucessesful fitness = " + fitnessValue);
             for (int i = 0; i < nodes.Count; i++)
             {
                 if (nodes[i].leaf)
@@ -173,7 +230,7 @@ public class FitnessFunction : MonoBehaviour
         
 
         fitness = TooCloseCheck(node, 20, root, fitness, 1);
-        Debug.Log("Encounter Fitness : " + fitness);
+        //Debug.Log("Encounter Fitness : " + fitness);
         return fitness;
     }
 
@@ -217,7 +274,7 @@ public class FitnessFunction : MonoBehaviour
             }
         }
         ResetLastFitness();
-        Debug.Log("Last resort was used");
+        //Debug.Log("Last resort was used");
     }
     /// <summary>
     /// Resets to zero the last best fitness for future use.
@@ -260,8 +317,8 @@ public class FitnessFunction : MonoBehaviour
         if (roomCounter % encounterFreq == 0)
         {
             generations = 4;
-            size.x *= bigRoomMultiplier;
-            size.y *= bigRoomMultiplier;
+            size.x *= bigRoomMultiplier.x;
+            size.y *= bigRoomMultiplier.y;
         }
         generations = 3;
         roomCounter++;
