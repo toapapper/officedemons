@@ -11,7 +11,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 20-10-2021
+// Last Edited: 21-10-2021
 public class WeaponInitializer : MonoBehaviour
 {  
     void Start()
@@ -124,11 +124,15 @@ public class WeaponInitializer : MonoBehaviour
         }
         for (int i = 0; i < effectsToAdd; i++)
         {
-
+            weapon.effects.Add(GetRandomEffect(existingEffects));
         }
     }
 
-
+    /// <summary>
+    /// Get a random effect which isn't already on the weapon
+    /// </summary>
+    /// <param name="existingEffects">a list of existing effects</param>
+    /// <returns></returns>
     private StatusEffect GetRandomEffect(List<StatusEffect> existingEffects)
     {
         int maxTries = 20;
