@@ -10,8 +10,8 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 20-10-2021
-    public enum StatusEffect
+// Last Edited: 21-10-2021
+    public enum WeaponEffects
     {
         Nothing,
         Paralysis,
@@ -19,7 +19,9 @@ using UnityEngine;
         Stun,
         Burn,
         Bleeding,
-        Disarm
+        Disarm,
+        Slippery,
+        Recoil,
     }
 public class StatusEffects : MonoBehaviour
 {

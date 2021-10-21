@@ -117,7 +117,7 @@ public class WeaponInitializer : MonoBehaviour
     private void GainSpecialEffect(int desiredEffectCount, WeaponStatsGeneration weapon)
     {
         int effectsToAdd = desiredEffectCount - weapon.effects.Count;
-        List<StatusEffect> existingEffects = new List<StatusEffect>();
+        List<WeaponEffects> existingEffects = new List<WeaponEffects>();
         for (int i = 0; i < weapon.effects.Count; i++)
         {
             existingEffects.Add(weapon.effects[i]);
@@ -133,15 +133,15 @@ public class WeaponInitializer : MonoBehaviour
     /// </summary>
     /// <param name="existingEffects">a list of existing effects</param>
     /// <returns></returns>
-    private StatusEffect GetRandomEffect(List<StatusEffect> existingEffects)
+    private WeaponEffects GetRandomEffect(List<WeaponEffects> existingEffects)
     {
         int maxTries = 20;
-        int enumSize = Enum.GetNames(typeof(StatusEffect)).Length;
-        StatusEffect statusEffect;
+        int enumSize = Enum.GetNames(typeof(WeaponEffects)).Length;
+        WeaponEffects statusEffect;
         for (int i = 0; i < maxTries; i++)
         {
             bool foundNewStatus = true;
-            statusEffect = (StatusEffect)UnityEngine.Random.Range(0, enumSize);
+            statusEffect = (WeaponEffects)UnityEngine.Random.Range(0, enumSize);
             for (int j = 0; j < existingEffects.Count; j++)
             {
                 if (statusEffect == existingEffects[i])
@@ -157,7 +157,7 @@ public class WeaponInitializer : MonoBehaviour
             
         }
         //Already has everything so we return nothing
-        statusEffect = StatusEffect.Nothing;
+        statusEffect = WeaponEffects.Nothing;
         return statusEffect;
     }
 }

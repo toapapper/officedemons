@@ -72,50 +72,50 @@ public class WeaponList : MonoBehaviour
     {
         int indexCount = 0;
         //Boring:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1,0,1,1,1,new List<StatusEffect> {StatusEffect.Nothing }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1,0,1,1,1,new List<WeaponEffects> {WeaponEffects.Nothing }));
         indexCount++;
 
         //Short:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1.5f, 5, .5f, 0, .5f, new List<StatusEffect> { StatusEffect.Nothing }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1.5f, 5, .5f, 0, .5f, new List<WeaponEffects> { WeaponEffects.Nothing }));
         indexCount++;
 
         //Long:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 10,2, 0, 2, new List<StatusEffect> { StatusEffect.Nothing }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 10,2, 0, 2, new List<WeaponEffects> { WeaponEffects.Nothing }));
         indexCount++;
 
         //Light:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, -2, .1f, new List<StatusEffect> { StatusEffect.Nothing }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, -2, .1f, new List<WeaponEffects> { WeaponEffects.Nothing }));
         indexCount++;
 
         //Heavy:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1.5f, 20, 1, 0, 3, new List<StatusEffect> { StatusEffect.Nothing }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1.5f, 20, 1, 0, 3, new List<WeaponEffects> { WeaponEffects.Nothing }));
         indexCount++;
 
         //Sharp:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(2, 0, .5f, -2, 1, new List<StatusEffect> { StatusEffect.Nothing }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(2, 0, .5f, -2, 1, new List<WeaponEffects> { WeaponEffects.Nothing }));
         indexCount++;
 
         //Dull:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 10, 1, 0, 1, new List<StatusEffect> { StatusEffect.Nothing }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 10, 1, 0, 1, new List<WeaponEffects> { WeaponEffects.Nothing }));
         indexCount++;
 
         //Frail:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, -4, 1, new List<StatusEffect> { StatusEffect.Nothing }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, -4, 1, new List<WeaponEffects> { WeaponEffects.Nothing }));
         indexCount++;
 
         //Durable:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, 5, 1, new List<StatusEffect> { StatusEffect.Stun }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, 5, 1, new List<WeaponEffects> { WeaponEffects.Stun }));
         indexCount++;
 
         //Stunning:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 10, .5f, -2, 1, new List<StatusEffect> { StatusEffect.Stun }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 10, .5f, -2, 1, new List<WeaponEffects> { WeaponEffects.Stun }));
         indexCount++;
 
         //Toxic:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 0, .5f, -1, 1, new List<StatusEffect> { StatusEffect.Poison }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 0, .5f, -1, 1, new List<WeaponEffects> { WeaponEffects.Poison }));
         indexCount++;
         //Flaming:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 0, .5f, -1, 1, new List<StatusEffect> { StatusEffect.Burn }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 0, .5f, -1, 1, new List<WeaponEffects> { WeaponEffects.Burn }));
         indexCount++;
     }
 }

@@ -19,7 +19,7 @@ public class WeaponStatsGeneration : MonoBehaviour
     public float range;
     public int durability;
     public float weight;
-    public List<StatusEffect> effects;
+    public List<WeaponEffects> effects;
 
 
     /// <summary>
@@ -31,7 +31,7 @@ public class WeaponStatsGeneration : MonoBehaviour
     /// <param name="durability">Add a Flat amount</param>
     /// <param name="weight">% Weight | base * weight</param>
     /// <param name="effects">Add all effects you wish to be on the weapon</param>
-    public WeaponStatsGeneration(float damage, float knockback, float range, int durability, float weight, List<StatusEffect> effects)
+    public WeaponStatsGeneration(float damage, float knockback, float range, int durability, float weight, List<WeaponEffects> effects)
     {
         this.damage = damage;
         this.knockback = knockback;
