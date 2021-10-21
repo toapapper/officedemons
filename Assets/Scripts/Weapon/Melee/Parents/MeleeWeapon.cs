@@ -20,7 +20,11 @@ public abstract class MeleeWeapon : AbstractWeapon
 		FOVView.SetActive(isActive);
 	}
 
-	public override abstract void Attack(Animator animator);
+	public override void Attack(Animator animator)
+    {
+		base.Attack(animator);
+		base.Attack(animator);
+	}
 
 	public override void DoAction(FieldOfView fov)
 	{

@@ -17,6 +17,7 @@ public class BurstShotWeapon : RangedWeapon
 {
 	public override void Attack(Animator animator)
 	{
+		base.Attack(animator);
 		animator.SetTrigger("isRangedBurstShot");
 	}
 }

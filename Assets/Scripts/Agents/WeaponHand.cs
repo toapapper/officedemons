@@ -122,6 +122,14 @@ public class WeaponHand : MonoBehaviour
 		FOV.viewRadius = objectInHand.ViewDistance;
 	}
 
+	//Unequip weapon
+	public void Unequip()
+    {
+		objectInHand = null;
+		FOV.viewRadius = handHitDistance;
+		FOV.viewAngle = handHitAngle;
+	}
+
 	//Attack
 	public void StartAttack()
 	{

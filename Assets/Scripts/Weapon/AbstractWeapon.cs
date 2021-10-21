@@ -27,6 +27,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 	private float viewDistance = 20f;
 	[SerializeField]
 	private float viewAngle = 10f;
+	[SerializeField]
+	private int durability = 3;
 
 	[SerializeField]
 	private bool isHeld;
@@ -67,6 +69,11 @@ public abstract class AbstractWeapon : MonoBehaviour
 		get { return isHeld; }
 		set { isHeld = value; }
 	}
+	public int Durability
+	{
+		get { return durability; }
+		set { durability = value; }
+	}
 
 	public void PickUpIn(GameObject hand)
 	{
@@ -95,7 +102,19 @@ public abstract class AbstractWeapon : MonoBehaviour
 	public virtual void SetAimGradient(Gradient gradient) { }
 	public virtual void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim) { }
 	public virtual void StartAttack(Animator animator) { }
-	public abstract void Attack(Animator animator);
+	public virtual void Attack(Animator animator) 
+	{
+		if(GameManager.Instance.CurrentCombatState == CombatState.none) 
+		{
+			durability -= 1;
+		}
+		
+		if(durability <= 0)
+        {
+			GetComponentInParent<WeaponHand>().Unequip();
+			Destroy(this.gameObject);
+        }
+	}
 	public virtual void DoAction(FieldOfView fov) { }
 
 	private void OnCollisionEnter(Collision collision)

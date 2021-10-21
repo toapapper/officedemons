@@ -57,7 +57,10 @@ public abstract class RangedWeapon : AbstractWeapon
 	{
 		animator.SetTrigger("isStartRangedSingleShot");
 	}
-	public override abstract void Attack(Animator animator);
+	public override void Attack(Animator animator) 
+	{
+		base.Attack(animator);
+	}
 
 	public override void DoAction(FieldOfView fov)
 	{
