@@ -33,7 +33,7 @@ public class WeaponInitializer : MonoBehaviour
     /// Gets the stats from the randomly generated name in the WeaponList
     /// </summary>
     /// <param name="name">The randomly generated name from a list of named attributes</param>
-    void GetStats(string name)
+    private void GetStats(string name)
     {
         int rnd = UnityEngine.Random.Range(0, 100);
         string rarity = "";

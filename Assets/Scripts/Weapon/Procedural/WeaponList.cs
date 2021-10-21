@@ -10,7 +10,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 20-10-2021
+// Last Edited: 21-10-2021
 
 
 //ChangeLog 20-10-2021
@@ -33,9 +33,9 @@ public class WeaponList : MonoBehaviour
     /// Durable: More durability
     /// Toxic: Adds Poison
     /// Boring: No effect at all.
+    /// Flaming: Adds burn
     /// </para>
     /// </summary>
-    //public static Dictionary<string, List<string>> weaponDictionary;
     public static Dictionary<string, WeaponStatsGeneration> weaponDictionary;
 
     /// <summary>
@@ -68,7 +68,7 @@ public class WeaponList : MonoBehaviour
     /// <summary>
     /// Populates the Dictinary with weapons with unique attributes.
     /// </summary>
-    void PopulateDictionary()
+    private void PopulateDictionary()
     {
         int indexCount = 0;
         //Boring:
@@ -85,7 +85,6 @@ public class WeaponList : MonoBehaviour
 
         //Light:
         weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, -2, .1f, new List<StatusEffect> { StatusEffect.Nothing }));
-
         indexCount++;
 
         //Heavy:
