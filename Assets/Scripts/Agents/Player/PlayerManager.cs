@@ -50,7 +50,17 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if(GameManager.Instance.CurrentCombatState == CombatState.player && actions.Count == players.Count)
+        int deadPlayers = 0;
+        foreach(GameObject player in players)
+        {
+            //Im not sure this is the best way to check if a player is alive or not
+            IPlayerState playerState = player.GetComponent<PlayerStateController>().CurrentState;
+            if (playerState is DeadState || playerState is ReviveState)
+            {
+                deadPlayers++;
+            }
+        }
+        if(GameManager.Instance.CurrentCombatState == CombatState.player && actions.Count == players.Count - deadPlayers)
         {
             GameManager.Instance.AllPlayersLockedIn();
         }

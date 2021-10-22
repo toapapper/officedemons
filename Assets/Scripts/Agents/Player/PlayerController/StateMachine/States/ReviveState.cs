@@ -6,10 +6,21 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
-/// finds the proper state to transition into when being revived.
+/// <para>
+/// Simply a transitory state that finds the proper state to revive into
+/// </para> 
+/// 
+/// <para>
+/// Author: Ossian
+/// </para>
 /// </summary>
+
+// Last Edited: 2021-10-12
 class ReviveState : AbstractPlayerState
 {
+    /// <summary>
+    /// Goes either to combatwaitstate with 50% health or to outofcombatstate depending on GameManager.Instance.CurrentCombatState
+    /// </summary>
     public override void OnStateEnter()
     {
         Debug.Log("Entered ReviveState: " + gameObject.ToString());
@@ -20,7 +31,7 @@ class ReviveState : AbstractPlayerState
             attributes.Health = attributes.StartHealth;
             toState = PlayerStates.OUTOFCOMBAT;
         }
-        else// if(GameManager.Instance.combatState == CombatState.playerActions || GameManager.combatState.Enemy)
+        else
         {
             attributes.Health = attributes.StartHealth / 2;
             toState = PlayerStates.COMBATWAIT;
@@ -31,6 +42,7 @@ class ReviveState : AbstractPlayerState
         controller.states.TryGetValue(toState, out st);
         controller.MakeStateTransition(st);
     }
+
     public override void OnStateExit()
     {
         Debug.Log("Exit ReviveState: " + gameObject.ToString());

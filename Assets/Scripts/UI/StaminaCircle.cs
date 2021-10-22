@@ -56,6 +56,7 @@ public class StaminaCircle : MonoBehaviour
                 image.fillAmount = stamPercent;
 
                 image.color = Utilities.MultiColorLerp(colours, 1 - stamPercent);
+                image.color = new Color(image.color.r, image.color.g, image.color.b, imageAlpha);
             }
             else
             {
