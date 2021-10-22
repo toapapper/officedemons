@@ -118,7 +118,7 @@ public class AIStateHandler : MonoBehaviour
         if (aiController.CurrentState != AIStates.States.Dead)
         {
             //If we have low health and still alive then we go to LowHealthBehaviour instead to get our state
-            if (HealthLow() && aiController.CurrentState != AIStates.States.Dead)
+            if (HealthLow())
             {
                 LowHealthBehaviour();
             }
