@@ -136,7 +136,6 @@ public class GameManager : MonoBehaviour
             if (!enemiesTurnDone)
                 aiManager.PerformTurn();
 
-
             if (enemiesTurnDone)
             {
                 Debug.Log("ENEMY MOVE DONE");

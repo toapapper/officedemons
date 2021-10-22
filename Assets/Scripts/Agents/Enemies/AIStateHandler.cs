@@ -40,24 +40,24 @@ public class AIStateHandler : MonoBehaviour
     }
     /// <summary>
     /// Depending on what class it makes decisions differently 
-    /// <param name="currentClass">
+    /// <param name="aiClass">
     /// Aggresive: Always moves towards target and tries to hit them no matter what <br/>
     /// Defensive: If the agent does not reach the nearest target then it will wait  <br/>
     /// Healer: Indented to heal if neccessary
     /// </param>
     /// </summary>
-    public void GetState(Class currentClass)
+    public void StateUpdate(Class aiClass)
     {
-        switch (currentClass)
+        switch (aiClass)
         {
             case Class.Aggresive:
-                AggresiveClassUpdate();
+                AggressiveGetState();
                 break;
             case Class.Defensive:
-                DefensiveClassUpdate();
+                DefensiveGetState();
                 break;
             case Class.Healer:
-                HealerClassUpdate();
+                HealerGetState();
                 break;
             default:
                 break;
@@ -66,8 +66,10 @@ public class AIStateHandler : MonoBehaviour
     /// <summary>
     /// How the Aggresive class get it's state
     /// </summary>
-    private void AggresiveClassUpdate()
+    private void AggressiveGetState()
     {
+        Debug.Log("STATE:" + aiController.CurrentState);
+
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
@@ -75,11 +77,12 @@ public class AIStateHandler : MonoBehaviour
             Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             //Turn towards nearest player
         }
-        //DeathCheck
+        //DeathCheck       
         if(aiController.CurrentState != AIStates.States.Dead)
         {
             if (fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
             {
+                Debug.Log("player in range");
                 //If there is then they are in our attack range so we attack
                 aiController.CurrentState = AIStates.States.Attack;
             }
@@ -102,7 +105,7 @@ public class AIStateHandler : MonoBehaviour
     /// <summary>
     /// How the Defensive class get it's state
     /// </summary>
-    private void DefensiveClassUpdate()
+    private void DefensiveGetState()
     {
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
@@ -111,32 +114,37 @@ public class AIStateHandler : MonoBehaviour
             Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             //Turn towards nearest player
         }
-        //If we have low health and still alive then we go to LowHealthBehaviour instead to get our state
-        if (HealthLow() && aiController.CurrentState != AIStates.States.Dead)
+        //DeathCheck
+        if (aiController.CurrentState != AIStates.States.Dead)
         {
-            LowHealthBehaviour();
-        }
-        else
-        {
-            if (fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
+            //If we have low health and still alive then we go to LowHealthBehaviour instead to get our state
+            if (HealthLow())
+
             {
-                //If there is then they are in our attack range so we attack
-                aiController.CurrentState = AIStates.States.Attack;
+                LowHealthBehaviour();
             }
-            //No target within range
             else
             {
-                //Checks if we have stamina and if the nearest target is reachable if not continue
-                if (attributes.Stamina > 0 && aiController.FindClosestAndCheckIfReachable())
+                if (fov.visibleTargets.Count > 0) // <- If one or more targets is within fov range
                 {
-                    aiController.CurrentState = AIStates.States.Move;
+                    //If there is then they are in our attack range so we attack
+                    aiController.CurrentState = AIStates.States.Attack;
                 }
+                //No target within range
                 else
                 {
-                    //Either no stamina or no player is reachable
-                    //Defensive unit won't move unless he thinks he can reach the closest player
-                    //We wait
-                    aiController.CurrentState = AIStates.States.Wait;
+                    //Checks if we have stamina and if the nearest target is reachable if not continue
+                    if (attributes.Stamina > 0 && aiController.FindClosestAndCheckIfReachable())
+                    {
+                        aiController.CurrentState = AIStates.States.Move;
+                    }
+                    else
+                    {
+                        //Either no stamina or no player is reachable
+                        //Defensive unit won't move unless he thinks he can reach the closest player
+                        //We wait
+                        aiController.CurrentState = AIStates.States.Wait;
+                    }
                 }
             }
         }
@@ -144,7 +152,7 @@ public class AIStateHandler : MonoBehaviour
     /// <summary>
     /// How the Healer class get it's state
     /// </summary>
-    private void HealerClassUpdate()
+    private void HealerGetState()
     {
         //Implement this
         //for (int i = 0; i < enemies.Count; i++)

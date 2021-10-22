@@ -125,7 +125,7 @@ public class CombatTurnState : AbstractPlayerState
 				break;
 		}
 		IsActionLocked = true;
-		Debug.Log("Chosenaction: " + ChosenAction);
+		//Debug.Log("Chosenaction: " + ChosenAction);
 		PlayerManager.Instance.ActionDone(gameObject);
 	}
 
