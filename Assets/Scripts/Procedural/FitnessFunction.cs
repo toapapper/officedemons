@@ -14,17 +14,17 @@ using UnityEngine;
 
 public class FitnessFunction : MonoBehaviour
 {
-    float bigRoomMultiplier = 4;
-    SpawnItemsFromLibrary itemLibrary;
-    List<Node> lbNodes;
-    [SerializeField]
-    int encounterFreq = 7;
-    int roomCounter = 1;
-    Node lbRoot;
-    int lbWidth;
-    int lbHeight;
-    int lbHeightLimit;
-    int lbFitness;
+    private SpawnItemsFromLibrary itemLibrary;
+    //lb = last best
+    private List<Node> lbNodes;
+    private Node lbRoot;
+    [SerializeField] private int encounterFreq = 7;
+    private int roomCounter = 1;
+    private int lbFitness;
+    private float bigRoomMultiplier = 4;
+    //int lbWidth;
+    //int lbHeight;
+    //int lbHeightLimit;
 
     private void Start()
     {
@@ -106,8 +106,6 @@ public class FitnessFunction : MonoBehaviour
                     {
                         itemLibrary.SpawnItems(nodes[i], root);
                     }
-
-                    //TODO : Use items from SpawnItemLibrary
                 }
             }
             ResetLastFitness();
@@ -120,9 +118,9 @@ public class FitnessFunction : MonoBehaviour
                 lbFitness = fitnessValue;
                 lbNodes = nodes;
                 lbRoot = root;
-                lbWidth = (int)root.size.x;
-                lbHeight = (int)root.size.y;
-                lbHeightLimit = heightLimit;
+                //lbWidth = (int)root.size.x;
+                //lbHeight = (int)root.size.y;
+                //lbHeightLimit = heightLimit;
             }
         }
         return false;
@@ -227,9 +225,9 @@ public class FitnessFunction : MonoBehaviour
         lbFitness = 0;
         lbNodes = new List<Node>();
         lbRoot = new Node(Vector2.zero, Vector2.zero);
-        lbWidth = 0;
-        lbHeight = 0;
-        lbHeightLimit = 0;
+        //lbWidth = 0;
+        //lbHeight = 0;
+        //lbHeightLimit = 0;
     }
     /// <summary>
     /// Creates a buffer for node

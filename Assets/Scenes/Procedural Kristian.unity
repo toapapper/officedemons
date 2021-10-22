@@ -318,17 +318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b6a7a8cf270bf40a3f421a2e57e7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generateTerrain: {fileID: 346796500}
-  fitnessFunction: {fileID: 0}
   level: {fileID: 1731037152}
-  generations: 3
-  size: {x: 0, y: 0}
-  oldSize: {x: 0, y: 0}
   widthLimits: {x: 20, y: 50}
-  heightLimits: {x: 40, y: 100}
-  missfallTop: 1000
-  fitnessGoal: 50
-  bspRemakeTries: 100
+  heightLimits: {x: 20, y: 50}
 --- !u!114 &346796500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,7 +336,6 @@ MonoBehaviour:
   quadPrefab: {fileID: 2597626372045865958, guid: de478330e52d0534a81d6d3ceabf42df, type: 3}
   level: {fileID: 1731037152}
   mat: {fileID: 2100000, guid: 1a9cfe5b8af618149a8472b1fd640d3e, type: 2}
-  cubes: []
 --- !u!4 &346796501
 Transform:
   m_ObjectHideFlags: 0
@@ -937,6 +928,7 @@ GameObject:
   - component: {fileID: 1504360049}
   - component: {fileID: 1504360051}
   - component: {fileID: 1504360048}
+  - component: {fileID: 1504360052}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1037,6 +1029,38 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &1504360052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504360047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &1627897505
 GameObject:
   m_ObjectHideFlags: 0

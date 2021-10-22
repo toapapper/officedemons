@@ -188,14 +188,14 @@ public class AIController : MonoBehaviour
         float targetDistance = CalculateDistance(target);
         float lastPathDistance = CalculateLastPathDistance(target);
 
-        if ( lastPathDistance <= fov.viewRadius)
+        if ( lastPathDistance <= fov.ViewRadius)
         {
             if (targetDistance - lastPathDistance <= stamina * navMeshAgent.speed / 1.2f)
             {
                 return true;
             }
         }
-        else if (targetDistance - fov.viewRadius <= stamina * navMeshAgent.speed / 1.2f)
+        else if (targetDistance - fov.ViewRadius <= stamina * navMeshAgent.speed / 1.2f)
         {
             return true;
         }
