@@ -1,3 +1,8 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 /// <summary>
 /// <para>
 /// Summary of what the component does 
@@ -16,13 +21,7 @@
  * 15-10-2021
  */
 
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public static class OssianUtils
+public static class Utilities
 {
 
     /// <summary>

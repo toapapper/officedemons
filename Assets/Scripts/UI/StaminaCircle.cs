@@ -19,13 +19,12 @@ using UnityEngine.UI;
 
 public class StaminaCircle : MonoBehaviour
 {
-
     private GameObject player;
     private Attributes playerAttributes;
 
     [SerializeField] private Vector3 offset = new Vector3(0f, -.5f, 0f);
     [Tooltip("How transparent the circle will be.")]
-    [SerializeField] private float imageAlpha = .7f;
+    [SerializeField] private float imageAlpha = 1f;
     [Tooltip("Colors that the circle will fade between. It starts out as color[0] and ends as the last one but fades smoothly between them all.")]
     [SerializeField] private Color[] colours = { Color.green, Color.yellow, Color.red };
     [SerializeField] private Image image;
@@ -56,7 +55,7 @@ public class StaminaCircle : MonoBehaviour
                 float stamPercent = playerAttributes.Stamina/playerAttributes.StartStamina;
                 image.fillAmount = stamPercent;
 
-                image.color = OssianUtils.MultiColorLerp(colours, 1 - stamPercent);
+                image.color = Utilities.MultiColorLerp(colours, 1 - stamPercent);
             }
             else
             {
