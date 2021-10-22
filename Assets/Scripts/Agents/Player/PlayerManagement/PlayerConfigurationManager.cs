@@ -61,7 +61,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 	{
 		Debug.Log("Player joined " + playerInput.playerIndex);
 		PlayerConfiguration newPlayerConfig = null;
-		//if(!playerConfigurations.Any(p => p.PlayerIndex == playerInput.playerIndex))
+
 		if(playerConfigurations.Count < playerInput.playerIndex + 1)
 		{
 			Debug.Log("Creating new playerConfiguration");

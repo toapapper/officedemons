@@ -1,10 +1,12 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.AI;
 
+/// <summary>
+/// Whose turn it is and when they are doing an action, none means no combat
+/// </summary>
 public enum CombatState
 {
     none,
@@ -50,6 +52,8 @@ public class GameManager : MonoBehaviour
     private Encounter currentEncounter;
     private AIManager aiManager;
     private List<GameObject> stillCheckList = new List<GameObject>();
+    
+    private MultipleTargetCamera mainCamera;
 
     public CombatState CurrentCombatState { get { return combatState; } }
     public bool Paused { get { return paused; } }
@@ -66,10 +70,7 @@ public class GameManager : MonoBehaviour
     }
     public int RoundTime { get { return roundTime; } }
 
-    public MultipleTargetCamera mainCamera;
 
-
-    // Start is called before the first frame update
     void Awake()
     {
         Instance = this;
@@ -80,12 +81,12 @@ public class GameManager : MonoBehaviour
         mainCamera = Camera.main.GetComponent<MultipleTargetCamera>(); 
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        #region är alla/allt stilla-check
+        #region are all the needed gameObjects still-check
         AllStill = true;
-        OssianUtils.CleanList(stillCheckList);
+        Utilities.CleanList(stillCheckList);
         foreach(GameObject gObject in stillCheckList)
         {
             if (gObject.CompareTag("Player"))
@@ -102,7 +103,7 @@ public class GameManager : MonoBehaviour
                     AllStill = false;
                 }
             }
-            //else if projektil eller fiende eller whatever
+            //continue with more else ifs for different types of gameObjects
         }
         #endregion
 
@@ -214,7 +215,7 @@ public class GameManager : MonoBehaviour
             return;
 
         UIManager.Instance.OpenMenu();
-        Time.timeScale = 0; //fult mï¿½hï¿½nda att anvï¿½nda timescale men ï¿½n sï¿½ lï¿½nge ï¿½r det simplast.
+        Time.timeScale = 0; //might be bad to set the timescale, but it's the most convenient as of now.
 
         paused = true;
     }
