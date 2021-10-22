@@ -38,7 +38,6 @@ public class CombatActionState : AbstractPlayerState
 			case TypeOfAction.NOACTION:
 				break;
 		}
-		Debug.LogWarning("Reset action");
 		GetComponent<CombatTurnState>().ChosenAction = TypeOfAction.NOACTION;
 
 		StartCoroutine("WaitDone");
@@ -49,7 +48,6 @@ public class CombatActionState : AbstractPlayerState
 		yield return new WaitForSeconds(1);
         while (true)
         {
-			Debug.Log("CombatActionState Coroutine");
 			if (GameManager.Instance.AllStill)
 			{
 				PlayerManager.Instance.NextPlayerAction();

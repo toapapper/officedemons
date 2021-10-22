@@ -5,8 +5,15 @@ using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Interface to player states
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 2021-10-12
 public interface IPlayerState
 {
     bool IsActionTriggered { get; set; }

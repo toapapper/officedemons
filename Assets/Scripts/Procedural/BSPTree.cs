@@ -4,71 +4,36 @@ using UnityEngine;
 using UnityEngine.AI;
 /// <summary>
 /// Code by: Tim & Kristian
+/// <para>
+/// A level making algoritm
+/// </para>
 /// </summary>
+/// 
+// Last Edited: 21/10/2021
 public class BSPTree : MonoBehaviour
 {
-    /// <summary>
-    /// The Root is the whole room
-    /// </summary>
-    Node root;
-    /// <summary>
-    /// Last Room
-    /// </summary>
-    Node lastRoot;
-    public GenerateTerrain generateTerrain;
-    public FitnessFunction fitnessFunction;
-    /// <summary>
-    /// A GameObject that holds the script for NavMeshBaking
-    /// </summary>
-    public GameObject level;
-    /// <summary>
-    /// A list of all the nodes in a room
-    /// </summary>
-    public List<Node> nodes;
-    /// <summary>
-    /// How many generations of children a room should have
-    /// </summary>
-    public int generations = 3;
-    /// <summary>
-    /// Size for the Root and oldSize for the previous root size
-    /// </summary>
-    public Vector2 size, oldSize;
-    /// <summary>
-    /// The width space of a level
-    /// </summary>
-    public Vector2 widthLimits = new Vector2(800,1000);
-    /// <summary>
-    /// The height space of a level
-    /// </summary>
-    public Vector2 heightLimits = new Vector2(800,1000);
-    /// <summary>
-    /// A counter which gets bigger after each generation
-    /// </summary>
-    int missfallMultiplier;
-    /// <summary>
-    /// If missfallMultiplier happens to land on missfallTop then no more children for the node
-    /// </summary>
-    public int missfallTop = 6;
-    /// <summary>
-    /// The size of the last Root
-    /// </summary>
+    private Node root;
+    private Node lastRoot;
+    private GenerateTerrain generateTerrain;
+    private FitnessFunction fitnessFunction;
+    /// <summary>A GameObject that holds the script for NavMeshBaking</summary>
+    [SerializeField]
+    private GameObject level;
+    private List<Node> nodes;
+    private int generations = 3;
+    private Vector2 size, oldSize;
+    private Vector2 widthLimits = new Vector2(800,1000);
+    private Vector2 heightLimits = new Vector2(800,1000);
+    /// <summary>A counter which gets bigger after each generation</summary>
+    private int missfallMultiplier;
+    /// <summary> If missfallMultiplier happens to land on missfallTop then no more children for the node </summary>
+    private int missfallTop = 6;
     Vector2 lastSize;
-    /// <summary>
-    /// What is the goal for the obstacles made
-    /// </summary>
-    public int fitnessGoal = 50;
-    /// <summary>
-    /// How many retires the obstacles should have
-    /// </summary>
-    public int bspRemakeTries = 100;
-    /// <summary>
-    /// Where the next room will be placed
-    /// </summary>
-    int nextDirection;
-    /// <summary>
-    /// Where the last room was placed
-    /// </summary>
-    int lastDirection;
+    private int fitnessGoal = 50;
+    /// <summary> How many retires the obstacles should have </summary>
+    private int bspRemakeTries = 100;
+    private int nextDirection;
+    private int lastDirection;
 
 
     private void Start()
@@ -168,18 +133,24 @@ public class BSPTree : MonoBehaviour
     /// Split the node. Will contine to split until the asked generations are made
     /// </summary>
     /// <param name="node">The node which will be split</param>
-    public void Split(Node node)
+    private void Split(Node node)
     {
         if (node.generation >= generations)
+        {
             return;
+        }
         if (node.children[0] != null || node.children[1] != null)
+        {
             return;
+        }
         if (node.generation == 0)
         {
 
         }
         else if(node.parent.generation > node.generation)
+        {
             return;
+        }
 
         node.leaf = false;
 
@@ -187,8 +158,10 @@ public class BSPTree : MonoBehaviour
 
         int split;
         int missfall = Random.Range(missfallMultiplier, missfallTop);
-        if (missfall == missfallMultiplier && node.generation > generations/2)
+        if (missfall == missfallMultiplier && node.generation > generations / 2)
+        {
             return;
+        }
         split = Random.Range(0, 2);
         float buffer = 0;
         if (split == 0)
@@ -266,9 +239,13 @@ public class BSPTree : MonoBehaviour
         int direction = GetDirection();
 
         if (direction == 0)
+        {
             GoRight();
+        }
         else
+        {
             GoUp();
+        }
 
     }
     /// <summary>

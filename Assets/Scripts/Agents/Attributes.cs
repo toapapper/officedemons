@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Bara en enum med de olika karakt�rerna, kommer anv�ndas fr�mst i ui antar jag f�r att kunna avg�ra vilken karakt�r ett gameObject �r
+/// <para>
+/// Contains all stats and information about the agent
+/// 
+/// </para>
+///   
+///  <para>
+///  Author: Tinea Larsson, Johan Melkersson, Jonas Lundin, Kristian Svensson, Ossian Sarén Gran
+///  
+/// </para>
+///  
 /// </summary>
-public enum Characters
-{
-    Tim,
-    Susan,
-    Vicky,
-    Devin
-}
+
+// Last Edited: 18-10-21
+
+public enum Characters { Tim, Susan, Vicky, Devin }
 
 public class Attributes : MonoBehaviour
 {
@@ -29,7 +35,7 @@ public class Attributes : MonoBehaviour
 
     [SerializeField]
     [Header("Start Health Points")]
-    int startHealth;
+    private int startHealth;
 
     public int StartHealth
     {
@@ -38,12 +44,12 @@ public class Attributes : MonoBehaviour
 
     [SerializeField]
     [Header("Current Health Points")]
-    int health;
+    private int health;
 
     public int Health
     {
         get { return health; }
-        set { //kanske b�r flyttas n�gon annan stans.
+        set { 
             health = value;
             if (health <= 0)
             {

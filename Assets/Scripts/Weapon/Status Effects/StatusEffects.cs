@@ -10,17 +10,20 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 14-10-2021
-public class StatusEffects : MonoBehaviour
-{
-    enum StatusEffect
+// Last Edited: 21-10-2021
+    public enum WeaponEffects
     {
+        Nothing,
         Paralysis,
         Poison,
-        Cripple,
+        Stun,
         Burn,
-        Blindness
+        Bleeding,
+        Disarm,
+        Slippery,
+        Recoil,
     }
-
+public class StatusEffects : MonoBehaviour
+{
 
 }

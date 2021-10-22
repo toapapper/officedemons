@@ -5,8 +5,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Handles player input in the player selection menu
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 18/10 -21
 public class PlayerSetupMenuController : MonoBehaviour
 {
     private int playerIndex;

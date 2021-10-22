@@ -4,8 +4,15 @@ using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Controlls state transitions and sends input to the current state
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 2021-10-12
 public class PlayerStateController : MonoBehaviour
 {
     public IPlayerState CurrentState

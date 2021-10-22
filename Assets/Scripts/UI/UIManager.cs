@@ -7,6 +7,20 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// <para>
+/// Manages all of the in game user interface.
+/// </para>
+///   
+///  <para>
+///  Author: Ossian
+///  
+/// </para>
+///  
+/// </summary>
+
+// Last Edited: 20-10-21
+
 public class UIManager : MonoBehaviour
 {
     /// <summary>
@@ -15,7 +29,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public static UIManager Instance;
 
-    private Image timerBackgroundWithColorImage; //hemskt, jag vet..
+    private Image timerBackgroundWithColorImage; //hemskt namn, jag vet..
     private bool playerCardsInitialized = false;
     
     [Header("Menus")]
@@ -33,17 +47,13 @@ public class UIManager : MonoBehaviour
     [Header("Polis")]
     [SerializeField] private GameObject enemys_turn_card;
 
-
-    // Start is called before the first frame update
+    
     private void Awake()
     {
-        Debug.LogWarning("HELLO UI MANAGER HERE!");
         Instance = this;
-
         timerBackgroundWithColorImage = timerBackgroundWithColor.GetComponent<Image>();
     }
-
-    // Update is called once per frame
+    
     private void Update()
     {
         #region fulInitialize här eftersom det typ alltid blir fel annars
@@ -90,11 +100,20 @@ public class UIManager : MonoBehaviour
         #endregion
     }
 
+    /// <summary>
+    /// Initializes a playercard ui-element for the player
+    /// </summary>
+    /// <param name="player"></param>
     public void EnablePlayerUI(GameObject player)
     {
         int index = PlayerManager.players.IndexOf(player);
         EnablePlayerUI(index);
     }
+
+    /// <summary>
+    /// Initializes a playercard ui-element for the player
+    /// </summary>
+    /// <param name="i">the index att which the player exists in the PlayerManager.players-list</param>
     public void EnablePlayerUI(int i)
     {
         Debug.Log("UIcard init for player " + i);
@@ -115,12 +134,18 @@ public class UIManager : MonoBehaviour
         stamCirc.SetPlayer(PlayerManager.players[i]);
     }
 
+    /// <summary>
+    /// Opens the paus-menu
+    /// </summary>
     public void OpenMenu()
     {
         pauseMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(firstButtonSelectedOnPause);
     }
 
+    /// <summary>
+    /// Closes the paus-menu
+    /// </summary>
     public void CloseMenu()
     {
         pauseMenu.SetActive(false);

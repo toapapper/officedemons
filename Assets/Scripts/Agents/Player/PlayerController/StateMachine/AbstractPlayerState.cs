@@ -5,8 +5,15 @@ using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
-/// Code by: Johan Melkersson
+/// <para>
+/// Parent to player states
+/// </para> 
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
 /// </summary>
+
+// Last Edited: 2021-10-12
 public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 {
 	protected PlayerMovementController playerMovement;
