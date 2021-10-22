@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8347056236815287771
+--- !u!1 &1183457478698962452
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,25 +8,25 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 443451077229969310}
-  - component: {fileID: 8864762543846530934}
-  - component: {fileID: 5841391748440145387}
-  - component: {fileID: 5425124479372070216}
-  - component: {fileID: 6221155935297935651}
+  - component: {fileID: 748064485704087953}
+  - component: {fileID: 4613847369658292870}
+  - component: {fileID: 5438579728127469885}
+  - component: {fileID: 6105363741995066754}
+  - component: {fileID: 5543537043831661939}
   m_Layer: 9
-  m_Name: Weapon
+  m_Name: Loot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &443451077229969310
+--- !u!4 &748064485704087953
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8347056236815287771}
+  m_GameObject: {fileID: 1183457478698962452}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -34,21 +34,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8864762543846530934
+--- !u!33 &4613847369658292870
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8347056236815287771}
+  m_GameObject: {fileID: 1183457478698962452}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &5841391748440145387
+--- !u!23 &5438579728127469885
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8347056236815287771}
+  m_GameObject: {fileID: 1183457478698962452}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -83,35 +83,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5425124479372070216
+--- !u!135 &6105363741995066754
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8347056236815287771}
+  m_GameObject: {fileID: 1183457478698962452}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6221155935297935651
+--- !u!114 &5543537043831661939
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8347056236815287771}
+  m_GameObject: {fileID: 1183457478698962452}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b87cd630ba2c6e439c300890f67c9ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  townItems:
-  - {fileID: 4904968822265838951, guid: 4fd4c978ba74c05448567f71431d3077, type: 3}
-  cityItems:
-  - {fileID: 4229618764198995258, guid: 91846df5bbaaeb34392717a91c42ffab, type: 3}
-  forestItems:
-  - {fileID: 4562945548694608202, guid: 498c30943c75b334d94ba62163138dd5, type: 3}
-  - {fileID: 5163975343130323108, guid: b8f3d57ec3154ff428cee1fd95baf457, type: 3}
+  normalRoom:
+  - {fileID: 4904968822265838951, guid: 0de22563a940e134db879c589014f7a8, type: 3}
+  - {fileID: 4562945548694608202, guid: b8c6b978db198e142b8fa2d7137b4aca, type: 3}
+  - {fileID: 5163975343130323108, guid: 8c9380b4040a06745943eb661f902d66, type: 3}
+  - {fileID: 4229618764198995258, guid: 8a0153ef7d6c2ae4a9d3b500e2aa3e7d, type: 3}
+  - {fileID: 3617718076009827125, guid: e948ea00e24de324d9cfe76819d6af21, type: 3}
+  Encounter:
+  - {fileID: 3115175364895817837, guid: 22d10a4bfeacf784bb9dad086cab7166, type: 3}
+  Special: []

@@ -11,7 +11,7 @@ using UnityEngine.AI;
 /// </para>
 /// </summary>
 
-// Last Edited: 15-10-2021
+// Last Edited: 22-10-2021
 public class NavigationBaker : MonoBehaviour
 {
     List<NavMeshSurface> surfaces = new List<NavMeshSurface>();
@@ -22,9 +22,8 @@ public class NavigationBaker : MonoBehaviour
     public void BakeNavMesh()
     {
         NavMeshSurface navSurface = GetComponentInChildren<NavMeshSurface>();
-
         surfaces.Add(navSurface);
-        Debug.Log("Surfaces count: " + surfaces.Count);
+        //Debug.Log("Surfaces count: " + surfaces.Count);
         for (int i = 0; i < surfaces.Count; i++)
         {
             surfaces[i].BuildNavMesh();

@@ -11,8 +11,8 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 20-10-2021
-public class WeaponStatsGeneration : MonoBehaviour
+// Last Edited: 22-10-2021
+public class WeaponStatsGeneration
 {
     public float damage;
     public float knockback;

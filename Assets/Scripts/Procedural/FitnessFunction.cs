@@ -10,7 +10,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 21-10-2021
+// Last Edited: 22-10-2021
 
 public enum Rooms { Normal, Encounter, Turn}
 
@@ -62,21 +62,12 @@ public class FitnessFunction : MonoBehaviour
 
     public bool IsMyRoomThis(Rooms room)
     {
-        if (roomCounter % encounterFreq == 0)
+        if (roomCounter % encounterFreq == encounterFreq - 1 && roomCounter > 2)
         {
+            Debug.Log("This is an Encounter");
             if (room == Rooms.Encounter)
             {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else if (roomCounter % encounterFreq == 2 && TimeToTurn())
-        {
-            if (room == Rooms.Turn)
-            {
+
                 return true;
             }
             else
@@ -86,6 +77,7 @@ public class FitnessFunction : MonoBehaviour
         }
         else
         {
+            Debug.Log("This is a Normal");
             if (room == Rooms.Normal)
             {
                 return true;
@@ -99,13 +91,17 @@ public class FitnessFunction : MonoBehaviour
 
 
 
-    private bool TimeToTurn()
+    public bool TimeToTurn()
     {
-        turnCounter++;
-        if (turnCounter > turnFrequency)
+        if (roomCounter % encounterFreq == 2)
         {
-            turnCounter = 0;
-            return true;
+            Debug.Log("This is a turnCount");
+            turnCounter++;
+            if (turnCounter > turnFrequency)
+            {
+                turnCounter = 0;
+                return true;
+            }
         }
         return false;
     }

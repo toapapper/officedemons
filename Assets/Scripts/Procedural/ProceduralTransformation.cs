@@ -12,15 +12,15 @@ using UnityEngine;
 /// </summary>
 /// 
 
-// Last Edited: 13/10/2021
+// Last Edited: 22/10/2021
 public class ProceduralTransformation : MonoBehaviour
 {
     /// <summary>
     /// A list of what the item can turn into
     /// </summary>
-    public List<GameObject> townItems = new List<GameObject>();
-    public List<GameObject> cityItems = new List<GameObject>();
-    public List<GameObject> forestItems = new List<GameObject>();
+    public List<GameObject> normalRoom = new List<GameObject>();
+    public List<GameObject> Encounter = new List<GameObject>();
+    public List<GameObject> Special = new List<GameObject>();
 
 
     // Start is called before the first frame update
@@ -28,14 +28,14 @@ public class ProceduralTransformation : MonoBehaviour
     {
         switch (SpawnItemsFromLibrary.currentScenary)
         {
-            case Scenary.Town:
-                TransformItem(townItems);
+            case Scenary.Normal:
+                TransformItem(normalRoom);
                 break;
-            case Scenary.City:
-                TransformItem(cityItems);
+            case Scenary.Encounter:
+                TransformItem(Encounter);
                 break;
-            case Scenary.Forest:
-                TransformItem(forestItems);
+            case Scenary.Special:
+                TransformItem(Special);
                 break;
             default:
                 break;

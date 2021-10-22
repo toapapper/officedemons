@@ -8,7 +8,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 /// 
-// Last Edited: 21/10/2021
+// Last Edited: 22/10/2021
 public class BSPTree : MonoBehaviour
 {
     private Node root;
@@ -56,6 +56,7 @@ public class BSPTree : MonoBehaviour
             MakeBSP();
         }
     }
+
     /// <summary>
     /// Start the algoritm
     /// </summary>
@@ -77,7 +78,6 @@ public class BSPTree : MonoBehaviour
 
         root = new Node(size,lastSize);
         generateTerrain.GenerateGround(root);
-
         SearchObstaclesFitness(bspRemakeTries);
 
         size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits, size,generations);
@@ -85,9 +85,10 @@ public class BSPTree : MonoBehaviour
         lastDirection = nextDirection;
         GO();
         generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection, size,lastRoot.size,new Vector2(1,1), heightLimits.y);
+        UpdateWhatRoomObstacles();
 
         //Bakes a navMesh on the generated level
-        //level.GetComponent<NavigationBaker>().BakeNavMesh();
+        level.GetComponent<NavigationBaker>().BakeNavMesh();
     }
 
     /// <summary>
@@ -226,7 +227,7 @@ public class BSPTree : MonoBehaviour
     /// </summary>
     private void GO()
     {
-        if (fitnessFunction.IsMyRoomThis(Rooms.Turn))
+        if (fitnessFunction.TimeToTurn())
         {
             GoRight();
         }
@@ -235,6 +236,20 @@ public class BSPTree : MonoBehaviour
             GoUp();
         }
     }
+
+    private void UpdateWhatRoomObstacles()
+    {
+        if (fitnessFunction.IsMyRoomThis(Rooms.Encounter))
+        {
+            SpawnItemsFromLibrary.currentScenary = Scenary.Encounter;
+        }
+        else
+        {
+            SpawnItemsFromLibrary.currentScenary = Scenary.Normal;
+        }
+    }
+
+
     /// <summary>
     /// Next Direction is right <br/>
     /// Add to the overall size of the map

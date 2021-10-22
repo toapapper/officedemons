@@ -13,14 +13,14 @@ using UnityEngine;
 // Last Edited: 22-10-2021
 
     //The scenaries will change later just needed something to start with
-    public enum Scenary { Town,City,Forest}
+    public enum Scenary { Normal, Encounter, Special}
 
 public class SpawnItemsFromLibrary : MonoBehaviour
 {
     GameObject item;
 
     //Use it in transformation
-    public static Scenary currentScenary = Scenary.Forest;
+    public static Scenary currentScenary = Scenary.Normal;
 
     public GameObject level;
     /// <summary>
