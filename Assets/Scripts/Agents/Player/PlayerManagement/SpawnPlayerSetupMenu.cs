@@ -21,7 +21,6 @@ public class SpawnPlayerSetupMenu : MonoBehaviour
 
 	private void Awake()
 	{
-		Debug.Log("HEJ");
 		var rootMenu = GameObject.Find("MainLayout");
 		if(rootMenu != null)
 		{

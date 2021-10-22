@@ -78,7 +78,7 @@ public class OutOfCombatState : AbstractPlayerState
 	public override void OnRevive(GameObject player)
 	{
         player.GetComponentInChildren<Attributes>().Health = 100;
-        Debug.Log("Revive player " + player.name);
+        //Debug.Log("Revive player " + player.name);
     }
 
     //Update
@@ -101,8 +101,8 @@ public class OutOfCombatState : AbstractPlayerState
 
     public override void OnStateEnter()
     {
-        Debug.Log("Enters OutOfCombatState" + this);
-        Debug.LogWarning("Reset action");
+        //Debug.Log("Enters OutOfCombatState" + this);
+        //Debug.LogWarning("Reset action");
         ChosenAction = TypeOfAction.NOACTION;
         playerMovement.MoveDirection = Vector3.zero;
         playerMovement.MoveAmount = Vector3.zero;
@@ -115,6 +115,6 @@ public class OutOfCombatState : AbstractPlayerState
 			weaponHand.CancelAction();
             IsActionTriggered = false;
 		}
-		Debug.Log("Exits OutOfCombatState" + this);
+		//Debug.Log("Exits OutOfCombatState" + this);
     }
 }

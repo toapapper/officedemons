@@ -116,12 +116,12 @@ public class UIManager : MonoBehaviour
     /// <param name="i">the index att which the player exists in the PlayerManager.players-list</param>
     public void EnablePlayerUI(int i)
     {
-        Debug.Log("UIcard init for player " + i);
+        //Debug.Log("UIcard init for player " + i);
         UIPlayerCard card = transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>();
         
         if (card.gameObject.activeSelf)
         {
-            Debug.LogWarning("Card already active");
+            //Debug.LogWarning("Card already active");
             return;
         }
 

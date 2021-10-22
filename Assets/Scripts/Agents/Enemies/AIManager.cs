@@ -38,10 +38,19 @@ public class AIManager : MonoBehaviour
         playerList = PlayerManager.players;
     }
 
+    /// <summary>
+    /// Prepares variables for a new encounter
+    /// </summary>
+    /// <param name=""></param>
     public void BeginCombat()
     {
         enemyList = GameManager.Instance.CurrentEncounter.GetEnemylist();
         GameManager.Instance.StillCheckList.AddRange(enemyList);
+
+        foreach (GameObject e in enemyList)
+        {
+            e.GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
+        }
     }
 
     /// <summary>
@@ -54,7 +63,7 @@ public class AIManager : MonoBehaviour
         foreach (GameObject e in enemyList)
         {
             e.GetComponent<Attributes>().Stamina = e.GetComponent<Attributes>().StartStamina;
-            e.GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
+            e.GetComponent<AIController>().ActionIsLocked = false;
         }
     }
 
@@ -81,7 +90,7 @@ public class AIManager : MonoBehaviour
 
         foreach (GameObject e in enemyList)
         {
-            if (!e.GetComponent<AIController>().LockedAction())
+            if (!e.GetComponent<AIController>().ActionIsLocked)
             {
                 e.GetComponent<AIController>().Priorites = killOnSight;
                 e.GetComponent<AIController>().PerformBehaviour();
@@ -139,5 +148,13 @@ public class AIManager : MonoBehaviour
     public void SaveAction(GameObject agent)
     {
         actionsQueue.Enqueue(agent);
+        agent.GetComponent<AIController>().ActionIsLocked = true;
+        agent.GetComponent<AIController>().navMeshAgent.destination = transform.position;
+        agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
+    }
+
+    public void RemoveAgent(GameObject agent)
+    {
+        enemyList.Remove(agent);
     }
 }
