@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 /// <summary>
 /// Code by: Tim & Kristian
 /// <para>
@@ -41,7 +42,6 @@ public class BSPTree : MonoBehaviour
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
         generateTerrain = GetComponent<GenerateTerrain>();
         fitnessFunction = GetComponent<FitnessFunction>();
-        
     }
     /// <summary>
     /// Make 100 rooms
