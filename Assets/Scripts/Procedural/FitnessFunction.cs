@@ -12,7 +12,7 @@ using UnityEngine;
 
 // Last Edited: 21-10-2021
 
-    public enum Rooms { Normal, Encounter, Turn}
+public enum Rooms { Normal, Encounter, Turn}
 
 
 public class FitnessFunction : MonoBehaviour

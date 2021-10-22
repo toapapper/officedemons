@@ -10,10 +10,18 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 13-10-2021
+// Last Edited: 22-10-2021
+
+    //The scenaries will change later just needed something to start with
+    public enum Scenary { Town,City,Forest}
+
 public class SpawnItemsFromLibrary : MonoBehaviour
 {
     GameObject item;
+
+    //Use it in transformation
+    public static Scenary currentScenary = Scenary.Forest;
+
     public GameObject level;
     /// <summary>
     /// Finds the closest key value from a Dictionary of values.

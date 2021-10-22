@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4562945548694608202}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4562945548973895647}
   m_Father: {fileID: 0}
@@ -81,7 +81,6 @@ GameObject:
   - component: {fileID: 4562945548973895619}
   - component: {fileID: 4562945548973895618}
   - component: {fileID: 4562945548973895645}
-  - component: {fileID: 4562945548973895644}
   - component: {fileID: 6223044187650446136}
   m_Layer: 0
   m_Name: Pole
@@ -198,26 +197,6 @@ FixedJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &4562945548973895644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4562945548973895646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86694796f319b7648aa06e89cd7c4921, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
-  isHeld: 0
-  poleHandle: {fileID: 4562945548694608202}
-  poleDamage: 10
-  poleHitForce: 20
-  poleThrowDamage: 15
-  poleViewDistance: 5.5
-  poleViewAngle: 100
 --- !u!114 &6223044187650446136
 MonoBehaviour:
   m_ObjectHideFlags: 0

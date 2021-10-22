@@ -138,7 +138,7 @@ Transform:
   m_GameObject: {fileID: 4229618764198995258}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4229618764654016646}
   m_Father: {fileID: 0}
@@ -353,7 +353,6 @@ GameObject:
   - component: {fileID: 4229618764654016643}
   - component: {fileID: 4229618764654016640}
   - component: {fileID: 4229618764654016641}
-  - component: {fileID: 3612358076676157450}
   - component: {fileID: 8260872523118420390}
   m_Layer: 0
   m_Name: Uzi
@@ -438,30 +437,6 @@ FixedJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &3612358076676157450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4229618764654016647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb27dc5586592444fa18b60846b8db5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
-  isHeld: 0
-  bullet: {fileID: 198003970889221192, guid: 7d8f5aa82bad9134da8f6611d160eaf5, type: 3}
-  uziHandle: {fileID: 4229618764198995258}
-  uziMuzzle: {fileID: 2801722542778083995}
-  uziLaserAim: {fileID: 5160506885529334138}
-  uziDamage: 4
-  uziBulletFireForce: 20
-  uziBulletHitForce: 10
-  uziThrowDamage: 2
-  uziViewDistance: 20
-  uziViewAngle: 10
 --- !u!114 &8260872523118420390
 MonoBehaviour:
   m_ObjectHideFlags: 0
