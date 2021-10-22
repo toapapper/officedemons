@@ -49,21 +49,21 @@ public class WeaponHand : MonoBehaviour
 	private void Awake()
 	{
 		animator = GetComponent<Animator>();
-		FOV.viewRadius = handHitDistance;
-		FOV.viewAngle = handHitAngle;
+		FOV.ViewRadius = handHitDistance;
+		FOV.ViewAngle = handHitAngle;
 	}
 
     private void Start()
     {
 		if (objectInHand != null)
 		{
-			FOV.viewRadius = objectInHand.ViewDistance;
-			FOV.viewAngle = objectInHand.ViewAngle;
+			FOV.ViewRadius = objectInHand.ViewDistance;
+			FOV.ViewAngle = objectInHand.ViewAngle;
 		}
 		else
 		{
-			FOV.viewRadius = handHitDistance;
-			FOV.viewAngle = handHitAngle;
+			FOV.ViewRadius = handHitDistance;
+			FOV.ViewAngle = handHitAngle;
 		}
 
 		SetAimGradient();
@@ -118,8 +118,8 @@ public class WeaponHand : MonoBehaviour
 		}
 		objectInHand.SetAimGradient(aimGradient);
 
-		FOV.viewAngle = objectInHand.ViewAngle;
-		FOV.viewRadius = objectInHand.ViewDistance;
+		FOV.ViewAngle = objectInHand.ViewAngle;
+		FOV.ViewRadius = objectInHand.ViewDistance;
 	}
 
 	//Attack
@@ -216,9 +216,9 @@ public class WeaponHand : MonoBehaviour
 		{
 			objectInHand.DoAction(FOV);
 		}
-		else if (FOV.visibleTargets.Count > 0)
+		else if (FOV.VisibleTargets.Count > 0)
 		{
-			foreach (GameObject target in FOV.visibleTargets)
+			foreach (GameObject target in FOV.VisibleTargets)
 			{
 				Effects.Damage(target, handHitDamage);
 				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
@@ -237,8 +237,8 @@ public class WeaponHand : MonoBehaviour
 
 			throwForce = 0;
 			objectInHand = null;
-			FOV.viewAngle = handHitAngle;
-			FOV.viewRadius = handHitDistance;			
+			FOV.ViewAngle = handHitAngle;
+			FOV.ViewRadius = handHitDistance;			
 		}
 	}
 }

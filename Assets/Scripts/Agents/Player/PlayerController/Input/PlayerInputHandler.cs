@@ -200,6 +200,10 @@ public class PlayerInputHandler : MonoBehaviour
 						}
 					}
 				}
+				else if(context.action.name == inputControls.PlayerMovement.Pause.name)
+                {
+					GameManager.Instance.OnPause();
+                }
 			}
 			else if (playerMovement.MoveAmount != Vector3.zero)
 			{

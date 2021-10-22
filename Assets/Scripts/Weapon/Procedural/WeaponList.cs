@@ -22,18 +22,18 @@ public class WeaponList : MonoBehaviour
 
     /// <summary>
     /// <para>WeaponNames meaning:</para>
-    /// <para>Stunning: Adds Paralysis
-    /// Long: Longer reach
-    /// Short: Shorter reach
-    /// Heavy: Takes more stamina and has more knockback
-    /// Light: Takes less stamina and has less knockback
-    /// Dull: Lesser damage to pointy weapons
-    /// Sharp: More damage to pointy weapons
-    /// Frail: Less durability
-    /// Durable: More durability
-    /// Toxic: Adds Poison
-    /// Boring: No effect at all.
-    /// Flaming: Adds burn
+    /// <para>Stunning: Adds Paralysis<br/>
+    /// Long: Longer reach<br/>
+    /// Short: Shorter reach<br/>
+    /// Heavy: Takes more stamina and has more knockback<br/>
+    /// Light: Takes less stamina and has less knockback<br/>
+    /// Dull: Lesser damage to pointy weapons<br/>
+    /// Sharp: More damage to pointy weapons<br/>
+    /// Frail: Less durability<br/>
+    /// Durable: More durability<br/>
+    /// Toxic: Adds Poison<br/>
+    /// Boring: No effect at all.<br/>
+    /// Flaming: Adds burn<br/>
     /// </para>
     /// </summary>
     public static Dictionary<string, WeaponStatsGeneration> weaponDictionary;

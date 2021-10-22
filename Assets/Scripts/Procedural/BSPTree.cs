@@ -22,8 +22,9 @@ public class BSPTree : MonoBehaviour
     private List<Node> nodes;
     private int generations = 3;
     private Vector2 size, oldSize;
-    private Vector2 widthLimits = new Vector2(800,1000);
-    private Vector2 heightLimits = new Vector2(800,1000);
+
+    [SerializeField] private Vector2 widthLimits = new Vector2(800,1000);
+    [SerializeField] private Vector2 heightLimits = new Vector2(800,1000);
     /// <summary>A counter which gets bigger after each generation</summary>
     private int missfallMultiplier;
     /// <summary> If missfallMultiplier happens to land on missfallTop then no more children for the node </summary>

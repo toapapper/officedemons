@@ -80,7 +80,7 @@ public class AIStateHandler : MonoBehaviour
         //DeathCheck       
         if(aiController.CurrentState != AIStates.States.Dead)
         {
-            if (fov.visibleTargets.Count > 0) // <- If one or more targets is within fov range
+            if (fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
             {
                 Debug.Log("player in range");
                 //If there is then they are in our attack range so we attack
@@ -119,6 +119,7 @@ public class AIStateHandler : MonoBehaviour
         {
             //If we have low health and still alive then we go to LowHealthBehaviour instead to get our state
             if (HealthLow())
+
             {
                 LowHealthBehaviour();
             }
