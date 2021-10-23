@@ -125,7 +125,7 @@ public class AIStateHandler : MonoBehaviour
             }
             else
             {
-                if (fov.visibleTargets.Count > 0) // <- If one or more targets is within fov range
+                if (fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
                 {
                     //If there is then they are in our attack range so we attack
                     aiController.CurrentState = AIStates.States.Attack;
