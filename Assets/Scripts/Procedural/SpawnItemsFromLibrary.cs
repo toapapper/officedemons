@@ -13,18 +13,22 @@ using UnityEngine;
 // Last Edited: 22-10-2021
 
     //The scenaries will change later just needed something to start with
-    public enum Scenary { Normal, Encounter, Special}
+    public enum Scenary { City, Forest, Rural}
 
 public class SpawnItemsFromLibrary : MonoBehaviour
 {
-    GameObject item;
-
+    private GameObject item;
+    public GameObject Item
+    {
+        get { return item; }
+    }
     //Use it in transformation
-    public static Scenary currentScenary = Scenary.Normal;
+    public static Scenary currentScenary = Scenary.City;
 
     public GameObject level;
     /// <summary>
     /// Finds the closest key value from a Dictionary of values.
+    /// takes the largest key which isn't bigger than nodes.x or nodes.y
     /// </summary>
     /// <param name="node"></param>
     public void FindClosestKey(Node node)
@@ -46,6 +50,28 @@ public class SpawnItemsFromLibrary : MonoBehaviour
         }
         node.size = bestFit;
         item = ProceduralItemLibrary.Instance.GetItemFromDictionary(bestFit);
+    }
+
+    public GameObject SeeClosestKey(Node node)
+    {
+        Vector2 bestFit = Vector2.zero;
+        foreach (Vector2 key in ProceduralItemLibrary.Instance.itemLibrary.Keys)
+        {
+            if (key.x > node.size.x || key.y > node.size.y)
+            {
+
+            }
+            else
+            {
+                if (key.x * key.y > bestFit.x * bestFit.y)
+                {
+                    bestFit = key;
+                }
+            }
+        }
+        node.size = bestFit;
+        item = ProceduralItemLibrary.Instance.GetItemFromDictionary(bestFit);
+        return item;
     }
     /// <summary>
     /// Spawns the selected item on the nodes position.

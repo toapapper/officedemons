@@ -12,30 +12,78 @@ using UnityEngine;
 /// </summary>
 /// 
 
-// Last Edited: 22/10/2021
+// Last Edited: 23/10/2021
 public class ProceduralTransformation : MonoBehaviour
 {
     /// <summary>
     /// A list of what the item can turn into
     /// </summary>
-    public List<GameObject> normalRoom = new List<GameObject>();
-    public List<GameObject> Encounter = new List<GameObject>();
-    public List<GameObject> Special = new List<GameObject>();
+    public List<GameObject> normalRoomCity = new List<GameObject>();
+    public List<GameObject> normalRoomForest = new List<GameObject>();
+    public List<GameObject> normalRoomRural = new List<GameObject>();
+
+    public List<GameObject> EncounterCity = new List<GameObject>();
+    public List<GameObject> EncounterForest = new List<GameObject>();
+    public List<GameObject> EncounterRural = new List<GameObject>();
+
+    public List<GameObject> SpecialCity = new List<GameObject>();
+    public List<GameObject> SpecialForest = new List<GameObject>();
+    public List<GameObject> SpecialRural = new List<GameObject>();
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        switch (SpawnItemsFromLibrary.currentScenary)
+        switch (FitnessFunction.currentRoom)
         {
-            case Scenary.Normal:
-                TransformItem(normalRoom);
+            case Rooms.Normal:
+                switch (SpawnItemsFromLibrary.currentScenary)
+                {
+                    case Scenary.City:
+                        TransformItem(normalRoomCity);
+                        break;
+                    case Scenary.Forest:
+                        TransformItem(normalRoomForest);
+                        break;
+                    case Scenary.Rural:
+                        TransformItem(normalRoomRural);
+                        break;
+                    default:
+                        break;
+                }
                 break;
-            case Scenary.Encounter:
-                TransformItem(Encounter);
+            case Rooms.Encounter:
+                switch (SpawnItemsFromLibrary.currentScenary)
+                {
+                    case Scenary.City:
+                        TransformItem(EncounterCity);
+                        break;
+                    case Scenary.Forest:
+                        TransformItem(EncounterForest);
+                        break;
+                    case Scenary.Rural:
+                        TransformItem(EncounterRural);
+                        break;
+                    default:
+                        break;
+                }
                 break;
-            case Scenary.Special:
-                TransformItem(Special);
+            case Rooms.Special:
+                switch (SpawnItemsFromLibrary.currentScenary)
+                {
+                    case Scenary.City:
+                        TransformItem(SpecialCity);
+                        break;
+                    case Scenary.Forest:
+                        TransformItem(SpecialForest);
+                        break;
+                    case Scenary.Rural:
+                        TransformItem(SpecialRural);
+                        break;
+                    default:
+                        break;
+                }
                 break;
             default:
                 break;

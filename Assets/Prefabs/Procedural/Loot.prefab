@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1183457478698962452}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -108,12 +108,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b87cd630ba2c6e439c300890f67c9ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalRoom:
+  normalRoomCity:
   - {fileID: 4904968822265838951, guid: 0de22563a940e134db879c589014f7a8, type: 3}
+  - {fileID: 4229618764198995258, guid: 8a0153ef7d6c2ae4a9d3b500e2aa3e7d, type: 3}
+  normalRoomForest:
   - {fileID: 4562945548694608202, guid: b8c6b978db198e142b8fa2d7137b4aca, type: 3}
   - {fileID: 5163975343130323108, guid: 8c9380b4040a06745943eb661f902d66, type: 3}
-  - {fileID: 4229618764198995258, guid: 8a0153ef7d6c2ae4a9d3b500e2aa3e7d, type: 3}
+  normalRoomRural:
   - {fileID: 3617718076009827125, guid: e948ea00e24de324d9cfe76819d6af21, type: 3}
-  Encounter:
-  - {fileID: 3115175364895817837, guid: 22d10a4bfeacf784bb9dad086cab7166, type: 3}
-  Special: []
+  EncounterCity:
+  - {fileID: 1820636306261740082, guid: c5df058ac53ce4342bed33690345bc14, type: 3}
+  EncounterForest:
+  - {fileID: 1820636306261740082, guid: c5df058ac53ce4342bed33690345bc14, type: 3}
+  EncounterRural:
+  - {fileID: 1820636306261740082, guid: c5df058ac53ce4342bed33690345bc14, type: 3}
+  SpecialCity: []
+  SpecialForest: []
+  SpecialRural: []

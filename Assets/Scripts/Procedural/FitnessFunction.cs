@@ -10,28 +10,30 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 22-10-2021
-
-public enum Rooms { Normal, Encounter, Turn}
+// Last Edited: 23-10-2021
+//TODO: tog bort fitness temporärt och allt den kollar på är atm desiredobjects aka så här många vapen/fiender. Lägg tillbaka fitness
+public enum Rooms { Normal, Encounter, Special}
 
 
 public class FitnessFunction : MonoBehaviour
 {
+    public static Rooms currentRoom;
+
     [SerializeField]
     private Vector2 bigRoomMultiplier = new Vector2(2,4);
     private SpawnItemsFromLibrary itemLibrary;
     private List<Node> lbNodes;
     [SerializeField]
-    private int encounterFreq = 7;
-    private int roomCounter = 1;
+    private int encounterFreq = 3;
+    private int roomCounter = 0;
     private Node lbRoot;
     private int lbWidth;
     private int lbHeight;
-    private int lbHeightLimit;
     private int lbFitness;
     private int turnCounter;
     [SerializeField]
     private int turnFrequency = 3;
+    private int specials = 0;
 
     private void Start()
     {
@@ -43,49 +45,30 @@ public class FitnessFunction : MonoBehaviour
     /// </summary>
     /// <param name="nodes"> A list of segments for each room</param>
     /// <param name="root">The root node represents the floor in which the rest of the objects are tied</param>
-    /// <param name="foundSuitableObstacle">A bool that returns whether or not the fitness value was achieved</param>
-    /// <param name="heightLimit"></param>
     /// <returns></returns>
-    public bool FitnessFuntion(List<Node> nodes, Node root, bool foundSuitableObstacle, int heightLimit)
+    public bool FitnessFuntion(List<Node> nodes, Node root)
     {
-        if (roomCounter % encounterFreq == 0)
+        if (currentRoom == Rooms.Encounter)
         {
             //Debug.Log("==== Encounter Room ====");
-            return foundSuitableObstacle = EvaluateFitness(nodes, /*TODO :  Placeholder*/ 3, root, heightLimit);
+            return EvaluateFitness(nodes,5, root, Rooms.Encounter);
         }
         else
         {
             //Debug.Log("**** Roaming Room ****");
-            return foundSuitableObstacle = EvaluateFitness(nodes, /*TODO :  Placeholder*/ 50, root, heightLimit);
+            return EvaluateFitness(nodes,3, root, Rooms.Normal);
         }
     }
 
-    public bool IsMyRoomThis(Rooms room)
+    public void RoomUpdate()
     {
-        if (roomCounter % encounterFreq == encounterFreq - 1 && roomCounter > 2)
+        if (roomCounter % encounterFreq == 1 && roomCounter > 2)
         {
-            Debug.Log("This is an Encounter");
-            if (room == Rooms.Encounter)
-            {
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            currentRoom = Rooms.Encounter;
         }
         else
         {
-            Debug.Log("This is a Normal");
-            if (room == Rooms.Normal)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            currentRoom = Rooms.Normal;
         }
     }
 
@@ -95,7 +78,6 @@ public class FitnessFunction : MonoBehaviour
     {
         if (roomCounter % encounterFreq == 2)
         {
-            Debug.Log("This is a turnCount");
             turnCounter++;
             if (turnCounter > turnFrequency)
             {
@@ -109,23 +91,25 @@ public class FitnessFunction : MonoBehaviour
     /// Executes different calculations depending on the room variant.
     /// </summary>
     /// <param name="nodes"> A list of segments for each room</param>
-    /// <param name="desiredFitness">The desired value of the fitness function</param>
+    /// <param name="desiredObjects">Enemies for encounter and weapons for normal</param>
     /// <param name="root">The root node represents the floor in which the rest of the objects are tied</param>
     /// <param name="heightLimit"></param>
     /// <returns></returns>
-    public bool EvaluateFitness(List<Node> nodes, int desiredFitness, Node root, int heightLimit)
+    public bool EvaluateFitness(List<Node> nodes, int desiredObjects, Node root, Rooms currentRoom)
     {
         int fitnessValue = 0;
         int obstacles = 0;
+        specials = 0;
         for (int i = 0; i < nodes.Count; i++)
         {
             //Evaluate fitness.
-            if(desiredFitness == 3)
+            if(currentRoom == Rooms.Encounter)
             {
                 //Give point to traits that are desirable for this room-type
                 //Encounter rooms should be...
                 if (nodes[i].leaf)
                 {
+                    BufferMaker(out nodes[i].size.x, out nodes[i].size.y, nodes[i]);
                     fitnessValue = EncounterFitness(nodes[i], root, fitnessValue);
                     obstacles++;
                 }
@@ -134,33 +118,25 @@ public class FitnessFunction : MonoBehaviour
             {
                 if (nodes[i].leaf)
                 {
+                    BufferMaker(out nodes[i].size.x, out nodes[i].size.y, nodes[i]);
                     fitnessValue = StandardFitness(nodes[i], root, fitnessValue);
                     obstacles++;
                 }
-                //Debug.Log("fitness after check = " + fitnessValue);
-
-                if (obstacles > 6)
-                {
-                    fitnessValue -= 400;
-                }
             }
         }
-
-        if (fitnessValue >= desiredFitness)
+        if (desiredObjects - 1 <= specials && specials <= desiredObjects + 1)
         {
             //Debug.Log("Sucessesful fitness = " + fitnessValue);
+            Debug.Log(specials);
             for (int i = 0; i < nodes.Count; i++)
             {
                 if (nodes[i].leaf)
                 {
-                    BufferMaker(out nodes[i].size.x, out nodes[i].size.y, nodes[i]);
                     itemLibrary.FindClosestKey(nodes[i]);
                     if(nodes[i].size != Vector2.zero)
                     {
                         itemLibrary.SpawnItems(nodes[i], root);
                     }
-
-                    //TODO : Use items from SpawnItemLibrary
                 }
             }
             ResetLastFitness();
@@ -175,7 +151,6 @@ public class FitnessFunction : MonoBehaviour
                 lbRoot = root;
                 lbWidth = (int)root.size.x;
                 lbHeight = (int)root.size.y;
-                lbHeightLimit = heightLimit;
             }
         }
         return false;
@@ -189,14 +164,21 @@ public class FitnessFunction : MonoBehaviour
     /// <returns></returns>
     public int StandardFitness(Node node, Node root, int fitness)
     {
-        if (node.size.x * node.size.y < root.size.x * root.size.y / 200)
-            return fitness -= 20;
+        //if (node.size.x * node.size.y < root.size.x * root.size.y / 200)
+        //    fitness -= 20;
 
-        else if (node.size.x * node.size.y > root.size.x * root.size.y / 100)
-            return fitness += 40;
+        //else if (node.size.x * node.size.y > root.size.x * root.size.y / 100)
+        //    fitness += 40;
 
-        else
-            fitness += 10;
+        //else
+        //    fitness += 10;
+
+        if (itemLibrary.SeeClosestKey(node).name == "Loot" && itemLibrary.SeeClosestKey(node) != null && node.size != Vector2.zero)
+        {
+            Debug.Log("Loot found");
+            specials++;
+            fitness++;
+        }
 
         fitness = TooCloseCheck(node, 20, root, fitness, 400);
 
@@ -215,7 +197,7 @@ public class FitnessFunction : MonoBehaviour
         //Checks if the nodes are not to small
         if (node.size.x <= root.size.x / 6 && node.size.y <= root.size.y / 6)
         {
-            return fitness--;
+            fitness--;
         }
         else
         {
@@ -223,8 +205,12 @@ public class FitnessFunction : MonoBehaviour
         }
 
         //Additional values.
-        
-
+        if (itemLibrary.SeeClosestKey(node).name == "Hurdles" && itemLibrary.SeeClosestKey(node) != null && node.size != Vector2.zero)
+        {
+            Debug.Log("Hurdle found");
+            specials++;
+            fitness++;
+        }
         fitness = TooCloseCheck(node, 20, root, fitness, 1);
         //Debug.Log("Encounter Fitness : " + fitness);
         return fitness;
@@ -282,7 +268,6 @@ public class FitnessFunction : MonoBehaviour
         lbRoot = new Node(Vector2.zero, Vector2.zero);
         lbWidth = 0;
         lbHeight = 0;
-        lbHeightLimit = 0;
     }
     /// <summary>
     /// Creates a buffer for node
@@ -310,7 +295,7 @@ public class FitnessFunction : MonoBehaviour
     {
         size.x = Random.Range((int)widthLimits.x, (int)widthLimits.y);
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
-        if (roomCounter % encounterFreq == 0)
+        if (roomCounter % encounterFreq == 0 && roomCounter > 0)
         {
             generations = 4;
             size.x *= bigRoomMultiplier.x;
@@ -318,6 +303,24 @@ public class FitnessFunction : MonoBehaviour
         }
         generations = 3;
         roomCounter++;
+        ChangeScenary(10);
         return size;
+    }
+
+    /// <summary></summary>
+    /// <param name="howOften">After how many rooms should we change scenary</param>
+    private void ChangeScenary(int howOften)
+    {
+        if (roomCounter % howOften == 0)
+        {
+            if (SpawnItemsFromLibrary.currentScenary == Scenary.Rural)
+            {
+                SpawnItemsFromLibrary.currentScenary = Scenary.City;
+            }
+            else
+            {
+                SpawnItemsFromLibrary.currentScenary++;
+            }
+        }
     }
 }

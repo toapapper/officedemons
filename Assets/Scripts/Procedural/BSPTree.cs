@@ -62,6 +62,7 @@ public class BSPTree : MonoBehaviour
     /// </summary>
     public void MakeBSP()
     {
+        fitnessFunction.RoomUpdate();
         missfallMultiplier = 0;
         nodes = new List<Node>();
         oldSize.x = size.x;
@@ -85,7 +86,6 @@ public class BSPTree : MonoBehaviour
         lastDirection = nextDirection;
         GO();
         generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection, size,lastRoot.size,new Vector2(1,1), heightLimits.y);
-        UpdateWhatRoomObstacles();
 
         //Bakes a navMesh on the generated level
         level.GetComponent<NavigationBaker>().BakeNavMesh();
@@ -103,7 +103,7 @@ public class BSPTree : MonoBehaviour
             BSP(root);
 
             //Search again
-            if (!fitnessFunction.FitnessFuntion(nodes, root, foundSuitableObstacles, (int)heightLimits.y))
+            if (!fitnessFunction.FitnessFuntion(nodes, root))
             {
                 nodes = new List<Node>();
                 root.children = new Node[2];
@@ -116,6 +116,7 @@ public class BSPTree : MonoBehaviour
         }
         if (!foundSuitableObstacles)
         {
+            Debug.Log("last resort");
             fitnessFunction.UseBestVariant();
         }
 
@@ -236,19 +237,6 @@ public class BSPTree : MonoBehaviour
             GoUp();
         }
     }
-
-    private void UpdateWhatRoomObstacles()
-    {
-        if (fitnessFunction.IsMyRoomThis(Rooms.Encounter))
-        {
-            SpawnItemsFromLibrary.currentScenary = Scenary.Encounter;
-        }
-        else
-        {
-            SpawnItemsFromLibrary.currentScenary = Scenary.Normal;
-        }
-    }
-
 
     /// <summary>
     /// Next Direction is right <br/>
