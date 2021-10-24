@@ -18,7 +18,6 @@ public class WeaponHand : MonoBehaviour
 	private Animator animator;
 	[SerializeField]
 	private ThrowAim throwAim;
-
 	[SerializeField]
 	private GameObject handObject;
 	[SerializeField]
@@ -122,18 +121,18 @@ public class WeaponHand : MonoBehaviour
 		FOV.ViewRadius = objectInHand.ViewDistance;
 	}
 
-	//Attack
-	public void StartAttack()
-	{
-		if (objectInHand != null)
-		{
-			objectInHand.StartAttack(animator);
-		}
-		else
-		{
-			animator.SetTrigger("isStartHandAttack");
-		}
-	}
+    //Attack
+    public void StartAttack()
+    {
+        if (objectInHand != null)
+        {
+            objectInHand.StartAttack(animator);
+        }
+        else
+        {
+            animator.SetTrigger("isStartHandAttack");
+        }
+    }
 	public void Attack()
 	{
 		if (objectInHand != null)

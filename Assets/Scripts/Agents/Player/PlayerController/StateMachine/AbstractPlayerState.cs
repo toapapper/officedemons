@@ -18,7 +18,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 {
 	protected PlayerMovementController playerMovement;
     protected WeaponHand weaponHand;
-    protected Attributes attributes;//ossian o jonas
+    protected Attributes attributes;
     protected CharacterController characterController;
 
     private TypeOfAction typeOfActions;
@@ -77,8 +77,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 		ChosenAction = TypeOfAction.NOACTION;
 		playerMovement = GetComponent<PlayerMovementController>();
         weaponHand = GetComponent<WeaponHand>();
-
-        attributes = GetComponent<Attributes>();//ossian o jonas
+        attributes = GetComponent<Attributes>();
         characterController = GetComponent<CharacterController>();
     }
 
