@@ -81,7 +81,6 @@ public class GameManager : MonoBehaviour
         mainCamera = Camera.main.GetComponent<MultipleTargetCamera>(); 
     }
 
-
     void Update()
     {
         #region are all the needed gameObjects still-check
@@ -127,14 +126,15 @@ public class GameManager : MonoBehaviour
                 Debug.Log("PLAYER ACTIONS DONE");
                 combatState = CombatState.enemy;
                 EnemiesTurnDone = false;
-
                 aiManager.BeginTurn();
             }
         }
         else if(CurrentCombatState == CombatState.enemy)
         {
             if (!enemiesTurnDone)
+            {
                 aiManager.PerformTurn();
+            }
 
             if (enemiesTurnDone)
             {
