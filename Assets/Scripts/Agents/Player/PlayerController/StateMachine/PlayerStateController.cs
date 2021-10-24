@@ -5,7 +5,7 @@ using static UnityEngine.InputSystem.InputAction;
 
 /// <summary>
 /// <para>
-/// Controlls state transitions and sends input to the current state
+/// Controls state transitions and sends input to the current state
 /// </para> 
 ///  <para>
 ///  Author: Johan Melkersson
