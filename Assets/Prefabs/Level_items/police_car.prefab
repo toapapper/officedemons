@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8648203062960457944}
   - component: {fileID: 6908629118601198610}
   - component: {fileID: 1682321632309155990}
+  - component: {fileID: 3728447830011919655}
   m_Layer: 0
   m_Name: police_car
   m_TagString: Untagged
@@ -26,13 +27,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4963140393107152327}
-  m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
-  m_LocalPosition: {x: 2.8416615, y: 0.99425274, z: 20.6512}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 2.35, y: 1.05, z: -66.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -89.98, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8648203062960457944
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -93,5 +94,18 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.037953883, y: 0.06917345, z: 0.02929981}
-  m_Center: {x: 0, y: -0.009695933, z: 0.0047073755}
+  m_Size: {x: 3.7953887, y: 6.917346, z: 1.6948934}
+  m_Center: {x: 0, y: -0.9695936, z: -0.14680602}
+--- !u!65 &3728447830011919655
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4963140393107152327}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.7953887, y: 3.8388762, z: 2.9299817}
+  m_Center: {x: 0, y: -0.66193366, z: 0.4707455}

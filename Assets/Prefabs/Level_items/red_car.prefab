@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3930957510762356911}
   - component: {fileID: 1254646458577327205}
   - component: {fileID: 3468711924421783360}
+  - component: {fileID: 6713184926385275713}
   m_Layer: 0
   m_Name: red_car
   m_TagString: Untagged
@@ -26,13 +27,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 750300407042651568}
-  m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
-  m_LocalPosition: {x: -8.457684, y: 0.9544817, z: 16.802979}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 2.0638323, y: 0.9544822, z: -57.22645}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -89.98, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3930957510762356911
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -93,5 +94,18 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.03643573, y: 0.06640652, z: 0.025190251}
-  m_Center: {x: 0, y: -0.009308098, z: 0.003050296}
+  m_Size: {x: 3.6435728, y: 3.8144126, z: 2.519025}
+  m_Center: {x: 0, y: -0.6336169, z: 0.30503443}
+--- !u!65 &6713184926385275713
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750300407042651568}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.6435728, y: 6.6406517, z: 1.6314597}
+  m_Center: {x: 0, y: -0.93080956, z: -0.13875307}
