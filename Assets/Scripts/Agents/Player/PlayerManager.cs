@@ -94,7 +94,13 @@ public class PlayerManager : MonoBehaviour
         }
         #endregion
 
-        GameObject player = Instantiate(playerChar, new Vector3(0,0,0), Quaternion.identity, transform);
+        Vector3 spawnPos = GameObject.Find("WorldCenter").transform.position;
+        if (spawnPos.Equals(null))
+        {
+            spawnPos = Vector3.zero;
+        }
+
+        GameObject player = Instantiate(playerChar, spawnPos, Quaternion.identity, transform);
         player.GetComponent<PlayerInputHandler>().InitializePlayer(playerconfig);
         player.GetComponent<PlayerInputHandler>().recentlySpawned = true;
     }
