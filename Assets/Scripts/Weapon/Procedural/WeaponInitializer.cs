@@ -182,6 +182,8 @@ public class WeaponInitializer : MonoBehaviour
         finalName.Append(rarity);
         finalName.Append(" ");
         finalName.Append(name);
+        finalName.Append(" ");
+        finalName.Append(this.gameObject.name);
         if (weapon.effects.Count > 1)
         {
             finalName.Append(" with");
@@ -194,8 +196,6 @@ public class WeaponInitializer : MonoBehaviour
                 finalName.Append(weapon.effects[i]);
             }
         }
-        finalName.Append(" ");
-        finalName.Append(this.gameObject.name);
 
         return finalName.ToString();
     }
