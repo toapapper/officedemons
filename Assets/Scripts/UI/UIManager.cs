@@ -129,7 +129,7 @@ public class UIManager : MonoBehaviour
         card.Initialize(PlayerManager.players[i]);
 
         //StaminaCircle stamCirc = transform.Find("Canvas").transform.Find("StaminaCircle" + i).GetComponent<StaminaCircle>();
-        StaminaCircle stamCirc = transform.Find("StamCircle" + i).GetChild(0).GetComponent<StaminaCircle>();
+        StaminaCircle stamCirc = transform.Find("StamCircle" + i).GetComponent<StaminaCircle>();
         stamCirc.gameObject.SetActive(true);
         stamCirc.SetPlayer(PlayerManager.players[i]);
     }
