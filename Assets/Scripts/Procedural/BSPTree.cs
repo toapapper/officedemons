@@ -8,8 +8,8 @@ using UnityEngine.AI;
 /// A level making algoritm
 /// </para>
 /// </summary>
-/// 
-// Last Edited: 21/10/2021
+///
+// Last Edited: 22/10/2021
 public class BSPTree : MonoBehaviour
 {
     private Node root;
@@ -28,6 +28,7 @@ public class BSPTree : MonoBehaviour
     /// <summary>A counter which gets bigger after each generation</summary>
     private int missfallMultiplier;
     /// <summary> If missfallMultiplier happens to land on missfallTop then no more children for the node </summary>
+    [SerializeField]
     private int missfallTop = 6;
     Vector2 lastSize;
     private int fitnessGoal = 50;
@@ -54,11 +55,13 @@ public class BSPTree : MonoBehaviour
             MakeBSP();
         }
     }
+
     /// <summary>
     /// Start the algoritm
     /// </summary>
     public void MakeBSP()
     {
+        fitnessFunction.RoomUpdate();
         missfallMultiplier = 0;
         nodes = new List<Node>();
         oldSize.x = size.x;
@@ -75,7 +78,6 @@ public class BSPTree : MonoBehaviour
 
         root = new Node(size,lastSize);
         generateTerrain.GenerateGround(root);
-
         SearchObstaclesFitness(bspRemakeTries);
 
         size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits, size,generations);
@@ -100,7 +102,7 @@ public class BSPTree : MonoBehaviour
             BSP(root);
 
             //Search again
-            if (!fitnessFunction.FitnessFuntion(nodes, root, foundSuitableObstacles, (int)heightLimits.y))
+            if (!fitnessFunction.FitnessFuntion(nodes, root))
             {
                 nodes = new List<Node>();
                 root.children = new Node[2];
@@ -113,6 +115,7 @@ public class BSPTree : MonoBehaviour
         }
         if (!foundSuitableObstacles)
         {
+            Debug.Log("last resort");
             fitnessFunction.UseBestVariant();
         }
 
@@ -220,26 +223,11 @@ public class BSPTree : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns a random number between 0 and 1
-    /// 0 = foward
-    /// 1 = up
-    /// </summary>
-    private int GetDirection()
-    {
-        int d = Random.Range(0, 6);
-
-        return d;
-    }
-
-
-    /// <summary>
     /// Walk in either up och right direction
     /// </summary>
     private void GO()
     {
-        int direction = GetDirection();
-
-        if (direction == 0)
+        if (fitnessFunction.TimeToTurn())
         {
             GoRight();
         }
@@ -247,8 +235,8 @@ public class BSPTree : MonoBehaviour
         {
             GoUp();
         }
-
     }
+
     /// <summary>
     /// Next Direction is right <br/>
     /// Add to the overall size of the map

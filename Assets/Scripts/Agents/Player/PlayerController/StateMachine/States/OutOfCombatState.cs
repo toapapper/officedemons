@@ -14,13 +14,11 @@ using UnityEngine;
 // Last Edited: 2021-10-12
 public class OutOfCombatState : AbstractPlayerState
 {
-    //Attack action
 	public override void OnAttack()
 	{
         weaponHand.Attack();
     }
 
-    //Bombard action
     public override bool OnStartBombard()
     {
 		if (weaponHand.StartBombard())
@@ -42,20 +40,19 @@ public class OutOfCombatState : AbstractPlayerState
         return false;
     }
 
-    //Special action
     public override void OnSpecial()
     {
         //TODO
         //specialHand.Attack();
     }
 
-    //PickUp
     public override void OnPickUp(GameObject weapon)
-	{
+    {
         weaponHand.Equip(weapon);
-	}
-	public override bool OnStartThrow()
-	{
+    }
+
+    public override bool OnStartThrow()
+    {
         if (weaponHand.StartThrow())
         {
             IsActionTriggered = true;
@@ -64,6 +61,7 @@ public class OutOfCombatState : AbstractPlayerState
         }
         return false;
     }
+
 	public override bool OnThrow()
 	{
 		if (weaponHand.Throw())
@@ -74,11 +72,9 @@ public class OutOfCombatState : AbstractPlayerState
 		return false;
     }
 
-    //Revive action
 	public override void OnRevive(GameObject player)
 	{
         player.GetComponentInChildren<Attributes>().Health = 100;
-        //Debug.Log("Revive player " + player.name);
     }
 
     //Update
@@ -101,8 +97,6 @@ public class OutOfCombatState : AbstractPlayerState
 
     public override void OnStateEnter()
     {
-        //Debug.Log("Enters OutOfCombatState" + this);
-        //Debug.LogWarning("Reset action");
         ChosenAction = TypeOfAction.NOACTION;
         playerMovement.MoveDirection = Vector3.zero;
         playerMovement.MoveAmount = Vector3.zero;
@@ -115,6 +109,5 @@ public class OutOfCombatState : AbstractPlayerState
 			weaponHand.CancelAction();
             IsActionTriggered = false;
 		}
-		//Debug.Log("Exits OutOfCombatState" + this);
     }
 }

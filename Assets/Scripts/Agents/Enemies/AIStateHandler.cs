@@ -68,8 +68,6 @@ public class AIStateHandler : MonoBehaviour
     /// </summary>
     private void AggressiveGetState()
     {
-        Debug.Log("STATE:" + aiController.CurrentState);
-
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
@@ -82,7 +80,6 @@ public class AIStateHandler : MonoBehaviour
         {
             if (fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
             {
-                Debug.Log("player in range");
                 //If there is then they are in our attack range so we attack
                 aiController.CurrentState = AIStates.States.Attack;
             }
@@ -119,7 +116,6 @@ public class AIStateHandler : MonoBehaviour
         {
             //If we have low health and still alive then we go to LowHealthBehaviour instead to get our state
             if (HealthLow())
-
             {
                 LowHealthBehaviour();
             }

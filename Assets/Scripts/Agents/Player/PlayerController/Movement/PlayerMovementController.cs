@@ -43,7 +43,6 @@ public class PlayerMovementController : MonoBehaviour
 		set { moveAmount = value; }
 	}
 
-
 	private void Awake()
 	{
 		navmeshAgent = GetComponent<NavMeshAgent>();
@@ -64,6 +63,7 @@ public class PlayerMovementController : MonoBehaviour
 		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
 		return moveAmount;
 	}
+
 	//Perform movement
 	public void PerformRotation()
 	{

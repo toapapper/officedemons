@@ -47,7 +47,6 @@ public class ThrowAim : MonoBehaviour
     private float friction;
     private float bounce;
 
-
     void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -86,6 +85,5 @@ public class ThrowAim : MonoBehaviour
             lineRenderer.positionCount += 1;
             lineRenderer.SetPosition(lineRenderer.positionCount - 1, newPosition);
         }
-
     }
 }

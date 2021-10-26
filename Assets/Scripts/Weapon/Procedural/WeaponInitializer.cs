@@ -56,9 +56,11 @@ public class WeaponInitializer : MonoBehaviour
             else if(rnd >= 50 && rnd < 75)
             {
                 rarity = "Uncommon";
-                GetComponent<AbstractWeapon>().Damage *= stats.damage;
+                //If a weapon is uncommon it get's 10% more dmg and range(Not the end value only a 30% more off the value in "stats").
+                float uncommonMultiplier = 1.1f;
+                GetComponent<AbstractWeapon>().Damage *= stats.damage * uncommonMultiplier;
                 // Durability GetComponent<AbstractWeapon>().Durability += stats.durability;
-                GetComponent<AbstractWeapon>().ViewDistance *= stats.range;
+                GetComponent<AbstractWeapon>().ViewDistance *= stats.range * uncommonMultiplier;
                 // Weight GetComponent<AbstractWeapon>().Weight *= stats.weight);
                 //for (int i = 0; i < stats.effects.Count; i++)
                 //{
@@ -69,10 +71,14 @@ public class WeaponInitializer : MonoBehaviour
             else if(rnd >= 75 && rnd < 90)
             {
                 rarity = "Rare";
+                //If a weapon is rare it get's 10% more dmg and range(Not the end value only a 30% more off the value in "stats").
+                //They also have atleast one status.
+                float rareMultiplier = 1.1f;
                 GetComponent<AbstractWeapon>().Damage *= stats.damage;
                 // Durability GetComponent<AbstractWeapon>().Durability += stats.durability;
                 GetComponent<AbstractWeapon>().ViewDistance *= stats.range;
                 // Weight GetComponent<AbstractWeapon>().Weight *= stats.weight);
+                GainSpecialEffect(1, stats);
                 //for (int i = 0; i < stats.effects.Count; i++)
                 //{
                 //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
@@ -82,10 +88,14 @@ public class WeaponInitializer : MonoBehaviour
             else if(rnd >= 90 && rnd < 97)
             {
                 rarity = "Epic";
-                GetComponent<AbstractWeapon>().Damage *= stats.damage;
+                //If a weapon is epic it get's 30% more dmg and range(Not the end value only a 30% more off the value in "stats").
+                //They also have atleast one status.
+                float epicMultiplier = 1.3f;
+                GetComponent<AbstractWeapon>().Damage *= stats.damage * epicMultiplier;
                 // Durability GetComponent<AbstractWeapon>().Durability += stats.durability;
-                GetComponent<AbstractWeapon>().ViewDistance *= stats.range;
+                GetComponent<AbstractWeapon>().ViewDistance *= stats.range * epicMultiplier;
                 // Weight GetComponent<AbstractWeapon>().Weight *= stats.weight);
+                GainSpecialEffect(1, stats);
                 //for (int i = 0; i < stats.effects.Count; i++)
                 //{
                 //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
@@ -95,10 +105,13 @@ public class WeaponInitializer : MonoBehaviour
             else
             {
                 rarity = "Legendary";
+                //If a weapon is Legendary they will get two extra durability
+                //They also have atleast two status.
                 GetComponent<AbstractWeapon>().Damage *= stats.damage;
-                // Durability GetComponent<AbstractWeapon>().Durability += stats.durability;
+                // Durability GetComponent<AbstractWeapon>().Durability += stats.durability + 2;
                 GetComponent<AbstractWeapon>().ViewDistance *= stats.range;
                 // Weight GetComponent<AbstractWeapon>().Weight *= stats.weight);
+                GainSpecialEffect(2, stats);
                 //for (int i = 0; i < stats.effects.Count; i++)
                 //{
                 //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);

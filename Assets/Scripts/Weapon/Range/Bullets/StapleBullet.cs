@@ -50,7 +50,6 @@ public class StapleBullet : Bullet
             }
         }
 
-
         StartCoroutine(CountdownTime(3));
     }
 }
