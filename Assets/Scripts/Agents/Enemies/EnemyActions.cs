@@ -27,41 +27,6 @@ public class EnemyActions : MonoBehaviour
         Instance = this;
     }
 
-    //public void Die(GameObject target)
-    //{
-    //    if (target.tag == "Enemy")
-    //    {
-    //        target.GetComponent<MeshRenderer>().material.color = Color.black;
-    //        target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
-    //    }
-    //    else if (target.tag == "Player")
-    //    {
-    //        target.GetComponent<PlayerStateController>().Die();
-    //        if (GameManager.Instance.CurrentCombatState == CombatState.none)
-    //        {
-    //            StartCoroutine(DelayedSelfRevive(target));
-    //        }
-    //    }
-    //}
-    //IEnumerator DelayedSelfRevive(GameObject target)
-    //{
-    //    yield return new WaitForSeconds(1);
-    //    Revive(target);
-    //    yield return null;
-    //}
-
-    //public void Revive(GameObject target)
-    //{
-    //    if (target.tag == "Enemy")
-    //    {
-    //        // TODO: Implement Revive
-    //    }
-    //    else if (target.tag == "Player")
-    //    {
-    //        target.GetComponent<PlayerStateController>().Revive(); //Remove?
-    //    }        
-    //}
-
     public void MoveTowards(NavMeshAgent agent, GameObject target)
     {
         agent.isStopped = false;

@@ -16,14 +16,14 @@ using UnityEngine;
 public class BombardWeapon : AbstractWeapon
 {
 	[SerializeField]
-	private GameObject granade;
+	private GameObject grenade;
 	[SerializeField]
-	private float granadeThrowForce = 10;
+	private float grenadeThrowForce = 10;
 
-	public float GranadeThrowForce
+	public float GrenadeThrowForce
 	{
-		get { return granadeThrowForce; }
-		set { granadeThrowForce = value; }
+		get { return grenadeThrowForce; }
+		set { grenadeThrowForce = value; }
 	}
 
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
@@ -55,6 +55,6 @@ public class BombardWeapon : AbstractWeapon
 		Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<WeaponHand>().ThrowAim.initialAngle, right) * forward).normalized;
 		float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity;
 
-		granade.GetComponent<GrenadeObject>().CreateGrenade(transform.position, direction, throwForce, HitForce, Damage);
+		grenade.GetComponent<GrenadeObject>().CreateGrenade(transform.position, direction, throwForce, HitForce, Damage);
 	}
 }

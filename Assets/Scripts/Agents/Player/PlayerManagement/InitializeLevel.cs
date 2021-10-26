@@ -19,7 +19,6 @@ public class InitializeLevel : MonoBehaviour
     [SerializeField]
     private GameObject[] playerPrefabs;
 
-
     void Awake()
     {
         PlayerConfiguration[] playerConfigurations = PlayerConfigurationManager.Instance.GetPlayerConfigurations().ToArray();

@@ -59,7 +59,7 @@ public class GrenadeObject : MonoBehaviour
 
 	private void Explode()
 	{
-		List<GameObject> targetList = GetComponent<FieldOfView>().visibleTargets;
+		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
 
 		foreach (GameObject target in targetList)
 		{

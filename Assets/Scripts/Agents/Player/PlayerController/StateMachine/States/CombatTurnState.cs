@@ -17,7 +17,6 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class CombatTurnState : AbstractPlayerState
 {
-	//Attack Action
 	public override void OnAttack()
 	{
 		weaponHand.ToggleAimView(true);
@@ -26,7 +25,6 @@ public class CombatTurnState : AbstractPlayerState
 		IsActionTriggered = true;
 	}
 
-	//Bombard action
 	public override bool OnStartBombard()
 	{
 		if (!IsActionTriggered)
@@ -50,7 +48,6 @@ public class CombatTurnState : AbstractPlayerState
 		return false;
 	}
 
-	//Special Action
 	public override void OnSpecial()
 	{
 		//TODO
@@ -60,7 +57,6 @@ public class CombatTurnState : AbstractPlayerState
 		IsActionTriggered = true;
 	}
 
-	//PickUp action
 	public override void OnPickUp(GameObject weapon)
 	{
 		if (!IsActionTriggered)
@@ -69,7 +65,6 @@ public class CombatTurnState : AbstractPlayerState
 		}
 	}
 
-	//Throw action
 	public override bool OnStartThrow()
 	{
 		if (!IsActionTriggered)
@@ -93,7 +88,6 @@ public class CombatTurnState : AbstractPlayerState
 		return false;
 	}
 
-	//Revive action
 	public override void OnRevive(GameObject player)
 	{
 		if (!IsActionTriggered)
@@ -104,7 +98,6 @@ public class CombatTurnState : AbstractPlayerState
 		}
 	}
 
-    //Lock action
     public override void LockAction()
 	{
 		switch (ChosenAction)
@@ -125,11 +118,10 @@ public class CombatTurnState : AbstractPlayerState
 				break;
 		}
 		IsActionLocked = true;
-		Debug.Log("Chosenaction: " + ChosenAction);
+		//Debug.Log("Chosenaction: " + ChosenAction);
 		PlayerManager.Instance.ActionDone(gameObject);
 	}
 
-	//Cancel action
 	public override void CancelAction()
 	{
 		switch (ChosenAction)
@@ -204,9 +196,6 @@ public class CombatTurnState : AbstractPlayerState
 		IsAddingThrowForce = false;
 		Debug.Log("Exits CombatTurnState" + this);
 	}
-
-
-
 
 	//Heal action
 	//public override void OnHeal(CallbackContext context)

@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 /// <summary>
 /// <para>
+/// Singleton!<br/>
 /// Manages all of the in game user interface.
 /// </para>
 ///   
@@ -67,7 +68,6 @@ public class UIManager : MonoBehaviour
             }
             playerCardsInitialized = true;
         }
-
         #endregion
 
         //Uppdatera liv på spelarna
@@ -86,7 +86,7 @@ public class UIManager : MonoBehaviour
             timerText.text = ("" + Mathf.Max(Mathf.Floor(GameManager.Instance.RoundTimer),0));
 
             float percent = 1 - GameManager.Instance.RoundTimer / GameManager.Instance.RoundTime;
-            timerBackgroundWithColorImage.color = OssianUtils.MultiColorLerp(timerColors, percent);
+            timerBackgroundWithColorImage.color = Utilities.MultiColorLerp(timerColors, percent);
 
             //float segmentedPercent = (Mathf.Floor(percent * 12) / 12) + 1;
             timerBackgroundWithColorImage.fillAmount = percent;
@@ -116,11 +116,12 @@ public class UIManager : MonoBehaviour
     /// <param name="i">the index att which the player exists in the PlayerManager.players-list</param>
     public void EnablePlayerUI(int i)
     {
-        Debug.Log("UIcard init for player " + i);
+        //Debug.Log("UIcard init for player " + i);
         UIPlayerCard card = transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>();
+        
         if (card.gameObject.activeSelf)
         {
-            Debug.LogWarning("Card already active");
+            //Debug.LogWarning("Card already active");
             return;
         }
 
@@ -128,9 +129,8 @@ public class UIManager : MonoBehaviour
         card.Initialize(PlayerManager.players[i]);
 
         //StaminaCircle stamCirc = transform.Find("Canvas").transform.Find("StaminaCircle" + i).GetComponent<StaminaCircle>();
-        StaminaCircle stamCirc = transform.Find("StamCircle" + i).GetChild(0).GetComponent<StaminaCircle>();
+        StaminaCircle stamCirc = transform.Find("StamCircle" + i).GetComponent<StaminaCircle>();
         stamCirc.gameObject.SetActive(true);
-        Debug.LogWarning(PlayerManager.players[i]);
         stamCirc.SetPlayer(PlayerManager.players[i]);
     }
 

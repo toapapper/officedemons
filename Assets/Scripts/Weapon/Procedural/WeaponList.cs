@@ -10,26 +10,33 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 14-10-2021
+// Last Edited: 21-10-2021
+
+
+//ChangeLog 20-10-2021
+// List<String> is now a WeaponStatsGeneration class
 public class WeaponList : MonoBehaviour
 {
-    public static List<string> weaponNames = new List<string> { "Stunning", "Long", "Short", "Heavy", "Light", "Dull", "Sharp", "Frail", "Durable", "Toxic", "Boring" };
+    public static List<string> weaponNames = new List<string> { "Boring", "Short", "Long", "Light", "Heavy", "Sharp",
+        "Dull", "Frail", "Durable", "Stunning","Toxic", "Flaming" };
+
     /// <summary>
     /// <para>WeaponNames meaning:</para>
-    /// <para>Stunning: Adds Paralysis
-    /// Long: Longer reach
-    /// Short: Shorter reach
-    /// Heavy: Takes more stamina and has more knockback
-    /// Light: Takes less stamina and has less knockback
-    /// Dull: Lesser damage to pointy weapons
-    /// Sharp: More damage to pointy weapons
-    /// Frail: Less durability
-    /// Durable: More durability
-    /// Toxic: Adds Poison
-    /// Boring: No effect at all.
+    /// <para>Stunning: Adds Paralysis<br/>
+    /// Long: Longer reach<br/>
+    /// Short: Shorter reach<br/>
+    /// Heavy: Takes more stamina and has more knockback<br/>
+    /// Light: Takes less stamina and has less knockback<br/>
+    /// Dull: Lesser damage to pointy weapons<br/>
+    /// Sharp: More damage to pointy weapons<br/>
+    /// Frail: Less durability<br/>
+    /// Durable: More durability<br/>
+    /// Toxic: Adds Poison<br/>
+    /// Boring: No effect at all.<br/>
+    /// Flaming: Adds burn<br/>
     /// </para>
     /// </summary>
-    public static Dictionary<string, List<string>> weaponDictionary;
+    public static Dictionary<string, WeaponStatsGeneration> weaponDictionary;
 
     /// <summary>
     /// The order of attributes in each weapon:
@@ -54,46 +61,61 @@ public class WeaponList : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        weaponDictionary = new Dictionary<string, List<string>>();
+        //weaponDictionary = new Dictionary<string, List<string>>();
+        weaponDictionary = new Dictionary<string, WeaponStatsGeneration>();
         PopulateDictionary();
     }
     /// <summary>
     /// Populates the Dictinary with weapons with unique attributes.
     /// </summary>
-    void PopulateDictionary()
+    private void PopulateDictionary()
     {
         int indexCount = 0;
-        //Stunning:
-        weaponDictionary.Add(weaponNames[indexCount], new List<string> { "2", "3", "1", "1", "Paralysis"});
-        indexCount++;
-        //Long:
-        weaponDictionary.Add(weaponNames[indexCount], new List<string> { "2", "3", "2", "1", "Normal" });
-        indexCount++;
-        //Short:
-        weaponDictionary.Add(weaponNames[indexCount], new List<string> { "2", "3", "1", "4", "Normal" });
-        indexCount++;
-        //Heavy:
-        weaponDictionary.Add(weaponNames[indexCount], new List<string> { "2", "5", "1", "1", "Knockback" });
-        indexCount++;
-        //Light:
-        weaponDictionary.Add(weaponNames[indexCount], new List<string> { "2", "5", "1", "1", "Normal" });
-        indexCount++;
-        //Dull:
-        weaponDictionary.Add(weaponNames[indexCount], new List<string> { "2", "5", "1", "1", "Normal" });
-        indexCount++;
-        //Sharp:
-        weaponDictionary.Add(weaponNames[indexCount], new List<string> { "2", "5", "1", "1", "Normal" });
-        indexCount++;
-        //Frail:
-        weaponDictionary.Add(weaponNames[indexCount], new List<string> { "2", "5", "1", "1", "Normal" });
-        indexCount++;
-        //Durable:
-        weaponDictionary.Add(weaponNames[indexCount], new List<string> { "2", "5", "1", "1", "Normal" });
-        indexCount++;
-        //Toxic:
-        weaponDictionary.Add(weaponNames[indexCount], new List<string> { "2", "5", "1", "1", "Poison" });
-        indexCount++;
         //Boring:
-        weaponDictionary.Add(weaponNames[indexCount], new List<string> { "1", "3", "1", "1", "Normal" });
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1,0,1,1,1,new List<WeaponEffects> {WeaponEffects.Nothing }));
+        indexCount++;
+
+        //Short:
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1.5f, 5, .5f, 0, .5f, new List<WeaponEffects> { WeaponEffects.Nothing }));
+        indexCount++;
+
+        //Long:
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 10,2, 0, 2, new List<WeaponEffects> { WeaponEffects.Nothing }));
+        indexCount++;
+
+        //Light:
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, -2, .1f, new List<WeaponEffects> { WeaponEffects.Nothing }));
+        indexCount++;
+
+        //Heavy:
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1.5f, 20, 1, 0, 3, new List<WeaponEffects> { WeaponEffects.Nothing }));
+        indexCount++;
+
+        //Sharp:
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(2, 0, .5f, -2, 1, new List<WeaponEffects> { WeaponEffects.Nothing }));
+        indexCount++;
+
+        //Dull:
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 10, 1, 0, 1, new List<WeaponEffects> { WeaponEffects.Nothing }));
+        indexCount++;
+
+        //Frail:
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, -4, 1, new List<WeaponEffects> { WeaponEffects.Nothing }));
+        indexCount++;
+
+        //Durable:
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, 5, 1, new List<WeaponEffects> { WeaponEffects.Stun }));
+        indexCount++;
+
+        //Stunning:
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 10, .5f, -2, 1, new List<WeaponEffects> { WeaponEffects.Stun }));
+        indexCount++;
+
+        //Toxic:
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 0, .5f, -1, 1, new List<WeaponEffects> { WeaponEffects.Poison }));
+        indexCount++;
+        //Flaming:
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 0, .5f, -1, 1, new List<WeaponEffects> { WeaponEffects.Burn }));
+        indexCount++;
     }
 }

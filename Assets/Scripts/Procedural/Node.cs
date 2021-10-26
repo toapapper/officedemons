@@ -19,37 +19,19 @@ using UnityEngine;
 
 public class Node
 {
-    /// <summary>
-    /// What node is this nodes parent
-    /// </summary>
     public Node parent;
     /// <summary>
     /// A list of this nodes children. Each nodes can have up to two children
     /// </summary>
     public Node[] children;
-    /// <summary>
-    /// The gameobject in itself
-    /// </summary>
     public GameObject gameObject;
-    /// <summary>
-    /// Actual size
-    /// </summary>
     public Vector2 size;
-    /// <summary>
-    /// Global position
-    /// </summary>
     public Vector2 position;
     /// <summary>
     /// Local origin point. Lower left
     /// </summary>
     public Vector2 origin;
-    /// <summary>
-    /// Which generation does the node belong to
-    /// </summary>
     public int generation;
-    /// <summary>
-    /// Is this a leaf node, meaning that it does not have children
-    /// </summary>
     public bool leaf;
 
 

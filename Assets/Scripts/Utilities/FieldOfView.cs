@@ -4,23 +4,30 @@ using UnityEngine;
 /// <summary>
 /// Visualize the FOV of players and NPCs
 /// The raycast function also works as a targeting system.
-/// Code by: Kristian
+///  <para>
+///  Author: Kristian
+/// </para>
 /// </summary>
+/// 
+//Last edited: 22-10-2021
 public class FieldOfView : MonoBehaviour
 {
-    public float viewRadius;
+    private float viewRadius;
     [Range(0, 360)]
-    public float viewAngle;
+    [SerializeField]private float viewAngle;
 
-    public LayerMask targetMask;
-    public LayerMask obstacleMask;
+    public float ViewAngle { get { return viewAngle; } set { viewAngle = value; } }
+    public float ViewRadius { get { return viewRadius; } set { viewRadius = value; } }
+    [SerializeField] private LayerMask targetMask;
+    [SerializeField] private LayerMask obstacleMask;
 
     [HideInInspector]
-    public List<GameObject> visibleTargets = new List<GameObject>();
+    private List<GameObject> visibleTargets = new List<GameObject>();
 
-    public float meshResolution;
-    public MeshFilter viewMeshFilter;
-    Mesh viewMesh;
+    public List<GameObject> VisibleTargets { get { return visibleTargets; } }
+    [SerializeField] private float meshResolution;
+    [SerializeField] private MeshFilter viewMeshFilter;
+    private Mesh viewMesh;
 
     private void Start()
     {
@@ -44,22 +51,22 @@ public class FieldOfView : MonoBehaviour
     }
     void FindVisibleTargets()
     {
-        visibleTargets.Clear();
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
+        VisibleTargets.Clear();
+        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, ViewRadius, targetMask);
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             GameObject target = targetsInViewRadius[i].gameObject;
             Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            if (Vector3.Angle(transform.forward, dirToTarget) < ViewAngle / 2)
             {
                 float dstToTarget = Vector3.Distance(transform.position, target.transform.position);
 
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
-                    if(target != this.gameObject && !visibleTargets.Contains(target))
+                    if(target != this.gameObject && !VisibleTargets.Contains(target))
 					{
-                        visibleTargets.Add(target);
+                        VisibleTargets.Add(target);
                     }
                 }
             }
@@ -68,13 +75,13 @@ public class FieldOfView : MonoBehaviour
 
     void DrawFieldOfView()
     {
-        int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
-        float stepAngleSize = viewAngle / stepCount;
+        int stepCount = Mathf.RoundToInt(ViewAngle * meshResolution);
+        float stepAngleSize = ViewAngle / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
 
         for (int i = 0; i < stepCount; i++)
         {
-            float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
+            float angle = transform.eulerAngles.y - ViewAngle / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
             viewPoints.Add(newViewCast.point);
         }
@@ -111,13 +118,13 @@ public class FieldOfView : MonoBehaviour
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
+        if (Physics.Raycast(transform.position, dir, out hit, ViewRadius, obstacleMask))
         {
             return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
         }
         else
         {
-            return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
+            return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius, globalAngle);
         }
     }
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
