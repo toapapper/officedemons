@@ -104,7 +104,7 @@ public class WeaponList : MonoBehaviour
         indexCount++;
 
         //Durable:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, 5, 1, new List<WeaponEffects> { WeaponEffects.Stun }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, 5, 1, new List<WeaponEffects> { WeaponEffects.Nothing }));
         indexCount++;
 
         //Stunning:

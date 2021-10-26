@@ -78,7 +78,7 @@ public class WeaponInitializer : MonoBehaviour
                 // Durability GetComponent<AbstractWeapon>().Durability += stats.durability;
                 GetComponent<AbstractWeapon>().ViewDistance *= stats.range;
                 // Weight GetComponent<AbstractWeapon>().Weight *= stats.weight);
-                GainSpecialEffect(1, stats);
+                GainSpecialEffect(2, stats);
                 //for (int i = 0; i < stats.effects.Count; i++)
                 //{
                 //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
@@ -95,7 +95,7 @@ public class WeaponInitializer : MonoBehaviour
                 // Durability GetComponent<AbstractWeapon>().Durability += stats.durability;
                 GetComponent<AbstractWeapon>().ViewDistance *= stats.range * epicMultiplier;
                 // Weight GetComponent<AbstractWeapon>().Weight *= stats.weight);
-                GainSpecialEffect(1, stats);
+                GainSpecialEffect(2, stats);
                 //for (int i = 0; i < stats.effects.Count; i++)
                 //{
                 //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
@@ -111,14 +111,14 @@ public class WeaponInitializer : MonoBehaviour
                 // Durability GetComponent<AbstractWeapon>().Durability += stats.durability + 2;
                 GetComponent<AbstractWeapon>().ViewDistance *= stats.range;
                 // Weight GetComponent<AbstractWeapon>().Weight *= stats.weight);
-                GainSpecialEffect(2, stats);
+                GainSpecialEffect(3, stats);
                 //for (int i = 0; i < stats.effects.Count; i++)
                 //{
                 //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
                 //}
                 GetComponentInParent<Outline>().OutlineColor = new Color(1,0.5f,0,1);
             }
-            transform.parent.name = (rarity + " " + name + " " + this.gameObject.name);
+            transform.parent.name = GetName(name,rarity, stats);
         }            
     }
 
@@ -154,7 +154,7 @@ public class WeaponInitializer : MonoBehaviour
         for (int i = 0; i < maxTries; i++)
         {
             bool foundNewStatus = true;
-            statusEffect = (WeaponEffects)UnityEngine.Random.Range(0, enumSize);
+            statusEffect = (WeaponEffects)UnityEngine.Random.Range(0, enumSize -1);
             for (int j = 0; j < existingEffects.Count; j++)
             {
                 if (statusEffect == existingEffects[i])
@@ -172,5 +172,31 @@ public class WeaponInitializer : MonoBehaviour
         //Already has everything so we return nothing
         statusEffect = WeaponEffects.Nothing;
         return statusEffect;
+    }
+
+
+    private string GetName(string name, string rarity,  WeaponStatsGeneration weapon)
+    {
+        System.Text.StringBuilder finalName = new System.Text.StringBuilder();
+
+        finalName.Append(rarity);
+        finalName.Append(" ");
+        finalName.Append(name);
+        if (weapon.effects.Count > 1)
+        {
+            finalName.Append(" with");
+        }
+        for (int i = 1; i < weapon.effects.Count; i++)
+        {
+            if (weapon.effects[i] != WeaponEffects.Nothing)
+            {
+                finalName.Append(" ");
+                finalName.Append(weapon.effects[i]);
+            }
+        }
+        finalName.Append(" ");
+        finalName.Append(this.gameObject.name);
+
+        return finalName.ToString();
     }
 }
