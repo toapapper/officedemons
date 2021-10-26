@@ -100,7 +100,7 @@ public class AIController : MonoBehaviour
                 {
                     currentState = AIStates.States.Wait;
                 }
-                EnemyActions.Instance.MoveTowards(navMeshAgent, closestPlayer);
+                EnemyActions.MoveTowards(navMeshAgent, closestPlayer);
                 break;
 
             case AIStates.States.Wait:

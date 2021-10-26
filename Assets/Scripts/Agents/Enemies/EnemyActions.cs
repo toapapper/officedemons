@@ -18,16 +18,9 @@ using UnityEngine.AI;
 
 // Last Edited: 15-10-21
 
-public class EnemyActions : MonoBehaviour
+public static class EnemyActions 
 {
-    public static EnemyActions Instance { get; private set; }
-
-    private void Start()
-    {
-        Instance = this;
-    }
-
-    public void MoveTowards(NavMeshAgent agent, GameObject target)
+    public static void MoveTowards(NavMeshAgent agent, GameObject target)
     {
         agent.isStopped = false;
 
