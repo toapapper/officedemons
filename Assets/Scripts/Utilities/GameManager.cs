@@ -50,7 +50,6 @@ public class GameManager : MonoBehaviour
     private bool allStill = false;
 
     private Encounter currentEncounter;
-    private AIManager aiManager;
     private List<GameObject> stillCheckList = new List<GameObject>();
     
     private MultipleTargetCamera mainCamera;
@@ -74,11 +73,11 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
         roundTimer = RoundTime;
 
         // Add maincamera to gamemanager
-        mainCamera = Camera.main.GetComponent<MultipleTargetCamera>(); 
+        mainCamera = Camera.main.GetComponent<MultipleTargetCamera>();
+        Debug.LogError("AAAAA " + mainCamera);
     }
 
     void Update()
@@ -126,14 +125,14 @@ public class GameManager : MonoBehaviour
                 Debug.Log("PLAYER ACTIONS DONE");
                 combatState = CombatState.enemy;
                 EnemiesTurnDone = false;
-                aiManager.BeginTurn();
+                currentEncounter.aIManager.BeginTurn();
             }
         }
         else if(CurrentCombatState == CombatState.enemy)
         {
             if (!enemiesTurnDone)
             {
-                aiManager.PerformTurn();
+                currentEncounter.aIManager.PerformTurn();
             }
 
             if (enemiesTurnDone)
@@ -141,7 +140,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("ENEMY MOVE DONE");
                 EnemiesActionsDone = false;
                 combatState = CombatState.enemyActions;
-                aiManager.PerformNextAction();
+                currentEncounter.aIManager.PerformNextAction();
             }
         }
         else if (CurrentCombatState == CombatState.enemyActions)
@@ -164,7 +163,7 @@ public class GameManager : MonoBehaviour
     public void StartEncounter(Encounter encounter)
     {
         currentEncounter = encounter;
-        aiManager.BeginCombat();
+        currentEncounter.aIManager.BeginCombat();
         combatState = CombatState.player;
         roundTimer = RoundTime;
         PlayerManager.Instance.BeginCombat();
