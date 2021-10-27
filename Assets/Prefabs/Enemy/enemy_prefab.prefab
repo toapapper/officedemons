@@ -418,7 +418,7 @@ MonoBehaviour:
   playerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   characterName: 3
   jobTitle: "arbetsl\xF6s"
-  startHealth: 100
+  startHealth: 50
   health: 0
   startStamina: 3.5
   stamina: 50
@@ -434,7 +434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 5
   viewAngle: 18.7
   targetMask:
     serializedVersion: 2
@@ -442,7 +441,6 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8
-  visibleTargets: []
   meshResolution: 1
   viewMeshFilter: {fileID: 5300250677712292339}
 --- !u!195 &1692209036
@@ -491,6 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b06464f5284c4489299a077c816afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
 --- !u!1 &8536423501672469227
 GameObject:
