@@ -13,17 +13,20 @@ using static UnityEngine.InputSystem.InputAction;
 /// </para>
 /// </summary>
 
-// Last Edited: 2021-10-12
+// Last Edited: 2021-10-21
 
 public class CombatTurnState : AbstractPlayerState
 {
 	//Attack Action
 	public override void OnAttack()
 	{
-		weaponHand.ToggleAimView(true);
-		weaponHand.StartAttack();
-		ChosenAction = TypeOfAction.ATTACK;
-		IsActionTriggered = true;
+		if (!IsActionTriggered)
+		{
+			weaponHand.ToggleAimView(true);
+			weaponHand.StartAttack();
+			ChosenAction = TypeOfAction.ATTACK;
+			IsActionTriggered = true;
+		}
 	}
 
 	//Bombard action
@@ -54,10 +57,13 @@ public class CombatTurnState : AbstractPlayerState
 	public override void OnSpecial()
 	{
 		//TODO
-		//specialHand.ToggleAimView(true);
-		//specialHand.StartAttack();
-		ChosenAction = TypeOfAction.SPECIALATTACK;
-		IsActionTriggered = true;
+		if (!IsActionTriggered)
+		{
+			specialHand.ToggleAimView(true);
+			specialHand.StartAttack();
+			ChosenAction = TypeOfAction.SPECIALATTACK;
+			IsActionTriggered = true;
+		}
 	}
 
 	//PickUp action
@@ -104,61 +110,67 @@ public class CombatTurnState : AbstractPlayerState
 		}
 	}
 
-    //Lock action
-    public override void LockAction()
+	//Lock action
+	public override void LockAction()
 	{
-		switch (ChosenAction)
+		if (IsActionTriggered)
 		{
-			case TypeOfAction.ATTACK:
-				weaponHand.ToggleAimView(false);
-				break;
-			case TypeOfAction.BOMBARD:
-				weaponHand.ToggleAimView(false);
-				break;
-			case TypeOfAction.SPECIALATTACK:
-				//TODO
-				//specialHand.ToggleAimView(false);
-				break;
-			case TypeOfAction.THROW:
-				//TODO
-				//weaponHand.ToggleThrowAimView(false);
-				break;
+			switch (ChosenAction)
+			{
+				case TypeOfAction.ATTACK:
+					weaponHand.ToggleAimView(false);
+					break;
+				case TypeOfAction.BOMBARD:
+					weaponHand.ToggleAimView(false);
+					break;
+				case TypeOfAction.SPECIALATTACK:
+					//TODO
+					specialHand.ToggleAimView(false);
+					break;
+				case TypeOfAction.THROW:
+					//TODO
+					//weaponHand.ToggleThrowAimView(false);
+					break;
+			}
+			IsActionLocked = true;
+			Debug.Log("Chosenaction: " + ChosenAction);
+			PlayerManager.Instance.ActionDone(gameObject);
 		}
-		IsActionLocked = true;
-		Debug.Log("Chosenaction: " + ChosenAction);
-		PlayerManager.Instance.ActionDone(gameObject);
 	}
 
 	//Cancel action
 	public override void CancelAction()
 	{
-		switch (ChosenAction)
+		if (IsActionTriggered)
 		{
-			case TypeOfAction.ATTACK:
-				weaponHand.ToggleAimView(false);
-				weaponHand.CancelAction();
-				break;
-			case TypeOfAction.BOMBARD:
-				weaponHand.ToggleAimView(false);
-				weaponHand.CancelAction();
-				break;
-			case TypeOfAction.SPECIALATTACK:
-				//TODO
-				//specialHand.ToggleAimView(false);
-				//specialHand.CancelAction();
-				break;
-			case TypeOfAction.THROW:
-				//TODO
-				weaponHand.CancelAction();
-				//weaponHand.ToggleThrowAimView(false);
-				break;
-			case TypeOfAction.REVIVE:
-				PlayerToRevive = null;
-				break;
+			switch (ChosenAction)
+			{
+				case TypeOfAction.ATTACK:
+					weaponHand.ToggleAimView(false);
+					weaponHand.CancelAction();
+					break;
+				case TypeOfAction.BOMBARD:
+					weaponHand.ToggleAimView(false);
+					weaponHand.CancelAction();
+					break;
+				case TypeOfAction.SPECIALATTACK:
+					//TODO
+					specialHand.ToggleAimView(false);
+					specialHand.CancelAction();
+					break;
+				case TypeOfAction.THROW:
+					//TODO
+					weaponHand.CancelAction();
+					//weaponHand.ToggleThrowAimView(false);
+					break;
+				case TypeOfAction.REVIVE:
+					PlayerToRevive = null;
+					break;
+			}
+			Debug.LogWarning("Reset action");
+			ChosenAction = TypeOfAction.NOACTION;
+			IsActionTriggered = false;
 		}
-		Debug.LogWarning("Reset action");
-		ChosenAction = TypeOfAction.NOACTION;
-		IsActionTriggered = false;
 	}
 
 	//Update
@@ -195,11 +207,11 @@ public class CombatTurnState : AbstractPlayerState
 		weaponHand.ToggleAimView(false);
 
 		if (IsActionTriggered && !IsActionLocked)
-        {
+		{
 			PlayerManager.Instance.ActionDone(gameObject);
 		}
 
-        IsActionLocked = false;
+		IsActionLocked = false;
 		IsActionTriggered = false;
 		IsAddingThrowForce = false;
 		Debug.Log("Exits CombatTurnState" + this);

@@ -13,11 +13,12 @@ using static UnityEngine.InputSystem.InputAction;
 /// </para>
 /// </summary>
 
-// Last Edited: 2021-10-12
+// Last Edited: 2021-10-21
 public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 {
 	protected PlayerMovementController playerMovement;
     protected WeaponHand weaponHand;
+    protected SpecialHand specialHand;
     protected Attributes attributes;//ossian o jonas
     protected CharacterController characterController;
 
@@ -77,9 +78,10 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 		ChosenAction = TypeOfAction.NOACTION;
 		playerMovement = GetComponent<PlayerMovementController>();
         weaponHand = GetComponent<WeaponHand>();
+        specialHand = GetComponent<SpecialHand>();
 
         attributes = GetComponent<Attributes>();//ossian o jonas
-        characterController = GetComponent<CharacterController>();
+        //characterController = GetComponent<CharacterController>();
     }
 
     //public abstract void OnMove(CallbackContext context);
