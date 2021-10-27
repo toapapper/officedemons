@@ -20,12 +20,17 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class MultipleTargetCamera : MonoBehaviour
 {
-    public Vector3 offset;
     private Vector3 velocity;
-    public float smoothTime = .5f;
-    public float minZoom = 13f;
-    public float maxZoom = 7f;
-    public float zoomLimiter = 30f;
+    [SerializeField]
+    private Vector3 offset;
+    [SerializeField]
+    private float smoothTime = .5f;
+    [SerializeField]
+    private float minZoom = 13f;
+    [SerializeField]
+    private float maxZoom = 7f;
+    [SerializeField]
+    private float zoomLimiter = 30f;
 
     private Camera cam;
     private List<GameObject> objectsInCamera;
@@ -57,12 +62,18 @@ public class MultipleTargetCamera : MonoBehaviour
         Zoom();
     }
 
+    /// <summary>
+    /// Adjust camera zoom by changing the orthographic size
+    /// </summary>
     private void Zoom()
     {
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistance() / zoomLimiter);
         cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, newZoom, Time.deltaTime);
     }
 
+    /// <summary>
+    /// Move the camera
+    /// </summary>
     private void Move()
     {
         Vector3 centerPoint = GetCenterPoint();
@@ -72,6 +83,10 @@ public class MultipleTargetCamera : MonoBehaviour
 		transform.parent.position = Vector3.SmoothDamp(transform.parent.position, centerPoint, ref velocity, smoothTime);
 	}
 
+    /// <summary>
+    /// Returns the greatest distance between all objects within the bounds
+    /// </summary>
+    /// <returns></returns>
     private float GetGreatestDistance()
     {
         var bounds = new Bounds(objectsInCamera[0].transform.position, Vector3.zero);
@@ -90,7 +105,12 @@ public class MultipleTargetCamera : MonoBehaviour
         }
 
     }
-    Vector3 GetCenterPoint()
+
+    /// <summary>
+    /// Return the center point of the camera bounds
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 GetCenterPoint()
     {
         if (objectsInCamera.Count == 1)
         {
@@ -106,7 +126,12 @@ public class MultipleTargetCamera : MonoBehaviour
         return bounds.center;
     }
 
-    void DrawBounds(Bounds b, float delay = 0)
+    /// <summary>
+    /// Draws lines around the bounding box that surround objects within the camera bounds
+    /// </summary>
+    /// <param name="b"></param>
+    /// <param name="delay"></param>
+    private void DrawBounds(Bounds b, float delay = 0)
     {
         // bottom
         var p1 = new Vector3(b.min.x, b.min.y, b.min.z);

@@ -2,33 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// Character can not do anything during this state. Additionally it restricts state transitions when in combat.
+/// </para> 
+/// 
+///  <para>
+///  Author: Ossian
+/// </para>
+/// </summary>
+
+// Last Edited: 2021-10-22
+
 public class DeadState : AbstractPlayerState
 {
+	/// <summary>
+	/// Simple override of the base that only calls the base if the criteria is met
+	/// </summary>
+	/// <param name="state"></param>
     public override void TransitionState(IPlayerState state)
     {
-        if (state.GetType() == typeof(ReviveState))//if ska inte va död längre
+        if (state is ReviveState || state is OutOfCombatState)
         {
 			base.TransitionState(state);
         }
     }
 
+	/// <summary>
+	/// Simple coroutine reviving this.gameObject after one second
+	/// </summary>
+	/// <returns></returns>
 	IEnumerator DelayedSelfRevive()
 	{
-		Debug.Log("DelayedSelfrevive");
 		yield return new WaitForSeconds(1);
-		Debug.Log("DelayedSelfrevive");
 		Effects.Revive(gameObject);
 		yield return null;
 	}
 
-	Color originalColor;
+	private Color originalColor; //is here temporarily i assume. This is because we have no proper animation to show one is dead other than to change the color
 	public override void OnStateEnter()
 	{
 		Debug.Log("Enters DeadState" + this);
-		//Die animation
 		originalColor = GetComponent<MeshRenderer>().material.color;
-		GetComponent<MeshRenderer>().material.color = Color.black;
 
+		GetComponent<MeshRenderer>().material.color = Color.black;
 		if (GameManager.Instance.CurrentCombatState == CombatState.none)
 			StartCoroutine(DelayedSelfRevive());
 	}

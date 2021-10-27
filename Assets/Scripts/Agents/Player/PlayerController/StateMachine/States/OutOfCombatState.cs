@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// <para>
 /// Handle character actions when roaming freely out of combat
-/// </para> 
+/// </para>
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>
@@ -120,14 +120,12 @@ public class OutOfCombatState : AbstractPlayerState
 		}
 	}
 
-	public override void OnStateEnter()
-	{
-		Debug.Log("Enters OutOfCombatState" + this);
-		Debug.LogWarning("Reset action");
-		ChosenAction = TypeOfAction.NOACTION;
-		playerMovement.MoveDirection = Vector3.zero;
-		playerMovement.MoveAmount = Vector3.zero;
-	}
+    public override void OnStateEnter()
+    {
+        ChosenAction = TypeOfAction.NOACTION;
+        playerMovement.MoveDirection = Vector3.zero;
+        playerMovement.MoveAmount = Vector3.zero;
+    }
 
 	public override void OnStateExit()
 	{
@@ -136,6 +134,5 @@ public class OutOfCombatState : AbstractPlayerState
 			weaponHand.CancelAction();
 			IsActionTriggered = false;
 		}
-		Debug.Log("Exits OutOfCombatState" + this);
-	}
+    }
 }

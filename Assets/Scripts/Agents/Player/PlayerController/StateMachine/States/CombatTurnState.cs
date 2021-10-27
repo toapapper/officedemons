@@ -7,7 +7,7 @@ using static UnityEngine.InputSystem.InputAction;
 /// <summary>
 /// <para>
 /// Handle character actions during combat turn
-/// </para> 
+/// </para>
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>
@@ -17,7 +17,6 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class CombatTurnState : AbstractPlayerState
 {
-	//Attack Action
 	public override void OnAttack()
 	{
 		if (!IsActionTriggered)
@@ -29,7 +28,6 @@ public class CombatTurnState : AbstractPlayerState
 		}
 	}
 
-	//Bombard action
 	public override bool OnStartBombard()
 	{
 		if (!IsActionTriggered)
@@ -53,7 +51,6 @@ public class CombatTurnState : AbstractPlayerState
 		return false;
 	}
 
-	//Special Action
 	public override void OnSpecial()
 	{
 		//TODO
@@ -66,7 +63,6 @@ public class CombatTurnState : AbstractPlayerState
 		}
 	}
 
-	//PickUp action
 	public override void OnPickUp(GameObject weapon)
 	{
 		if (!IsActionTriggered)
@@ -75,7 +71,6 @@ public class CombatTurnState : AbstractPlayerState
 		}
 	}
 
-	//Throw action
 	public override bool OnStartThrow()
 	{
 		if (!IsActionTriggered)
@@ -99,7 +94,6 @@ public class CombatTurnState : AbstractPlayerState
 		return false;
 	}
 
-	//Revive action
 	public override void OnRevive(GameObject player)
 	{
 		if (!IsActionTriggered)
@@ -136,9 +130,11 @@ public class CombatTurnState : AbstractPlayerState
 			Debug.Log("Chosenaction: " + ChosenAction);
 			PlayerManager.Instance.ActionDone(gameObject);
 		}
+		IsActionLocked = true;
+		//Debug.Log("Chosenaction: " + ChosenAction);
+		PlayerManager.Instance.ActionDone(gameObject);
 	}
 
-	//Cancel action
 	public override void CancelAction()
 	{
 		if (IsActionTriggered)
@@ -216,9 +212,6 @@ public class CombatTurnState : AbstractPlayerState
 		IsAddingThrowForce = false;
 		Debug.Log("Exits CombatTurnState" + this);
 	}
-
-
-
 
 	//Heal action
 	//public override void OnHeal(CallbackContext context)

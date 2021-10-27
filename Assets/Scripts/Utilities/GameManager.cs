@@ -1,10 +1,12 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.AI;
 
+/// <summary>
+/// Whose turn it is and when they are doing an action, none means no combat
+/// </summary>
 public enum CombatState
 {
     none,
@@ -48,8 +50,9 @@ public class GameManager : MonoBehaviour
     private bool allStill = false;
 
     private Encounter currentEncounter;
-    private AIManager aiManager;
     private List<GameObject> stillCheckList = new List<GameObject>();
+    
+    private MultipleTargetCamera mainCamera;
 
     public CombatState CurrentCombatState { get { return combatState; } }
     public bool Paused { get { return paused; } }
@@ -66,26 +69,22 @@ public class GameManager : MonoBehaviour
     }
     public int RoundTime { get { return roundTime; } }
 
-    public MultipleTargetCamera mainCamera;
 
-
-    // Start is called before the first frame update
     void Awake()
     {
         Instance = this;
-        aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
         roundTimer = RoundTime;
 
         // Add maincamera to gamemanager
-        mainCamera = Camera.main.GetComponent<MultipleTargetCamera>(); 
+        mainCamera = Camera.main.GetComponent<MultipleTargetCamera>();
+        Debug.LogError("AAAAA " + mainCamera);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        #region är alla/allt stilla-check
+        #region are all the needed gameObjects still-check
         AllStill = true;
-        OssianUtils.CleanList(stillCheckList);
+        Utilities.CleanList(stillCheckList);
         foreach(GameObject gObject in stillCheckList)
         {
             if (gObject.CompareTag("Player"))
@@ -102,7 +101,7 @@ public class GameManager : MonoBehaviour
                     AllStill = false;
                 }
             }
-            //else if projektil eller fiende eller whatever
+            //continue with more else ifs for different types of gameObjects
         }
         #endregion
 
@@ -126,22 +125,22 @@ public class GameManager : MonoBehaviour
                 Debug.Log("PLAYER ACTIONS DONE");
                 combatState = CombatState.enemy;
                 EnemiesTurnDone = false;
-
-                aiManager.BeginTurn();
+                currentEncounter.aIManager.BeginTurn();
             }
         }
         else if(CurrentCombatState == CombatState.enemy)
         {
             if (!enemiesTurnDone)
-                aiManager.PerformTurn();
-
+            {
+                currentEncounter.aIManager.PerformTurn();
+            }
 
             if (enemiesTurnDone)
             {
                 Debug.Log("ENEMY MOVE DONE");
                 EnemiesActionsDone = false;
                 combatState = CombatState.enemyActions;
-                aiManager.PerformNextAction();
+                currentEncounter.aIManager.PerformNextAction();
             }
         }
         else if (CurrentCombatState == CombatState.enemyActions)
@@ -164,7 +163,7 @@ public class GameManager : MonoBehaviour
     public void StartEncounter(Encounter encounter)
     {
         currentEncounter = encounter;
-        aiManager.BeginCombat();
+        currentEncounter.aIManager.BeginCombat();
         combatState = CombatState.player;
         roundTimer = RoundTime;
         PlayerManager.Instance.BeginCombat();
@@ -214,7 +213,7 @@ public class GameManager : MonoBehaviour
             return;
 
         UIManager.Instance.OpenMenu();
-        Time.timeScale = 0; //fult mï¿½hï¿½nda att anvï¿½nda timescale men ï¿½n sï¿½ lï¿½nge ï¿½r det simplast.
+        Time.timeScale = 0; //might be bad to set the timescale, but it's the most convenient as of now.
 
         paused = true;
     }

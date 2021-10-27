@@ -55,13 +55,12 @@ public class Encounter : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("collision enter " + collision.collider.CompareTag("Player"));
+        //Debug.Log("collision enter " + collision.collider.CompareTag("Player"));
     }
 
     //Kanske temporär, för att avgöra om spelare kommit in i encounterområdet
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("collision enter " + other.CompareTag("Player"));
         if (other.gameObject.CompareTag("Player") && GameManager.Instance.CurrentCombatState == CombatState.none)
         {
             GameManager.Instance.StartEncounter(this);
@@ -70,7 +69,6 @@ public class Encounter : MonoBehaviour
 
     public void EndEncounter()
     {
-        Debug.Log("ALLA DÖDA");
         Destroy(gameObject);
     }
 }

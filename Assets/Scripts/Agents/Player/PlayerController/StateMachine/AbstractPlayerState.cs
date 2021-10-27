@@ -7,7 +7,7 @@ using static UnityEngine.InputSystem.InputAction;
 /// <summary>
 /// <para>
 /// Parent to player states
-/// </para> 
+/// </para>
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>

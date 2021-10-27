@@ -50,7 +50,6 @@ public class PlayerInputHandler : MonoBehaviour
 	private float maxBombardForce = 10f;
 	private float addedBombardForce;
 
-
 	public void Start()
 	{
 		forward = Camera.main.transform.forward;
@@ -200,6 +199,10 @@ public class PlayerInputHandler : MonoBehaviour
 						}
 					}
 				}
+				else if(context.action.name == inputControls.PlayerMovement.Pause.name)
+                {
+					GameManager.Instance.OnPause();
+                }
 			}
 			else if (playerMovement.MoveAmount != Vector3.zero)
 			{
@@ -208,7 +211,6 @@ public class PlayerInputHandler : MonoBehaviour
 			}
 		}
 	}
-
 
 	private void FixedUpdate()
 	{
@@ -230,7 +232,6 @@ public class PlayerInputHandler : MonoBehaviour
 		}
 	}
 
-
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.tag == "WeaponObject")
@@ -244,6 +245,7 @@ public class PlayerInputHandler : MonoBehaviour
 				nearbyPlayers.Add(other.gameObject);
 		}
 	}
+
 	private void OnTriggerExit(Collider other)
 	{
 		if (other.gameObject.tag == "WeaponObject")

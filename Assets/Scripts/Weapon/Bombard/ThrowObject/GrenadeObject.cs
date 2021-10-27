@@ -18,6 +18,7 @@ public class GrenadeObject : MonoBehaviour
 	private GrenadeObject grenadeObject;
 	[SerializeField]
 	private GameObject FOVVisualization;
+	private float explodeRadius = 3;
 	private float grenadeDamage;
 	private float grenadeExplodeForce;
 	[SerializeField]
@@ -28,6 +29,7 @@ public class GrenadeObject : MonoBehaviour
 	public void CreateGrenade(Vector3 position, Vector3 direction, float grenadeThrowForce, float grenadeExplodeForce, float grenadeDamage)
 	{
 		grenadeObject = Instantiate(this, position, Quaternion.LookRotation(direction));
+		grenadeObject.GetComponent<FieldOfView>().ViewRadius = explodeRadius;
 		grenadeObject.grenadeDamage = grenadeDamage;
 		grenadeObject.grenadeExplodeForce = grenadeExplodeForce;
 		grenadeObject.GetComponent<Rigidbody>().AddForce(direction * grenadeThrowForce, ForceMode.Impulse);
@@ -59,7 +61,7 @@ public class GrenadeObject : MonoBehaviour
 
 	private void Explode()
 	{
-		List<GameObject> targetList = GetComponent<FieldOfView>().visibleTargets;
+		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
 
 		foreach (GameObject target in targetList)
 		{

@@ -14,6 +14,7 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID PLAY_DING = 2028513310U;
+        static const AkUniqueID PLAY_OFFICE_BOSSA_ELVIN_MATZ_15_10 = 450519720U;
     } // namespace EVENTS
 
     namespace BANKS

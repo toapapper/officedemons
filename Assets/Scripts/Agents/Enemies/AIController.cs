@@ -22,12 +22,12 @@ public enum Class { Aggresive, Defensive, Healer};
 public class AIController : MonoBehaviour
 {
     private FieldOfView fov;
-    private NavMeshAgent navMeshAgent;
+    public NavMeshAgent navMeshAgent; // TODO: Maybe change to property
     private AIManager aiManager;
     private GameObject closestPlayer;
     private WeaponHand weapon;
     private GameObject target;
-    private Class currentClass;
+    private Class aiClass;
 
     List<GameObject> priorites;
     public List<GameObject> Priorites
@@ -47,13 +47,17 @@ public class AIController : MonoBehaviour
     private Animator animator;
     private AIStateHandler aiStateHandler;
 
-    public bool LockedAction()
+    private bool actionIsLocked;
+    public bool ActionIsLocked
     {
-        if (CurrentState == AIStates.States.Attack || CurrentState == AIStates.States.Wait)
-        {
-            return true;
-        }
-        return false;
+        //if (CurrentState == AIStates.States.Attack || CurrentState == AIStates.States.Wait)
+        //{
+        //    return true;
+        //}
+        //return false;
+
+        get { return actionIsLocked; }
+        set { actionIsLocked = value; }
     }
 
     void Start()
@@ -72,7 +76,7 @@ public class AIController : MonoBehaviour
     /// <param name=""></param>
     public void PerformBehaviour()
     {
-        aiStateHandler.GetState(currentClass);
+        aiStateHandler.StateUpdate(aiClass);
 
         switch (CurrentState) 
         {
@@ -86,9 +90,8 @@ public class AIController : MonoBehaviour
 
             case AIStates.States.Attack:
                 aiManager.SaveAction(this.gameObject);
-                navMeshAgent.destination = transform.position;
-                weapon.StartAttack();
-                navMeshAgent.isStopped = true;
+                ActionIsLocked = true;
+
                 break;
 
             case AIStates.States.Move:
@@ -97,13 +100,16 @@ public class AIController : MonoBehaviour
                 {
                     currentState = AIStates.States.Wait;
                 }
-                EnemyActions.Instance.MoveTowards(navMeshAgent, closestPlayer);
+                EnemyActions.MoveTowards(navMeshAgent, closestPlayer);
                 break;
 
             case AIStates.States.Wait:
                 aiManager.SaveAction(this.gameObject);
-                navMeshAgent.destination = transform.position;
-                navMeshAgent.isStopped = true;
+                
+                break;
+
+            case AIStates.States.Dead:
+                aiManager.RemoveAgent(gameObject);
                 break;
         }
     }
@@ -188,14 +194,14 @@ public class AIController : MonoBehaviour
         float targetDistance = CalculateDistance(target);
         float lastPathDistance = CalculateLastPathDistance(target);
 
-        if ( lastPathDistance <= fov.viewRadius)
+        if ( lastPathDistance <= fov.ViewRadius)
         {
             if (targetDistance - lastPathDistance <= stamina * navMeshAgent.speed / 1.2f)
             {
                 return true;
             }
         }
-        else if (targetDistance - fov.viewRadius <= stamina * navMeshAgent.speed / 1.2f)
+        else if (targetDistance - fov.ViewRadius <= stamina * navMeshAgent.speed / 1.2f)
         {
             return true;
         }

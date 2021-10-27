@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 /// <summary>
 /// <para>
+/// Is a singleton!<br/>
 /// Handles the players. contains a static list containing all the active players.<br/>
 /// alerts the players when it's time to enter combat, exit combat, or wait for their turn to do an action, or just wait for the enemies to be done with their turn.
 /// </para>
@@ -32,8 +33,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject susanTheDestroyer;
     [SerializeField] private GameObject devin;
 
-    [SerializeField] private bool joinAnyTime = false; 
-    public bool JoinAnyTime { get { return joinAnyTime; } } //checked by playerConfigurationManager to know if it should run SpawnNewPlayer when a new controller joins
+    [SerializeField] private bool joinAnyTime = false;
+    
+    /// <summary>  checked by playerConfigurationManager to know if it should run SpawnNewPlayer when a new controller joins </summary>
+    public bool JoinAnyTime { get { return joinAnyTime; } } 
 
     private Queue<GameObject> actions;
 
@@ -47,7 +50,17 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if(GameManager.Instance.CurrentCombatState == CombatState.player && actions.Count == players.Count)
+        int deadPlayers = 0;
+        foreach(GameObject player in players)
+        {
+            //Im not sure this is the best way to check if a player is alive or not
+            IPlayerState playerState = player.GetComponent<PlayerStateController>().CurrentState;
+            if (playerState is DeadState || playerState is ReviveState)
+            {
+                deadPlayers++;
+            }
+        }
+        if(GameManager.Instance.CurrentCombatState == CombatState.player && actions.Count == players.Count - deadPlayers)
         {
             GameManager.Instance.AllPlayersLockedIn();
         }
@@ -81,7 +94,13 @@ public class PlayerManager : MonoBehaviour
         }
         #endregion
 
-        GameObject player = Instantiate(playerChar, new Vector3(0,0,0), Quaternion.identity, transform);
+        Vector3 spawnPos = GameObject.Find("WorldCenter").transform.position;
+        if (spawnPos.Equals(null))
+        {
+            spawnPos = Vector3.zero;
+        }
+
+        GameObject player = Instantiate(playerChar, spawnPos, Quaternion.identity, transform);
         player.GetComponent<PlayerInputHandler>().InitializePlayer(playerconfig);
         player.GetComponent<PlayerInputHandler>().recentlySpawned = true;
     }
@@ -122,6 +141,9 @@ public class PlayerManager : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// Signals each player that combat starts and then immediately after goes on to BeginTurn()
+    /// </summary>
     public void BeginCombat()
     {
         Debug.Log("Begin combat");
@@ -159,7 +181,7 @@ public class PlayerManager : MonoBehaviour
 
         foreach (GameObject p in players)
         {
-            p.GetComponent<PlayerStateController>().StartWaitForTurn();//borde antagligen göra actions och så istället
+            p.GetComponent<PlayerStateController>().StartWaitForTurn();
         }
 
         NextPlayerAction();
