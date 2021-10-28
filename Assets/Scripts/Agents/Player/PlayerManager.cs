@@ -171,7 +171,12 @@ public class PlayerManager : MonoBehaviour
         actions.Clear();
         foreach (GameObject p in players)
         {
-            p.GetComponent<PlayerStateController>().StartTurn();
+            if (!p.GetComponent<StatusEffectHandler>().Paralyzed)
+            {
+                p.GetComponent<PlayerStateController>().StartTurn();
+            }
+
+            p.GetComponent<StatusEffectHandler>().UpdateEffects();
         }
     }
 

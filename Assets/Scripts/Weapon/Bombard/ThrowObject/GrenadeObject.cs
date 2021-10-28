@@ -26,7 +26,9 @@ public class GrenadeObject : MonoBehaviour
 	private float explodeTime;
 	private bool isObjectThrown;
 
-	public void CreateGrenade(Vector3 position, Vector3 direction, float grenadeThrowForce, float grenadeExplodeForce, float grenadeDamage)
+	private List<WeaponEffects> effects;
+
+	public void CreateGrenade(Vector3 position, Vector3 direction, float grenadeThrowForce, float grenadeExplodeForce, float grenadeDamage, List<WeaponEffects> effects)
 	{
 		grenadeObject = Instantiate(this, position, Quaternion.LookRotation(direction));
 		grenadeObject.GetComponent<FieldOfView>().ViewRadius = explodeRadius;
@@ -35,6 +37,8 @@ public class GrenadeObject : MonoBehaviour
 		grenadeObject.GetComponent<Rigidbody>().AddForce(direction * grenadeThrowForce, ForceMode.Impulse);
 		grenadeObject.explodeTime = initialExplodeTime;
 		GameManager.Instance.StillCheckList.Add(grenadeObject.gameObject);
+
+		this.effects = effects;
 	}
 
 	public void FixedUpdate()
@@ -71,6 +75,7 @@ public class GrenadeObject : MonoBehaviour
 
 			Effects.Damage(target, grenadeDamage);
 			Effects.ApplyForce(target, explosionForceDirection * grenadeExplodeForce);
+			Effects.ApplyWeaponEffects(target, effects);
 		}
 
 		Destroy(gameObject);

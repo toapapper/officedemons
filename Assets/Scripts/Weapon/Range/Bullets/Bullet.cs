@@ -19,13 +19,17 @@ public class Bullet : MonoBehaviour
 	protected Vector3 bulletHitForce;
 	private Bullet bulletObject;
 
-	public void CreateBullet(Vector3 position, Vector3 direction, float bulletFireForce, float bulletHitForce, float bulletDamage)
+	public List<WeaponEffects> effects;
+
+	public void CreateBullet(Vector3 position, Vector3 direction, float bulletFireForce, float bulletHitForce, float bulletDamage, List<WeaponEffects> effects)
 	{
 		bulletObject = Instantiate(this, position, Quaternion.LookRotation(direction));
 		bulletObject.bulletDamage = bulletDamage;
 		bulletObject.bulletHitForce = direction * bulletHitForce;
 		bulletObject.GetComponent<Rigidbody>().AddForce(direction * bulletFireForce, ForceMode.VelocityChange);
 		GameManager.Instance.StillCheckList.Add(bulletObject.gameObject);
+
+		bulletObject.effects = effects;
 	}
 
 	private void FixedUpdate()
@@ -43,6 +47,8 @@ public class Bullet : MonoBehaviour
 		{
 			Effects.Damage(collision.gameObject, bulletDamage);
 			Effects.ApplyForce(collision.gameObject, bulletHitForce);
+
+			Effects.ApplyWeaponEffects(collision.gameObject, effects);
 		}
 
 		Destroy(gameObject);
