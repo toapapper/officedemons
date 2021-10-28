@@ -12,7 +12,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 14/10-21
+// Last Edited: 14/10-28
 public class SwingWeapon : MeleeWeapon
 {
 	public override void StartAttack(Animator animator)

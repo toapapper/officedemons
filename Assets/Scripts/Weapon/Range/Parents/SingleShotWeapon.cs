@@ -17,7 +17,7 @@ public class SingleShotWeapon : RangedWeapon
 {
 	public override void Attack(Animator animator)
 	{
-		base.Attack(animator);
 		animator.SetTrigger("isRangedSingleShot");
+		base.Attack(animator);
 	}
 }
