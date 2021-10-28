@@ -16,7 +16,7 @@ public class CombatActionState : AbstractPlayerState
 {
 	public override void OnStateEnter()
 	{
-		Debug.Log("Enters CombatActionState" + this + " Action: " + GetComponent<CombatTurnState>().ChosenAction);
+		//Debug.Log("Enters CombatActionState" + this + " Action: " + GetComponent<CombatTurnState>().ChosenAction);
 		switch (GetComponent<CombatTurnState>().ChosenAction)
 		{
 			case TypeOfAction.ATTACK:
@@ -33,7 +33,7 @@ public class CombatActionState : AbstractPlayerState
 				break;
 			case TypeOfAction.REVIVE:
 				Effects.Revive(GetComponent<CombatTurnState>().PlayerToRevive);
-				Debug.LogWarning("combatActionState revive " + GetComponent<CombatTurnState>().PlayerToRevive);
+				//Debug.LogWarning("combatActionState revive " + GetComponent<CombatTurnState>().PlayerToRevive);
 				break;
 			case TypeOfAction.NOACTION:
 				break;

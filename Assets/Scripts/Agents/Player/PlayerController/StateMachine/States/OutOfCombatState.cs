@@ -97,8 +97,8 @@ public class OutOfCombatState : AbstractPlayerState
 	{
 		if (!IsActionTriggered)
 		{
-			player.GetComponentInChildren<Attributes>().Health = 100;
-			Debug.Log("Revive player " + player.name);
+			//player.GetComponentInChildren<Attributes>().Health = 100;
+			Effects.Revive(player);
 		}
 	}
 

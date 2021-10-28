@@ -7,27 +7,14 @@ public class SpecialHand : MonoBehaviour
 	private Animator animator;
 	[SerializeField]
 	private ThrowAim throwAim;
-
-	[SerializeField]
-	private GameObject handObject;
 	[SerializeField]
 	private FieldOfView FOV;
 	[SerializeField]
 	private GameObject FOVVisualization;
-	[SerializeField]
-	private int handHitDamage = 5;
-	[SerializeField]
-	private int handHitForce = 5;
-	[SerializeField]
-	private float handHitDistance = 1.5f;
-	[SerializeField]
-	private float handHitAngle = 100f;
 
-	public AbstractWeapon objectInHand;
+	private AbstractSpecial objectInHand;
 
 	private Gradient aimGradient;
-
-	private float throwForce;
 
 	public ThrowAim ThrowAim
 	{
@@ -38,22 +25,13 @@ public class SpecialHand : MonoBehaviour
 	private void Awake()
 	{
 		animator = GetComponent<Animator>();
-		FOV.viewRadius = handHitDistance;
-		FOV.viewAngle = handHitAngle;
+		objectInHand = GetComponentInChildren<AbstractSpecial>();
 	}
 
 	private void Start()
 	{
-		if (objectInHand != null)
-		{
-			FOV.viewRadius = objectInHand.ViewDistance;
-			FOV.viewAngle = objectInHand.ViewAngle;
-		}
-		else
-		{
-			FOV.viewRadius = handHitDistance;
-			FOV.viewAngle = handHitAngle;
-		}
+		FOV.ViewRadius = objectInHand.ViewDistance;
+		FOV.ViewAngle = objectInHand.ViewAngle;
 
 		SetAimGradient();
 
@@ -76,69 +54,27 @@ public class SpecialHand : MonoBehaviour
 		alphaKey[1].time = 1;
 		alphaKey[1].alpha = 0;
 		aimGradient.SetKeys(colorKey, alphaKey);
+		objectInHand.SetAimGradient(aimGradient);
 	}
 	public void ToggleAimView(bool isActive)
 	{
-		if (objectInHand)
-		{
-			objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
-		}
-		else
-		{
-			FOVVisualization.SetActive(isActive);
-		}
+		objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
 	}
-	//public void ToggleThrowAim()
-	//{
-	//	if (objectInHand)
-	//	{
-	//		//objectInHand.ToggleThrowAim(isActive);
-	//	}
-	//}
-
-	////Pick up
-	//public void Equip(GameObject newObject)
-	//{
-	//	newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
-	//	objectInHand = newObject.GetComponent<AbstractWeapon>();
-	//	foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
-	//	{
-	//		collider.enabled = false;
-	//	}
-	//	objectInHand.SetAimGradient(aimGradient);
-
-	//	FOV.viewAngle = objectInHand.ViewAngle;
-	//	FOV.viewRadius = objectInHand.ViewDistance;
-	//}
 
 	//Attack
 	public void StartAttack()
 	{
-		if (objectInHand != null)
-		{
-			objectInHand.StartAttack(animator);
-		}
-		else
-		{
-			animator.SetTrigger("isStartHandAttack");
-		}
+		objectInHand.StartAttack(animator);
 	}
 	public void Attack()
 	{
-		if (objectInHand != null)
-		{
-			objectInHand.Attack(animator);
-		}
-		else
-		{
-			animator.SetTrigger("isHandAttack");
-		}
+		objectInHand.Attack(animator);
 	}
 
 	//Bombard attack
 	public bool StartBombard()
 	{
-		if (objectInHand != null && objectInHand is BombardWeapon)
+		if (objectInHand is BombardWeapon)
 		{
 			objectInHand.StartAttack(animator);
 			return true;
@@ -147,7 +83,7 @@ public class SpecialHand : MonoBehaviour
 	}
 	public bool SetBombardForce(float bombardForce)
 	{
-		if (objectInHand != null && objectInHand is BombardWeapon)
+		if (objectInHand is BombardWeapon)
 		{
 			throwAim.initialVelocity = bombardForce;
 			return true;
@@ -156,42 +92,13 @@ public class SpecialHand : MonoBehaviour
 	}
 	public bool PerformBombard()
 	{
-		if (objectInHand != null && objectInHand is BombardWeapon)
+		if (objectInHand is BombardWeapon)
 		{
 			objectInHand.Attack(animator);
 			return true;
 		}
 		return false;
 	}
-
-	////Throw weapon
-	//public bool StartThrow()
-	//{
-	//	if (objectInHand != null)
-	//	{
-	//		animator.SetTrigger("isAimThrow");
-	//		return true;
-	//	}
-	//	return false;
-	//}
-	//public bool SetThrowForce(float throwForce)
-	//{
-	//	if (objectInHand != null)
-	//	{
-	//		this.throwForce = throwForce;
-	//		return true;
-	//	}
-	//	return false;
-	//}
-	//public bool Throw()
-	//{
-	//	if (objectInHand != null)
-	//	{
-	//		animator.SetTrigger("isThrow");
-	//		return true;
-	//	}
-	//	return false;
-	//}
 
 	public void CancelAction()
 	{
@@ -201,33 +108,6 @@ public class SpecialHand : MonoBehaviour
 	//Animation events
 	public void DoSpecialAction()
 	{
-		if (objectInHand)
-		{
-			objectInHand.DoAction(FOV);
-		}
-		else if (FOV.visibleTargets.Count > 0)
-		{
-			foreach (GameObject target in FOV.visibleTargets)
-			{
-				Effects.Damage(target, handHitDamage);
-				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
-			}
-		}
+		objectInHand.DoAction(FOV);
 	}
-	//public void ReleaseThrow()
-	//{
-	//	if (objectInHand != null)
-	//	{
-	//		objectInHand.ReleaseThrow(throwForce);
-	//		foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
-	//		{
-	//			collider.enabled = true;
-	//		}
-
-	//		throwForce = 0;
-	//		objectInHand = null;
-	//		FOV.viewAngle = handHitAngle;
-	//		FOV.viewRadius = handHitDistance;
-	//	}
-	//}
 }

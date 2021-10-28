@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
 
         // Add maincamera to gamemanager
         mainCamera = Camera.main.GetComponent<MultipleTargetCamera>();
-        Debug.LogError("AAAAA " + mainCamera);
+        //Debug.LogError("AAAAA " + mainCamera);
     }
 
     void Update()
