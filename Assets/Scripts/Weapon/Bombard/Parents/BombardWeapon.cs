@@ -46,6 +46,12 @@ public class BombardWeapon : AbstractWeapon
 
 	public override void DoAction(FieldOfView fov)
 	{
+		GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
+		if (wielder == null)
+		{
+			return;
+		}
+
 		Vector3 forward = transform.forward;
 		forward.y = 0;
 		forward.Normalize();
@@ -54,6 +60,29 @@ public class BombardWeapon : AbstractWeapon
 		Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<WeaponHand>().ThrowAim.initialAngle, right) * forward).normalized;
 		float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity;
 
-		grenade.GetComponent<GrenadeObject>().CreateGrenade(transform.position, direction, throwForce, HitForce, Damage);
+		grenade.GetComponent<GrenadeObject>().CreateGrenade(transform.position, direction, throwForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
+
+		//recoil and slippery-checks
+		//deals half the weapondamage and applies the effects
+		if (effects.Contains(WeaponEffects.Recoil))
+		{
+			float rand = Random.value;
+			if (rand < RecoilChance)
+			{
+				Effects.Damage(wielder, Damage / 2);
+				Effects.ApplyForce(wielder, (wielder.transform.forward * -1 * HitForce));
+				Effects.ApplyWeaponEffects(wielder, effects);
+			}
+		}
+
+		//disarms the wielder
+		if (effects.Contains(WeaponEffects.Slippery))
+		{
+			float rand = Random.value;
+			if (rand < SlipperyDropChance)
+			{
+				Effects.Disarm(wielder);
+			}
+		}
 	}
 }

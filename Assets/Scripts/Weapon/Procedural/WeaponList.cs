@@ -108,14 +108,14 @@ public class WeaponList : MonoBehaviour
         indexCount++;
 
         //Stunning:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 10, .5f, -2, 1, new List<WeaponEffects> { WeaponEffects.Stun }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 10, .5f, -2, 1, new List<WeaponEffects> { WeaponEffects.StaminaDrain }));
         indexCount++;
 
         //Toxic:
         weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 0, .5f, -1, 1, new List<WeaponEffects> { WeaponEffects.Poison }));
         indexCount++;
         //Flaming:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 0, .5f, -1, 1, new List<WeaponEffects> { WeaponEffects.Burn }));
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 0, .5f, -1, 1, new List<WeaponEffects> { WeaponEffects.Fire }));
         indexCount++;
     }
 }

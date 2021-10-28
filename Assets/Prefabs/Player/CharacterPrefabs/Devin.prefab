@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 8607701203700435698}
   - component: {fileID: 884441582740658259}
   - component: {fileID: -9089075188776818167}
+  - component: {fileID: -6648977580424007776}
   m_Layer: 7
   m_Name: Devin
   m_TagString: Player
@@ -416,7 +417,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 2
   viewAngle: 100
   targetMask:
     serializedVersion: 2
@@ -424,7 +424,6 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8
-  visibleTargets: []
   meshResolution: 1
   viewMeshFilter: {fileID: 8834543540772722897}
 --- !u!195 &-9089075188776818167
@@ -449,6 +448,18 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-6648977580424007776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5000025348800011006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2c296e109c8bd4d83bffef857e13f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8707555812794023306
 GameObject:
   m_ObjectHideFlags: 0

@@ -61,10 +61,41 @@ public abstract class RangedWeapon : AbstractWeapon
 
 	public override void DoAction(FieldOfView fov)
 	{
+		GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
+		if (wielder == null)
+		{
+			return;
+		}
+
 		Vector3 direction = transform.forward;
 		direction.y = 0;
 		direction.Normalize();
 
-		bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage);
+		Debug.Log("doaction ranged weapon " + effects);
+		bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), this.effects);
+
+		//recoil and slippery-checks
+
+		//Check for recoil recoil deals half the weapondamage and applies the effects
+		if (effects.Contains(WeaponEffects.Recoil))
+		{
+			float rand = Random.value;
+			if (rand < RecoilChance)
+			{
+				Effects.Damage(wielder, Damage / 2);
+				Effects.ApplyForce(wielder, (wielder.transform.forward * -1 * HitForce));
+				Effects.ApplyWeaponEffects(wielder, effects);
+			}
+		}
+
+		//disarms the wielder
+		if (effects.Contains(WeaponEffects.Slippery))
+		{
+			float rand = Random.value;
+			if (rand < SlipperyDropChance)
+			{
+				Effects.Disarm(wielder);
+			}
+		}
 	}
 }
