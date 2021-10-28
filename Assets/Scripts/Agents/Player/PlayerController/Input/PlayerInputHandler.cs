@@ -232,6 +232,8 @@ public class PlayerInputHandler : MonoBehaviour
 		}
 	}
 
+	
+
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.tag == "WeaponObject")
@@ -256,5 +258,10 @@ public class PlayerInputHandler : MonoBehaviour
 		{
 			nearbyPlayers.Remove(other.gameObject);
 		}
+	}
+
+	public void RemoveObjectFromWeaponList(GameObject weapon)
+	{
+		nearbyObjects.Remove(weapon);
 	}
 }

@@ -29,8 +29,11 @@ public class PlayerMovementController : MonoBehaviour
 	private float moveSpeed = 10f;
 	[SerializeField]
 	private float rotationSpeed = 500f;
+	private float slowEffect = 1;
+
 
 	public float getMoveSpeed{ get{ return moveSpeed; }}
+
 
 	public Vector3 MoveDirection
 	{
@@ -41,6 +44,11 @@ public class PlayerMovementController : MonoBehaviour
 	{
 		get { return moveAmount; }
 		set { moveAmount = value; }
+	}
+	public float SlowEffect
+	{
+		get { return slowEffect; }
+		set { slowEffect = value; }
 	}
 
 	private void Awake()
@@ -59,7 +67,7 @@ public class PlayerMovementController : MonoBehaviour
 	}
 	public Vector3 CalculateMovement()
 	{
-		Vector3 targetMoveAmount = moveDirection * moveSpeed;
+		Vector3 targetMoveAmount = moveDirection * moveSpeed * slowEffect;
 		moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
 		return moveAmount;
 	}

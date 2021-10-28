@@ -23,7 +23,7 @@ public abstract class RangedWeapon : AbstractWeapon
 	[SerializeField]
 	private float bulletFireForce = 20;
 	[SerializeField]
-	private GameObject bullet;
+	protected GameObject bullet;
 
 	protected GameObject WeaponMuzzle
 	{
@@ -57,7 +57,7 @@ public abstract class RangedWeapon : AbstractWeapon
 	{
 		animator.SetTrigger("isStartRangedSingleShot");
 	}
-	public override void Attack(Animator animator) 
+	public override void Attack(Animator animator)
 	{
 		base.Attack(animator);
 	}
@@ -69,5 +69,7 @@ public abstract class RangedWeapon : AbstractWeapon
 		direction.Normalize();
 
 		bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage);
+
+		base.DoAction(fov);
 	}
 }

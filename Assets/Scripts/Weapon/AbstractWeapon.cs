@@ -29,6 +29,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 	private float viewAngle = 10f;
 	[SerializeField]
 	private int durability = 3;
+	[SerializeField]
+	private float weight = 100;
 
 	[SerializeField]
 	private bool isHeld;
@@ -84,6 +86,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 		handle.transform.parent = hand.transform;
 		handle.transform.position = hand.transform.position;
 		handle.transform.rotation = hand.transform.rotation;
+		Effects.ChangeWeight(hand.transform.parent.gameObject, weight);
 	}
 	public void ReleaseThrow(float force)
 	{
@@ -93,6 +96,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	}
 	public void Drop()
 	{
+		Effects.ChangeWeight(handle.transform.parent.parent.gameObject, -weight);
 		handle.transform.parent = null;
 		handle.GetComponent<Rigidbody>().isKinematic = false;
 		GetComponent<Rigidbody>().isKinematic = false;
@@ -104,18 +108,20 @@ public abstract class AbstractWeapon : MonoBehaviour
 	public virtual void StartAttack(Animator animator) { }
 	public virtual void Attack(Animator animator) 
 	{
-		if(GameManager.Instance.CurrentCombatState == CombatState.none) 
+		if(GameManager.Instance.CurrentCombatState == CombatState.playerActions) 
 		{
 			durability -= 1;
 		}
-		
-		if(durability <= 0)
-        {
-			GetComponentInParent<WeaponHand>().Unequip();
-			Destroy(this.gameObject);
-        }
 	}
-	public virtual void DoAction(FieldOfView fov) { }
+	public virtual void DoAction(FieldOfView fov)
+	{
+		if (durability <= 0)
+		{
+			handle.GetComponentInParent<PlayerInputHandler>().RemoveObjectFromWeaponList(this.gameObject);
+			handle.GetComponentInParent<WeaponHand>().DropWeapon();
+			Destroy(this.gameObject);
+		}
+	}
 
 	private void OnCollisionEnter(Collision collision)
 	{

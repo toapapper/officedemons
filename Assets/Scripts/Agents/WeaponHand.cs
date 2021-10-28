@@ -122,11 +122,12 @@ public class WeaponHand : MonoBehaviour
 	}
 
 	//Unequip weapon
-	public void Unequip()
+	public void DropWeapon()
     {
-		objectInHand = null;
+		objectInHand.Drop();
 		FOV.ViewRadius = handHitDistance;
 		FOV.ViewAngle = handHitAngle;
+		objectInHand = null;
 	}
 
 	//Attack

@@ -23,7 +23,6 @@ public abstract class MeleeWeapon : AbstractWeapon
 	public override void Attack(Animator animator)
     {
 		base.Attack(animator);
-		base.Attack(animator);
 	}
 
 	public override void DoAction(FieldOfView fov)
@@ -36,5 +35,6 @@ public abstract class MeleeWeapon : AbstractWeapon
 				Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
 			}
 		}
+		base.DoAction(fov);
 	}
 }
