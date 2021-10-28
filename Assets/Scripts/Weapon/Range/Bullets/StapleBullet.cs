@@ -28,13 +28,18 @@ public class StapleBullet : Bullet
 
     protected override void OnCollisionEnter(Collision collision)
     {
+        if (gameObject.GetComponentInChildren<ParticleSystem>() != null)
+        {
+            Hit();
+
+        }
         if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
         {
             Effects.Damage(collision.gameObject, bulletDamage);
-            Effects.ApplyForce(collision.gameObject, bulletHitForce);
+            Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce);
             Destroy(gameObject);
         }
-        if(collision.gameObject.tag != "Projectile" && !hasCollided)
+        if (collision.gameObject.tag != "Projectile" && !hasCollided)
         {
             hasCollided = true;
             if (Random.value > 0.7)
@@ -49,7 +54,10 @@ public class StapleBullet : Bullet
                 //gameObject.transform.rotation = Quaternion.Euler(collision.GetContact(0).normal);
             }
         }
-
         StartCoroutine(CountdownTime(3));
+    }
+    void Hit()
+    {
+        gameObject.GetComponentInChildren<ParticleSystem>().Play();
     }
 }

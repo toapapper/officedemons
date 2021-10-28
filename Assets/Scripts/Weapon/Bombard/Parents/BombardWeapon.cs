@@ -41,6 +41,7 @@ public class BombardWeapon : AbstractWeapon
 	}
 	public override void Attack(Animator animator)
 	{
+		base.Attack(animator);
 		animator.SetTrigger("isBombard");
 	}
 

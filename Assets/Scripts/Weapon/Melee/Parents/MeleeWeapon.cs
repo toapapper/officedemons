@@ -6,13 +6,13 @@ using UnityEngine;
 /// <para>
 /// Methods connected to all melee weapons
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>
 /// </summary>
 
-// Last Edited: 14/10-21
+// Last Edited: 14/10-28
 public abstract class MeleeWeapon : AbstractWeapon
 {
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
@@ -20,7 +20,10 @@ public abstract class MeleeWeapon : AbstractWeapon
 		FOVView.SetActive(isActive);
 	}
 
-	public override abstract void Attack(Animator animator);
+	public override void Attack(Animator animator)
+    {
+		base.Attack(animator);
+	}
 
     public override void DoAction(FieldOfView fov)
     {
@@ -30,7 +33,7 @@ public abstract class MeleeWeapon : AbstractWeapon
         {
             return;
         }
-        
+
         if (fov.VisibleTargets.Count > 0)
         {
             foreach (GameObject target in fov.VisibleTargets)
@@ -64,6 +67,6 @@ public abstract class MeleeWeapon : AbstractWeapon
             }
         }
 
-
+        base.DoAction(fov);
     }
 }

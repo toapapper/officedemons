@@ -7,13 +7,13 @@ using UnityEngine.AI;
 /// <para>
 /// Methods connected to all ranged weapons
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>
 /// </summary>
 
-// Last Edited: 14/10-21
+// Last Edited: 14/10-28
 public abstract class RangedWeapon : AbstractWeapon
 {
 	[SerializeField]
@@ -23,7 +23,7 @@ public abstract class RangedWeapon : AbstractWeapon
 	[SerializeField]
 	private float bulletFireForce = 20;
 	[SerializeField]
-	private GameObject bullet;
+	protected GameObject bullet;
 
 	protected GameObject WeaponMuzzle
 	{
@@ -57,7 +57,10 @@ public abstract class RangedWeapon : AbstractWeapon
 	{
 		animator.SetTrigger("isStartRangedSingleShot");
 	}
-	public override abstract void Attack(Animator animator);
+	public override void Attack(Animator animator)
+	{
+		base.Attack(animator);
+	}
 
 	public override void DoAction(FieldOfView fov)
 	{
@@ -97,5 +100,7 @@ public abstract class RangedWeapon : AbstractWeapon
 				Effects.Disarm(wielder);
 			}
 		}
+
+		base.DoAction(fov);
 	}
 }

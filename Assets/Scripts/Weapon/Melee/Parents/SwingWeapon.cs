@@ -23,5 +23,6 @@ public class SwingWeapon : MeleeWeapon
 	{
 		animator.SetTrigger("isMeleeSwing");
 		Debug.Log("MeleeSwing " + Damage);
+		base.Attack(animator);
 	}
 }

@@ -21,6 +21,7 @@ public class ThrustWeapon : MeleeWeapon
 	}
 	public override void Attack(Animator animator)
 	{
+		base.Attack(animator);
 		animator.SetTrigger("isMeleeThrust");
 		Debug.Log("MeleeTHrust" + Damage);
 	}
