@@ -35,9 +35,7 @@ public class StapleBullet : Bullet
         }
         if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
         {
-            Effects.Damage(collision.gameObject, bulletDamage);
-            Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce);
-            Destroy(gameObject);
+            base.OnCollisionEnter(collision);
         }
         if (collision.gameObject.tag != "Projectile" && !hasCollided)
         {
