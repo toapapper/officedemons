@@ -125,8 +125,8 @@ public class WeaponHand : MonoBehaviour
 	public void Unequip()
     {
 		objectInHand = null;
-		FOV.viewRadius = handHitDistance;
-		FOV.viewAngle = handHitAngle;
+		FOV.ViewRadius = handHitDistance;
+		FOV.ViewAngle = handHitAngle;
 	}
 
 	//Attack
