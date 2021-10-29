@@ -82,25 +82,14 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         #region are all the needed gameObjects still-check
-        AllStill = true;
+        allStill = true;
         Utilities.CleanList(stillCheckList);
         foreach(GameObject gObject in stillCheckList)
         {
-            if (gObject.CompareTag("Player"))
+            if (gObject.CompareTag("Projectile"))
             {
-                if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
-                {
-                    AllStill = false;
-                }
-			}
-            else if (gObject.CompareTag("Enemy"))
-            {
-                if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
-                {
-                    AllStill = false;
-                }
+                allStill = false;
             }
-            //continue with more else ifs for different types of gameObjects
         }
         #endregion
 
