@@ -51,10 +51,12 @@ public static class Effects
 
 	public static void Disarm(GameObject target)
     {
-		if(target == null)//could happen,it should be a very low chance, but that's even more reason to guard against it here I  think.
+		if(target == null)//could happen that the target is null,it should be a low chance but that's even more reason to guard against it here I think.
         {
 			return;
         }
+
+		target.GetComponent<WeaponHand>().DropWeapon();
 
 		//IMPlement!
     }
@@ -97,7 +99,7 @@ public static class Effects
 					float rand = Random.value;
 					if (rand < AbstractWeapon.DisarmChance)
 					{
-						Disarm(target);
+						Effects.Disarm(target);
 					}
 					break;
 			}
