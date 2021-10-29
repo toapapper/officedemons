@@ -42,9 +42,9 @@ public abstract class AbstractWeapon : MonoBehaviour
 	[SerializeField]
 	private GameObject handle;
 	[SerializeField]
-	private float damage;
+	private float damage = 10;
 	[SerializeField]
-	private float hitForce;
+	private float hitForce = 2;
 	[SerializeField]
 	private float throwDamage = 2;
 	[SerializeField]
@@ -54,7 +54,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	[SerializeField]
 	private int durability = 3;
 	[SerializeField]
-	private float weight = 100;
+	private float weight = 5;
 
 	[SerializeField]
 	private bool isHeld;
