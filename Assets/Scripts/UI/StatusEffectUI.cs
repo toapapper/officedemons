@@ -40,6 +40,12 @@ public class StatusEffectUI : MonoBehaviour
     //Disugusting implementation i know
     void Update()
     {
+        if(transform.parent.tag == "Player")//the enemies has a different script that does this on the same object
+        {
+            this.transform.rotation = Camera.main.transform.rotation;
+        }
+
+
         fireIcon.enabled = false;
         bleedIcon.enabled = false;
         poisonIcon.enabled = false;
