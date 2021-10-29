@@ -3,6 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// Simple enum of possible special effects that a weapon can have
+/// </summary>
+public enum WeaponEffects
+{
+	Nothing,
+	Fire,			//applies a stack of fire to the target				duration:	Medium (short = 1, medium = 3, long = 5(defined in StatusEffectHandler.cs))
+	Bleed,			//applies a stack of bleed to the target			duration:	Medium
+	Poison,			//applies a stack of posion to the target			duration:	Long
+	StaminaDrain,	//applies a stack of stamina drain on the target	duration:	Long
+	Vulnerable,		//applies a stack of vulnerability to the target	duration:	Short
+	Paralyze,		//paralyzes target on hit							duration:	Short
+	Slow,			//slows the target on hit							duration:	Medium
+	Disarm,			//chance of disarming target on hit
+	Slippery,		//risk of dropping the weapon on attack
+	Recoil			//risk of hitting youself on attack
+}
+
+/// <summary>
 /// <para>
 /// Abstract class controlling all weapons
 /// </para>
@@ -12,9 +30,15 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15/10-21
+// Last Edited: 15/10-28
 public abstract class AbstractWeapon : MonoBehaviour
 {
+	public const float RecoilChance = .3f;
+	public const float SlipperyDropChance = .3f;
+	public const float DisarmChance = .3f;
+
+	[SerializeField] protected List<WeaponEffects> effects;
+
 	[SerializeField]
 	private GameObject handle;
 	[SerializeField]
@@ -27,6 +51,10 @@ public abstract class AbstractWeapon : MonoBehaviour
 	private float viewDistance = 20f;
 	[SerializeField]
 	private float viewAngle = 10f;
+	[SerializeField]
+	private int durability = 3;
+	[SerializeField]
+	private float weight = 100;
 
 	[SerializeField]
 	private bool isHeld;
@@ -67,6 +95,11 @@ public abstract class AbstractWeapon : MonoBehaviour
 		get { return isHeld; }
 		set { isHeld = value; }
 	}
+	public int Durability
+	{
+		get { return durability; }
+		set { durability = value; }
+	}
 
 	public void PickUpIn(GameObject hand)
 	{
@@ -77,6 +110,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 		handle.transform.parent = hand.transform;
 		handle.transform.position = hand.transform.position;
 		handle.transform.rotation = hand.transform.rotation;
+		Effects.ChangeWeight(hand.transform.parent.gameObject, weight);
 	}
 	public void ReleaseThrow(float force)
 	{
@@ -86,6 +120,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	}
 	public void Drop()
 	{
+		Effects.ChangeWeight(handle.transform.parent.parent.gameObject, -weight);
 		handle.transform.parent = null;
 		handle.GetComponent<Rigidbody>().isKinematic = false;
 		GetComponent<Rigidbody>().isKinematic = false;
@@ -95,8 +130,27 @@ public abstract class AbstractWeapon : MonoBehaviour
 	public virtual void SetAimGradient(Gradient gradient) { }
 	public virtual void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim) { }
 	public virtual void StartAttack(Animator animator) { }
-	public abstract void Attack(Animator animator);
-	public virtual void DoAction(FieldOfView fov) { }
+	public virtual void Attack(Animator animator) 
+	{
+		if(GameManager.Instance.CurrentCombatState == CombatState.playerActions)
+		{
+			durability -= 1;
+		}
+	}
+
+	/// <summary>
+	/// Method triggered by animation, Shoots projectile for ranged or deals damage for melee
+	/// </summary>
+	/// <param name="fov"></param>
+	public virtual void DoAction(FieldOfView fov)
+	{
+		if (durability <= 0)
+		{
+			handle.GetComponentInParent<PlayerInputHandler>().RemoveObjectFromWeaponList(this.gameObject);
+			handle.GetComponentInParent<WeaponHand>().DropWeapon();
+			Destroy(this.gameObject);
+		}
+	}
 
 	private void OnCollisionEnter(Collision collision)
 	{
@@ -105,8 +159,11 @@ public abstract class AbstractWeapon : MonoBehaviour
 			if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
 			{
 				Effects.Damage(collision.gameObject, throwDamage);
+				Effects.ApplyWeaponEffects(collision.gameObject, effects);
 				isProjectile = false;
 			}
 		}
 	}
+
+
 }

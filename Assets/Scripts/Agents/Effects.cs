@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// <para>
@@ -8,18 +9,101 @@ using UnityEngine;
 /// </para>
 ///   
 ///  <para>
-///  Author: Johan Melkersson
+///  Author: Johan Melkersson & Jonas Lundin
 /// </para>
 /// </summary>
 
-// Last Edited: 14/10-21
+// Last Edited: 14/10-28
 public static class Effects
 {
     public static void Damage(GameObject target, float damage)
 	{
-		target.GetComponent<Attributes>().Health -= (int)damage;
-		
+		if(damage < 0)
+        {
+			Heal(target, -damage);
+			return;
+        }
+
+		float dmgMod = 1 + target.GetComponent<StatusEffectHandler>().Vulnerability;
+		target.GetComponent<Attributes>().Health -= (int)(damage * dmgMod);
 	}
+
+	public static void Heal(GameObject target, float amount)
+    {
+		if(amount < 0)
+        {
+			Damage(target, amount);
+			return;
+        }
+
+		target.GetComponent<Attributes>().Health += (int)amount;
+    }
+
+	public static void DrainStamina(GameObject target, float drain)
+    {
+		target.GetComponent<Attributes>().Stamina -= drain;
+    }
+
+	public static void ApplyStatusEffect(GameObject target, StatusEffectType type, int duration = 1, int stacks = 1)
+    {
+		target.GetComponent<StatusEffectHandler>().ApplyEffect(type, duration, stacks);
+    }
+
+	public static void Disarm(GameObject target)
+    {
+		if(target == null)//could happen,it should be a very low chance, but that's even more reason to guard against it here I  think.
+        {
+			return;
+        }
+
+		//IMPlement!
+    }
+
+	/// <summary>
+	/// Applies the offensive effects to the hit target
+	/// </summary>
+	public static void ApplyWeaponEffects(GameObject target, List<WeaponEffects> weaponEffects)
+	{
+		if(weaponEffects == null)
+        {
+			return;
+        }
+		foreach (WeaponEffects effect in weaponEffects)
+		{
+			switch (effect)
+			{
+				case WeaponEffects.Fire:
+					Effects.ApplyStatusEffect(target, StatusEffectType.Fire, (int)EffectDurations.Medium, 1);
+					break;
+				case WeaponEffects.Bleed:
+					Effects.ApplyStatusEffect(target, StatusEffectType.Bleed, (int)EffectDurations.Medium, 1);
+					break;
+				case WeaponEffects.Poison:
+					Effects.ApplyStatusEffect(target, StatusEffectType.Poison, (int)EffectDurations.Long, 1);
+					break;
+				case WeaponEffects.StaminaDrain:
+					Effects.ApplyStatusEffect(target, StatusEffectType.StaminaDrain, (int)EffectDurations.Long, 1);
+					break;
+				case WeaponEffects.Vulnerable:
+					Effects.ApplyStatusEffect(target, StatusEffectType.Vulnerable, (int)EffectDurations.Short, 1);
+					break;
+				case WeaponEffects.Paralyze:
+					Effects.ApplyStatusEffect(target, StatusEffectType.Paralyze, (int)EffectDurations.Short, 1);
+					break;
+				case WeaponEffects.Slow:
+					Effects.ApplyStatusEffect(target, StatusEffectType.Slow, (int)EffectDurations.Medium, 1);
+					break;
+				case WeaponEffects.Disarm:
+					float rand = Random.value;
+					if (rand < AbstractWeapon.DisarmChance)
+					{
+						Disarm(target);
+					}
+					break;
+			}
+		}
+	}
+
 	public static void ApplyForce(GameObject target, Vector3 force)
 	{
 		target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
@@ -40,6 +124,33 @@ public static class Effects
 			//Play death animation
 			// bool targetIsDead so it's not targetet and attacked again while dead
 			target.GetComponent<PlayerStateController>().Die();
+		}
+	}
+	/// <summary>
+	/// Add or remove weight
+	/// </summary>
+	/// <param name="target"></param>
+	/// <param name="weight"> value between -100 - +100 </param>
+	public static void ChangeWeight(GameObject target, float weight)
+	{
+		float speedEffect = -weight / 100;
+		ModifySpeed(target, speedEffect);
+	}
+	/// <summary>
+	/// add or remove speed effect
+	/// </summary>
+	/// <param name="target"></param>
+	/// <param name="speedEffect"> value between -1 - +1 (positive value speeds up, negative value slows down)</param>
+	public static void ModifySpeed(GameObject target, float speedEffect)
+	{
+		if(target.tag == "Player")
+		{
+			target.GetComponent<PlayerMovementController>().SlowEffect += speedEffect;
+		}
+		else if(target.tag == "Enemy")
+		{
+			//TODO
+			//target.GetComponent<NavMeshAgent>().speed += speedEffect;
 		}
 	}
 

@@ -265,6 +265,7 @@ GameObject:
   - component: {fileID: 5882369934984038850}
   - component: {fileID: 3067224057146137443}
   - component: {fileID: 2010533982300918533}
+  - component: {fileID: -2022282466978569568}
   m_Layer: 7
   m_Name: SusanTheDestroyer
   m_TagString: Player
@@ -497,7 +498,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 2
   viewAngle: 100
   targetMask:
     serializedVersion: 2
@@ -505,7 +505,6 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8
-  visibleTargets: []
   meshResolution: 1
   viewMeshFilter: {fileID: 6650770340360673688}
 --- !u!195 &2010533982300918533
@@ -530,6 +529,18 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-2022282466978569568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7184783443606198734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2c296e109c8bd4d83bffef857e13f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6218451047765852576
 PrefabInstance:
   m_ObjectHideFlags: 0

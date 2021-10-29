@@ -62,8 +62,14 @@ public class AIManager : MonoBehaviour
         actionsQueue.Clear();
         foreach (GameObject e in enemyList)
         {
-            e.GetComponent<Attributes>().Stamina = e.GetComponent<Attributes>().StartStamina;
-            e.GetComponent<AIController>().ActionIsLocked = false;
+            //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
+            if (!e.GetComponent<StatusEffectHandler>().Paralyzed)
+            {
+                e.GetComponent<Attributes>().Stamina = e.GetComponent<Attributes>().StartStamina;
+                e.GetComponent<AIController>().ActionIsLocked = false;
+            }
+
+            e.GetComponent<StatusEffectHandler>().UpdateEffects();
         }
     }
 
@@ -88,8 +94,9 @@ public class AIManager : MonoBehaviour
             }
         }
 
-        foreach (GameObject e in enemyList)
+        for(int i = 0; i < enemyList.Count; i++)
         {
+            GameObject e = enemyList[i];
             if (!e.GetComponent<AIController>().ActionIsLocked)
             {
                 e.GetComponent<AIController>().Priorites = killOnSight;
