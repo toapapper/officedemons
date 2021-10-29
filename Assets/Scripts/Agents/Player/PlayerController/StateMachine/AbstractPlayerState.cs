@@ -13,7 +13,7 @@ using static UnityEngine.InputSystem.InputAction;
 /// </para>
 /// </summary>
 
-// Last Edited: 2021-10-21
+// Last Edited: 2021-10-29
 public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 {
 	protected PlayerMovementController playerMovement;
@@ -91,6 +91,8 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     public virtual bool OnStartBombard() { return false; }
     public virtual bool OnBombard() { return false; }
     public virtual void OnSpecial() { }
+    public virtual bool OnStartSpecialBombard() { return false; }
+    public virtual bool OnSpecialBombard() { return false; }
     public virtual void OnPickUp(GameObject weapon) { }
     public virtual bool OnStartThrow() { return false; }
     public virtual bool OnThrow() { return false; }

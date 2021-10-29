@@ -149,6 +149,7 @@ MonoBehaviour:
   maxLineLength: 200
   stopVelocity: 0.5
   maxRayDistance: 0.2
+  noBouncing: 0
 --- !u!1 &290955465371181293
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +299,7 @@ MonoBehaviour:
   maxLineLength: 200
   stopVelocity: 0.5
   maxRayDistance: 0.2
+  noBouncing: 1
 --- !u!1 &2376799893740462515
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,6 +486,7 @@ GameObject:
   - component: {fileID: 598843075664195965}
   - component: {fileID: 6351193272937801348}
   - component: {fileID: 420154392685691687}
+  - component: {fileID: 7884003934840122667}
   m_Layer: 7
   m_Name: Devin
   m_TagString: Player
@@ -701,6 +704,7 @@ MonoBehaviour:
   throwAim: {fileID: 290955465371181283}
   FOV: {fileID: 6351193272937801348}
   FOVVisualization: {fileID: 2376799893740462515}
+  objectInHand: {fileID: 0}
 --- !u!114 &8321839398773171164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,11 +760,11 @@ MonoBehaviour:
   viewAngle: 0
   targetMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 384
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 0
-  meshResolution: 0
+    m_Bits: 8
+  meshResolution: 1
   viewMeshFilter: {fileID: 9120691939212472831}
 --- !u!195 &420154392685691687
 NavMeshAgent:
@@ -784,6 +788,18 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7884003934840122667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4713587536416584656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2c296e109c8bd4d83bffef857e13f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4713587536868420199
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,7 +910,7 @@ Transform:
   m_LocalPosition: {x: -0.7, y: 0, z: 0.5}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
-  - {fileID: 1126522733627557930}
+  - {fileID: 7191360128284829005}
   m_Father: {fileID: 4713587536416584668}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -947,21 +963,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1001 &2553247212747129323
+--- !u!1001 &5692573386775620748
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 2575713076338772658}
     m_Modifications:
-    - target: {fileID: 2839337852582649168, guid: 6772e1db6debde445a9205cc625b26fc, type: 3}
-      propertyPath: damage
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2839337852582649168, guid: 6772e1db6debde445a9205cc625b26fc, type: 3}
-      propertyPath: grenade
-      value: 
-      objectReference: {fileID: 6103510018640852274, guid: 617fcd8a38b77a64ba315ea4d2d565fd, type: 3}
     - target: {fileID: 3228169140708133313, guid: 6772e1db6debde445a9205cc625b26fc, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1012,8 +1020,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6772e1db6debde445a9205cc625b26fc, type: 3}
---- !u!4 &1126522733627557930 stripped
+--- !u!4 &7191360128284829005 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3228169140708133313, guid: 6772e1db6debde445a9205cc625b26fc, type: 3}
-  m_PrefabInstance: {fileID: 2553247212747129323}
+  m_PrefabInstance: {fileID: 5692573386775620748}
   m_PrefabAsset: {fileID: 0}

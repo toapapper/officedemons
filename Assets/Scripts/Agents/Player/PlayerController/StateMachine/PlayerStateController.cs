@@ -12,7 +12,7 @@ using static UnityEngine.InputSystem.InputAction;
 /// </para>
 /// </summary>
 
-// Last Edited: 2021-10-12
+// Last Edited: 2021-10-29
 public class PlayerStateController : MonoBehaviour
 {
     public IPlayerState CurrentState
@@ -109,6 +109,14 @@ public class PlayerStateController : MonoBehaviour
     public void OnSpecial()
     {
         CurrentState.OnSpecial();
+    }
+    public bool OnStartSpecialBombard()
+    {
+        return CurrentState.OnStartSpecialBombard();
+    }
+    public bool OnSpecialBombard()
+    {
+        return CurrentState.OnSpecialBombard();
     }
     public void OnPickUp(GameObject weapon)
 	{

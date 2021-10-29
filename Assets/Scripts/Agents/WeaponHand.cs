@@ -12,7 +12,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15/10-21
+// Last Edited: 15/10-29
 public class WeaponHand : MonoBehaviour
 {
 	private Animator animator;

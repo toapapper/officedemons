@@ -25,6 +25,8 @@ public interface IPlayerState
     bool OnStartBombard();
     bool OnBombard();
     void OnSpecial();
+    bool OnStartSpecialBombard();
+    bool OnSpecialBombard();
     void OnPickUp(GameObject weapon);
     bool OnStartThrow();
 	bool OnThrow();

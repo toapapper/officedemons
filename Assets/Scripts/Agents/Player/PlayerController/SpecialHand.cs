@@ -12,7 +12,7 @@ public class SpecialHand : MonoBehaviour
 	[SerializeField]
 	private GameObject FOVVisualization;
 
-	private AbstractSpecial objectInHand;
+	public AbstractSpecial objectInHand;
 
 	private Gradient aimGradient;
 
@@ -74,7 +74,7 @@ public class SpecialHand : MonoBehaviour
 	//Bombard attack
 	public bool StartBombard()
 	{
-		if (objectInHand is BombardWeapon)
+		if (objectInHand is CoffeeSpecial)
 		{
 			objectInHand.StartAttack(animator);
 			return true;
@@ -83,7 +83,7 @@ public class SpecialHand : MonoBehaviour
 	}
 	public bool SetBombardForce(float bombardForce)
 	{
-		if (objectInHand is BombardWeapon)
+		if (objectInHand is CoffeeSpecial)
 		{
 			throwAim.initialVelocity = bombardForce;
 			return true;
@@ -92,7 +92,7 @@ public class SpecialHand : MonoBehaviour
 	}
 	public bool PerformBombard()
 	{
-		if (objectInHand is BombardWeapon)
+		if (objectInHand is CoffeeSpecial)
 		{
 			objectInHand.Attack(animator);
 			return true;
@@ -108,6 +108,6 @@ public class SpecialHand : MonoBehaviour
 	//Animation events
 	public void DoSpecialAction()
 	{
-		objectInHand.DoAction(FOV);
+		objectInHand.DoSpecialAction(FOV);
 	}
 }

@@ -11,7 +11,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 2021-10-21
+// Last Edited: 2021-10-29
 public class OutOfCombatState : AbstractPlayerState
 {
 	//Attack action
@@ -59,6 +59,33 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			specialHand.Attack();
 		}
+	}
+	//Special Bombard action
+	public override bool OnStartSpecialBombard()
+	{
+		if (!IsActionTriggered)
+		{
+			if (specialHand.StartBombard())
+			{
+				specialHand.ToggleAimView(true);
+				IsActionTriggered = true;
+				return true;
+			}
+		}
+		return false;
+	}
+	public override bool OnSpecialBombard()
+	{
+		if (IsActionTriggered)
+		{
+			if (specialHand.PerformBombard())
+			{
+				IsActionTriggered = false;
+				specialHand.ToggleAimView(false);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	//PickUp
