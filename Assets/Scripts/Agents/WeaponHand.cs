@@ -125,9 +125,13 @@ public class WeaponHand : MonoBehaviour
 	public void DropWeapon()
     {
 		objectInHand.Drop();
+		foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
+		{
+			collider.enabled = true;
+		}
+		objectInHand = null;
 		FOV.ViewRadius = handHitDistance;
 		FOV.ViewAngle = handHitAngle;
-		objectInHand = null;
 	}
 
 	//Attack
