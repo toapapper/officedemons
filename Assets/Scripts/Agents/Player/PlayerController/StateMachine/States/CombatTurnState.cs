@@ -13,7 +13,7 @@ using static UnityEngine.InputSystem.InputAction;
 /// </para>
 /// </summary>
 
-// Last Edited: 2021-10-21
+// Last Edited: 2021-10-30
 
 public class CombatTurnState : AbstractPlayerState
 {
@@ -53,7 +53,6 @@ public class CombatTurnState : AbstractPlayerState
 
 	public override void OnSpecial()
 	{
-		//TODO
 		if (!IsActionTriggered)
 		{
 			specialHand.ToggleAimView(true);
@@ -61,6 +60,28 @@ public class CombatTurnState : AbstractPlayerState
 			ChosenAction = TypeOfAction.SPECIALATTACK;
 			IsActionTriggered = true;
 		}
+	}
+	public override bool OnStartSpecialBombard()
+	{
+		if (!IsActionTriggered)
+		{
+			if (specialHand.StartBombard())
+			{
+				specialHand.ToggleAimView(true);
+				ChosenAction = TypeOfAction.SPECIALBOMBARD;
+				IsActionTriggered = true;
+				return true;
+			}
+		}
+		return false;
+	}
+	public override bool OnSpecialBombard()
+	{
+		if (IsActionTriggered)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	public override void OnPickUp(GameObject weapon)
@@ -112,13 +133,11 @@ public class CombatTurnState : AbstractPlayerState
 			switch (ChosenAction)
 			{
 				case TypeOfAction.ATTACK:
-					weaponHand.ToggleAimView(false);
-					break;
 				case TypeOfAction.BOMBARD:
 					weaponHand.ToggleAimView(false);
 					break;
 				case TypeOfAction.SPECIALATTACK:
-					//TODO
+				case TypeOfAction.SPECIALBOMBARD:
 					specialHand.ToggleAimView(false);
 					break;
 				case TypeOfAction.THROW:
@@ -142,22 +161,19 @@ public class CombatTurnState : AbstractPlayerState
 			switch (ChosenAction)
 			{
 				case TypeOfAction.ATTACK:
-					weaponHand.ToggleAimView(false);
-					weaponHand.CancelAction();
-					break;
 				case TypeOfAction.BOMBARD:
 					weaponHand.ToggleAimView(false);
 					weaponHand.CancelAction();
 					break;
 				case TypeOfAction.SPECIALATTACK:
-					//TODO
+				case TypeOfAction.SPECIALBOMBARD:
 					specialHand.ToggleAimView(false);
 					specialHand.CancelAction();
 					break;
 				case TypeOfAction.THROW:
 					//TODO
-					weaponHand.CancelAction();
 					//weaponHand.ToggleThrowAimView(false);
+					weaponHand.CancelAction();
 					break;
 				case TypeOfAction.REVIVE:
 					PlayerToRevive = null;
@@ -201,6 +217,7 @@ public class CombatTurnState : AbstractPlayerState
 	public override void OnStateExit()
 	{
 		weaponHand.ToggleAimView(false);
+		specialHand.ToggleAimView(false);
 
 		if (IsActionTriggered && !IsActionLocked)
 		{
@@ -212,17 +229,4 @@ public class CombatTurnState : AbstractPlayerState
 		IsAddingThrowForce = false;
 		Debug.Log("Exits CombatTurnState" + this);
 	}
-
-	//Heal action
-	//public override void OnHeal(CallbackContext context)
-	//{
-	//	if (context.performed && !IsActionTriggered && !IsActionLocked)
-	//	{
-	//		if (playerMovement.StartHeal())
-	//		{
-	//			ChosenAction = TypeOfAction.HEAL;
-	//			IsActionTriggered = true;
-	//		}
-	//	}
-	//}
 }

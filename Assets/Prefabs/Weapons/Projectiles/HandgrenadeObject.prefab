@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6103510018640852286}
   - component: {fileID: 6103510018640852273}
   - component: {fileID: 6103510018640852272}
-  - component: {fileID: 947603318847885930}
+  - component: {fileID: 600687099965744114}
   m_Layer: 0
   m_Name: HandgrenadeObject
   m_TagString: Projectile
@@ -136,7 +136,7 @@ MonoBehaviour:
     m_Bits: 8
   meshResolution: 1
   viewMeshFilter: {fileID: 6824130062028662099}
---- !u!114 &947603318847885930
+--- !u!114 &600687099965744114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,10 +145,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6103510018640852274}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5421e0f9c348c14e99adf156c2833f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 5cac427845d06ee44be5c1f6399b6b82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   FOVVisualization: {fileID: 61656443389572383}
+  explodeRadius: 3
   initialExplodeTime: 2
 --- !u!1001 &6103510019453746539
 PrefabInstance:

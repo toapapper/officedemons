@@ -11,7 +11,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 2021-10-21
+// Last Edited: 2021-10-30
 public class CombatActionState : AbstractPlayerState
 {
 	public override void OnStateEnter()
@@ -27,6 +27,9 @@ public class CombatActionState : AbstractPlayerState
 				break;
 			case TypeOfAction.SPECIALATTACK:
 				specialHand.Attack();
+				break;
+			case TypeOfAction.SPECIALBOMBARD:
+				specialHand.PerformBombard();
 				break;
 			case TypeOfAction.THROW:
 				weaponHand.Throw();
