@@ -32,7 +32,9 @@ public class UIManager : MonoBehaviour
 
     private Image timerBackgroundWithColorImage; //hemskt namn, jag vet..
     private bool playerCardsInitialized = false;
-    
+
+    [SerializeField] private FloatingTextManager floatingTextManager;
+
     [Header("Menus")]
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject firstButtonSelectedOnPause;
@@ -149,5 +151,16 @@ public class UIManager : MonoBehaviour
     public void CloseMenu()
     {
         pauseMenu.SetActive(false);
+    }
+
+    /// <summary>
+    /// Display a new floatingtext element at the gameObjects position
+    /// </summary>
+    /// <param name="at"> the gameObject at which it will be shown </param>
+    /// <param name="text"> text </param>
+    /// <param name="color"> color to show </param>
+    public void NewFloatingText(GameObject at, string text, Color color)
+    {
+        floatingTextManager.newText(at, text, color);
     }
 }

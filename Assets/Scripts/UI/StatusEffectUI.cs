@@ -61,6 +61,11 @@ public class StatusEffectUI : MonoBehaviour
         {
             StatusEffectType type = (StatusEffectType)i;
 
+            if(effects == null || effects.ActiveEffects == null)//dont know exactly why but i always get one nullreference error otherwise
+            {
+                return;
+            }
+
             if (effects.ActiveEffects.ContainsKey(type))
             {
                 switch (type)
