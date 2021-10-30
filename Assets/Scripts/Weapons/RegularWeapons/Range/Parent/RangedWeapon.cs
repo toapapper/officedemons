@@ -74,7 +74,6 @@ public abstract class RangedWeapon : AbstractWeapon
 		direction.y = 0;
 		direction.Normalize();
 
-		Debug.Log("doaction ranged weapon " + effects);
 		bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), this.effects);
 
 		//recoil and slippery-checks

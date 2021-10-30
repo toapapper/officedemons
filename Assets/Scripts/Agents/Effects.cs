@@ -24,8 +24,10 @@ public static class Effects
 			return;
         }
 
-		float dmgMod = 1 + target.GetComponent<StatusEffectHandler>().Vulnerability;
-		target.GetComponent<Attributes>().Health -= (int)(damage * dmgMod);
+		int dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
+		target.GetComponent<Attributes>().Health -= dmg;
+
+		UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
 	}
 
 	public static void Heal(GameObject target, float amount)
@@ -37,26 +39,33 @@ public static class Effects
         }
 
 		target.GetComponent<Attributes>().Health += (int)amount;
+
+		UIManager.Instance.NewFloatingText(target, "+" + amount + " HP", Color.green);
     }
 
 	public static void DrainStamina(GameObject target, float drain)
     {
 		target.GetComponent<Attributes>().Stamina -= drain;
+		UIManager.Instance.NewFloatingText(target, "-" + drain + " Stamina", Color.yellow);
     }
 
 	public static void ApplyStatusEffect(GameObject target, StatusEffectType type, int duration = 1, int stacks = 1)
     {
 		target.GetComponent<StatusEffectHandler>().ApplyEffect(type, duration, stacks);
+
+		UIManager.Instance.NewFloatingText(target, "Status applied: " + type, Color.cyan);
     }
 
 	public static void Disarm(GameObject target)
     {
-		if(target == null)//could happen,it should be a very low chance, but that's even more reason to guard against it here I  think.
+		if(target == null)//could happen that the target is null,it should be a low chance but that's even more reason to guard against it here I think.
         {
 			return;
         }
 
-		//IMPlement!
+		target.GetComponent<WeaponHand>().DropWeapon();
+
+		UIManager.Instance.NewFloatingText(target, "WEAPON DROPPED!", Color.red);
     }
 
 	/// <summary>
@@ -97,7 +106,7 @@ public static class Effects
 					float rand = Random.value;
 					if (rand < AbstractWeapon.DisarmChance)
 					{
-						Disarm(target);
+						Effects.Disarm(target);
 					}
 					break;
 			}
