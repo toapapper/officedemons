@@ -12,21 +12,22 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15/10-21
+// Last Edited: 15/10-30
 public class GrenadeObject : MonoBehaviour
 {
-	protected GrenadeObject grenadeObject;
+	private GrenadeObject grenadeObject;
 	[SerializeField]
-	protected GameObject FOVVisualization;
+	private GameObject FOVVisualization;
+	[SerializeField]
 	private float explodeRadius = 3;
-	protected float grenadeDamage;
+	private float grenadeDamage;
 	private float grenadeExplodeForce;
 	[SerializeField]
-	private float initialExplodeTime = 2f;
+	private float initialExplodeTime;
 	private float explodeTime;
-	private bool isObjectThrown;
-
 	private List<WeaponEffects> effects;
+
+	protected bool isObjectThrown;
 
 	public void CreateGrenade(Vector3 position, Vector3 direction, float grenadeThrowForce, float grenadeExplodeForce, float grenadeDamage, List<WeaponEffects> effects)
 	{
@@ -41,20 +42,10 @@ public class GrenadeObject : MonoBehaviour
 		this.effects = effects;
 	}
 
-	public virtual void FixedUpdate()
+	protected void SetExplosion()
 	{
-		if (isObjectThrown)
-		{
-			if (GetComponent<Rigidbody>().velocity.magnitude < 0.5f)
-			{
-				FOVVisualization.SetActive(true);
-				StartCoroutine(CountdownTime(explodeTime));
-			}
-		}
-		else
-		{
-			isObjectThrown = true;
-		}
+		FOVVisualization.SetActive(true);
+		StartCoroutine(CountdownTime(explodeTime));
 	}
 
 	private IEnumerator CountdownTime(float time)
@@ -63,7 +54,7 @@ public class GrenadeObject : MonoBehaviour
 		Explode();
 	}
 
-	protected virtual void Explode()
+	private void Explode()
 	{
 		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
 

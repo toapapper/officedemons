@@ -49,6 +49,12 @@ public class ThrowAim : MonoBehaviour
     private float friction;
     private float bounce;
 
+    public bool NoBounceing
+	{
+		get { return noBouncing; }
+		set { noBouncing = value; }
+	}
+
     void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();

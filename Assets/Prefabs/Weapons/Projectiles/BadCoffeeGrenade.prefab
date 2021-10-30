@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 6103510018640852287}
   - component: {fileID: 6103510018640852286}
   - component: {fileID: 6103510018640852273}
-  - component: {fileID: 465956204982030821}
   - component: {fileID: 6103510018640852272}
+  - component: {fileID: 8412067270264006814}
   m_Layer: 0
-  m_Name: BadCoffee
+  m_Name: BadCoffeeGrenade
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93,7 +93,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6103510018640852274}
-  m_Material: {fileID: 13400000, guid: 98cc6ed7b321b7f48995086e303061de, type: 2}
+  m_Material: {fileID: 13400000, guid: ee8ae28f2ef85d94f9ae3fb741b1c36e, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -115,20 +115,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &465956204982030821
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6103510018640852274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 837594e81eeba1c4795e909eb4f43075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FOVVisualization: {fileID: 61656443389572383}
-  initialExplodeTime: 2
 --- !u!114 &6103510018640852272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +136,21 @@ MonoBehaviour:
     m_Bits: 8
   meshResolution: 1
   viewMeshFilter: {fileID: 6824130062028662099}
+--- !u!114 &8412067270264006814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6103510018640852274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 343292b087213e746aea2ecf937dbf7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FOVVisualization: {fileID: 61656443389572383}
+  explodeRadius: 3
+  initialExplodeTime: 0.2
 --- !u!1001 &6103510019453746539
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,13 +12,15 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 14/10-21
+// Last Edited: 14/10-30
 public class BombardWeapon : AbstractWeapon
 {
 	[SerializeField]
 	private GameObject grenade;
 	[SerializeField]
 	private float grenadeThrowForce = 10;
+	[SerializeField]
+	private bool noBouncing;
 
 	public float GrenadeThrowForce
 	{
@@ -33,6 +35,7 @@ public class BombardWeapon : AbstractWeapon
 			throwAim.GetComponent<LineRenderer>().positionCount = 0;
 		}
 		throwAim.SetActive(isActive);
+		throwAim.GetComponent<ThrowAim>().NoBounceing = noBouncing;
 	}
 
 	public override void StartAttack(Animator animator)
