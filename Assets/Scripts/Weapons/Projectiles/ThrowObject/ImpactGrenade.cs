@@ -6,7 +6,8 @@ public class ImpactGrenade : GrenadeObject
 {
 	private void OnCollisionEnter(Collision collision)
 	{
-		GetComponent<Rigidbody>().isKinematic = true;
+		GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX;
+		GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ;
 		base.SetExplosion();
 	}
 }
