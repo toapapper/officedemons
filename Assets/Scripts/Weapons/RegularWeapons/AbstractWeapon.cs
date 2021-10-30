@@ -160,8 +160,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 			{
 				Effects.Damage(collision.gameObject, throwDamage);
 				Effects.ApplyWeaponEffects(collision.gameObject, effects);
-				isProjectile = false;
 			}
+			isProjectile = false;
 		}
 	}
 

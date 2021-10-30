@@ -6,7 +6,9 @@ public class BadCoffee : GrenadeObject
 {
 	private void OnCollisionEnter(Collision collision)
 	{
-		FOVVisualization.SetActive(true);
-		base.Explode();
+		base.SetExplosion();
+		//FOVVisualization.SetActive(true);
+		//base.CountdownTime(explodeTime);
+		//base.Explode();
 	}
 }

@@ -41,7 +41,7 @@ public class GrenadeObject : MonoBehaviour
 		this.effects = effects;
 	}
 
-	public void FixedUpdate()
+	public virtual void FixedUpdate()
 	{
 		if (isObjectThrown)
 		{
@@ -63,7 +63,7 @@ public class GrenadeObject : MonoBehaviour
 		Explode();
 	}
 
-	protected void Explode()
+	protected virtual void Explode()
 	{
 		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
 
