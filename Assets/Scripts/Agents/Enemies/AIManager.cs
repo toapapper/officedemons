@@ -101,7 +101,7 @@ public class AIManager : MonoBehaviour
             if (e.GetComponent<AIController>().CurrentlyMoving) //if still moving
             {
                 e.GetComponent<AIController>().Priorites = killOnSight; // ändra sen ?
-                //e.GetComponent<AIController>().PerformBehaviour();
+                e.GetComponent<AIController>().PerformBehaviour();
                 
                 allDone = false;
             }
