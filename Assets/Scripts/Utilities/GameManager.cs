@@ -21,11 +21,11 @@ public enum CombatState
 /// A singleton managing if it's the enemies turn or the players turn or you just aren't in combat.<br/>
 /// Also handles the turn timer and checks whether all is still.
 /// </para>
-///   
+///
 /// <para>
 ///  Author: Ossian
 /// </para>
-///  
+///
 /// </summary>
 
 /*
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     private Encounter currentEncounter;
     private List<GameObject> stillCheckList = new List<GameObject>();
-    
+
     private MultipleTargetCamera mainCamera;
 
     public CombatState CurrentCombatState { get { return combatState; } }
@@ -82,25 +82,14 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         #region are all the needed gameObjects still-check
-        AllStill = true;
+        allStill = true;
         Utilities.CleanList(stillCheckList);
         foreach(GameObject gObject in stillCheckList)
         {
-            if (gObject.CompareTag("Player"))
+            if (gObject.CompareTag("Projectile"))
             {
-                if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
-                {
-                    AllStill = false;
-                }
-			}
-            else if (gObject.CompareTag("Enemy"))
-            {
-                if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
-                {
-                    AllStill = false;
-                }
+                allStill = false;
             }
-            //continue with more else ifs for different types of gameObjects
         }
         #endregion
 
@@ -171,7 +160,7 @@ public class GameManager : MonoBehaviour
         roundTimer = RoundTime;
         PlayerManager.Instance.BeginCombat();
         // Add all objects in checklist to maincamera
-        mainCamera.ObjectsInCamera = stillCheckList; 
+        mainCamera.ObjectsInCamera = stillCheckList;
     }
 
     /// <summary>

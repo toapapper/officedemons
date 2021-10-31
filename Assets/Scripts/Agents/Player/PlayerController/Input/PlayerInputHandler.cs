@@ -23,6 +23,7 @@ public class PlayerInputHandler : MonoBehaviour
 	private PlayerStateController player;
 	private PlayerMovementController playerMovement;
 	private WeaponHand weaponHand;
+	private SpecialHand specialHand;
 
 	//World transform variables
 	private Vector3 forward;
@@ -61,10 +62,11 @@ public class PlayerInputHandler : MonoBehaviour
 		player = GetComponent<PlayerStateController>();
 		playerMovement = GetComponent<PlayerMovementController>();
 		weaponHand = GetComponent<WeaponHand>();
+		specialHand = GetComponent<SpecialHand>();
 
 		//if you spawned while the game was running this will be set to true.
 		//It's here just in order to put you into the proper state, if for example you where to spawn in combat.
-        if (recentlySpawned)
+		if (recentlySpawned)
         {
 			GetComponent<PlayerStateController>().Revive();
 			recentlySpawned = false;
@@ -120,27 +122,59 @@ public class PlayerInputHandler : MonoBehaviour
 				}
 				else if (context.action.name == inputControls.PlayerMovement.Special.name)
 				{
-					if (context.performed)
+					if (player.CurrentState.IsActionTriggered)
 					{
-						if (!player.CurrentState.IsActionTriggered)
-						{
-							player.OnSpecial();
-						}
-						else
+						if (context.performed)
 						{
 							player.CancelAction();
-							if (isAddingThrowForce)
+						}
+						else if(specialHand.objectInHand is CoffeeSpecial && context.canceled)
+						{
+							if (player.OnSpecialBombard())
 							{
-								addedThrowForce = 0;
-								weaponHand.SetThrowForce(addedThrowForce);
-							}
-							else if (isAddingBombardForce)
-							{
+								isAddingBombardForce = false;
 								addedBombardForce = 0;
-								weaponHand.SetBombardForce(addedBombardForce);
 							}
 						}
 					}
+					else if (context.performed)
+					{
+						if (specialHand.objectInHand is CoffeeSpecial)
+						{
+							if (player.OnStartSpecialBombard())
+							{
+								playerMovement.MoveAmount = Vector3.zero;
+								isAddingBombardForce = true;
+							}
+						}
+						else
+						{
+							player.OnSpecial();
+						}
+					}
+
+
+					//if (context.performed)
+					//{
+					//	if (!player.CurrentState.IsActionTriggered)
+					//	{
+					//		player.OnSpecial();
+					//	}
+					//	else
+					//	{
+					//		player.CancelAction();
+					//		if (isAddingThrowForce)
+					//		{
+					//			addedThrowForce = 0;
+					//			weaponHand.SetThrowForce(addedThrowForce);
+					//		}
+					//		else if (isAddingBombardForce)
+					//		{
+					//			addedBombardForce = 0;
+					//			weaponHand.SetBombardForce(addedBombardForce);
+					//		}
+					//	}
+					//}
 				}
 				else if (context.action.name == inputControls.PlayerMovement.PickUp.name)
 				{
@@ -228,9 +262,12 @@ public class PlayerInputHandler : MonoBehaviour
 			{
 				addedBombardForce += bombardForceMultiplier * Time.fixedDeltaTime;
 				weaponHand.SetBombardForce(addedBombardForce);
+				specialHand.SetBombardForce(addedBombardForce);
 			}
 		}
 	}
+
+	
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -256,5 +293,10 @@ public class PlayerInputHandler : MonoBehaviour
 		{
 			nearbyPlayers.Remove(other.gameObject);
 		}
+	}
+
+	public void RemoveObjectFromWeaponList(GameObject weapon)
+	{
+		nearbyObjects.Remove(weapon);
 	}
 }

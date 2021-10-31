@@ -6,13 +6,13 @@ using UnityEngine;
 /// <para>
 /// Control characters weapon hand
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>
 /// </summary>
 
-// Last Edited: 15/10-21
+// Last Edited: 15/10-29
 public class WeaponHand : MonoBehaviour
 {
 	private Animator animator;
@@ -36,7 +36,7 @@ public class WeaponHand : MonoBehaviour
 	public AbstractWeapon objectInHand;
 
 	private Gradient aimGradient;
-	
+
 	private float throwForce;
 
 	public ThrowAim ThrowAim
@@ -121,18 +121,31 @@ public class WeaponHand : MonoBehaviour
 		FOV.ViewRadius = objectInHand.ViewDistance;
 	}
 
-    //Attack
-    public void StartAttack()
+	//Unequip weapon
+	public void DropWeapon()
     {
-        if (objectInHand != null)
-        {
-            objectInHand.StartAttack(animator);
-        }
-        else
-        {
-            animator.SetTrigger("isStartHandAttack");
-        }
-    }
+		objectInHand.Drop();
+		foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
+		{
+			collider.enabled = true;
+		}
+		objectInHand = null;
+		FOV.ViewRadius = handHitDistance;
+		FOV.ViewAngle = handHitAngle;
+	}
+
+	//Attack
+	public void StartAttack()
+	{
+		if (objectInHand != null)
+		{
+			objectInHand.StartAttack(animator);
+		}
+		else
+		{
+			animator.SetTrigger("isStartHandAttack");
+		}
+	}
 	public void Attack()
 	{
 		if (objectInHand != null)
@@ -237,7 +250,7 @@ public class WeaponHand : MonoBehaviour
 			throwForce = 0;
 			objectInHand = null;
 			FOV.ViewAngle = handHitAngle;
-			FOV.ViewRadius = handHitDistance;			
+			FOV.ViewRadius = handHitDistance;
 		}
 	}
 }
