@@ -74,7 +74,7 @@ public class AIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Calls every AI-agent's "update" (AIController.PeformBehaviour).
+    /// Calls every AI-agent's "update" (AIController.PerformBehaviour).
     /// Checks if agents are dead or all have locked in actions.
     /// </summary>
     /// <param name=""></param>
@@ -83,7 +83,7 @@ public class AIManager : MonoBehaviour
         bool allDone = true;
         bool allDead = true;
 
-        List<GameObject> killOnSight = new List<GameObject>();
+        List<GameObject> killOnSight = new List<GameObject>(); 
 
         for (int i = 0; i < playerList.Count; i++)
         {
@@ -97,10 +97,11 @@ public class AIManager : MonoBehaviour
         for(int i = 0; i < enemyList.Count; i++)
         {
             GameObject e = enemyList[i];
-            if (!e.GetComponent<AIController>().ActionIsLocked)
+
+            if (e.GetComponent<AIController>().CurrentlyMoving) //if still moving
             {
-                e.GetComponent<AIController>().Priorites = killOnSight;
-                e.GetComponent<AIController>().PerformBehaviour();
+                e.GetComponent<AIController>().Priorites = killOnSight; // ändra sen ?
+                //e.GetComponent<AIController>().PerformBehaviour();
                 
                 allDone = false;
             }
