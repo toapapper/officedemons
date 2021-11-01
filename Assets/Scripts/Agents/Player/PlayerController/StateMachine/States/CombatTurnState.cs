@@ -149,9 +149,6 @@ public class CombatTurnState : AbstractPlayerState
 			Debug.Log("Chosenaction: " + ChosenAction);
 			PlayerManager.Instance.ActionDone(gameObject);
 		}
-		IsActionLocked = true;
-		//Debug.Log("Chosenaction: " + ChosenAction);
-		PlayerManager.Instance.ActionDone(gameObject);
 	}
 
 	public override void CancelAction()
