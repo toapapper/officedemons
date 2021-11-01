@@ -22,7 +22,6 @@ public class SwingWeapon : MeleeWeapon
 	public override void Attack(Animator animator)
 	{
 		animator.SetTrigger("isMeleeSwing");
-		Debug.Log("MeleeSwing " + Damage);
 		base.Attack(animator);
 	}
 }
