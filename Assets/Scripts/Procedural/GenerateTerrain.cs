@@ -19,6 +19,10 @@ public class GenerateTerrain : MonoBehaviour
     /// <summary>Material used to create walls</summary>
     [SerializeField]
     private GameObject quadPrefabWalls;
+
+    [SerializeField]
+    private List<GameObject> housesPrefabs = new List<GameObject>();
+
     /// <summary>Material used to create walkable floor</summary>
     [SerializeField]
     private GameObject quadPrefabWalkable;
@@ -31,7 +35,8 @@ public class GenerateTerrain : MonoBehaviour
     /// <summary> A list of all floors </summary>
     private List<GameObject> cubes = new List<GameObject>();
 
-
+    [SerializeField]
+    private float minSizeHouses = 5;
     /// <summary>
     /// Instansiates a ground model from a quad prefab.
     /// </summary>
@@ -98,8 +103,10 @@ public class GenerateTerrain : MonoBehaviour
 
         else if (nextDirection == 1)
         {
-            GameObject rightWall = Instantiate(quadPrefabWalls, new Vector3(node.origin.x + node.size.x, howTall / 2, node.origin.y + node.size.y / 2), Quaternion.Euler(new Vector3(0, 90, 0)));
-            rightWall.transform.localScale = new Vector3(node.size.y, howTall, wallSize.y);
+
+            //GameObject rightWall = Instantiate(quadPrefabWalls, new Vector3(node.origin.x + node.size.x, howTall / 2, node.origin.y + node.size.y / 2), Quaternion.Euler(new Vector3(0, 90, 0)));
+            GameObject rightWall = Instantiate(housesPrefabs[0], new Vector3(node.origin.x + node.size.x + GetXScale(node,nextSize, lastSize, minSizeHouses), node.size.y / 2, node.origin.y + node.size.y / 2), Quaternion.Euler(new Vector3(-90, 0, 0)));
+            rightWall.transform.localScale = new Vector3(GetXScale(node, nextSize, lastSize, minSizeHouses), node.size.y / 2, node.size.y / 2);
             rightWall.transform.parent = level.transform;
             rightWall.name = "rightWall2";
 
@@ -112,7 +119,7 @@ public class GenerateTerrain : MonoBehaviour
             }
             else if (lastDirection == 0)
             {
-                GameObject downWall = Instantiate(quadPrefabWalls, new Vector3(node.origin.x + node.size.x / 2, howTall / 2 /*+ howTall/100*/, node.origin.y), Quaternion.Euler(new Vector3(0, 180, 0)));
+                GameObject downWall = Instantiate(housesPrefabs[0], new Vector3(node.origin.x + node.size.x / 2, howTall / 2, node.origin.y), Quaternion.Euler(new Vector3(-90, 90, 0)));
                 downWall.transform.localScale = new Vector3(node.size.x, howTall, wallSize.y);
                 downWall.transform.parent = level.transform;
                 downWall.name = "downWall2";
@@ -120,10 +127,10 @@ public class GenerateTerrain : MonoBehaviour
             //next room has a smaller size so make a wall to cover it up
             if (node.size.x > nextSize.x)
             {
-                GameObject upWallsmall = Instantiate(quadPrefabWalls, new Vector3(node.origin.x + nextSize.x + ((node.size.x - nextSize.x)/2), howTall / 2, node.origin.y + node.size.y), Quaternion.identity);
-                upWallsmall.transform.localScale = new Vector3(node.size.x - nextSize.x, howTall, wallSize.y);
-                upWallsmall.transform.parent = level.transform;
-                upWallsmall.name = "upWallsmall";
+                //GameObject upWallsmall = Instantiate(quadPrefabWalls, new Vector3(node.origin.x + nextSize.x + ((node.size.x - nextSize.x)/2), howTall / 2, node.origin.y + node.size.y), Quaternion.identity);
+                //upWallsmall.transform.localScale = new Vector3(node.size.x - nextSize.x, howTall, wallSize.y);
+                //upWallsmall.transform.parent = level.transform;
+                //upWallsmall.name = "upWallsmall";
             }
         }
 
@@ -145,12 +152,39 @@ public class GenerateTerrain : MonoBehaviour
             //next room has a smaller size so make a wall to cover it up
             if (node.size.x > lastSize.x)
             {
-                GameObject downWallsmall = Instantiate(quadPrefabWalls, new Vector3(node.origin.x + lastSize.x + ((node.size.x - lastSize.x) / 2), howTall / 2 /*+ howTall/100*/, node.origin.y), Quaternion.Euler(new Vector3(0, 180, 0)));
-                downWallsmall.transform.localScale = new Vector3(node.size.x - lastSize.x, howTall, wallSize.y);
-                downWallsmall.transform.parent = level.transform;
-                downWallsmall.name = "downWallsmall";
+                //GameObject downWallsmall = Instantiate(quadPrefabWalls, new Vector3(node.origin.x + lastSize.x + ((node.size.x - lastSize.x) / 2), howTall / 2 /*+ howTall/100*/, node.origin.y), Quaternion.Euler(new Vector3(0, 180, 0)));
+                //downWallsmall.transform.localScale = new Vector3(node.size.x - lastSize.x, howTall, wallSize.y);
+                //downWallsmall.transform.parent = level.transform;
+                //downWallsmall.name = "downWallsmall";
 
             }
         }
+    }
+
+
+    private float GetXScale(Node node, Vector2 nextSize, Vector2 lastSize, float minSize)
+    {
+        float x = 0;
+        if (nextSize.x > lastSize.x)
+        {
+            if (node.size.x < nextSize.x)
+            {
+                x = nextSize.x - node.size.x;
+                x = x / 2;
+            }
+        }
+        else
+        {
+            if (node.size.x < lastSize.x)
+            {
+                x = lastSize.x - node.size.x;
+                x = x / 2;
+            }
+        }
+        if (x < minSize)
+        {
+            x = minSize;
+        }
+        return x;
     }
 }
