@@ -55,7 +55,7 @@ public class StatusEffectHandler : MonoBehaviour
     private const int bleedDamage = 10;
     private const float bleedDrain = .5f;//stam drain, per stack
     private const int poisonDamage = 10;
-    private const float posionAccuracyLoss = .20f;//procents avikelse eller något. ------------NOT IMPLEMENTED----------!!!!!!!!!!!!--------NOT IMPLEMENTED----!!!!!!!!!!!!!
+    public const float posionAccuracyLoss = 20;//accuracy units lost. Check RangedWeapon.cs to further understand
     private const float staminaDrain = .8f;
     private const float vulnerableMod = .3f;//percent increased damage per stack
     private const int healOverTime = 20;

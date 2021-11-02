@@ -23,6 +23,10 @@ public static class Effects
 			Heal(target, -damage);
 			return;
         }
+		else if(damage == 0)
+        {
+			return;
+        }
 
 		int dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
 		target.GetComponent<Attributes>().Health -= dmg;
@@ -37,6 +41,10 @@ public static class Effects
 			Damage(target, amount);
 			return;
         }
+		else if(amount == 0)
+        {
+			return;
+        }
 
 		target.GetComponent<Attributes>().Health += (int)amount;
 
@@ -45,6 +53,11 @@ public static class Effects
 
 	public static void DrainStamina(GameObject target, float drain)
     {
+		if(drain == 0)
+        {
+			return;
+        }
+
 		target.GetComponent<Attributes>().Stamina -= drain;
 		UIManager.Instance.NewFloatingText(target, "-" + drain + " Stamina", Color.yellow);
     }
