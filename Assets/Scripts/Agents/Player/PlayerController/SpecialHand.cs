@@ -30,16 +30,18 @@ public class SpecialHand : MonoBehaviour
 
 	private void Start()
 	{
-		FOV.ViewRadius = objectInHand.ViewDistance;
-		FOV.ViewAngle = objectInHand.ViewAngle;
-
-		SetAimGradient();
-
-		if (throwAim != null)
+		if (objectInHand)
 		{
-			throwAim.gameObject.SetActive(true);
-			throwAim.GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
-			throwAim.gameObject.SetActive(false);
+			FOV.ViewRadius = objectInHand.ViewDistance;
+			FOV.ViewAngle = objectInHand.ViewAngle;
+
+			SetAimGradient();
+			if (throwAim != null)
+			{
+				throwAim.gameObject.SetActive(true);
+				throwAim.GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
+				throwAim.gameObject.SetActive(false);
+			}
 		}
 	}
 
@@ -58,23 +60,32 @@ public class SpecialHand : MonoBehaviour
 	}
 	public void ToggleAimView(bool isActive)
 	{
-		objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
+		if (objectInHand)
+		{
+			objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
+		}
 	}
 
 	//Attack
 	public void StartAttack()
 	{
-		objectInHand.StartAttack(animator);
+		if (objectInHand)
+		{
+			objectInHand.StartAttack(animator);
+		}
 	}
 	public void Attack()
 	{
-		objectInHand.Attack(animator);
+		if (objectInHand)
+		{
+			objectInHand.Attack(animator);
+		}
 	}
 
 	//Bombard attack
 	public bool StartBombard()
 	{
-		if (objectInHand is CoffeeSpecial)
+		if (objectInHand && objectInHand is CoffeeSpecial)
 		{
 			objectInHand.StartAttack(animator);
 			return true;
@@ -83,7 +94,7 @@ public class SpecialHand : MonoBehaviour
 	}
 	public bool SetBombardForce(float bombardForce)
 	{
-		if (objectInHand is CoffeeSpecial)
+		if (objectInHand && objectInHand is CoffeeSpecial)
 		{
 			throwAim.initialVelocity = bombardForce;
 			return true;
@@ -92,7 +103,7 @@ public class SpecialHand : MonoBehaviour
 	}
 	public bool PerformBombard()
 	{
-		if (objectInHand is CoffeeSpecial)
+		if (objectInHand && objectInHand is CoffeeSpecial)
 		{
 			objectInHand.Attack(animator);
 			return true;
