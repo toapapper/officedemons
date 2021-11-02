@@ -119,6 +119,67 @@
 						<ActiveSource Name="HOLYGRENADE" ID="{81DF0ECA-62B1-4033-B0E7-52A789FD5DD5}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
+				<Sound Name="Office_Bossa_Elvin Matz_15-10" ID="{50385F74-A2E1-4A84-89D7-BAD5998D06AF}" ShortID="663917348">
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-5</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="Office_Bossa_Elvin Matz_15-10" ID="{711EAD09-F147-43A7-A4CF-BA4C90AD4184}">
+							<Language>SFX</Language>
+							<AudioFile>Office_Bossa_Elvin Matz_15-10.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="330122434"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ObjectLists/>
+					<ActiveSourceList>
+						<ActiveSource Name="Office_Bossa_Elvin Matz_15-10" ID="{711EAD09-F147-43A7-A4CF-BA4C90AD4184}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP_LRLsRs" ID="{554E7C6F-89B1-4378-B204-B5C6EA0F6EF7}" ShortID="1044847193">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-8</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP_LRLsRs" ID="{F6931D8B-3B79-46BB-8608-B8D449BB6640}">
+							<Language>SFX</Language>
+							<AudioFile>AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP.LRLsRs.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="835688430"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ObjectLists/>
+					<ActiveSourceList>
+						<ActiveSource Name="AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP_LRLsRs" ID="{F6931D8B-3B79-46BB-8608-B8D449BB6640}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>

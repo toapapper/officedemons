@@ -13,6 +13,7 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID PLAY_AMBIENCE_HALL_LARGE__ENTRANCE__OFFICE_BUILDING__MORNING__DOWNTOWN_CHICAGO__USA__LOOP_LRLSRS = 1546138968U;
         static const AkUniqueID PLAY_DING = 2028513310U;
         static const AkUniqueID PLAY_OFFICE_BOSSA_ELVIN_MATZ_15_10 = 450519720U;
     } // namespace EVENTS
