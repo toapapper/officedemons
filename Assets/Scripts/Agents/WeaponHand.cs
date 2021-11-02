@@ -84,7 +84,7 @@ public class WeaponHand : MonoBehaviour
 		GradientAlphaKey[] alphaKey = new GradientAlphaKey[2];
 		alphaKey[0].alpha = 1;
 		alphaKey[1].time = 1;
-		alphaKey[1].alpha = 0;
+		alphaKey[1].alpha = 0.5f;
 		aimGradient.SetKeys(colorKey, alphaKey);
 	}
 	public void ToggleAimView(bool isActive)
