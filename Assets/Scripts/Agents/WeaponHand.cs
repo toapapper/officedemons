@@ -124,6 +124,11 @@ public class WeaponHand : MonoBehaviour
 	//Unequip weapon
 	public void DropWeapon()
     {
+		if(objectInHand = null)
+        {
+			return;
+        }
+
 		objectInHand.Drop();
 		foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
 		{
