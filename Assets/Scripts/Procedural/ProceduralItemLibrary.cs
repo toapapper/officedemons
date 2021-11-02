@@ -17,11 +17,16 @@ public class ProceduralItemLibrary : MonoBehaviour
 
     public Dictionary<Vector2, GameObject> itemLibrary;
     public List<GameObject> itemList = new List<GameObject>();
-    
+
+
+    private Dictionary<Vector2, GameObject> housesDictonary;
+    [SerializeField]
+    private List<GameObject> houses = new List<GameObject>();
+
+
     private void Awake()
     {
         Instance = this;
-        //itemLibrary = new Dictionary<Vector2, GameObject>();     
     }
 
     private void Start()
@@ -29,8 +34,15 @@ public class ProceduralItemLibrary : MonoBehaviour
         itemLibrary = new Dictionary<Vector2, GameObject>();
         for (int i = 0; i < itemList.Count; i++)
         {
-            itemLibrary.Add(new Vector2(itemList[i].transform.localScale.x, itemList[i].transform.localScale.z), itemList[i]);
+            itemLibrary.Add(new Vector2(itemList[i].GetComponent<BoxCollider>().size.x, itemList[i].transform.localScale.z), itemList[i]);
         }
+
+        housesDictonary = new Dictionary<Vector2, GameObject>();
+        for (int i = 0; i < houses.Count; i++)
+        {
+            housesDictonary.Add(new Vector2(houses[i].GetComponent<BoxCollider>().size.x, houses[i].GetComponent<BoxCollider>().size.y), houses[i]);
+        }
+
     }
     /// <summary>
     /// Gets an item from the dictinary with the right key value.
