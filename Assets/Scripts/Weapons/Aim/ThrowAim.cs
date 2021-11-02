@@ -91,6 +91,7 @@ public class ThrowAim : MonoBehaviour
                     lineRenderer.SetPosition(lineRenderer.positionCount - 1, newPosition);
                     break;
                 }
+
 				newPosition = hit.point;
 				u = Vector3.Dot(velocity, hit.normal) * hit.normal;
                 w = velocity - u;
