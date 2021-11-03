@@ -56,8 +56,9 @@ public class WeaponHand : MonoBehaviour
     {
 		if (objectInHand != null)
 		{
-			FOV.ViewRadius = objectInHand.ViewDistance;
-			FOV.ViewAngle = objectInHand.ViewAngle;
+			Equip(objectInHand.gameObject);
+			//FOV.ViewRadius = objectInHand.ViewDistance;
+			//FOV.ViewAngle = objectInHand.ViewAngle;
 		}
 		else
 		{
