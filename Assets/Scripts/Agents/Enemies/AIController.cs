@@ -29,6 +29,20 @@ public class AIController : MonoBehaviour
     private GameObject target;
     private Class aiClass;
 
+    private bool inActiveEncounter = false;
+    public bool InActiveEncounter
+    {
+        get { return inActiveEncounter; }
+        set { inActiveEncounter = value; }
+    }
+
+    private bool currentlyMoving;
+    public bool CurrentlyMoving
+    {
+        get { return currentlyMoving; }
+        set { currentlyMoving = value; }
+    }
+
     List<GameObject> priorites;
     public List<GameObject> Priorites
     {
@@ -100,7 +114,13 @@ public class AIController : MonoBehaviour
                 {
                     currentState = AIStates.States.Wait;
                 }
+
                 EnemyActions.MoveTowards(navMeshAgent, closestPlayer);
+                if (!CurrentlyMoving)
+                {
+                    currentState = AIStates.States.Unassigned;
+                }
+
                 break;
 
             case AIStates.States.Wait:
