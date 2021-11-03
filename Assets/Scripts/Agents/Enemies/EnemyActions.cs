@@ -22,9 +22,12 @@ public static class EnemyActions
 {
     public static void MoveTowards(NavMeshAgent agent, GameObject target)
     {
+        agent.gameObject.GetComponent<AIController>().CurrentlyMoving = true;
         agent.isStopped = false;
 
         agent.SetDestination(target.transform.position);
         agent.gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
+
+        agent.gameObject.GetComponent<AIController>().CurrentlyMoving = false;
     }
 }

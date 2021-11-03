@@ -18,16 +18,20 @@ public static class Effects
 {
     public static void Damage(GameObject target, float damage)
 	{
-		if(damage < 0)
+        if(target.tag != "Enemy" || target.GetComponent<AIController>().InActiveEncounter)
         {
-			Heal(target, -damage);
-			return;
+            if (damage < 0)
+            {
+                Heal(target, -damage);
+                return;
+            }
+
+            int dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
+            target.GetComponent<Attributes>().Health -= dmg;
+
+            UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
         }
-
-		int dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
-		target.GetComponent<Attributes>().Health -= dmg;
-
-		UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
+		
 	}
 
 	public static void Heal(GameObject target, float amount)
@@ -115,7 +119,10 @@ public static class Effects
 
 	public static void ApplyForce(GameObject target, Vector3 force)
 	{
-		target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
+        if (target.tag != "Enemy" || target.GetComponent<AIController>().InActiveEncounter)
+        {
+            target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
+        }
 	}
 
 	public static void Die(GameObject target)
