@@ -28,7 +28,14 @@ public class AIController : MonoBehaviour
     private WeaponHand weapon;
     private GameObject target;
     private Class aiClass;
-    
+
+    private bool inActiveEncounter = false;
+    public bool InActiveEncounter
+    {
+        get { return inActiveEncounter; }
+        set { inActiveEncounter = value; }
+    }
+
     private bool currentlyMoving;
     public bool CurrentlyMoving
     {
