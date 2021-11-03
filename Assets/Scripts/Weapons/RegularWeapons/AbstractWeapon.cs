@@ -40,6 +40,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 	[SerializeField] protected List<WeaponEffects> effects;
 
 	[SerializeField]
+	protected GameObject holderAgent;
+	[SerializeField]
 	private GameObject handle;
 	[SerializeField]
 	private float damage = 10;
@@ -103,6 +105,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 
 	public void PickUpIn(GameObject hand)
 	{
+		holderAgent = hand.transform.parent.gameObject;
 		isHeld = true;
 		handle.GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<Rigidbody>().isKinematic = true;

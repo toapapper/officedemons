@@ -334,9 +334,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quadPrefabWalls: {fileID: 2597626372045865958, guid: d1ed816b8868d4e4293b05322a391c9d, type: 3}
+  housesPrefabs:
+  - {fileID: 1501946576413933705, guid: aa8368df74c71364aa1b1926dc234264, type: 3}
+  - {fileID: 4779148595932934785, guid: 8c550570e924066469081c6eef2f469f, type: 3}
   quadPrefabWalkable: {fileID: 854518448225280264, guid: ae6a357c94ea55548aa65854ccc17394, type: 3}
   level: {fileID: 1731037152}
   mat: {fileID: 2100000, guid: 1a9cfe5b8af618149a8472b1fd640d3e, type: 2}
+  minSizeHouses: 5
 --- !u!4 &346796501
 Transform:
   m_ObjectHideFlags: 0
@@ -349,7 +353,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &346796503
 MonoBehaviour:
@@ -498,7 +502,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &748482248
 GameObject:
@@ -705,7 +709,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1332452899
 GameObject:
@@ -989,7 +993,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1504360051
 MonoBehaviour:
@@ -1264,7 +1268,7 @@ RectTransform:
   - {fileID: 1429356650}
   - {fileID: 748482249}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

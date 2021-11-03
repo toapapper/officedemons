@@ -56,8 +56,9 @@ public class WeaponHand : MonoBehaviour
     {
 		if (objectInHand != null)
 		{
-			FOV.ViewRadius = objectInHand.ViewDistance;
-			FOV.ViewAngle = objectInHand.ViewAngle;
+			Equip(objectInHand.gameObject);
+			//FOV.ViewRadius = objectInHand.ViewDistance;
+			//FOV.ViewAngle = objectInHand.ViewAngle;
 		}
 		else
 		{
@@ -84,7 +85,7 @@ public class WeaponHand : MonoBehaviour
 		GradientAlphaKey[] alphaKey = new GradientAlphaKey[2];
 		alphaKey[0].alpha = 1;
 		alphaKey[1].time = 1;
-		alphaKey[1].alpha = 0;
+		alphaKey[1].alpha = 0.5f;
 		aimGradient.SetKeys(colorKey, alphaKey);
 	}
 	public void ToggleAimView(bool isActive)
@@ -124,6 +125,11 @@ public class WeaponHand : MonoBehaviour
 	//Unequip weapon
 	public void DropWeapon()
     {
+		if(objectInHand = null)
+        {
+			return;
+        }
+
 		objectInHand.Drop();
 		foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
 		{
