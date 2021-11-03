@@ -40,7 +40,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	[SerializeField] protected List<WeaponEffects> effects;
 
 	[SerializeField]
-	private GameObject holderAgent;
+	protected GameObject holderAgent;
 	[SerializeField]
 	private GameObject handle;
 	[SerializeField]
