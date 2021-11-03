@@ -87,7 +87,7 @@ public class BSPTree : MonoBehaviour
         generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection, size,lastRoot.size,new Vector2(1,1), heightLimits.y);
 
         //Bakes a navMesh on the generated level
-        level.GetComponent<NavigationBaker>().BakeNavMesh();
+         level.GetComponent<NavigationBaker>().BakeNavMesh();
     }
 
     /// <summary>
