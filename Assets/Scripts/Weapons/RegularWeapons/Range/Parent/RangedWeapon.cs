@@ -25,9 +25,9 @@ public abstract class RangedWeapon : AbstractWeapon
 	[SerializeField]
 	protected GameObject bullet;
 
-	[Tooltip("100 means pinpoint accurate. 0 means the shot might go as far as 90 degrees off from where you aim")] 
+	[Tooltip("The maximum amount of degrees away from the direction aimed that a projectile might fly, so the cone has the angle of two times this number")]
 	[SerializeField]
-	protected float accuracy = 100;
+	protected float inAccuracy = 3;
 
 	[SerializeField]
 	protected GameObject AimCone;
