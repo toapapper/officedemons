@@ -21,7 +21,6 @@ public class FitnessFunction : MonoBehaviour
 
     [SerializeField]
     private Vector2 bigRoomMultiplier = new Vector2(2,4);
-    private SpawnItemsFromLibrary itemLibrary;
     private List<Node> lbNodes;
     [SerializeField]
     private int encounterFreq = 3;
@@ -37,7 +36,6 @@ public class FitnessFunction : MonoBehaviour
 
     private void Start()
     {
-        itemLibrary = GetComponent<SpawnItemsFromLibrary>();
         lbNodes = new List<Node>();
     }
     /// <summary>
@@ -132,10 +130,10 @@ public class FitnessFunction : MonoBehaviour
             {
                 if (nodes[i].leaf)
                 {
-                    itemLibrary.FindClosestKey(nodes[i]);
+                    SpawnItemsFromLibrary.Instance.FindClosestKey(nodes[i], ProceduralItemLibrary.Instance.itemLibrary);
                     if(nodes[i].size != Vector2.zero)
                     {
-                        itemLibrary.SpawnItems(nodes[i], root);
+                        SpawnItemsFromLibrary.Instance.SpawnItems(nodes[i], root);
                     }
                 }
             }
@@ -173,7 +171,7 @@ public class FitnessFunction : MonoBehaviour
         //else
         //    fitness += 10;
 
-        if (itemLibrary.SeeClosestKey(node).name == "Loot" && itemLibrary.SeeClosestKey(node) != null && node.size != Vector2.zero)
+        if (SpawnItemsFromLibrary.Instance.SeeClosestKey(node).name == "Loot" && SpawnItemsFromLibrary.Instance.SeeClosestKey(node) != null && node.size != Vector2.zero)
         {
             Debug.Log("Loot found");
             specials++;
@@ -205,7 +203,7 @@ public class FitnessFunction : MonoBehaviour
         }
 
         //Additional values.
-        if (itemLibrary.SeeClosestKey(node).name == "Hurdles" && itemLibrary.SeeClosestKey(node) != null && node.size != Vector2.zero)
+        if (SpawnItemsFromLibrary.Instance.SeeClosestKey(node).name == "Hurdles" && SpawnItemsFromLibrary.Instance.SeeClosestKey(node) != null && node.size != Vector2.zero)
         {
             Debug.Log("Hurdle found");
             specials++;
@@ -248,10 +246,10 @@ public class FitnessFunction : MonoBehaviour
             if (lbNodes[i].leaf)
             {
                 BufferMaker(out lbNodes[i].size.x, out lbNodes[i].size.y, lbNodes[i]);
-                itemLibrary.FindClosestKey(lbNodes[i]);
+                SpawnItemsFromLibrary.Instance.FindClosestKey(lbNodes[i], ProceduralItemLibrary.Instance.itemLibrary);
                 if (lbNodes[i].size != Vector2.zero)
                 {
-                    itemLibrary.SpawnItems(lbNodes[i], lbRoot);
+                    SpawnItemsFromLibrary.Instance.SpawnItems(lbNodes[i], lbRoot);
                 }
             }
         }
