@@ -14,6 +14,8 @@ using UnityEngine;
 // Last Edited: 21-10-2021
 public class WeaponInitializer : MonoBehaviour
 {  
+
+
     void Start()
     {
         //If a level is created using the PCG level creator, then this script is only called once.
@@ -35,7 +37,13 @@ public class WeaponInitializer : MonoBehaviour
     /// <param name="name">The randomly generated name from a list of named attributes</param>
     private void GetStats(string name)
     {
-        int rnd = UnityEngine.Random.Range(0, 100);
+        int rarityLowestValue = 0;
+        rarityLowestValue = FitnessFunction.Instance.RoomCounter;
+        if (rarityLowestValue >= 50)
+        {
+            rarityLowestValue = 50;
+        }
+        int rnd = UnityEngine.Random.Range(rarityLowestValue, 100);
         string rarity = "";
         WeaponStatsGeneration stats;
         if(WeaponList.weaponDictionary.TryGetValue(name, out stats))

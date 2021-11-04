@@ -180,10 +180,18 @@ public class GenerateTerrain : MonoBehaviour
             }
             else if (lastDirection == 1)
             {
-                //GameObject leftWall = Instantiate(quadPrefabWalls, new Vector3(node.origin.x, howTall / 2, node.origin.y + node.size.y / 2), Quaternion.Euler(new Vector3(0, -90, 0)));
-                //leftWall.transform.localScale = new Vector3(node.size.y, howTall, wallSize.y);
-                //leftWall.transform.parent = level.transform;
-                //leftWall.name = "leftWall1";
+                //This will happen on the left wall before a turn
+                GameObject houseLeft1 = SpawnItemsFromLibrary.Instance.FindClosestKey(node.size, ProceduralItemLibrary.Instance.housesDictonary);
+                GameObject left1 = Instantiate(houseLeft1, new Vector3(node.origin.x,
+                    houseLeft1.transform.position.y,
+                    node.origin.y + node.size.y / 2), Quaternion.Euler(new Vector3(-90, 180, 0)));
+
+                left1.transform.localScale = new Vector3(left1.transform.localScale.x,
+                    left1.transform.localScale.y * GetRightSize(node, houseLeft1, false),
+                    left1.transform.localScale.z);
+
+                left1.transform.parent = level.transform;
+                left1.name = "houseLeft1";
             }
             //next room has a smaller size so make a wall to cover it up
             if (node.size.y > nextSize.y)
@@ -204,11 +212,18 @@ public class GenerateTerrain : MonoBehaviour
                 node.origin.y + node.size.y / 2), Quaternion.Euler(new Vector3(-90, 0, 0)));
 
             //y positon change to house.transform.position.y when origin is fixed
-
-            right2.transform.localScale = new Vector3(right2.transform.localScale.x,
+            //if the last node was bigger than ours and it was not a encounter room and the difference between the nodes are bigger than the house itself
+            if (lastSize.x > node.size.x && FitnessFunction.Instance.GetRoomFreq() != 0 && lastSize.x - node.size.x > houseRight2.GetComponent<BoxCollider>().size.x * houseRight2.transform.localScale.x)
+            {
+                right2.transform.localScale = new Vector3(ConvertSizeToScale(right2,lastSize.x - node.size.x,"x"),
                 right2.transform.localScale.y * GetRightSize(node, houseRight2, false),
                 right2.transform.localScale.z);
+            }
 
+
+            right2.transform.localScale = new Vector3(right2.transform.localScale.x,
+            right2.transform.localScale.y * GetRightSize(node, houseRight2, false),
+            right2.transform.localScale.z);
             right2.transform.parent = level.transform;
             right2.name = "houseRight2";
 
@@ -261,20 +276,20 @@ public class GenerateTerrain : MonoBehaviour
                 //downWall.name = "downWall2";
             }
             //next room has a smaller size so make a wall to cover it up
-            if (node.size.x > nextSize.x * 1.5f)
+            if (node.size.x > nextSize.x * 2f)
             {
                 //  TODO
                 //Used so we don't clip the next building
                 GameObject nextRightHouse = SpawnItemsFromLibrary.Instance.FindClosestKey(nextSize, ProceduralItemLibrary.Instance.housesDictonary);
                 Vector2 houseUpSmallSize = new Vector2(node.size.x - nextSize.x - nextRightHouse.GetComponent<BoxCollider>().size.x * nextRightHouse.transform.localScale.x, node.size.x - nextSize.x - nextRightHouse.GetComponent<BoxCollider>().size.x * nextRightHouse.transform.localScale.x);
                 GameObject houseUpSmall = SpawnItemsFromLibrary.Instance.FindClosestKey(houseUpSmallSize, ProceduralItemLibrary.Instance.housesDictonary);
-                GameObject upSmall = Instantiate(houseUpSmall, new Vector3(node.origin.x + node.size.x - houseUpSmallSize.x / 2,
+                GameObject upSmall = Instantiate(houseUpSmall, new Vector3(node.origin.x + houseUpSmallSize.x / 2,
                     houseUpSmall.transform.position.y,
                     node.origin.y + node.size.y), Quaternion.Euler(new Vector3(-90, -90, 0)));
 
 
                 upSmall.transform.localScale = new Vector3(upSmall.transform.localScale.x,
-                    ConvertSizeToScale(upSmall, houseUpSmallSize.x),
+                    ConvertSizeToScale(upSmall, houseUpSmallSize.x,"y"),
                     upSmall.transform.localScale.z);
                 upSmall.transform.parent = level.transform;
                 upSmall.name = "houseUpSmall";
@@ -316,7 +331,7 @@ public class GenerateTerrain : MonoBehaviour
 
 
                 downSmall.transform.localScale = new Vector3(downSmall.transform.localScale.x,
-                    ConvertSizeToScale(downSmall, houseDownSmallSize.x),
+                    ConvertSizeToScale(downSmall, houseDownSmallSize.x, "y"),
                     downSmall.transform.localScale.z);
                 downSmall.transform.parent = level.transform;
                 downSmall.name = "houseDownSmall";
@@ -362,19 +377,45 @@ public class GenerateTerrain : MonoBehaviour
     }
 
     /// <summary>
-    /// ONLY TAKES Y AXIS ATM WILL CHANGE IF NEEDED
+    /// lower cases x,y,z
     /// </summary>
     /// <param name="go"></param>
     /// <param name="desiredSize"></param>
     /// <param name="axis"></param>
     /// <returns></returns>
-    private float ConvertSizeToScale(GameObject go, float desiredSize)
+    private float ConvertSizeToScale(GameObject go, float desiredSize, string axis)
     {
-        float multiplier = desiredSize / go.GetComponent<BoxCollider>().size.y;
+        float multiplier;
+        Vector3 localScaleTemp;
+        switch (axis)
+        {
+            case "x":
+                multiplier = desiredSize / go.GetComponent<BoxCollider>().size.x;
 
-        Vector3 localScaleTemp = go.transform.localScale;
+                localScaleTemp = go.transform.localScale;
 
-        localScaleTemp.y *= multiplier;
-        return localScaleTemp.y;
+                localScaleTemp.x *= multiplier;
+                return localScaleTemp.x;
+
+            case "y":
+                 multiplier = desiredSize / go.GetComponent<BoxCollider>().size.y;
+
+                localScaleTemp = go.transform.localScale;
+
+                localScaleTemp.y *= multiplier;
+                return localScaleTemp.y;
+
+            case "z":
+                multiplier = desiredSize / go.GetComponent<BoxCollider>().size.z;
+
+                localScaleTemp = go.transform.localScale;
+
+                localScaleTemp.z *= multiplier;
+                return localScaleTemp.z;
+            default:
+                break;
+        }
+
+        return 1;
     }
 }
