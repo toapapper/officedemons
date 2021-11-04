@@ -11,7 +11,7 @@ using UnityEngine.AI;
 /// </summary>
 /// 
 
-// Last Edited: 21/10/2021
+// Last Edited: 04/11/2021
 
 
 public class GenerateTerrain : MonoBehaviour
@@ -198,16 +198,15 @@ public class GenerateTerrain : MonoBehaviour
 
         else if (nextDirection == 1)
         {
-            GameObject houseRight2 = SpawnItemsFromLibrary.Instance.FindClosestKey(node, ProceduralItemLibrary.Instance.housesDictonary);
-            GameObject right2 = Instantiate(houseRight2, new Vector3(node.origin.x + node.size.x + (houseRight2.GetComponent<BoxCollider>().size.x * houseRight2.transform.localScale.x) / 2,
-                (houseRight2.GetComponent<BoxCollider>().size.y * houseRight2.transform.localScale.z)/2,
+            GameObject houseRight2 = SpawnItemsFromLibrary.Instance.FindClosestKey(node.size, ProceduralItemLibrary.Instance.housesDictonary);
+            GameObject right2 = Instantiate(houseRight2, new Vector3(node.origin.x + node.size.x,
+                houseRight2.transform.position.y,
                 node.origin.y + node.size.y / 2), Quaternion.Euler(new Vector3(-90, 0, 0)));
 
             //y positon change to house.transform.position.y when origin is fixed
 
-            //Could've made a temp variable but then there would have to be alot of them for every different wall.
             right2.transform.localScale = new Vector3(right2.transform.localScale.x,
-                right2.transform.localScale.y * GetRightSize(node, houseRight2),
+                right2.transform.localScale.y * GetRightSize(node, houseRight2, false),
                 right2.transform.localScale.z);
 
             right2.transform.parent = level.transform;
@@ -216,16 +215,16 @@ public class GenerateTerrain : MonoBehaviour
             if (lastDirection == 1)
             {
 
-                GameObject houseLeft2 = SpawnItemsFromLibrary.Instance.FindClosestKey(node, ProceduralItemLibrary.Instance.housesDictonary);
-                GameObject left2 = Instantiate(houseLeft2, new Vector3(node.origin.x - (houseLeft2.GetComponent<BoxCollider>().size.x * houseLeft2.transform.localScale.x) / 2,
-                    (houseLeft2.GetComponent<BoxCollider>().size.y * houseLeft2.transform.localScale.z) / 2,
+                GameObject houseLeft2 = SpawnItemsFromLibrary.Instance.FindClosestKey(node.size, ProceduralItemLibrary.Instance.housesDictonary);
+                GameObject left2 = Instantiate(houseLeft2, new Vector3(node.origin.x,
+                    houseLeft2.transform.position.y,
                     node.origin.y + node.size.y / 2), Quaternion.Euler(new Vector3(-90, 180, 0)));
 
                 //y positon change to house.transform.position.y when origin is fixed
 
                 //Could've made a temp variable but then there would have to be alot of them for every different wall.
                 left2.transform.localScale = new Vector3(left2.transform.localScale.x,
-                    left2.transform.localScale.y * GetRightSize(node, houseLeft2),
+                    left2.transform.localScale.y * GetRightSize(node, houseLeft2, false),
                     left2.transform.localScale.z);
 
                 left2.transform.parent = level.transform;
@@ -240,23 +239,42 @@ public class GenerateTerrain : MonoBehaviour
             }
             else if (lastDirection == 0)
             {
+
+                GameObject houseDown2 = SpawnItemsFromLibrary.Instance.FindClosestKey(node.size, ProceduralItemLibrary.Instance.housesDictonary);
+                GameObject down2 = Instantiate(houseDown2, new Vector3(node.origin.x + node.size.x / 2,
+                    houseDown2.transform.position.y,
+                    node.origin.y), Quaternion.Euler(new Vector3(-90, 90, 0)));
+
+                //y positon change to house.transform.position.y when origin is fixed
+
+                down2.transform.localScale = new Vector3(down2.transform.localScale.x,
+                    down2.transform.localScale.y * GetRightSize(node, houseDown2, true),
+                    down2.transform.localScale.z);
+
+                down2.transform.parent = level.transform;
+                down2.name = "houseDown2";
+
+
                 //GameObject downWall = Instantiate(quadPrefabWalls, new Vector3(node.origin.x + node.size.x / 2, howTall / 2, node.origin.y), Quaternion.Euler(new Vector3(0, 180, 0)));
                 //downWall.transform.localScale = new Vector3(node.size.x, howTall, wallSize.y);
                 //downWall.transform.parent = level.transform;
                 //downWall.name = "downWall2";
             }
             //next room has a smaller size so make a wall to cover it up
-            if (node.size.x > nextSize.x)
+            if (node.size.x > nextSize.x * 1.5f)
             {
                 //  TODO
-                GameObject houseUpSmall = SpawnItemsFromLibrary.Instance.FindClosestKey(node, ProceduralItemLibrary.Instance.housesDictonary);
-                GameObject upSmall = Instantiate(houseUpSmall, new Vector3(node.origin.x + node.size.x + (houseUpSmall.GetComponent<BoxCollider>().size.x * houseUpSmall.transform.localScale.x) / 2,
-                    (houseUpSmall.GetComponent<BoxCollider>().size.y * houseUpSmall.transform.localScale.z) / 2,
-                    node.origin.y + node.size.y / 2), Quaternion.Euler(new Vector3(-90, -90, 0)));
+                //Used so we don't clip the next building
+                GameObject nextRightHouse = SpawnItemsFromLibrary.Instance.FindClosestKey(nextSize, ProceduralItemLibrary.Instance.housesDictonary);
+                Vector2 houseUpSmallSize = new Vector2(node.size.x - nextSize.x - nextRightHouse.GetComponent<BoxCollider>().size.x * nextRightHouse.transform.localScale.x, node.size.x - nextSize.x - nextRightHouse.GetComponent<BoxCollider>().size.x * nextRightHouse.transform.localScale.x);
+                GameObject houseUpSmall = SpawnItemsFromLibrary.Instance.FindClosestKey(houseUpSmallSize, ProceduralItemLibrary.Instance.housesDictonary);
+                GameObject upSmall = Instantiate(houseUpSmall, new Vector3(node.origin.x + node.size.x - houseUpSmallSize.x / 2,
+                    houseUpSmall.transform.position.y,
+                    node.origin.y + node.size.y), Quaternion.Euler(new Vector3(-90, -90, 0)));
 
-                //y positon change to house.transform.position.y when origin is fixed
+
                 upSmall.transform.localScale = new Vector3(upSmall.transform.localScale.x,
-                    upSmall.transform.localScale.y * GetRightSize(node, houseUpSmall),
+                    ConvertSizeToScale(upSmall, houseUpSmallSize.x),
                     upSmall.transform.localScale.z);
                 upSmall.transform.parent = level.transform;
                 upSmall.name = "houseUpSmall";
@@ -272,6 +290,7 @@ public class GenerateTerrain : MonoBehaviour
 
         if (lastDirection == 0)
         {
+            //Will never happen atm
             //next room has a smaller size so make a wall to cover it up
             if (node.size.y > lastSize.y)
             {
@@ -285,8 +304,24 @@ public class GenerateTerrain : MonoBehaviour
         if (lastDirection == 1)
         {
             //next room has a smaller size so make a wall to cover it up
-            if (node.size.x > lastSize.x)
+            if (node.size.x > lastSize.x * 1.5f)
             {
+
+                GameObject lastRightHouse = SpawnItemsFromLibrary.Instance.FindClosestKey(lastSize, ProceduralItemLibrary.Instance.housesDictonary);
+                Vector2 houseDownSmallSize = new Vector2(node.size.x - lastSize.x - lastRightHouse.GetComponent<BoxCollider>().size.x * lastRightHouse.transform.localScale.x, node.size.x - lastSize.x - lastRightHouse.GetComponent<BoxCollider>().size.x * lastRightHouse.transform.localScale.x);
+                GameObject houseDownSmall = SpawnItemsFromLibrary.Instance.FindClosestKey(houseDownSmallSize, ProceduralItemLibrary.Instance.housesDictonary);
+                GameObject downSmall = Instantiate(houseDownSmall, new Vector3(node.origin.x + node.size.x - houseDownSmallSize.x / 2,
+                    houseDownSmall.transform.position.y,
+                    node.origin.y), Quaternion.Euler(new Vector3(-90, 90, 0)));
+
+
+                downSmall.transform.localScale = new Vector3(downSmall.transform.localScale.x,
+                    ConvertSizeToScale(downSmall, houseDownSmallSize.x),
+                    downSmall.transform.localScale.z);
+                downSmall.transform.parent = level.transform;
+                downSmall.name = "houseDownSmall";
+
+
                 //GameObject downWallsmall = Instantiate(quadPrefabWalls, new Vector3(node.origin.x + lastSize.x + ((node.size.x - lastSize.x) / 2), howTall / 2 /*+ howTall/100*/, node.origin.y), Quaternion.Euler(new Vector3(0, 180, 0)));
                 //downWallsmall.transform.localScale = new Vector3(node.size.x - lastSize.x, howTall, wallSize.y);
                 //downWallsmall.transform.parent = level.transform;
@@ -297,19 +332,49 @@ public class GenerateTerrain : MonoBehaviour
     }
     
 
-    private float GetRightSize(Node node, GameObject house)
+    private float GetRightSize(Node node, GameObject house, bool updown)
     {
-        if (node.size.y < house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y)
+        if (updown)
         {
-            Debug.Log("house bigger " + "House: " + house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y + " node:" + node.size.y);
-            Debug.Log(node.size.y / (house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y));
-            return node.size.y / (house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y);
+            if (node.size.x < house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y)
+            {
+                return node.size.x / (house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y);
 
+            }
+            else if (node.size.x > house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y)
+            {
+                return node.size.x / (house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y);
+            }
         }
-        else if (node.size.y > house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y)
+        else
         {
-            return node.size.y / (house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y);
+            if (node.size.y < house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y)
+            {
+                return node.size.y / (house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y);
+
+            }
+            else if (node.size.y > house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y)
+            {
+                return node.size.y / (house.GetComponent<BoxCollider>().size.y * house.transform.localScale.y);
+            }
         }
         return 1;
+    }
+
+    /// <summary>
+    /// ONLY TAKES Y AXIS ATM WILL CHANGE IF NEEDED
+    /// </summary>
+    /// <param name="go"></param>
+    /// <param name="desiredSize"></param>
+    /// <param name="axis"></param>
+    /// <returns></returns>
+    private float ConvertSizeToScale(GameObject go, float desiredSize)
+    {
+        float multiplier = desiredSize / go.GetComponent<BoxCollider>().size.y;
+
+        Vector3 localScaleTemp = go.transform.localScale;
+
+        localScaleTemp.y *= multiplier;
+        return localScaleTemp.y;
     }
 }
