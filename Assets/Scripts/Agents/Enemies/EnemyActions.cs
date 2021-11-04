@@ -28,6 +28,7 @@ public static class EnemyActions
         agent.SetDestination(targetPosition);
         agent.gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
 
+        
         agent.gameObject.GetComponent<AIController>().CurrentlyMoving = false;
     }
 }
