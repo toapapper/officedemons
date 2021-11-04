@@ -96,7 +96,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 2517534622733268033}
   m_Material: {fileID: 13400000, guid: 98cc6ed7b321b7f48995086e303061de, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 1.9999999
   m_Direction: 1
@@ -110,7 +110,7 @@ SphereCollider:
   m_GameObject: {fileID: 2517534622733268033}
   m_Material: {fileID: 13400000, guid: 98cc6ed7b321b7f48995086e303061de, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.725
   m_Center: {x: 0, y: 0, z: 0}
@@ -129,7 +129,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &6254391484194607934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FOVVisualization: {fileID: 8734046659034021448}
+  explodeRadius: 3
   initialExplodeTime: 2
 --- !u!1001 &3268095017018881596
 PrefabInstance:

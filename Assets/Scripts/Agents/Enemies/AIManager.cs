@@ -94,6 +94,7 @@ public class AIManager : MonoBehaviour
             }
         }
 
+
         for(int i = 0; i < enemyList.Count; i++)
         {
             GameObject e = enemyList[i];
@@ -109,6 +110,12 @@ public class AIManager : MonoBehaviour
             if (e.GetComponent<Attributes>().Health > 0)
             {
                 allDead = false;
+            }
+            else if (e.GetComponent<Attributes>().Health <= 0)
+            {
+                Destroy(e);
+                Utilities.CleanList(enemyList);
+                i--;
             }
         }
         if (!GameManager.Instance.AllStill)

@@ -25,6 +25,7 @@ public class Rocket : Bullet
 			{
 				if (target.tag == "Player" || target.tag == "Enemy")
 				{
+
 					Effects.Damage(collision.gameObject, bulletDamage);
 					Effects.ApplyForce(collision.gameObject, (target.transform.position - transform.position).normalized * bulletHitForce);
 				}
@@ -39,7 +40,10 @@ public class Rocket : Bullet
 	{
 		if (other.tag == "Player" || other.tag == "Enemy")
 		{
-			targetList.Add(other.gameObject);
+			if (!targetList.Contains(other.gameObject))
+			{
+				targetList.Add(other.gameObject);
+			}
 		}
 	}
 
