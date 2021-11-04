@@ -96,6 +96,18 @@ public class AIController : MonoBehaviour
         {
             case AIStates.States.FindCover:
                 // TO DO: Implement a behaviour for low health
+                if (!CurrentlyMoving)
+                {
+                    closestPlayer = CalculateClosest(PlayerManager.players, priorites);
+                    FindCover(closestPlayer);
+                    CurrentlyMoving = true;
+                }
+               
+                if (!CurrentlyMoving)
+                {
+                    currentState = AIStates.States.Wait;
+                }
+
                 break;
 
             case AIStates.States.CallForHealing:
@@ -115,7 +127,7 @@ public class AIController : MonoBehaviour
                     currentState = AIStates.States.Wait;
                 }
 
-                EnemyActions.MoveTowards(navMeshAgent, closestPlayer);
+                EnemyActions.MoveTowards(navMeshAgent, closestPlayer.transform.position);
                 if (!CurrentlyMoving)
                 {
                     currentState = AIStates.States.Unassigned;
@@ -275,5 +287,22 @@ public class AIController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void FindCover(GameObject player)
+    {
+        NavMeshHit hit;
+
+        // if edge close
+        if (NavMesh.FindClosestEdge(transform.position, out hit, NavMesh.AllAreas))
+        {
+            //try a vector3 to see if normal is pointning away from player
+
+            if (Vector3.Dot(hit.normal, (player.transform.position - transform.position)) < 0) // -0.5  ?
+            {
+                EnemyActions.MoveTowards(navMeshAgent, hit.position);
+            }
+        }
+
     }
 }
