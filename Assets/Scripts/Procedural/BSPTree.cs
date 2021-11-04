@@ -12,6 +12,10 @@ using UnityEngine.AI;
 // Last Edited: 22/10/2021
 public class BSPTree : MonoBehaviour
 {
+
+    public static BSPTree Instance { get; private set; }
+
+
     private Node root;
     private Node lastRoot;
     private GenerateTerrain generateTerrain;
@@ -30,12 +34,25 @@ public class BSPTree : MonoBehaviour
     /// <summary> If missfallMultiplier happens to land on missfallTop then no more children for the node </summary>
     [SerializeField]
     private int missfallTop = 6;
-    Vector2 lastSize;
+    //Rename this, pretty sure this is the total size
+    private Vector2 lastSize;
+
+    public Vector2 LastSize
+    {
+        get { return lastSize; }
+        set { lastSize = value; }
+    }
+
     private int fitnessGoal = 50;
     /// <summary> How many retires the obstacles should have </summary>
     private int bspRemakeTries = 100;
     private int nextDirection;
     private int lastDirection;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
 
     private void Start()
@@ -80,14 +97,14 @@ public class BSPTree : MonoBehaviour
         generateTerrain.GenerateGround(root);
         SearchObstaclesFitness(bspRemakeTries);
 
-        size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits, size,generations);
+        size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits,size,oldSize,lastSize,generations);
 
         lastDirection = nextDirection;
         GO();
         //generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection, size,lastRoot.size,new Vector2(1,1), heightLimits.y);
         generateTerrain.GenerateFullBuildings(root, nextDirection, lastDirection, size, lastRoot.size);
         //Bakes a navMesh on the generated level
-         level.GetComponent<NavigationBaker>().BakeNavMesh();
+         //level.GetComponent<NavigationBaker>().BakeNavMesh();
     }
 
     /// <summary>
@@ -227,14 +244,15 @@ public class BSPTree : MonoBehaviour
     /// </summary>
     private void GO()
     {
-        if (fitnessFunction.TimeToTurn())
-        {
-            GoRight();
-        }
-        else
-        {
+        //if (fitnessFunction.TimeToTurn())
+        //{
+        //    GoRight();
+        //}
+        //else
+        //{
+        //    GoUp();
+        //}
             GoUp();
-        }
     }
 
     /// <summary>

@@ -38,7 +38,7 @@ public class SpawnItemsFromLibrary : MonoBehaviour
     /// takes the largest key which isn't bigger than nodes.x or nodes.y
     /// </summary>
     /// <param name="node"></param>
-    public GameObject FindClosestKey(Node node, Dictionary<Vector2,GameObject> dictionary)
+    public GameObject FindClosestKey(Vector2 nodeSize, Dictionary<Vector2,GameObject> dictionary)
     {
         Vector2 bestFit = Vector2.zero;
         float closest = float.MaxValue;
@@ -46,15 +46,15 @@ public class SpawnItemsFromLibrary : MonoBehaviour
         {
             if (dictionary == ProceduralItemLibrary.Instance.housesDictonary)
             {
-                if (Mathf.Abs(key.y - node.size.y) < closest)
+                if (Mathf.Abs(key.y - nodeSize.y) < closest)
                 {
-                    closest = Mathf.Abs(key.y - node.size.y);
+                    closest = Mathf.Abs(key.y - nodeSize.y);
                     bestFit = key;
                 }
             }
             else
             {
-                if (key.x > node.size.x || key.y > node.size.y)
+                if (key.x > nodeSize.x || key.y > nodeSize.y)
                 {
                     //Nothing here yet
                 }
@@ -66,7 +66,7 @@ public class SpawnItemsFromLibrary : MonoBehaviour
                     }
                 }
 
-                node.size = bestFit;
+                nodeSize = bestFit;
             }
         }
         item = ProceduralItemLibrary.Instance.GetItemFromDictionary(bestFit, dictionary);

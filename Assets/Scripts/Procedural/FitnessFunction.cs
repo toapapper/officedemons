@@ -25,14 +25,26 @@ public class FitnessFunction : MonoBehaviour
     [SerializeField]
     private int encounterFreq = 3;
     private int roomCounter = 0;
+
+    public int RoomCounter
+    {
+        get { return roomCounter; }
+    }
     private Node lbRoot;
     private int lbWidth;
     private int lbHeight;
     private int lbFitness;
     private int turnCounter;
     [SerializeField]
-    private int turnFrequency = 3;
     private int specials = 0;
+
+    public static FitnessFunction Instance { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
 
     private void Start()
     {
@@ -70,21 +82,21 @@ public class FitnessFunction : MonoBehaviour
         }
     }
 
-
-
-    public bool TimeToTurn()
+    public int GetRoomFreq()
     {
-        if (roomCounter % encounterFreq == 2)
-        {
-            turnCounter++;
-            if (turnCounter > turnFrequency)
-            {
-                turnCounter = 0;
-                return true;
-            }
-        }
-        return false;
+        return roomCounter % encounterFreq;
     }
+
+
+
+    //public bool TimeToTurn()
+    //{
+    //    if (roomCounter % encounterFreq == 0 && roomCounter > 3)
+    //    {
+    //        return true;
+    //    }
+    //    return false;
+    //}
     /// <summary>
     /// Executes different calculations depending on the room variant.
     /// </summary>
@@ -125,12 +137,11 @@ public class FitnessFunction : MonoBehaviour
         if (desiredObjects - 1 <= specials && specials <= desiredObjects + 1)
         {
             //Debug.Log("Sucessesful fitness = " + fitnessValue);
-            Debug.Log(specials);
             for (int i = 0; i < nodes.Count; i++)
             {
                 if (nodes[i].leaf)
                 {
-                    SpawnItemsFromLibrary.Instance.FindClosestKey(nodes[i], ProceduralItemLibrary.Instance.itemLibrary);
+                    SpawnItemsFromLibrary.Instance.FindClosestKey(nodes[i].size, ProceduralItemLibrary.Instance.itemLibrary);
                     if(nodes[i].size != Vector2.zero)
                     {
                         SpawnItemsFromLibrary.Instance.SpawnItems(nodes[i], root);
@@ -173,7 +184,6 @@ public class FitnessFunction : MonoBehaviour
 
         if (SpawnItemsFromLibrary.Instance.SeeClosestKey(node).name == "Loot" && SpawnItemsFromLibrary.Instance.SeeClosestKey(node) != null && node.size != Vector2.zero)
         {
-            Debug.Log("Loot found");
             specials++;
             fitness++;
         }
@@ -205,7 +215,6 @@ public class FitnessFunction : MonoBehaviour
         //Additional values.
         if (SpawnItemsFromLibrary.Instance.SeeClosestKey(node).name == "Hurdles" && SpawnItemsFromLibrary.Instance.SeeClosestKey(node) != null && node.size != Vector2.zero)
         {
-            Debug.Log("Hurdle found");
             specials++;
             fitness++;
         }
@@ -246,7 +255,7 @@ public class FitnessFunction : MonoBehaviour
             if (lbNodes[i].leaf)
             {
                 BufferMaker(out lbNodes[i].size.x, out lbNodes[i].size.y, lbNodes[i]);
-                SpawnItemsFromLibrary.Instance.FindClosestKey(lbNodes[i], ProceduralItemLibrary.Instance.itemLibrary);
+                SpawnItemsFromLibrary.Instance.FindClosestKey(lbNodes[i].size, ProceduralItemLibrary.Instance.itemLibrary);
                 if (lbNodes[i].size != Vector2.zero)
                 {
                     SpawnItemsFromLibrary.Instance.SpawnItems(lbNodes[i], lbRoot);
@@ -289,15 +298,19 @@ public class FitnessFunction : MonoBehaviour
     /// <param name="size"></param>
     /// <param name="generations">A value that can change the amount of generations of perticular rooms</param>
     /// <returns></returns>
-    public Vector2 NextRoomFitness(Vector2 widthLimits, Vector2 heightLimits, Vector2 size, int generations)
+    public Vector2 NextRoomFitness(Vector2 widthLimits, Vector2 heightLimits, Vector2 size, Vector2 oldSize,Vector2 lastSize, int generations)
     {
         size.x = Random.Range((int)widthLimits.x, (int)widthLimits.y);
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
-        if (roomCounter % encounterFreq == 0 && roomCounter > 0)
+        if (roomCounter % encounterFreq == 0 && roomCounter > 2)
         {
             generations = 4;
             size.x *= bigRoomMultiplier.x;
             size.y *= bigRoomMultiplier.y;
+        }
+        else if(roomCounter % encounterFreq == 1 && roomCounter > 2)
+        {
+            BSPTree.Instance.LastSize = new Vector2(BSPTree.Instance.LastSize.x + oldSize.x - size.x, BSPTree.Instance.LastSize.y);
         }
         generations = 3;
         roomCounter++;
