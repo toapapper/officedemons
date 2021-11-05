@@ -112,6 +112,7 @@ public class FitnessFunction : MonoBehaviour
         specials = 0;
         for (int i = 0; i < nodes.Count; i++)
         {
+            Debug.Log(nodes[i].size);
             //Evaluate fitness.
             if(currentRoom == Rooms.Encounter)
             {
