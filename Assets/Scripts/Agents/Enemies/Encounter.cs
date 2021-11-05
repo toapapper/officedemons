@@ -35,6 +35,8 @@ public class Encounter : MonoBehaviour
     public List<NavMeshAgent> navMeshAgents;
     public AIManager aIManager;
 
+    public List<GameObject> playerPositions;
+
     private bool myTurn = false;
     private int currentEnemysTurn = 0;
 

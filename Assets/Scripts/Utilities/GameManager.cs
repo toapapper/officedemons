@@ -13,7 +13,8 @@ public enum CombatState
     player,
     playerActions,
     enemy,
-    enemyActions
+    enemyActions,
+    enterCombat
 }
 
 /// <summary>
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
     private float roundTimer = 0;
 
     private bool enemiesTurnDone = false;
+    private bool playerEnterCombatDone = false;
     private bool playerActionsDone = false;
     private bool enemiesActionsDone = false;
     private bool allStill = false;
@@ -60,6 +62,7 @@ public class GameManager : MonoBehaviour
     public Encounter CurrentEncounter { get { return currentEncounter; } }
     public bool EnemiesTurnDone { set { enemiesTurnDone = value; } }
     public bool PlayerActionsDone { set { playerActionsDone = value; } }
+    public bool PlayerEnterCombatDone { set { playerEnterCombatDone = value; } }
     public bool EnemiesActionsDone { set { enemiesActionsDone = value; } }
     public List<GameObject> StillCheckList { get { return stillCheckList; } }
     [SerializeField] public bool AllStill
@@ -94,7 +97,20 @@ public class GameManager : MonoBehaviour
         #endregion
 
         #region combatState-update
-        if (CurrentCombatState == CombatState.player)
+        if(CurrentCombatState == CombatState.enterCombat)
+		{
+            if (playerEnterCombatDone)
+			{
+                playerEnterCombatDone = false;
+                currentEncounter.aIManager.BeginCombat();
+                combatState = CombatState.player;
+                roundTimer = RoundTime;
+                PlayerManager.Instance.BeginTurn();
+                // Add all objects in checklist to maincamera
+                mainCamera.ObjectsInCamera = stillCheckList;
+            }
+        }
+        else if (CurrentCombatState == CombatState.player)
         {
             roundTimer -= Time.deltaTime;
             if(RoundTimer <= 0)
@@ -155,12 +171,8 @@ public class GameManager : MonoBehaviour
     public void StartEncounter(Encounter encounter)
     {
         currentEncounter = encounter;
-        currentEncounter.aIManager.BeginCombat();
-        combatState = CombatState.player;
-        roundTimer = RoundTime;
+		combatState = CombatState.enterCombat;
         PlayerManager.Instance.BeginCombat();
-        // Add all objects in checklist to maincamera
-        mainCamera.ObjectsInCamera = stillCheckList;
     }
 
     /// <summary>
