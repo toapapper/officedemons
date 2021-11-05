@@ -24,7 +24,8 @@ public class BSPTree : MonoBehaviour
     [SerializeField]
     private GameObject level;
     private List<Node> nodes;
-    private int generations = 3;
+    [SerializeField]
+    private int generations = 2;
     private Vector2 size, oldSize;
 
     [SerializeField] private Vector2 widthLimits = new Vector2(800,1000);

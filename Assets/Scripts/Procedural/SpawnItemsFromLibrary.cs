@@ -56,7 +56,7 @@ public class SpawnItemsFromLibrary : MonoBehaviour
             {
                 if (key.x > nodeSize.x || key.y > nodeSize.y)
                 {
-                    //Nothing here yet
+                    //Too big cannot use
                 }
                 else
                 {

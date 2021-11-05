@@ -43,7 +43,7 @@ public class WeaponInitializer : MonoBehaviour
         {
             rarityLowestValue = 50;
         }
-        int rnd = UnityEngine.Random.Range(rarityLowestValue, 100);
+        int rnd = UnityEngine.Random.Range(rarityLowestValue, rarityLowestValue + 50);
         string rarity = "";
         WeaponStatsGeneration stats;
         if(WeaponList.weaponDictionary.TryGetValue(name, out stats))

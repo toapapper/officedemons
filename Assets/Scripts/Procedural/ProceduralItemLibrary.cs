@@ -37,7 +37,7 @@ public class ProceduralItemLibrary : MonoBehaviour
         itemLibrary = new Dictionary<Vector2, GameObject>();
         for (int i = 0; i < itemList.Count; i++)
         {
-            itemLibrary.Add(new Vector2(itemList[i].GetComponent<BoxCollider>().size.x, itemList[i].transform.localScale.z), itemList[i]);
+            itemLibrary.Add(new Vector2(itemList[i].GetComponent<BoxCollider>().size.x * itemList[i].transform.localScale.x, itemList[i].GetComponent<BoxCollider>().size.z * itemList[i].transform.localScale.z), itemList[i]);
         }
 
         housesDictonary = new Dictionary<Vector2, GameObject>();

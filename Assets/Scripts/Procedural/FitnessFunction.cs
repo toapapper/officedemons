@@ -112,6 +112,7 @@ public class FitnessFunction : MonoBehaviour
         specials = 0;
         for (int i = 0; i < nodes.Count; i++)
         {
+            Debug.Log(nodes[i].size);
             //Evaluate fitness.
             if(currentRoom == Rooms.Encounter)
             {
@@ -304,7 +305,7 @@ public class FitnessFunction : MonoBehaviour
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
         if (roomCounter % encounterFreq == 0 && roomCounter > 2)
         {
-            generations = 4;
+            generations = generations + 1;
             size.x *= bigRoomMultiplier.x;
             size.y *= bigRoomMultiplier.y;
         }
@@ -312,7 +313,6 @@ public class FitnessFunction : MonoBehaviour
         {
             BSPTree.Instance.LastSize = new Vector2(BSPTree.Instance.LastSize.x + oldSize.x - size.x, BSPTree.Instance.LastSize.y);
         }
-        generations = 3;
         roomCounter++;
         ChangeScenary(10);
         return size;
