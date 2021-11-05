@@ -96,7 +96,6 @@ public class PlayerMovementController : MonoBehaviour
 	public void MoveTo(Vector3 pos)
 	{
 		navmeshAgent.SetDestination(pos);
-		//navmeshAgent.speed = moveSpeed;
 		moveTime = 10f;
 	}
 
