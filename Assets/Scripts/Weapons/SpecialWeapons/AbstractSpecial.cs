@@ -17,6 +17,8 @@ public abstract class AbstractSpecial : MonoBehaviour
 {
 	[SerializeField] protected List<WeaponEffects> effects;
 
+	//[SerializeField]
+	protected GameObject holderAgent;
 	[SerializeField]
 	private float damage;
 	[SerializeField]
@@ -47,9 +49,16 @@ public abstract class AbstractSpecial : MonoBehaviour
 		set { viewDistance = value; }
 	}
 
+	public void PickUpIn(GameObject holderAgent)
+	{
+		this.holderAgent = holderAgent;
+	}
 	public virtual void SetAimGradient(Gradient gradient) { }
 	public virtual void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim) { }
 	public virtual void StartAttack(Animator animator) { }
 	public abstract void Attack(Animator animator);
 	public virtual void DoSpecialAction(FieldOfView fov) { }
+	public virtual void DoPassiveSpecial() { }
+
+	//public virtual void OnCollisionEnter(Collision collision) { }
 }

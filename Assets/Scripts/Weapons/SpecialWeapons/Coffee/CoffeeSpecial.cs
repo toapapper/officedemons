@@ -35,7 +35,7 @@ public class CoffeeSpecial : AbstractSpecial
 
 	public override void DoSpecialAction(FieldOfView fov)
 	{
-		Vector3 forward = transform.parent.parent.forward;
+		Vector3 forward = holderAgent.transform.forward/*transform.parent.parent.forward*/;
 		forward.y = 0;
 		forward.Normalize();
 		Vector3 right = new Vector3(forward.z, 0, -forward.x);

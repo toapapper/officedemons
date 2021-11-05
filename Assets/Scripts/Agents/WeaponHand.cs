@@ -48,8 +48,8 @@ public class WeaponHand : MonoBehaviour
 	private void Awake()
 	{
 		animator = GetComponent<Animator>();
-		FOV.ViewRadius = handHitDistance;
-		FOV.ViewAngle = handHitAngle;
+		//FOV.ViewRadius = handHitDistance;
+		//FOV.ViewAngle = handHitAngle;
 	}
 
     private void Start()
@@ -110,8 +110,8 @@ public class WeaponHand : MonoBehaviour
 	//Pick up
 	public void Equip(GameObject newObject)
 	{
-		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
+		objectInHand.PickUpIn(handObject);
 		foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
 		{
 			collider.enabled = false;

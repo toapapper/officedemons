@@ -30,12 +30,12 @@ public abstract class RangedWeapon : AbstractWeapon
 		get { return weaponMuzzle; }
 		set { weaponMuzzle = value; }
 	}
-	protected GameObject LaserAim
-	{
-		get { return laserAim; }
-		set { laserAim = value; }
-	}
-	public float BulletFireForce
+	//protected GameObject LaserAim
+	//{
+	//	get { return laserAim; }
+	//	set { laserAim = value; }
+	//}
+	protected float BulletFireForce
 	{
 		get { return bulletFireForce; }
 		set { bulletFireForce = value; }
@@ -43,14 +43,14 @@ public abstract class RangedWeapon : AbstractWeapon
 
 	public override void SetAimGradient(Gradient gradient)
 	{
-		LaserAim.SetActive(true);
+		laserAim.SetActive(true);
 		GetComponentInChildren<LineRenderer>().colorGradient = gradient;
-		LaserAim.SetActive(false);
+		laserAim.SetActive(false);
 	}
 
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
-		LaserAim.SetActive(isActive);
+		laserAim.SetActive(isActive);
 	}
 
 	public override void StartAttack(Animator animator)

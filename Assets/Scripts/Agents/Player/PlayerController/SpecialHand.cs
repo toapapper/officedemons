@@ -32,10 +32,10 @@ public class SpecialHand : MonoBehaviour
 	{
 		if (objectInHand)
 		{
-			FOV.ViewRadius = objectInHand.ViewDistance;
-			FOV.ViewAngle = objectInHand.ViewAngle;
-
-			SetAimGradient();
+			//FOV.ViewRadius = objectInHand.ViewDistance;
+			//FOV.ViewAngle = objectInHand.ViewAngle;
+			Equip();
+			//SetAimGradient();
 			if (throwAim != null)
 			{
 				throwAim.gameObject.SetActive(true);
@@ -43,6 +43,21 @@ public class SpecialHand : MonoBehaviour
 				throwAim.gameObject.SetActive(false);
 			}
 		}
+	}
+
+	public void Equip()
+	{
+		objectInHand.PickUpIn(gameObject);
+		
+		//foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
+		//{
+		//	collider.enabled = false;
+		//}
+
+		SetAimGradient();
+
+		FOV.ViewAngle = objectInHand.ViewAngle;
+		FOV.ViewRadius = objectInHand.ViewDistance;
 	}
 
 	//Aim
@@ -120,5 +135,9 @@ public class SpecialHand : MonoBehaviour
 	public void DoSpecialAction()
 	{
 		objectInHand.DoSpecialAction(FOV);
+	}
+	public void DoPassiveSpecial()
+	{
+		objectInHand.DoPassiveSpecial();
 	}
 }
