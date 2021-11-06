@@ -112,7 +112,6 @@ public class FitnessFunction : MonoBehaviour
         specials = 0;
         for (int i = 0; i < nodes.Count; i++)
         {
-            Debug.Log(nodes[i].size);
             //Evaluate fitness.
             if(currentRoom == Rooms.Encounter)
             {
@@ -120,6 +119,7 @@ public class FitnessFunction : MonoBehaviour
                 //Encounter rooms should be...
                 if (nodes[i].leaf)
                 {
+                    Debug.Log(nodes[i].size);
                     BufferMaker(out nodes[i].size.x, out nodes[i].size.y, nodes[i]);
                     fitnessValue = EncounterFitness(nodes[i], root, fitnessValue);
                     obstacles++;
@@ -129,6 +129,7 @@ public class FitnessFunction : MonoBehaviour
             {
                 if (nodes[i].leaf)
                 {
+                    Debug.Log(nodes[i].size);
                     BufferMaker(out nodes[i].size.x, out nodes[i].size.y, nodes[i]);
                     fitnessValue = StandardFitness(nodes[i], root, fitnessValue);
                     obstacles++;
@@ -145,7 +146,7 @@ public class FitnessFunction : MonoBehaviour
                     SpawnItemsFromLibrary.Instance.FindClosestKey(nodes[i].size, ProceduralItemLibrary.Instance.itemLibrary);
                     if(nodes[i].size != Vector2.zero)
                     {
-                        SpawnItemsFromLibrary.Instance.SpawnItems(nodes[i], root);
+                        SpawnItemsFromLibrary.Instance.SpawnItems(nodes[i]);
                     }
                 }
             }
@@ -204,14 +205,14 @@ public class FitnessFunction : MonoBehaviour
     public int EncounterFitness(Node node, Node root, int fitness)
     {
         //Checks if the nodes are not to small
-        if (node.size.x <= root.size.x / 6 && node.size.y <= root.size.y / 6)
-        {
-            fitness--;
-        }
-        else
-        {
-            fitness++;
-        }
+        //if (node.size.x <= root.size.x / 6 && node.size.y <= root.size.y / 6)
+        //{
+        //    fitness--;
+        //}
+        //else
+        //{
+        //    fitness++;
+        //}
 
         //Additional values.
         if (SpawnItemsFromLibrary.Instance.SeeClosestKey(node).name == "Hurdles" && SpawnItemsFromLibrary.Instance.SeeClosestKey(node) != null && node.size != Vector2.zero)
@@ -259,7 +260,7 @@ public class FitnessFunction : MonoBehaviour
                 SpawnItemsFromLibrary.Instance.FindClosestKey(lbNodes[i].size, ProceduralItemLibrary.Instance.itemLibrary);
                 if (lbNodes[i].size != Vector2.zero)
                 {
-                    SpawnItemsFromLibrary.Instance.SpawnItems(lbNodes[i], lbRoot);
+                    SpawnItemsFromLibrary.Instance.SpawnItems(lbNodes[i]);
                 }
             }
         }
