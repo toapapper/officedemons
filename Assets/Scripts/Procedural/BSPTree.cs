@@ -180,10 +180,10 @@ public class BSPTree : MonoBehaviour
 
         int split;
         int missfall = Random.Range(missfallMultiplier, missfallTop);
-        if (missfall == missfallMultiplier && node.generation > generations / 2)
-        {
-            return;
-        }
+        //if (missfall == missfallMultiplier && node.generation > generations / 2)
+        //{
+        //    return;
+        //}
         split = Random.Range(0, 2);
         float buffer = 0;
         if (split == 0)

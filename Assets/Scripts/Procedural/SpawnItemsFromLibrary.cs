@@ -66,9 +66,9 @@ public class SpawnItemsFromLibrary : MonoBehaviour
                     }
                 }
 
-                nodeSize = bestFit;
             }
         }
+        nodeSize = bestFit;
         item = ProceduralItemLibrary.Instance.GetItemFromDictionary(bestFit, dictionary);
         return item;
     }
@@ -101,8 +101,7 @@ public class SpawnItemsFromLibrary : MonoBehaviour
     /// Spawns the selected item on the nodes position.
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="root"></param>
-    public void SpawnItems(Node node, Node root)
+    public void SpawnItems(Node node)
     {
         if (item != null)
         {
