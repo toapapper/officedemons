@@ -120,7 +120,6 @@ public class FitnessFunction : MonoBehaviour
                 }
             }
         }
-        Debug.Log(fitnessValue);
         if (Mathf.Abs(desiredObjects - specials) > 1)
         {
             fitnessValue -= 10;
@@ -287,7 +286,7 @@ public class FitnessFunction : MonoBehaviour
     /// <param name="size"></param>
     /// <param name="generations">A value that can change the amount of generations of perticular rooms</param>
     /// <returns></returns>
-    public Vector2 NextRoomFitness(Vector2 widthLimits, Vector2 heightLimits, Vector2 size, Vector2 oldSize,Vector2 lastSize, int generations)
+    public Vector2 NextRoomFitness(Vector2 widthLimits, Vector2 heightLimits,Vector2 size, Vector2 oldSize,Vector2 lastSize, int generations)
     {
         size.x = Random.Range((int)widthLimits.x, (int)widthLimits.y);
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
