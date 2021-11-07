@@ -31,7 +31,7 @@ public class FloatingTextManager : MonoBehaviour
     private int currentIndex = 0;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         elements = new FloatingTextElement[elementCount];
         elements[0] = textElement.GetComponent<FloatingTextElement>();
@@ -52,6 +52,8 @@ public class FloatingTextManager : MonoBehaviour
     /// <param name="color"></param>
     public void newText(GameObject atObject, string text, Color color)
     {
+        
+
         Vector2 position = Camera.main.WorldToViewportPoint(atObject.transform.position);
         position.x *= myCanvas.pixelRect.width;
         position.y *= myCanvas.pixelRect.height;

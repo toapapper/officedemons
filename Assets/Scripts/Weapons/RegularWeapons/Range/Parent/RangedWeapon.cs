@@ -25,7 +25,7 @@ public abstract class RangedWeapon : AbstractWeapon
 	[SerializeField]
 	protected GameObject bullet;
 
-	[Tooltip("The maximum amount of degrees away from the direction aimed that a projectile might fly, so the cone has the angle of two times this number")]
+	[Tooltip("The maximum amount of degrees away from the direction aimed that the projectile might fly")]
 	[SerializeField]
 	protected float inAccuracy = 3;
 
@@ -52,12 +52,19 @@ public abstract class RangedWeapon : AbstractWeapon
 	}
 
 	/// <summary>
-	/// The accuracy of the weapon. 100 means totally accurate, 0 means the shot might go as far as 90 degrees to the side.
+	/// The degrees by which the shot might change direction to either side. The effect of poison is included here
 	/// </summary>
-	public float Accuracy
+	public float InAccuracy
     {
-        get { return Mathf.Clamp(accuracy, 0, 100); }//the clamps are for safety
-		set { accuracy = Mathf.Clamp(value, 0, 100); }
+        get {
+			float modval = 0;
+			if (this.holderAgent != null)
+			{
+				modval = this.holderAgent.GetComponent<StatusEffectHandler>().InAccuracyMod;
+			}
+			return Mathf.Clamp(inAccuracy + modval, 0, 89); 
+		}
+		set { inAccuracy = Mathf.Clamp(value, 0, 89); }
     }
 
 	public override void SetAimGradient(Gradient gradient)
@@ -70,6 +77,9 @@ public abstract class RangedWeapon : AbstractWeapon
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
 		LaserAim.SetActive(isActive);
+
+		UpdateAimCone();
+		AimCone.SetActive(isActive);
 	}
 
 	public override void StartAttack(Animator animator)
@@ -86,65 +96,51 @@ public abstract class RangedWeapon : AbstractWeapon
 	/// The maximum amount of degrees from the aim direction that the shot can deviate. This takes the possibility of being poísoned into account.<br/>
 	/// Also updates the size and such of the aimcone.
 	/// </summary>
-	protected float MaxShotDeviation()
+	protected void UpdateAimCone()
     {
-		float accuracyVal = Mathf.Clamp(Accuracy - (this.GetComponentInParent<StatusEffectHandler>().ActiveEffects.ContainsKey(StatusEffectType.Poison) ? StatusEffectHandler.posionAccuracyLoss : 0), 0, 100);
-		accuracyVal = ((100 - accuracyVal) / 100) * 90;
-
-		//Update the scales of aimCone.
-		//räkna ut bredd om längd är ett.
-		float width = 2 * Mathf.Tan(accuracyVal * Mathf.Deg2Rad);
+		float width = 2 * Mathf.Tan(InAccuracy * Mathf.Deg2Rad);//the 1,1,1 scale of the cone has length one and width one.
 		AimCone.transform.localScale = new Vector3(width, 1, 1);
-
-		return accuracyVal;
     }
 
 	/// <summary>
-	/// Returns a randomized direction within the weapons accuracy.
+	/// Returns a randomized direction within the weapons (in)accuracy.
 	/// </summary>
 	/// <param name="aim"></param>
 	/// <returns></returns>
 	protected Vector3 GetBulletDirection()
     {
-		//float mod = this.GetComponentInParent<StatusEffectHandler>().ActiveEffects.ContainsKey(StatusEffectType.Poison) ? StatusEffectHandler.posionAccuracyLoss : 0;
-		//float deviation = Random.value * MaxShotDeviation();
-		//float direction = Random.value * 360;
-
-		//Vector3 position = new Vector3(1, 0, 0);
-
-		////rotate the vector to point in the random direction. z axis ignored
-		//position = new Vector3(position.x * Mathf.Cos(direction * Mathf.Deg2Rad), position.x * Mathf.Sin(direction * Mathf.Deg2Rad), 0);
-
-		////Now calculate how long it should be in the z axis and scale the one already existing.
-		//float length = Mathf.Cos(deviation * Mathf.Deg2Rad);
-		//position *= Mathf.Sin(deviation * Mathf.Deg2Rad);
-		//position.z = length;
-
-		//this.AimPoint.localPosition = position;//setting its localposition to this rotates it automatically to the space of the gun
-
-		//new simpler in 2d...:
-
-		Vector3 bulletDir = transform.forward;//rotate the forward vector by a random amount of degrees.
-		float deviation = ((Random.value * 2) - 1) * MaxShotDeviation() * Mathf.Deg2Rad;
+		Vector3 bulletDir = transform.forward;//I rotate this forward vector by a random amount of degrees basically
+		float deviation = ((Random.value * 2) - 1) * InAccuracy * Mathf.Deg2Rad;
 
 		float newX = bulletDir.x * Mathf.Cos(deviation) - bulletDir.z * Mathf.Sin(deviation);
 		float newZ = bulletDir.x * Mathf.Sin(deviation) + bulletDir.z * Mathf.Cos(deviation);
 		bulletDir = new Vector3(newX, 0, newZ);
 
-		return bulletDir;//Then return its direction from the gun, in global space
+		return bulletDir;
     }
 
-	public override void DoAction(FieldOfView fov)
+
+    public override void PickUpIn(GameObject hand)//sets the color of the aimcone.
+    {
+        base.PickUpIn(hand);
+
+		Color c0 = this.AimCone.GetComponentInChildren<MeshRenderer>().material.color;
+		float c0Alpha = c0.a;
+		Color pc = this.holderAgent.GetComponent<Attributes>().PlayerColor;
+		pc.a = c0Alpha;
+
+		this.AimCone.GetComponentInChildren<MeshRenderer>().material.color = pc;
+		UpdateAimCone();
+	}
+
+
+    public override void DoAction(FieldOfView fov)
 	{
 		GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
 		if (wielder == null)
 		{
 			return;
 		}
-
-		//Vector3 direction = transform.forward;
-		//direction.y = 0;
-		//direction.Normalize();
 
 		Vector3 direction = GetBulletDirection();
 

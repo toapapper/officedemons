@@ -55,13 +55,13 @@ public class StatusEffectHandler : MonoBehaviour
     private const int bleedDamage = 10;
     private const float bleedDrain = .5f;//stam drain, per stack
     private const int poisonDamage = 10;
-    public const float posionAccuracyLoss = 20;//accuracy units lost. Check RangedWeapon.cs to further understand
+    public const float poisonAccuracyMod = 5;//Degrees additional spread by the weapon
     private const float staminaDrain = .8f;
     private const float vulnerableMod = .3f;//percent increased damage per stack
     private const int healOverTime = 20;
     private const float staminaFill = .8f;
     private const float damageBoost = .3f; //percent increased damage per stack
-    private const float slowAmount = .2f; // percent slow per slow ----------- NOT IMPLEMENTED ------------ IMPLEMENT ON APPLY AND REMOVE, not doing anything otherwise
+    private const float slowWeight = 20f; // percent slow per slow ----------- NOT IMPLEMENTED ------------ IMPLEMENT ON APPLY AND REMOVE, not doing anything otherwise
     #endregion
 
 
@@ -79,6 +79,13 @@ public class StatusEffectHandler : MonoBehaviour
     /// <summary> returns the modifier to the damage this entity should make </summary>
     public float DmgBoost { get { return activeEffects.ContainsKey(StatusEffectType.DamageBoost) ? activeEffects[StatusEffectType.DamageBoost].stacks * damageBoost : 0; } }
     
+    public float InAccuracyMod
+    {
+        get
+        {
+            return activeEffects.ContainsKey(StatusEffectType.Poison) ? activeEffects[StatusEffectType.Poison].stacks * poisonAccuracyMod : 0;
+        }
+    }
 
     void Start()
     {
@@ -99,6 +106,11 @@ public class StatusEffectHandler : MonoBehaviour
             sEffect.stacks += stacks;
             sEffect.stacks = Mathf.Clamp(sEffect.stacks, 0, 3);
             sEffect.duration = Mathf.Max(duration, sEffect.duration);
+
+            if(effect == StatusEffectType.Slow)
+            {
+                Effects.ChangeWeight(gameObject, slowWeight);
+            }
         }
         else //create a new effect
         {
@@ -128,6 +140,9 @@ public class StatusEffectHandler : MonoBehaviour
                 case StatusEffectType.StaminaFill:
                     drain = -staminaFill;
                     break;
+                case StatusEffectType.Slow:
+                    Effects.ChangeWeight(gameObject, slowWeight);
+                    break;
             }
 
             StatusEffect sEffect = new StatusEffect(effect, duration, dmg, drain, stacks);
@@ -148,6 +163,11 @@ public class StatusEffectHandler : MonoBehaviour
             {
                 if(activeEffects[si].duration <= 0)
                 {
+                    if(si == StatusEffectType.Slow)
+                    {
+                        Effects.ChangeWeight(gameObject, activeEffects[si].stacks * -slowWeight);
+                    }
+
                     activeEffects.Remove(si);
                 }
                 else

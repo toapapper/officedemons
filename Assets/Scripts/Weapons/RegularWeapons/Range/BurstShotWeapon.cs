@@ -39,9 +39,6 @@ public class BurstShotWeapon : RangedWeapon
 				return;
 			}
 
-			//Vector3 direction = transform.forward;
-			//direction.y = 0;
-			//direction.Normalize();
 			Vector3 direction = GetBulletDirection();
 
 			bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), this.effects);

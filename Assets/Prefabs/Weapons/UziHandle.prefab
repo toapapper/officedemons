@@ -171,6 +171,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4229618764654016646}
+  - {fileID: 3079880565540553226}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -409,7 +410,6 @@ Transform:
   - {fileID: 4229618764247079809}
   - {fileID: 7351344431961689098}
   - {fileID: 6388784062097742028}
-  - {fileID: 3079880565540553226}
   m_Father: {fileID: 4229618764198995205}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -483,6 +483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effects: 0a0000000900000004000000
+  holderAgent: {fileID: 0}
   handle: {fileID: 4229618764198995258}
   damage: 4
   hitForce: 20
@@ -496,7 +497,7 @@ MonoBehaviour:
   laserAim: {fileID: 5160506885529334138}
   bulletFireForce: 20
   bullet: {fileID: 198003970889221192, guid: 7d8f5aa82bad9134da8f6611d160eaf5, type: 3}
-  accuracy: 100
+  inAccuracy: 3
   AimCone: {fileID: 2447213416450676912}
   AimPoint: {fileID: 5797869111673930075}
 --- !u!114 &1873284019242393216
@@ -662,11 +663,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 4229618764654016646}
+    m_TransformParent: {fileID: 4229618764198995205}
     m_Modifications:
     - target: {fileID: 6199854479130809429, guid: 801b27fc5bd58164dbd4602830a094a7, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6199854479130809429, guid: 801b27fc5bd58164dbd4602830a094a7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -686,7 +687,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6199854479130809429, guid: 801b27fc5bd58164dbd4602830a094a7, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6199854479130809429, guid: 801b27fc5bd58164dbd4602830a094a7, type: 3}
       propertyPath: m_LocalRotation.y
@@ -694,7 +695,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6199854479130809429, guid: 801b27fc5bd58164dbd4602830a094a7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6199854479130809429, guid: 801b27fc5bd58164dbd4602830a094a7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

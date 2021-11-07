@@ -125,7 +125,7 @@ public class WeaponHand : MonoBehaviour
 	//Unequip weapon
 	public void DropWeapon()
     {
-		if(objectInHand = null)
+		if(objectInHand == null)
         {
 			return;
         }

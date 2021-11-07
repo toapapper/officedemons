@@ -340,6 +340,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: aimcone
       objectReference: {fileID: 0}
+    - target: {fileID: 6719826256130772719, guid: 801b27fc5bd58164dbd4602830a094a7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 801b27fc5bd58164dbd4602830a094a7, type: 3}
 --- !u!1 &304496259 stripped
@@ -903,6 +907,10 @@ PrefabInstance:
       propertyPath: effects.Array.data[0]
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2447213416450676912, guid: 8a0153ef7d6c2ae4a9d3b500e2aa3e7d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3079880565540553226, guid: 8a0153ef7d6c2ae4a9d3b500e2aa3e7d, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.147
@@ -973,6 +981,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a0153ef7d6c2ae4a9d3b500e2aa3e7d, type: 3}
+--- !u!1 &1055304891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4229618764654016647, guid: 8a0153ef7d6c2ae4a9d3b500e2aa3e7d, type: 3}
+  m_PrefabInstance: {fileID: 1055304890}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1055304892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055304891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.030314207, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1001 &1215838501
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1556,7 +1587,7 @@ PrefabInstance:
     - target: {fileID: 8315504031462791294, guid: 0de22563a940e134db879c589014f7a8, type: 3}
       propertyPath: AimPoint
       value: 
-      objectReference: {fileID: 1722958480}
+      objectReference: {fileID: 0}
     - target: {fileID: 8315504031462791294, guid: 0de22563a940e134db879c589014f7a8, type: 3}
       propertyPath: accuracy
       value: 95
@@ -1601,44 +1632,9 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1722958479
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1722958480}
-  m_Layer: 9
-  m_Name: aimPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1722958480
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722958479}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1733920867}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1733920866 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4904968821643305178, guid: 0de22563a940e134db879c589014f7a8, type: 3}
-  m_PrefabInstance: {fileID: 1548953456}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1733920867 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4904968821643305179, guid: 0de22563a940e134db879c589014f7a8, type: 3}
   m_PrefabInstance: {fileID: 1548953456}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1733920874
@@ -2095,7 +2091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3205837069384037226, guid: b7a72cfcae2549a4a9b193baaf11c3b3, type: 3}
       propertyPath: effects.Array.data[0]
-      value: 3
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3205837069384037226, guid: b7a72cfcae2549a4a9b193baaf11c3b3, type: 3}
       propertyPath: effects.Array.data[1]

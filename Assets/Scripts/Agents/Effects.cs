@@ -155,6 +155,15 @@ public static class Effects
 	/// <param name="weight"> value between -100 - +100 </param>
 	public static void ChangeWeight(GameObject target, float weight)
 	{
+		if(weight > 0)
+        {
+			UIManager.Instance.NewFloatingText(target, "SLOW", Color.red);
+        }
+		else if(weight < 0)
+        {
+			UIManager.Instance.NewFloatingText(target, "DE-SLOW", Color.green);
+		}
+
 		float speedEffect = -weight / 100;
 		ModifySpeed(target, speedEffect);
 	}
