@@ -12,9 +12,9 @@ public class TerribleBreath : AbstractSpecial
 	GameObject mouth;
 
 
-	public override void SetAim(FieldOfView fov, GameObject fovVisualization, GameObject throwAim, Gradient gradient)
+	public override void SetAim(FieldOfView fov, Gradient gradient)
 	{
-		fovVisualization.GetComponent<Renderer>().material.color = gradient.colorKeys[0].color;
+		//fovVisualization.GetComponent<Renderer>().material.color = gradient.colorKeys[0].color;
 		fov.ViewAngle = viewAngle;
 		fov.ViewRadius = viewDistance;
 	}

@@ -30,42 +30,13 @@ public class SpecialHand : MonoBehaviour
 
 	private void Start()
 	{
-		if (objectInHand)
+		SetAimGradient();
+		if (objectInHand != null)
 		{
-			//FOV.ViewRadius = objectInHand.ViewDistance;
-			//FOV.ViewAngle = objectInHand.ViewAngle;
 			Equip();
-			//SetAimGradient();
-			//if (throwAim != null)
-			//{
-			//	throwAim.gameObject.SetActive(true);
-			//	throwAim.GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
-			//	throwAim.gameObject.SetActive(false);
-			//}
 		}
 	}
 
-	public void Equip()
-	{
-		objectInHand.PickUpIn(gameObject);
-		
-		//foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
-		//{
-		//	collider.enabled = false;
-		//}
-
-		SetAimGradient();
-
-		//objectInHand.SetAimGradient(aimGradient);
-		//objectInHand.SetFOV(FOV);
-		objectInHand.SetAim(FOV, FOVVisualization, throwAim.gameObject, aimGradient);
-		
-
-		//FOV.ViewAngle = objectInHand.ViewAngle;
-		//FOV.ViewRadius = objectInHand.ViewDistance;
-	}
-
-	//Aim
 	private void SetAimGradient()
 	{
 		GradientColorKey[] colorKey = new GradientColorKey[2];
@@ -77,8 +48,19 @@ public class SpecialHand : MonoBehaviour
 		aimGradient = new Gradient();
 		aimGradient.SetKeys(colorKey, alphaKey);
 
-		//objectInHand.SetAimGradient(aimGradient);
+		FOVVisualization.GetComponent<Renderer>().material.color = aimGradient.colorKeys[0].color;
+		throwAim.gameObject.SetActive(true);
+		GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
+		throwAim.gameObject.SetActive(false);
 	}
+
+	public void Equip()
+	{
+		objectInHand.PickUpIn(gameObject);
+		objectInHand.SetAim(FOV, aimGradient);
+	}
+
+	//Aim
 	public void ToggleAimView(bool isActive)
 	{
 		if (objectInHand)
@@ -120,13 +102,15 @@ public class SpecialHand : MonoBehaviour
 		animator.SetTrigger("isCancelAction");
 	}
 
+	//TODO Start passive abillity 
+	public void PerformPassiveAbility()
+	{
+		objectInHand.PerformPassiveAbility(animator);
+	}
+
 	//Animation events
 	public void DoSpecialAction()
 	{
 		objectInHand.DoSpecialAction(FOV);
-	}
-	public void DoPassiveSpecial()
-	{
-		objectInHand.DoPassiveSpecial();
 	}
 }

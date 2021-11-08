@@ -114,6 +114,10 @@ public abstract class AbstractWeapon : MonoBehaviour
 		handle.transform.position = hand.transform.position;
 		handle.transform.rotation = hand.transform.rotation;
 		Effects.ChangeWeight(hand.transform.parent.gameObject, weight);
+		foreach (Collider collider in GetComponentsInChildren<Collider>())
+		{
+			collider.enabled = false;
+		}
 	}
 	public void ReleaseThrow(float force)
 	{
@@ -128,6 +132,10 @@ public abstract class AbstractWeapon : MonoBehaviour
 		handle.GetComponent<Rigidbody>().isKinematic = false;
 		GetComponent<Rigidbody>().isKinematic = false;
 		isHeld = false;
+		foreach (Collider collider in GetComponentsInChildren<Collider>())
+		{
+			collider.enabled = true;
+		}
 	}
 
 	public virtual void SetAimGradient(Gradient gradient) { }

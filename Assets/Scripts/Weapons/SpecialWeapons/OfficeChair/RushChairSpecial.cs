@@ -12,7 +12,7 @@ public class RushChairSpecial : OfficeChairSpecial
 	public bool isProjectile;
 
 
-	public override void SetAim(FieldOfView fov, GameObject fovVisualization, GameObject throwAim, Gradient gradient)
+	public override void SetAim(FieldOfView fov, Gradient gradient)
 	{
 		laserAim.SetActive(true);
 		GetComponentInChildren<LineRenderer>().colorGradient = gradient;
@@ -20,10 +20,6 @@ public class RushChairSpecial : OfficeChairSpecial
 	}
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
-		if (!isActive)
-		{
-			laserAim.GetComponent<LineRenderer>().positionCount = 0;
-		}
 		laserAim.SetActive(isActive);
 	}
 
