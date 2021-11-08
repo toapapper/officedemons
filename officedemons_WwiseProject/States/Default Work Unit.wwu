@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{E89EA517-C8AB-4949-8CE0-D0463E513AAE}" SchemaVersion="103">
 	<States>
-		<WorkUnit Name="Default Work Unit" ID="{E89EA517-C8AB-4949-8CE0-D0463E513AAE}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{E89EA517-C8AB-4949-8CE0-D0463E513AAE}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="Roaming" ID="{6417182B-EBE5-4F04-9BEE-EDD7EBC3D8C5}">
+					<ChildrenList>
+						<State Name="None" ID="{32C64882-E35A-471C-B48E-E65A42E0DB3A}"/>
+						<State Name="RoamState1" ID="{526E5906-8CC7-4CC8-9E5C-EBC489776CE3}"/>
+						<State Name="RoamState2" ID="{39D38D9F-3CA4-4EBF-A934-CFEAA3A8AABE}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="Combat" ID="{BB10B715-211A-409D-ADFA-3BFD784B91A4}">
+					<ChildrenList>
+						<State Name="None" ID="{8C356A50-1BD9-419D-9FBD-E80C682B8FC6}"/>
+						<State Name="Part1" ID="{78F66928-6237-4954-BF12-9B56F76B50CC}"/>
+						<State Name="Part2" ID="{00DC69D1-D3F0-4342-ACB7-FE16861996D6}"/>
+						<State Name="Part3" ID="{3238818B-0315-445D-9EC1-32D249571F81}"/>
+						<State Name="Part4" ID="{25C2235A-AB75-47F3-BF6D-A0C1ADFF78C8}"/>
+						<State Name="Part5" ID="{03F2C12D-9F72-4D42-AF13-0C9582771189}"/>
+						<State Name="Part6" ID="{78BE3DBC-04A7-460D-94E5-66B37E70AB3B}"/>
+					</ChildrenList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</States>
 </WwiseDocument>

@@ -11,12 +11,12 @@
 	<StreamedFiles/>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Language="SFX" Hash="3690994985">
+		<SoundBank Id="1355168291" Language="SFX" Hash="3869040776">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 		</SoundBank>
-		<SoundBank Id="3161908922" Language="SFX" Hash="2265093231">
+		<SoundBank Id="3161908922" Language="SFX" Hash="1214055962">
 			<ObjectPath>\SoundBanks\Default Work Unit\Main</ObjectPath>
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
@@ -29,23 +29,283 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="2028513310" Name="Play_ding" ObjectPath="\Events\Default Work Unit\Play_ding" MaxAttenuation="10.000000" DurationType="OneShot" DurationMin="0.396916" DurationMax="0.396916">
+			</IncludedEvents>
+		</SoundBank>
+		<SoundBank Id="3991942870" Language="SFX" Hash="1815615248">
+			<ObjectPath>\SoundBanks\Default Work Unit\Music</ObjectPath>
+			<ShortName>Music</ShortName>
+			<Path>Music.bnk</Path>
+			<IncludedEvents>
+				<Event Id="513571230" Name="Play_Combat" ObjectPath="\Events\Music\Play_Combat" DurationType="Infinite">
 					<IncludedMemoryFiles>
-						<File Id="232914189" Language="SFX">
-							<ShortName>ding.wav</ShortName>
-							<Path>SFX\ding_10C4C929.wem</Path>
+						<File Id="19949168" Language="SFX">
+							<ShortName>Office_Metal_Part2_Bass.wav</ShortName>
+							<Path>SFX\Office_Metal_Part2_Bass_D79FB2B7.wem</Path>
+						</File>
+						<File Id="55046323" Language="SFX">
+							<ShortName>Office_Metal_Part3_Chords.wav</ShortName>
+							<Path>SFX\Office_Metal_Part3_Chords_D79FB2B7.wem</Path>
+						</File>
+						<File Id="122133467" Language="SFX">
+							<ShortName>Office_Metal_Part6_Synth.wav</ShortName>
+							<Path>SFX\Office_Metal_Part6_Synth_D79FB2B7.wem</Path>
+						</File>
+						<File Id="140015115" Language="SFX">
+							<ShortName>Office_Metal_Part2_GtrRiff.wav</ShortName>
+							<Path>SFX\Office_Metal_Part2_GtrRiff_D79FB2B7.wem</Path>
+						</File>
+						<File Id="155344355" Language="SFX">
+							<ShortName>Office_Metal_Part2_Drums.wav</ShortName>
+							<Path>SFX\Office_Metal_Part2_Drums_D79FB2B7.wem</Path>
+						</File>
+						<File Id="258635183" Language="SFX">
+							<ShortName>Office_Metal_Part5_Drums.wav</ShortName>
+							<Path>SFX\Office_Metal_Part5_Drums_D79FB2B7.wem</Path>
+						</File>
+						<File Id="329925088" Language="SFX">
+							<ShortName>Office_Metal_Part5_Synth.wav</ShortName>
+							<Path>SFX\Office_Metal_Part5_Synth_D79FB2B7.wem</Path>
+						</File>
+						<File Id="334450471" Language="SFX">
+							<ShortName>Office_Metal_Part6_Chords.wav</ShortName>
+							<Path>SFX\Office_Metal_Part6_Chords_D79FB2B7.wem</Path>
+						</File>
+						<File Id="347135299" Language="SFX">
+							<ShortName>Office_Metal_Part3_GtrRiff.wav</ShortName>
+							<Path>SFX\Office_Metal_Part3_GtrRiff_D79FB2B7.wem</Path>
+						</File>
+						<File Id="391595299" Language="SFX">
+							<ShortName>Office_Metal_Part4_Chords.wav</ShortName>
+							<Path>SFX\Office_Metal_Part4_Chords_D79FB2B7.wem</Path>
+						</File>
+						<File Id="429856857" Language="SFX">
+							<ShortName>Office_Metal_Part6_WeirdSounds.wav</ShortName>
+							<Path>SFX\Office_Metal_Part6_WeirdSounds_D79FB2B7.wem</Path>
+						</File>
+						<File Id="451720129" Language="SFX">
+							<ShortName>Office_Metal_Part2_Chords.wav</ShortName>
+							<Path>SFX\Office_Metal_Part2_Chords_D79FB2B7.wem</Path>
+						</File>
+						<File Id="554828006" Language="SFX">
+							<ShortName>Office_Metal_Part1_Bass.wav</ShortName>
+							<Path>SFX\Office_Metal_Part1_Bass_D79FB2B7.wem</Path>
+						</File>
+						<File Id="565644886" Language="SFX">
+							<ShortName>Office_Metal_Part4_Bass.wav</ShortName>
+							<Path>SFX\Office_Metal_Part4_Bass_D79FB2B7.wem</Path>
+						</File>
+						<File Id="598561096" Language="SFX">
+							<ShortName>Office_Metal_Part6_GtrRiff.wav</ShortName>
+							<Path>SFX\Office_Metal_Part6_GtrRiff_D79FB2B7.wem</Path>
+						</File>
+						<File Id="609139132" Language="SFX">
+							<ShortName>Office_Metal_Part5_Chords.wav</ShortName>
+							<Path>SFX\Office_Metal_Part5_Chords_D79FB2B7.wem</Path>
+						</File>
+						<File Id="611050839" Language="SFX">
+							<ShortName>Office_Metal_Part4_Synth.wav</ShortName>
+							<Path>SFX\Office_Metal_Part4_Synth_D79FB2B7.wem</Path>
+						</File>
+						<File Id="644417154" Language="SFX">
+							<ShortName>Office_Metal_Part6_Bass.wav</ShortName>
+							<Path>SFX\Office_Metal_Part6_Bass_D79FB2B7.wem</Path>
+						</File>
+						<File Id="729357086" Language="SFX">
+							<ShortName>Office_Metal_Part11_Drums.wav</ShortName>
+							<Path>SFX\Office_Metal_Part11_Drums_D79FB2B7.wem</Path>
+						</File>
+						<File Id="731730090" Language="SFX">
+							<ShortName>Office_Metal_Part4_GtrRiff.wav</ShortName>
+							<Path>SFX\Office_Metal_Part4_GtrRiff_D79FB2B7.wem</Path>
+						</File>
+						<File Id="765634235" Language="SFX">
+							<ShortName>Office_Metal_Part5_Bass.wav</ShortName>
+							<Path>SFX\Office_Metal_Part5_Bass_D79FB2B7.wem</Path>
+						</File>
+						<File Id="806835498" Language="SFX">
+							<ShortName>Office_Metal_Part6_Drums.wav</ShortName>
+							<Path>SFX\Office_Metal_Part6_Drums_D79FB2B7.wem</Path>
+						</File>
+						<File Id="822661198" Language="SFX">
+							<ShortName>Office_Metal_Part2_Choir.wav</ShortName>
+							<Path>SFX\Office_Metal_Part2_Choir_D79FB2B7.wem</Path>
+						</File>
+						<File Id="864116545" Language="SFX">
+							<ShortName>Office_Metal_Part3_Synth.wav</ShortName>
+							<Path>SFX\Office_Metal_Part3_Synth_D79FB2B7.wem</Path>
+						</File>
+						<File Id="965101826" Language="SFX">
+							<ShortName>Office_Metal_Part4_Drums.wav</ShortName>
+							<Path>SFX\Office_Metal_Part4_Drums_D79FB2B7.wem</Path>
+						</File>
+						<File Id="983760941" Language="SFX">
+							<ShortName>Office_Metal_Part3_Drums.wav</ShortName>
+							<Path>SFX\Office_Metal_Part3_Drums_D79FB2B7.wem</Path>
+						</File>
+						<File Id="993488041" Language="SFX">
+							<ShortName>Office_Metal_Part3_Bass.wav</ShortName>
+							<Path>SFX\Office_Metal_Part3_Bass_D79FB2B7.wem</Path>
+						</File>
+						<File Id="995996570" Language="SFX">
+							<ShortName>Office_Metal_Part2_GtrMelody.wav</ShortName>
+							<Path>SFX\Office_Metal_Part2_GtrMelody_D79FB2B7.wem</Path>
+						</File>
+						<File Id="1042251464" Language="SFX">
+							<ShortName>Office_Metal_Part5_WeirdSounds.wav</ShortName>
+							<Path>SFX\Office_Metal_Part5_WeirdSounds_D79FB2B7.wem</Path>
+						</File>
+						<File Id="1070785679" Language="SFX">
+							<ShortName>Office_Metal_Part1_WeirdSounds.wav</ShortName>
+							<Path>SFX\Office_Metal_Part1_WeirdSounds_D79FB2B7.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
+					<SwitchContainers>
+						<SwitchContainer SwitchValue="{78F66928-6237-4954-BF12-9B56F76B50CC}">
+							<Media>
+								<File Id="554828006"/>
+								<File Id="729357086"/>
+								<File Id="1070785679"/>
+							</Media>
+						</SwitchContainer>
+						<SwitchContainer SwitchValue="{00DC69D1-D3F0-4342-ACB7-FE16861996D6}">
+							<Media>
+								<File Id="19949168"/>
+								<File Id="140015115"/>
+								<File Id="155344355"/>
+								<File Id="451720129"/>
+								<File Id="822661198"/>
+								<File Id="995996570"/>
+							</Media>
+						</SwitchContainer>
+						<SwitchContainer SwitchValue="{3238818B-0315-445D-9EC1-32D249571F81}">
+							<Media>
+								<File Id="55046323"/>
+								<File Id="347135299"/>
+								<File Id="864116545"/>
+								<File Id="983760941"/>
+								<File Id="993488041"/>
+							</Media>
+						</SwitchContainer>
+						<SwitchContainer SwitchValue="{25C2235A-AB75-47F3-BF6D-A0C1ADFF78C8}">
+							<Media>
+								<File Id="391595299"/>
+								<File Id="565644886"/>
+								<File Id="611050839"/>
+								<File Id="731730090"/>
+								<File Id="965101826"/>
+							</Media>
+						</SwitchContainer>
+						<SwitchContainer SwitchValue="{03F2C12D-9F72-4D42-AF13-0C9582771189}">
+							<Media>
+								<File Id="258635183"/>
+								<File Id="329925088"/>
+								<File Id="609139132"/>
+								<File Id="765634235"/>
+								<File Id="1042251464"/>
+							</Media>
+						</SwitchContainer>
+						<SwitchContainer SwitchValue="{78BE3DBC-04A7-460D-94E5-66B37E70AB3B}">
+							<Media>
+								<File Id="122133467"/>
+								<File Id="334450471"/>
+								<File Id="429856857"/>
+								<File Id="598561096"/>
+								<File Id="644417154"/>
+								<File Id="806835498"/>
+							</Media>
+						</SwitchContainer>
+					</SwitchContainers>
 				</Event>
-				<Event Id="450519720" Name="Play_Office_Bossa_Elvin_Matz_15_10" ObjectPath="\Events\Default Work Unit\Play_Office_Bossa_Elvin_Matz_15_10" DurationType="Infinite">
+				<Event Id="3711372643" Name="Play_Roaming" ObjectPath="\Events\Music\Play_Roaming" DurationType="Infinite">
 					<IncludedMemoryFiles>
-						<File Id="330122434" Language="SFX">
-							<ShortName>Office_Bossa_Elvin Matz_15-10.wav</ShortName>
-							<Path>SFX\Office_Bossa_Elvin Matz_15-10_D79FB2B7.wem</Path>
+						<File Id="13891880" Language="SFX">
+							<ShortName>Office_Bossa_Part1_Comp.wav</ShortName>
+							<Path>SFX\Office_Bossa_Part1_Comp_D79FB2B7.wem</Path>
+						</File>
+						<File Id="23164139" Language="SFX">
+							<ShortName>Office_Bossa_Part1_Perc.wav</ShortName>
+							<Path>SFX\Office_Bossa_Part1_Perc_D79FB2B7.wem</Path>
+						</File>
+						<File Id="109508003" Language="SFX">
+							<ShortName>Office_Bossa_Part1_Bass.wav</ShortName>
+							<Path>SFX\Office_Bossa_Part1_Bass_D79FB2B7.wem</Path>
+						</File>
+						<File Id="110276526" Language="SFX">
+							<ShortName>Office_Bossa_Part1_Riff.wav</ShortName>
+							<Path>SFX\Office_Bossa_Part1_Riff_D79FB2B7.wem</Path>
+						</File>
+						<File Id="157003380" Language="SFX">
+							<ShortName>Office_Bossa_Part1_Melody.wav</ShortName>
+							<Path>SFX\Office_Bossa_Part1_Melody_D79FB2B7.wem</Path>
+						</File>
+						<File Id="344948363" Language="SFX">
+							<ShortName>Office_Bossa_Part2_Riff.wav</ShortName>
+							<Path>SFX\Office_Bossa_Part2_Riff_D79FB2B7.wem</Path>
+						</File>
+						<File Id="380773652" Language="SFX">
+							<ShortName>Office_Bossa_Part2_Perc.wav</ShortName>
+							<Path>SFX\Office_Bossa_Part2_Perc_D79FB2B7.wem</Path>
+						</File>
+						<File Id="453397767" Language="SFX">
+							<ShortName>Office_Bossa_Part1_MelodySteeldrum.wav</ShortName>
+							<Path>SFX\Office_Bossa_Part1_MelodySteeldrum_D79FB2B7.wem</Path>
+						</File>
+						<File Id="562245646" Language="SFX">
+							<ShortName>Office_Bossa_Part2_Bass.wav</ShortName>
+							<Path>SFX\Office_Bossa_Part2_Bass_D79FB2B7.wem</Path>
+						</File>
+						<File Id="747116675" Language="SFX">
+							<ShortName>Office_Bossa_Part2_Comp.wav</ShortName>
+							<Path>SFX\Office_Bossa_Part2_Comp_D79FB2B7.wem</Path>
+						</File>
+						<File Id="944505295" Language="SFX">
+							<ShortName>Office_Bossa_Part2_Solo.wav</ShortName>
+							<Path>SFX\Office_Bossa_Part2_Solo_D79FB2B7.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
+					<SwitchContainers>
+						<SwitchContainer SwitchValue="{526E5906-8CC7-4CC8-9E5C-EBC489776CE3}">
+							<Media>
+								<File Id="13891880"/>
+								<File Id="23164139"/>
+								<File Id="109508003"/>
+								<File Id="110276526"/>
+								<File Id="157003380"/>
+								<File Id="453397767"/>
+							</Media>
+						</SwitchContainer>
+						<SwitchContainer SwitchValue="{39D38D9F-3CA4-4EBF-A934-CFEAA3A8AABE}">
+							<Media>
+								<File Id="344948363"/>
+								<File Id="380773652"/>
+								<File Id="562245646"/>
+								<File Id="747116675"/>
+								<File Id="944505295"/>
+							</Media>
+						</SwitchContainer>
+					</SwitchContainers>
 				</Event>
 			</IncludedEvents>
+			<StateGroups>
+				<StateGroup Id="2764240573" Name="Combat" ObjectPath="\States\Default Work Unit\Combat" GUID="{BB10B715-211A-409D-ADFA-3BFD784B91A4}">
+					<States>
+						<State Id="748895195" Name="None" ObjectPath="\States\Default Work Unit\Combat\None" GUID="{8C356A50-1BD9-419D-9FBD-E80C682B8FC6}"/>
+						<State Id="3177314147" Name="Part1" ObjectPath="\States\Default Work Unit\Combat\Part1" GUID="{78F66928-6237-4954-BF12-9B56F76B50CC}"/>
+						<State Id="3177314144" Name="Part2" ObjectPath="\States\Default Work Unit\Combat\Part2" GUID="{00DC69D1-D3F0-4342-ACB7-FE16861996D6}"/>
+						<State Id="3177314145" Name="Part3" ObjectPath="\States\Default Work Unit\Combat\Part3" GUID="{3238818B-0315-445D-9EC1-32D249571F81}"/>
+						<State Id="3177314150" Name="Part4" ObjectPath="\States\Default Work Unit\Combat\Part4" GUID="{25C2235A-AB75-47F3-BF6D-A0C1ADFF78C8}"/>
+						<State Id="3177314151" Name="Part5" ObjectPath="\States\Default Work Unit\Combat\Part5" GUID="{03F2C12D-9F72-4D42-AF13-0C9582771189}"/>
+						<State Id="3177314148" Name="Part6" ObjectPath="\States\Default Work Unit\Combat\Part6" GUID="{78BE3DBC-04A7-460D-94E5-66B37E70AB3B}"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="3557636762" Name="Roaming" ObjectPath="\States\Default Work Unit\Roaming" GUID="{6417182B-EBE5-4F04-9BEE-EDD7EBC3D8C5}">
+					<States>
+						<State Id="748895195" Name="None" ObjectPath="\States\Default Work Unit\Roaming\None" GUID="{32C64882-E35A-471C-B48E-E65A42E0DB3A}"/>
+						<State Id="2874554374" Name="RoamState1" ObjectPath="\States\Default Work Unit\Roaming\RoamState1" GUID="{526E5906-8CC7-4CC8-9E5C-EBC489776CE3}"/>
+						<State Id="2874554373" Name="RoamState2" ObjectPath="\States\Default Work Unit\Roaming\RoamState2" GUID="{39D38D9F-3CA4-4EBF-A934-CFEAA3A8AABE}"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
 		</SoundBank>
 	</SoundBanks>
 </SoundBanksInfo>
