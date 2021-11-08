@@ -27,12 +27,10 @@ public abstract class RangedWeapon : AbstractWeapon
 
 	[Tooltip("The maximum amount of degrees away from the direction aimed that the projectile might fly")]
 	[SerializeField]
-	protected float inAccuracy = 3;
+	protected float inaccuracy = 3;
 
 	[SerializeField]
 	protected GameObject AimCone;
-	[SerializeField]
-	protected Transform AimPoint;//Point used to not need the complicated rotation of vector maths....
 
 
 	protected GameObject WeaponMuzzle
@@ -54,7 +52,7 @@ public abstract class RangedWeapon : AbstractWeapon
 	/// <summary>
 	/// The degrees by which the shot might change direction to either side. The effect of poison is included here
 	/// </summary>
-	public float InAccuracy
+	public float Inaccuracy
     {
         get {
 			float modval = 0;
@@ -62,9 +60,9 @@ public abstract class RangedWeapon : AbstractWeapon
 			{
 				modval = this.holderAgent.GetComponent<StatusEffectHandler>().InAccuracyMod;
 			}
-			return Mathf.Clamp(inAccuracy + modval, 0, 89); 
+			return Mathf.Clamp(inaccuracy + modval, 0, 89); 
 		}
-		set { inAccuracy = Mathf.Clamp(value, 0, 89); }
+		set { inaccuracy = Mathf.Clamp(value, 0, 89); }
     }
 
 	public override void SetAimGradient(Gradient gradient)
@@ -98,7 +96,7 @@ public abstract class RangedWeapon : AbstractWeapon
 	/// </summary>
 	protected void UpdateAimCone()
     {
-		float width = 2 * Mathf.Tan(InAccuracy * Mathf.Deg2Rad);//the 1,1,1 scale of the cone has length one and width one.
+		float width = 2 * Mathf.Tan(Inaccuracy * Mathf.Deg2Rad);//the 1,1,1 scale of the cone has length one and width one.
 		AimCone.transform.localScale = new Vector3(width, 1, 1);
     }
 
@@ -110,7 +108,7 @@ public abstract class RangedWeapon : AbstractWeapon
 	protected Vector3 GetBulletDirection()
     {
 		Vector3 bulletDir = transform.forward;//I rotate this forward vector by a random amount of degrees basically
-		float deviation = ((Random.value * 2) - 1) * InAccuracy * Mathf.Deg2Rad;
+		float deviation = ((Random.value * 2) - 1) * Inaccuracy * Mathf.Deg2Rad;
 
 		float newX = bulletDir.x * Mathf.Cos(deviation) - bulletDir.z * Mathf.Sin(deviation);
 		float newZ = bulletDir.x * Mathf.Sin(deviation) + bulletDir.z * Mathf.Cos(deviation);
