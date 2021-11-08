@@ -30,64 +30,76 @@ public class ProceduralTransformation : MonoBehaviour
     public List<GameObject> SpecialForest = new List<GameObject>();
     public List<GameObject> SpecialRural = new List<GameObject>();
 
+    [SerializeField]
+    private bool SkipScenary;
+    [SerializeField]
+    private List<GameObject> misc = new List<GameObject>();
 
 
     // Start is called before the first frame update
     void Start()
     {
-        switch (FitnessFunction.currentRoom)
+        if (!SkipScenary)
         {
-            case Rooms.Normal:
-                switch (SpawnItemsFromLibrary.currentScenary)
-                {
-                    case Scenary.City:
-                        TransformItem(normalRoomCity);
-                        break;
-                    case Scenary.Forest:
-                        TransformItem(normalRoomForest);
-                        break;
-                    case Scenary.Rural:
-                        TransformItem(normalRoomRural);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case Rooms.Encounter:
-                switch (SpawnItemsFromLibrary.currentScenary)
-                {
-                    case Scenary.City:
-                        TransformItem(EncounterCity);
-                        break;
-                    case Scenary.Forest:
-                        TransformItem(EncounterForest);
-                        break;
-                    case Scenary.Rural:
-                        TransformItem(EncounterRural);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case Rooms.Special:
-                switch (SpawnItemsFromLibrary.currentScenary)
-                {
-                    case Scenary.City:
-                        TransformItem(SpecialCity);
-                        break;
-                    case Scenary.Forest:
-                        TransformItem(SpecialForest);
-                        break;
-                    case Scenary.Rural:
-                        TransformItem(SpecialRural);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            default:
-                break;
+            switch (FitnessFunction.currentRoom)
+            {
+                case Rooms.Normal:
+                    switch (SpawnItemsFromLibrary.currentScenary)
+                    {
+                        case Scenary.City:
+                            TransformItem(normalRoomCity);
+                            break;
+                        case Scenary.Forest:
+                            TransformItem(normalRoomForest);
+                            break;
+                        case Scenary.Rural:
+                            TransformItem(normalRoomRural);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Rooms.Encounter:
+                    switch (SpawnItemsFromLibrary.currentScenary)
+                    {
+                        case Scenary.City:
+                            TransformItem(EncounterCity);
+                            break;
+                        case Scenary.Forest:
+                            TransformItem(EncounterForest);
+                            break;
+                        case Scenary.Rural:
+                            TransformItem(EncounterRural);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Rooms.Special:
+                    switch (SpawnItemsFromLibrary.currentScenary)
+                    {
+                        case Scenary.City:
+                            TransformItem(SpecialCity);
+                            break;
+                        case Scenary.Forest:
+                            TransformItem(SpecialForest);
+                            break;
+                        case Scenary.Rural:
+                            TransformItem(SpecialRural);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
+        else
+        {
+            TransformItem(misc);
+        }
+
     }
 
 
@@ -96,7 +108,7 @@ public class ProceduralTransformation : MonoBehaviour
     {
         //Take a random item from the list and transform into it
         int rnd = Random.Range(0, list.Count);
-        GameObject GO = Instantiate(list[rnd], new Vector3(this.transform.position.x, list[rnd].gameObject.transform.position.y, this.transform.position.z) , list[rnd].transform.rotation);
+        GameObject GO = Instantiate(list[rnd], new Vector3(this.transform.position.x, list[rnd].gameObject.transform.position.y, this.transform.position.z), list[rnd].transform.rotation,transform.parent);
         GO.name = list[rnd].name;
         if (GO.CompareTag("Enemy"))
         {
