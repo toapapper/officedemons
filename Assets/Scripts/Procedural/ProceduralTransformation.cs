@@ -96,9 +96,35 @@ public class ProceduralTransformation : MonoBehaviour
     {
         //Take a random item from the list and transform into it
         int rnd = Random.Range(0, list.Count);
-        GameObject GO = Instantiate(list[rnd], this.transform.position, list[rnd].transform.rotation);
+        GameObject GO = Instantiate(list[rnd], new Vector3(this.transform.position.x, list[rnd].gameObject.transform.position.y, this.transform.position.z) , list[rnd].transform.rotation);
         GO.name = list[rnd].name;
+        if (GO.CompareTag("Enemy"))
+        {
+            GO.transform.parent = FindClosestEncounter();
+        }
         Destroy(gameObject);
+    }
+
+
+
+    private Transform FindClosestEncounter()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("Encounter");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest.transform;
     }
 
 }

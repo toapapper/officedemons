@@ -105,11 +105,13 @@ public class SpawnItemsFromLibrary : MonoBehaviour
     {
         if (item != null)
         {
-            GameObject GO = Instantiate(item, new Vector3(node.position.x, item.transform.lossyScale.y /2 , node.position.y), Quaternion.identity);
+            GameObject GO = Instantiate(item, new Vector3(node.position.x, item.transform.localPosition.y, node.position.y), Quaternion.identity);
             GO.transform.parent = level.transform;
             GO.name = item.name;
             node.gameObject = GO;
+
             item = null;
         }
     }
+
 }
