@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1183457478698962452
+--- !u!1 &750300407042651568
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 748064485704087953}
-  - component: {fileID: 4613847369658292870}
-  - component: {fileID: 5438579728127469885}
-  - component: {fileID: 5543537043831661939}
-  - component: {fileID: 5044020052128908722}
-  m_Layer: 9
-  m_Name: Loot
+  - component: {fileID: 81709734946402058}
+  - component: {fileID: 3930957510762356911}
+  - component: {fileID: 1254646458577327205}
+  - component: {fileID: 3468711924421783360}
+  - component: {fileID: 6713184926385275713}
+  m_Layer: 3
+  m_Name: red_car 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &748064485704087953
+--- !u!4 &81709734946402058
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183457478698962452}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 750300407042651568}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4613847369658292870
+  m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
+--- !u!33 &3930957510762356911
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183457478698962452}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &5438579728127469885
+  m_GameObject: {fileID: 750300407042651568}
+  m_Mesh: {fileID: -5495902117074765545, guid: 9eeeafc9e82694f4297bd04417372f14, type: 3}
+--- !u!23 &1254646458577327205
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183457478698962452}
+  m_GameObject: {fileID: 750300407042651568}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 05c373cc2c0be084da03213098168b33, type: 2}
+  - {fileID: 4874126678125670354, guid: 9eeeafc9e82694f4297bd04417372f14, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,45 +83,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5543537043831661939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183457478698962452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b87cd630ba2c6e439c300890f67c9ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  normalRoomCity:
-  - {fileID: 4904968822265838951, guid: 0de22563a940e134db879c589014f7a8, type: 3}
-  - {fileID: 4229618764198995258, guid: 8a0153ef7d6c2ae4a9d3b500e2aa3e7d, type: 3}
-  normalRoomForest:
-  - {fileID: 4562945548694608202, guid: b8c6b978db198e142b8fa2d7137b4aca, type: 3}
-  - {fileID: 5163975343130323108, guid: 8c9380b4040a06745943eb661f902d66, type: 3}
-  normalRoomRural:
-  - {fileID: 3617718076009827125, guid: e948ea00e24de324d9cfe76819d6af21, type: 3}
-  EncounterCity:
-  - {fileID: 5263514033608547217, guid: 13cfa0dcce6264f43a924ecd6db634eb, type: 3}
-  EncounterForest:
-  - {fileID: 5263514033608547217, guid: 13cfa0dcce6264f43a924ecd6db634eb, type: 3}
-  EncounterRural:
-  - {fileID: 5263514033608547217, guid: 13cfa0dcce6264f43a924ecd6db634eb, type: 3}
-  SpecialCity: []
-  SpecialForest: []
-  SpecialRural: []
---- !u!65 &5044020052128908722
+--- !u!65 &3468711924421783360
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183457478698962452}
+  m_GameObject: {fileID: 750300407042651568}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3.6435728, y: 3.8144126, z: 2.519025}
+  m_Center: {x: 0, y: -0.6336169, z: 0.30503443}
+--- !u!65 &6713184926385275713
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750300407042651568}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.6435728, y: 6.6406517, z: 1.6314597}
+  m_Center: {x: 0, y: -0.93080956, z: -0.13875307}

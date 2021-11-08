@@ -95,8 +95,8 @@ public class ProceduralTransformation : MonoBehaviour
     private void TransformItem(List<GameObject> list)
     {
         //Take a random item from the list and transform into it
-        int rnd = Random.Range(0, list.Count -1);
-        GameObject GO = Instantiate(list[rnd], this.transform.position, Quaternion.identity);
+        int rnd = Random.Range(0, list.Count);
+        GameObject GO = Instantiate(list[rnd], this.transform.position, list[rnd].transform.rotation);
         GO.name = list[rnd].name;
         Destroy(gameObject);
     }

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 487836534263645902}
   - component: {fileID: 5626373369162579584}
   - component: {fileID: 6154192798214353323}
-  - component: {fileID: 1825901893717073410}
+  - component: {fileID: -670723647700287626}
   m_Layer: 0
-  m_Name: Hurdles
+  m_Name: UnpassableTerrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1820636306261740082}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 5, y: 3, z: 7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -96,7 +96,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1825901893717073410
+--- !u!114 &-670723647700287626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,20 +109,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalRoomCity:
-  - {fileID: 898045107838225837, guid: 2885bc7de734f8e4998bfcfd997acf3a, type: 3}
-  - {fileID: 898045107838225837, guid: 6bcd48032e80fe947951518abb878479, type: 3}
+  - {fileID: 5116209045279662060, guid: 209cdc8b3819b2a4a88f4b36116ab6ec, type: 3}
+  - {fileID: 750300407042651568, guid: 9f9eadd6a80c7714d88087c86ac8f892, type: 3}
   normalRoomForest:
-  - {fileID: 898045107838225837, guid: 2885bc7de734f8e4998bfcfd997acf3a, type: 3}
-  - {fileID: 898045107838225837, guid: 6bcd48032e80fe947951518abb878479, type: 3}
+  - {fileID: 5263514033608547217, guid: 13cfa0dcce6264f43a924ecd6db634eb, type: 3}
   normalRoomRural:
+  - {fileID: 750300407042651568, guid: 9f9eadd6a80c7714d88087c86ac8f892, type: 3}
+  - {fileID: 5263514033608547217, guid: 13cfa0dcce6264f43a924ecd6db634eb, type: 3}
   - {fileID: 898045107838225837, guid: 2885bc7de734f8e4998bfcfd997acf3a, type: 3}
-  - {fileID: 898045107838225837, guid: 6bcd48032e80fe947951518abb878479, type: 3}
   EncounterCity:
-  - {fileID: 8536423501050563420, guid: cf7dc5980953d3447b06a4fa72a6e3d1, type: 3}
+  - {fileID: 4963140393107152327, guid: 780ac517a995f15418f81c517e9501ce, type: 3}
   EncounterForest:
-  - {fileID: 8536423501050563420, guid: cf7dc5980953d3447b06a4fa72a6e3d1, type: 3}
+  - {fileID: 5263514033608547217, guid: 13cfa0dcce6264f43a924ecd6db634eb, type: 3}
   EncounterRural:
-  - {fileID: 8536423501050563420, guid: cf7dc5980953d3447b06a4fa72a6e3d1, type: 3}
+  - {fileID: 4963140393107152327, guid: 780ac517a995f15418f81c517e9501ce, type: 3}
+  - {fileID: 5116209045279662060, guid: 209cdc8b3819b2a4a88f4b36116ab6ec, type: 3}
+  - {fileID: 750300407042651568, guid: 9f9eadd6a80c7714d88087c86ac8f892, type: 3}
   SpecialCity: []
   SpecialForest: []
   SpecialRural: []
