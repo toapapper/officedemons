@@ -11,14 +11,20 @@ public class RushChairSpecial : OfficeChairSpecial
 
 	public bool isProjectile;
 
+
+	public override void SetAim(FieldOfView fov, GameObject fovVisualization, GameObject throwAim, Gradient gradient)
+	{
+		laserAim.SetActive(true);
+		GetComponentInChildren<LineRenderer>().colorGradient = gradient;
+		laserAim.SetActive(false);
+	}
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
+		if (!isActive)
+		{
+			laserAim.GetComponent<LineRenderer>().positionCount = 0;
+		}
 		laserAim.SetActive(isActive);
-		//if (!isActive)
-		//{
-		//	throwAim.GetComponent<LineRenderer>().positionCount = 0;
-		//}
-		//throwAim.SetActive(isActive);
 	}
 
 	public override void StartAttack(Animator animator)

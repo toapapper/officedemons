@@ -10,7 +10,8 @@ public class OfficeChairSpecial : AbstractSpecial
 	//private float rushForce = 100f;
 
 	//public bool isProjectile;
-
+	public override void SetAim(FieldOfView fov, GameObject fovVisualization, GameObject throwAim, Gradient gradient) { }
+	//public override void SetAimGradient(Gradient gradient) { }
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim) { }
 	//{
 	//	laserAim.SetActive(isActive);

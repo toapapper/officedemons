@@ -23,10 +23,10 @@ public abstract class AbstractSpecial : MonoBehaviour
 	private float damage;
 	[SerializeField]
 	private float hitForce;
-	[SerializeField]
-	private float viewDistance = 20f;
-	[SerializeField]
-	private float viewAngle = 10f;
+	//[SerializeField]
+	//private float viewDistance = 20f;
+	//[SerializeField]
+	//private float viewAngle = 10f;
 
 	public float Damage
 	{
@@ -38,24 +38,26 @@ public abstract class AbstractSpecial : MonoBehaviour
 		get { return hitForce; }
 		set { hitForce = value; }
 	}
-	public float ViewAngle
-	{
-		get { return viewAngle; }
-		set { viewAngle = value; }
-	}
-	public float ViewDistance
-	{
-		get { return viewDistance; }
-		set { viewDistance = value; }
-	}
+	//public float ViewAngle
+	//{
+	//	get { return viewAngle; }
+	//	set { viewAngle = value; }
+	//}
+	//public float ViewDistance
+	//{
+	//	get { return viewDistance; }
+	//	set { viewDistance = value; }
+	//}
 
 	public void PickUpIn(GameObject holderAgent)
 	{
 		this.holderAgent = holderAgent;
 	}
-	public virtual void SetAimGradient(Gradient gradient) { }
+	public virtual void SetAim(FieldOfView fov, GameObject fovVisualization, GameObject throwAim, Gradient gradient) { }
+	//public virtual void SetAimGradient(Gradient gradient) { }
+	//public virtual void SetFOV(FieldOfView FOV) { }
 	public virtual void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim) { }
-	public virtual void StartAttack(Animator animator) { }
+	public abstract void StartAttack(Animator animator);
 	public abstract void Attack(Animator animator);
 	public virtual void DoSpecialAction(FieldOfView fov) { }
 	public virtual void DoPassiveSpecial() { }

@@ -531,6 +531,56 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3910732621068612184
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2222338231445204482}
+  - component: {fileID: 7165401346508195872}
+  m_Layer: 7
+  m_Name: Head
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2222338231445204482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3910732621068612184}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7325289924783187099}
+  m_Father: {fileID: 7325289924295572769}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7165401346508195872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3910732621068612184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eefaa73796497f14a9590cfc89cf2637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects: 01000000
+  damage: 5
+  hitForce: 50
+  viewDistance: 10
+  viewAngle: 100
+  mouth: {fileID: 7274438656121844208}
 --- !u!1 &5064430784078649799
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,6 +737,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7274438656121844208
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5364194971941072760}
+  m_Layer: 0
+  m_Name: Mouth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5364194971941072760
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7274438656121844208}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7325289924783187099}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7325289924295572781
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,7 +810,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7325289924783187099}
+  - {fileID: 2222338231445204482}
   - {fileID: 7814022282360496209}
   - {fileID: 539424671321506895}
   - {fileID: 1839385365647607807}
@@ -931,7 +1011,7 @@ MonoBehaviour:
   throwAim: {fileID: 5093014111725489489}
   FOV: {fileID: 9139833893278016181}
   FOVVisualization: {fileID: 2550825479005126944}
-  objectInHand: {fileID: 0}
+  objectInHand: {fileID: 7165401346508195872}
 --- !u!114 &6322968473987886369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -944,7 +1024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045394b85f26e804b916a3ed3c696019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerColor: {r: 0.057324886, g: 0.5, b: 0, a: 1}
+  playerColor: {r: 0.05882353, g: 0.5019608, b: 0, a: 1}
   characterName: 0
   jobTitle: Terrible programmer
   startHealth: 100
@@ -1053,10 +1133,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7325289924783187098}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0.52}
+  m_LocalPosition: {x: 0, y: 0, z: 0.52}
   m_LocalScale: {x: 0.4, y: 0.2, z: 0.5}
-  m_Children: []
-  m_Father: {fileID: 7325289924295572769}
+  m_Children:
+  - {fileID: 5364194971941072760}
+  m_Father: {fileID: 2222338231445204482}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7325289924783187102
@@ -1603,14 +1684,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
---- !u!4 &1839385365647607807 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5320859338818097223, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
-  m_PrefabInstance: {fileID: 5787603113924417464}
-  m_PrefabAsset: {fileID: 0}
 --- !u!33 &6508152789107167104 stripped
 MeshFilter:
   m_CorrespondingSourceObject: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+  m_PrefabInstance: {fileID: 5787603113924417464}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1839385365647607807 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5320859338818097223, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
   m_PrefabInstance: {fileID: 5787603113924417464}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &305884604015992780 stripped
@@ -1688,14 +1769,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6084092835874375796, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
   m_PrefabInstance: {fileID: 8577475412216990036}
   m_PrefabAsset: {fileID: 0}
---- !u!33 &9009864840261194092 stripped
-MeshFilter:
-  m_CorrespondingSourceObject: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
-  m_PrefabInstance: {fileID: 8577475412216990036}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4530107828379441427 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5320859338818097223, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+  m_PrefabInstance: {fileID: 8577475412216990036}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &9009864840261194092 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
   m_PrefabInstance: {fileID: 8577475412216990036}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8634833048560083381

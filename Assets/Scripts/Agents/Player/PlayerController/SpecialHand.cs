@@ -36,12 +36,12 @@ public class SpecialHand : MonoBehaviour
 			//FOV.ViewAngle = objectInHand.ViewAngle;
 			Equip();
 			//SetAimGradient();
-			if (throwAim != null)
-			{
-				throwAim.gameObject.SetActive(true);
-				throwAim.GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
-				throwAim.gameObject.SetActive(false);
-			}
+			//if (throwAim != null)
+			//{
+			//	throwAim.gameObject.SetActive(true);
+			//	throwAim.GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
+			//	throwAim.gameObject.SetActive(false);
+			//}
 		}
 	}
 
@@ -56,22 +56,28 @@ public class SpecialHand : MonoBehaviour
 
 		SetAimGradient();
 
-		FOV.ViewAngle = objectInHand.ViewAngle;
-		FOV.ViewRadius = objectInHand.ViewDistance;
+		//objectInHand.SetAimGradient(aimGradient);
+		//objectInHand.SetFOV(FOV);
+		objectInHand.SetAim(FOV, FOVVisualization, throwAim.gameObject, aimGradient);
+		
+
+		//FOV.ViewAngle = objectInHand.ViewAngle;
+		//FOV.ViewRadius = objectInHand.ViewDistance;
 	}
 
 	//Aim
 	private void SetAimGradient()
 	{
-		aimGradient = new Gradient();
 		GradientColorKey[] colorKey = new GradientColorKey[2];
 		colorKey[0].color = GetComponent<Attributes>().PlayerColor;
 		GradientAlphaKey[] alphaKey = new GradientAlphaKey[2];
 		alphaKey[0].alpha = 1;
 		alphaKey[1].time = 1;
 		alphaKey[1].alpha = 0.5f;
+		aimGradient = new Gradient();
 		aimGradient.SetKeys(colorKey, alphaKey);
-		objectInHand.SetAimGradient(aimGradient);
+
+		//objectInHand.SetAimGradient(aimGradient);
 	}
 	public void ToggleAimView(bool isActive)
 	{
@@ -82,27 +88,20 @@ public class SpecialHand : MonoBehaviour
 	}
 
 	//Attack
-	public void StartAttack()
+	public bool StartAttack()
 	{
 		if (objectInHand)
 		{
 			objectInHand.StartAttack(animator);
+			return true;
 		}
+		return false;
 	}
-	public void Attack()
+	public bool Attack()
 	{
 		if (objectInHand)
 		{
 			objectInHand.Attack(animator);
-		}
-	}
-
-	//Bombard attack
-	public bool StartBombard()
-	{
-		if (objectInHand && objectInHand is CoffeeSpecial)
-		{
-			objectInHand.StartAttack(animator);
 			return true;
 		}
 		return false;
@@ -116,16 +115,6 @@ public class SpecialHand : MonoBehaviour
 		}
 		return false;
 	}
-	public bool PerformBombard()
-	{
-		if (objectInHand && objectInHand is CoffeeSpecial)
-		{
-			objectInHand.Attack(animator);
-			return true;
-		}
-		return false;
-	}
-
 	public void CancelAction()
 	{
 		animator.SetTrigger("isCancelAction");

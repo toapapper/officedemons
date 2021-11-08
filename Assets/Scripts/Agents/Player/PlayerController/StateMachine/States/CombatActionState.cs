@@ -29,7 +29,7 @@ public class CombatActionState : AbstractPlayerState
 				specialHand.Attack();
 				break;
 			case TypeOfAction.SPECIALBOMBARD:
-				specialHand.PerformBombard();
+				specialHand.Attack();
 				break;
 			case TypeOfAction.THROW:
 				weaponHand.Throw();

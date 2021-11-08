@@ -15,6 +15,12 @@ public class CoffeeSpecial : AbstractSpecial
 		set { grenadeThrowForce = value; }
 	}
 
+	public override void SetAim(FieldOfView fov, GameObject fovVisualization, GameObject throwAim, Gradient gradient)
+	{
+		throwAim.SetActive(true);
+		GetComponentInChildren<LineRenderer>().colorGradient = gradient;
+		throwAim.SetActive(false);
+	}
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
 		if (!isActive)
