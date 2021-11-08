@@ -62,6 +62,8 @@ public class AIManager : MonoBehaviour
         actionsQueue.Clear();
         foreach (GameObject e in enemyList)
         {
+            e.GetComponent<AIController>().TargetPosition = Vector3.zero;
+
             //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
             if (!e.GetComponent<StatusEffectHandler>().Paralyzed)
             {
@@ -74,7 +76,7 @@ public class AIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Calls every AI-agent's "update" (AIController.PeformBehaviour).
+    /// Calls every AI-agent's "update" (AIController.PerformBehaviour).
     /// Checks if agents are dead or all have locked in actions.
     /// </summary>
     /// <param name=""></param>
@@ -83,7 +85,7 @@ public class AIManager : MonoBehaviour
         bool allDone = true;
         bool allDead = true;
 
-        List<GameObject> killOnSight = new List<GameObject>();
+        List<GameObject> killOnSight = new List<GameObject>(); 
 
         for (int i = 0; i < playerList.Count; i++)
         {
@@ -94,13 +96,13 @@ public class AIManager : MonoBehaviour
             }
         }
 
-
         for(int i = 0; i < enemyList.Count; i++)
         {
             GameObject e = enemyList[i];
-            if (!e.GetComponent<AIController>().ActionIsLocked)
+
+            if (actionsQueue.Count < enemyList.Count) //if not all locked actions
             {
-                e.GetComponent<AIController>().Priorites = killOnSight;
+                e.GetComponent<AIController>().Priorites = killOnSight; // ändra sen ?
                 e.GetComponent<AIController>().PerformBehaviour();
                 
                 allDone = false;

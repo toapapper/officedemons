@@ -10,7 +10,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 23-10-2021
+// Last Edited: 06-11-2021
 //TODO: tog bort fitness tempor�rt och allt den kollar p� �r atm desiredobjects aka s� h�r m�nga vapen/fiender. L�gg tillbaka fitness
 public enum Rooms { Normal, Encounter, Special}
 
@@ -21,23 +21,32 @@ public class FitnessFunction : MonoBehaviour
 
     [SerializeField]
     private Vector2 bigRoomMultiplier = new Vector2(2,4);
-    private SpawnItemsFromLibrary itemLibrary;
     private List<Node> lbNodes;
     [SerializeField]
     private int encounterFreq = 3;
     private int roomCounter = 0;
+
+    public int RoomCounter
+    {
+        get { return roomCounter; }
+    }
     private Node lbRoot;
     private int lbWidth;
     private int lbHeight;
     private int lbFitness;
     private int turnCounter;
-    [SerializeField]
-    private int turnFrequency = 3;
     private int specials = 0;
+
+    public static FitnessFunction Instance { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
 
     private void Start()
     {
-        itemLibrary = GetComponent<SpawnItemsFromLibrary>();
         lbNodes = new List<Node>();
     }
     /// <summary>
@@ -51,12 +60,12 @@ public class FitnessFunction : MonoBehaviour
         if (currentRoom == Rooms.Encounter)
         {
             //Debug.Log("==== Encounter Room ====");
-            return EvaluateFitness(nodes,5, root, Rooms.Encounter);
+            return EvaluateFitness(nodes,4,10, root, Rooms.Encounter);
         }
         else
         {
             //Debug.Log("**** Roaming Room ****");
-            return EvaluateFitness(nodes,3, root, Rooms.Normal);
+            return EvaluateFitness(nodes,4,10, root, Rooms.Normal);
         }
     }
 
@@ -72,21 +81,11 @@ public class FitnessFunction : MonoBehaviour
         }
     }
 
-
-
-    public bool TimeToTurn()
+    public int GetRoomFreq()
     {
-        if (roomCounter % encounterFreq == 2)
-        {
-            turnCounter++;
-            if (turnCounter > turnFrequency)
-            {
-                turnCounter = 0;
-                return true;
-            }
-        }
-        return false;
+        return roomCounter % encounterFreq;
     }
+
     /// <summary>
     /// Executes different calculations depending on the room variant.
     /// </summary>
@@ -95,10 +94,9 @@ public class FitnessFunction : MonoBehaviour
     /// <param name="root">The root node represents the floor in which the rest of the objects are tied</param>
     /// <param name="heightLimit"></param>
     /// <returns></returns>
-    public bool EvaluateFitness(List<Node> nodes, int desiredObjects, Node root, Rooms currentRoom)
+    public bool EvaluateFitness(List<Node> nodes, int desiredObjects, int fitnessGoal, Node root, Rooms currentRoom)
     {
         int fitnessValue = 0;
-        int obstacles = 0;
         specials = 0;
         for (int i = 0; i < nodes.Count; i++)
         {
@@ -111,7 +109,6 @@ public class FitnessFunction : MonoBehaviour
                 {
                     BufferMaker(out nodes[i].size.x, out nodes[i].size.y, nodes[i]);
                     fitnessValue = EncounterFitness(nodes[i], root, fitnessValue);
-                    obstacles++;
                 }
             }
             else
@@ -120,22 +117,32 @@ public class FitnessFunction : MonoBehaviour
                 {
                     BufferMaker(out nodes[i].size.x, out nodes[i].size.y, nodes[i]);
                     fitnessValue = StandardFitness(nodes[i], root, fitnessValue);
-                    obstacles++;
                 }
             }
         }
-        if (desiredObjects - 1 <= specials && specials <= desiredObjects + 1)
+        if (Mathf.Abs(desiredObjects - specials) > 1)
+        {
+            fitnessValue -= 10;
+        }
+        else if (Mathf.Abs(desiredObjects - specials) == 1)
+        {
+            fitnessValue += 5;
+        }
+        else
+        {
+            fitnessValue += 10;
+        }
+        if (fitnessValue >= fitnessGoal)
         {
             //Debug.Log("Sucessesful fitness = " + fitnessValue);
-            Debug.Log(specials);
             for (int i = 0; i < nodes.Count; i++)
             {
                 if (nodes[i].leaf)
                 {
-                    itemLibrary.FindClosestKey(nodes[i]);
+                    SpawnItemsFromLibrary.Instance.FindClosestKey(nodes[i].size, ProceduralItemLibrary.Instance.itemLibrary);
                     if(nodes[i].size != Vector2.zero)
                     {
-                        itemLibrary.SpawnItems(nodes[i], root);
+                        SpawnItemsFromLibrary.Instance.SpawnItems(nodes[i]);
                     }
                 }
             }
@@ -164,24 +171,12 @@ public class FitnessFunction : MonoBehaviour
     /// <returns></returns>
     public int StandardFitness(Node node, Node root, int fitness)
     {
-        //if (node.size.x * node.size.y < root.size.x * root.size.y / 200)
-        //    fitness -= 20;
-
-        //else if (node.size.x * node.size.y > root.size.x * root.size.y / 100)
-        //    fitness += 40;
-
-        //else
-        //    fitness += 10;
-
-        if (itemLibrary.SeeClosestKey(node).name == "Loot" && itemLibrary.SeeClosestKey(node) != null && node.size != Vector2.zero)
+        fitness++;
+        if (SpawnItemsFromLibrary.Instance.SeeClosestKey(node).name == "Loot" && SpawnItemsFromLibrary.Instance.SeeClosestKey(node) != null && node.size != Vector2.zero)
         {
-            Debug.Log("Loot found");
             specials++;
             fitness++;
         }
-
-        fitness = TooCloseCheck(node, 20, root, fitness, 400);
-
         return fitness;
     }
 
@@ -195,19 +190,19 @@ public class FitnessFunction : MonoBehaviour
     public int EncounterFitness(Node node, Node root, int fitness)
     {
         //Checks if the nodes are not to small
-        if (node.size.x <= root.size.x / 6 && node.size.y <= root.size.y / 6)
-        {
-            fitness--;
-        }
-        else
-        {
-            fitness++;
-        }
+        //if (node.size.x <= root.size.x / 6 && node.size.y <= root.size.y / 6)
+        //{
+        //    fitness--;
+        //}
+        //else
+        //{
+        //    fitness++;
+        //}
 
         //Additional values.
-        if (itemLibrary.SeeClosestKey(node).name == "Hurdles" && itemLibrary.SeeClosestKey(node) != null && node.size != Vector2.zero)
+        fitness++;
+        if (SpawnItemsFromLibrary.Instance.SeeClosestKey(node).name == "Hurdles" && SpawnItemsFromLibrary.Instance.SeeClosestKey(node) != null && node.size != Vector2.zero)
         {
-            Debug.Log("Hurdle found");
             specials++;
             fitness++;
         }
@@ -248,10 +243,10 @@ public class FitnessFunction : MonoBehaviour
             if (lbNodes[i].leaf)
             {
                 BufferMaker(out lbNodes[i].size.x, out lbNodes[i].size.y, lbNodes[i]);
-                itemLibrary.FindClosestKey(lbNodes[i]);
+                SpawnItemsFromLibrary.Instance.FindClosestKey(lbNodes[i].size, ProceduralItemLibrary.Instance.itemLibrary);
                 if (lbNodes[i].size != Vector2.zero)
                 {
-                    itemLibrary.SpawnItems(lbNodes[i], lbRoot);
+                    SpawnItemsFromLibrary.Instance.SpawnItems(lbNodes[i]);
                 }
             }
         }
@@ -291,17 +286,20 @@ public class FitnessFunction : MonoBehaviour
     /// <param name="size"></param>
     /// <param name="generations">A value that can change the amount of generations of perticular rooms</param>
     /// <returns></returns>
-    public Vector2 NextRoomFitness(Vector2 widthLimits, Vector2 heightLimits, Vector2 size, int generations)
+    public Vector2 NextRoomFitness(Vector2 widthLimits, Vector2 heightLimits,Vector2 size, Vector2 oldSize,Vector2 lastSize, int generations)
     {
         size.x = Random.Range((int)widthLimits.x, (int)widthLimits.y);
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
-        if (roomCounter % encounterFreq == 0 && roomCounter > 0)
+        if (roomCounter % encounterFreq == 0 && roomCounter > 2)
         {
-            generations = 4;
+            generations = generations + 1;
             size.x *= bigRoomMultiplier.x;
             size.y *= bigRoomMultiplier.y;
         }
-        generations = 3;
+        else if(roomCounter % encounterFreq == 1 && roomCounter > 2)
+        {
+            BSPTree.Instance.LastSize = new Vector2(BSPTree.Instance.LastSize.x + oldSize.x - size.x, BSPTree.Instance.LastSize.y);
+        }
         roomCounter++;
         ChangeScenary(10);
         return size;

@@ -78,18 +78,24 @@ public class AIStateHandler : MonoBehaviour
         //DeathCheck       
         if(aiController.CurrentState != AIStates.States.Dead)
         {
-            if (fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
+            if (attributes.Health <= (attributes.StartHealth / 2) && attributes.Stamina > 0)
+            {
+                aiController.CurrentState = AIStates.States.FindCover;
+                
+            }
+            else if(fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
             {
                 //If there is then they are in our attack range so we attack
                 aiController.CurrentState = AIStates.States.Attack;
             }
-            //No target within range
+            //No target within range and health is fine
             else
             {
                 //If we have stamina move(Later on will move towards target but for now only sets the next action to move)
                 if (attributes.Stamina > 0)
                 {
                     aiController.CurrentState = AIStates.States.Move;
+                    
                 }
                 //No stamina wait
                 else

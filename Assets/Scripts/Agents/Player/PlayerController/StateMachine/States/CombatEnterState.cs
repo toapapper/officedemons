@@ -14,10 +14,24 @@ using UnityEngine;
 // Last Edited: 2021-10-12
 public class CombatEnterState : AbstractPlayerState
 {
+	public override void OnFixedUpdateState()
+	{
+		if (playerMovement.AtDestination())
+		{
+			PlayerManager.Instance.PlayerAtCombatPosition(this.gameObject);
+		}
+	}
+
+
 	public override void OnStateEnter()
 	{
 		Debug.Log("Enters CombatEnterState" + this);
+		int i = PlayerManager.players.FindIndex(gameObject => gameObject == this.gameObject);
+		Vector3 movePosition = GameManager.Instance.CurrentEncounter.playerPositions[i].transform.position;
+		movePosition.y = transform.position.y;
+		playerMovement.MoveTo(movePosition);
 	}
+
 
 	public override void OnStateExit()
 	{

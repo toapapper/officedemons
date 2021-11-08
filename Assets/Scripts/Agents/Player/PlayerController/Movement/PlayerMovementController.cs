@@ -30,6 +30,7 @@ public class PlayerMovementController : MonoBehaviour
 	[SerializeField]
 	private float rotationSpeed = 500f;
 	private float slowEffect = 1;
+	private float moveTime;
 
 
 	public float getMoveSpeed{ get{ return moveSpeed; }}
@@ -86,5 +87,42 @@ public class PlayerMovementController : MonoBehaviour
 		pos.y = Mathf.Clamp(pos.y, 0, 1.05f);
 
 		navmeshAgent.Move(pos - transform.position);
+	}
+
+	/// <summary>
+	/// Move to position
+	/// </summary>
+	/// <param name="pos"></param>
+	public void MoveTo(Vector3 pos)
+	{
+		navmeshAgent.SetDestination(pos);
+		moveTime = 10f;
+	}
+
+	/// <summary>
+	/// Checks if players have reached position
+	/// </summary>
+	/// <returns></returns>
+	public bool AtDestination()
+	{
+		moveTime -= Time.deltaTime;
+		if(moveTime <= 0)
+		{
+			transform.position = navmeshAgent.destination;
+			navmeshAgent.ResetPath();
+			return true;
+		}
+		if (!navmeshAgent.pathPending)
+		{
+			if (navmeshAgent.remainingDistance <= navmeshAgent.stoppingDistance)
+			{
+				if (!navmeshAgent.hasPath || navmeshAgent.velocity.sqrMagnitude == 0f)
+				{
+					navmeshAgent.ResetPath();
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
