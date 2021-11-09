@@ -11,25 +11,24 @@ public class TerribleBreath : AbstractSpecial
 	[SerializeField]
 	GameObject mouth;
 
-
-	public override void SetAim(FieldOfView fov, Gradient gradient)
+	public override void SetFOVSize()
 	{
-		//fovVisualization.GetComponent<Renderer>().material.color = gradient.colorKeys[0].color;
-		fov.ViewAngle = viewAngle;
-		fov.ViewRadius = viewDistance;
-	}
-	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
-	{
-		FOVView.SetActive(isActive);
+		specialController.FOV.ViewAngle = viewAngle;
+		specialController.FOV.ViewRadius = viewDistance;
 	}
 
-	public override void StartAttack(Animator animator)
+	public override void ToggleAim(bool isActive)
 	{
-		animator.SetTrigger("isStartSpecialBreath");
+		specialController.FOVVisualization.SetActive(isActive);
 	}
-	public override void Attack(Animator animator)
+
+	public override void StartAttack()
 	{
-		animator.SetTrigger("isSpecialBreath");
+		specialController.Animator.SetTrigger("isStartSpecialBreath");
+	}
+	public override void Attack()
+	{
+		specialController.Animator.SetTrigger("isSpecialBreath");
 		
 	}
 
@@ -38,14 +37,14 @@ public class TerribleBreath : AbstractSpecial
 	//{
 	//	//Activate fire from mouth
 	//}
-	public override void DoSpecialAction(FieldOfView fov)
+	public override void DoSpecialAction()
 	{
-		if (fov.VisibleTargets.Count > 0)
+		if (specialController.FOV.VisibleTargets.Count > 0)
 		{
-			foreach (GameObject target in fov.VisibleTargets)
+			foreach (GameObject target in specialController.FOV.VisibleTargets)
 			{
 				Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
-				Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
+				Effects.ApplyForce(target, (target.transform.position - specialController.FOV.transform.position).normalized * HitForce);
 				Effects.ApplyWeaponEffects(target, effects);
 			}
 		}

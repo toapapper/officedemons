@@ -8,19 +8,21 @@ public class SpecialHand : MonoBehaviour
 	[SerializeField]
 	private ThrowAim throwAim;
 	[SerializeField]
-	private FieldOfView FOV;
+	private FieldOfView fov;
 	[SerializeField]
-	private GameObject FOVVisualization;
+	private GameObject fovVisualization;
 
-	public AbstractSpecial objectInHand;
-
+	[SerializeField]
+	private AbstractSpecial objectInHand;
 	private Gradient aimGradient;
 
-	public ThrowAim ThrowAim
-	{
-		get { return throwAim; }
-		set { throwAim = value; }
-	}
+	public AbstractSpecial ObjectInHand { get { return objectInHand; } }
+	public ThrowAim ThrowAim { get { return throwAim; } }
+	public FieldOfView FOV { get { return fov; } }
+	public GameObject FOVVisualization { get { return fovVisualization; } }
+	public Animator Animator { get { return animator; } }
+
+
 
 	private void Awake()
 	{
@@ -30,14 +32,15 @@ public class SpecialHand : MonoBehaviour
 
 	private void Start()
 	{
-		SetAimGradient();
+		SetColorGradient();
 		if (objectInHand != null)
 		{
 			Equip();
 		}
+		SetAimColor();
 	}
 
-	private void SetAimGradient()
+	private void SetColorGradient()
 	{
 		GradientColorKey[] colorKey = new GradientColorKey[2];
 		colorKey[0].color = GetComponent<Attributes>().PlayerColor;
@@ -47,17 +50,26 @@ public class SpecialHand : MonoBehaviour
 		alphaKey[1].alpha = 0.5f;
 		aimGradient = new Gradient();
 		aimGradient.SetKeys(colorKey, alphaKey);
-
-		FOVVisualization.GetComponent<Renderer>().material.color = aimGradient.colorKeys[0].color;
+	}
+	private void SetAimColor()
+	{
+		fovVisualization.GetComponent<Renderer>().material.color = aimGradient.colorKeys[0].color;
 		throwAim.gameObject.SetActive(true);
 		GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
 		throwAim.gameObject.SetActive(false);
+		if (objectInHand)
+		{
+			objectInHand.SetAimColor(aimGradient);
+		}
 	}
 
 	public void Equip()
 	{
 		objectInHand.PickUpIn(gameObject);
-		objectInHand.SetAim(FOV, aimGradient);
+		//SetAimColor();
+		objectInHand.SetFOVSize();
+
+		//objectInHand.SetAim(fov, aimGradient);
 	}
 
 	//Aim
@@ -65,7 +77,7 @@ public class SpecialHand : MonoBehaviour
 	{
 		if (objectInHand)
 		{
-			objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
+			objectInHand.ToggleAim(isActive/*, fovVisualization, throwAim.gameObject*/);
 		}
 	}
 
@@ -74,7 +86,7 @@ public class SpecialHand : MonoBehaviour
 	{
 		if (objectInHand)
 		{
-			objectInHand.StartAttack(animator);
+			objectInHand.StartAttack(/*animator*/);
 			return true;
 		}
 		return false;
@@ -83,7 +95,7 @@ public class SpecialHand : MonoBehaviour
 	{
 		if (objectInHand)
 		{
-			objectInHand.Attack(animator);
+			objectInHand.Attack(/*animator*/);
 			return true;
 		}
 		return false;
@@ -102,15 +114,17 @@ public class SpecialHand : MonoBehaviour
 		animator.SetTrigger("isCancelAction");
 	}
 
+
+
 	//TODO Start passive abillity 
-	public void PerformPassiveAbility()
-	{
-		objectInHand.PerformPassiveAbility(animator);
-	}
+	//public void PerformPassiveAbility()
+	//{
+	//	objectInHand.PerformPassiveAbility(animator);
+	//}
 
 	//Animation events
 	public void DoSpecialAction()
 	{
-		objectInHand.DoSpecialAction(FOV);
+		objectInHand.DoSpecialAction(/*fov*/);
 	}
 }

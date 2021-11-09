@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RushChairSpecial : OfficeChairSpecial
+public class RushChairSpecial : AbstractSpecial
 {
 	[SerializeField]
 	private GameObject laserAim;
@@ -12,41 +12,34 @@ public class RushChairSpecial : OfficeChairSpecial
 	public bool isProjectile;
 
 
-	public override void SetAim(FieldOfView fov, Gradient gradient)
+	public override void SetAimColor(Gradient gradient)
 	{
 		laserAim.SetActive(true);
 		GetComponentInChildren<LineRenderer>().colorGradient = gradient;
 		laserAim.SetActive(false);
 	}
-	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
+
+	public override void ToggleAim(bool isActive)
 	{
 		laserAim.SetActive(isActive);
 	}
 
-	public override void StartAttack(Animator animator)
+	public override void StartAttack()
 	{
-		animator.SetTrigger("isStartSpecialRush");
+		specialController.Animator.SetTrigger("isStartSpecialRush");
 	}
-	public override void Attack(Animator animator)
+	public override void Attack()
 	{
-		animator.SetTrigger("isSpecialRush");
+		specialController.Animator.SetTrigger("isSpecialRush");
 	}
 
-	public override void DoSpecialAction(FieldOfView fov)
+	public override void DoSpecialAction()
 	{
 		holderAgent.GetComponent<Rigidbody>().AddForce(holderAgent.transform.forward * rushForce, ForceMode.VelocityChange);
 		isProjectile = true;
 		GameManager.Instance.StillCheckList.Add(holderAgent);
-		//Vector3 forward = transform.parent.parent.forward;
-		//forward.y = 0;
-		//forward.Normalize();
-		//Vector3 right = new Vector3(forward.z, 0, -forward.x);
-
-		//Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<SpecialHand>().ThrowAim.initialAngle, right) * forward).normalized;
-		//float throwForce = GetComponentInParent<SpecialHand>().ThrowAim.initialVelocity;
-
-		//grenade.GetComponent<GrenadeObject>().CreateGrenade(transform.position, direction, throwForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
 	}
+
 	public void OnTriggerEnter(Collider other)
 	{
 		if (isProjectile)
