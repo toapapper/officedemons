@@ -36,7 +36,8 @@ public class Encounter : MonoBehaviour
     public AIManager aIManager;
 
     public List<GameObject> playerPositions;
-    public List<Transform> enemyStartPositions;
+    public Dictionary<Transform, string> enemyStartPositions;
+
 
     private bool myTurn = false;
     private int currentEnemysTurn = 0;
@@ -44,10 +45,11 @@ public class Encounter : MonoBehaviour
     void Awake()
     {        
         aIManager = GetComponentInChildren<AIManager>();
-        enemyStartPositions = new List<Transform>();
+        enemyStartPositions = new Dictionary<Transform, string>();
         foreach (GameObject enemy in GetEnemylist())
         {
-            enemyStartPositions.Add(enemy.transform);
+            Transform tempTransform = enemy.transform;
+            enemyStartPositions.Add(tempTransform, enemy.name);
         }
         // If procedurally generated -> Call SpawnEnemiesRrndomPositions() instead of ActivateEnemies()
     }
@@ -97,6 +99,23 @@ public class Encounter : MonoBehaviour
         return enemies;
     }
 
+    public void DestroyEnemies()
+	{
+        aIManager.EnemyList.Clear();
+
+        for (int i = 0; i < transform.childCount; i++)
+		{
+			GameObject child = transform.GetChild(i).gameObject;
+			if (child.CompareTag("Enemy"))
+			{
+				Destroy(child);
+			}
+		}        
+        Utilities.CleanList(GameManager.Instance.StillCheckList);
+		Camera.main.GetComponent<MultipleTargetCamera>().ObjectsInCamera = GameManager.Instance.StillCheckList;
+
+	}
+
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log("collision enter " + collision.collider.CompareTag("Player"));
@@ -120,6 +139,16 @@ public class Encounter : MonoBehaviour
 
     public void ResetEncounter()
     {
-        
+        DestroyEnemies();
+        foreach(KeyValuePair<Transform, string> enemy in enemyStartPositions)
+		{
+            string enemyName = enemy.Value/*.Remove(enemy.Value.IndexOf(' '))*/;
+            if(enemyName.Contains(" "))
+			{
+                enemyName = enemyName.Remove(enemy.Value.IndexOf(' '));
+            }
+            GameObject newEnemy = Instantiate(Resources.Load(enemyName), enemy.Key.position, enemy.Key.rotation) as GameObject;
+            newEnemy.transform.parent = this.transform;
+        }
     }
 }

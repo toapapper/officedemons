@@ -138,8 +138,13 @@ public class AIManager : MonoBehaviour
         if (actionsQueue.Count > 0)
         {
             GameObject agent = actionsQueue.Dequeue();
-            agent.GetComponent<AIController>().PerformAction();
-            StartCoroutine("WaitDone");
+			if (agent)
+			{
+                agent.GetComponent<AIController>().PerformAction();
+                StartCoroutine("WaitDone");
+            }
+            
+            
         }
         else
         {

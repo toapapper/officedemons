@@ -72,6 +72,7 @@ public class AIStateHandler : MonoBehaviour
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
             GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, aiController.Priorites);
+            Debug.Log(closestPlayer);
             Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             //Turn towards nearest player
         }

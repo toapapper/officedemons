@@ -193,6 +193,17 @@ public class GameManager : MonoBehaviour
         mainCamera.ObjectsInCamera = PlayerManager.players;
     }
 
+    public void ResetEncounter()
+	{
+        CurrentEncounter.ResetEncounter();
+        currentEncounter = null;
+        combatState = CombatState.none;
+        PlayerManager.Instance.EndCombat();
+        roundTimer = RoundTime;
+        // Remove everything but players from the camera
+        mainCamera.ObjectsInCamera = PlayerManager.players;
+    }
+
     /// <summary>
     /// Signals that its time to end the turn before the timer runs down to zero because all the players have locked in their actions
     /// </summary>
@@ -243,6 +254,6 @@ public class GameManager : MonoBehaviour
     public void LoadCheckpoint()
     {
         currentCheckpoint.LoadCheckpoint();
-        EndEncounter();
+        ResetEncounter();
     }
 }

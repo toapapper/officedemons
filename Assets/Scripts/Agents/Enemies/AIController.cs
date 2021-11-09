@@ -189,6 +189,7 @@ public class AIController : MonoBehaviour
     /// <param name="players, priorities"></param>
     public GameObject CalculateClosest(List<GameObject> players, List<GameObject> priorities)
     {
+        Debug.Log("PLAYERS " + players.Count + "       PRIORITIES " + priorites.Count);
         float closestDistance = float.MaxValue;
         for (int i = 0; i < priorites.Count; i++)
         {
