@@ -36,6 +36,7 @@ public class Encounter : MonoBehaviour
     public AIManager aIManager;
 
     public List<GameObject> playerPositions;
+    public List<Transform> enemyStartPositions;
 
     private bool myTurn = false;
     private int currentEnemysTurn = 0;
@@ -43,8 +44,11 @@ public class Encounter : MonoBehaviour
     void Awake()
     {        
         aIManager = GetComponentInChildren<AIManager>();
-        
-
+        enemyStartPositions = new List<Transform>();
+        foreach (GameObject enemy in GetEnemylist())
+        {
+            enemyStartPositions.Add(enemy.transform);
+        }
         // If procedurally generated -> Call SpawnEnemiesRrndomPositions() instead of ActivateEnemies()
     }
 
@@ -112,5 +116,10 @@ public class Encounter : MonoBehaviour
     public void EndEncounter()
     {
         Destroy(gameObject);
+    }
+
+    public void ResetEncounter()
+    {
+        
     }
 }

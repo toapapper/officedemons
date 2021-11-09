@@ -62,6 +62,10 @@ public class PlayerManager : MonoBehaviour
             if (playerState is DeadState || playerState is ReviveState)
             {
                 deadPlayers++;
+                if(deadPlayers >= players.Count)
+                {
+                    GameManager.Instance.LoadCheckpoint();
+                }
             }
         }
         if(GameManager.Instance.CurrentCombatState == CombatState.player && actions.Count == players.Count - deadPlayers)
