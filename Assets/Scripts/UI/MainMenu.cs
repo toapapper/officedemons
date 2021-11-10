@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour
 {
     public bool InGame = false;
     public GameObject OptionsMenu;
-    public GameObject FirstSelectedOptionsMenu;
+    public GameObject FirstSelectedMainMenu;
     [SerializeField] Image BGImage;
 
     public void Play()
@@ -19,24 +19,20 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("OssianScene");
     }
     
-
     public void Resume()
     {
         GameManager.Instance.Unpause();
     }
     
-
     public void Options()
     {
-
         OptionsMenu.SetActive(true);
         BGImage.color = Color.cyan;
-        EventSystem.current.SetSelectedGameObject(FirstSelectedOptionsMenu);
+        EventSystem.current.SetSelectedGameObject(FirstSelectedMainMenu);
         Debug.Log(EventSystem.current);
         gameObject.SetActive(false);
     }
-    
-
+   
     public void Quit()
     {
         if (!InGame)

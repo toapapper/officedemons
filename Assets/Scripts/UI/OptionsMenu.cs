@@ -10,15 +10,41 @@ using UnityEngine.UI;
 public class OptionsMenu : MonoBehaviour
 {
     public GameObject MainMenu;
-    public GameObject FirstSelectedMainMenu;
+    public GameObject VideoOptionMenu;
+    public GameObject AudioOptionMenu;
+    public GameObject ControllsOptionMenu;
+    public GameObject FirstSelectedOptionMenu;
+    public GameObject FirstSelectedVideoMenu;
+    public GameObject FirstSelectedAudioMenu;
+    public GameObject FirstSelectedControllerMenu;
     [SerializeField] Image BGImage;
 
+    public void Video()
+    {
+        VideoOptionMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(FirstSelectedVideoMenu);
+        gameObject.SetActive(false);
+    }
+
+    public void Audio()
+    {
+        AudioOptionMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(FirstSelectedAudioMenu);
+        gameObject.SetActive(false);
+    }
+
+    public void Controls()
+    {
+        ControllsOptionMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(FirstSelectedControllerMenu);
+        gameObject.SetActive(false);
+    }
 
     public void Back()
     {
         MainMenu.SetActive(true);
         BGImage.color = new Color(238, 243, 203, 255);
-        EventSystem.current.SetSelectedGameObject(FirstSelectedMainMenu);
+        EventSystem.current.SetSelectedGameObject(FirstSelectedOptionMenu);
         gameObject.SetActive(false);
     }
 }
