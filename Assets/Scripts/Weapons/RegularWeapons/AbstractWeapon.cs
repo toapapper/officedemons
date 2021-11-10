@@ -105,7 +105,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 
 	public virtual void PickUpIn(GameObject hand)
 	{
-		holderAgent = hand.transform.parent.gameObject;
+		holderAgent = hand.transform.parent.parent.gameObject;
 		isHeld = true;
 		handle.GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<Rigidbody>().isKinematic = true;

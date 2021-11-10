@@ -74,7 +74,7 @@ public abstract class RangedWeapon : AbstractWeapon
 
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
-		LaserAim.SetActive(isActive);
+		laserAim.SetActive(isActive);
 
 		UpdateAimCone();
 		AimCone.SetActive(isActive);
