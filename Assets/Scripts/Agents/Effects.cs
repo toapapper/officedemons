@@ -137,7 +137,7 @@ public static class Effects
 		{
 			// Tillfällig
 			Debug.Log("Enemy died");
-			target.GetComponent<MeshRenderer>().material.color = Color.black;
+			target.GetComponentInChildren<MeshRenderer>().material.color = Color.black;
 			target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
 		}
 		else if (target.tag == "Player")
