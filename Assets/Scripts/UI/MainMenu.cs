@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
     public bool InGame = false;
     public GameObject OptionsMenu;
     public GameObject FirstSelectedOptionsMenu;
+    [SerializeField] Image BGImage;
 
     public void Play()
     {
@@ -26,7 +28,9 @@ public class MainMenu : MonoBehaviour
 
     public void Options()
     {
+
         OptionsMenu.SetActive(true);
+        BGImage.color = Color.cyan;
         EventSystem.current.SetSelectedGameObject(FirstSelectedOptionsMenu);
         Debug.Log(EventSystem.current);
         gameObject.SetActive(false);
