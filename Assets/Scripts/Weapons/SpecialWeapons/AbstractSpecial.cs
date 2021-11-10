@@ -25,15 +25,22 @@ public abstract class AbstractSpecial : MonoBehaviour
 	[SerializeField]
 	private float hitForce;
 
-	
+	[SerializeField]
+	private int maxCharges;
+	private int charges;
+
+
 	protected float Damage { get { return damage; } }
 	protected float HitForce { get { return hitForce; } }
+	protected int MaxCharges { get { return maxCharges; } }
+	protected int Charges { get { return charges; } set { charges = value; } }
+	
 
 
-	public void PickUpIn(GameObject holderAgent)
+	public void PickUpIn(GameObject agent)
 	{
-		this.holderAgent = holderAgent;
-		specialController = holderAgent.GetComponent<SpecialHand>();
+		holderAgent = agent;
+		specialController = agent.GetComponent<SpecialHand>();
 	}
 	public virtual void SetAimColor(Gradient gradient) { }
 	public virtual void SetFOVSize() { }
@@ -42,4 +49,13 @@ public abstract class AbstractSpecial : MonoBehaviour
 	public abstract void StartAttack();
 	public abstract void Attack();
 	public abstract void DoSpecialAction();
+
+	public virtual void TakeDamageEffect() { }
+	public virtual void AddCharge()
+	{
+		if(charges < maxCharges)
+		{
+			charges++;
+		}
+	}
 }

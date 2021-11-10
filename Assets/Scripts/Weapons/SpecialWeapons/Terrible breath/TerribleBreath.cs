@@ -29,11 +29,10 @@ public class TerribleBreath : AbstractSpecial
 	public override void Attack()
 	{
 		specialController.Animator.SetTrigger("isSpecialBreath");
-		
 	}
 
 
-	//public void StartFire()
+	//public override void StartSpecialAction()
 	//{
 	//	//Activate fire from mouth
 	//}
@@ -49,7 +48,7 @@ public class TerribleBreath : AbstractSpecial
 			}
 		}
 	}
-	//public void EndFire()
+	//public override void StartSpecialAction()
 	//{
 	//	//Deactivate fire from mouth
 	//}
