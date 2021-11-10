@@ -50,6 +50,12 @@ public class BSPTree : MonoBehaviour
     private int nextDirection;
     private int lastDirection;
 
+    [SerializeField]
+    private bool startWithMap;
+
+    [SerializeField]
+    private int multipleRooms = 20;
+
     private void Awake()
     {
         Instance = this;
@@ -62,13 +68,20 @@ public class BSPTree : MonoBehaviour
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
         generateTerrain = GetComponent<GenerateTerrain>();
         fitnessFunction = GetComponent<FitnessFunction>();
+        //if (startWithMap)
+        //{
+        //    for (int i = 0; i < startingRooms; i++)
+        //    {
+        //        MakeBSP();
+        //    }
+        //}
     }
     /// <summary>
     /// Make 100 rooms
     /// </summary>
-    public void Make100BSP()
+    public void MakeMultipleRooms()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < multipleRooms; i++)
         {
             MakeBSP();
         }
@@ -95,6 +108,10 @@ public class BSPTree : MonoBehaviour
         }
 
         root = new Node(size,lastSize);
+        if (FitnessFunction.currentRoom == Rooms.Encounter)
+        {
+            root.Encounter = true;
+        }
         generateTerrain.GenerateGround(root);
         SearchObstaclesFitness(bspRemakeTries);
 
@@ -105,7 +122,7 @@ public class BSPTree : MonoBehaviour
         //generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection, size,lastRoot.size,new Vector2(1,1), heightLimits.y);
         generateTerrain.GenerateFullBuildings(root, nextDirection, lastDirection, size, lastRoot.size);
         //Bakes a navMesh on the generated level
-         //level.GetComponent<NavigationBaker>().BakeNavMesh();
+         level.GetComponent<NavigationBaker>().BakeNavMesh();
     }
 
     /// <summary>
@@ -180,10 +197,10 @@ public class BSPTree : MonoBehaviour
 
         int split;
         int missfall = Random.Range(missfallMultiplier, missfallTop);
-        if (missfall == missfallMultiplier && node.generation > generations / 2)
-        {
-            return;
-        }
+        //if (missfall == missfallMultiplier && node.generation > generations / 2)
+        //{
+        //    return;
+        //}
         split = Random.Range(0, 2);
         float buffer = 0;
         if (split == 0)

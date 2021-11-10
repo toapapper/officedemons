@@ -20,14 +20,15 @@ using UnityEngine.AI;
 
 public static class EnemyActions 
 {
-    public static void MoveTowards(NavMeshAgent agent, GameObject target)
+    public static void MoveTowards(NavMeshAgent agent, Vector3 targetPosition)
     {
         agent.gameObject.GetComponent<AIController>().CurrentlyMoving = true;
         agent.isStopped = false;
 
-        agent.SetDestination(target.transform.position);
+        agent.SetDestination(targetPosition);
         agent.gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
 
+        
         agent.gameObject.GetComponent<AIController>().CurrentlyMoving = false;
     }
 }

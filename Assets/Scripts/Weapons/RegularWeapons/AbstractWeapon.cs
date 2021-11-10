@@ -103,7 +103,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 		set { durability = value; }
 	}
 
-	public void PickUpIn(GameObject hand)
+	public virtual void PickUpIn(GameObject hand)
 	{
 		holderAgent = hand.transform.parent.gameObject;
 		isHeld = true;

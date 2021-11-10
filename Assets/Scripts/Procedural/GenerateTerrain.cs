@@ -21,6 +21,9 @@ public class GenerateTerrain : MonoBehaviour
     private GameObject quadPrefabWalls;
 
     [SerializeField]
+    private GameObject encounterPrefab;
+
+    [SerializeField]
     private List<GameObject> smallWallPrefabs = new List<GameObject>();
 
     /// <summary>Material used to create walkable floor</summary>
@@ -54,6 +57,24 @@ public class GenerateTerrain : MonoBehaviour
         quad.GetComponent<MeshRenderer>().material = mat;
         quad.tag = "Walkable";
         quad.transform.parent = level.transform;
+        if (node.Encounter == true)
+        {
+            GameObject encounter = Instantiate(encounterPrefab, new Vector3(node.origin.x + node.size.x / 2, 1, node.origin.y + node.size.y / 2)
+                , Quaternion.identity);
+            //encounter.gameObject.name = "EncounterBox";
+            encounter.GetComponent<BoxCollider>().size = new Vector3(node.size.x, 5, node.size.y);
+            //encounter.transform.parent = node.gameObject.transform;
+            encounter.transform.position = new Vector3(encounter.transform.position.x, encounter.GetComponent<BoxCollider>().size.y / 2, encounter.transform.position.z);
+            float offsetPosition = 5;
+            for (int i = 1; i < 5; i++)
+            {
+                encounter.transform.GetChild(i).gameObject.transform.position = new Vector3(node.origin.x + offsetPosition, encounter.transform.GetChild(i).gameObject.transform.position.y, node.origin.y);
+                offsetPosition += 5;
+                //if (encounter.transform.GetChild(i).CompareTag("PlayerEncounterPosition"))
+                //{
+                //}
+            }
+        }
     }
 
 

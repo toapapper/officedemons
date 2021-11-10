@@ -18,20 +18,20 @@ public static class Effects
 {
     public static void Damage(GameObject target, float damage)
 	{
-        if(target.tag != "Enemy" || target.GetComponent<AIController>().InActiveEncounter)
+		if(damage < 0)
         {
-            if (damage < 0)
-            {
-                Heal(target, -damage);
-                return;
-            }
-
-            int dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
-            target.GetComponent<Attributes>().Health -= dmg;
-
-            UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
+			Heal(target, -damage);
+			return;
         }
-		
+		else if(damage == 0)
+        {
+			return;
+        }
+
+		int dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
+		target.GetComponent<Attributes>().Health -= dmg;
+
+		UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
 	}
 
 	public static void Heal(GameObject target, float amount)
@@ -39,6 +39,10 @@ public static class Effects
 		if(amount < 0)
         {
 			Damage(target, amount);
+			return;
+        }
+		else if(amount == 0)
+        {
 			return;
         }
 
@@ -49,6 +53,11 @@ public static class Effects
 
 	public static void DrainStamina(GameObject target, float drain)
     {
+		if(drain == 0)
+        {
+			return;
+        }
+
 		target.GetComponent<Attributes>().Stamina -= drain;
 		UIManager.Instance.NewFloatingText(target, "-" + drain + " Stamina", Color.yellow);
     }
@@ -119,10 +128,7 @@ public static class Effects
 
 	public static void ApplyForce(GameObject target, Vector3 force)
 	{
-        if (target.tag != "Enemy" || target.GetComponent<AIController>().InActiveEncounter)
-        {
-            target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
-        }
+		target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
 	}
 
 	public static void Die(GameObject target)
@@ -149,6 +155,15 @@ public static class Effects
 	/// <param name="weight"> value between -100 - +100 </param>
 	public static void ChangeWeight(GameObject target, float weight)
 	{
+		if(weight > 0)
+        {
+			UIManager.Instance.NewFloatingText(target, "SLOW", Color.red);
+        }
+		else if(weight < 0)
+        {
+			UIManager.Instance.NewFloatingText(target, "DE-SLOW", Color.green);
+		}
+
 		float speedEffect = -weight / 100;
 		ModifySpeed(target, speedEffect);
 	}

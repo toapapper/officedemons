@@ -66,9 +66,9 @@ public class SpawnItemsFromLibrary : MonoBehaviour
                     }
                 }
 
-                nodeSize = bestFit;
             }
         }
+        nodeSize = bestFit;
         item = ProceduralItemLibrary.Instance.GetItemFromDictionary(bestFit, dictionary);
         return item;
     }
@@ -101,16 +101,17 @@ public class SpawnItemsFromLibrary : MonoBehaviour
     /// Spawns the selected item on the nodes position.
     /// </summary>
     /// <param name="node"></param>
-    /// <param name="root"></param>
-    public void SpawnItems(Node node, Node root)
+    public void SpawnItems(Node node)
     {
         if (item != null)
         {
-            GameObject GO = Instantiate(item, new Vector3(node.position.x, item.transform.lossyScale.y /2 , node.position.y), Quaternion.identity);
+            GameObject GO = Instantiate(item, new Vector3(node.position.x, item.transform.localPosition.y, node.position.y), Quaternion.identity);
             GO.transform.parent = level.transform;
             GO.name = item.name;
             node.gameObject = GO;
+
             item = null;
         }
     }
+
 }
