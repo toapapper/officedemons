@@ -65,7 +65,6 @@ public class FloatingTextManager : MonoBehaviour
         position += offset * offsetLength;
 
         newText(position, text, color);
-        Debug.Log("Floating text at: " + position);
     }
 
     /// <summary>

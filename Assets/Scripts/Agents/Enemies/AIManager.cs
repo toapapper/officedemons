@@ -120,7 +120,10 @@ public class AIManager : MonoBehaviour
             GameManager.Instance.EnemiesTurnDone = true;
 
         if (allDead)
+        {
+            Debug.Log("ALLDEAD");
             GameManager.Instance.EndEncounter();
+        }
     }
 
     /// <summary>
@@ -132,6 +135,11 @@ public class AIManager : MonoBehaviour
         if (actionsQueue.Count > 0)
         {
             GameObject agent = actionsQueue.Dequeue();
+            if (agent.Equals(null))
+            {
+                PerformNextAction();
+                return;
+            }
             agent.GetComponent<AIController>().PerformAction();
             StartCoroutine("WaitDone");
         }
