@@ -95,9 +95,13 @@ public class AIController : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("D种种种种种种种种种种D");
+        //if(navMeshAgent.path != null) 
+        //{
+        //    navMeshAgent.ResetPath();
+        //}
         navMeshAgent.ResetPath();
-        aiManager.EnemyList.Remove(gameObject);
+
+        aiManager.enemyList.Remove(gameObject);
         Destroy(gameObject);
     }   
         
@@ -152,10 +156,12 @@ public class AIController : MonoBehaviour
                         currentState = AIStates.States.Wait;
                     }
                 }
-
-                MoveTowards(targetPosition);
-
-                if (transform.position == targetPosition)
+                
+                if(navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance || transform.position != targetPosition)
+                {
+                    MoveTowards(targetPosition);
+                }
+                else
                 {
                     currentState = AIStates.States.Unassigned;
                 }
@@ -355,6 +361,7 @@ public class AIController : MonoBehaviour
 
         navMeshAgent.SetDestination(targetPos);
         gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
+        //gameObject.GetComponent<Attributes>().Stamina -= 1;
         targetPosition = targetPos;
     }
 }

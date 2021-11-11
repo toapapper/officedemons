@@ -25,12 +25,9 @@ public class AIManager : MonoBehaviour
     private AIManager instance;
     private Queue<GameObject> actionsQueue;
 
-    private List<GameObject> enemyList;
-    public List<GameObject> EnemyList
-    {
-        get { return enemyList; }
-        set { enemyList = value; }
-    }
+
+    public List<GameObject> enemyList;
+    
 
     private void Start()
     {
