@@ -1239,6 +1239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewRadius: 0
   viewAngle: 100
   targetMask:
     serializedVersion: 2
@@ -1260,6 +1261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewRadius: 0
   viewAngle: 360
   targetMask:
     serializedVersion: 2
@@ -1619,6 +1621,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3741647841836255955}
     m_Modifications:
+    - target: {fileID: 432747492130649802, guid: 757003ac3a623db448350add22f8af2b, type: 3}
+      propertyPath: viewDistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 432747492130649802, guid: 757003ac3a623db448350add22f8af2b, type: 3}
+      propertyPath: distanceMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8193754755920311457, guid: 757003ac3a623db448350add22f8af2b, type: 3}
       propertyPath: m_Name
       value: PaperShredder

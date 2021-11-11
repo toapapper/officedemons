@@ -115,7 +115,14 @@ public class SpecialHand : MonoBehaviour
 	}
 
 
-
+	public void TakeDamageEffect()
+	{
+		objectInHand.TakeDamageEffect();
+	}
+	public void AddCharge()
+	{
+		objectInHand.AddCharge();
+	}
 	//TODO Start passive abillity 
 	//public void PerformPassiveAbility()
 	//{

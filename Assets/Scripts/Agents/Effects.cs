@@ -16,6 +16,11 @@ using UnityEngine.AI;
 // Last Edited: 14/10-28
 public static class Effects
 {
+	//public static void RegularDamage(GameObject target, float damage, GameObject wielder)
+	//{
+	//	wielder.GiveDamageEffect();
+	//	Damage(target, damage);
+	//}
     public static void Damage(GameObject target, float damage)
 	{
 		if(damage < 0)
@@ -32,6 +37,10 @@ public static class Effects
 		target.GetComponent<Attributes>().Health -= dmg;
 
 		UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
+		if(target.tag == "Player")
+		{
+			target.GetComponent<SpecialHand>().TakeDamageEffect();
+		}
 	}
 
 	public static void Heal(GameObject target, float amount)

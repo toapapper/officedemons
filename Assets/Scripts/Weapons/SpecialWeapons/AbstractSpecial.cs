@@ -27,7 +27,7 @@ public abstract class AbstractSpecial : MonoBehaviour
 
 	[SerializeField]
 	private int maxCharges;
-	private int charges;
+	private int charges = 0;
 
 
 	protected float Damage { get { return damage; } }
@@ -51,6 +51,7 @@ public abstract class AbstractSpecial : MonoBehaviour
 	public abstract void DoSpecialAction();
 
 	public virtual void TakeDamageEffect() { }
+	public virtual void GiveRegularDamageEffect() { }
 	public virtual void AddCharge()
 	{
 		if(charges < maxCharges)

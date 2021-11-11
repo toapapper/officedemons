@@ -12,7 +12,7 @@ using UnityEngine;
 //Last edited: 22-10-2021
 public class FieldOfView : MonoBehaviour
 {
-    private float viewRadius;
+    [SerializeField] private float viewRadius;
     [Range(0, 360)]
     [SerializeField]private float viewAngle;
 
