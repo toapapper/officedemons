@@ -119,6 +119,10 @@ public class SpecialHand : MonoBehaviour
 	{
 		objectInHand.TakeDamageEffect();
 	}
+	public void GiveRegularDamageEffect()
+	{
+		objectInHand.GiveRegularDamageEffect();
+	}
 	public void AddCharge()
 	{
 		objectInHand.AddCharge();

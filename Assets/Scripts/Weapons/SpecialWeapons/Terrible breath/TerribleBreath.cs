@@ -42,7 +42,7 @@ public class TerribleBreath : AbstractSpecial
 		{
 			foreach (GameObject target in specialController.FOV.VisibleTargets)
 			{
-				Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+				Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
 				Effects.ApplyForce(target, (target.transform.position - specialController.FOV.transform.position).normalized * HitForce);
 				Effects.ApplyWeaponEffects(target, effects);
 			}

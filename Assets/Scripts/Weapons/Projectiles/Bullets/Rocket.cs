@@ -25,9 +25,9 @@ public class Rocket : Bullet
 			{
 				if (target.tag == "Player" || target.tag == "Enemy")
 				{
-
-					Effects.Damage(collision.gameObject, bulletDamage);
-					Effects.ApplyForce(collision.gameObject, (target.transform.position - transform.position).normalized * bulletHitForce);
+					Effects.RegularDamage(target, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost), shooter);
+					//Effects.Damage(target, bulletDamage);
+					Effects.ApplyForce(target, (target.transform.position - transform.position).normalized * bulletHitForce);
 				}
 			}
 		}

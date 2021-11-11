@@ -244,7 +244,8 @@ public class WeaponHand : MonoBehaviour
 		{
 			foreach (GameObject target in FOV.VisibleTargets)
 			{
-				Effects.Damage(target, handHitDamage);
+				Effects.RegularDamage(target, handHitDamage, gameObject);
+				//Effects.Damage(target, handHitDamage);
 				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
 			}
 		}

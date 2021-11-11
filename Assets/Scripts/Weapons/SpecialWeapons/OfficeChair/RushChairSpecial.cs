@@ -50,7 +50,7 @@ public class RushChairSpecial : AbstractSpecial
 				forceDirection.y = 0;
 				forceDirection.Normalize();
 
-				Effects.Damage(other.gameObject, Damage);
+				Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
 				Effects.ApplyForce(other.gameObject, forceDirection * HitForce);
 				Effects.ApplyWeaponEffects(other.gameObject, effects);
 			}
