@@ -68,6 +68,12 @@ public class AIStateHandler : MonoBehaviour
     /// </summary>
     private void AggressiveGetState()
     {
+        if(attributes.Health <= 0)
+        {
+            aiController.CurrentState = AIStates.States.Dead;
+            Debug.Log("INNE I STATEHANDLER");
+            Debug.Log("HP: " + attributes.Health);
+        }
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
@@ -76,7 +82,7 @@ public class AIStateHandler : MonoBehaviour
             //Turn towards nearest player
         }
         //DeathCheck       
-        if(aiController.CurrentState != AIStates.States.Dead)
+        if(aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
         {
             if (attributes.Health <= (attributes.StartHealth / 2) && attributes.Stamina > 0)
             {

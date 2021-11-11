@@ -112,12 +112,6 @@ public class AIManager : MonoBehaviour
             {
                 allDead = false;
             }
-            else if (e.GetComponent<Attributes>().Health <= 0)
-            {
-                Destroy(e);
-                Utilities.CleanList(enemyList);
-                i--;
-            }
         }
         if (!GameManager.Instance.AllStill)
             allDone = false;
@@ -165,12 +159,6 @@ public class AIManager : MonoBehaviour
     {
         actionsQueue.Enqueue(agent);
         agent.GetComponent<AIController>().ActionIsLocked = true;
-        agent.GetComponent<AIController>().navMeshAgent.destination = transform.position;
         agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
-    }
-
-    public void RemoveAgent(GameObject agent)
-    {
-        enemyList.Remove(agent);
     }
 }
