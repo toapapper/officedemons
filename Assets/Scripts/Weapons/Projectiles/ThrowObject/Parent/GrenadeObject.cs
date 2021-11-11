@@ -68,7 +68,6 @@ public class GrenadeObject : MonoBehaviour
 			explosionForceDirection.Normalize();
 
 			Effects.RegularDamage(target, grenadeDamage * (1 + thrower.GetComponentInParent<StatusEffectHandler>().DmgBoost), thrower);
-			//Effects.Damage(target, grenadeDamage);
 			Effects.ApplyForce(target, explosionForceDirection * grenadeExplodeForce);
 			Effects.ApplyWeaponEffects(target, effects);
 		}

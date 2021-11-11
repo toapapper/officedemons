@@ -41,7 +41,7 @@ public static class Effects
 
 		UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
 
-		if(target.GetComponent<Attributes>().Health <= 0)
+		if(wielder != null && target.GetComponent<Attributes>().Health <= 0)
 		{
 			if (wielder.tag == "Player")
 			{
