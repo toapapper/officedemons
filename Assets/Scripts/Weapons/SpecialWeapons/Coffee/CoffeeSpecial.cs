@@ -6,43 +6,43 @@ public class CoffeeSpecial : AbstractSpecial
 {
 	[SerializeField]
 	private GameObject grenade;
-	[SerializeField]
-	private float grenadeThrowForce = 10;
+	//[SerializeField]
+	//private float grenadeThrowForce = 10;
 
-	public float GrenadeThrowForce
-	{
-		get { return grenadeThrowForce; }
-		set { grenadeThrowForce = value; }
-	}
+	//public float GrenadeThrowForce
+	//{
+	//	get { return grenadeThrowForce; }
+	//	set { grenadeThrowForce = value; }
+	//}
 
-	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
+	public override void ToggleAim(bool isActive)
 	{
 		if (!isActive)
 		{
-			throwAim.GetComponent<LineRenderer>().positionCount = 0;
+			specialController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
 		}
-		throwAim.SetActive(isActive);
+		specialController.ThrowAim.gameObject.SetActive(isActive);
 	}
 
-	public override void StartAttack(Animator animator)
+	public override void StartAttack()
 	{
-		animator.SetTrigger("isStartSpecialBombard");
+		specialController.Animator.SetTrigger("isStartSpecialBombard");
 	}
-	public override void Attack(Animator animator)
+	public override void Attack()
 	{
-		animator.SetTrigger("isSpecialBombard");
+		specialController.Animator.SetTrigger("isSpecialBombard");
 	}
 
-	public override void DoSpecialAction(FieldOfView fov)
+	public override void DoSpecialAction()
 	{
-		Vector3 forward = transform.parent.parent.forward;
+		Vector3 forward = holderAgent.transform.forward;
 		forward.y = 0;
 		forward.Normalize();
 		Vector3 right = new Vector3(forward.z, 0, -forward.x);
 
-		Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<SpecialHand>().ThrowAim.initialAngle, right) * forward).normalized;
-		float throwForce = GetComponentInParent<SpecialHand>().ThrowAim.initialVelocity;
+		Vector3 direction = (Quaternion.AngleAxis(-specialController.ThrowAim.initialAngle, right) * forward).normalized;
+		float throwForce = specialController.ThrowAim.initialVelocity;
 
-		grenade.GetComponent<GrenadeObject>().CreateGrenade(transform.position, direction, throwForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
+		grenade.GetComponent<GrenadeObject>().CreateGrenade(holderAgent, transform.position, direction, throwForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
 	}
 }

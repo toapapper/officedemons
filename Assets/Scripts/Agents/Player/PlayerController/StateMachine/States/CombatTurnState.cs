@@ -65,7 +65,7 @@ public class CombatTurnState : AbstractPlayerState
 	{
 		if (!IsActionTriggered)
 		{
-			if (specialHand.StartBombard())
+			if (specialHand.StartAttack())
 			{
 				specialHand.ToggleAimView(true);
 				ChosenAction = TypeOfAction.SPECIALBOMBARD;
