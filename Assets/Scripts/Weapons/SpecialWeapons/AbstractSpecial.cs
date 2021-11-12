@@ -52,6 +52,7 @@ public abstract class AbstractSpecial : MonoBehaviour
 
 	public virtual void TakeDamageEffect() { }
 	public virtual void GiveRegularDamageEffect() { }
+	public virtual void KillEffect() { }
 	public virtual void AddCharge()
 	{
 		if(charges < maxCharges)

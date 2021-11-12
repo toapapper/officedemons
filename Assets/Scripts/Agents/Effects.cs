@@ -46,6 +46,7 @@ public static class Effects
 			if (wielder.tag == "Player")
 			{
 				wielder.GetComponent<Attributes>().KillCount++;
+				wielder.GetComponent<SpecialHand>().KillEffect();
 			}
 		}
 		else if(target.tag == "Player")

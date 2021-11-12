@@ -8,6 +8,10 @@ public class RushChairSpecial : AbstractSpecial
 	private GameObject laserAim;
 	[SerializeField]
 	private float rushForce = 100f;
+	[SerializeField]
+	private float rushForceAdder = 50f;
+	[SerializeField]
+	private float rushForceMultiplier = 10f;
 
 	public bool isProjectile;
 
@@ -33,9 +37,14 @@ public class RushChairSpecial : AbstractSpecial
 		specialController.Animator.SetTrigger("isSpecialRush");
 	}
 
+	public override void KillEffect()
+	{
+		Charges = MaxCharges;
+	}
+
 	public override void DoSpecialAction()
 	{
-		holderAgent.GetComponent<Rigidbody>().AddForce(holderAgent.transform.forward * rushForce, ForceMode.VelocityChange);
+		holderAgent.GetComponent<Rigidbody>().AddForce(holderAgent.transform.forward * (rushForce + (rushForceMultiplier * Charges)), ForceMode.VelocityChange);
 		isProjectile = true;
 		GameManager.Instance.StillCheckList.Add(holderAgent);
 	}
@@ -50,9 +59,25 @@ public class RushChairSpecial : AbstractSpecial
 				forceDirection.y = 0;
 				forceDirection.Normalize();
 
-				Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
-				Effects.ApplyForce(other.gameObject, forceDirection * HitForce);
-				Effects.ApplyWeaponEffects(other.gameObject, effects);
+				if (Charges == 0)
+				{
+					Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
+					Effects.ApplyForce(other.gameObject, forceDirection * HitForce);
+				}
+				else if(Charges == 1)
+				{
+					Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
+					Effects.ApplyForce(other.gameObject, forceDirection * HitForce);
+				}
+				else
+				{
+					Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
+					Effects.ApplyForce(other.gameObject, forceDirection * HitForce);
+					Effects.ApplyWeaponEffects(other.gameObject, effects);
+				}
+				
+
+				
 			}
 			isProjectile = false;
 			GameManager.Instance.StillCheckList.Remove(holderAgent);

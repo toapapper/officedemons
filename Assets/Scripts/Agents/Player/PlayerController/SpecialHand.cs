@@ -123,6 +123,10 @@ public class SpecialHand : MonoBehaviour
 	{
 		objectInHand.GiveRegularDamageEffect();
 	}
+	public void KillEffect()
+	{
+		objectInHand.KillEffect();
+	}
 	public void AddCharge()
 	{
 		objectInHand.AddCharge();

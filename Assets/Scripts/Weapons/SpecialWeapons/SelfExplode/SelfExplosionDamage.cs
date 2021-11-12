@@ -49,26 +49,18 @@ public class SelfExplosionDamage : AbstractSpecial
 		}
 	}
 
-
-	//public override void StartSpecialAction()
-	//{
-
-	//}
 	public override void DoSpecialAction()
 	{
 		if (specialController.FOV.VisibleTargets.Count > 0)
 		{
 			foreach (GameObject target in specialController.FOV.VisibleTargets)
 			{
-				Debug.Log("Charges     " + Charges + "MAX     " + MaxCharges);
 				if(Charges < MaxCharges)
 				{
-					Debug.Log("LOW");
 					Effects.ApplyWeaponEffects(target, effects);
 				}
 				else
 				{
-					Debug.Log("HIGH");
 					Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
 					Effects.ApplyForce(target, (target.transform.position - specialController.FOV.transform.position).normalized * HitForce);
 					Effects.ApplyWeaponEffects(target, ultiEffects);
@@ -78,8 +70,4 @@ public class SelfExplosionDamage : AbstractSpecial
 			specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
 		}
 	}
-	//public override void EndSpecialAction()
-	//{
-
-	//}
 }
