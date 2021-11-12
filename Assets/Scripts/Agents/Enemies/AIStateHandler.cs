@@ -82,7 +82,6 @@ public class AIStateHandler : MonoBehaviour
         //DeathCheck       
         if(aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
         {
-            Debug.Log("Stamina: " + attributes.Stamina);
             if (attributes.Health <= (attributes.StartHealth / 2) && attributes.Stamina > 0)
             {
                 aiController.CurrentState = AIStates.States.FindCover;

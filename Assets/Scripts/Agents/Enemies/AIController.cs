@@ -324,35 +324,58 @@ public class AIController : MonoBehaviour
 
     public void FindCover(GameObject opponent)
     {
-        List<NavMeshHit> hitList = new List<NavMeshHit>();
-        NavMeshHit navHit;
+        // casta en ray från opponent till coverpositions
+        // välj den som är närmst och obstructed               (ändra kanske sen så att den kollar om det finns en som är obstructed av flera)
+        RaycastHit hit = new RaycastHit();
+
+        foreach (Vector3 pos in aiManager.coverList)
+        {
+            //
+            Debug.Log("KOLLAR POS:" + pos);
+            if(Physics.Raycast(opponent.transform.position, opponent.transform.position - pos, out hit))
+            {
+                Debug.Log("HIT!!!!!!");
+                if (hit.transform.gameObject.tag == "CoverPosition")
+                {
+                    targetPosition = pos;
+                    break;
+                }
+            }
+
+            targetPosition = pos; //Fixa imorgon (just nu tar den sista i listan om ingen hit, hit funkar inte)
+        }
+
+        // OLD WAY
+
+        //List<NavMeshHit> hitList = new List<NavMeshHit>();
+        //NavMeshHit navHit;
 
         // Loop to create random points around the player so we can find the nearest point to all of them, storting the hits in a list
-        for (int i = 0; i < 15; i++)
-        {
-            Vector3 spawnPoint = transform.position;
-            Vector2 offset = Random.insideUnitCircle * i;
-            spawnPoint.x += offset.x;
-            spawnPoint.z += offset.y;
-
-            NavMesh.FindClosestEdge(spawnPoint, out navHit, NavMesh.AllAreas);
-
-            hitList.Add(navHit);
-        }
-
-        // sort the list by distance using Linq
-        var sortedList = hitList.OrderBy(x => x.distance);
-
-        // Loop through the sortedList and see if the hit normal doesn't point towards the enemy.
-        // If it doesn't point towards the enemy, navigate the agent to that position and break the loop as this is the closest cover for the agent. (Because the list is sorted on distance)
-        foreach (NavMeshHit hit in sortedList)
-        {
-            if (Vector3.Dot(hit.normal, (opponent.transform.position - transform.position)) < 0)
-            {
-                targetPosition = hit.position;
-                break;
-            }
-        }
+        //for (int i = 0; i < 15; i++)
+        //{
+        //    Vector3 spawnPoint = transform.position;
+        //    Vector2 offset = Random.insideUnitCircle * i;
+        //    spawnPoint.x += offset.x;
+        //    spawnPoint.z += offset.y;
+        //
+        //    NavMesh.FindClosestEdge(spawnPoint, out navHit, NavMesh.AllAreas);
+        //
+        //    hitList.Add(navHit);
+        //}
+        //
+        //// sort the list by distance using Linq
+        //var sortedList = hitList.OrderBy(x => x.distance);
+        //
+        //// Loop through the sortedList and see if the hit normal doesn't point towards the enemy.
+        //// If it doesn't point towards the enemy, navigate the agent to that position and break the loop as this is the closest cover for the agent. (Because the list is sorted on distance)
+        //foreach (NavMeshHit hit in sortedList)
+        //{
+        //    if (Vector3.Dot(hit.normal, (opponent.transform.position - transform.position)) < 0)
+        //    {
+        //        targetPosition = hit.position;
+        //        break;
+        //    }
+        //}
     }
 
     public void MoveTowards(Vector3 targetPos)

@@ -63,6 +63,6 @@ public class CombatActionState : AbstractPlayerState
 
 	public override void OnStateExit()
 	{
-		Debug.Log("Exits CombatActionState" + this);
+		//Debug.Log("Exits CombatActionState" + this);
 	}
 }

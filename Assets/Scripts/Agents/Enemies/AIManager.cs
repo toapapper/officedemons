@@ -25,14 +25,14 @@ public class AIManager : MonoBehaviour
     private AIManager instance;
     private Queue<GameObject> actionsQueue;
 
-
     public List<GameObject> enemyList;
+    public List<Vector3> coverList;
     
-
     private void Start()
     {
         actionsQueue = new Queue<GameObject>();
         playerList = PlayerManager.players;
+        coverList = FindCoverSpotsInEncounter();
     }
 
     /// <summary>
@@ -150,6 +150,23 @@ public class AIManager : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    private List<Vector3> FindCoverSpotsInEncounter()
+    {
+        Bounds bounds = GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
+        GameObject[] allCovers = GameObject.FindGameObjectsWithTag("CoverPosition");
+        List<Vector3> temp = new List<Vector3>();
+
+        foreach(GameObject go in allCovers)
+        {
+            if (bounds.Contains(go.transform.position))
+            {
+                temp.Add(go.transform.position);
+            }
+        }
+        
+        return temp;
     }
 
     public void SaveAction(GameObject agent)
