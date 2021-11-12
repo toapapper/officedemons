@@ -9,6 +9,10 @@ public class TerribleBreath : AbstractSpecial
 	[SerializeField]
 	private float viewAngle = 100f;
 	[SerializeField]
+	private float damageMultiplier = 3f;
+	[SerializeField]
+	private float hitForceMultiplier = 10f;
+	[SerializeField]
 	GameObject mouth;
 
 	public override void SetFOVSize()
@@ -31,25 +35,26 @@ public class TerribleBreath : AbstractSpecial
 		specialController.Animator.SetTrigger("isSpecialBreath");
 	}
 
+	public override void StartTurnEffect()
+	{
+		base.AddCharge();
+	}
+	public override void RevivedEffect()
+	{
+		Charges = MaxCharges;
+	}
 
-	//public override void StartSpecialAction()
-	//{
-	//	//Activate fire from mouth
-	//}
 	public override void DoSpecialAction()
 	{
 		if (specialController.FOV.VisibleTargets.Count > 0)
 		{
 			foreach (GameObject target in specialController.FOV.VisibleTargets)
 			{
-				Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
-				Effects.ApplyForce(target, (target.transform.position - specialController.FOV.transform.position).normalized * HitForce);
+				Effects.Damage(target, (Damage + (damageMultiplier * Charges)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
+				Effects.ApplyForce(target, (target.transform.position - specialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
 				Effects.ApplyWeaponEffects(target, effects);
 			}
 		}
+		Charges = 0;
 	}
-	//public override void StartSpecialAction()
-	//{
-	//	//Deactivate fire from mouth
-	//}
 }

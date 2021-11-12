@@ -114,7 +114,10 @@ public class SpecialHand : MonoBehaviour
 		animator.SetTrigger("isCancelAction");
 	}
 
-
+	public void StartTurnEffect()
+	{
+		objectInHand.StartTurnEffect();
+	}
 	public void TakeDamageEffect()
 	{
 		objectInHand.TakeDamageEffect();
@@ -127,14 +130,13 @@ public class SpecialHand : MonoBehaviour
 	{
 		objectInHand.KillEffect();
 	}
-	public void AddCharge()
+	public void RevivedEffect()
 	{
-		objectInHand.AddCharge();
+		objectInHand.RevivedEffect();
 	}
-	//TODO Start passive abillity 
-	//public void PerformPassiveAbility()
+	//public void AddCharge()
 	//{
-	//	objectInHand.PerformPassiveAbility(animator);
+	//	objectInHand.AddCharge();
 	//}
 
 	//Animation events

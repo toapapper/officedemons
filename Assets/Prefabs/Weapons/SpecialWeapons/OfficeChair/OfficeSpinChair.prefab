@@ -518,10 +518,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5001921655915601590}
-  - component: {fileID: 1666240090704992111}
+  - component: {fileID: 5727460415280405968}
   - component: {fileID: 1847933677976087106}
   m_Layer: 0
-  m_Name: OfficeChair
+  m_Name: OfficeSpinChair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -545,7 +545,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1666240090704992111
+--- !u!114 &5727460415280405968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -554,17 +554,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 5001921655915601592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2ef8b7ab7b14a24cb886b6f0f17940d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b3f7893ea16f4f4aa922ea021040688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   effects: 
   damage: 10
-  hitForce: 20
-  viewDistance: 20
-  viewAngle: 10
-  laserAim: {fileID: 5001921657286118695}
-  rushForce: 100
-  isProjectile: 0
+  hitForce: 50
+  maxCharges: 2
+  viewDistance: 2
+  viewAngle: 360
+  damageAdder: 5
+  hitForceMultiplier: 20
+  healAmount: 5
 --- !u!136 &1847933677976087106
 CapsuleCollider:
   m_ObjectHideFlags: 0

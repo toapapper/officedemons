@@ -206,6 +206,7 @@ public class CombatTurnState : AbstractPlayerState
 	public override void OnStateEnter()
 	{
 		Debug.Log("Enters CombatTurnState" + this);
+		specialHand.StartTurnEffect();
 		attributes.Stamina = attributes.StartStamina;
 		playerMovement.MoveDirection = Vector3.zero;
 		playerMovement.MoveAmount = Vector3.zero;

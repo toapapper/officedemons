@@ -5,17 +5,21 @@ using UnityEngine;
 public class SpinningChair : AbstractSpecial
 {
 	[SerializeField]
-	private float viewDistance = 1f;
+	private float viewDistance = 2f;
 	[SerializeField]
 	private float viewAngle = 360f;
 	[SerializeField]
-	private float distanceMultiplier = 1f;
+	private float damageAdder = 5f;
+	[SerializeField]
+	private float hitForceMultiplier = 20f;
+	[SerializeField]
+	private float healAmount = 5f;
 
 
 	public override void SetFOVSize()
 	{
 		specialController.FOV.ViewAngle = viewAngle;
-		specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		specialController.FOV.ViewRadius = viewDistance;
 	}
 
 	public override void ToggleAim(bool isActive)
@@ -25,61 +29,75 @@ public class SpinningChair : AbstractSpecial
 
 	public override void StartAttack()
 	{
-		specialController.Animator.SetTrigger("isStartSpecialPaperShredder");
+		specialController.Animator.SetTrigger("isStartSpecialSpin");
 	}
 	public override void Attack()
 	{
-		specialController.Animator.SetTrigger("isSpecialPaperShredder");
+		specialController.Animator.SetTrigger("isSpecialSpin");
 	}
 
-	public override void TakeDamageEffect()
+	public override void StartTurnEffect()
 	{
-		AddCharge();
+		base.AddCharge();
 	}
-	public override void AddCharge()
+	public override void GiveRegularDamageEffect()
 	{
-		if (Charges < MaxCharges)
-		{
-			Charges++;
-			specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
-			if (Charges == MaxCharges)
-			{
-				Attack();
-			}
-		}
+		base.AddCharge();
 	}
 
-
-	//public override void StartSpecialAction()
-	//{
-
-	//}
 	public override void DoSpecialAction()
 	{
-		if (specialController.FOV.VisibleTargets.Count > 0)
+		int nrOfTargets = specialController.FOV.VisibleTargets.Count;
+
+		if(Charges == MaxCharges)
 		{
-			foreach (GameObject target in specialController.FOV.VisibleTargets)
+			if (nrOfTargets > 0)
 			{
-				Debug.Log("Charges     " + Charges + "MAX     " + MaxCharges);
-				if (Charges < MaxCharges)
+				DoDamage();
+			}
+
+			Effects.Heal(holderAgent, healAmount * 2);
+
+			if (nrOfTargets < 2)
+			{
+				Charges = 0;
+			}
+		}
+		else
+		{
+			if (nrOfTargets > 0)
+			{
+				DoDamage();
+
+				if (nrOfTargets > 1)
 				{
-					Debug.Log("LOW");
-					Effects.ApplyWeaponEffects(target, effects);
-				}
-				else
-				{
-					Debug.Log("HIGH");
-					Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
-					Effects.ApplyForce(target, (target.transform.position - specialController.FOV.transform.position).normalized * HitForce);
-					//Effects.ApplyWeaponEffects(target, ultiEffects);
+					if(Charges == 1)
+					{
+						Effects.Heal(holderAgent, healAmount);
+					}
+					else
+					{
+						Effects.Heal(holderAgent, healAmount * 2);
+					}
 				}
 			}
 			Charges = 0;
-			specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
 		}
 	}
-	//public override void EndSpecialAction()
-	//{
 
-	//}
+	private void DoDamage()
+	{
+		foreach (GameObject target in specialController.FOV.VisibleTargets)
+		{
+			if (Charges == 0)
+			{
+				Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
+			}
+			else
+			{
+				Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
+			}
+			Effects.ApplyForce(target, (target.transform.position - specialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
+		}
+	}
 }

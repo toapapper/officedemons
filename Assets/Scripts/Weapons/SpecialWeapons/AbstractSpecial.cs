@@ -50,10 +50,12 @@ public abstract class AbstractSpecial : MonoBehaviour
 	public abstract void Attack();
 	public abstract void DoSpecialAction();
 
+	public abstract void StartTurnEffect();
 	public virtual void TakeDamageEffect() { }
 	public virtual void GiveRegularDamageEffect() { }
 	public virtual void KillEffect() { }
-	public virtual void AddCharge()
+	public virtual void RevivedEffect() { }
+	protected virtual void AddCharge()
 	{
 		if(charges < maxCharges)
 		{

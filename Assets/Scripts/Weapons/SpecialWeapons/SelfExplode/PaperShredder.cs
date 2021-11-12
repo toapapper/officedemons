@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelfExplosionDamage : AbstractSpecial
+public class PaperShredder : AbstractSpecial
 {
 	[SerializeField] private List<WeaponEffects> ultiEffects;
 
@@ -27,18 +27,22 @@ public class SelfExplosionDamage : AbstractSpecial
 
 	public override void StartAttack()
 	{
-		specialController.Animator.SetTrigger("isStartSpecialPaperShredder");
+		specialController.Animator.SetTrigger("isStartSpecialSelfExplode");
 	}
 	public override void Attack()
 	{
-		specialController.Animator.SetTrigger("isSpecialPaperShredder");
+		specialController.Animator.SetTrigger("isSpecialSelfExplode");
 	}
 
+	public override void StartTurnEffect()
+	{
+		AddCharge();
+	}
 	public override void TakeDamageEffect()
 	{
 		AddCharge();
 	}
-	public override void AddCharge()
+	protected override void AddCharge()
 	{
 		base.AddCharge();
 
@@ -66,8 +70,8 @@ public class SelfExplosionDamage : AbstractSpecial
 					Effects.ApplyWeaponEffects(target, ultiEffects);
 				}				
 			}
-			Charges = 0;
-			specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
 		}
+		Charges = 0;
+		specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
 	}
 }

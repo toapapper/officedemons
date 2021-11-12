@@ -33,6 +33,11 @@ public class CoffeeSpecial : AbstractSpecial
 		specialController.Animator.SetTrigger("isSpecialBombard");
 	}
 
+	public override void StartTurnEffect()
+	{
+		base.AddCharge();
+	}
+
 	public override void DoSpecialAction()
 	{
 		Vector3 forward = holderAgent.transform.forward;
