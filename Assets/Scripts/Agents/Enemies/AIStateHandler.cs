@@ -88,9 +88,8 @@ public class AIStateHandler : MonoBehaviour
                 aiController.CurrentState = AIStates.States.FindCover;
                 
             }
-            else if(fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
+            else if(PlayerIsInRange()) // <- If one or more players are within fov range
             {
-                //If there is then they are in our attack range so we attack
                 aiController.CurrentState = AIStates.States.Attack;
             }
             //No target within range and health is fine
@@ -182,6 +181,22 @@ public class AIStateHandler : MonoBehaviour
     }
 
 
+    private bool PlayerIsInRange()
+    {
+        if(fov.VisibleTargets.Count > 0)
+        {
+            //if player in range
+            foreach (GameObject target in fov.VisibleTargets)
+            {
+                if (target.tag == "Player")
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /// <summary>
     /// Maybe will keep these because we might have so that ranged weapons can shoot over some obstacles
     /// </summary>
@@ -258,9 +273,4 @@ public class AIStateHandler : MonoBehaviour
     {
         return false;
     }
-
-
-
-
-
 }

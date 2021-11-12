@@ -97,9 +97,9 @@ public class AIManager : MonoBehaviour
         {
             GameObject e = enemyList[i];
 
-            if (actionsQueue.Count < enemyList.Count) //if not all locked actions
+            if (!e.GetComponent<AIController>().ActionIsLocked) // if not all locked actions
             {
-                e.GetComponent<AIController>().Priorites = killOnSight; // ändra sen ?
+                e.GetComponent<AIController>().Priorites = killOnSight; // ändra sen
                 e.GetComponent<AIController>().PerformBehaviour();
                 
                 allDone = false;
