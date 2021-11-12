@@ -183,9 +183,10 @@ public class PlayerManager : MonoBehaviour
     public void EndCombat()
     {
         Debug.Log("End combat");
-
+        
         foreach (GameObject p in players)
         {
+            Debug.Log("PLAYER POSITION:       " + p.transform.position);
             p.GetComponent<PlayerStateController>().StartOutOfCombat();
         }
     }

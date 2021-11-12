@@ -208,13 +208,16 @@ public class GameManager : MonoBehaviour
 
     public void ResetEncounter()
 	{
-        CurrentEncounter.ResetEncounter();
-        currentEncounter = null;
-        combatState = CombatState.none;
-        PlayerManager.Instance.EndCombat();
-        roundTimer = RoundTime;
-        // Remove everything but players from the camera
-        mainCamera.ObjectsInCamera = PlayerManager.players;
+		if (CurrentEncounter)
+		{
+            CurrentEncounter.ResetEncounter();
+            currentEncounter = null;
+            combatState = CombatState.none;
+            PlayerManager.Instance.EndCombat();
+            roundTimer = RoundTime;
+            // Remove everything but players from the camera
+            mainCamera.ObjectsInCamera = PlayerManager.players;
+        }
     }
 
     /// <summary>
@@ -266,7 +269,10 @@ public class GameManager : MonoBehaviour
 
     public void LoadCheckpoint()
     {
-        currentCheckpoint.LoadCheckpoint();
+        if(combatState != CombatState.none)
+		{
+            currentCheckpoint.LoadCheckpoint();
+        }
         //ResetEncounter();
     }
 }

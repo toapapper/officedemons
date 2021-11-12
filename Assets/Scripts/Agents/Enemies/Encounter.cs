@@ -36,7 +36,7 @@ public class Encounter : MonoBehaviour
     public AIManager aIManager;
 
     public List<GameObject> playerPositions;
-    public Dictionary<Transform, string> enemyStartPositions;
+    public Dictionary<Vector3, string> enemyStartPositions;
 
 
     private bool myTurn = false;
@@ -45,11 +45,12 @@ public class Encounter : MonoBehaviour
     void Awake()
     {        
         aIManager = GetComponentInChildren<AIManager>();
-        enemyStartPositions = new Dictionary<Transform, string>();
+        enemyStartPositions = new Dictionary<Vector3, string>();
         foreach (GameObject enemy in GetEnemylist())
         {
-            Transform tempTransform = enemy.transform;
-            enemyStartPositions.Add(tempTransform, enemy.name);
+            //Transform tempTransform = enemy.transform;
+            Vector3 tempPosition = enemy.transform.position;
+            enemyStartPositions.Add(tempPosition, enemy.name);
         }
         // If procedurally generated -> Call SpawnEnemiesRrndomPositions() instead of ActivateEnemies()
     }
@@ -101,18 +102,19 @@ public class Encounter : MonoBehaviour
 
     public void DestroyEnemies()
 	{
-        aIManager.EnemyList.Clear();
+        //aIManager.EnemyList.Clear();
 
         for (int i = 0; i < transform.childCount; i++)
 		{
 			GameObject child = transform.GetChild(i).gameObject;
 			if (child.CompareTag("Enemy"))
 			{
-				Destroy(child);
+                child.GetComponent<AIController>().Die();
+				//Destroy(child);
 			}
 		}        
-        Utilities.CleanList(GameManager.Instance.StillCheckList);
-		Camera.main.GetComponent<MultipleTargetCamera>().ObjectsInCamera = GameManager.Instance.StillCheckList;
+  //      Utilities.CleanList(GameManager.Instance.StillCheckList);
+		//Camera.main.GetComponent<MultipleTargetCamera>().ObjectsInCamera = GameManager.Instance.StillCheckList;
 
 	}
 
@@ -140,14 +142,14 @@ public class Encounter : MonoBehaviour
     public void ResetEncounter()
     {
         DestroyEnemies();
-        foreach(KeyValuePair<Transform, string> enemy in enemyStartPositions)
+        foreach(KeyValuePair<Vector3, string> enemy in enemyStartPositions)
 		{
             string enemyName = enemy.Value/*.Remove(enemy.Value.IndexOf(' '))*/;
             if(enemyName.Contains(" "))
 			{
                 enemyName = enemyName.Remove(enemy.Value.IndexOf(' '));
             }
-            GameObject newEnemy = Instantiate(Resources.Load(enemyName), enemy.Key.position, enemy.Key.rotation) as GameObject;
+            GameObject newEnemy = Instantiate(Resources.Load(enemyName), enemy.Key, Quaternion.Euler(0,0,0)) as GameObject;
             newEnemy.transform.parent = this.transform;
         }
     }

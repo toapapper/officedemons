@@ -7,6 +7,9 @@ public class Checkpoint : MonoBehaviour
 {
     [SerializeField]
     List<Transform> positions;
+    GameObject camPos;
+
+    private bool isSaved;
 
     //public Dictionary<Vector3, string> savedPlayers;
 
@@ -15,6 +18,7 @@ public class Checkpoint : MonoBehaviour
 
 	public void Awake()
 	{
+        camPos = Camera.main.transform.parent.gameObject;
         //savedPlayers = new Dictionary<Vector3, string>();
         savedPlayers = new List<string>();
     }
@@ -22,26 +26,15 @@ public class Checkpoint : MonoBehaviour
     {
         GameManager.Instance.CurrentCheckpoint = this;
 
-        //int i = 0;
         foreach (GameObject player in PlayerManager.players)
         {
             SaveSystem.SavePlayer(player);
-
-
-
-
-
-            //savedPlayers.Add(positions[i].position, player.name);
-            //savedPlayers.Add(player.name);
-
-            //PrefabUtility.SaveAsPrefabAsset(player, "Assets/Prefabs/Player/CharacterPrefabs/Resources/" + player.name + ".prefab");
-            //i++;
         }
     }
 
     public void LoadCheckpoint()
     {
-		int playerCounter = 0;
+        int playerCounter = 0;
 		foreach (GameObject player in PlayerManager.players)
 		{
             PlayerData playerData = SaveSystem.LoadPlayer(player.name);
@@ -51,10 +44,17 @@ public class Checkpoint : MonoBehaviour
                 //Create weapon with playerData.weaponName and place in weaponHand
                 //player.GetComponent<WeaponHand>().objectInHand.Durability = playerData.durability
             }
-			Vector3 newPos = new Vector3(positions[playerCounter].position.x, player.transform.position.y, positions[playerCounter].position.z);
-			player.transform.position = newPos;
-			playerCounter++;
+
+
+            Vector3 newPos = new Vector3(positions[playerCounter].position.x, player.transform.position.y, positions[playerCounter].position.z);
+            Debug.Log("NEW POSITION:       " + newPos);
+            camPos.transform.position = transform.position;
+            player.transform.position = newPos;
+            Debug.Log("PLAYER POSITION:       " + player.transform.position);
+            playerCounter++;
 		}
+
+        GameManager.Instance.ResetEncounter();
 
 
         //int playerCounter = 0;
@@ -78,7 +78,11 @@ public class Checkpoint : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            SaveCheckpoint();
+			if (!isSaved)
+			{
+                SaveCheckpoint();
+                isSaved = true;
+            }
         }
     }
 }
