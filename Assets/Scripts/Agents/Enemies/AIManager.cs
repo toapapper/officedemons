@@ -132,6 +132,7 @@ public class AIManager : MonoBehaviour
     /// <param name=""></param>
     public void PerformNextAction()
     {
+        Debug.Log("ENEMY ACTION QUEUE: "+ actionsQueue);
         if (actionsQueue.Count > 0)
         {
             GameObject agent = actionsQueue.Dequeue();
