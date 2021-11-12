@@ -75,8 +75,7 @@ public class BombardWeapon : AbstractWeapon
 			{
 				Effects.Damage(wielder, Damage / 2);
 				Effects.ApplyForce(wielder, (wielder.transform.forward * -1 * HitForce));
-				Effects.ApplyWeaponEffects(wielder, effects);
-			}
+				Effects.ApplyWeaponEffects(wielder, effects);			}
 		}
 
 		//disarms the wielder

@@ -16,8 +16,14 @@ using UnityEngine;
 public class Rocket : Bullet
 {
 	private List<GameObject> targetList = new List<GameObject>();
+	[SerializeField]
+	private GameObject explosion;
+    private void Start()
+    {
+		gameObject.GetComponentInChildren<ParticleSystem>().Stop();
+	}
 
-	protected override void OnCollisionEnter(Collision collision)
+    protected override void OnCollisionEnter(Collision collision)
 	{
 		if(targetList.Count > 0)
 		{
@@ -33,6 +39,8 @@ public class Rocket : Bullet
 		}
 
 		//TODO Explosion
+		Instantiate(explosion, transform.position, transform.rotation);
+		//gameObject.GetComponentInChildren<ParticleSystem>().Play();
 		Destroy(gameObject);
 	}
 
