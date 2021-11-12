@@ -15,6 +15,7 @@ using UnityEngine;
 // Last Edited: 14/10-28
 public class Bullet : MonoBehaviour
 {
+	protected GameObject shooter; 
 	protected float bulletDamage;
 	//protected Vector3 bulletHitForce;
 	protected float bulletHitForce;
@@ -23,9 +24,10 @@ public class Bullet : MonoBehaviour
 
 	public List<WeaponEffects> effects;
 
-	public void CreateBullet(Vector3 position, Vector3 direction, float bulletFireForce, float bulletHitForce, float bulletDamage, List<WeaponEffects> effects)
+	public void CreateBullet(GameObject shooter, Vector3 position, Vector3 direction, float bulletFireForce, float bulletHitForce, float bulletDamage, List<WeaponEffects> effects)
 	{
 		bulletObject = Instantiate(this, position, Quaternion.LookRotation(direction));
+		bulletObject.shooter = shooter;
 		bulletObject.bulletDamage = bulletDamage;
 
 		bulletObject.bulletHitForce = bulletFireForce;
@@ -51,7 +53,8 @@ public class Bullet : MonoBehaviour
     {
 		if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
 		{
-			Effects.Damage(collision.gameObject, bulletDamage);
+			Effects.RegularDamage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost), shooter);
+			//Effects.Damage(collision.gameObject, bulletDamage);
 			Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce);
 
 			Effects.ApplyWeaponEffects(collision.gameObject, effects);

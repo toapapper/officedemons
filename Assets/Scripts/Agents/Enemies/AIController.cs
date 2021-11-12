@@ -93,13 +93,21 @@ public class AIController : MonoBehaviour
         weapon = GetComponent<WeaponHand>();
     }
 
+    public void Die()
+    {
+        Debug.Log("D种种种种种种种种种种D");
+        navMeshAgent.ResetPath();
+        aiManager.EnemyList.Remove(gameObject);
+        Destroy(gameObject);
+    }   
+        
+        
     /// <summary>
     /// Performs the behaviour corresponding to the current state.
     /// </summary>
     /// <param name=""></param>
     public void PerformBehaviour()
     {
-        
         aiStateHandler.StateUpdate(aiClass);
 
         switch (CurrentState) 
@@ -121,7 +129,6 @@ public class AIController : MonoBehaviour
                 {
                     MoveTowards(targetPosition);
                 }
-
                 break;
 
             case AIStates.States.CallForHealing:
@@ -161,9 +168,9 @@ public class AIController : MonoBehaviour
                 break;
 
             case AIStates.States.Dead:
-                aiManager.RemoveAgent(gameObject);
+                Effects.Die(this.gameObject);
                 break;
-        }
+        }        
     }
 
     /// <summary>
@@ -342,7 +349,6 @@ public class AIController : MonoBehaviour
             }
         }
     }
-
 
     public void MoveTowards(Vector3 targetPos)
     {

@@ -6,14 +6,14 @@ using UnityEngine.Events;
 /// <summary>
 /// <para>
 /// Manages the group behaviour of AI-agents.
-/// 
+///
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Tinea Larsson, Tim Wennerberg
-///  
+///
 /// </para>
-///  
+///
 /// </summary>
 
 // Last Edited: 15-10-21
@@ -57,7 +57,7 @@ public class AIManager : MonoBehaviour
     /// Resets variables to prepare for a new turn
     /// </summary>
     /// <param name=""></param>
-    public void BeginTurn() 
+    public void BeginTurn()
     {
         actionsQueue.Clear();
         foreach (GameObject e in enemyList)
@@ -85,7 +85,7 @@ public class AIManager : MonoBehaviour
         bool allDone = true;
         bool allDead = true;
 
-        List<GameObject> killOnSight = new List<GameObject>(); 
+        List<GameObject> killOnSight = new List<GameObject>();
 
         for (int i = 0; i < playerList.Count; i++)
         {
@@ -104,19 +104,13 @@ public class AIManager : MonoBehaviour
             {
                 e.GetComponent<AIController>().Priorites = killOnSight; // ändra sen ?
                 e.GetComponent<AIController>().PerformBehaviour();
-                
+
                 allDone = false;
             }
 
             if (e.GetComponent<Attributes>().Health > 0)
             {
                 allDead = false;
-            }
-            else if (e.GetComponent<Attributes>().Health <= 0)
-            {
-                Destroy(e);
-                Utilities.CleanList(enemyList);
-                i--;
             }
         }
         if (!GameManager.Instance.AllStill)
@@ -126,7 +120,10 @@ public class AIManager : MonoBehaviour
             GameManager.Instance.EnemiesTurnDone = true;
 
         if (allDead)
+        {
+            Debug.Log("ALLDEAD");
             GameManager.Instance.EndEncounter();
+        }
     }
 
     /// <summary>
@@ -138,13 +135,13 @@ public class AIManager : MonoBehaviour
         if (actionsQueue.Count > 0)
         {
             GameObject agent = actionsQueue.Dequeue();
-			if (agent)
-			{
-                agent.GetComponent<AIController>().PerformAction();
-                StartCoroutine("WaitDone");
+            if (agent.Equals(null))
+            {
+                PerformNextAction();
+                return;
             }
-            
-            
+            agent.GetComponent<AIController>().PerformAction();
+            StartCoroutine("WaitDone");
         }
         else
         {
@@ -170,12 +167,6 @@ public class AIManager : MonoBehaviour
     {
         actionsQueue.Enqueue(agent);
         agent.GetComponent<AIController>().ActionIsLocked = true;
-        agent.GetComponent<AIController>().navMeshAgent.destination = transform.position;
         agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
-    }
-
-    public void RemoveAgent(GameObject agent)
-    {
-        enemyList.Remove(agent);
     }
 }

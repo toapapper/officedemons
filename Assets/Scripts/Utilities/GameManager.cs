@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int roundTime = 10;//seconds
 
-    private CombatState combatState = CombatState.none;
+    [SerializeField]private CombatState combatState = CombatState.none;
     private bool paused = false;
     private float roundTimer = 0;
 
@@ -100,6 +100,17 @@ public class GameManager : MonoBehaviour
         }
         #endregion
 
+
+        //Ful "kolla om alla fiender är döda"-check
+        if(CurrentCombatState != CombatState.none)
+        {
+
+            if(currentEncounter.GetEnemylist().Count <= 0)
+            {
+                EndEncounter();
+            }
+        }
+
         #region combatState-update
         if(CurrentCombatState == CombatState.enterCombat)
 		{
@@ -145,7 +156,7 @@ public class GameManager : MonoBehaviour
 
             if (enemiesTurnDone)
             {
-                Debug.Log("ENEMY MOVE DONE");
+                Debug.Log("ENEMIES MOVES ARE DONE");
                 EnemiesActionsDone = false;
                 combatState = CombatState.enemyActions;
 
@@ -159,7 +170,7 @@ public class GameManager : MonoBehaviour
         {
             if (enemiesActionsDone)
             {
-                Debug.Log("ENEMY ACTIONS DONE");
+                Debug.Log("ENEMIES ACTIONS ARE DONE");
                 combatState = CombatState.player;
                 PlayerManager.Instance.BeginTurn();
                 roundTimer = RoundTime;
@@ -184,6 +195,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void EndEncounter()
     {
+        Debug.Log("ENDENCOUNTER");
+
         CurrentEncounter.EndEncounter();
         currentEncounter = null;
         combatState = CombatState.none;

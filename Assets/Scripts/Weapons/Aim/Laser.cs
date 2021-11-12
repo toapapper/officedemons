@@ -23,7 +23,7 @@ public class Laser : MonoBehaviour
 
     void Start()
     {
-        laserBeam = GetComponent<LineRenderer>();
+        laserBeam = GetComponentInChildren<LineRenderer>();
     }
 
 	private void Update()

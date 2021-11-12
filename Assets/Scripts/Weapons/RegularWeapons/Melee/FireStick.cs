@@ -16,7 +16,8 @@ public class FireStick : SwingWeapon
 		{
 			foreach (GameObject target in fov.VisibleTargets)
 			{
-				Effects.Damage(target, Damage);
+				Effects.RegularDamage(target, Damage, holderAgent);
+				//Effects.Damage(target, Damage);
 				Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
 				Effects.ApplyStatusEffect(target, StatusEffectType.StaminaDrain, 3, fireStacks);
 			}

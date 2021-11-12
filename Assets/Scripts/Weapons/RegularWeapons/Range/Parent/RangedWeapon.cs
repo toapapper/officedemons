@@ -38,12 +38,12 @@ public abstract class RangedWeapon : AbstractWeapon
 		get { return weaponMuzzle; }
 		set { weaponMuzzle = value; }
 	}
-	protected GameObject LaserAim
-	{
-		get { return laserAim; }
-		set { laserAim = value; }
-	}
-	public float BulletFireForce
+	//protected GameObject LaserAim
+	//{
+	//	get { return laserAim; }
+	//	set { laserAim = value; }
+	//}
+	protected float BulletFireForce
 	{
 		get { return bulletFireForce; }
 		set { bulletFireForce = value; }
@@ -60,21 +60,21 @@ public abstract class RangedWeapon : AbstractWeapon
 			{
 				modval = this.holderAgent.GetComponent<StatusEffectHandler>().InAccuracyMod;
 			}
-			return Mathf.Clamp(inaccuracy + modval, 0, 89); 
+			return Mathf.Clamp(inaccuracy + modval, 0, 89);
 		}
 		set { inaccuracy = Mathf.Clamp(value, 0, 89); }
     }
 
 	public override void SetAimGradient(Gradient gradient)
 	{
-		LaserAim.SetActive(true);
+		laserAim.SetActive(true);
 		GetComponentInChildren<LineRenderer>().colorGradient = gradient;
-		LaserAim.SetActive(false);
+		laserAim.SetActive(false);
 	}
 
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
-		LaserAim.SetActive(isActive);
+		laserAim.SetActive(isActive);
 
 		UpdateAimCone();
 		AimCone.SetActive(isActive);
@@ -91,7 +91,7 @@ public abstract class RangedWeapon : AbstractWeapon
 
 
 	/// <summary>
-	/// The maximum amount of degrees from the aim direction that the shot can deviate. This takes the possibility of being poísoned into account.<br/>
+	/// The maximum amount of degrees from the aim direction that the shot can deviate. This takes the possibility of being poï¿½soned into account.<br/>
 	/// Also updates the size and such of the aimcone.
 	/// </summary>
 	protected void UpdateAimCone()
@@ -142,7 +142,7 @@ public abstract class RangedWeapon : AbstractWeapon
 
 		Vector3 direction = GetBulletDirection();
 
-		bullet.GetComponent<Bullet>().CreateBullet(WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), this.effects);
+		bullet.GetComponent<Bullet>().CreateBullet(holderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage/* * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost)*/, this.effects);
 
 		//recoil and slippery-checks
 
