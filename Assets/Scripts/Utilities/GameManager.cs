@@ -254,6 +254,6 @@ public class GameManager : MonoBehaviour
     public void LoadCheckpoint()
     {
         currentCheckpoint.LoadCheckpoint();
-        ResetEncounter();
+        //ResetEncounter();
     }
 }
