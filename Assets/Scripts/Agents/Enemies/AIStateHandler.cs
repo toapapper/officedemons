@@ -19,15 +19,15 @@ using UnityEngine.AI;
 /// </summary>
 /// 
 
-// Last Edited: 13/10/2021
+// Last Edited: 12/11/2021
 public class AIStateHandler : MonoBehaviour
 {
-    Encounter encounter;
-    Attributes attributes;
-    GameObject rightHand, leftHand;
-    FieldOfView fov;
-    AIController aiController;
-
+    private Encounter encounter;
+    private Attributes attributes;
+    private GameObject rightHand, leftHand;
+    private FieldOfView fov;
+    private AIController aiController;
+    private 
     // Start is called before the first frame update
     void Start()
     {
@@ -84,29 +84,49 @@ public class AIStateHandler : MonoBehaviour
         //DeathCheck       
         if(aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
         {
+            //Low health
+            //We try to find cover because they're in danger
             if (attributes.Health <= (attributes.StartHealth / 2) && attributes.Stamina > 0)
             {
                 aiController.CurrentState = AIStates.States.FindCover;
                 
             }
-            else if(fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
-            {
-                //If there is then they are in our attack range so we attack
-                aiController.CurrentState = AIStates.States.Attack;
-            }
-            //No target within range and health is fine
+            //Not low health try to engage
             else
             {
-                //If we have stamina move(Later on will move towards target but for now only sets the next action to move)
-                if (attributes.Stamina > 0)
+                //If the AI has no weapon and there's no weapon at it's current location
+                if (aiController.gameObject.GetComponent<WeaponHand>().objectInHand.Equals(null) && attributes.Stamina > 0)
                 {
-                    aiController.CurrentState = AIStates.States.Move;
-                    
+                    //Check if there's a ranged weapon atleast 1.5x closer than the closest enemy to try and shoot him from range
+                    if (aiController.CalculateDistance(aiController.ClosestPlayer) <= aiController.CalculateDistance(aiController.ClosestWeapon(10,float.MaxValue)) * 1.5f)
+                    {
+                        WalkTowardsWeapon(10);
+                    }
+                    else
+                    {
+                        WalkTowardsWeapon(0);
+                    }
                 }
-                //No stamina wait
+                else if (fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
+                {
+                    //If there is then they are in our attack range so we attack
+                    aiController.CurrentState = AIStates.States.Attack;
+                }
+
+                //No target within range and health is fine
                 else
                 {
-                    aiController.CurrentState = AIStates.States.Wait;
+                    //If we have stamina move(Later on will move towards target but for now only sets the next action to move)
+                    if (attributes.Stamina > 0)
+                    {
+                        aiController.CurrentState = AIStates.States.Move;
+
+                    }
+                    //No stamina wait
+                    else
+                    {
+                        aiController.CurrentState = AIStates.States.Wait;
+                    }
                 }
             }
         }
@@ -260,7 +280,13 @@ public class AIStateHandler : MonoBehaviour
         return false;
     }
 
-
+    private void WalkTowardsWeapon(float minimumWeaponRange)
+    {
+        GameObject weapon = aiController.ClosestWeapon(minimumWeaponRange, float.MaxValue);
+        aiController.TargetPosition = weapon.transform.position;
+        aiController.Target = weapon;
+        aiController.CurrentState = AIStates.States.Move;
+    }
 
 
 
