@@ -68,7 +68,9 @@ public class AIStateHandler : MonoBehaviour
     /// </summary>
     private void AggressiveGetState()
     {
-        if(attributes.Health <= 0)
+        //Debug.Log(aiController.Weapon.objectInHand == null);
+
+        if (attributes.Health <= 0)
         {
             aiController.CurrentState = AIStates.States.Dead;
             Debug.Log("INNE I STATEHANDLER");
@@ -77,8 +79,11 @@ public class AIStateHandler : MonoBehaviour
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
+            Debug.Log("IM IN");
             GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, aiController.Priorites);
-            Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
+            Debug.Log(closestPlayer.name);
+            aiController.Target = closestPlayer;
+            aiController.TargetPosition = closestPlayer.transform.position;
             //Turn towards nearest player
         }
         //DeathCheck       
@@ -94,20 +99,26 @@ public class AIStateHandler : MonoBehaviour
             //Not low health try to engage
             else
             {
-                //If the AI has no weapon and there's no weapon at it's current location
-                if (aiController.gameObject.GetComponent<WeaponHand>().objectInHand.Equals(null) && attributes.Stamina > 0)
+                //If the AI has no weapon and there's a weapon nearby
+                //We try to pickup weapons because fists are bad
+                //Debug.Log("objectinhand" + gameObject.GetComponent<WeaponHand>().objectInHand == null);
+                //Debug.Log(aiController.Weapon.objectInHand == null);
+                if (gameObject.GetComponent<WeaponHand>().objectInHand == null && attributes.Stamina > 0 && aiController.GetClosestWeapon(0,100) != null)
                 {
+                    //Might remove it later but for now just a quick fix
+                    aiController.UpdateClosestPlayer();
                     //Check if there's a ranged weapon atleast 1.5x closer than the closest enemy to try and shoot him from range
-                    if (aiController.CalculateDistance(aiController.ClosestPlayer) <= aiController.CalculateDistance(aiController.ClosestWeapon(10,float.MaxValue)) * 1.5f)
+                    if (aiController.GetClosestWeapon(10, 100) != null && aiController.CalculateDistance(aiController.ClosestPlayer) <= aiController.CalculateDistance(aiController.GetClosestWeapon(10, 100)))
                     {
                         WalkTowardsWeapon(10);
                     }
                     else
                     {
+
                         WalkTowardsWeapon(0);
                     }
                 }
-                else if (fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
+                if (fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
                 {
                     //If there is then they are in our attack range so we attack
                     aiController.CurrentState = AIStates.States.Attack;
@@ -282,12 +293,9 @@ public class AIStateHandler : MonoBehaviour
 
     private void WalkTowardsWeapon(float minimumWeaponRange)
     {
-        GameObject weapon = aiController.ClosestWeapon(minimumWeaponRange, float.MaxValue);
+        GameObject weapon = aiController.GetClosestWeapon(minimumWeaponRange, float.MaxValue);
         aiController.TargetPosition = weapon.transform.position;
         aiController.Target = weapon;
         aiController.CurrentState = AIStates.States.Move;
     }
-
-
-
 }

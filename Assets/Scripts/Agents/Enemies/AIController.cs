@@ -25,7 +25,6 @@ public class AIController : MonoBehaviour
     private FieldOfView fov;
     public NavMeshAgent navMeshAgent; // TODO: Maybe change to property
     private AIManager aiManager;
-    private WeaponHand weapon;
 
     private Class aiClass;
 
@@ -37,6 +36,11 @@ public class AIController : MonoBehaviour
         set { target = value; }
     }
 
+    private WeaponHand weapon;
+    public WeaponHand Weapon
+    {
+        get { return weapon; }
+    }
 
     private GameObject closestPlayer;
     public GameObject ClosestPlayer
@@ -104,6 +108,8 @@ public class AIController : MonoBehaviour
         aiStateHandler = GetComponent<AIStateHandler>();
         aiManager = transform.parent.GetComponentInChildren<AIManager>();
         weapon = GetComponent<WeaponHand>();
+        Debug.Log(weapon.objectInHand == null);
+        target = new GameObject();
     }
 
     public void Die()
@@ -122,7 +128,7 @@ public class AIController : MonoBehaviour
     public void PerformBehaviour()
     {
         aiStateHandler.StateUpdate(aiClass);
-        closestPlayer = CalculateClosest(PlayerManager.players, priorites);
+        //closestPlayer = CalculateClosest(PlayerManager.players, priorites);
         switch (CurrentState) 
         {
             case AIStates.States.FindCover:
@@ -166,7 +172,12 @@ public class AIController : MonoBehaviour
                 }
 
                 MoveTowards(targetPosition);
-                PickupWeapon(target);
+                //Debug.Log(target);
+                //Debug.Log(Vector3.Distance(gameObject.transform.position,target.transform.position));
+                if (target.CompareTag("WeaponObject") && weapon.objectInHand == null)
+                {
+                    PickupWeapon(target);
+                }
 
                 if (transform.position == targetPosition)
                 {
@@ -207,24 +218,30 @@ public class AIController : MonoBehaviour
     /// </summary>
     /// <param name="minimumRangeForWeapon">0 == all weapons| How long range should the weapon you're looking for be as a minimum</param>
     /// <returns></returns>
-    public GameObject ClosestWeapon(float minimumRangeForWeapon, float maximumDistancefromObject)
+    public GameObject GetClosestWeapon(float minimumRangeForWeapon, float maximumDistancefromObject)
     {
         float closest = float.MaxValue;
         GameObject closestWeapon = null;
         //We check all weapons everytime, might not wanna do this because of performance
-        GameObject[] weapons = GameObject.FindGameObjectsWithTag("Weapon");
+        GameObject[] weapons = GameObject.FindGameObjectsWithTag("WeaponObject");
         for (int i = 0; i < weapons.Length; i++)
         {
             float distance = CalculateDistance(weapons[i]);
             if (distance < closest &&
                 weapons[i].GetComponent<AbstractWeapon>().ViewDistance >= minimumRangeForWeapon &&
-                distance <= maximumDistancefromObject)
+                distance <= maximumDistancefromObject &&
+                !weapons[i].GetComponent<AbstractWeapon>().IsHeld)
             {
                 closest = distance;
-                closestPlayer = weapons[i];
+                closestWeapon = weapons[i];
             }
         }
-        return closestWeapon;
+        if (closest < float.MaxValue)
+        {
+            return closestWeapon;
+
+        }
+        return null;
     }
 
 
@@ -314,7 +331,7 @@ public class AIController : MonoBehaviour
         NavMeshPath path = new NavMeshPath();
         float distance = float.MaxValue;
 
-        if (NavMesh.CalculatePath(transform.position, target.gameObject.transform.position, navMeshAgent.areaMask, path))
+        if (NavMesh.CalculatePath(transform.position, target.transform.position, navMeshAgent.areaMask, path))
         {
             distance = Vector3.Distance(transform.position, path.corners[0]);
             for (int i = 1; i < path.corners.Length; i++)
@@ -398,9 +415,20 @@ public class AIController : MonoBehaviour
 
     public void PickupWeapon(GameObject weapon)
     {
-        if (gameObject.transform.position == weapon.transform.position && weapon.CompareTag("Weapon"))
+        Debug.Log("TRYING TO EQUIP");
+        if (Vector3.Distance(gameObject.transform.position, weapon.transform.position) < 1 && weapon.CompareTag("WeaponObject"))
         {
             gameObject.GetComponent<WeaponHand>().Equip(weapon);
+            navMeshAgent.isStopped = true;
+            currentState = AIStates.States.Unassigned;
+            Debug.Log("EQUIP");
         }
+    }
+
+
+
+    public void UpdateClosestPlayer()
+    {
+        closestPlayer = CalculateClosest(PlayerManager.players, priorites);
     }
 }
