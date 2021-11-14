@@ -90,12 +90,13 @@ public class AIStateHandler : MonoBehaviour
             else if(PlayerIsInRange()) // <- If one or more players are within fov range
             {
                 aiController.CurrentState = AIStates.States.Attack;
+                aiController.ActionIsLocked = true;
             }
             //No target within range and health is fine
             else
             {
                 //If we have stamina move(Later on will move towards target but for now only sets the next action to move)
-                if (attributes.Stamina > 0)
+                if (attributes.Stamina > 0 && gameObject.transform.position != aiController.TargetPosition)
                 {
                     aiController.CurrentState = AIStates.States.Move;
                     
@@ -104,6 +105,7 @@ public class AIStateHandler : MonoBehaviour
                 else
                 {
                     aiController.CurrentState = AIStates.States.Wait;
+                    aiController.ActionIsLocked = true;
                 }
             }
         }

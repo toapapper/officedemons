@@ -330,19 +330,26 @@ public class AIController : MonoBehaviour
 
         foreach (Vector3 pos in aiManager.coverList)
         {
-            //
-            Debug.Log("KOLLAR POS:" + pos);
-            if(Physics.Raycast(opponent.transform.position, opponent.transform.position - pos, out hit))
+            if(Physics.Raycast(opponent.transform.position, (pos - opponent.transform.position).normalized, out hit))
             {
-                Debug.Log("HIT!!!!!!");
-                if (hit.transform.gameObject.tag == "CoverPosition")
+                if (hit.transform.gameObject.tag == "CoverObject")
                 {
-                    targetPosition = pos;
-                    break;
+                    foreach (Transform child in hit.transform)
+                    {
+                        RaycastHit hit2 = new RaycastHit();
+                        if (Physics.Raycast(opponent.transform.position, (child.position - opponent.transform.position).normalized, out hit2))
+                        {
+                            if (hit2.transform.gameObject.tag == "CoverObject")
+                            {
+                                targetPosition = child.position;
+                                break;
+                            }
+
+                        }
+                        targetPosition = child.position;
+                    }
                 }
             }
-
-            targetPosition = pos; //Fixa imorgon (just nu tar den sista i listan om ingen hit, hit funkar inte)
         }
 
         // OLD WAY
