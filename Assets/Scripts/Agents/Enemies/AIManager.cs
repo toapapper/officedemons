@@ -25,17 +25,14 @@ public class AIManager : MonoBehaviour
     private AIManager instance;
     private Queue<GameObject> actionsQueue;
 
-    private List<GameObject> enemyList;
-    public List<GameObject> EnemyList
-    {
-        get { return enemyList; }
-        set { enemyList = value; }
-    }
+    public List<GameObject> enemyList;
+    public List<Vector3> coverList;
 
     private void Start()
     {
         actionsQueue = new Queue<GameObject>();
         playerList = PlayerManager.players;
+        coverList = FindCoverSpotsInEncounter();
     }
 
     /// <summary>
@@ -57,7 +54,7 @@ public class AIManager : MonoBehaviour
     /// Resets variables to prepare for a new turn
     /// </summary>
     /// <param name=""></param>
-    public void BeginTurn() 
+    public void BeginTurn()
     {
         actionsQueue.Clear();
         foreach (GameObject e in enemyList)
@@ -85,7 +82,7 @@ public class AIManager : MonoBehaviour
         bool allDone = true;
         bool allDead = true;
 
-        List<GameObject> killOnSight = new List<GameObject>(); 
+        List<GameObject> killOnSight = new List<GameObject>();
 
         for (int i = 0; i < playerList.Count; i++)
         {
@@ -96,15 +93,15 @@ public class AIManager : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < enemyList.Count; i++)
+        for (int i = 0; i < enemyList.Count; i++)
         {
             GameObject e = enemyList[i];
 
-            if (actionsQueue.Count < enemyList.Count) //if not all locked actions
+            if (!e.GetComponent<AIController>().ActionIsLocked) // if not all locked actions
             {
-                e.GetComponent<AIController>().Priorites = killOnSight; // ändra sen ?
+                e.GetComponent<AIController>().Priorites = killOnSight; // ändra sen
                 e.GetComponent<AIController>().PerformBehaviour();
-                
+
                 allDone = false;
             }
 
@@ -120,10 +117,7 @@ public class AIManager : MonoBehaviour
             GameManager.Instance.EnemiesTurnDone = true;
 
         if (allDead)
-        {
-            Debug.Log("ALLDEAD");
             GameManager.Instance.EndEncounter();
-        }
     }
 
     /// <summary>
@@ -132,15 +126,9 @@ public class AIManager : MonoBehaviour
     /// <param name=""></param>
     public void PerformNextAction()
     {
-        Debug.Log("ENEMY ACTION QUEUE: "+ actionsQueue);
         if (actionsQueue.Count > 0)
         {
             GameObject agent = actionsQueue.Dequeue();
-            if (agent.Equals(null))
-            {
-                PerformNextAction();
-                return;
-            }
             agent.GetComponent<AIController>().PerformAction();
             StartCoroutine("WaitDone");
         }
@@ -162,6 +150,23 @@ public class AIManager : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    private List<Vector3> FindCoverSpotsInEncounter()
+    {
+        Bounds bounds = GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
+        GameObject[] allCovers = GameObject.FindGameObjectsWithTag("CoverPosition");
+        List<Vector3> temp = new List<Vector3>();
+
+        foreach (GameObject go in allCovers)
+        {
+            if (bounds.Contains(go.transform.position))
+            {
+                temp.Add(go.transform.position);
+            }
+        }
+
+        return temp;
     }
 
     public void SaveAction(GameObject agent)
