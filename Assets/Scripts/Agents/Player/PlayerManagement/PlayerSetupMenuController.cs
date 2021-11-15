@@ -17,7 +17,7 @@ using UnityEngine.UI;
 public class PlayerSetupMenuController : MonoBehaviour
 {
     private int playerIndex;
-
+    
     [SerializeField]
     private TextMeshProUGUI titleText;
     [SerializeField]
