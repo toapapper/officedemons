@@ -12,13 +12,16 @@ public class Stapler : AbstractSpecial
 	private float bulletFireForce = 20;
 	[SerializeField]
 	protected GameObject bullet;
+	[SerializeField]
+	private int bulletsPerShot = 4;
+	private int bulletCount;
 
 	[Tooltip("The maximum amount of degrees away from the direction aimed that the projectile might fly")]
 	[SerializeField]
 	protected float inaccuracy = 3;
 
 	[SerializeField]
-	protected GameObject AimCone;
+	protected GameObject aimCone;
 
 	/// <summary>
 	/// The degrees by which the shot might change direction to either side. The effect of poison is included here
@@ -42,6 +45,7 @@ public class Stapler : AbstractSpecial
 		laserAim.SetActive(true);
 		GetComponentInChildren<LineRenderer>().colorGradient = gradient;
 		laserAim.SetActive(false);
+		aimCone.GetComponentInChildren<MeshRenderer>().material.color = gradient.colorKeys[0].color;
 	}
 
 	public override void ToggleAim(bool isActive)
@@ -49,7 +53,7 @@ public class Stapler : AbstractSpecial
 		laserAim.SetActive(isActive);
 
 		UpdateAimCone();
-		AimCone.SetActive(isActive);
+		aimCone.SetActive(isActive);
 	}
 	/// <summary>
 	/// The maximum amount of degrees from the aim direction that the shot can deviate. This takes the possibility of being po�soned into account.<br/>
@@ -58,7 +62,7 @@ public class Stapler : AbstractSpecial
 	protected void UpdateAimCone()
 	{
 		float width = 2 * Mathf.Tan(Inaccuracy * Mathf.Deg2Rad);//the 1,1,1 scale of the cone has length one and width one.
-		AimCone.transform.localScale = new Vector3(width, 1, 1);
+		aimCone.transform.localScale = new Vector3(width, 1, 1);
 	}
 
 	public override void StartAttack()
@@ -67,6 +71,7 @@ public class Stapler : AbstractSpecial
 	}
 	public override void Attack()
 	{
+		bulletCount = bulletsPerShot;
 		specialController.Animator.SetTrigger("isSpecialStapler");
 	}
 
@@ -75,8 +80,57 @@ public class Stapler : AbstractSpecial
 		base.AddCharge();
 	}
 
+	/// <summary>
+	/// Returns a randomized direction within the weapons (in)accuracy.
+	/// </summary>
+	/// <param name="aim"></param>
+	/// <returns></returns>
+	protected Vector3 GetBulletDirection()
+	{
+		Vector3 bulletDir = transform.forward;//I rotate this forward vector by a random amount of degrees basically
+		float deviation = ((Random.value * 2) - 1) * Inaccuracy * Mathf.Deg2Rad;
+
+		float newX = bulletDir.x * Mathf.Cos(deviation) - bulletDir.z * Mathf.Sin(deviation);
+		float newZ = bulletDir.x * Mathf.Sin(deviation) + bulletDir.z * Mathf.Cos(deviation);
+		bulletDir = new Vector3(newX, 0, newZ);
+
+		return bulletDir;
+	}
+
 	public override void DoSpecialAction()
 	{
-		throw new System.NotImplementedException();
+		if(bulletCount < bulletsPerShot)
+		{
+			if (bulletCount > 0)
+			{
+				Vector3 direction = GetBulletDirection();
+				bullet.GetComponent<Bullet>().CreateBullet(holderAgent, weaponMuzzle.transform.position, direction, bulletFireForce, HitForce, Damage, this.effects);
+				bulletCount--;
+			}
+			else
+			{
+				specialController.Animator.SetTrigger("isCancelAction");
+			}			
+		}
+		else
+		{
+			Vector3 direction = GetBulletDirection();
+			bullet.GetComponent<Bullet>().CreateBullet(holderAgent, weaponMuzzle.transform.position, direction, bulletFireForce, HitForce, Damage, this.effects);
+			bulletCount--;
+
+			specialController.Animator.SetTrigger("isSpecialStaplerShot");
+		}
 	}
+	//public override void DoSpecialActionEnd()
+	//{
+	//	//if (bulletCount <= 0)
+	//	//{
+	//	//	//specialController.Animator.SetTrigger("isSpecialStaplerShot");
+	//	//	specialController.Animator.SetTrigger("isCancelAction");
+	//	//}
+	//	//else
+	//	//{
+	//	//	specialController.Animator.SetTrigger("isSpecialStaplerShot");
+	//	//}
+	//}
 }

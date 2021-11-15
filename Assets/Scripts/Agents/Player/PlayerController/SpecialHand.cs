@@ -102,7 +102,7 @@ public class SpecialHand : MonoBehaviour
 	}
 	public bool SetBombardForce(float bombardForce)
 	{
-		if (objectInHand && objectInHand is CoffeeSpecial)
+		if (objectInHand && objectInHand is CoffeeCupSpecial)
 		{
 			throwAim.initialVelocity = bombardForce;
 			return true;
@@ -143,5 +143,9 @@ public class SpecialHand : MonoBehaviour
 	public void DoSpecialAction()
 	{
 		objectInHand.DoSpecialAction(/*fov*/);
+	}
+	public void DoSpecialActionEnd()
+	{
+		objectInHand.DoSpecialActionEnd();
 	}
 }
