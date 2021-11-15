@@ -17,11 +17,8 @@ public class Rocket : Bullet
 {
 	private List<GameObject> targetList = new List<GameObject>();
 	[SerializeField]
-	private GameObject explosion;
-    private void Start()
-    {
-		gameObject.GetComponentInChildren<ParticleSystem>().Stop();
-	}
+	private GameObject particleEffect;
+
 
     protected override void OnCollisionEnter(Collision collision)
 	{
@@ -39,7 +36,7 @@ public class Rocket : Bullet
 		}
 
 		//TODO Explosion
-		Instantiate(explosion, transform.position, transform.rotation);
+		Instantiate(particleEffect, transform.position, transform.rotation);
 		//gameObject.GetComponentInChildren<ParticleSystem>().Play();
 		Destroy(gameObject);
 	}

@@ -16,6 +16,8 @@ using UnityEngine;
 public class BurstShotWeapon : RangedWeapon
 {
 	private int bulletCount;
+	[SerializeField]
+	protected GameObject particleEffect;
 
 	public override void Attack(Animator animator)
 	{
@@ -25,6 +27,7 @@ public class BurstShotWeapon : RangedWeapon
 	}
 	public override void DoAction(FieldOfView fov)
 	{
+		Instantiate(particleEffect, WeaponMuzzle.transform.position, Quaternion.Euler(90, 0, 0));
 		bulletCount--;
 		
 		if(bulletCount <= 0)

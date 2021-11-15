@@ -48,7 +48,8 @@ public abstract class RangedWeapon : AbstractWeapon
 		get { return bulletFireForce; }
 		set { bulletFireForce = value; }
 	}
-
+	[SerializeField]
+	protected GameObject particleEffect;
 	/// <summary>
 	/// The degrees by which the shot might change direction to either side. The effect of poison is included here
 	/// </summary>
@@ -167,7 +168,7 @@ public abstract class RangedWeapon : AbstractWeapon
 				Effects.Disarm(wielder);
 			}
 		}
-
+		Instantiate(particleEffect, WeaponMuzzle.transform.position, WeaponMuzzle.transform.rotation/*Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z)*/);
 		base.DoAction(fov);
 	}
 }
