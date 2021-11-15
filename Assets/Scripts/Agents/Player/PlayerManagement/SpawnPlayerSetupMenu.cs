@@ -13,7 +13,7 @@ using UnityEngine.InputSystem.UI;
 /// </para>
 /// </summary>
 
-// Last Edited: 18/10 -21
+// Last Edited: 12/11 -21
 public class SpawnPlayerSetupMenu : MonoBehaviour
 {
 	public GameObject playerSetupMenuPrefab;
