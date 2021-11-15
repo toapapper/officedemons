@@ -2,7 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// <para>
+/// Sets volume levels for the different busses in Wwise.
+/// </para>
+///  <para>
+///  Author: Kristian
+/// </para>
+/// </summary>
+/*
+ * Last Edited:
+ * 12-11-2021
+ */
 public class ChangeVolumeLevels : MonoBehaviour
 {
     [SerializeField] private Slider thisSlider;

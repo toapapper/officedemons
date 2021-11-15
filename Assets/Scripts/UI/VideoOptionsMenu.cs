@@ -3,7 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+/// <summary>
+/// <para>
+/// Handles the video configurations in the main menu.
+/// </para>
+///  <para>
+///  Author: Kristian
+/// </para>
+/// </summary>
+/*
+ * Last Edited:
+ * 12-11-2021
+ */
 public class VideoOptionsMenu : MonoBehaviour
 {
     Resolution[] resolutions;
