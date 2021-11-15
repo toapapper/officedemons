@@ -57,6 +57,8 @@ public class PlayerConfigurationManager : MonoBehaviour
 			SceneManager.LoadScene(gameSceneName);
 		}
 	}
+
+	// The event that is called once a player press a button to join the game.
 	public void HandlePlayerJoin(PlayerInput playerInput)
 	{
 		Debug.Log("Player joined " + playerInput.playerIndex);
