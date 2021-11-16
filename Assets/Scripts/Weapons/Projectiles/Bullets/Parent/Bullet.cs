@@ -56,8 +56,6 @@ public class Bullet : MonoBehaviour
         if (this is Rocket && gameObject)
         {
             gameObject.GetComponent<Rigidbody>().AddForce(bulletDirection * bulletHitForce, ForceMode.Acceleration);
-            //Debug.Log("Bulletobj speed: " + gameObject.GetComponent<Rigidbody>().velocity);
-            Debug.Log("Bulletobj direction: " + gameObject.GetComponent<Rigidbody>().velocity);
         }
     }
 
