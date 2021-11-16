@@ -109,7 +109,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 10
+  m_AngularDrag: 100
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -125,8 +125,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   viewRadius: 0
   viewAngle: 360
   targetMask:
@@ -147,8 +147,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0974ca95f90ba64f866bcbfc009063f, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffect: {fileID: 100000, guid: c1df8d3113f2bdd4ba1124e5d2e46357, type: 3}
   coffeeStain: {fileID: 3157480429033463799, guid: 4844d9447775a4b4fb8c795f4aeb3dd5, type: 3}
 --- !u!1001 &6103510019453746539
 PrefabInstance:
@@ -159,7 +160,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3032543496062369683, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
       propertyPath: m_Materials.Array.data[0]
-      value:
+      value: 
       objectReference: {fileID: 2100000, guid: 1c05b56a009350941814effb4378a7fb, type: 2}
     - target: {fileID: 5320859338818097223, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
       propertyPath: m_RootOrder
