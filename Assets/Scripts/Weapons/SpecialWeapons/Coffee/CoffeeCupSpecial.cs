@@ -9,15 +9,6 @@ public class CoffeeCupSpecial : AbstractSpecial
 	[SerializeField]
 	protected float explodeRadius;
 	private bool isHit;
-	
-	//[SerializeField]
-	//private float grenadeThrowForce = 10;
-
-	//public float GrenadeThrowForce
-	//{
-	//	get { return grenadeThrowForce; }
-	//	set { grenadeThrowForce = value; }
-	//}
 
 	public override void ToggleAim(bool isActive)
 	{
@@ -56,35 +47,4 @@ public class CoffeeCupSpecial : AbstractSpecial
 	}
 
 	public override void DoSpecialAction() { }
-
-	//public override void DoSpecialAction()
-	//{
-	//	Vector3 forward = holderAgent.transform.forward;
-	//	forward.y = 0;
-	//	forward.Normalize();
-	//	Vector3 right = new Vector3(forward.z, 0, -forward.x);
-
-	//	Vector3 direction = (Quaternion.AngleAxis(-specialController.ThrowAim.initialAngle, right) * forward).normalized;
-	//	float throwForce = specialController.ThrowAim.initialVelocity;
-	//	List<WeaponEffects> currentEffects = effects;
-	//	foreach(WeaponEffects effect in ultiEffects)
-	//	{
-	//		currentEffects.Add(effect);
-	//	}
-	//	if(Charges == 0)
-	//	{
-	//		grenade.GetComponent<SpecialGrenade>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
-	//			explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects, ultiEffects);
-	//	}
-	//	else if(Charges == 1)
-	//	{
-	//		grenade.GetComponent<SpecialGrenade>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
-	//			explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects, ultiEffects);
-	//	}
-	//	else
-	//	{
-	//		grenade.GetComponent<SpecialGrenade>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
-	//			explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects, ultiEffects);
-	//	}
-	//}
 }

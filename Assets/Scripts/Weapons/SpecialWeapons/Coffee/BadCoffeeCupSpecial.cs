@@ -23,17 +23,17 @@ public class BadCoffeeCupSpecial : CoffeeCupSpecial
 
 		if (Charges == 0)
 		{
-			grenade.GetComponent<BadCoffee>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
+			grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
 				explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
 		}
 		else if (Charges == 1)
 		{
-			grenade.GetComponent<BadCoffee>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
+			grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
 			explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
 		}
 		else
 		{
-			grenade.GetComponent<BadCoffee>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
+			grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
 			explodeRadius + explodeRadiusAdder, HitForce, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
 		}
 		Charges = 0;

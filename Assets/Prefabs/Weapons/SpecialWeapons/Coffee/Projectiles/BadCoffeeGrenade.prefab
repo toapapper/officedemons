@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6103510018640852286}
   - component: {fileID: 6103510018640852273}
   - component: {fileID: 6103510018640852272}
-  - component: {fileID: 8412067270264006814}
+  - component: {fileID: 6469333116529911041}
   m_Layer: 0
   m_Name: BadCoffeeGrenade
   m_TagString: Projectile
@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewRadius: 0
   viewAngle: 360
   targetMask:
     serializedVersion: 2
@@ -136,7 +137,7 @@ MonoBehaviour:
     m_Bits: 8
   meshResolution: 1
   viewMeshFilter: {fileID: 6824130062028662099}
---- !u!114 &8412067270264006814
+--- !u!114 &6469333116529911041
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,12 +146,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6103510018640852274}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 343292b087213e746aea2ecf937dbf7a, type: 3}
+  m_Script: {fileID: 11500000, guid: b0974ca95f90ba64f866bcbfc009063f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FOVVisualization: {fileID: 61656443389572383}
-  explodeRadius: 3
-  initialExplodeTime: 0.2
+  coffeeStain: {fileID: 3157480429033463799, guid: 4844d9447775a4b4fb8c795f4aeb3dd5, type: 3}
 --- !u!1001 &6103510019453746539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -216,11 +215,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
---- !u!1 &61656443389572383 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6084092835874375796, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
-  m_PrefabInstance: {fileID: 6103510019453746539}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2117671931141516588 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5320859338818097223, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}

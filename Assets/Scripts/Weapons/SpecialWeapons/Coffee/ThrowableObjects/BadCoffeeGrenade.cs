@@ -2,38 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BadCoffee : SpecialGrenade
+public class BadCoffeeGrenade : CoffeeGrenade
 {
-	private BadCoffee specialGrenadeObject;
+	private BadCoffeeGrenade coffeeGrenade;
+	[SerializeField]
+	private BadCoffeeStain coffeeStain;
 	protected List<WeaponEffects> effects;
 	protected float grenadeDamage;
 	protected float grenadeExplodeForce;
 
 	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce, float explodeRadius, float grenadeExplodeForce, float grenadeDamage, List<WeaponEffects> effects)
 	{
-		specialGrenadeObject = Instantiate(this, position, Quaternion.LookRotation(direction));
-		specialGrenadeObject.thrower = thrower;
-		specialGrenadeObject.GetComponent<FieldOfView>().ViewRadius = explodeRadius;
-		specialGrenadeObject.grenadeDamage = grenadeDamage;
-		specialGrenadeObject.grenadeExplodeForce = grenadeExplodeForce;
-		specialGrenadeObject.GetComponent<Rigidbody>().AddForce(direction * grenadeThrowForce, ForceMode.Impulse);
-		specialGrenadeObject.explodeTime = initialExplodeTime;
-		GameManager.Instance.StillCheckList.Add(specialGrenadeObject.gameObject);
+		coffeeGrenade = Instantiate(this, position, Quaternion.LookRotation(direction));
+		coffeeGrenade.thrower = thrower;
+		coffeeGrenade.GetComponent<FieldOfView>().ViewRadius = explodeRadius;
+		coffeeGrenade.grenadeDamage = grenadeDamage;
+		coffeeGrenade.grenadeExplodeForce = grenadeExplodeForce;
+		coffeeGrenade.GetComponent<Rigidbody>().AddForce(direction * grenadeThrowForce, ForceMode.Impulse);
+		coffeeGrenade.effects = effects;
 
-		specialGrenadeObject.effects = effects;
+		GameManager.Instance.StillCheckList.Add(coffeeGrenade.gameObject);
 	}
 
 	protected override void Explode()
 	{
 		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
+		coffeeStain.CreateStain(transform.position, GetComponent<FieldOfView>().ViewRadius, grenadeDamage, effects);
 
 		foreach (GameObject target in targetList)
 		{
+			coffeeStain.agentsOnStain.Add(target);
+
 			Vector3 explosionForceDirection = target.transform.position - transform.position;
 			explosionForceDirection.y = 0;
 			explosionForceDirection.Normalize();
 
-			Effects.RegularDamage(target, grenadeDamage/* * (1 + thrower.GetComponentInParent<StatusEffectHandler>().DmgBoost)*/, thrower);
+			Effects.Damage(target, grenadeDamage, thrower);
 			Effects.ApplyForce(target, explosionForceDirection * grenadeExplodeForce);
 			Effects.ApplyWeaponEffects(target, effects);
 		}

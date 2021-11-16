@@ -5,9 +5,9 @@ using UnityEngine;
 public class GoodCoffeeCupSpecial : CoffeeCupSpecial
 {
 	[SerializeField]
-	private int damageAdder = 20;
+	private float damageAdder = 20f;
 	[SerializeField]
-	private int aoeAdder = 3;
+	private float explodeRadiusAdder = 1f;
 	[SerializeField]
 	private List<StatusEffectType> buffEffects;
 
@@ -25,18 +25,18 @@ public class GoodCoffeeCupSpecial : CoffeeCupSpecial
 
 		if (Charges == 0)
 		{
-			grenade.GetComponent<GoodCoffee>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
-				explodeRadius, /*HitForce,*/ Damage, buffEffects);
+			grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
+				explodeRadius, 0, buffEffects);
 		}
 		else if (Charges == 1)
 		{
-			grenade.GetComponent<GoodCoffee>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
-			explodeRadius, /*HitForce,*/ Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), buffEffects);
+			grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
+			explodeRadius, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), buffEffects);
 		}
 		else
 		{
-			grenade.GetComponent<GoodCoffee>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
-			explodeRadius + aoeAdder, /*HitForce,*/ (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), buffEffects);
+			grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
+			explodeRadius + explodeRadiusAdder, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), buffEffects);
 		}
 		Charges = 0;
 	}

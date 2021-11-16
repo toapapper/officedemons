@@ -59,6 +59,11 @@ public class AIManager : MonoBehaviour
     /// <param name=""></param>
     public void BeginTurn() 
     {
+        foreach(GameObject grondEffectObject in GameManager.Instance.GroundEffectObjects)
+		{
+            grondEffectObject.GetComponent<CoffeStain>().ApplyEffectsOnEnemys();
+        }
+        
         actionsQueue.Clear();
         foreach (GameObject e in enemyList)
         {
