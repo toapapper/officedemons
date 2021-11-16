@@ -68,11 +68,9 @@ public class AIStateHandler : MonoBehaviour
     /// </summary>
     private void AggressiveGetState()
     {
-        if(attributes.Health <= 0)
+        if (attributes.Health <= 0)
         {
             aiController.CurrentState = AIStates.States.Dead;
-            Debug.Log("INNE I STATEHANDLER");
-            Debug.Log("HP: " + attributes.Health);
         }
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
@@ -82,31 +80,32 @@ public class AIStateHandler : MonoBehaviour
             //Turn towards nearest player
         }
         //DeathCheck       
-        if(aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
+        if (aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
         {
             if (attributes.Health <= (attributes.StartHealth / 2) && attributes.Stamina > 0)
             {
                 aiController.CurrentState = AIStates.States.FindCover;
-                
+
             }
-            else if(fov.VisibleTargets.Count > 0) // <- If one or more targets is within fov range
+            else if (PlayerIsInRange()) // <- If one or more players are within fov range
             {
-                //If there is then they are in our attack range so we attack
                 aiController.CurrentState = AIStates.States.Attack;
+                aiController.ActionIsLocked = true;
             }
             //No target within range and health is fine
             else
             {
                 //If we have stamina move(Later on will move towards target but for now only sets the next action to move)
-                if (attributes.Stamina > 0)
+                if (attributes.Stamina > 0 && gameObject.transform.position != aiController.TargetPosition)
                 {
                     aiController.CurrentState = AIStates.States.Move;
-                    
+
                 }
                 //No stamina wait
                 else
                 {
                     aiController.CurrentState = AIStates.States.Wait;
+                    aiController.ActionIsLocked = true;
                 }
             }
         }
@@ -183,6 +182,22 @@ public class AIStateHandler : MonoBehaviour
     }
 
 
+    private bool PlayerIsInRange()
+    {
+        if (fov.VisibleTargets.Count > 0)
+        {
+            //if player in range
+            foreach (GameObject target in fov.VisibleTargets)
+            {
+                if (target.tag == "Player")
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /// <summary>
     /// Maybe will keep these because we might have so that ranged weapons can shoot over some obstacles
     /// </summary>
@@ -197,7 +212,7 @@ public class AIStateHandler : MonoBehaviour
         return false;
     }
 
-        //REMOVE?
+    //REMOVE?
     bool HoldingMeleeWeapon()
     {
         if (rightHand.transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon))
@@ -221,11 +236,11 @@ public class AIStateHandler : MonoBehaviour
     /// </summary>
     void LowHealthBehaviour()
     {
-        if(HealerIsClose())
+        if (HealerIsClose())
         {
             aiController.CurrentState = AIStates.States.CallForHealing;
         }
-        else if(CoverNear())
+        else if (CoverNear())
         {
             aiController.CurrentState = AIStates.States.FindCover;
         }
@@ -259,9 +274,4 @@ public class AIStateHandler : MonoBehaviour
     {
         return false;
     }
-
-
-
-
-
 }

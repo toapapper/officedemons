@@ -64,9 +64,9 @@ public class WeaponHand : MonoBehaviour
 			FOV.ViewRadius = handHitDistance;
 			FOV.ViewAngle = handHitAngle;
 		}
-	}
+    }
 
-	private void SetAimGradient()
+    private void SetAimGradient()
 	{
 		GradientColorKey[] colorKey = new GradientColorKey[2];
 		colorKey[0].color = GetComponent<Attributes>().PlayerColor;

@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Spins the object by rotationspeeds around the axees<br/>
+/// 
+/// author: Ossian
+/// </summary>
+
 public class SimpleSpin : MonoBehaviour
 {
+    [Tooltip("Degrees of rotation per second around the different axes")]
+    [SerializeField] private Vector3 rotationSpeeds = new Vector3(36, 36, 36);
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        transform.Rotate(100 * Time.deltaTime, 100 * Time.deltaTime , 100 * Time.deltaTime);
+        transform.Rotate(rotationSpeeds.x * Time.deltaTime, rotationSpeeds.y * Time.deltaTime , rotationSpeeds.z * Time.deltaTime);
     }
 }
