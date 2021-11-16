@@ -6,9 +6,13 @@ public class ImpactGrenade : GrenadeObject
 {
 	private void OnCollisionEnter(Collision collision)
 	{
-		//TODO if ground
-		//GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX;
-		//GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ;
-		base.SetExplosion();
+		Explode();
+	}
+	private void FixedUpdate()
+	{
+		if (transform.position.y < 0.2f)
+		{
+			Explode();
+		}
 	}
 }

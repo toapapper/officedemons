@@ -8,19 +8,21 @@ public class SpecialHand : MonoBehaviour
 	[SerializeField]
 	private ThrowAim throwAim;
 	[SerializeField]
-	private FieldOfView FOV;
+	private FieldOfView fov;
 	[SerializeField]
-	private GameObject FOVVisualization;
+	private GameObject fovVisualization;
 
-	public AbstractSpecial objectInHand;
-
+	[SerializeField]
+	private AbstractSpecial objectInHand;
 	private Gradient aimGradient;
 
-	public ThrowAim ThrowAim
-	{
-		get { return throwAim; }
-		set { throwAim = value; }
-	}
+	public AbstractSpecial ObjectInHand { get { return objectInHand; } }
+	public ThrowAim ThrowAim { get { return throwAim; } }
+	public FieldOfView FOV { get { return fov; } }
+	public GameObject FOVVisualization { get { return fovVisualization; } }
+	public Animator Animator { get { return animator; } }
+
+
 
 	private void Awake()
 	{
@@ -30,95 +32,120 @@ public class SpecialHand : MonoBehaviour
 
 	private void Start()
 	{
-		if (objectInHand)
+		SetColorGradient();
+		if (objectInHand != null)
 		{
-			FOV.ViewRadius = objectInHand.ViewDistance;
-			FOV.ViewAngle = objectInHand.ViewAngle;
-
-			SetAimGradient();
-			if (throwAim != null)
-			{
-				throwAim.gameObject.SetActive(true);
-				throwAim.GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
-				throwAim.gameObject.SetActive(false);
-			}
+			Equip();
 		}
+		SetAimColor();
 	}
 
-	//Aim
-	private void SetAimGradient()
+	private void SetColorGradient()
 	{
-		aimGradient = new Gradient();
 		GradientColorKey[] colorKey = new GradientColorKey[2];
 		colorKey[0].color = GetComponent<Attributes>().PlayerColor;
 		GradientAlphaKey[] alphaKey = new GradientAlphaKey[2];
 		alphaKey[0].alpha = 1;
 		alphaKey[1].time = 1;
 		alphaKey[1].alpha = 0.5f;
+		aimGradient = new Gradient();
 		aimGradient.SetKeys(colorKey, alphaKey);
-		objectInHand.SetAimGradient(aimGradient);
 	}
+	private void SetAimColor()
+	{
+		fovVisualization.GetComponent<Renderer>().material.color = aimGradient.colorKeys[0].color;
+		throwAim.gameObject.SetActive(true);
+		GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
+		throwAim.gameObject.SetActive(false);
+		if (objectInHand)
+		{
+			objectInHand.SetAimColor(aimGradient);
+		}
+	}
+
+	public void Equip()
+	{
+		objectInHand.PickUpIn(gameObject);
+		//SetAimColor();
+		objectInHand.SetFOVSize();
+
+		//objectInHand.SetAim(fov, aimGradient);
+	}
+
+	//Aim
 	public void ToggleAimView(bool isActive)
 	{
 		if (objectInHand)
 		{
-			objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
+			objectInHand.ToggleAim(isActive/*, fovVisualization, throwAim.gameObject*/);
 		}
 	}
 
 	//Attack
-	public void StartAttack()
+	public bool StartAttack()
 	{
 		if (objectInHand)
 		{
-			objectInHand.StartAttack(animator);
+			objectInHand.StartAttack(/*animator*/);
+			return true;
 		}
+		return false;
 	}
-	public void Attack()
+	public bool Attack()
 	{
 		if (objectInHand)
 		{
-			objectInHand.Attack(animator);
-		}
-	}
-
-	//Bombard attack
-	public bool StartBombard()
-	{
-		if (objectInHand && objectInHand is CoffeeSpecial)
-		{
-			objectInHand.StartAttack(animator);
+			objectInHand.Attack(/*animator*/);
 			return true;
 		}
 		return false;
 	}
 	public bool SetBombardForce(float bombardForce)
 	{
-		if (objectInHand && objectInHand is CoffeeSpecial)
+		if (objectInHand && objectInHand is CoffeeCupSpecial)
 		{
 			throwAim.initialVelocity = bombardForce;
 			return true;
 		}
 		return false;
 	}
-	public bool PerformBombard()
-	{
-		if (objectInHand && objectInHand is CoffeeSpecial)
-		{
-			objectInHand.Attack(animator);
-			return true;
-		}
-		return false;
-	}
-
 	public void CancelAction()
 	{
 		animator.SetTrigger("isCancelAction");
 	}
 
+	public void StartTurnEffect()
+	{
+		objectInHand.StartTurnEffect();
+	}
+	public void TakeDamageEffect()
+	{
+		objectInHand.TakeDamageEffect();
+	}
+	public void GiveRegularDamageEffect()
+	{
+		objectInHand.GiveRegularDamageEffect();
+	}
+	public void KillEffect()
+	{
+		objectInHand.KillEffect();
+	}
+	public void RevivedEffect()
+	{
+		objectInHand.RevivedEffect();
+	}
+	//public void AddCharge()
+	//{
+	//	objectInHand.AddCharge();
+	//}
+
 	//Animation events
 	public void DoSpecialAction()
 	{
-		objectInHand.DoSpecialAction(FOV);
+		objectInHand.DoSpecialAction(/*fov*/);
+	}
+	public void DoSpecialActionEnd()
+	{
+		objectInHand.DoSpecialActionEnd();
 	}
 }

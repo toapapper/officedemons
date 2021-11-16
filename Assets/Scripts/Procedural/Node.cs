@@ -33,7 +33,13 @@ public class Node
     public Vector2 origin;
     public int generation;
     public bool leaf;
+    private bool encounter;
 
+    public bool Encounter
+    {
+        get { return encounter; }
+        set { encounter = value; }
+    }
 
     /// <summary>
     /// Create a Root node
@@ -52,6 +58,7 @@ public class Node
         position = new Vector2(origin.x + (size.x / 2),origin.y + (size.y / 2));
         children = new Node[2];
         leaf = true;
+        encounter = false;
     }
 
     /// <summary>
@@ -70,5 +77,6 @@ public class Node
         children = new Node[2];
         position = new Vector2(origin.x + (size.x / 2), origin.y + (size.y / 2));
         leaf = true;
+        encounter = false;
     }
 }

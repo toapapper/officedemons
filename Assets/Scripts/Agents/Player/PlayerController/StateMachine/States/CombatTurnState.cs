@@ -65,7 +65,7 @@ public class CombatTurnState : AbstractPlayerState
 	{
 		if (!IsActionTriggered)
 		{
-			if (specialHand.StartBombard())
+			if (specialHand.StartAttack())
 			{
 				specialHand.ToggleAimView(true);
 				ChosenAction = TypeOfAction.SPECIALBOMBARD;
@@ -206,6 +206,7 @@ public class CombatTurnState : AbstractPlayerState
 	public override void OnStateEnter()
 	{
 		Debug.Log("Enters CombatTurnState" + this);
+		specialHand.StartTurnEffect();
 		attributes.Stamina = attributes.StartStamina;
 		playerMovement.MoveDirection = Vector3.zero;
 		playerMovement.MoveAmount = Vector3.zero;

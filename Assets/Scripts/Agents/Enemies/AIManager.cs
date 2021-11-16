@@ -25,17 +25,14 @@ public class AIManager : MonoBehaviour
     private AIManager instance;
     private Queue<GameObject> actionsQueue;
 
-    private List<GameObject> enemyList;
-    public List<GameObject> EnemyList
-    {
-        get { return enemyList; }
-        set { enemyList = value; }
-    }
+    public List<GameObject> enemyList;
+    public List<Vector3> coverList;
 
     private void Start()
     {
         actionsQueue = new Queue<GameObject>();
         playerList = PlayerManager.players;
+        coverList = FindCoverSpotsInEncounter();
     }
 
     /// <summary>
@@ -57,11 +54,18 @@ public class AIManager : MonoBehaviour
     /// Resets variables to prepare for a new turn
     /// </summary>
     /// <param name=""></param>
-    public void BeginTurn() 
+    public void BeginTurn()
     {
-        actionsQueue.Clear();
+        foreach (GameObject grondEffectObject in GameManager.Instance.GroundEffectObjects)
+        {
+            grondEffectObject.GetComponent<CoffeStain>().ApplyEffectsOnEnemys();
+        }
+
+        actionsQueue.Clear();   
         foreach (GameObject e in enemyList)
         {
+            e.GetComponent<AIController>().TargetPosition = Vector3.zero;
+
             //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
             if (!e.GetComponent<StatusEffectHandler>().Paralyzed)
             {
@@ -83,7 +87,7 @@ public class AIManager : MonoBehaviour
         bool allDone = true;
         bool allDead = true;
 
-        List<GameObject> killOnSight = new List<GameObject>(); 
+        List<GameObject> killOnSight = new List<GameObject>();
 
         for (int i = 0; i < playerList.Count; i++)
         {
@@ -94,28 +98,21 @@ public class AIManager : MonoBehaviour
             }
         }
 
-
-        for(int i = 0; i < enemyList.Count; i++)
+        for (int i = 0; i < enemyList.Count; i++)
         {
             GameObject e = enemyList[i];
 
-            if (e.GetComponent<AIController>().CurrentlyMoving) //if still moving
+            if (!e.GetComponent<AIController>().ActionIsLocked) // if not all locked actions
             {
-                e.GetComponent<AIController>().Priorites = killOnSight; // ändra sen ?
+                e.GetComponent<AIController>().Priorites = killOnSight; // ändra sen
                 e.GetComponent<AIController>().PerformBehaviour();
-                
+
                 allDone = false;
             }
 
             if (e.GetComponent<Attributes>().Health > 0)
             {
                 allDead = false;
-            }
-            else if (e.GetComponent<Attributes>().Health <= 0)
-            {
-                Destroy(e);
-                Utilities.CleanList(enemyList);
-                i--;
             }
         }
         if (!GameManager.Instance.AllStill)
@@ -160,16 +157,27 @@ public class AIManager : MonoBehaviour
         }
     }
 
+    private List<Vector3> FindCoverSpotsInEncounter()
+    {
+        Bounds bounds = GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
+        GameObject[] allCovers = GameObject.FindGameObjectsWithTag("CoverPosition");
+        List<Vector3> temp = new List<Vector3>();
+
+        foreach (GameObject go in allCovers)
+        {
+            if (bounds.Contains(go.transform.position))
+            {
+                temp.Add(go.transform.position);
+            }
+        }
+
+        return temp;
+    }
+
     public void SaveAction(GameObject agent)
     {
         actionsQueue.Enqueue(agent);
         agent.GetComponent<AIController>().ActionIsLocked = true;
-        agent.GetComponent<AIController>().navMeshAgent.destination = transform.position;
         agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
-    }
-
-    public void RemoveAgent(GameObject agent)
-    {
-        enemyList.Remove(agent);
     }
 }

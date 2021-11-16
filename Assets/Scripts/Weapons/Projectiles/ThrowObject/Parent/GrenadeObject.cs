@@ -15,23 +15,27 @@ using UnityEngine;
 // Last Edited: 15/10-30
 public class GrenadeObject : MonoBehaviour
 {
+	protected GameObject thrower;
 	private GrenadeObject grenadeObject;
 	[SerializeField]
 	private GameObject FOVVisualization;
 	[SerializeField]
-	private float explodeRadius = 3;
-	private float grenadeDamage;
-	private float grenadeExplodeForce;
+	protected float explodeRadius = 2;
+	protected float grenadeDamage;
+	protected float grenadeExplodeForce;
 	[SerializeField]
 	private float initialExplodeTime;
 	private float explodeTime;
-	private List<WeaponEffects> effects;
+	protected List<WeaponEffects> effects;
 
 	protected bool isObjectThrown;
+	[SerializeField]
+	protected GameObject particleEffect;
 
-	public void CreateGrenade(Vector3 position, Vector3 direction, float grenadeThrowForce, float grenadeExplodeForce, float grenadeDamage, List<WeaponEffects> effects)
+	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce, float grenadeExplodeForce, float grenadeDamage, List<WeaponEffects> effects)
 	{
 		grenadeObject = Instantiate(this, position, Quaternion.LookRotation(direction));
+		grenadeObject.thrower = thrower;
 		grenadeObject.GetComponent<FieldOfView>().ViewRadius = explodeRadius;
 		grenadeObject.grenadeDamage = grenadeDamage;
 		grenadeObject.grenadeExplodeForce = grenadeExplodeForce;
@@ -39,7 +43,7 @@ public class GrenadeObject : MonoBehaviour
 		grenadeObject.explodeTime = initialExplodeTime;
 		GameManager.Instance.StillCheckList.Add(grenadeObject.gameObject);
 
-		this.effects = effects;
+		grenadeObject.effects = effects;
 	}
 
 	protected void SetExplosion()
@@ -54,7 +58,7 @@ public class GrenadeObject : MonoBehaviour
 		Explode();
 	}
 
-	private void Explode()
+	protected virtual void Explode()
 	{
 		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
 
@@ -64,10 +68,11 @@ public class GrenadeObject : MonoBehaviour
 			explosionForceDirection.y = 0;
 			explosionForceDirection.Normalize();
 
-			Effects.Damage(target, grenadeDamage);
+			Effects.RegularDamage(target, grenadeDamage * (1 + thrower.GetComponentInParent<StatusEffectHandler>().DmgBoost), thrower);
 			Effects.ApplyForce(target, explosionForceDirection * grenadeExplodeForce);
 			Effects.ApplyWeaponEffects(target, effects);
 		}
+		Instantiate(particleEffect, transform.position, Quaternion.Euler(90, 0,0));
 
 		Destroy(gameObject);
 	}

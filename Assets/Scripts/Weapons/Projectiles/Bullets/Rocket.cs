@@ -15,7 +15,9 @@ using UnityEngine;
 // Last Edited: 14/10-28
 public class Rocket : Bullet
 {
-	private List<GameObject> targetList = new List<GameObject>();
+    private List<GameObject> targetList = new List<GameObject>();
+    [SerializeField]
+    private GameObject particleEffect;
 
 	protected override void OnCollisionEnter(Collision collision)
 	{
@@ -25,33 +27,38 @@ public class Rocket : Bullet
 			{
 				if (target.tag == "Player" || target.tag == "Enemy")
 				{
-
-					Effects.Damage(collision.gameObject, bulletDamage);
-					Effects.ApplyForce(collision.gameObject, (target.transform.position - transform.position).normalized * bulletHitForce);
+					Effects.RegularDamage(target, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost), shooter);
+					//Effects.Damage(target, bulletDamage);
+					Effects.ApplyForce(target, (target.transform.position - transform.position).normalized * bulletHitForce);
 				}
 			}
 		}
 
-		//TODO Explosion
-		Destroy(gameObject);
-	}
+        //TODO Explosion
+        if (particleEffect)
+        {
+            Instantiate(particleEffect, transform.position, transform.rotation);
+        }
+        //gameObject.GetComponentInChildren<ParticleSystem>().Play();
+        Destroy(gameObject);
+    }
 
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.tag == "Player" || other.tag == "Enemy")
-		{
-			if (!targetList.Contains(other.gameObject))
-			{
-				targetList.Add(other.gameObject);
-			}
-		}
-	}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player" || other.tag == "Enemy")
+        {
+            if (!targetList.Contains(other.gameObject))
+            {
+                targetList.Add(other.gameObject);
+            }
+        }
+    }
 
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.tag == "Player" || other.tag == "Enemy")
-		{
-			targetList.Remove(other.gameObject);
-		}
-	}
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player" || other.tag == "Enemy")
+        {
+            targetList.Remove(other.gameObject);
+        }
+    }
 }

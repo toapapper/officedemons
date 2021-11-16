@@ -7,7 +7,7 @@ using UnityEngine.AI;
 /// <para>
 /// Static effects that can be applied to characters
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Johan Melkersson & Jonas Lundin
 /// </para>
@@ -16,22 +16,44 @@ using UnityEngine.AI;
 // Last Edited: 14/10-28
 public static class Effects
 {
-    public static void Damage(GameObject target, float damage)
+	public static void RegularDamage(GameObject target, float damage, GameObject wielder)
 	{
-        if(target.tag != "Enemy" || target.GetComponent<AIController>().InActiveEncounter)
+		if(wielder.tag == "Player")
+		{
+			wielder.GetComponent<SpecialHand>().GiveRegularDamageEffect();
+		}
+		Damage(target, damage, wielder);
+	}
+	public static void Damage(GameObject target, float damage, GameObject wielder = null)
+	{
+		if(damage < 0)
         {
-            if (damage < 0)
-            {
-                Heal(target, -damage);
-                return;
-            }
-
-            int dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
-            target.GetComponent<Attributes>().Health -= dmg;
-
-            UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
+			Heal(target, -damage);
+			return;
         }
-		
+		else if(damage == 0)
+        {
+			return;
+        }
+
+		int dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
+		target.GetComponent<Attributes>().Health -= dmg;
+
+		UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
+
+		if(wielder != null && target.GetComponent<Attributes>().Health <= 0)
+		{
+			if (wielder.tag == "Player")
+			{
+				wielder.GetComponent<Attributes>().KillCount++;
+				wielder.GetComponent<SpecialHand>().KillEffect();
+			}
+		}
+		else if(target.tag == "Player")
+		{
+			target.GetComponent<SpecialHand>().TakeDamageEffect();
+		}
+
 	}
 
 	public static void Heal(GameObject target, float amount)
@@ -39,6 +61,10 @@ public static class Effects
 		if(amount < 0)
         {
 			Damage(target, amount);
+			return;
+        }
+		else if(amount == 0)
+        {
 			return;
         }
 
@@ -49,6 +75,11 @@ public static class Effects
 
 	public static void DrainStamina(GameObject target, float drain)
     {
+		if(drain == 0)
+        {
+			return;
+        }
+
 		target.GetComponent<Attributes>().Stamina -= drain;
 		UIManager.Instance.NewFloatingText(target, "-" + drain + " Stamina", Color.yellow);
     }
@@ -119,20 +150,17 @@ public static class Effects
 
 	public static void ApplyForce(GameObject target, Vector3 force)
 	{
-        if (target.tag != "Enemy" || target.GetComponent<AIController>().InActiveEncounter)
-        {
-            target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
-        }
+		target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
 	}
 
 	public static void Die(GameObject target)
 	{
 		if (target.tag == "Enemy")
 		{
-			// Tillfällig
-			Debug.Log("Enemy died");
-			target.GetComponent<MeshRenderer>().material.color = Color.black;
+			// Tillfï¿½llig
+			//target.GetComponent<MeshRenderer>().material.color = Color.black;
 			target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
+			target.GetComponent<AIController>().Die();
 		}
 		else if (target.tag == "Player")
 		{
@@ -149,6 +177,15 @@ public static class Effects
 	/// <param name="weight"> value between -100 - +100 </param>
 	public static void ChangeWeight(GameObject target, float weight)
 	{
+		if(weight > 0)
+        {
+			UIManager.Instance.NewFloatingText(target, "SLOW", Color.red);
+        }
+		else if(weight < 0)
+        {
+			UIManager.Instance.NewFloatingText(target, "DE-SLOW", Color.green);
+		}
+
 		float speedEffect = -weight / 100;
 		ModifySpeed(target, speedEffect);
 	}

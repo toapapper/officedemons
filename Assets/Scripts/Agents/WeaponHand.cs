@@ -48,26 +48,36 @@ public class WeaponHand : MonoBehaviour
 	private void Awake()
 	{
 		animator = GetComponent<Animator>();
-		FOV.ViewRadius = handHitDistance;
-		FOV.ViewAngle = handHitAngle;
+		objectInHand = GetComponentInChildren<AbstractWeapon>();
 	}
 
     private void Start()
     {
+		SetAimGradient();
+
 		if (objectInHand != null)
 		{
 			Equip(objectInHand.gameObject);
-			//FOV.ViewRadius = objectInHand.ViewDistance;
-			//FOV.ViewAngle = objectInHand.ViewAngle;
 		}
 		else
 		{
 			FOV.ViewRadius = handHitDistance;
 			FOV.ViewAngle = handHitAngle;
 		}
+    }
 
-		SetAimGradient();
+    private void SetAimGradient()
+	{
+		GradientColorKey[] colorKey = new GradientColorKey[2];
+		colorKey[0].color = GetComponent<Attributes>().PlayerColor;
+		GradientAlphaKey[] alphaKey = new GradientAlphaKey[2];
+		alphaKey[0].alpha = 1;
+		alphaKey[1].time = 1;
+		alphaKey[1].alpha = 0.5f;
+		aimGradient = new Gradient();
+		aimGradient.SetKeys(colorKey, alphaKey);
 
+		FOVVisualization.GetComponent<Renderer>().material.color = aimGradient.colorKeys[0].color;
 		if (throwAim != null)
 		{
 			throwAim.gameObject.SetActive(true);
@@ -76,21 +86,9 @@ public class WeaponHand : MonoBehaviour
 		}
 	}
 
-	//Aim
-	private void SetAimGradient()
-	{
-		aimGradient = new Gradient();
-		GradientColorKey[] colorKey = new GradientColorKey[2];
-		colorKey[0].color = GetComponent<Attributes>().PlayerColor;
-		GradientAlphaKey[] alphaKey = new GradientAlphaKey[2];
-		alphaKey[0].alpha = 1;
-		alphaKey[1].time = 1;
-		alphaKey[1].alpha = 0.5f;
-		aimGradient.SetKeys(colorKey, alphaKey);
-	}
 	public void ToggleAimView(bool isActive)
 	{
-		if (objectInHand)
+		if (objectInHand != null)
 		{
 			objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
 		}
@@ -106,35 +104,43 @@ public class WeaponHand : MonoBehaviour
 	//		//objectInHand.ToggleThrowAim(isActive);
 	//	}
 	//}
-
-	//Pick up
 	public void Equip(GameObject newObject)
 	{
-		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
-		foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
-		{
-			collider.enabled = false;
-		}
+		objectInHand.PickUpIn(handObject);
+		
 		objectInHand.SetAimGradient(aimGradient);
-
 		FOV.ViewAngle = objectInHand.ViewAngle;
 		FOV.ViewRadius = objectInHand.ViewDistance;
 	}
+	//Pick up
+	//public void Equip(GameObject newObject)
+	//{
+	//	objectInHand = newObject.GetComponent<AbstractWeapon>();
+	//	objectInHand.PickUpIn(handObject);
+	//	foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
+	//	{
+	//		collider.enabled = false;
+	//	}
+	//	objectInHand.SetAimGradient(aimGradient);
+
+	//	FOV.ViewAngle = objectInHand.ViewAngle;
+	//	FOV.ViewRadius = objectInHand.ViewDistance;
+	//}
 
 	//Unequip weapon
 	public void DropWeapon()
     {
-		if(objectInHand = null)
+		if(objectInHand == null)
         {
 			return;
         }
 
 		objectInHand.Drop();
-		foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
-		{
-			collider.enabled = true;
-		}
+		//foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
+		//{
+		//	collider.enabled = true;
+		//}
 		objectInHand = null;
 		FOV.ViewRadius = handHitDistance;
 		FOV.ViewAngle = handHitAngle;
@@ -143,7 +149,7 @@ public class WeaponHand : MonoBehaviour
 	//Attack
 	public void StartAttack()
 	{
-		if (objectInHand != null)
+		if (objectInHand)
 		{
 			objectInHand.StartAttack(animator);
 		}
@@ -154,7 +160,7 @@ public class WeaponHand : MonoBehaviour
 	}
 	public void Attack()
 	{
-		if (objectInHand != null)
+		if (objectInHand)
 		{
 			objectInHand.Attack(animator);
 		}
@@ -238,7 +244,8 @@ public class WeaponHand : MonoBehaviour
 		{
 			foreach (GameObject target in FOV.VisibleTargets)
 			{
-				Effects.Damage(target, handHitDamage);
+				Effects.RegularDamage(target, handHitDamage, gameObject);
+				//Effects.Damage(target, handHitDamage);
 				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
 			}
 		}

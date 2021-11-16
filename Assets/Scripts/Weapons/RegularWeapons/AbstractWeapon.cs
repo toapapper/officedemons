@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -103,9 +104,9 @@ public abstract class AbstractWeapon : MonoBehaviour
 		set { durability = value; }
 	}
 
-	public void PickUpIn(GameObject hand)
+	public virtual void PickUpIn(GameObject hand)
 	{
-		holderAgent = hand.transform.parent.gameObject;
+		holderAgent = hand.transform.parent.parent.gameObject;
 		isHeld = true;
 		handle.GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<Rigidbody>().isKinematic = true;
@@ -114,6 +115,10 @@ public abstract class AbstractWeapon : MonoBehaviour
 		handle.transform.position = hand.transform.position;
 		handle.transform.rotation = hand.transform.rotation;
 		Effects.ChangeWeight(hand.transform.parent.gameObject, weight);
+		foreach (Collider collider in GetComponentsInChildren<Collider>())
+		{
+			collider.enabled = false;
+		}
 	}
 	public void ReleaseThrow(float force)
 	{
@@ -128,6 +133,10 @@ public abstract class AbstractWeapon : MonoBehaviour
 		handle.GetComponent<Rigidbody>().isKinematic = false;
 		GetComponent<Rigidbody>().isKinematic = false;
 		isHeld = false;
+		foreach (Collider collider in GetComponentsInChildren<Collider>())
+		{
+			collider.enabled = true;
+		}
 	}
 
 	public virtual void SetAimGradient(Gradient gradient) { }
@@ -161,7 +170,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 		{
 			if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
 			{
-				Effects.Damage(collision.gameObject, throwDamage);
+				Effects.RegularDamage(collision.gameObject, throwDamage, holderAgent);
+				//Effects.Damage(collision.gameObject, throwDamage);
 				Effects.ApplyWeaponEffects(collision.gameObject, effects);
 			}
 			isProjectile = false;

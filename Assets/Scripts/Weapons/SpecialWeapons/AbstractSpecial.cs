@@ -16,40 +16,52 @@ using UnityEngine;
 public abstract class AbstractSpecial : MonoBehaviour
 {
 	[SerializeField] protected List<WeaponEffects> effects;
+	[SerializeField] protected List<WeaponEffects> ultiEffects;
+
+	protected GameObject holderAgent;
+	protected SpecialHand specialController;
 
 	[SerializeField]
 	private float damage;
 	[SerializeField]
 	private float hitForce;
-	[SerializeField]
-	private float viewDistance = 20f;
-	[SerializeField]
-	private float viewAngle = 10f;
 
-	public float Damage
-	{
-		get { return damage; }
-		set { damage = value; }
-	}
-	public float HitForce
-	{
-		get { return hitForce; }
-		set { hitForce = value; }
-	}
-	public float ViewAngle
-	{
-		get { return viewAngle; }
-		set { viewAngle = value; }
-	}
-	public float ViewDistance
-	{
-		get { return viewDistance; }
-		set { viewDistance = value; }
-	}
+	[SerializeField]
+	private int maxCharges;
+	private int charges = 0;
 
-	public virtual void SetAimGradient(Gradient gradient) { }
-	public virtual void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim) { }
-	public virtual void StartAttack(Animator animator) { }
-	public abstract void Attack(Animator animator);
-	public virtual void DoSpecialAction(FieldOfView fov) { }
+
+	protected float Damage { get { return damage; } }
+	protected float HitForce { get { return hitForce; } }
+	protected int MaxCharges { get { return maxCharges; } }
+	protected int Charges { get { return charges; } set { charges = value; } }
+	
+
+
+	public void PickUpIn(GameObject agent)
+	{
+		holderAgent = agent;
+		specialController = agent.GetComponent<SpecialHand>();
+	}
+	public virtual void SetAimColor(Gradient gradient) { }
+	public virtual void SetFOVSize() { }
+
+	public abstract void ToggleAim(bool isActive);
+	public abstract void StartAttack();
+	public abstract void Attack();
+	public abstract void DoSpecialAction();
+	public virtual void DoSpecialActionEnd() { }
+
+	public abstract void StartTurnEffect();
+	public virtual void TakeDamageEffect() { }
+	public virtual void GiveRegularDamageEffect() { }
+	public virtual void KillEffect() { }
+	public virtual void RevivedEffect() { }
+	protected virtual void AddCharge()
+	{
+		if(charges < maxCharges)
+		{
+			charges++;
+		}
+	}
 }

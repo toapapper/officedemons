@@ -15,48 +15,62 @@ using UnityEngine;
 // Last Edited: 14/10-28
 public class Bullet : MonoBehaviour
 {
-	protected float bulletDamage;
-	//protected Vector3 bulletHitForce;
-	protected float bulletHitForce;
-	protected Vector3 bulletDirection;
-	private Bullet bulletObject;
+    protected GameObject shooter;
+    protected float bulletDamage;
+    //protected Vector3 bulletHitForce;
+    protected float bulletHitForce;
+    protected Vector3 bulletDirection;
+    private Bullet bulletObject;
 
-	public List<WeaponEffects> effects;
+    public List<WeaponEffects> effects;
 
-	public void CreateBullet(Vector3 position, Vector3 direction, float bulletFireForce, float bulletHitForce, float bulletDamage, List<WeaponEffects> effects)
-	{
-		bulletObject = Instantiate(this, position, Quaternion.LookRotation(direction));
-		bulletObject.bulletDamage = bulletDamage;
+    public void CreateBullet(GameObject shooter, Vector3 position, Vector3 direction, float bulletFireForce, float bulletHitForce, float bulletDamage, List<WeaponEffects> effects)
+    {
+        bulletObject = Instantiate(this, position, Quaternion.LookRotation(direction));
+        bulletObject.shooter = shooter;
+        bulletObject.bulletDamage = bulletDamage;
 
-		bulletObject.bulletHitForce = bulletFireForce;
-		bulletObject.bulletDirection = direction;
+        bulletObject.bulletHitForce = bulletFireForce;
+        bulletObject.bulletDirection = direction;
 
-		//bulletObject.bulletHitForce = direction * bulletHitForce;
-		bulletObject.GetComponent<Rigidbody>().AddForce(direction * bulletFireForce, ForceMode.VelocityChange);
-		GameManager.Instance.StillCheckList.Add(bulletObject.gameObject);
+        //bulletObject.bulletHitForce = direction * bulletHitForce;
+        if (this is Rocket)
+        {
+            bulletObject.GetComponent<Rigidbody>().AddForce(direction * bulletFireForce, ForceMode.Acceleration);
+        }
+        else
+        {
+            bulletObject.GetComponent<Rigidbody>().AddForce(direction * bulletFireForce, ForceMode.VelocityChange);
+        }
+        GameManager.Instance.StillCheckList.Add(bulletObject.gameObject);
 
-		bulletObject.effects = effects;
-	}
+        bulletObject.effects = effects;
+    }
 
-	private void FixedUpdate()
-	{
-		Vector2 viewpos = Camera.main.WorldToViewportPoint(transform.position);
-		if (viewpos.x > 1 || viewpos.x < 0 || viewpos.y > 1 || viewpos.y < 0)
-		{
-			Destroy(gameObject);
-		}
-	}
+    private void FixedUpdate()
+    {
+        Vector2 viewpos = Camera.main.WorldToViewportPoint(transform.position);
+        if (viewpos.x > 1 || viewpos.x < 0 || viewpos.y > 1 || viewpos.y < 0)
+        {
+            Destroy(gameObject);
+        }
+        if (this is Rocket && gameObject)
+        {
+            gameObject.GetComponent<Rigidbody>().AddForce(bulletDirection * bulletHitForce, ForceMode.Acceleration);
+        }
+    }
 
     protected virtual void OnCollisionEnter(Collision collision)
     {
-		if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
-		{
-			Effects.Damage(collision.gameObject, bulletDamage);
-			Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce);
+        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
+        {
+            Effects.RegularDamage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost), shooter);
+            //Effects.Damage(collision.gameObject, bulletDamage);
+            Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce);
 
-			Effects.ApplyWeaponEffects(collision.gameObject, effects);
-		}
+            Effects.ApplyWeaponEffects(collision.gameObject, effects);
+        }
 
-		Destroy(gameObject);
-	}
+        Destroy(gameObject);
+    }
 }

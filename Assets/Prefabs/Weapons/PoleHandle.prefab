@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4562945548694608202}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -0.8, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4562945548973895647}
@@ -210,12 +210,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54da717bdaf3b1f47a718608214153bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effects: 
+  holderAgent: {fileID: 0}
   handle: {fileID: 4562945548694608202}
   damage: 10
   hitForce: 20
   throwDamage: 2
   viewDistance: 5.5
   viewAngle: 100
+  durability: 3
+  weight: 5
   isHeld: 0
 --- !u!114 &3332709541645896049
 MonoBehaviour:
