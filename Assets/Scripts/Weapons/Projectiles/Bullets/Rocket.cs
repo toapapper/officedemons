@@ -15,7 +15,9 @@ using UnityEngine;
 // Last Edited: 14/10-28
 public class Rocket : Bullet
 {
-	private List<GameObject> targetList = new List<GameObject>();
+    private List<GameObject> targetList = new List<GameObject>();
+    [SerializeField]
+    private GameObject particleEffect;
 
 	protected override void OnCollisionEnter(Collision collision)
 	{
@@ -32,26 +34,31 @@ public class Rocket : Bullet
 			}
 		}
 
-		//TODO Explosion
-		Destroy(gameObject);
-	}
+        //TODO Explosion
+        if (particleEffect)
+        {
+            Instantiate(particleEffect, transform.position, transform.rotation);
+        }
+        //gameObject.GetComponentInChildren<ParticleSystem>().Play();
+        Destroy(gameObject);
+    }
 
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.tag == "Player" || other.tag == "Enemy")
-		{
-			if (!targetList.Contains(other.gameObject))
-			{
-				targetList.Add(other.gameObject);
-			}
-		}
-	}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player" || other.tag == "Enemy")
+        {
+            if (!targetList.Contains(other.gameObject))
+            {
+                targetList.Add(other.gameObject);
+            }
+        }
+    }
 
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.tag == "Player" || other.tag == "Enemy")
-		{
-			targetList.Remove(other.gameObject);
-		}
-	}
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player" || other.tag == "Enemy")
+        {
+            targetList.Remove(other.gameObject);
+        }
+    }
 }

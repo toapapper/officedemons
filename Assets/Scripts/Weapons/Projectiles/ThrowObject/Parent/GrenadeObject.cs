@@ -29,6 +29,8 @@ public class GrenadeObject : MonoBehaviour
 	protected List<WeaponEffects> effects;
 
 	protected bool isObjectThrown;
+	[SerializeField]
+	protected GameObject particleEffect;
 
 	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce, float grenadeExplodeForce, float grenadeDamage, List<WeaponEffects> effects)
 	{
@@ -70,6 +72,7 @@ public class GrenadeObject : MonoBehaviour
 			Effects.ApplyForce(target, explosionForceDirection * grenadeExplodeForce);
 			Effects.ApplyWeaponEffects(target, effects);
 		}
+		Instantiate(particleEffect, transform.position, Quaternion.Euler(90, 0,0));
 
 		Destroy(gameObject);
 	}

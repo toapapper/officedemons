@@ -124,7 +124,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 5
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewRadius: 0
   viewAngle: 360
   targetMask:
     serializedVersion: 2
@@ -166,6 +167,7 @@ MonoBehaviour:
   FOVVisualization: {fileID: 8734046659034021448}
   explodeRadius: 3
   initialExplodeTime: 2
+  particleEffect: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
 --- !u!1001 &3268095017018881596
 PrefabInstance:
   m_ObjectHideFlags: 0

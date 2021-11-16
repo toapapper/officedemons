@@ -21,6 +21,8 @@ public abstract class MeleeWeapon : AbstractWeapon
     //    fov.ViewAngle = ViewAngle;
     //    fov.ViewRadius = ViewDistance;
     //}
+    [SerializeField]
+    protected GameObject particleEffect;
     public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
 		FOVView.SetActive(isActive);
@@ -47,6 +49,10 @@ public abstract class MeleeWeapon : AbstractWeapon
                 Effects.RegularDamage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost), holderAgent);
                 Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
                 Effects.ApplyWeaponEffects(target, effects);
+                if (particleEffect)
+                {
+                    Instantiate(particleEffect, target.transform.position, target.transform.rotation * Quaternion.Euler(0, 180, 0));
+                }
             }
         }
 
