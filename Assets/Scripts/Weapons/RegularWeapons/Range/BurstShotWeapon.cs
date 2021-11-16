@@ -6,7 +6,7 @@ using UnityEngine;
 /// <para>
 /// Methods connected to all burst weapons
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>
@@ -32,17 +32,7 @@ public class BurstShotWeapon : RangedWeapon
         }
         bulletCount--;
 
-        if (bulletCount <= 0)
-        {
-            base.DoAction(fov);
-        }
-        else
-        {
-            GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
-            if (wielder == null)
-            {
-                return;
-            }
+			bullet.GetComponent<Bullet>().CreateBullet(holderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage, this.effects);
 
             Vector3 direction = GetBulletDirection();
 

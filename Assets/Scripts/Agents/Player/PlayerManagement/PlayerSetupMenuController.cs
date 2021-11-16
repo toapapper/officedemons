@@ -13,13 +13,13 @@ using UnityEngine.UI;
 /// </para>
 /// </summary>
 
-// Last Edited: 18/10 -21
+// Last Edited: 15/11 -21
 public class PlayerSetupMenuController : MonoBehaviour
 {
     private int playerIndex;
-
-    [SerializeField]
-    private TextMeshProUGUI titleText;
+    
+    //[SerializeField]
+    //private TextMeshProUGUI titleText;
     [SerializeField]
     private GameObject readyPanel;
     [SerializeField]
@@ -33,7 +33,7 @@ public class PlayerSetupMenuController : MonoBehaviour
     public void SetPlayerIndex(int playerIndex)
 	{
         this.playerIndex = playerIndex;
-        titleText.SetText("Player " + (playerIndex + 1).ToString());
+        //titleText.SetText("Player " + (playerIndex + 1).ToString());
         ignoreInputTime += Time.time;
 	}
 

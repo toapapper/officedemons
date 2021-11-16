@@ -36,6 +36,8 @@ public class Attributes : MonoBehaviour
     [SerializeField]
     [Header("Start Health Points")]
     private int startHealth;
+    [SerializeField]
+    private int killCount = 0;
 
     public int StartHealth
     {
@@ -76,6 +78,12 @@ public class Attributes : MonoBehaviour
     {
         get { return stamina; }
         set { stamina = value; }
+    }
+
+    public int KillCount
+	{
+        get { return killCount; }
+        set { killCount = value; }
     }
 
     private void Awake()

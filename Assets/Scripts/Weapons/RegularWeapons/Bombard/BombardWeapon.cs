@@ -64,7 +64,7 @@ public class BombardWeapon : AbstractWeapon
 		Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<WeaponHand>().ThrowAim.initialAngle, right) * forward).normalized;
 		float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity;
 		Debug.Log(effects);
-		grenade.GetComponent<GrenadeObject>().CreateGrenade(transform.position, direction, throwForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
+		grenade.GetComponent<GrenadeObject>().CreateGrenade(holderAgent, transform.position, direction, throwForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
 
 		//recoil and slippery-checks
 		//deals half the weapondamage and applies the effects

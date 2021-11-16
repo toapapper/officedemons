@@ -29,7 +29,7 @@ public class CombatActionState : AbstractPlayerState
 				specialHand.Attack();
 				break;
 			case TypeOfAction.SPECIALBOMBARD:
-				specialHand.PerformBombard();
+				specialHand.Attack();
 				break;
 			case TypeOfAction.THROW:
 				weaponHand.Throw();
@@ -54,7 +54,15 @@ public class CombatActionState : AbstractPlayerState
 			if (GameManager.Instance.AllStill)
 			{
 				PlayerManager.Instance.NextPlayerAction();
-				GetComponent<PlayerStateController>().StartWaitForTurn();
+
+				if(GameManager.Instance.CurrentCombatState == CombatState.none)
+                {
+					GetComponent<PlayerStateController>().StartOutOfCombat();
+                }
+                else
+                {
+					GetComponent<PlayerStateController>().StartWaitForTurn();
+                }
 				StopCoroutine("WaitDone");
 			}
 			yield return null;

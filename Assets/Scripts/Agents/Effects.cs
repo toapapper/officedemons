@@ -7,7 +7,7 @@ using UnityEngine.AI;
 /// <para>
 /// Static effects that can be applied to characters
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Johan Melkersson & Jonas Lundin
 /// </para>
@@ -16,7 +16,15 @@ using UnityEngine.AI;
 // Last Edited: 14/10-28
 public static class Effects
 {
-    public static void Damage(GameObject target, float damage)
+	public static void RegularDamage(GameObject target, float damage, GameObject wielder)
+	{
+		if(wielder.tag == "Player")
+		{
+			wielder.GetComponent<SpecialHand>().GiveRegularDamageEffect();
+		}
+		Damage(target, damage, wielder);
+	}
+	public static void Damage(GameObject target, float damage, GameObject wielder = null)
 	{
 		if(damage < 0)
         {
@@ -32,6 +40,19 @@ public static class Effects
 		target.GetComponent<Attributes>().Health -= dmg;
 
 		UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
+
+		if(wielder != null && target.GetComponent<Attributes>().Health <= 0)
+		{
+			if (wielder.tag == "Player")
+			{
+				wielder.GetComponent<Attributes>().KillCount++;
+			}
+		}
+		else if(target.tag == "Player")
+		{
+			target.GetComponent<SpecialHand>().TakeDamageEffect();
+		}
+
 	}
 
 	public static void Heal(GameObject target, float amount)
@@ -135,7 +156,7 @@ public static class Effects
 	{
 		if (target.tag == "Enemy")
 		{
-			// Tillfällig
+			// Tillfï¿½llig
 			//target.GetComponent<MeshRenderer>().material.color = Color.black;
 			target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
 			target.GetComponent<AIController>().Die();

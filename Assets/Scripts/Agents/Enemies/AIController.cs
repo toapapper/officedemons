@@ -18,7 +18,7 @@ using System.Linq;
 
 // Last Edited: 15-10-21
 
-public enum Class { Aggresive, Defensive, Healer};
+public enum Class { Aggresive, Defensive, Healer };
 
 public class AIController : MonoBehaviour
 {
@@ -28,7 +28,7 @@ public class AIController : MonoBehaviour
     private GameObject closestPlayer;
     private WeaponHand weapon;
     private GameObject target;
-    
+
     private Class aiClass;
 
     private Vector3 targetPosition;
@@ -95,13 +95,17 @@ public class AIController : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("D÷÷÷÷÷÷÷÷÷÷÷÷÷÷÷÷÷÷÷÷D");
+        //if(navMeshAgent.path != null) 
+        //{
+        //    navMeshAgent.ResetPath();
+        //}
         navMeshAgent.ResetPath();
-        aiManager.EnemyList.Remove(gameObject);
+
+        aiManager.enemyList.Remove(gameObject);
         Destroy(gameObject);
-    }   
-        
-        
+    }
+
+
     /// <summary>
     /// Performs the behaviour corresponding to the current state.
     /// </summary>
@@ -110,7 +114,7 @@ public class AIController : MonoBehaviour
     {
         aiStateHandler.StateUpdate(aiClass);
 
-        switch (CurrentState) 
+        switch (CurrentState)
         {
             case AIStates.States.FindCover:
                 // TO DO: Implement a behaviour for low health
@@ -153,9 +157,11 @@ public class AIController : MonoBehaviour
                     }
                 }
 
-                MoveTowards(targetPosition);
-
-                if (transform.position == targetPosition)
+                if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance || transform.position != targetPosition)
+                {
+                    MoveTowards(targetPosition);
+                }
+                else
                 {
                     currentState = AIStates.States.Unassigned;
                 }
@@ -170,7 +176,7 @@ public class AIController : MonoBehaviour
             case AIStates.States.Dead:
                 Effects.Die(this.gameObject);
                 break;
-        }        
+        }
     }
 
     /// <summary>
@@ -199,7 +205,7 @@ public class AIController : MonoBehaviour
         float closestDistance = float.MaxValue;
         for (int i = 0; i < priorites.Count; i++)
         {
-            if (priorites[i].GetComponent<Attributes>().Health <=0)
+            if (priorites[i].GetComponent<Attributes>().Health <= 0)
             {
                 priorites.RemoveAt(i);
             }
@@ -253,7 +259,7 @@ public class AIController : MonoBehaviour
         float targetDistance = CalculateDistance(target);
         float lastPathDistance = CalculateLastPathDistance(target);
 
-        if ( lastPathDistance <= fov.ViewRadius)
+        if (lastPathDistance <= fov.ViewRadius)
         {
             if (targetDistance - lastPathDistance <= stamina * navMeshAgent.speed / 1.2f)
             {
@@ -308,7 +314,7 @@ public class AIController : MonoBehaviour
 
     public bool FindClosestAndCheckIfReachable()
     {
-       GameObject closest = CalculateClosest(PlayerManager.players, Priorites);
+        GameObject closest = CalculateClosest(PlayerManager.players, Priorites);
         if (ReachableTarget(closest))
         {
             return true;
@@ -318,35 +324,65 @@ public class AIController : MonoBehaviour
 
     public void FindCover(GameObject opponent)
     {
-        List<NavMeshHit> hitList = new List<NavMeshHit>();
-        NavMeshHit navHit;
+        // casta en ray frÂn opponent till coverpositions
+        // v‰lj den som ‰r n‰rmst och obstructed               (‰ndra kanske sen sÂ att den kollar om det finns en som ‰r obstructed av flera)
+        RaycastHit hit = new RaycastHit();
 
-        // Loop to create random points around the player so we can find the nearest point to all of them, storting the hits in a list
-        for (int i = 0; i < 15; i++)
+        foreach (Vector3 pos in aiManager.coverList)
         {
-            Vector3 spawnPoint = transform.position;
-            Vector2 offset = Random.insideUnitCircle * i;
-            spawnPoint.x += offset.x;
-            spawnPoint.z += offset.y;
-
-            NavMesh.FindClosestEdge(spawnPoint, out navHit, NavMesh.AllAreas);
-
-            hitList.Add(navHit);
-        }
-
-        // sort the list by distance using Linq
-        var sortedList = hitList.OrderBy(x => x.distance);
-
-        // Loop through the sortedList and see if the hit normal doesn't point towards the enemy.
-        // If it doesn't point towards the enemy, navigate the agent to that position and break the loop as this is the closest cover for the agent. (Because the list is sorted on distance)
-        foreach (NavMeshHit hit in sortedList)
-        {
-            if (Vector3.Dot(hit.normal, (opponent.transform.position - transform.position)) < 0)
+            if (Physics.Raycast(opponent.transform.position, (pos - opponent.transform.position).normalized, out hit))
             {
-                targetPosition = hit.position;
-                break;
+                if (hit.transform.gameObject.tag == "CoverObject")
+                {
+                    foreach (Transform child in hit.transform)
+                    {
+                        RaycastHit hit2 = new RaycastHit();
+                        if (Physics.Raycast(opponent.transform.position, (child.position - opponent.transform.position).normalized, out hit2))
+                        {
+                            if (hit2.transform.gameObject.tag == "CoverObject")
+                            {
+                                targetPosition = child.position;
+                                break;
+                            }
+
+                        }
+                        targetPosition = child.position;
+                    }
+                }
             }
         }
+
+        // OLD WAY
+
+        //List<NavMeshHit> hitList = new List<NavMeshHit>();
+        //NavMeshHit navHit;
+
+        // Loop to create random points around the player so we can find the nearest point to all of them, storting the hits in a list
+        //for (int i = 0; i < 15; i++)
+        //{
+        //    Vector3 spawnPoint = transform.position;
+        //    Vector2 offset = Random.insideUnitCircle * i;
+        //    spawnPoint.x += offset.x;
+        //    spawnPoint.z += offset.y;
+        //
+        //    NavMesh.FindClosestEdge(spawnPoint, out navHit, NavMesh.AllAreas);
+        //
+        //    hitList.Add(navHit);
+        //}
+        //
+        //// sort the list by distance using Linq
+        //var sortedList = hitList.OrderBy(x => x.distance);
+        //
+        //// Loop through the sortedList and see if the hit normal doesn't point towards the enemy.
+        //// If it doesn't point towards the enemy, navigate the agent to that position and break the loop as this is the closest cover for the agent. (Because the list is sorted on distance)
+        //foreach (NavMeshHit hit in sortedList)
+        //{
+        //    if (Vector3.Dot(hit.normal, (opponent.transform.position - transform.position)) < 0)
+        //    {
+        //        targetPosition = hit.position;
+        //        break;
+        //    }
+        //}
     }
 
     public void MoveTowards(Vector3 targetPos)
@@ -355,6 +391,7 @@ public class AIController : MonoBehaviour
 
         navMeshAgent.SetDestination(targetPos);
         gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
+        //gameObject.GetComponent<Attributes>().Stamina -= 1;
         targetPosition = targetPos;
     }
 }

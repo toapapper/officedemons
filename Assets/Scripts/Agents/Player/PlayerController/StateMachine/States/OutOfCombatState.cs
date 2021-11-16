@@ -65,7 +65,7 @@ public class OutOfCombatState : AbstractPlayerState
 	{
 		if (!IsActionTriggered)
 		{
-			if (specialHand.StartBombard())
+			if (specialHand.StartAttack())
 			{
 				specialHand.ToggleAimView(true);
 				IsActionTriggered = true;
@@ -78,7 +78,7 @@ public class OutOfCombatState : AbstractPlayerState
 	{
 		if (IsActionTriggered)
 		{
-			if (specialHand.PerformBombard())
+			if (specialHand.Attack())
 			{
 				IsActionTriggered = false;
 				specialHand.ToggleAimView(false);

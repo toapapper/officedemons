@@ -19,20 +19,20 @@ public class Rocket : Bullet
     [SerializeField]
     private GameObject particleEffect;
 
-    protected override void OnCollisionEnter(Collision collision)
-    {
-        if (targetList.Count > 0)
-        {
-            foreach (GameObject target in targetList)
-            {
-                if (target.tag == "Player" || target.tag == "Enemy")
-                {
-
-                    Effects.Damage(collision.gameObject, bulletDamage);
-                    Effects.ApplyForce(collision.gameObject, (target.transform.position - transform.position).normalized * bulletHitForce);
-                }
-            }
-        }
+	protected override void OnCollisionEnter(Collision collision)
+	{
+		if(targetList.Count > 0)
+		{
+			foreach (GameObject target in targetList)
+			{
+				if (target.tag == "Player" || target.tag == "Enemy")
+				{
+					Effects.RegularDamage(target, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost), shooter);
+					//Effects.Damage(target, bulletDamage);
+					Effects.ApplyForce(target, (target.transform.position - transform.position).normalized * bulletHitForce);
+				}
+			}
+		}
 
         //TODO Explosion
         if (particleEffect)
