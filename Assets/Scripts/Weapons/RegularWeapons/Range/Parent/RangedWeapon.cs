@@ -86,19 +86,6 @@ public abstract class RangedWeapon : AbstractWeapon
 		animator.SetTrigger("isStartRangedSingleShot");
 	}
 
-
-	///// <summary>
-	///// The maximum amount of degrees from the aim direction that the shot can deviate. This takes the possibility of being po�soned into account.<br/>
-	///// Also updates the size and such of the aimcone.
-	///// </summary>
-	//protected void UpdateAimCone()
- //   {
- //       LaserAim.SetActive(isActive);
-
- //       UpdateAimCone();
- //       AimCone.SetActive(isActive);
- //   }
-
     public override void Attack(Animator animator)
     {
         base.Attack(animator);
