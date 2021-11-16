@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PaperShredder : AbstractSpecial
 {
-	//[SerializeField] private List<WeaponEffects> ultiEffects;
-
 	[SerializeField]
 	private float viewDistance = 1f;
 	[SerializeField]

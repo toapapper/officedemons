@@ -96,6 +96,15 @@ public class AIController : MonoBehaviour
     public void Die()
     {
         Debug.Log("D种种种种种种种种种种D");
+        foreach (GameObject grondEffectObject in GameManager.Instance.GroundEffectObjects)
+        {            
+			if (grondEffectObject.GetComponent<CoffeStain>().agentsOnStain.Contains(gameObject))
+			{
+				grondEffectObject.GetComponent<CoffeStain>().agentsOnStain.Remove(gameObject);
+                //Utilities.CleanList(grondEffectObject.GetComponent<CoffeStain>().agentsOnStain);
+                Debug.Log(gameObject.name + "REMOVED");
+			}
+		}
         navMeshAgent.ResetPath();
         aiManager.EnemyList.Remove(gameObject);
         Destroy(gameObject);

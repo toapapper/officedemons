@@ -108,6 +108,14 @@ public class GameManager : MonoBehaviour
                 EndEncounter();
             }
         }
+		else
+		{
+			for (int i = 0; i < GroundEffectObjects.Count; i++)
+			{
+                GroundEffectObjects[i].GetComponent<CoffeStain>().UpdateTime();
+
+            }
+		}
 
         #region combatState-update
         if(CurrentCombatState == CombatState.enterCombat)

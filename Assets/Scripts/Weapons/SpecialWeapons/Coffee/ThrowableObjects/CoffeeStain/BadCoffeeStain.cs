@@ -22,9 +22,9 @@ public class BadCoffeeStain : CoffeStain
 
     protected override void ApplyEffectsOn(GameObject agent)
     {
-        Effects.Damage(agent, damage);
-        Effects.ApplyWeaponEffects(agent, effects);
-    }
+		//Effects.Damage(agent, damage);
+		Effects.ApplyWeaponEffects(agent, effects);
+	}
 
     protected override void OnTriggerEnter(Collider other)
 	{
@@ -32,8 +32,8 @@ public class BadCoffeeStain : CoffeStain
         {
             if (other.tag == "Player" || other.tag == "Enemy")
             {
-                ApplyEffectsOn(other.gameObject);
-                base.OnTriggerEnter(other);
+				ApplyEffectsOn(other.gameObject);
+				base.OnTriggerEnter(other);
             }
         }
     }

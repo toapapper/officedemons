@@ -22,7 +22,7 @@ public class GoodCoffeeStain : CoffeStain
 
     protected override void ApplyEffectsOn(GameObject agent)
 	{
-        Effects.Heal(agent, healAmount);
+        //Effects.Heal(agent, healAmount);
         foreach (StatusEffectType effect in effects)
         {
             Effects.ApplyStatusEffect(agent, effect);

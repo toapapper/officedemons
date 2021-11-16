@@ -39,7 +39,7 @@ public class BadCoffeeGrenade : CoffeeGrenade
 
 			Effects.Damage(target, grenadeDamage, thrower);
 			Effects.ApplyForce(target, explosionForceDirection * grenadeExplodeForce);
-			Effects.ApplyWeaponEffects(target, effects);
+			//Effects.ApplyWeaponEffects(target, effects);
 		}
 
 		Destroy(gameObject);

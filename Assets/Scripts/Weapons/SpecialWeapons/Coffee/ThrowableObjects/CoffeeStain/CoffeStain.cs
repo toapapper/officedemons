@@ -13,8 +13,6 @@ public abstract class CoffeStain : MonoBehaviour
     protected int durabilityTurns;
     protected float durabilityTime;
 
-
-
     public void ApplyEffectsOnEnemys()
     {
         foreach (GameObject agent in agentsOnStain)
@@ -43,25 +41,29 @@ public abstract class CoffeStain : MonoBehaviour
     }
     protected abstract void ApplyEffectsOn(GameObject agent);
 
-    protected void RemoveGroundEffectObject()
+    public void UpdateTime()
 	{
-        GameManager.Instance.GroundEffectObjects.Remove(gameObject);
-        Destroy(this);
-    }
-
-	private void FixedUpdate()
-	{
-        durabilityTime -= Time.fixedDeltaTime;
-        if(durabilityTime <= 0)
-		{
+        durabilityTime -= Time.deltaTime;
+        if (durabilityTime <= 0)
+        {
             RemoveGroundEffectObject();
         }
-	}
+    }
+
+    private void RemoveGroundEffectObject()
+    {
+        GameManager.Instance.GroundEffectObjects.Remove(gameObject);
+        Destroy(gameObject);
+    }
 
 
-	protected virtual void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
 	{
-        agentsOnStain.Add(other.gameObject);
+        if (other.gameObject.GetComponent<Attributes>().Health > 0)
+		{
+            Debug.Log(other.gameObject.name + "ADDED");
+            agentsOnStain.Add(other.gameObject);
+        }
     }
 	private void OnTriggerExit(Collider other)
     {
