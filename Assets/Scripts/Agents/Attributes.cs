@@ -58,6 +58,10 @@ public class Attributes : MonoBehaviour
                 health = 0;
                 Effects.Die(gameObject);
             }
+            else if (health > startHealth)
+            {
+                health = startHealth;
+            }
         }
     }
 

@@ -20,7 +20,7 @@ public class GrenadeObject : MonoBehaviour
 	[SerializeField]
 	private GameObject FOVVisualization;
 	[SerializeField]
-	protected float explodeRadius = 3;
+	protected float explodeRadius = 2;
 	protected float grenadeDamage;
 	protected float grenadeExplodeForce;
 	[SerializeField]
@@ -43,7 +43,7 @@ public class GrenadeObject : MonoBehaviour
 		grenadeObject.explodeTime = initialExplodeTime;
 		GameManager.Instance.StillCheckList.Add(grenadeObject.gameObject);
 
-		this.effects = effects;
+		grenadeObject.effects = effects;
 	}
 
 	protected void SetExplosion()
@@ -58,9 +58,8 @@ public class GrenadeObject : MonoBehaviour
 		Explode();
 	}
 
-	private void Explode()
+	protected virtual void Explode()
 	{
-		//thrower.GetComponent<StatusEffectHandler>().DmgBoost;
 		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
 
 		foreach (GameObject target in targetList)

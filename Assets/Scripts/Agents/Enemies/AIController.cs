@@ -6,14 +6,14 @@ using System.Linq;
 /// <summary>
 /// <para>
 /// Controls the AI-agents
-/// 
+///
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Tinea Larsson, Tim Wennerberg
-///  
+///
 /// </para>
-///  
+///
 /// </summary>
 
 // Last Edited: 15-10-21
@@ -95,10 +95,14 @@ public class AIController : MonoBehaviour
 
     public void Die()
     {
-        //if(navMeshAgent.path != null) 
-        //{
-        //    navMeshAgent.ResetPath();
-        //}
+
+        foreach (GameObject grondEffectObject in GameManager.Instance.GroundEffectObjects)
+        {
+			if (grondEffectObject.GetComponent<CoffeStain>().agentsOnStain.Contains(gameObject))
+			{
+				grondEffectObject.GetComponent<CoffeStain>().agentsOnStain.Remove(gameObject);
+			}
+		}
         navMeshAgent.ResetPath();
 
         aiManager.enemyList.Remove(gameObject);
@@ -324,8 +328,8 @@ public class AIController : MonoBehaviour
 
     public void FindCover(GameObject opponent)
     {
-        // casta en ray från opponent till coverpositions
-        // välj den som är närmst och obstructed               (ändra kanske sen så att den kollar om det finns en som är obstructed av flera)
+        // casta en ray frï¿½n opponent till coverpositions
+        // vï¿½lj den som ï¿½r nï¿½rmst och obstructed               (ï¿½ndra kanske sen sï¿½ att den kollar om det finns en som ï¿½r obstructed av flera)
         RaycastHit hit = new RaycastHit();
 
         foreach (Vector3 pos in aiManager.coverList)

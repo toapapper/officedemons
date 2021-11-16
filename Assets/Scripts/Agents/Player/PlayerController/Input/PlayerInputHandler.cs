@@ -128,7 +128,7 @@ public class PlayerInputHandler : MonoBehaviour
 						{
 							player.CancelAction();
 						}
-						else if(specialHand.ObjectInHand is CoffeeSpecial && context.canceled)
+						else if(specialHand.ObjectInHand is CoffeeCupSpecial && context.canceled)
 						{
 							if (player.OnSpecialBombard())
 							{
@@ -139,7 +139,7 @@ public class PlayerInputHandler : MonoBehaviour
 					}
 					else if (context.performed)
 					{
-						if (specialHand.ObjectInHand is CoffeeSpecial)
+						if (specialHand.ObjectInHand is CoffeeCupSpecial)
 						{
 							if (player.OnStartSpecialBombard())
 							{

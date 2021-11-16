@@ -1546,6 +1546,7 @@ MonoBehaviour:
   characterName: 3
   jobTitle: "arbetsl\xF6s"
   startHealth: 50
+  killCount: 0
   health: 0
   startStamina: 3.5
   stamina: 50
@@ -1561,6 +1562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewRadius: 0
   viewAngle: 18.7
   targetMask:
     serializedVersion: 2
@@ -1781,6 +1783,18 @@ PrefabInstance:
     - target: {fileID: 8315504031462791294, guid: 0de22563a940e134db879c589014f7a8, type: 3}
       propertyPath: isHeld
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8315504031462791294, guid: 0de22563a940e134db879c589014f7a8, type: 3}
+      propertyPath: viewAngle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8315504031462791294, guid: 0de22563a940e134db879c589014f7a8, type: 3}
+      propertyPath: durability
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8315504031462791294, guid: 0de22563a940e134db879c589014f7a8, type: 3}
+      propertyPath: inaccuracy
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0de22563a940e134db879c589014f7a8, type: 3}

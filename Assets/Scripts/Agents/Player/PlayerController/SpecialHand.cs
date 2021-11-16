@@ -102,7 +102,7 @@ public class SpecialHand : MonoBehaviour
 	}
 	public bool SetBombardForce(float bombardForce)
 	{
-		if (objectInHand && objectInHand is CoffeeSpecial)
+		if (objectInHand && objectInHand is CoffeeCupSpecial)
 		{
 			throwAim.initialVelocity = bombardForce;
 			return true;
@@ -114,7 +114,10 @@ public class SpecialHand : MonoBehaviour
 		animator.SetTrigger("isCancelAction");
 	}
 
-
+	public void StartTurnEffect()
+	{
+		objectInHand.StartTurnEffect();
+	}
 	public void TakeDamageEffect()
 	{
 		objectInHand.TakeDamageEffect();
@@ -123,19 +126,26 @@ public class SpecialHand : MonoBehaviour
 	{
 		objectInHand.GiveRegularDamageEffect();
 	}
-	public void AddCharge()
+	public void KillEffect()
 	{
-		objectInHand.AddCharge();
+		objectInHand.KillEffect();
 	}
-	//TODO Start passive abillity 
-	//public void PerformPassiveAbility()
+	public void RevivedEffect()
+	{
+		objectInHand.RevivedEffect();
+	}
+	//public void AddCharge()
 	//{
-	//	objectInHand.PerformPassiveAbility(animator);
+	//	objectInHand.AddCharge();
 	//}
 
 	//Animation events
 	public void DoSpecialAction()
 	{
 		objectInHand.DoSpecialAction(/*fov*/);
+	}
+	public void DoSpecialActionEnd()
+	{
+		objectInHand.DoSpecialActionEnd();
 	}
 }

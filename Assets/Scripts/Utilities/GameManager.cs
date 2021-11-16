@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
 
     private Encounter currentEncounter;
     private List<GameObject> stillCheckList = new List<GameObject>();
+    private List<GameObject> groundEffectObjects = new List<GameObject>();
 
     private MultipleTargetCamera mainCamera;
 
@@ -65,6 +66,7 @@ public class GameManager : MonoBehaviour
     public bool PlayerEnterCombatDone { set { playerEnterCombatDone = value; } }
     public bool EnemiesActionsDone { set { enemiesActionsDone = value; } }
     public List<GameObject> StillCheckList { get { return stillCheckList; } }
+    public List<GameObject> GroundEffectObjects { get { return groundEffectObjects; } }
     [SerializeField] public bool AllStill
     {
         get { return allStill; }
@@ -106,6 +108,14 @@ public class GameManager : MonoBehaviour
                 EndEncounter();
             }
         }
+		else
+		{
+			for (int i = 0; i < GroundEffectObjects.Count; i++)
+			{
+                GroundEffectObjects[i].GetComponent<CoffeStain>().UpdateTime();
+
+            }
+		}
 
         #region combatState-update
         if(CurrentCombatState == CombatState.enterCombat)

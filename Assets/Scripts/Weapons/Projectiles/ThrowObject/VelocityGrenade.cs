@@ -12,6 +12,12 @@ public class VelocityGrenade : GrenadeObject
 			{
 				base.SetExplosion();
 			}
+			else if(transform.position.y < 0f)
+			{
+				//TEST
+				GetComponent<Rigidbody>().isKinematic = true;
+				base.SetExplosion();
+			}
 		}
 		else
 		{
