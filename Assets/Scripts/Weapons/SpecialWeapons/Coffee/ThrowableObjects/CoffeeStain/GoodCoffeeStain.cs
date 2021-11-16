@@ -21,7 +21,7 @@ public class GoodCoffeeStain : CoffeStain
 
     public void CreateStain(Vector3 position, float stainRadius, float healAmount, List<StatusEffectType> effects)
     {
-        coffeeStain = Instantiate(this, position, Quaternion.Euler(0, 0, 0));
+        coffeeStain = Instantiate(this, position/*new Vector3 (position.x, 0.1f, position.z)*/, Quaternion.Euler(0, 0, 0));
         coffeeStain.transform.localScale = new Vector3(stainRadius, coffeeStain.transform.localScale.y, stainRadius);
         coffeeStain.healAmount = healAmount;
         coffeeStain.effects = effects;
@@ -42,12 +42,15 @@ public class GoodCoffeeStain : CoffeStain
 
     protected override void OnTriggerEnter(Collider other)
     {
-        if (!agentsOnStain.Contains(other.gameObject))
-        {
-            if (other.tag == "Player" || other.tag == "Enemy")
+        if (!other.isTrigger)
+		{
+            if (!agentsOnStain.Contains(other.gameObject))
             {
-                ApplyEffectsOn(other.gameObject);
-                base.OnTriggerEnter(other);
+                if (other.tag == "Player" || other.tag == "Enemy")
+                {
+                    ApplyEffectsOn(other.gameObject);
+                    base.OnTriggerEnter(other);
+                }
             }
         }
     }
