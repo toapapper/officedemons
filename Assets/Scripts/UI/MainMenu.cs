@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
-        SceneManager.LoadScene("OssianScene");
+        SceneManager.LoadScene("PlayerSelection");
     }
     
     public void Resume()
