@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// The supporting stain left by Devins GoodCoffeeGrenade
+/// </para>
+///
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
+/// </summary>
+
+// Last Edited: 15-11-16
 public class GoodCoffeeStain : CoffeStain
 {
     private GoodCoffeeStain coffeeStain;

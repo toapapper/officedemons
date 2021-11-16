@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// The rush version of Vickys officeChair (specialWeapon)
+/// </para>
+///
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
+/// </summary>
+
+// Last Edited: 15-11-16
 public class RushChair : AbstractSpecial
 {
 	[SerializeField]

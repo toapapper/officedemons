@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// Tims Terrible breath (specialWeapon)
+/// </para>
+///
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
+/// </summary>
+
+// Last Edited: 15-11-16
 public class TerribleBreath : AbstractSpecial
 {
 	[SerializeField]

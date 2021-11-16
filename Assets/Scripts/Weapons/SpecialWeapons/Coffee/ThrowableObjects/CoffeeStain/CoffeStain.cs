@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// The abstract stain left by Devins CoffeeGrenade
+/// </para>
+///
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
+/// </summary>
+
+// Last Edited: 15-11-16
 public abstract class CoffeStain : MonoBehaviour
 {
     public List<GameObject> agentsOnStain;

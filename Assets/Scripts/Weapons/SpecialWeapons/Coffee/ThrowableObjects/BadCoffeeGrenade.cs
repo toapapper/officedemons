@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// The harmful grenade version thrown by Devins special weapon
+/// </para>
+///
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
+/// </summary>
+
+// Last Edited: 15-11-16
 public class BadCoffeeGrenade : CoffeeGrenade
 {
 	private BadCoffeeGrenade coffeeGrenade;

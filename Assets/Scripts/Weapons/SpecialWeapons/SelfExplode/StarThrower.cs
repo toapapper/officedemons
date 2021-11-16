@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// The supporting version of Susans specialWeapon
+/// </para>
+///
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
+/// </summary>
+
+// Last Edited: 15-11-16
 public class StarThrower : AbstractSpecial
 {
 	[SerializeField]
@@ -10,7 +21,6 @@ public class StarThrower : AbstractSpecial
 	private float viewAngle = 360f;
 	[SerializeField]
 	private float distanceMultiplier = 1f;
-
 
 
 	public override void SetFOVSize()
