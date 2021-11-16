@@ -11,7 +11,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 21-10-2021
+// Last Edited: 16-11-2021
 public class WeaponInitializer : MonoBehaviour
 {  
 
@@ -42,7 +42,7 @@ public class WeaponInitializer : MonoBehaviour
         if (rarityLowestValue >= 50)
         {
             rarityLowestValue = 50;
-        }
+        }       
         int rnd = UnityEngine.Random.Range(rarityLowestValue, rarityLowestValue + 50);
         string rarity = "";
         WeaponStatsGeneration stats;
