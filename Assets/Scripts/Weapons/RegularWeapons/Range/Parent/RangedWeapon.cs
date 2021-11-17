@@ -71,14 +71,28 @@ public abstract class RangedWeapon : AbstractWeapon
 		laserAim.SetActive(true);
 		GetComponentInChildren<LineRenderer>().colorGradient = gradient;
 		laserAim.SetActive(false);
+
+		Color c0 = this.AimCone.GetComponentInChildren<MeshRenderer>().material.color;
+		float c0Alpha = c0.a;
+		Color pc = this.holderAgent.GetComponent<Attributes>().PlayerColor;
+		pc.a = c0Alpha;
+
+		this.AimCone.GetComponentInChildren<MeshRenderer>().material.color = gradient.colorKeys[0].color;
+		UpdateAimCone();
 	}
 
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
-		laserAim.SetActive(isActive);
+		if(Inaccuracy < 1)
+        {
+			laserAim.SetActive(isActive);
+        }
+        else
+        {
+			UpdateAimCone();
+			AimCone.SetActive(isActive);
+        }
 
-		UpdateAimCone();
-		AimCone.SetActive(isActive);
 	}
 
 	public override void StartAttack(Animator animator)
@@ -124,13 +138,7 @@ public abstract class RangedWeapon : AbstractWeapon
     {
         base.PickUpIn(hand);
 
-        Color c0 = this.AimCone.GetComponentInChildren<MeshRenderer>().material.color;
-        float c0Alpha = c0.a;
-        Color pc = this.holderAgent.GetComponent<Attributes>().PlayerColor;
-        pc.a = c0Alpha;
-
-        this.AimCone.GetComponentInChildren<MeshRenderer>().material.color = pc;
-        UpdateAimCone();
+        
     }
 
 
