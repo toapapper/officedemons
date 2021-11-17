@@ -61,7 +61,7 @@ public class AIManager : MonoBehaviour
             grondEffectObject.GetComponent<CoffeStain>().ApplyEffectsOnEnemys();
         }
 
-        actionsQueue.Clear();   
+        actionsQueue.Clear();
         foreach (GameObject e in enemyList)
         {
             e.GetComponent<AIController>().TargetPosition = Vector3.zero;
@@ -179,5 +179,25 @@ public class AIManager : MonoBehaviour
         actionsQueue.Enqueue(agent);
         agent.GetComponent<AIController>().ActionIsLocked = true;
         agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
+    }
+
+    public void RemoveAction(GameObject agent)
+    {
+        if (actionsQueue.Contains(agent))
+        {
+            agent.GetComponent<AIController>().ActionIsLocked = false;
+            agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
+
+            Queue<GameObject> newQueue = new Queue<GameObject>();
+
+            foreach (GameObject go in actionsQueue)
+            {
+                if (go != agent)
+                {
+                    newQueue.Enqueue(go);
+                }
+            }
+            actionsQueue = newQueue;
+        }
     }
 }
