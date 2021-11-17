@@ -12,7 +12,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15-11-16
+// Last Edited: 15-11-17
 public class BadCoffeeGrenade : CoffeeGrenade
 {
 	private BadCoffeeGrenade coffeeGrenade;
@@ -38,8 +38,6 @@ public class BadCoffeeGrenade : CoffeeGrenade
 	protected override void Explode()
 	{
 		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
-		coffeeStain.CreateStain(transform.position, GetComponent<FieldOfView>().ViewRadius, grenadeDamage, effects);
-
 		foreach (GameObject target in targetList)
 		{
 			coffeeStain.agentsOnStain.Add(target);
@@ -52,7 +50,10 @@ public class BadCoffeeGrenade : CoffeeGrenade
 			Effects.ApplyForce(target, explosionForceDirection * grenadeExplodeForce);
 			//Effects.ApplyWeaponEffects(target, effects);
 		}
+	}
 
-		Destroy(gameObject);
+	protected override void CreateStain(Vector3 stainPosition)
+	{
+		coffeeStain.CreateStain(stainPosition, GetComponent<FieldOfView>().ViewRadius, grenadeDamage, effects);
 	}
 }

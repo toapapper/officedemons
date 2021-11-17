@@ -12,7 +12,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15-11-16
+// Last Edited: 15-11-17
 public class GoodCoffeeGrenade : CoffeeGrenade
 {
 	private GoodCoffeeGrenade coffeeGrenade;
@@ -32,15 +32,13 @@ public class GoodCoffeeGrenade : CoffeeGrenade
 
 		coffeeGrenade.effects = effects;
 	}
-	
 
 	protected override void Explode()
 	{
 		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
-		coffeeStain.CreateStain(transform.position, GetComponent<FieldOfView>().ViewRadius, grenadeHeal, effects);
 		foreach (GameObject target in targetList)
 		{
-			if(target.tag == "Player")
+			if(target.tag == "Player" || target.tag == "Enemy")
 			{
 				coffeeStain.agentsOnStain.Add(target);
 
@@ -51,7 +49,10 @@ public class GoodCoffeeGrenade : CoffeeGrenade
 				}
 			}
 		}
+	}
 
-		Destroy(gameObject);
+	protected override void CreateStain(Vector3 stainPosition)
+	{
+		coffeeStain.CreateStain(stainPosition, GetComponent<FieldOfView>().ViewRadius, grenadeHeal, effects);
 	}
 }

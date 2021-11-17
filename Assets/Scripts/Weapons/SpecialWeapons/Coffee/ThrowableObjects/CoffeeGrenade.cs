@@ -12,7 +12,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15-11-16
+// Last Edited: 15-11-17
 public abstract class CoffeeGrenade : MonoBehaviour
 {
 	protected GameObject thrower;
@@ -20,26 +20,38 @@ public abstract class CoffeeGrenade : MonoBehaviour
 	[SerializeField]
 	private GameObject particleEffect;
 
+	protected int maxDistance = 30;
+
 	private void FixedUpdate()
 	{
-		if (isObjectThrown)
+		if (transform.position.y < -10f)
 		{
-			if (transform.position.y < 0.2f)
-			{
-				Explode();
-				Instantiate(particleEffect, transform.position, transform.rotation * Quaternion.Euler(90f, 0f, 0f));
-			}
-			else if (GetComponent<Rigidbody>().velocity.magnitude < 0.5f)
-			{
-				Explode();
-				Instantiate(particleEffect, transform.position, transform.rotation * Quaternion.Euler(90f, 0f, 0f));
-			}
-		}
-		else
-		{
-			isObjectThrown = true;
+			GameManager.Instance.StillCheckList.Remove(gameObject);
+			Destroy(gameObject);
 		}
 	}
 
 	protected abstract void Explode();
+
+	protected abstract void CreateStain(Vector3 stainPosition);
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		Instantiate(particleEffect, transform.position, transform.rotation * Quaternion.Euler(90f, 0f, 0f));
+		Explode();
+		if (collision.gameObject.transform.tag == "Ground")
+		{
+			CreateStain(collision.contacts[0].point);
+		}
+		else
+		{
+			RaycastHit hit;
+			if (Physics.Raycast(transform.position, Vector3.down, out hit, maxDistance, LayerMask.GetMask("Ground")))
+			{
+				CreateStain(hit.point);
+			}
+		}
+		GameManager.Instance.StillCheckList.Remove(gameObject);
+		Destroy(gameObject);
+	}
 }
