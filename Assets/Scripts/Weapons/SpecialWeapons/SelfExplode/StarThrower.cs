@@ -21,6 +21,8 @@ public class StarThrower : AbstractSpecial
 	private float viewAngle = 360f;
 	[SerializeField]
 	private float distanceMultiplier = 1f;
+	[SerializeField]
+	private GameObject particleEffect;
 
 
 	public override void SetFOVSize()
@@ -73,6 +75,8 @@ public class StarThrower : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
+		Instantiate(particleEffect, transform.position, transform.rotation);
+
 		if (specialController.FOV.VisibleTargets.Count > 0)
 		{
 			foreach (GameObject target in specialController.FOV.VisibleTargets)

@@ -25,12 +25,23 @@ public class RushChair : AbstractSpecial
 	private float damageAdder = 5f;
 	[SerializeField]
 	private float hitForceAdder = 20f;
+	[SerializeField]
+	private List<TrailRenderer> trails;
+	[SerializeField]
+	private GameObject particleEffect;
 
 	private bool isKillEffect;
 	private bool isProjectile;
 
+    private void Start()
+    {
+		foreach (TrailRenderer trail in trails)
+		{
+			trail.enabled = false;
+		}
+	}
 
-	public override void SetAimColor(Gradient gradient)
+    public override void SetAimColor(Gradient gradient)
 	{
 		laserAim.SetActive(true);
 		GetComponentInChildren<LineRenderer>().colorGradient = gradient;
@@ -80,6 +91,11 @@ public class RushChair : AbstractSpecial
 		isProjectile = true;
 		GameManager.Instance.StillCheckList.Add(holderAgent);
 
+		foreach(TrailRenderer trail in trails)
+        {
+			trail.enabled = true;
+        }
+
 		StartCoroutine(CountdownTime(2));
 	}
 
@@ -96,6 +112,11 @@ public class RushChair : AbstractSpecial
 	{
 		isProjectile = false;
 		GameManager.Instance.StillCheckList.Remove(holderAgent);
+
+		foreach (TrailRenderer trail in trails)
+		{
+			trail.enabled = false;
+		}
 	}
 
 	public void OnTriggerEnter(Collider other)
@@ -107,6 +128,8 @@ public class RushChair : AbstractSpecial
 				Vector3 forceDirection = other.transform.position - transform.position;
 				forceDirection.y = 0;
 				forceDirection.Normalize();
+
+				Instantiate(particleEffect, transform.position, transform.rotation);
 
 				if (Charges == 0)
 				{
