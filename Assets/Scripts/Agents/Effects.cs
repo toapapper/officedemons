@@ -157,16 +157,15 @@ public static class Effects
 	{
 		if (target.tag == "Enemy")
 		{
-			// Tillf�llig
-			//target.GetComponent<MeshRenderer>().material.color = Color.black;
+			Disarm(target);
+
 			target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
 			target.GetComponent<AIController>().Die();
 		}
 		else if (target.tag == "Player")
 		{
-			//Disable Movement
-			//Play death animation
-			// bool targetIsDead so it's not targetet and attacked again while dead
+			Disarm(target);
+
 			target.GetComponent<PlayerStateController>().Die();
 		}
 	}

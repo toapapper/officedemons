@@ -36,5 +36,6 @@ public class CombatEnterState : AbstractPlayerState
 	public override void OnStateExit()
 	{
 		Debug.Log("Exits CombatEnterState" + this);
+		playerMovement.ResetNavMeshPath();
 	}
 }

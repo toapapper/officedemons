@@ -27,12 +27,14 @@ public class AIManager : MonoBehaviour
 
     public List<GameObject> enemyList;
     public List<Vector3> coverList;
+    public List<Vector3> takenCoverPositions;
 
     private void Start()
     {
         actionsQueue = new Queue<GameObject>();
         playerList = PlayerManager.players;
         coverList = FindCoverSpotsInEncounter();
+        List<Vector3> takenCoverPositions = new List<Vector3>();
     }
 
     /// <summary>
@@ -56,12 +58,14 @@ public class AIManager : MonoBehaviour
     /// <param name=""></param>
     public void BeginTurn()
     {
+        takenCoverPositions.Clear();
+        actionsQueue.Clear();
+
         foreach (GameObject grondEffectObject in GameManager.Instance.GroundEffectObjects)
         {
             grondEffectObject.GetComponent<CoffeStain>().ApplyEffectsOnEnemys();
         }
 
-        actionsQueue.Clear();   
         foreach (GameObject e in enemyList)
         {
             e.GetComponent<AIController>().TargetPosition = Vector3.zero;
@@ -179,5 +183,63 @@ public class AIManager : MonoBehaviour
         actionsQueue.Enqueue(agent);
         agent.GetComponent<AIController>().ActionIsLocked = true;
         agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
+    }
+
+    public void RemoveAction(GameObject agent)
+    {
+        if (actionsQueue.Contains(agent))
+        {
+            agent.GetComponent<AIController>().ActionIsLocked = false;
+            agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
+
+            Queue<GameObject> newQueue = new Queue<GameObject>();
+
+            foreach (GameObject go in actionsQueue)
+            {
+                if (go != agent)
+                {
+                    newQueue.Enqueue(go);
+                }
+            }
+            actionsQueue = newQueue;
+        }
+    }
+
+    // Check if players are fewer than AI, if players are unarmed but AI have weapons
+    public bool HasAdvantage()
+    {
+        int armedPlayers = 0;
+        int alivePlayers = 0;
+        int armedEnemies = 0;
+        int aliveEnemies = enemyList.Count;
+
+        //count how many players are alive and armed
+        foreach (GameObject player in playerList)
+        {
+            // Fråga om detta kl. 15
+            if (player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon) || player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
+            {
+                armedPlayers++;
+            }
+
+            if (player.GetComponent<Attributes>().Health > 0)
+            {
+                alivePlayers++;
+            }
+        }
+
+        foreach (GameObject enemy in enemyList)
+        {
+            if (enemy.GetComponent<AIController>().IsArmed())
+            {
+                armedEnemies++;
+            }
+        }
+
+        if (armedPlayers < armedEnemies || aliveEnemies > alivePlayers) // Add more complexity ?
+        {
+            return true;
+        }
+        return false;
     }
 }
