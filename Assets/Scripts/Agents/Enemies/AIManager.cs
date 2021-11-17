@@ -216,7 +216,6 @@ public class AIManager : MonoBehaviour
         //count how many players are alive and armed
         foreach (GameObject player in playerList)
         {
-            // Fråga om detta kl. 15
             if (player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon) || player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
             {
                 armedPlayers++;

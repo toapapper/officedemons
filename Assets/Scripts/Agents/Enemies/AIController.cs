@@ -363,38 +363,6 @@ public class AIController : MonoBehaviour
                 }
             }
         }
-
-        // OLD WAY
-
-        //List<NavMeshHit> hitList = new List<NavMeshHit>();
-        //NavMeshHit navHit;
-
-        // Loop to create random points around the player so we can find the nearest point to all of them, storting the hits in a list
-        //for (int i = 0; i < 15; i++)
-        //{
-        //    Vector3 spawnPoint = transform.position;
-        //    Vector2 offset = Random.insideUnitCircle * i;
-        //    spawnPoint.x += offset.x;
-        //    spawnPoint.z += offset.y;
-        //
-        //    NavMesh.FindClosestEdge(spawnPoint, out navHit, NavMesh.AllAreas);
-        //
-        //    hitList.Add(navHit);
-        //}
-        //
-        //// sort the list by distance using Linq
-        //var sortedList = hitList.OrderBy(x => x.distance);
-        //
-        //// Loop through the sortedList and see if the hit normal doesn't point towards the enemy.
-        //// If it doesn't point towards the enemy, navigate the agent to that position and break the loop as this is the closest cover for the agent. (Because the list is sorted on distance)
-        //foreach (NavMeshHit hit in sortedList)
-        //{
-        //    if (Vector3.Dot(hit.normal, (opponent.transform.position - transform.position)) < 0)
-        //    {
-        //        targetPosition = hit.position;
-        //        break;
-        //    }
-        //}
     }
 
     /// <summary>
@@ -433,10 +401,8 @@ public class AIController : MonoBehaviour
     public void MoveTowards(Vector3 targetPos)
     {
         navMeshAgent.isStopped = false;
-
         navMeshAgent.SetDestination(targetPos);
         gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
-        //gameObject.GetComponent<Attributes>().Stamina -= 1;
         targetPosition = targetPos;
     }
 }
