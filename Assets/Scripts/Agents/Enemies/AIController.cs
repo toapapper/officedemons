@@ -332,7 +332,10 @@ public class AIController : MonoBehaviour
     {
         // casta en ray fr�n opponent till coverpositions
         // v�lj den som �r n�rmst och obstructed               (�ndra kanske sen s� att den kollar om det finns en som �r obstructed av flera)
+
+        // Add a check if spot already taken
         RaycastHit hit = new RaycastHit();
+        float minDistToCover = Mathf.Infinity;
 
         foreach (Vector3 pos in aiManager.coverList)
         {
@@ -343,16 +346,19 @@ public class AIController : MonoBehaviour
                     foreach (Transform child in hit.transform)
                     {
                         RaycastHit hit2 = new RaycastHit();
-                        if (Physics.Raycast(opponent.transform.position, (child.position - opponent.transform.position).normalized, out hit2))
+                        if (!aiManager.takenCoverPositions.Contains(child.transform.position) && Physics.Raycast(opponent.transform.position, (child.position - opponent.transform.position).normalized, out hit2))
                         {
                             if (hit2.transform.gameObject.tag == "CoverObject")
                             {
-                                targetPosition = child.position;
-                                break;
+                                if (Vector3.Magnitude((hit2.transform.position - opponent.transform.position)) < minDistToCover)
+                                {
+                                    aiManager.takenCoverPositions.Add(child.position);
+                                    targetPosition = child.position;
+                                    minDistToCover = Vector3.Magnitude((hit2.transform.position - opponent.transform.position));
+                                }
                             }
-
                         }
-                        targetPosition = child.position;
+                        //targetPosition = child.position;
                     }
                 }
             }
@@ -389,6 +395,39 @@ public class AIController : MonoBehaviour
         //        break;
         //    }
         //}
+    }
+
+    /// <summary>
+    /// Maybe will keep these because we might have so that ranged weapons can shoot over some obstacles
+    /// </summary>
+    /// <returns></returns>
+    /// rightHand = this.gameObject.transform.GetChild(1).gameObject;
+
+    private bool HoldingRangedWeapon()
+    {
+        if (gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool HoldingMeleeWeapon()
+    {
+        if (gameObject.transform.GetChild(1).transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsArmed()
+    {
+        if (HoldingMeleeWeapon() || HoldingRangedWeapon())
+        {
+            return true;
+        }
+        return false;
     }
 
     public void MoveTowards(Vector3 targetPos)

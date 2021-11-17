@@ -24,7 +24,7 @@ public class AIStateHandler : MonoBehaviour
 {
     Encounter encounter;
     Attributes attributes;
-    GameObject rightHand, leftHand;
+    
     FieldOfView fov;
     AIController aiController;
 
@@ -33,8 +33,6 @@ public class AIStateHandler : MonoBehaviour
     {
         encounter = transform.parent.gameObject.GetComponent<Encounter>();
         attributes = GetComponent<Attributes>();
-        rightHand = this.gameObject.transform.GetChild(1).gameObject;
-        leftHand = this.gameObject.transform.GetChild(2).gameObject;
         fov = GetComponent<FieldOfView>(); //weapon's fov
         aiController = GetComponent<AIController>();
     }
@@ -198,29 +196,7 @@ public class AIStateHandler : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// Maybe will keep these because we might have so that ranged weapons can shoot over some obstacles
-    /// </summary>
-    /// <returns></returns>
-        //REMOVE?
-    bool HoldingRangedWeapon()
-    {
-        if (rightHand.transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    //REMOVE?
-    bool HoldingMeleeWeapon()
-    {
-        if (rightHand.transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon))
-        {
-            return true;
-        }
-        return false;
-    }
+    
 
 
     /// <summary>
