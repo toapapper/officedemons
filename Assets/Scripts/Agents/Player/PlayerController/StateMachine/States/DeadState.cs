@@ -45,8 +45,6 @@ public class DeadState : AbstractPlayerState
 		Debug.Log("Enters DeadState" + this);
 		originalColor = GetComponentInChildren<MeshRenderer>().material.color;
 
-		Effects.Disarm(gameObject);
-
 		GetComponentInChildren<MeshRenderer>().material.color = Color.black;
 		if (GameManager.Instance.CurrentCombatState == CombatState.none)
 			StartCoroutine(DelayedSelfRevive());
