@@ -49,6 +49,10 @@ public enum EffectDurations
 
 public class StatusEffectHandler : MonoBehaviour
 {
+    public const float outOfCombatUpdateFrequency = 1f;
+    private float oocUpdateTimer = outOfCombatUpdateFrequency;
+
+
     #region const stats
     //these are the stats used for the different effects' damage or drains and such.
     private const int fireDamage = 15;
@@ -90,6 +94,19 @@ public class StatusEffectHandler : MonoBehaviour
     void Start()
     {
         activeEffects = new Dictionary<StatusEffectType, StatusEffect>();
+    }
+
+    private void Update()
+    {
+        if(GameManager.Instance.CurrentCombatState == CombatState.none)
+        {
+            oocUpdateTimer -= Time.deltaTime;
+            if(oocUpdateTimer <= 0)
+            {
+                UpdateEffects();
+                oocUpdateTimer = outOfCombatUpdateFrequency;
+            }
+        }
     }
 
     /// <summary>
@@ -148,6 +165,11 @@ public class StatusEffectHandler : MonoBehaviour
             StatusEffect sEffect = new StatusEffect(effect, duration, dmg, drain, stacks);
             activeEffects.Add(effect, sEffect);
         }
+    }
+
+    public void ClearEffects()
+    {
+        activeEffects.Clear();
     }
 
     /// <summary>
