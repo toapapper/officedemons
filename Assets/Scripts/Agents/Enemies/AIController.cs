@@ -95,16 +95,18 @@ public class AIController : MonoBehaviour
 
     public void Die()
     {
-
-        foreach (GameObject grondEffectObject in GameManager.Instance.GroundEffectObjects)
+        foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
         {
-			if (grondEffectObject.GetComponent<CoffeStain>().agentsOnStain.Contains(gameObject))
+			if (go.GetComponent<CoffeStain>().agentsOnStain.Contains(gameObject))
 			{
-				grondEffectObject.GetComponent<CoffeStain>().agentsOnStain.Remove(gameObject);
+				go.GetComponent<CoffeStain>().agentsOnStain.Remove(gameObject);
 			}
 		}
-        navMeshAgent.ResetPath();
-
+        if (navMeshAgent.hasPath)
+        {
+            navMeshAgent.ResetPath();
+        }
+        aiManager.RemoveAction(gameObject);
         aiManager.enemyList.Remove(gameObject);
         Destroy(gameObject);
     }

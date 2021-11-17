@@ -180,4 +180,24 @@ public class AIManager : MonoBehaviour
         agent.GetComponent<AIController>().ActionIsLocked = true;
         agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
     }
+
+    public void RemoveAction(GameObject agent)
+    {
+        if(actionsQueue.Contains(agent))
+        {
+            agent.GetComponent<AIController>().ActionIsLocked = false;
+            agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
+
+            Queue<GameObject> newQueue = new Queue<GameObject>();
+
+            foreach (GameObject go in actionsQueue)
+            {
+                if(go != agent)
+                {
+                    newQueue.Enqueue(go);
+                }
+            }
+            actionsQueue = newQueue;
+        }
+    }
 }
