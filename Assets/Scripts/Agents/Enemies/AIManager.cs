@@ -25,17 +25,16 @@ public class AIManager : MonoBehaviour
     private AIManager instance;
     private Queue<GameObject> actionsQueue;
 
-    private List<GameObject> enemyList;
-    public List<GameObject> EnemyList
-    {
-        get { return enemyList; }
-        set { enemyList = value; }
-    }
+    public List<GameObject> enemyList;
+    public List<Vector3> coverList;
+    public List<Vector3> takenCoverPositions;
 
     private void Start()
     {
         actionsQueue = new Queue<GameObject>();
         playerList = PlayerManager.players;
+        coverList = FindCoverSpotsInEncounter();
+        List<Vector3> takenCoverPositions = new List<Vector3>();
     }
 
     /// <summary>
@@ -57,18 +56,33 @@ public class AIManager : MonoBehaviour
     /// Resets variables to prepare for a new turn
     /// </summary>
     /// <param name=""></param>
-    public void BeginTurn() 
+    public void BeginTurn()
     {
+        takenCoverPositions.Clear();
         actionsQueue.Clear();
+
+        foreach (GameObject grondEffectObject in GameManager.Instance.GroundEffectObjects)
+        {
+            grondEffectObject.GetComponent<CoffeStain>().ApplyEffectsOnEnemys();
+        }
+
         foreach (GameObject e in enemyList)
         {
-            e.GetComponent<Attributes>().Stamina = e.GetComponent<Attributes>().StartStamina;
-            e.GetComponent<AIController>().ActionIsLocked = false;
+            e.GetComponent<AIController>().TargetPosition = Vector3.zero;
+
+            //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
+            if (!e.GetComponent<StatusEffectHandler>().Paralyzed)
+            {
+                e.GetComponent<Attributes>().Stamina = e.GetComponent<Attributes>().StartStamina;
+                e.GetComponent<AIController>().ActionIsLocked = false;
+            }
+
+            e.GetComponent<StatusEffectHandler>().UpdateEffects();
         }
     }
 
     /// <summary>
-    /// Calls every AI-agent's "update" (AIController.PeformBehaviour).
+    /// Calls every AI-agent's "update" (AIController.PerformBehaviour).
     /// Checks if agents are dead or all have locked in actions.
     /// </summary>
     /// <param name=""></param>
@@ -88,13 +102,15 @@ public class AIManager : MonoBehaviour
             }
         }
 
-        foreach (GameObject e in enemyList)
+        for (int i = 0; i < enemyList.Count; i++)
         {
-            if (!e.GetComponent<AIController>().ActionIsLocked)
+            GameObject e = enemyList[i];
+
+            if (!e.GetComponent<AIController>().ActionIsLocked) // if not all locked actions
             {
-                e.GetComponent<AIController>().Priorites = killOnSight;
+                e.GetComponent<AIController>().Priorites = killOnSight; // ändra sen
                 e.GetComponent<AIController>().PerformBehaviour();
-                
+
                 allDone = false;
             }
 
@@ -145,16 +161,85 @@ public class AIManager : MonoBehaviour
         }
     }
 
+    private List<Vector3> FindCoverSpotsInEncounter()
+    {
+        Bounds bounds = GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
+        GameObject[] allCovers = GameObject.FindGameObjectsWithTag("CoverPosition");
+        List<Vector3> temp = new List<Vector3>();
+
+        foreach (GameObject go in allCovers)
+        {
+            if (bounds.Contains(go.transform.position))
+            {
+                temp.Add(go.transform.position);
+            }
+        }
+
+        return temp;
+    }
+
     public void SaveAction(GameObject agent)
     {
         actionsQueue.Enqueue(agent);
         agent.GetComponent<AIController>().ActionIsLocked = true;
-        agent.GetComponent<AIController>().navMeshAgent.destination = transform.position;
         agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
     }
 
-    public void RemoveAgent(GameObject agent)
+    public void RemoveAction(GameObject agent)
     {
-        enemyList.Remove(agent);
+        if (actionsQueue.Contains(agent))
+        {
+            agent.GetComponent<AIController>().ActionIsLocked = false;
+            agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
+
+            Queue<GameObject> newQueue = new Queue<GameObject>();
+
+            foreach (GameObject go in actionsQueue)
+            {
+                if (go != agent)
+                {
+                    newQueue.Enqueue(go);
+                }
+            }
+            actionsQueue = newQueue;
+        }
+    }
+
+    // Check if players are fewer than AI, if players are unarmed but AI have weapons
+    public bool HasAdvantage()
+    {
+        int armedPlayers = 0;
+        int alivePlayers = 0;
+        int armedEnemies = 0;
+        int aliveEnemies = enemyList.Count;
+
+        //count how many players are alive and armed
+        foreach (GameObject player in playerList)
+        {
+            // Fråga om detta kl. 15
+            if (player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon) || player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
+            {
+                armedPlayers++;
+            }
+
+            if (player.GetComponent<Attributes>().Health > 0)
+            {
+                alivePlayers++;
+            }
+        }
+
+        foreach (GameObject enemy in enemyList)
+        {
+            if (enemy.GetComponent<AIController>().IsArmed())
+            {
+                armedEnemies++;
+            }
+        }
+
+        if (armedPlayers < armedEnemies || aliveEnemies > alivePlayers) // Add more complexity ?
+        {
+            return true;
+        }
+        return false;
     }
 }

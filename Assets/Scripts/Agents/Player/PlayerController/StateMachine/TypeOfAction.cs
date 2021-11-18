@@ -11,13 +11,14 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 2021-10-12
+// Last Edited: 2021-10-30
 public enum TypeOfAction
 {
 	NOACTION,
 	ATTACK,
 	BOMBARD,
 	SPECIALATTACK,
+	SPECIALBOMBARD,
 	THROW,
 	REVIVE,
 	PICKUP

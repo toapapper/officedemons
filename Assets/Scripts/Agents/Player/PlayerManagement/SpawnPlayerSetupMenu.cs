@@ -13,7 +13,7 @@ using UnityEngine.InputSystem.UI;
 /// </para>
 /// </summary>
 
-// Last Edited: 18/10 -21
+// Last Edited: 12/11 -21
 public class SpawnPlayerSetupMenu : MonoBehaviour
 {
 	public GameObject playerSetupMenuPrefab;
@@ -21,7 +21,8 @@ public class SpawnPlayerSetupMenu : MonoBehaviour
 
 	private void Awake()
 	{
-		var rootMenu = GameObject.Find("MainLayout");
+		var rootMenu = GameObject.Find("Grid");
+		Debug.Log(rootMenu);
 		if(rootMenu != null)
 		{
 			var menu = Instantiate(playerSetupMenuPrefab, rootMenu.transform);

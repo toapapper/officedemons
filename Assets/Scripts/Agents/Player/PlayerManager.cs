@@ -34,7 +34,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject devin;
 
     [SerializeField] private bool joinAnyTime = false;
-    
+    private List<GameObject> playerCounterList;
+    //private int playerCounter;
+
     /// <summary>  checked by playerConfigurationManager to know if it should run SpawnNewPlayer when a new controller joins </summary>
     public bool JoinAnyTime { get { return joinAnyTime; } } 
 
@@ -45,6 +47,8 @@ public class PlayerManager : MonoBehaviour
         Instance = this;
         players = new List<GameObject>();
         actions = new Queue<GameObject>();
+        playerCounterList = new List<GameObject>();
+        //playerCounter = 0;
     }
 
 
@@ -94,9 +98,32 @@ public class PlayerManager : MonoBehaviour
         }
         #endregion
 
-        GameObject player = Instantiate(playerChar, new Vector3(0,0,0), Quaternion.identity, transform);
+        Vector3 spawnPos = GameObject.Find("WorldCenter").transform.position;
+        if (spawnPos.Equals(null))
+        {
+            spawnPos = Vector3.zero;
+        }
+
+        GameObject player = Instantiate(playerChar, spawnPos, Quaternion.identity, transform);
         player.GetComponent<PlayerInputHandler>().InitializePlayer(playerconfig);
         player.GetComponent<PlayerInputHandler>().recentlySpawned = true;
+    }
+
+    /// <summary>
+    /// Signals gameManager if all players are at combat positions
+    /// </summary>
+    /// <param name="player"></param>
+    public void PlayerAtCombatPosition(GameObject player)
+	{
+		if (!playerCounterList.Contains(player))
+		{
+            playerCounterList.Add(player);
+            if(playerCounterList.Count >= players.Count)
+			{
+                playerCounterList.Clear();
+                GameManager.Instance.PlayerEnterCombatDone = true;
+            }
+        }
     }
 
     /// <summary>
@@ -146,8 +173,8 @@ public class PlayerManager : MonoBehaviour
             p.GetComponent<PlayerStateController>().StartCombat();
         }
 
-        BeginTurn();
-    }
+		//BeginTurn();
+	}
 
     public void EndCombat()
     {
@@ -162,10 +189,20 @@ public class PlayerManager : MonoBehaviour
     public void BeginTurn()
     {
         Debug.Log("Begin turn");
+		for (int i = 0; i < GameManager.Instance.GroundEffectObjects.Count; i++)
+		{
+            GameManager.Instance.GroundEffectObjects[i].GetComponent<CoffeStain>().ApplyEffectsOnPlayers();
+        }
+
         actions.Clear();
         foreach (GameObject p in players)
         {
-            p.GetComponent<PlayerStateController>().StartTurn();
+            if (!p.GetComponent<StatusEffectHandler>().Paralyzed)
+            {
+                p.GetComponent<PlayerStateController>().StartTurn();
+            }
+
+            p.GetComponent<StatusEffectHandler>().UpdateEffects();
         }
     }
 

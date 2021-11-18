@@ -11,12 +11,12 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 2021-10-12
+// Last Edited: 2021-10-30
 public class CombatActionState : AbstractPlayerState
 {
 	public override void OnStateEnter()
 	{
-		Debug.Log("Enters CombatActionState" + this + " Action: " + GetComponent<CombatTurnState>().ChosenAction);
+		//Debug.Log("Enters CombatActionState" + this + " Action: " + GetComponent<CombatTurnState>().ChosenAction);
 		switch (GetComponent<CombatTurnState>().ChosenAction)
 		{
 			case TypeOfAction.ATTACK:
@@ -26,14 +26,17 @@ public class CombatActionState : AbstractPlayerState
 				weaponHand.PerformBombard();
 				break;
 			case TypeOfAction.SPECIALATTACK:
-				//specialHand.Attack();
+				specialHand.Attack();
+				break;
+			case TypeOfAction.SPECIALBOMBARD:
+				specialHand.Attack();
 				break;
 			case TypeOfAction.THROW:
 				weaponHand.Throw();
 				break;
 			case TypeOfAction.REVIVE:
 				Effects.Revive(GetComponent<CombatTurnState>().PlayerToRevive);
-				Debug.LogWarning("combatActionState revive " + GetComponent<CombatTurnState>().PlayerToRevive);
+				//Debug.LogWarning("combatActionState revive " + GetComponent<CombatTurnState>().PlayerToRevive);
 				break;
 			case TypeOfAction.NOACTION:
 				break;
@@ -51,7 +54,15 @@ public class CombatActionState : AbstractPlayerState
 			if (GameManager.Instance.AllStill)
 			{
 				PlayerManager.Instance.NextPlayerAction();
-				GetComponent<PlayerStateController>().StartWaitForTurn();
+
+				if(GameManager.Instance.CurrentCombatState == CombatState.none)
+                {
+					GetComponent<PlayerStateController>().StartOutOfCombat();
+                }
+                else
+                {
+					GetComponent<PlayerStateController>().StartWaitForTurn();
+                }
 				StopCoroutine("WaitDone");
 			}
 			yield return null;

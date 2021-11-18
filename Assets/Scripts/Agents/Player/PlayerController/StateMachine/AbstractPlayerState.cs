@@ -7,18 +7,19 @@ using static UnityEngine.InputSystem.InputAction;
 /// <summary>
 /// <para>
 /// Parent to player states
-/// </para> 
+/// </para>
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>
 /// </summary>
 
-// Last Edited: 2021-10-12
+// Last Edited: 2021-10-29
 public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 {
 	protected PlayerMovementController playerMovement;
     protected WeaponHand weaponHand;
-    protected Attributes attributes;
+    protected SpecialHand specialHand;
+    protected Attributes attributes;//ossian o jonas
     protected CharacterController characterController;
 
     private TypeOfAction typeOfActions;
@@ -77,8 +78,10 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 		ChosenAction = TypeOfAction.NOACTION;
 		playerMovement = GetComponent<PlayerMovementController>();
         weaponHand = GetComponent<WeaponHand>();
-        attributes = GetComponent<Attributes>();
-        characterController = GetComponent<CharacterController>();
+        specialHand = GetComponent<SpecialHand>();
+
+        attributes = GetComponent<Attributes>();//ossian o jonas
+        //characterController = GetComponent<CharacterController>();
     }
 
     //public abstract void OnMove(CallbackContext context);
@@ -88,6 +91,8 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     public virtual bool OnStartBombard() { return false; }
     public virtual bool OnBombard() { return false; }
     public virtual void OnSpecial() { }
+    public virtual bool OnStartSpecialBombard() { return false; }
+    public virtual bool OnSpecialBombard() { return false; }
     public virtual void OnPickUp(GameObject weapon) { }
     public virtual bool OnStartThrow() { return false; }
     public virtual bool OnThrow() { return false; }

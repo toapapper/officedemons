@@ -43,9 +43,9 @@ public class DeadState : AbstractPlayerState
 	public override void OnStateEnter()
 	{
 		Debug.Log("Enters DeadState" + this);
-		originalColor = GetComponent<MeshRenderer>().material.color;
+		originalColor = GetComponentInChildren<MeshRenderer>().material.color;
 
-		GetComponent<MeshRenderer>().material.color = Color.black;
+		GetComponentInChildren<MeshRenderer>().material.color = Color.black;
 		if (GameManager.Instance.CurrentCombatState == CombatState.none)
 			StartCoroutine(DelayedSelfRevive());
 	}
@@ -53,6 +53,6 @@ public class DeadState : AbstractPlayerState
 	public override void OnStateExit()
 	{
 		Debug.Log("Exits DeadState" + this);
-		GetComponent<MeshRenderer>().material.color = originalColor;
+		GetComponentInChildren<MeshRenderer>().material.color = originalColor;
 	}
 }

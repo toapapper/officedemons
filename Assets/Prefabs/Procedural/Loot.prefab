@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 748064485704087953}
   - component: {fileID: 4613847369658292870}
   - component: {fileID: 5438579728127469885}
-  - component: {fileID: 6105363741995066754}
   - component: {fileID: 5543537043831661939}
+  - component: {fileID: 5044020052128908722}
   m_Layer: 9
   m_Name: Loot
   m_TagString: Untagged
@@ -83,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &6105363741995066754
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183457478698962452}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5543537043831661939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,14 +101,31 @@ MonoBehaviour:
   normalRoomForest:
   - {fileID: 4562945548694608202, guid: b8c6b978db198e142b8fa2d7137b4aca, type: 3}
   - {fileID: 5163975343130323108, guid: 8c9380b4040a06745943eb661f902d66, type: 3}
+  - {fileID: 1893601905169453507, guid: 9078abf2478d4b642ab53d82c9992d76, type: 3}
   normalRoomRural:
-  - {fileID: 3617718076009827125, guid: e948ea00e24de324d9cfe76819d6af21, type: 3}
+  - {fileID: 5777175204362155729, guid: a0a591e9170dd2945bfb787423672cdd, type: 3}
+  - {fileID: 1893601905169453507, guid: 9078abf2478d4b642ab53d82c9992d76, type: 3}
   EncounterCity:
-  - {fileID: 1820636306261740082, guid: c5df058ac53ce4342bed33690345bc14, type: 3}
+  - {fileID: 5263514033608547217, guid: 13cfa0dcce6264f43a924ecd6db634eb, type: 3}
   EncounterForest:
-  - {fileID: 1820636306261740082, guid: c5df058ac53ce4342bed33690345bc14, type: 3}
+  - {fileID: 5263514033608547217, guid: 13cfa0dcce6264f43a924ecd6db634eb, type: 3}
   EncounterRural:
-  - {fileID: 1820636306261740082, guid: c5df058ac53ce4342bed33690345bc14, type: 3}
+  - {fileID: 5263514033608547217, guid: 13cfa0dcce6264f43a924ecd6db634eb, type: 3}
   SpecialCity: []
   SpecialForest: []
   SpecialRural: []
+  SkipScenary: 0
+  misc: []
+--- !u!65 &5044020052128908722
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183457478698962452}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

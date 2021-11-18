@@ -18,20 +18,17 @@ using UnityEngine.AI;
 
 // Last Edited: 15-10-21
 
-public class EnemyActions : MonoBehaviour
+public static class EnemyActions 
 {
-    public static EnemyActions Instance { get; private set; }
-
-    private void Start()
+    public static void MoveTowards(NavMeshAgent agent, Vector3 targetPosition)
     {
-        Instance = this;
-    }
-
-    public void MoveTowards(NavMeshAgent agent, GameObject target)
-    {
+        agent.gameObject.GetComponent<AIController>().CurrentlyMoving = true;
         agent.isStopped = false;
 
-        agent.SetDestination(target.transform.position);
+        agent.SetDestination(targetPosition);
         agent.gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
+
+        
+        agent.gameObject.GetComponent<AIController>().CurrentlyMoving = false;
     }
 }

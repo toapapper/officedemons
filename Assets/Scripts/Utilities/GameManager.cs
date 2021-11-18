@@ -13,7 +13,8 @@ public enum CombatState
     player,
     playerActions,
     enemy,
-    enemyActions
+    enemyActions,
+    enterCombat
 }
 
 /// <summary>
@@ -21,11 +22,11 @@ public enum CombatState
 /// A singleton managing if it's the enemies turn or the players turn or you just aren't in combat.<br/>
 /// Also handles the turn timer and checks whether all is still.
 /// </para>
-///   
+///
 /// <para>
 ///  Author: Ossian
 /// </para>
-///  
+///
 /// </summary>
 
 /*
@@ -40,19 +41,20 @@ public class GameManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int roundTime = 10;//seconds
 
-    private CombatState combatState = CombatState.none;
+    [SerializeField]private CombatState combatState = CombatState.none;
     private bool paused = false;
     private float roundTimer = 0;
 
     private bool enemiesTurnDone = false;
+    private bool playerEnterCombatDone = false;
     private bool playerActionsDone = false;
     private bool enemiesActionsDone = false;
     private bool allStill = false;
 
     private Encounter currentEncounter;
-    private AIManager aiManager;
     private List<GameObject> stillCheckList = new List<GameObject>();
-    
+    private List<GameObject> groundEffectObjects = new List<GameObject>();
+
     private MultipleTargetCamera mainCamera;
 
     public CombatState CurrentCombatState { get { return combatState; } }
@@ -61,8 +63,10 @@ public class GameManager : MonoBehaviour
     public Encounter CurrentEncounter { get { return currentEncounter; } }
     public bool EnemiesTurnDone { set { enemiesTurnDone = value; } }
     public bool PlayerActionsDone { set { playerActionsDone = value; } }
+    public bool PlayerEnterCombatDone { set { playerEnterCombatDone = value; } }
     public bool EnemiesActionsDone { set { enemiesActionsDone = value; } }
     public List<GameObject> StillCheckList { get { return stillCheckList; } }
+    public List<GameObject> GroundEffectObjects { get { return groundEffectObjects; } }
     [SerializeField] public bool AllStill
     {
         get { return allStill; }
@@ -74,40 +78,60 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
         roundTimer = RoundTime;
 
         // Add maincamera to gamemanager
-        mainCamera = Camera.main.GetComponent<MultipleTargetCamera>(); 
+        mainCamera = Camera.main.GetComponent<MultipleTargetCamera>();
     }
 
     void Update()
     {
         #region are all the needed gameObjects still-check
-        AllStill = true;
+        allStill = true;
         Utilities.CleanList(stillCheckList);
         foreach(GameObject gObject in stillCheckList)
         {
-            if (gObject.CompareTag("Player"))
+            if (gObject.CompareTag("Projectile"))
             {
-                if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
-                {
-                    AllStill = false;
-                }
-			}
-            else if (gObject.CompareTag("Enemy"))
-            {
-                if (gObject.GetComponent<NavMeshAgent>().velocity.magnitude > 0)
-                {
-                    AllStill = false;
-                }
+                allStill = false;
             }
-            //continue with more else ifs for different types of gameObjects
         }
         #endregion
 
+
+        //Ful "kolla om alla fiender är döda"-check
+        if(CurrentCombatState != CombatState.none)
+        {
+
+            if(currentEncounter.GetEnemylist().Count <= 0)
+            {
+                EndEncounter();
+            }
+        }
+		else
+		{
+			for (int i = 0; i < GroundEffectObjects.Count; i++)
+			{
+                GroundEffectObjects[i].GetComponent<CoffeStain>().UpdateTime();
+
+            }
+		}
+
         #region combatState-update
-        if (CurrentCombatState == CombatState.player)
+        if(CurrentCombatState == CombatState.enterCombat)
+		{
+            if (playerEnterCombatDone)
+			{
+                playerEnterCombatDone = false;
+                currentEncounter.aIManager.BeginCombat();
+                combatState = CombatState.player;
+                roundTimer = RoundTime;
+                PlayerManager.Instance.BeginTurn();
+                // Add all objects in checklist to maincamera
+                mainCamera.ObjectsInCamera = stillCheckList;
+            }
+        }
+        else if (CurrentCombatState == CombatState.player)
         {
             roundTimer -= Time.deltaTime;
             if(RoundTimer <= 0)
@@ -126,29 +150,33 @@ public class GameManager : MonoBehaviour
                 Debug.Log("PLAYER ACTIONS DONE");
                 combatState = CombatState.enemy;
                 EnemiesTurnDone = false;
-                aiManager.BeginTurn();
+                currentEncounter.aIManager.BeginTurn();
             }
         }
         else if(CurrentCombatState == CombatState.enemy)
         {
             if (!enemiesTurnDone)
             {
-                aiManager.PerformTurn();
+                currentEncounter.aIManager.PerformTurn();
             }
 
             if (enemiesTurnDone)
             {
-                Debug.Log("ENEMY MOVE DONE");
+                Debug.Log("ENEMIES MOVES ARE DONE");
                 EnemiesActionsDone = false;
                 combatState = CombatState.enemyActions;
-                aiManager.PerformNextAction();
+
+                if(currentEncounter != null)//to fix the nullreference error that happens when an encounter is ended
+                {
+                    currentEncounter.aIManager.PerformNextAction();
+                }
             }
         }
         else if (CurrentCombatState == CombatState.enemyActions)
         {
             if (enemiesActionsDone)
             {
-                Debug.Log("ENEMY ACTIONS DONE");
+                Debug.Log("ENEMIES ACTIONS ARE DONE");
                 combatState = CombatState.player;
                 PlayerManager.Instance.BeginTurn();
                 roundTimer = RoundTime;
@@ -164,12 +192,8 @@ public class GameManager : MonoBehaviour
     public void StartEncounter(Encounter encounter)
     {
         currentEncounter = encounter;
-        aiManager.BeginCombat();
-        combatState = CombatState.player;
-        roundTimer = RoundTime;
+		combatState = CombatState.enterCombat;
         PlayerManager.Instance.BeginCombat();
-        // Add all objects in checklist to maincamera
-        mainCamera.ObjectsInCamera = stillCheckList; 
     }
 
     /// <summary>
@@ -177,6 +201,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void EndEncounter()
     {
+        Debug.Log("ENDENCOUNTER");
+
         CurrentEncounter.EndEncounter();
         currentEncounter = null;
         combatState = CombatState.none;

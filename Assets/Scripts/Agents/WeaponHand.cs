@@ -6,15 +6,17 @@ using UnityEngine;
 /// <para>
 /// Control characters weapon hand
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>
 /// </summary>
 
-// Last Edited: 15/10-21
+// Last Edited: 15/10-29
 public class WeaponHand : MonoBehaviour
 {
+	public const float SlipperyDropChance = .3f;
+
 	private Animator animator;
 	[SerializeField]
 	private ThrowAim throwAim;
@@ -36,7 +38,7 @@ public class WeaponHand : MonoBehaviour
 	public AbstractWeapon objectInHand;
 
 	private Gradient aimGradient;
-	
+
 	private float throwForce;
 
 	public ThrowAim ThrowAim
@@ -48,25 +50,36 @@ public class WeaponHand : MonoBehaviour
 	private void Awake()
 	{
 		animator = GetComponent<Animator>();
-		FOV.ViewRadius = handHitDistance;
-		FOV.ViewAngle = handHitAngle;
+		objectInHand = GetComponentInChildren<AbstractWeapon>();
 	}
 
     private void Start()
     {
+		SetAimGradient();
+
 		if (objectInHand != null)
 		{
-			FOV.ViewRadius = objectInHand.ViewDistance;
-			FOV.ViewAngle = objectInHand.ViewAngle;
+			Equip(objectInHand.gameObject);
 		}
 		else
 		{
 			FOV.ViewRadius = handHitDistance;
 			FOV.ViewAngle = handHitAngle;
 		}
+    }
 
-		SetAimGradient();
+    private void SetAimGradient()
+	{
+		GradientColorKey[] colorKey = new GradientColorKey[2];
+		colorKey[0].color = GetComponent<Attributes>().PlayerColor;
+		GradientAlphaKey[] alphaKey = new GradientAlphaKey[2];
+		alphaKey[0].alpha = 1;
+		alphaKey[1].time = 1;
+		alphaKey[1].alpha = 0.5f;
+		aimGradient = new Gradient();
+		aimGradient.SetKeys(colorKey, alphaKey);
 
+		FOVVisualization.GetComponent<Renderer>().material.color = aimGradient.colorKeys[0].color;
 		if (throwAim != null)
 		{
 			throwAim.gameObject.SetActive(true);
@@ -75,21 +88,9 @@ public class WeaponHand : MonoBehaviour
 		}
 	}
 
-	//Aim
-	private void SetAimGradient()
-	{
-		aimGradient = new Gradient();
-		GradientColorKey[] colorKey = new GradientColorKey[2];
-		colorKey[0].color = GetComponent<Attributes>().PlayerColor;
-		GradientAlphaKey[] alphaKey = new GradientAlphaKey[2];
-		alphaKey[0].alpha = 1;
-		alphaKey[1].time = 1;
-		alphaKey[1].alpha = 0;
-		aimGradient.SetKeys(colorKey, alphaKey);
-	}
 	public void ToggleAimView(bool isActive)
 	{
-		if (objectInHand)
+		if (objectInHand != null)
 		{
 			objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
 		}
@@ -105,37 +106,63 @@ public class WeaponHand : MonoBehaviour
 	//		//objectInHand.ToggleThrowAim(isActive);
 	//	}
 	//}
-
-	//Pick up
 	public void Equip(GameObject newObject)
 	{
-		newObject.GetComponent<AbstractWeapon>().PickUpIn(handObject);
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
-		foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
-		{
-			collider.enabled = false;
-		}
+		objectInHand.PickUpIn(handObject);
+		
 		objectInHand.SetAimGradient(aimGradient);
-
 		FOV.ViewAngle = objectInHand.ViewAngle;
 		FOV.ViewRadius = objectInHand.ViewDistance;
 	}
+	//Pick up
+	//public void Equip(GameObject newObject)
+	//{
+	//	objectInHand = newObject.GetComponent<AbstractWeapon>();
+	//	objectInHand.PickUpIn(handObject);
+	//	foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
+	//	{
+	//		collider.enabled = false;
+	//	}
+	//	objectInHand.SetAimGradient(aimGradient);
 
-    //Attack
-    public void StartAttack()
+	//	FOV.ViewAngle = objectInHand.ViewAngle;
+	//	FOV.ViewRadius = objectInHand.ViewDistance;
+	//}
+
+	//Unequip weapon
+	public void DropWeapon()
     {
-        if (objectInHand != null)
+		if(objectInHand == null)
         {
-            objectInHand.StartAttack(animator);
+			return;
         }
-        else
-        {
-            animator.SetTrigger("isStartHandAttack");
-        }
-    }
+
+		objectInHand.Drop();
+		//foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
+		//{
+		//	collider.enabled = true;
+		//}
+		objectInHand = null;
+		FOV.ViewRadius = handHitDistance;
+		FOV.ViewAngle = handHitAngle;
+	}
+
+	//Attack
+	public void StartAttack()
+	{
+		if (objectInHand)
+		{
+			objectInHand.StartAttack(animator);
+		}
+		else
+		{
+			animator.SetTrigger("isStartHandAttack");
+		}
+	}
 	public void Attack()
 	{
-		if (objectInHand != null)
+		if (objectInHand)
 		{
 			objectInHand.Attack(animator);
 		}
@@ -219,8 +246,14 @@ public class WeaponHand : MonoBehaviour
 		{
 			foreach (GameObject target in FOV.VisibleTargets)
 			{
-				Effects.Damage(target, handHitDamage);
+				Effects.RegularDamage(target, handHitDamage, gameObject);
 				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
+
+				float rand = Random.value;
+				if (rand < SlipperyDropChance)
+				{
+					Effects.Disarm(target);
+				}
 			}
 		}
 	}
@@ -237,7 +270,7 @@ public class WeaponHand : MonoBehaviour
 			throwForce = 0;
 			objectInHand = null;
 			FOV.ViewAngle = handHitAngle;
-			FOV.ViewRadius = handHitDistance;			
+			FOV.ViewRadius = handHitDistance;
 		}
 	}
 }

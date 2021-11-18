@@ -12,6 +12,10 @@ using UnityEngine.AI;
 // Last Edited: 22/10/2021
 public class BSPTree : MonoBehaviour
 {
+
+    public static BSPTree Instance { get; private set; }
+
+
     private Node root;
     private Node lastRoot;
     private GenerateTerrain generateTerrain;
@@ -20,7 +24,8 @@ public class BSPTree : MonoBehaviour
     [SerializeField]
     private GameObject level;
     private List<Node> nodes;
-    private int generations = 3;
+    [SerializeField]
+    private int generations = 2;
     private Vector2 size, oldSize;
 
     [SerializeField] private Vector2 widthLimits = new Vector2(800,1000);
@@ -30,12 +35,31 @@ public class BSPTree : MonoBehaviour
     /// <summary> If missfallMultiplier happens to land on missfallTop then no more children for the node </summary>
     [SerializeField]
     private int missfallTop = 6;
-    Vector2 lastSize;
+    //Rename this, pretty sure this is the total size
+    private Vector2 lastSize;
+
+    public Vector2 LastSize
+    {
+        get { return lastSize; }
+        set { lastSize = value; }
+    }
+
     private int fitnessGoal = 50;
     /// <summary> How many retires the obstacles should have </summary>
     private int bspRemakeTries = 100;
     private int nextDirection;
     private int lastDirection;
+
+    [SerializeField]
+    private bool startWithMap;
+
+    [SerializeField]
+    private int multipleRooms = 20;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
 
     private void Start()
@@ -44,13 +68,20 @@ public class BSPTree : MonoBehaviour
         size.y = Random.Range((int)heightLimits.x, (int)heightLimits.y);
         generateTerrain = GetComponent<GenerateTerrain>();
         fitnessFunction = GetComponent<FitnessFunction>();
+        //if (startWithMap)
+        //{
+        //    for (int i = 0; i < startingRooms; i++)
+        //    {
+        //        MakeBSP();
+        //    }
+        //}
     }
     /// <summary>
     /// Make 100 rooms
     /// </summary>
-    public void Make100BSP()
+    public void MakeMultipleRooms()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < multipleRooms; i++)
         {
             MakeBSP();
         }
@@ -77,17 +108,21 @@ public class BSPTree : MonoBehaviour
         }
 
         root = new Node(size,lastSize);
+        if (FitnessFunction.currentRoom == Rooms.Encounter)
+        {
+            root.Encounter = true;
+        }
         generateTerrain.GenerateGround(root);
         SearchObstaclesFitness(bspRemakeTries);
 
-        size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits, size,generations);
+        size = fitnessFunction.NextRoomFitness(widthLimits, heightLimits,size,oldSize,lastSize,generations);
 
         lastDirection = nextDirection;
         GO();
-        generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection, size,lastRoot.size,new Vector2(1,1), heightLimits.y);
-
+        //generateTerrain.GenerateFullWalls(root, nextDirection,lastDirection, size,lastRoot.size,new Vector2(1,1), heightLimits.y);
+        generateTerrain.GenerateFullBuildings(root, nextDirection, lastDirection, size, lastRoot.size);
         //Bakes a navMesh on the generated level
-        level.GetComponent<NavigationBaker>().BakeNavMesh();
+         //level.GetComponent<NavigationBaker>().BakeNavMesh();
     }
 
     /// <summary>
@@ -162,10 +197,10 @@ public class BSPTree : MonoBehaviour
 
         int split;
         int missfall = Random.Range(missfallMultiplier, missfallTop);
-        if (missfall == missfallMultiplier && node.generation > generations / 2)
-        {
-            return;
-        }
+        //if (missfall == missfallMultiplier && node.generation > generations / 2)
+        //{
+        //    return;
+        //}
         split = Random.Range(0, 2);
         float buffer = 0;
         if (split == 0)
@@ -227,14 +262,15 @@ public class BSPTree : MonoBehaviour
     /// </summary>
     private void GO()
     {
-        if (fitnessFunction.TimeToTurn())
-        {
-            GoRight();
-        }
-        else
-        {
+        //if (fitnessFunction.TimeToTurn())
+        //{
+        //    GoRight();
+        //}
+        //else
+        //{
+        //    GoUp();
+        //}
             GoUp();
-        }
     }
 
     /// <summary>
