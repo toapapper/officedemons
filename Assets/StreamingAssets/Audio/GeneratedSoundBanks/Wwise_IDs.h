@@ -14,41 +14,56 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID PLAY_AMBIENCE_HALL_LARGE__ENTRANCE__OFFICE_BUILDING__MORNING__DOWNTOWN_CHICAGO__USA__LOOP_LRLSRS = 1546138968U;
-        static const AkUniqueID PLAY_COMBAT = 513571230U;
-        static const AkUniqueID PLAY_ROAMING = 3711372643U;
+        static const AkUniqueID PLAY_BLUNT_THUD = 3757306353U;
+        static const AkUniqueID PLAY_MUSIC = 2932040671U;
+        static const AkUniqueID PLAY_OFFICE_SFX_CHUG1 = 1700212473U;
+        static const AkUniqueID PLAY_OFFICE_SFX_MUTEDSTRING1 = 2348070506U;
+        static const AkUniqueID PLAY_OFFICE_SFX_PICKSLIDE1 = 4099660466U;
+        static const AkUniqueID SET_COMBAT = 3619257606U;
+        static const AkUniqueID SET_ROAMING = 626945915U;
     } // namespace EVENTS
 
     namespace STATES
     {
-        namespace COMBAT
+        namespace MUSIC
         {
-            static const AkUniqueID GROUP = 2764240573U;
+            static const AkUniqueID GROUP = 3991942870U;
 
             namespace STATE
             {
+                static const AkUniqueID COMBATSTATE1 = 3898413497U;
+                static const AkUniqueID COMBATSTATE2 = 3898413498U;
+                static const AkUniqueID COMBATSTATE3 = 3898413499U;
+                static const AkUniqueID COMBATSTATE4 = 3898413500U;
+                static const AkUniqueID COMBATSTATE5 = 3898413501U;
+                static const AkUniqueID COMBATSTATE6 = 3898413502U;
                 static const AkUniqueID NONE = 748895195U;
-                static const AkUniqueID PART1 = 3177314147U;
-                static const AkUniqueID PART2 = 3177314144U;
-                static const AkUniqueID PART3 = 3177314145U;
-                static const AkUniqueID PART4 = 3177314150U;
-                static const AkUniqueID PART5 = 3177314151U;
-                static const AkUniqueID PART6 = 3177314148U;
+                static const AkUniqueID ROAMINGSTATE1 = 1891249346U;
+                static const AkUniqueID ROAMINGSTATE2 = 1891249345U;
             } // namespace STATE
-        } // namespace COMBAT
+        } // namespace MUSIC
 
-        namespace ROAMING
+        namespace MUSIC_STATE
         {
-            static const AkUniqueID GROUP = 3557636762U;
+            static const AkUniqueID GROUP = 3826569560U;
 
             namespace STATE
             {
+                static const AkUniqueID COMBAT = 2764240573U;
                 static const AkUniqueID NONE = 748895195U;
-                static const AkUniqueID ROAMSTATE1 = 2874554374U;
-                static const AkUniqueID ROAMSTATE2 = 2874554373U;
+                static const AkUniqueID ROAMING = 3557636762U;
             } // namespace STATE
-        } // namespace ROAMING
+        } // namespace MUSIC_STATE
 
     } // namespace STATES
+
+    namespace GAME_PARAMETERS
+    {
+        static const AkUniqueID MASTERVOLUME = 2918011349U;
+        static const AkUniqueID MUSICVOLUME = 2346531308U;
+        static const AkUniqueID SFXVOLUME = 988953028U;
+        static const AkUniqueID VOICESVOLUME = 2893115286U;
+    } // namespace GAME_PARAMETERS
 
     namespace BANKS
     {
@@ -60,6 +75,9 @@ namespace AK
     namespace BUSSES
     {
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
+        static const AkUniqueID MUSIC = 3991942870U;
+        static const AkUniqueID SFX = 393239870U;
+        static const AkUniqueID VOICES = 3313685232U;
     } // namespace BUSSES
 
     namespace AUDIO_DEVICES

@@ -12,7 +12,6 @@ public class MainMenu : MonoBehaviour
     public bool InGame = false;
     public GameObject OptionsMenu;
     public GameObject FirstSelectedMainMenu;
-    [SerializeField] Image BGImage;
 
     public void Play()
     {
@@ -27,7 +26,6 @@ public class MainMenu : MonoBehaviour
     public void Options()
     {
         OptionsMenu.SetActive(true);
-        BGImage.color = Color.cyan;
         EventSystem.current.SetSelectedGameObject(FirstSelectedMainMenu);
         Debug.Log(EventSystem.current);
         gameObject.SetActive(false);
