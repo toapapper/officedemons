@@ -13,46 +13,60 @@ using UnityEngine;
 /// </summary>
 
 // Last Edited: 15-11-17
-public class GoodCoffeeGrenade : CoffeeGrenade
+public class GoodCoffeeGrenade : GroundEffectGrenade
 {
 	private GoodCoffeeGrenade coffeeGrenade;
 	[SerializeField]
-	private GoodCoffeeStain coffeeStain;
-	protected List<StatusEffectType> effects;
-	protected float grenadeHeal;
+	private PositiveGroundObject coffeeStain;
 
 	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce, float explodeRadius, float grenadeHeal, List<StatusEffectType> effects)
 	{
 		coffeeGrenade = Instantiate(this, position, Quaternion.LookRotation(direction));
 		coffeeGrenade.thrower = thrower;
-		coffeeGrenade.GetComponent<FieldOfView>().ViewRadius = explodeRadius;
-		coffeeGrenade.grenadeHeal = grenadeHeal;
+		coffeeGrenade.FOV.ViewRadius = explodeRadius;
+		coffeeGrenade.healthModifyAmount = grenadeHeal;
 		coffeeGrenade.GetComponent<Rigidbody>().AddForce(direction * grenadeThrowForce, ForceMode.Impulse);
 		GameManager.Instance.StillCheckList.Add(coffeeGrenade.gameObject);
 
-		coffeeGrenade.effects = effects;
+		coffeeGrenade.statusEffects = effects;
 	}
 
-	protected override void Explode()
+	protected override void CreateGroundObject(Vector3 groundObjectPos)
+	{
+		coffeeStain.CreateGroundObject(groundObjectPos, FOV.ViewRadius, healthModifyAmount, statusEffects);
+	}
+
+	protected override void ImpactAgents()
 	{
 		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
 		foreach (GameObject target in targetList)
 		{
 			if(target.tag == "Player" || target.tag == "Enemy")
 			{
-				coffeeStain.agentsOnStain.Add(target);
-
-				Effects.Heal(target, grenadeHeal);
-				foreach (StatusEffectType effect in effects)
+				Effects.Heal(target, healthModifyAmount);
+				foreach (StatusEffectType effect in statusEffects)
 				{
 					Effects.ApplyStatusEffect(target, effect);
 				}
 			}
 		}
+		AddToEffectList(coffeeStain);
 	}
 
-	protected override void CreateStain(Vector3 stainPosition)
+	private void OnCollisionEnter(Collision collision)
 	{
-		coffeeStain.CreateStain(stainPosition, GetComponent<FieldOfView>().ViewRadius, grenadeHeal, effects);
+		if (collision.gameObject.transform.tag == "Ground")
+		{
+			CreateGroundObject(collision.contacts[0].point);
+		}
+		else
+		{
+			RaycastHit hit;
+			if (Physics.Raycast(transform.position, Vector3.down, out hit, maxDistance, LayerMask.GetMask("Ground")))
+			{
+				CreateGroundObject(hit.point);
+			}
+		}
+		Explode();
 	}
 }

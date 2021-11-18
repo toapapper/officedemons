@@ -97,9 +97,9 @@ public class AIController : MonoBehaviour
     {
         foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
         {
-            if (go.GetComponent<CoffeStain>().agentsOnStain.Contains(gameObject))
+            if (go.GetComponent<GroundEffectObject>().agentsOnGroundEffect.Contains(gameObject))
             {
-                go.GetComponent<CoffeStain>().agentsOnStain.Remove(gameObject);
+                go.GetComponent<GroundEffectObject>().agentsOnGroundEffect.Remove(gameObject);
             }
         }
         if (navMeshAgent.hasPath)

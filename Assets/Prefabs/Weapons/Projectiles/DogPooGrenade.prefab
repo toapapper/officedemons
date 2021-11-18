@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 6103510018640852273}
   - component: {fileID: 6103510018640852272}
   - component: {fileID: 8412067270264006814}
+  - component: {fileID: 974074171242287690}
   m_Layer: 0
   m_Name: DogPooGrenade
   m_TagString: Projectile
@@ -191,7 +192,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6103510018640852274}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 343292b087213e746aea2ecf937dbf7a, type: 3}
   m_Name: 
@@ -200,6 +201,21 @@ MonoBehaviour:
   explodeRadius: 3
   initialExplodeTime: 0.5
   particleEffect: {fileID: 100000, guid: c1df8d3113f2bdd4ba1124e5d2e46357, type: 3}
+--- !u!114 &974074171242287690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6103510018640852274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9369ec1de189e745ad7b89b2d38aafe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffect: {fileID: 100000, guid: c1df8d3113f2bdd4ba1124e5d2e46357, type: 3}
+  FOV: {fileID: 6103510018640852272}
+  groundObject: {fileID: 1177087511995325596, guid: b8b59cab9adb5fb43a33323689c2e916, type: 3}
 --- !u!1 &7636093771281763778
 GameObject:
   m_ObjectHideFlags: 0

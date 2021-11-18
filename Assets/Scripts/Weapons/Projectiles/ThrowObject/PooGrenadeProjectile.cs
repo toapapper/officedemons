@@ -2,24 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// <para>
-/// The harmful grenade version thrown by Devins special weapon
-/// </para>
-///
-///  <para>
-///  Author: Johan Melkersson
-/// </para>
-/// </summary>
-
-// Last Edited: 15-11-17
-public class BadCoffeeGrenade : GroundEffectGrenade
+public class PooGrenadeProjectile : GroundEffectGrenade
 {
-	private BadCoffeeGrenade grenade;
-	[SerializeField]
-	private NegativeGroundObject coffeeStain;
+	private PooGrenadeProjectile grenade;
 
-	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce,
+	[SerializeField]
+	private NegativeGroundObject groundObject;
+
+	public virtual void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce,
 		float explodeRadius, float grenadeExplodeForce, float grenadeDamage, List<WeaponEffects> effects)
 	{
 		grenade = Instantiate(this, position, Quaternion.LookRotation(direction));
@@ -35,23 +25,23 @@ public class BadCoffeeGrenade : GroundEffectGrenade
 
 	protected override void CreateGroundObject(Vector3 groundObjectPos)
 	{
-		coffeeStain.CreateGroundObject(groundObjectPos, FOV.ViewRadius, healthModifyAmount, weaponEffects);
+		groundObject.CreateGroundObject(groundObjectPos, FOV.ViewRadius, healthModifyAmount, weaponEffects);
 	}
 
 	protected override void ImpactAgents()
 	{
-		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
+		List<GameObject> targetList = FOV.VisibleTargets;
 		foreach (GameObject target in targetList)
 		{
 			Vector3 explosionForceDirection = target.transform.position - transform.position;
 			explosionForceDirection.y = 0;
 			explosionForceDirection.Normalize();
-
-			Effects.Damage(target, healthModifyAmount, thrower);
+			
+			Effects.RegularDamage(target, healthModifyAmount, thrower);
 			Effects.ApplyForce(target, explosionForceDirection * explosionForce);
 			Effects.ApplyWeaponEffects(target, weaponEffects);
 		}
-		AddToEffectList(coffeeStain);
+		AddToEffectList(groundObject);
 	}
 
 	private void OnCollisionEnter(Collision collision)

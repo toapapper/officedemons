@@ -2,24 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// <para>
-/// The harmful grenade version thrown by Devins special weapon
-/// </para>
-///
-///  <para>
-///  Author: Johan Melkersson
-/// </para>
-/// </summary>
-
-// Last Edited: 15-11-17
-public class BadCoffeeGrenade : GroundEffectGrenade
+public class ExplosiveGrenadeProjectile : GrenadeProjectile
 {
-	private BadCoffeeGrenade grenade;
-	[SerializeField]
-	private NegativeGroundObject coffeeStain;
+    private ExplosiveGrenadeProjectile grenade;
 
-	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce,
+	[SerializeField]
+	private GameObject FOVVisualization;
+	[SerializeField]
+	private float explodeTime = 1f;
+
+	public virtual void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce,
 		float explodeRadius, float grenadeExplodeForce, float grenadeDamage, List<WeaponEffects> effects)
 	{
 		grenade = Instantiate(this, position, Quaternion.LookRotation(direction));
@@ -33,41 +25,41 @@ public class BadCoffeeGrenade : GroundEffectGrenade
 		GameManager.Instance.StillCheckList.Add(grenade.gameObject);
 	}
 
-	protected override void CreateGroundObject(Vector3 groundObjectPos)
+	protected override void FixedUpdate()
 	{
-		coffeeStain.CreateGroundObject(groundObjectPos, FOV.ViewRadius, healthModifyAmount, weaponEffects);
+		if (isObjectThrown)
+		{
+			if (GetComponent<Rigidbody>().velocity.magnitude < 0.5f)
+			{
+				SetExplosion();
+			}
+			base.FixedUpdate();
+		}
+		else
+		{
+			isObjectThrown = true;
+		}
+	}
+
+	private void SetExplosion()
+	{
+		FOVVisualization.SetActive(true);
+		StartCoroutine(CountdownTime(explodeTime));
 	}
 
 	protected override void ImpactAgents()
 	{
 		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
+
 		foreach (GameObject target in targetList)
 		{
 			Vector3 explosionForceDirection = target.transform.position - transform.position;
 			explosionForceDirection.y = 0;
 			explosionForceDirection.Normalize();
 
-			Effects.Damage(target, healthModifyAmount, thrower);
+			Effects.RegularDamage(target, healthModifyAmount, thrower);
 			Effects.ApplyForce(target, explosionForceDirection * explosionForce);
 			Effects.ApplyWeaponEffects(target, weaponEffects);
 		}
-		AddToEffectList(coffeeStain);
-	}
-
-	private void OnCollisionEnter(Collision collision)
-	{
-		if (collision.gameObject.transform.tag == "Ground")
-		{
-			CreateGroundObject(collision.contacts[0].point);
-		}
-		else
-		{
-			RaycastHit hit;
-			if (Physics.Raycast(transform.position, Vector3.down, out hit, maxDistance, LayerMask.GetMask("Ground")))
-			{
-				CreateGroundObject(hit.point);
-			}
-		}
-		Explode();
 	}
 }

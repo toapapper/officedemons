@@ -191,7 +191,7 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("Begin turn");
 		for (int i = 0; i < GameManager.Instance.GroundEffectObjects.Count; i++)
 		{
-            GameManager.Instance.GroundEffectObjects[i].GetComponent<CoffeStain>().ApplyEffectsOnPlayers();
+            GameManager.Instance.GroundEffectObjects[i].GetComponent<GroundEffectObject>().ApplyEffectsOnPlayers();
         }
 
         actions.Clear();
