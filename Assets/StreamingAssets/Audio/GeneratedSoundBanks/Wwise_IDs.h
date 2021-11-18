@@ -19,8 +19,9 @@ namespace AK
         static const AkUniqueID PLAY_OFFICE_SFX_CHUG1 = 1700212473U;
         static const AkUniqueID PLAY_OFFICE_SFX_MUTEDSTRING1 = 2348070506U;
         static const AkUniqueID PLAY_OFFICE_SFX_PICKSLIDE1 = 4099660466U;
-        static const AkUniqueID SET_COMBAT = 3619257606U;
-        static const AkUniqueID SET_ROAMING = 626945915U;
+        static const AkUniqueID SET_COMBAT1 = 2667565123U;
+        static const AkUniqueID SET_ROAMING1 = 1319730832U;
+        static const AkUniqueID SET_ROAMING2 = 1319730835U;
     } // namespace EVENTS
 
     namespace STATES

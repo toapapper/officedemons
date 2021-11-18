@@ -6,9 +6,12 @@ using UnityEngine.EventSystems;
 
 public class UIButtonSound : MonoBehaviour
 {
-    [SerializeField]private Button start;
-    [SerializeField]private Button options;
-    [SerializeField]private Button exit;
+    [SerializeField] private GameObject start;
+    [SerializeField] private GameObject options;
+    [SerializeField] private GameObject exit;
+    private GameObject previousButton;
+    bool hasPlayed = false;
+
     public void onClick()
     {
         AkSoundEngine.PostEvent("Play_Office_SFX_Chug1", gameObject);
@@ -18,17 +21,43 @@ public class UIButtonSound : MonoBehaviour
     {
         if(start == EventSystem.current.currentSelectedGameObject)
         {
-            AkSoundEngine.PostEvent("Play_Office_SFX_MutedString1", gameObject);
+            if(previousButton != start)
+            {
+                hasPlayed = false;
+            }
+            if (!hasPlayed)
+            {
+                AkSoundEngine.PostEvent("Play_Office_SFX_MutedString1", gameObject);
+                hasPlayed = true;
+                previousButton = start;
+            }
         }
-        else if (options== EventSystem.current.currentSelectedGameObject)
+        else if (options == EventSystem.current.currentSelectedGameObject)
         {
-            AkSoundEngine.PostEvent("Play_Office_SFX_MutedString1", gameObject);
+            if (previousButton != options)
+            {
+                hasPlayed = false;
+            }
+            if (!hasPlayed)
+            {
+                previousButton = options;
+                AkSoundEngine.PostEvent("Play_Office_SFX_MutedString1", gameObject);
+                hasPlayed = true;
+            }
         }
         else if (exit == EventSystem.current.currentSelectedGameObject)
         {
-            AkSoundEngine.PostEvent("Play_Office_SFX_MutedString1", gameObject);
+            if (previousButton != exit)
+            {
+                hasPlayed = false;
+            }
+            if (!hasPlayed)
+            {
+                previousButton = exit;
+                AkSoundEngine.PostEvent("Play_Office_SFX_MutedString1", gameObject);
+                hasPlayed = true;
+            }
         }
     }
-    
 }
 

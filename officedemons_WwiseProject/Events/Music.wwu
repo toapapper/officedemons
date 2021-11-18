@@ -3,7 +3,7 @@
 	<Events>
 		<WorkUnit Name="Music" ID="{EBBACF28-8C4C-41B5-B3FE-DAD33350EF56}" PersistMode="Standalone">
 			<ChildrenList>
-				<Event Name="Set_Roaming" ID="{601B1B88-52E9-4753-8DB4-25DD5982DE4B}">
+				<Event Name="Set_Roaming1" ID="{601B1B88-52E9-4753-8DB4-25DD5982DE4B}">
 					<ChildrenList>
 						<Action Name="" ID="{113269A7-88A3-4CFA-A4D0-2AC3BD1C9DD6}" ShortID="144928591">
 							<PropertyList>
@@ -27,7 +27,7 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Set_Combat" ID="{CAD9961D-BCA3-4312-87ED-61671D29A7AF}">
+				<Event Name="Set_Combat1" ID="{CAD9961D-BCA3-4312-87ED-61671D29A7AF}">
 					<ChildrenList>
 						<Action Name="" ID="{EC11B69A-3F83-42EA-AFDD-0F5276E568E0}" ShortID="662115696">
 							<PropertyList>
@@ -57,6 +57,30 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Music Switch Container" ID="{E3A21AD3-4ADF-4B47-B3A6-018E0C043291}" WorkUnitID="{A4B3C506-085D-40A4-BED8-25528ACA305F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_Roaming2" ID="{5454E106-CA70-4CC0-9668-FAB22464FFF4}">
+					<ChildrenList>
+						<Action Name="" ID="{92163E23-7FEE-46CB-8B2F-35FFA5FF1095}" ShortID="13907668">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="22"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Roaming" ID="{B1E21B09-4EA1-4D56-9A46-085314C87635}" WorkUnitID="{E89EA517-C8AB-4949-8CE0-D0463E513AAE}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{2CF81D37-D6B5-4727-AECF-502CE55C78F4}" ShortID="472798784">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="22"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="RoamingState2" ID="{08551772-BFD4-4574-9D33-67A5B3BD64A4}" WorkUnitID="{E89EA517-C8AB-4949-8CE0-D0463E513AAE}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

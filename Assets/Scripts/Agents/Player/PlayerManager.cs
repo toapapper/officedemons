@@ -68,6 +68,7 @@ public class PlayerManager : MonoBehaviour
         {
             GameManager.Instance.AllPlayersLockedIn();
         }
+        
     }
 
     /// <summary>
