@@ -22,11 +22,11 @@ public class BombardWeapon : AbstractWeapon
 	[SerializeField]
 	private bool noBouncing;
 
-	public float GrenadeThrowForce
-	{
-		get { return grenadeThrowForce; }
-		set { grenadeThrowForce = value; }
-	}
+	//public float GrenadeThrowForce
+	//{
+	//	get { return grenadeThrowForce; }
+	//	set { grenadeThrowForce = value; }
+	//}
 
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{

@@ -78,7 +78,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 		get { return hitForce; }
 		set { hitForce = value; }
 	}
-	protected float ThrowDamage
+	public float ThrowDamage
 	{
 		get { return throwDamage; }
 		set { throwDamage = value; }
@@ -102,6 +102,16 @@ public abstract class AbstractWeapon : MonoBehaviour
 	{
 		get { return durability; }
 		set { durability = value; }
+	}
+	public float Weight
+	{
+		get { return weight; }
+		set { weight = value; }
+	}
+	public List<WeaponEffects> EffectList
+	{
+		get { return effects; }
+		set { effects = value; }
 	}
 
 	public virtual void PickUpIn(GameObject hand)
@@ -129,7 +139,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	public void Drop()
 	{
 		Effects.ChangeWeight(handle.transform.parent.parent.gameObject, -weight);
-		handle.transform.parent = null;
+		handle.transform.parent = GameObject.Find("Weapons").transform;
 		handle.GetComponent<Rigidbody>().isKinematic = false;
 		GetComponent<Rigidbody>().isKinematic = false;
 		isHeld = false;
