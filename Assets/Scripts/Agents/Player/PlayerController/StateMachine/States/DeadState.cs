@@ -37,7 +37,7 @@ public class DeadState : AbstractPlayerState
     /// <returns></returns>
     IEnumerator DelayedSelfRevive()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         Effects.Revive(gameObject);
         yield return null;
     }
@@ -47,12 +47,22 @@ public class DeadState : AbstractPlayerState
     {
         Debug.Log("Enters DeadState" + this);
         originalColor = GetComponentInChildren<MeshRenderer>().material.color;
+        gameObject.GetComponent<CombatTurnState>().IsActionLocked = false;
+        gameObject.GetComponent<CombatTurnState>().IsActionTriggered = false;
+        PlayerManager.Instance.NextPlayerAction();
 
         int layerMask = 1 << 10;
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity, layerMask))
         {
             particleEffect = Instantiate(Resources.Load("PentagramEffect"), new Vector3(hit.point.x, hit.point.y + 0.1f, hit.point.z), transform.rotation * Quaternion.Euler(-90, 0, 0)) as GameObject;
             particleEffect.transform.parent = gameObject.transform;
+            ParticleSystem.MainModule settings = particleEffect.GetComponent<ParticleSystem>().main;
+            settings.startColor = originalColor;
+            foreach(Transform child in particleEffect.transform)
+            {
+                ParticleSystem.MainModule childSetting = child.GetComponent<ParticleSystem>().main;
+                childSetting.startColor = originalColor;
+            }
         }
 
         GetComponentInChildren<MeshRenderer>().material.color = Color.black;
@@ -61,10 +71,13 @@ public class DeadState : AbstractPlayerState
             StartCoroutine(DelayedSelfRevive());
         }
 
+        gameObject.GetComponent<Animator>().SetTrigger("isCancelAction");
         gameObject.GetComponent<Animator>().SetTrigger("isDead");
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
         gameObject.GetComponent<NavMeshAgent>().enabled = false;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
+
+
     }
 
     public override void OnStateExit()

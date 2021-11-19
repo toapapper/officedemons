@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
     //private int playerCounter;
 
     /// <summary>  checked by playerConfigurationManager to know if it should run SpawnNewPlayer when a new controller joins </summary>
-    public bool JoinAnyTime { get { return joinAnyTime; } } 
+    public bool JoinAnyTime { get { return joinAnyTime; } }
 
     private Queue<GameObject> actions;
 
@@ -55,7 +55,7 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         int deadPlayers = 0;
-        foreach(GameObject player in players)
+        foreach (GameObject player in players)
         {
             //Im not sure this is the best way to check if a player is alive or not
             IPlayerState playerState = player.GetComponent<PlayerStateController>().CurrentState;
@@ -64,7 +64,7 @@ public class PlayerManager : MonoBehaviour
                 deadPlayers++;
             }
         }
-        if(GameManager.Instance.CurrentCombatState == CombatState.player && actions.Count == players.Count - deadPlayers)
+        if (GameManager.Instance.CurrentCombatState == CombatState.player && actions.Count == players.Count - deadPlayers)
         {
             GameManager.Instance.AllPlayersLockedIn();
         }
@@ -114,12 +114,12 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     public void PlayerAtCombatPosition(GameObject player)
-	{
-		if (!playerCounterList.Contains(player))
-		{
+    {
+        if (!playerCounterList.Contains(player))
+        {
             playerCounterList.Add(player);
-            if(playerCounterList.Count >= players.Count)
-			{
+            if (playerCounterList.Count >= players.Count)
+            {
                 playerCounterList.Clear();
                 GameManager.Instance.PlayerEnterCombatDone = true;
             }
@@ -132,7 +132,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     public void NextPlayerAction()
     {
-        if(actions.Count > 0)
+        if (actions.Count > 0)
         {
             GameObject currentPlayer = actions.Dequeue();
             currentPlayer.GetComponent<PlayerStateController>().StartCombatAction();
@@ -173,8 +173,8 @@ public class PlayerManager : MonoBehaviour
             p.GetComponent<PlayerStateController>().StartCombat();
         }
 
-		//BeginTurn();
-	}
+        //BeginTurn();
+    }
 
     public void EndCombat()
     {
@@ -189,8 +189,8 @@ public class PlayerManager : MonoBehaviour
     public void BeginTurn()
     {
         Debug.Log("Begin turn");
-		for (int i = 0; i < GameManager.Instance.GroundEffectObjects.Count; i++)
-		{
+        for (int i = 0; i < GameManager.Instance.GroundEffectObjects.Count; i++)
+        {
             GameManager.Instance.GroundEffectObjects[i].GetComponent<CoffeStain>().ApplyEffectsOnPlayers();
         }
 
