@@ -140,10 +140,10 @@ public class CombatTurnState : AbstractPlayerState
 				case TypeOfAction.SPECIALBOMBARD:
 					specialHand.ToggleAimView(false);
 					break;
-				case TypeOfAction.THROW:
-					//TODO
-					//weaponHand.ToggleThrowAimView(false);
-					break;
+				//case TypeOfAction.THROW:
+				//	//TODO
+				//	//weaponHand.ToggleThrowAimView(false);
+				//	break;
 			}
 			IsActionLocked = true;
 			Debug.Log("Chosenaction: " + ChosenAction);

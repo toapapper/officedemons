@@ -102,4 +102,37 @@ public class ThrowAim : MonoBehaviour
             lineRenderer.SetPosition(lineRenderer.positionCount - 1, newPosition);
         }
     }
+
+    //Vector3 SampleParabola(Vector3 start, Vector3 end, float height, float t, Vector3 outDirection)
+    //{
+    //    float parabolicT = t * 2 - 1;
+    //    //start and end are not level, gets more complicated
+    //    Vector3 travelDirection = end - start;
+    //    Vector3 levelDirection = end - new Vector3(start.x, end.y, start.z);
+    //    Vector3 right = Vector3.Cross(travelDirection, levelDirection);
+    //    Vector3 up = outDirection;
+    //    Vector3 result = start + t * travelDirection;
+    //    result += ((-parabolicT * parabolicT + 1) * height) * up.normalized;
+    //    return result;
+    //}
+
+    //public void CreateParabola(float x1, float x2, float y, float angle)
+    //{
+    //    var startPoint = new Vector2(x1, y);
+    //    var endPoint = new Vector2(x2, y);
+
+    //    var controlPoint = new Vector2(
+    //        0.5f * (x1 + x2),
+    //        y - 0.5 * (x2 - x1) * Mathf.Tan(angle * Mathf.PI / 180));
+
+    //    var geometry = new StreamGeometry();
+
+    //    using (var context = geometry.Open())
+    //    {
+    //        context.BeginFigure(startPoint, false, false);
+    //        context.QuadraticBezierTo(controlPoint, endPoint, true, false);
+    //    }
+
+    //    return geometry;
+    //}
 }
