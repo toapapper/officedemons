@@ -4,7 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// <para>
-/// The support grenade version thrown by Devins special weapon
+/// The support grenade version thrown by Devins special weapon,
+/// healing players and creating buffing coffeStain on impact
 /// </para>
 ///
 ///  <para>
@@ -12,14 +13,15 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15-11-17
+// Last Edited: 15-11-19
 public class GoodCoffeeGrenade : GroundEffectGrenade
 {
 	private GoodCoffeeGrenade coffeeGrenade;
 	[SerializeField]
 	private PositiveGroundObject coffeeStain;
 
-	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce, float explodeRadius, float grenadeHeal, List<StatusEffectType> effects)
+	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce,
+		float explodeRadius, float grenadeHeal, List<StatusEffectType> effects)
 	{
 		coffeeGrenade = Instantiate(this, position, Quaternion.LookRotation(direction));
 		coffeeGrenade.thrower = thrower;
@@ -41,32 +43,24 @@ public class GoodCoffeeGrenade : GroundEffectGrenade
 		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
 		foreach (GameObject target in targetList)
 		{
-			if(target.tag == "Player" || target.tag == "Enemy")
+			if(target.tag == "Player")
 			{
-				Effects.Heal(target, healthModifyAmount);
-				foreach (StatusEffectType effect in statusEffects)
+				if(target.GetComponent<Attributes>().Health > 0)
 				{
-					Effects.ApplyStatusEffect(target, effect);
+					Effects.Heal(target, healthModifyAmount);
+					//foreach (StatusEffectType effect in statusEffects)
+					//{
+					//	Effects.ApplyStatusEffect(target, effect);
+					//}
 				}
 			}
 		}
-		AddToEffectList(coffeeStain);
+		//AddToEffectList(coffeeStain);
 	}
 
-	private void OnCollisionEnter(Collision collision)
+	protected override void OnCollisionEnter(Collision collision)
 	{
-		if (collision.gameObject.transform.tag == "Ground")
-		{
-			CreateGroundObject(collision.contacts[0].point);
-		}
-		else
-		{
-			RaycastHit hit;
-			if (Physics.Raycast(transform.position, Vector3.down, out hit, maxDistance, LayerMask.GetMask("Ground")))
-			{
-				CreateGroundObject(hit.point);
-			}
-		}
+		base.OnCollisionEnter(collision);
 		Explode();
 	}
 }

@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// The negative version of ground effect objects
+/// </para>
+///
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
+/// </summary>
+
+// Last Edited: 15-11-19
 public class NegativeGroundObject : GroundEffectObject
 {
     private NegativeGroundObject groundObject;
@@ -30,9 +41,10 @@ public class NegativeGroundObject : GroundEffectObject
     {
         if (!other.isTrigger)
         {
-            if (!agentsOnGroundEffect.Contains(other.gameObject))
-            {
-                if (other.tag == "Player" || other.tag == "Enemy")
+            if (other.tag == "Player" || other.tag == "Enemy")
+			{
+                if (!agentsOnGroundEffect.Contains(other.gameObject) &&
+                    other.GetComponent<Attributes>().Health > 0)
                 {
                     ApplyEffectsOn(other.gameObject);
                     base.OnTriggerEnter(other);

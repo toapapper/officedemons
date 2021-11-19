@@ -4,7 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// <para>
-/// The harmful grenade version thrown by Devins special weapon
+/// The harmful grenade version thrown by Devins special weapon,
+/// doing damage and creating debuffing coffestain on impact
 /// </para>
 ///
 ///  <para>
@@ -12,7 +13,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15-11-17
+// Last Edited: 15-11-18
 public class BadCoffeeGrenade : GroundEffectGrenade
 {
 	private BadCoffeeGrenade grenade;
@@ -43,31 +44,23 @@ public class BadCoffeeGrenade : GroundEffectGrenade
 		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
 		foreach (GameObject target in targetList)
 		{
-			Vector3 explosionForceDirection = target.transform.position - transform.position;
-			explosionForceDirection.y = 0;
-			explosionForceDirection.Normalize();
-
-			Effects.Damage(target, healthModifyAmount, thrower);
-			Effects.ApplyForce(target, explosionForceDirection * explosionForce);
-			Effects.ApplyWeaponEffects(target, weaponEffects);
-		}
-		AddToEffectList(coffeeStain);
-	}
-
-	private void OnCollisionEnter(Collision collision)
-	{
-		if (collision.gameObject.transform.tag == "Ground")
-		{
-			CreateGroundObject(collision.contacts[0].point);
-		}
-		else
-		{
-			RaycastHit hit;
-			if (Physics.Raycast(transform.position, Vector3.down, out hit, maxDistance, LayerMask.GetMask("Ground")))
+			if(target.GetComponent<Attributes>().Health > 0)
 			{
-				CreateGroundObject(hit.point);
+				Vector3 explosionForceDirection = target.transform.position - transform.position;
+				explosionForceDirection.y = 0;
+				explosionForceDirection.Normalize();
+
+				Effects.ApplyForce(target, explosionForceDirection * explosionForce);
+				//Effects.ApplyWeaponEffects(target, weaponEffects);
+				Effects.Damage(target, healthModifyAmount, thrower);
 			}
 		}
+		//AddToEffectList(coffeeStain);
+	}
+
+	protected override void OnCollisionEnter(Collision collision)
+	{
+		base.OnCollisionEnter(collision);
 		Explode();
 	}
 }

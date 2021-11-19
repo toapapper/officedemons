@@ -2,13 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// Abstract class for all ground effect objects
+/// </para>
+///
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
+/// </summary>
+
+// Last Edited: 15-11-19
 public abstract class GroundEffectObject : MonoBehaviour
 {
     public List<GameObject> agentsOnGroundEffect;
     [SerializeField]
     protected int totalDurabilityTurns = 3;
     [SerializeField]
-    protected float totalDurabilityTime = 60f;
+    protected float totalDurabilityTime = 30f;
 
     protected int durabilityTurns;
     protected float durabilityTime;

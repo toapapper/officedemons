@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// The explosive grenade, detonating when it stops
+/// </para>
+///
+///  <para>
+///  Author: Johan Melkersson
+/// </para>
+/// </summary>
+
+// Last Edited: 15-11-19
 public class ExplosiveGrenadeProjectile : GrenadeProjectile
 {
     private ExplosiveGrenadeProjectile grenade;
