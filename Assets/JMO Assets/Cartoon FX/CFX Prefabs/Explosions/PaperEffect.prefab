@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 199773197783368204}
   - component: {fileID: 114756874033953806}
   m_Layer: 0
-  m_Name: CFX_Firework_Trails_Gravity
+  m_Name: PaperEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,8 +186,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 1, g: 0.85490197, b: 0, a: 0.54901963}
-      maxColor: {r: 1, g: 0.9098039, b: 0.37254903, a: 0.78431374}
+      minColor: {r: 1, g: 0.977414, b: 0.8443396, a: 0.54901963}
+      maxColor: {r: 1, g: 0.94114697, b: 0.6084906, a: 0.78431374}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -3719,7 +3719,7 @@ ParticleSystem:
   TrailModule:
     enabled: 1
     mode: 0
-    ratio: 1
+    ratio: 0.16
     lifetime:
       serializedVersion: 2
       minMaxState: 0
@@ -4550,7 +4550,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 28bd8c3c14d3f214da37557b91e0fa5d, type: 2}
+  - {fileID: 2100000, guid: a9b550a3d81ca7845b9fb15672984986, type: 2}
   - {fileID: 2100000, guid: c1b09b1ca8ba05d4682ccf6db6b1102d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

@@ -15,6 +15,8 @@ using UnityEngine;
 // Last Edited: 15/10-29
 public class WeaponHand : MonoBehaviour
 {
+	public const float SlipperyDropChance = .3f;
+
 	private Animator animator;
 	[SerializeField]
 	private ThrowAim throwAim;
@@ -245,8 +247,13 @@ public class WeaponHand : MonoBehaviour
 			foreach (GameObject target in FOV.VisibleTargets)
 			{
 				Effects.RegularDamage(target, handHitDamage, gameObject);
-				//Effects.Damage(target, handHitDamage);
 				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
+
+				float rand = Random.value;
+				if (rand < SlipperyDropChance)
+				{
+					Effects.Disarm(target);
+				}
 			}
 		}
 	}

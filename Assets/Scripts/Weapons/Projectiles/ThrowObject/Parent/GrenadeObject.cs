@@ -74,6 +74,7 @@ public class GrenadeObject : MonoBehaviour
 		}
 		Instantiate(particleEffect, transform.position, Quaternion.Euler(90, 0,0));
 
+		GameManager.Instance.StillCheckList.Remove(gameObject);
 		Destroy(gameObject);
 	}
 }
