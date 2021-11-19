@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// <para>
-/// The abstract stain left by Devins CoffeeGrenade
+/// Abstract class for all ground effect objects
 /// </para>
 ///
 ///  <para>
@@ -12,21 +12,21 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15-11-16
-public abstract class CoffeStain : MonoBehaviour
+// Last Edited: 15-11-19
+public abstract class GroundEffectObject : MonoBehaviour
 {
-    public List<GameObject> agentsOnStain;
+    public List<GameObject> agentsOnGroundEffect;
     [SerializeField]
     protected int totalDurabilityTurns = 3;
     [SerializeField]
-    protected float totalDurabilityTime = 60f;
+    protected float totalDurabilityTime = 30f;
 
     protected int durabilityTurns;
     protected float durabilityTime;
 
     public void ApplyEffectsOnEnemys()
     {
-        foreach (GameObject agent in agentsOnStain)
+        foreach (GameObject agent in agentsOnGroundEffect)
         {
             if (agent.tag == "Enemy")
             {
@@ -36,7 +36,7 @@ public abstract class CoffeStain : MonoBehaviour
     }
     public void ApplyEffectsOnPlayers()
     {
-        foreach (GameObject agent in agentsOnStain)
+        foreach (GameObject agent in agentsOnGroundEffect)
         {
             if (agent.tag == "Player")
             {
@@ -45,15 +45,15 @@ public abstract class CoffeStain : MonoBehaviour
         }
 
         durabilityTurns--;
-        if(durabilityTurns <= 0)
-		{
+        if (durabilityTurns <= 0)
+        {
             RemoveGroundEffectObject();
         }
     }
     protected abstract void ApplyEffectsOn(GameObject agent);
 
     public void UpdateTime()
-	{
+    {
         durabilityTime -= Time.deltaTime;
         if (durabilityTime <= 0)
         {
@@ -67,20 +67,18 @@ public abstract class CoffeStain : MonoBehaviour
         Destroy(gameObject);
     }
 
-
     protected virtual void OnTriggerEnter(Collider other)
-	{
-        if (other.gameObject.GetComponent<Attributes>().Health > 0)
-		{
-            Debug.Log(other.gameObject.name + "ADDED");
-            agentsOnStain.Add(other.gameObject);
+    {
+        if (!agentsOnGroundEffect.Contains(other.gameObject) && other.gameObject.GetComponent<Attributes>().Health > 0)
+        {
+            agentsOnGroundEffect.Add(other.gameObject);
         }
     }
-	private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-        if(agentsOnStain.Contains(other.gameObject))
-		{
-            agentsOnStain.Remove(other.gameObject);
+        if (agentsOnGroundEffect.Contains(other.gameObject))
+        {
+            agentsOnGroundEffect.Remove(other.gameObject);
         }
     }
 }
