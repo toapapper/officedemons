@@ -25,11 +25,24 @@ public class AIController : MonoBehaviour
     private FieldOfView fov;
     public NavMeshAgent navMeshAgent; // TODO: Maybe change to property
     private AIManager aiManager;
-    private GameObject closestPlayer;
     private WeaponHand weapon;
-    private GameObject target;
 
     private Class aiClass;
+
+
+    private GameObject closestPlayer;
+    public GameObject ClosestPlayer
+    {
+        get { return closestPlayer; }
+        set { closestPlayer = value; }
+    }
+
+    private GameObject target;
+    public GameObject Target
+    {
+        get { return target; }
+        set { target = value; }
+    }
 
     private Vector3 targetPosition;
     public Vector3 TargetPosition
@@ -202,6 +215,41 @@ public class AIController : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Used for both if we want to pickup a ranged weapon instead of another and to simply find the closest weapon.
+    /// </summary>
+    /// <param name="minimumRangeForWeapon">0 == all weapons| How long range should the weapon you're looking for be as a minimum</param>
+    /// <returns></returns>
+    public GameObject GetClosestWeapon(float minimumRangeForWeapon, float maximumDistancefromObject)
+    {
+        float closest = float.MaxValue;
+        GameObject closestWeapon = null;
+        //We check all weapons everytime, might not wanna do this because of performance
+        GameObject[] weapons = GameObject.FindGameObjectsWithTag("WeaponObject");
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            float distance = CalculateDistance(weapons[i]);
+            if (distance < closest &&
+                weapons[i].GetComponent<AbstractWeapon>().ViewDistance >= minimumRangeForWeapon &&
+                distance <= maximumDistancefromObject &&
+                !weapons[i].GetComponent<AbstractWeapon>().IsHeld)
+            {
+                closest = distance;
+                closestWeapon = weapons[i];
+            }
+        }
+        if (closest < float.MaxValue)
+        {
+            return closestWeapon;
+
+        }
+        return null;
+    }
+
+
+
+
     /// <summary>
     /// Calculates what player is the closest to the AI-agent.
     /// </summary>
@@ -283,7 +331,7 @@ public class AIController : MonoBehaviour
     /// Calulate navmesh path distance from agent to target (another NavMeshAgent).
     /// </summary>
     /// <param name="target"></param>
-    private float CalculateDistance(GameObject target)
+    public float CalculateDistance(GameObject target)
     {
         NavMeshPath path = new NavMeshPath();
         float distance = float.MaxValue;
@@ -439,4 +487,25 @@ public class AIController : MonoBehaviour
         //gameObject.GetComponent<Attributes>().Stamina -= 1;
         targetPosition = targetPos;
     }
+
+    public void UpdateClosestPlayer()
+    {
+        closestPlayer = CalculateClosest(PlayerManager.players, priorites);
+    }
+
+
+    public void PickupWeapon(GameObject weapon)
+    {
+        Debug.Log("TRYING TO EQUIP");
+        if (Vector3.Distance(gameObject.transform.position, weapon.transform.position) < 1 && weapon.CompareTag("WeaponObject"))
+        {
+            gameObject.GetComponent<WeaponHand>().Equip(weapon);
+            navMeshAgent.isStopped = true;
+            currentState = AIStates.States.Unassigned;
+            Debug.Log("EQUIP");
+        }
+    }
+
+
+
 }
