@@ -20,7 +20,7 @@ using UnityEngine.Events;
 
 public class AIManager : MonoBehaviour
 {
-    private List<GameObject> playerList;
+    public List<GameObject> playerList;
     private UnityEvent doneEvent;
     private AIManager instance;
     private Queue<GameObject> actionsQueue;
@@ -28,6 +28,7 @@ public class AIManager : MonoBehaviour
     public List<GameObject> enemyList;
     public List<Vector3> coverList;
     public List<Vector3> takenCoverPositions;
+    public List<GameObject> killPriority;
 
     private void Start()
     {
@@ -35,6 +36,7 @@ public class AIManager : MonoBehaviour
         playerList = PlayerManager.players;
         coverList = FindCoverSpotsInEncounter();
         List<Vector3> takenCoverPositions = new List<Vector3>();
+        List<GameObject> killPriority = new List<GameObject>();
     }
 
     /// <summary>
@@ -60,10 +62,12 @@ public class AIManager : MonoBehaviour
     {
         takenCoverPositions.Clear();
         actionsQueue.Clear();
+        killPriority.Clear();
+        UpdateKillPriority();
 
-        foreach (GameObject grondEffectObject in GameManager.Instance.GroundEffectObjects)
+        foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
         {
-            grondEffectObject.GetComponent<GroundEffectObject>().ApplyEffectsOnEnemys();
+            go.GetComponent<GroundEffectObject>().ApplyEffectsOnEnemys();
         }
 
         foreach (GameObject e in enemyList)
@@ -91,24 +95,12 @@ public class AIManager : MonoBehaviour
         bool allDone = true;
         bool allDead = true;
 
-        List<GameObject> killOnSight = new List<GameObject>();
-
-        for (int i = 0; i < playerList.Count; i++)
-        {
-            if (playerList[i].GetComponent<Attributes>().Health <= playerList[i].GetComponent<Attributes>().StartHealth / 3
-                && playerList[i].GetComponent<Attributes>().Health > 0)
-            {
-                killOnSight.Add(playerList[i]);
-            }
-        }
-
         for (int i = 0; i < enemyList.Count; i++)
         {
             GameObject e = enemyList[i];
 
             if (!e.GetComponent<AIController>().ActionIsLocked) // if not all locked actions
             {
-                e.GetComponent<AIController>().Priorites = killOnSight; // ändra sen
                 e.GetComponent<AIController>().PerformBehaviour();
 
                 allDone = false;
@@ -205,41 +197,34 @@ public class AIManager : MonoBehaviour
         }
     }
 
-    // Check if players are fewer than AI, if players are unarmed but AI have weapons
-    public bool HasAdvantage()
+    
+
+    private void UpdateKillPriority()
     {
-        int armedPlayers = 0;
-        int alivePlayers = 0;
-        int armedEnemies = 0;
-        int aliveEnemies = enemyList.Count;
+        killPriority.Add(playerList[0]);
 
-        //count how many players are alive and armed
-        foreach (GameObject player in playerList)
+        for (int i = 1; i < playerList.Count; i++)
         {
-            // Fråga om detta kl. 15
-            if (player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon) || player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
+            for (int j = 0; j < killPriority.Count; j++)
             {
-                armedPlayers++;
+                if (playerList[i].GetComponent<Attributes>().Health < killPriority[j].GetComponent<Attributes>().Health) // if new object should be highest prio
+                {
+                    killPriority.Insert(j, playerList[i]);
+                }
             }
 
-            if (player.GetComponent<Attributes>().Health > 0)
+            // If no one in killpriorty had higher health
+            if (!killPriority.Contains(playerList[i]))
             {
-                alivePlayers++;
-            }
-        }
-
-        foreach (GameObject enemy in enemyList)
-        {
-            if (enemy.GetComponent<AIController>().IsArmed())
-            {
-                armedEnemies++;
+                killPriority.Add(playerList[i]);
             }
         }
 
-        if (armedPlayers < armedEnemies || aliveEnemies > alivePlayers) // Add more complexity ?
-        {
-            return true;
-        }
-        return false;
+        ////DEBUG
+        //Debug.Log("THE FOLLOWING SHOULD BE IN ORDER LOWEST TO HIGHEST");
+        //foreach (GameObject go in killPriority)
+        //{
+        //    Debug.Log("KILL: " + go.GetComponent<Attributes>().Health);
+        //}
     }
 }
