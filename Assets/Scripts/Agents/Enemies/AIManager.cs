@@ -36,7 +36,7 @@ public class AIManager : MonoBehaviour
         playerList = PlayerManager.players;
         coverList = FindCoverSpotsInEncounter();
         List<Vector3> takenCoverPositions = new List<Vector3>();
-        List<GameObject> killPriority = new List<GameObject>(); // rensa lista i beginturn ist
+        List<GameObject> killPriority = new List<GameObject>();
     }
 
     /// <summary>
@@ -65,10 +65,9 @@ public class AIManager : MonoBehaviour
         killPriority.Clear();
         UpdateKillPriority();
 
-        foreach (GameObject groundEffectGO in GameManager.Instance.GroundEffectObjects)
+        foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
         {
-
-            groundEffectGO.GetComponent<CoffeStain>().ApplyEffectsOnEnemys();
+            go.GetComponent<GroundEffectObject>().ApplyEffectsOnEnemys();
         }
 
         foreach (GameObject e in enemyList)
@@ -197,6 +196,8 @@ public class AIManager : MonoBehaviour
             actionsQueue = newQueue;
         }
     }
+
+    
 
     private void UpdateKillPriority()
     {

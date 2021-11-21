@@ -50,7 +50,7 @@ public class AIStateHandler : MonoBehaviour
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, encounter.GetComponentInChildren<AIManager>().killPriority);
+            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players);
             Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             //Turn towards nearest player
         }
@@ -62,22 +62,21 @@ public class AIStateHandler : MonoBehaviour
                 aiController.CurrentState = AIStates.States.FindCover;
 
             }
-            else if (gameObject.GetComponent<WeaponHand>().objectInHand == null && attributes.Stamina > 0 && aiController.GetClosestWeapon(0, 100) != null)
-            {
-                //Might remove it later but for now just a quick fix
-                aiController.UpdateClosestPlayer();
-                //Check if there's a ranged weapon is closer than the closest enemy to try and shoot him from range
-                GameObject rangedWeapon = aiController.GetClosestWeapon(10, 100);
-                if ( rangedWeapon != null && aiController.CalculateDistance(aiController.ClosestPlayer) <= aiController.CalculateDistance(rangedWeapon))
-                {
-                    WalkTowardsWeapon(10);
-                }
-                else
-                {
-
-                    WalkTowardsWeapon(0);
-                }
-            }
+            //else if (!aiController.IsArmed() && attributes.Stamina > 0 && aiController.GetClosestWeapon(0, 100) != null)
+            //{
+            //    //Might remove it later but for now just a quick fix
+            //    aiController.UpdateClosestPlayer();
+            //    //Check if there's a ranged weapon is closer than the closest enemy to try and shoot him from range
+            //    GameObject rangedWeapon = aiController.GetClosestWeapon(10, 100);
+            //    if ( rangedWeapon != null && aiController.CalculateDistance(aiController.TargetPlayer) <= aiController.CalculateDistance(rangedWeapon))
+            //    {
+            //        WalkTowardsWeapon(10);
+            //    }
+            //    else
+            //    {
+            //        WalkTowardsWeapon(0);
+            //    }
+            //}
             else if (PlayerIsInRange()) // <- If one or more players are within fov range
             {
                 aiController.CurrentState = AIStates.States.Attack;
@@ -114,7 +113,7 @@ public class AIStateHandler : MonoBehaviour
     {
         if (aiController.HoldingRangedWeapon())
         {
-            Vector3 direction = (aiController.targetPlayer.transform.position - transform.position).normalized;
+            Vector3 direction = (aiController.TargetPlayer.transform.position - transform.position).normalized;
             RaycastHit hit = new RaycastHit();
 
             if (Physics.Raycast(transform.position, direction, out hit))
@@ -156,6 +155,27 @@ public class AIStateHandler : MonoBehaviour
         return attributes.Health <= attributes.StartHealth / 2; // 
     }
 
+    private bool HasReachedTargetPosition()
+    {
+        return aiController.TargetPosition == gameObject.transform.position;
+    }
+
+
+    private void WalkTowardsWeapon(float minimumWeaponRange)
+    {
+        GameObject weapon = aiController.GetClosestWeapon(minimumWeaponRange, float.MaxValue);
+        aiController.TargetPosition = weapon.transform.position;
+        aiController.Target = weapon;
+        aiController.CurrentState = AIStates.States.Move;
+    }
+
+    private void WalkTowardsWeapon(GameObject weapon)
+    {
+        aiController.TargetPosition = weapon.transform.position;
+        aiController.Target = weapon;
+        aiController.CurrentState = AIStates.States.Move;
+    }
+
     // Check if players are fewer than AI, if players are unarmed but AI have weapons
     public bool HasAdvantage()
     {
@@ -191,26 +211,5 @@ public class AIStateHandler : MonoBehaviour
             return true;
         }
         return false;
-    }
-
-    private bool HasReachedTargetPosition()
-    {
-        return aiController.TargetPosition == gameObject.transform.position;
-    }
-
-
-    private void WalkTowardsWeapon(float minimumWeaponRange)
-    {
-        GameObject weapon = aiController.GetClosestWeapon(minimumWeaponRange, float.MaxValue);
-        aiController.TargetPosition = weapon.transform.position;
-        aiController.Target = weapon;
-        aiController.CurrentState = AIStates.States.Move;
-    }
-
-    private void WalkTowardsWeapon(GameObject weapon)
-    {
-        aiController.TargetPosition = weapon.transform.position;
-        aiController.Target = weapon;
-        aiController.CurrentState = AIStates.States.Move;
     }
 }

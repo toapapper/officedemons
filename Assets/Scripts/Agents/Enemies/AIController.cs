@@ -25,19 +25,16 @@ public class AIController : MonoBehaviour
     private FieldOfView fov;
     public NavMeshAgent navMeshAgent; // TODO: Maybe change to property
     private AIManager aiManager;
-
-    public GameObject targetPlayer;
-
     private WeaponHand weapon;
 
     private Class aiClass;
 
 
-    private GameObject closestPlayer;
-    public GameObject ClosestPlayer
+    private GameObject targetPlayer;
+    public GameObject TargetPlayer
     {
-        get { return closestPlayer; }
-        set { closestPlayer = value; }
+        get { return targetPlayer; }
+        set { targetPlayer = value; }
     }
 
     private GameObject target;
@@ -68,8 +65,6 @@ public class AIController : MonoBehaviour
         set { currentlyMoving = value; }
     }
 
-    
-
     private AIStates.States currentState;
     public AIStates.States CurrentState
     {
@@ -84,12 +79,6 @@ public class AIController : MonoBehaviour
     private bool actionIsLocked;
     public bool ActionIsLocked
     {
-        //if (CurrentState == AIStates.States.Attack || CurrentState == AIStates.States.Wait)
-        //{
-        //    return true;
-        //}
-        //return false;
-
         get { return actionIsLocked; }
         set { actionIsLocked = value; }
     }
@@ -137,7 +126,7 @@ public class AIController : MonoBehaviour
 
                 if (targetPosition == Vector3.zero)
                 {
-                    targetPlayer = CalculateClosest(PlayerManager.players, aiManager.killPriority);
+                    targetPlayer = CalculateClosest(PlayerManager.players);
                     FindCover(targetPlayer);
                 }
 
@@ -150,17 +139,13 @@ public class AIController : MonoBehaviour
                     MoveTowards(targetPosition);
                 }
                 break;
-
             case AIStates.States.CallForHealing:
                 // TO DO: Implement a behaviour for low health
                 break;
-
             case AIStates.States.Attack:
                 aiManager.SaveAction(this.gameObject);
                 ActionIsLocked = true;
-
                 break;
-
             case AIStates.States.Move:
 
                 if (targetPosition == Vector3.zero)
@@ -172,9 +157,9 @@ public class AIController : MonoBehaviour
                     }
                     else
                     {
-                        targetPlayer = CalculateClosest(PlayerManager.players, aiManager.killPriority);
+                        targetPlayer = CalculateClosest(PlayerManager.players);
                     }
-                    
+
                     if (targetPlayer == null)
                     {
                         currentState = AIStates.States.Wait;
@@ -193,7 +178,6 @@ public class AIController : MonoBehaviour
                 {
                     currentState = AIStates.States.Unassigned;
                 }
-
                 break;
 
             case AIStates.States.Wait:
@@ -263,7 +247,7 @@ public class AIController : MonoBehaviour
     /// Calculates what player is the closest to the AI-agent.
     /// </summary>
     /// <param name="players, priorities"></param>
-    public GameObject CalculateClosest(List<GameObject> players, List<GameObject> priorities)
+    public GameObject CalculateClosest(List<GameObject> players)
     {
         float closestDistance = float.MaxValue;
         for (int i = 0; i < aiManager.killPriority.Count; i++)
@@ -276,7 +260,7 @@ public class AIController : MonoBehaviour
 
         for (int i = 0; i < aiManager.killPriority.Count; i++)
         {
-            if (aiManager.killPriority[i].GetComponent<Attributes>().Health <= 0) // kanske onödig?
+            if (aiManager.killPriority[i].GetComponent<Attributes>().Health <= 0)
             {
                 continue;
             }
@@ -377,7 +361,7 @@ public class AIController : MonoBehaviour
 
     public bool FindClosestAndCheckIfReachable()
     {
-        GameObject closest = CalculateClosest(PlayerManager.players, aiManager.killPriority);
+        GameObject closest = CalculateClosest(PlayerManager.players);
         if (ReachableTarget(closest))
         {
             return true;
@@ -458,15 +442,16 @@ public class AIController : MonoBehaviour
     public void MoveTowards(Vector3 targetPos)
     {
         navMeshAgent.isStopped = false;
+
         navMeshAgent.SetDestination(targetPos);
         gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
+        //gameObject.GetComponent<Attributes>().Stamina -= 1;
         targetPosition = targetPos;
     }
 
-
     public void UpdateClosestPlayer()
     {
-        closestPlayer = CalculateClosest(PlayerManager.players, priorites);
+        targetPlayer = CalculateClosest(PlayerManager.players);
     }
 
 
@@ -481,7 +466,6 @@ public class AIController : MonoBehaviour
             Debug.Log("EQUIP");
         }
     }
-
 
 
 
