@@ -33,7 +33,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
-  - {fileID: 2117671931141516588}
+  - {fileID: 9033788225046347014}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -136,7 +136,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   meshResolution: 1
-  viewMeshFilter: {fileID: 6824130062028662099}
+  viewMeshFilter: {fileID: 4506172224452392313}
 --- !u!114 &6469333116529911041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,18 +150,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleEffect: {fileID: 100000, guid: c1df8d3113f2bdd4ba1124e5d2e46357, type: 3}
-  coffeeStain: {fileID: 3157480429033463799, guid: 4844d9447775a4b4fb8c795f4aeb3dd5, type: 3}
---- !u!1001 &6103510019453746539
+  FOV: {fileID: 6103510018640852272}
+  coffeeStain: {fileID: 1177087511995325596, guid: 080bc0b0f2560e74ebb983286613faa1, type: 3}
+--- !u!1001 &3785570051632721217
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 6103510018640852285}
     m_Modifications:
-    - target: {fileID: 3032543496062369683, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 1c05b56a009350941814effb4378a7fb, type: 2}
     - target: {fileID: 5320859338818097223, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -216,13 +213,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
---- !u!4 &2117671931141516588 stripped
+--- !u!4 &9033788225046347014 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5320859338818097223, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
-  m_PrefabInstance: {fileID: 6103510019453746539}
+  m_PrefabInstance: {fileID: 3785570051632721217}
   m_PrefabAsset: {fileID: 0}
---- !u!33 &6824130062028662099 stripped
+--- !u!33 &4506172224452392313 stripped
 MeshFilter:
   m_CorrespondingSourceObject: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
-  m_PrefabInstance: {fileID: 6103510019453746539}
+  m_PrefabInstance: {fileID: 3785570051632721217}
   m_PrefabAsset: {fileID: 0}

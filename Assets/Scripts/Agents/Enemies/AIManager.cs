@@ -67,6 +67,7 @@ public class AIManager : MonoBehaviour
 
         foreach (GameObject groundEffectGO in GameManager.Instance.GroundEffectObjects)
         {
+
             groundEffectGO.GetComponent<CoffeStain>().ApplyEffectsOnEnemys();
         }
 

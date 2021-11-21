@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4596463992730788385}
   - component: {fileID: 6254391484194607934}
   - component: {fileID: 4874055834043666457}
+  - component: {fileID: 618028367119396976}
   m_Layer: 9
   m_Name: ExplosiveGrenade
   m_TagString: Untagged
@@ -159,7 +160,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2517534622733268033}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cac427845d06ee44be5c1f6399b6b82, type: 3}
   m_Name: 
@@ -168,6 +169,22 @@ MonoBehaviour:
   explodeRadius: 3
   initialExplodeTime: 2
   particleEffect: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
+--- !u!114 &618028367119396976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517534622733268033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e080d85d70802a74089bd94facf547be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffect: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
+  FOV: {fileID: 6254391484194607934}
+  FOVVisualization: {fileID: 8734046659034021448}
+  explodeTime: 1
 --- !u!1001 &3268095017018881596
 PrefabInstance:
   m_ObjectHideFlags: 0

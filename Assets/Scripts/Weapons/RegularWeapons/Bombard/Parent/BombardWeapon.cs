@@ -16,11 +16,14 @@ using UnityEngine;
 public class BombardWeapon : AbstractWeapon
 {
 	[SerializeField]
-	private GameObject grenade;
+	protected GameObject grenade;
 	[SerializeField]
 	private float grenadeThrowForce = 10;
 	[SerializeField]
+	protected float explodeRadius = 2;
+	[SerializeField]
 	private bool noBouncing;
+
 
 	public float GrenadeThrowForce
 	{
@@ -56,15 +59,15 @@ public class BombardWeapon : AbstractWeapon
 			return;
 		}
 
-		Vector3 forward = transform.forward;
-		forward.y = 0;
-		forward.Normalize();
-		Vector3 right = new Vector3(forward.z, 0, -forward.x);
+		//Vector3 forward = transform.forward;
+		//forward.y = 0;
+		//forward.Normalize();
+		//Vector3 right = new Vector3(forward.z, 0, -forward.x);
 
-		Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<WeaponHand>().ThrowAim.initialAngle, right) * forward).normalized;
-		float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity;
-		Debug.Log(effects);
-		grenade.GetComponent<GrenadeObject>().CreateGrenade(holderAgent, transform.position, direction, throwForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
+		//Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<WeaponHand>().ThrowAim.initialAngle, right) * forward).normalized;
+		//float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity;
+		//Debug.Log(effects);
+		//grenade.GetComponent<GrenadeObject>().CreateGrenade(holderAgent, transform.position, direction, throwForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
 
 		//recoil and slippery-checks
 		//deals half the weapondamage and applies the effects
