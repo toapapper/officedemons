@@ -25,11 +25,24 @@ public class AIController : MonoBehaviour
     private FieldOfView fov;
     public NavMeshAgent navMeshAgent; // TODO: Maybe change to property
     private AIManager aiManager;
-    public GameObject targetPlayer;
     private WeaponHand weapon;
-    private GameObject target;
 
     private Class aiClass;
+
+
+    private GameObject closestPlayer;
+    public GameObject ClosestPlayer
+    {
+        get { return closestPlayer; }
+        set { closestPlayer = value; }
+    }
+
+    private GameObject target;
+    public GameObject Target
+    {
+        get { return target; }
+        set { target = value; }
+    }
 
     private Vector3 targetPosition;
     public Vector3 TargetPosition
@@ -52,7 +65,12 @@ public class AIController : MonoBehaviour
         set { currentlyMoving = value; }
     }
 
-    
+    List<GameObject> priorites;
+    public List<GameObject> Priorites
+    {
+        get { return priorites; }
+        set { priorites = value; }
+    }
 
     private AIStates.States currentState;
     public AIStates.States CurrentState
@@ -92,9 +110,9 @@ public class AIController : MonoBehaviour
     {
         foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
         {
-            if (go.GetComponent<CoffeStain>().agentsOnStain.Contains(gameObject))
+            if (go.GetComponent<GroundEffectObject>().agentsOnGroundEffect.Contains(gameObject))
             {
-                go.GetComponent<CoffeStain>().agentsOnStain.Remove(gameObject);
+                go.GetComponent<GroundEffectObject>().agentsOnGroundEffect.Remove(gameObject);
             }
         }
         if (navMeshAgent.hasPath)
@@ -113,16 +131,17 @@ public class AIController : MonoBehaviour
     /// <param name=""></param>
     public void PerformBehaviour()
     {
-        aiStateHandler.StateUpdate();
+        aiStateHandler.StateUpdate(aiClass);
 
         switch (CurrentState)
         {
             case AIStates.States.FindCover:
+                // TO DO: Implement a behaviour for low health
 
                 if (targetPosition == Vector3.zero)
                 {
-                    targetPlayer = CalculateClosest(PlayerManager.players, aiManager.killPriority);
-                    FindCover(targetPlayer);
+                    closestPlayer = CalculateClosest(PlayerManager.players, priorites);
+                    FindCover(closestPlayer);
                 }
 
                 if (transform.position == targetPosition)
@@ -149,27 +168,15 @@ public class AIController : MonoBehaviour
 
                 if (targetPosition == Vector3.zero)
                 {
-                    // if hasAdvantage or HasRangedWeapon chose the player with lowest health, else chose closest
-                    if (HoldingRangedWeapon() || aiStateHandler.HasAdvantage())
-                    {
-                        targetPlayer = aiManager.killPriority[0];
-                    }
-                    else
-                    {
-                        targetPlayer = CalculateClosest(PlayerManager.players, aiManager.killPriority);
-                    }
-                    
-                    if (targetPlayer == null)
+                    closestPlayer = CalculateClosest(PlayerManager.players, priorites);
+                    targetPosition = closestPlayer.transform.position;
+                    if (closestPlayer == null)
                     {
                         currentState = AIStates.States.Wait;
                     }
-                    else
-                    {
-                        targetPosition = targetPlayer.transform.position;
-                    }
                 }
 
-                if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance || transform.position != targetPosition) // <-- -CanHitTarget?
+                if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance || transform.position != targetPosition)
                 {
                     MoveTowards(targetPosition);
                 }
@@ -208,6 +215,41 @@ public class AIController : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Used for both if we want to pickup a ranged weapon instead of another and to simply find the closest weapon.
+    /// </summary>
+    /// <param name="minimumRangeForWeapon">0 == all weapons| How long range should the weapon you're looking for be as a minimum</param>
+    /// <returns></returns>
+    public GameObject GetClosestWeapon(float minimumRangeForWeapon, float maximumDistancefromObject)
+    {
+        float closest = float.MaxValue;
+        GameObject closestWeapon = null;
+        //We check all weapons everytime, might not wanna do this because of performance
+        GameObject[] weapons = GameObject.FindGameObjectsWithTag("WeaponObject");
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            float distance = CalculateDistance(weapons[i]);
+            if (distance < closest &&
+                weapons[i].GetComponent<AbstractWeapon>().ViewDistance >= minimumRangeForWeapon &&
+                distance <= maximumDistancefromObject &&
+                !weapons[i].GetComponent<AbstractWeapon>().IsHeld)
+            {
+                closest = distance;
+                closestWeapon = weapons[i];
+            }
+        }
+        if (closest < float.MaxValue)
+        {
+            return closestWeapon;
+
+        }
+        return null;
+    }
+
+
+
+
     /// <summary>
     /// Calculates what player is the closest to the AI-agent.
     /// </summary>
@@ -215,26 +257,26 @@ public class AIController : MonoBehaviour
     public GameObject CalculateClosest(List<GameObject> players, List<GameObject> priorities)
     {
         float closestDistance = float.MaxValue;
-        for (int i = 0; i < aiManager.killPriority.Count; i++)
+        for (int i = 0; i < priorites.Count; i++)
         {
-            if (aiManager.killPriority[i].GetComponent<Attributes>().Health <= 0)
+            if (priorites[i].GetComponent<Attributes>().Health <= 0)
             {
-                aiManager.killPriority.RemoveAt(i);
+                priorites.RemoveAt(i);
             }
         }
 
-        for (int i = 0; i < aiManager.killPriority.Count; i++)
+        for (int i = 0; i < priorites.Count; i++)
         {
-            if (aiManager.killPriority[i].GetComponent<Attributes>().Health <= 0) // kanske onödig?
+            if (priorites[i].GetComponent<Attributes>().Health <= 0)
             {
                 continue;
             }
-            float distance = CalculateDistance(aiManager.killPriority[i]);
+            float distance = CalculateDistance(priorites[i]);
 
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                targetPlayer = aiManager.killPriority[i];
+                closestPlayer = priorites[i];
             }
         }
 
@@ -254,11 +296,11 @@ public class AIController : MonoBehaviour
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
-                    targetPlayer = players[i];
+                    closestPlayer = players[i];
                 }
             }
         }
-        return targetPlayer;
+        return closestPlayer;
     }
 
     /// <summary>
@@ -289,7 +331,7 @@ public class AIController : MonoBehaviour
     /// Calulate navmesh path distance from agent to target (another NavMeshAgent).
     /// </summary>
     /// <param name="target"></param>
-    private float CalculateDistance(GameObject target)
+    public float CalculateDistance(GameObject target)
     {
         NavMeshPath path = new NavMeshPath();
         float distance = float.MaxValue;
@@ -326,7 +368,7 @@ public class AIController : MonoBehaviour
 
     public bool FindClosestAndCheckIfReachable()
     {
-        GameObject closest = CalculateClosest(PlayerManager.players, aiManager.killPriority);
+        GameObject closest = CalculateClosest(PlayerManager.players, Priorites);
         if (ReachableTarget(closest))
         {
             return true;
@@ -352,7 +394,7 @@ public class AIController : MonoBehaviour
                     foreach (Transform child in hit.transform)
                     {
                         RaycastHit hit2 = new RaycastHit();
-                        if (!aiManager.takenCoverPositions.Contains(child.transform.position) && Physics.Raycast(child.position, (opponent.transform.position - child.position).normalized, out hit2))
+                        if (!aiManager.takenCoverPositions.Contains(child.transform.position) && Physics.Raycast(opponent.transform.position, (child.position - opponent.transform.position).normalized, out hit2))
                         {
                             if (hit2.transform.gameObject.tag == "CoverObject")
                             {
@@ -369,6 +411,38 @@ public class AIController : MonoBehaviour
                 }
             }
         }
+
+        // OLD WAY
+
+        //List<NavMeshHit> hitList = new List<NavMeshHit>();
+        //NavMeshHit navHit;
+
+        // Loop to create random points around the player so we can find the nearest point to all of them, storting the hits in a list
+        //for (int i = 0; i < 15; i++)
+        //{
+        //    Vector3 spawnPoint = transform.position;
+        //    Vector2 offset = Random.insideUnitCircle * i;
+        //    spawnPoint.x += offset.x;
+        //    spawnPoint.z += offset.y;
+        //
+        //    NavMesh.FindClosestEdge(spawnPoint, out navHit, NavMesh.AllAreas);
+        //
+        //    hitList.Add(navHit);
+        //}
+        //
+        //// sort the list by distance using Linq
+        //var sortedList = hitList.OrderBy(x => x.distance);
+        //
+        //// Loop through the sortedList and see if the hit normal doesn't point towards the enemy.
+        //// If it doesn't point towards the enemy, navigate the agent to that position and break the loop as this is the closest cover for the agent. (Because the list is sorted on distance)
+        //foreach (NavMeshHit hit in sortedList)
+        //{
+        //    if (Vector3.Dot(hit.normal, (opponent.transform.position - transform.position)) < 0)
+        //    {
+        //        targetPosition = hit.position;
+        //        break;
+        //    }
+        //}
     }
 
     /// <summary>
@@ -377,18 +451,18 @@ public class AIController : MonoBehaviour
     /// <returns></returns>
     /// rightHand = this.gameObject.transform.GetChild(1).gameObject;
 
-    public bool HoldingRangedWeapon()
+    private bool HoldingRangedWeapon()
     {
-        if (gameObject.transform.GetChild(0).transform.GetChild(1).childCount > 0 && gameObject.transform.GetChild(0).transform.GetChild(1).transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
+        if (gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
         {
             return true;
         }
         return false;
     }
 
-    public bool HoldingMeleeWeapon()
+    private bool HoldingMeleeWeapon()
     {
-        if (gameObject.transform.GetChild(0).transform.GetChild(1).childCount > 0 && gameObject.transform.GetChild(0).transform.GetChild(1).transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon))
+        if (gameObject.transform.GetChild(1).transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon))
         {
             return true;
         }
@@ -407,27 +481,31 @@ public class AIController : MonoBehaviour
     public void MoveTowards(Vector3 targetPos)
     {
         navMeshAgent.isStopped = false;
+
         navMeshAgent.SetDestination(targetPos);
         gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
+        //gameObject.GetComponent<Attributes>().Stamina -= 1;
         targetPosition = targetPos;
     }
 
-    //private bool CanHitTarget()
-    //{
-    //    Vector3 direction = (targetPlayer.transform.position - transform.position).normalized;
-    //    RaycastHit hit = new RaycastHit();
-    //
-    //    if (Physics.Raycast(transform.position, direction, out hit))
-    //    {
-    //        if (hit.transform.gameObject.tag == "Player")
-    //        {
-    //            // if not too far away
-    //            if ((transform.position - hit.transform.position).magnitude <= fov.ViewRadius)
-    //            {
-    //                return true;
-    //            }
-    //        }
-    //    }
-    //    return false;
-    //}
+    public void UpdateClosestPlayer()
+    {
+        closestPlayer = CalculateClosest(PlayerManager.players, priorites);
+    }
+
+
+    public void PickupWeapon(GameObject weapon)
+    {
+        Debug.Log("TRYING TO EQUIP");
+        if (Vector3.Distance(gameObject.transform.position, weapon.transform.position) < 1 && weapon.CompareTag("WeaponObject"))
+        {
+            gameObject.GetComponent<WeaponHand>().Equip(weapon);
+            navMeshAgent.isStopped = true;
+            currentState = AIStates.States.Unassigned;
+            Debug.Log("EQUIP");
+        }
+    }
+
+
+
 }

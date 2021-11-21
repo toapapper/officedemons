@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
 		{
 			for (int i = 0; i < GroundEffectObjects.Count; i++)
 			{
-                GroundEffectObjects[i].GetComponent<CoffeStain>().UpdateTime();
+                GroundEffectObjects[i].GetComponent<GroundEffectObject>().UpdateTime();
 
             }
 		}
