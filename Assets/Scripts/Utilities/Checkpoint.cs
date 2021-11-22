@@ -48,12 +48,21 @@ public class Checkpoint : MonoBehaviour
 
 	public void LoadCheckpoint()
 	{
+		//
+		GameManager.Instance.ResetEncounter();
+		//
+
 		int playerCounter = 0;
 		foreach (GameObject player in PlayerManager.players)
 		{
 			player.GetComponent<WeaponHand>().DropWeapon();
 
 			PlayerData playerData = SaveSystem.LoadPlayer(player.name);
+
+			//
+			Effects.Revive(player);
+			//
+
 			player.GetComponent<Attributes>().Health = playerData.playerHealth;
 			//if (playerData.hasWeapon)
 			//{
@@ -69,10 +78,12 @@ public class Checkpoint : MonoBehaviour
 			Debug.Log("PLAYER POSITION:       " + player.transform.position);
 			playerCounter++;
 		}
+		
 
-		foreach (GameObject weapon in GameObject.Find("Weapons").transform)
+		foreach (Transform weapon in GameObject.Find("Weapons").transform)
 		{
-			Destroy(weapon);
+			Debug.Log("WEAPON FOUND");
+			Destroy(weapon.gameObject);
 		}
 
 		List<WeaponData> weaponDataList = SaveSystem.LoadWeapons();
@@ -103,7 +114,7 @@ public class Checkpoint : MonoBehaviour
 			}
 		}
 
-		GameManager.Instance.ResetEncounter();
+		//GameManager.Instance.ResetEncounter();
 
 
 		//int playerCounter = 0;
