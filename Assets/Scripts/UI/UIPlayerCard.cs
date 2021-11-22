@@ -33,7 +33,7 @@ public class UIPlayerCard : MonoBehaviour
     [SerializeField] private TMP_Text jobbText;
 
     [SerializeField] private Image weapon;
-
+    [SerializeField] private Image durability;
 
 
     /// <summary>
@@ -58,8 +58,9 @@ public class UIPlayerCard : MonoBehaviour
     }
 
 
-    public void UpdateWeaponSprite(Sprite sprite)
+    public void UpdateWeaponSprites(Sprite weaponSprite, Sprite durabilitySprite)
     {
-        weapon.sprite = sprite;
+        weapon.sprite = weaponSprite;
+        durability.sprite = durabilitySprite;
     }
 }

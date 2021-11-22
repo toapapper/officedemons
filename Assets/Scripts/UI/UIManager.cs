@@ -50,9 +50,10 @@ public class UIManager : MonoBehaviour
     [Header("Polis")]
     [SerializeField] private GameObject enemys_turn_card;
 
-    [Header("DefaultWeapon")]
+    [Header("Weapon")]
     [SerializeField] private Sprite defaultWeapon;
-    
+    [SerializeField] private List<Sprite> numbers;
+
     private void Awake()
     {
         Instance = this;
@@ -171,21 +172,58 @@ public class UIManager : MonoBehaviour
 
     /// <summary>
     /// Update the Image
-    /// Right now we do it every frame might wanna change it to only when we pickup/discard a weapon
+    /// Right now we do it every frame might wanna change it to only when we pickup/discard a weapon or shoot.
     /// </summary>
     private void UpdateWeaponUI()
     {
         for (int i = 0; i < PlayerManager.players.Count; i++)
         {
+            UIPlayerCard card = transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>();
             if (PlayerManager.players[i].GetComponent<WeaponHand>().objectInHand)
             {
                 Sprite weaponSprite = PlayerManager.players[i].GetComponent<WeaponHand>().objectInHand.GetComponent<AbstractWeapon>().WeaponTexture;
-                transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>().UpdateWeaponSprite(weaponSprite);
+                Sprite durability = GetDurabilitySprite(PlayerManager.players[i].GetComponent<WeaponHand>().objectInHand.GetComponent<AbstractWeapon>().Durability);
+                card.UpdateWeaponSprites(weaponSprite, durability);
             }
             else
             {
-                transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>().UpdateWeaponSprite(defaultWeapon);
+                card.UpdateWeaponSprites(defaultWeapon, GetDurabilitySprite(10));
             }
+        }
+    }
+
+
+    /// <summary>
+    /// To make the code in UpdateWeaponUI smaller
+    /// </summary>
+    /// <param name="durability"></param>
+    /// <returns></returns>
+    private Sprite GetDurabilitySprite(int durability)
+    {
+        switch (durability)
+        {
+            case 0:
+                return numbers[0];
+            case 1:
+                return numbers[1];
+            case 2:
+                return numbers[2];
+            case 3:
+                return numbers[3];
+            case 4:
+                return numbers[4];
+            case 5:
+                return numbers[5];
+            case 6:
+                return numbers[6];
+            case 7:
+                return numbers[7];
+            case 8:
+                return numbers[8];
+            case 9:
+                return numbers[9];
+            default:
+                return numbers[10];
         }
     }
 }
