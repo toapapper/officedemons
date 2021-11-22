@@ -46,6 +46,7 @@ public static class Effects
 			if (wielder.tag == "Player")
 			{
 				wielder.GetComponent<Attributes>().KillCount++;
+				wielder.GetComponent<SpecialHand>().KillEffect();
 			}
 		}
 		else if(target.tag == "Player")
@@ -156,16 +157,19 @@ public static class Effects
 	{
 		if (target.tag == "Enemy")
 		{
-			// Tillf�llig
-			//target.GetComponent<MeshRenderer>().material.color = Color.black;
+			Disarm(target);
+
+			target.GetComponent<StatusEffectHandler>().ClearEffects();
+
 			target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
 			target.GetComponent<AIController>().Die();
 		}
 		else if (target.tag == "Player")
 		{
-			//Disable Movement
-			//Play death animation
-			// bool targetIsDead so it's not targetet and attacked again while dead
+			Disarm(target);
+
+			target.GetComponent<StatusEffectHandler>().ClearEffects();
+
 			target.GetComponent<PlayerStateController>().Die();
 		}
 	}
@@ -195,9 +199,22 @@ public static class Effects
 	/// <param name="speedEffect"> value between -1 - +1 (positive value speeds up, negative value slows down)</param>
 	public static void ModifySpeed(GameObject target, float speedEffect)
 	{
+		
+
 		if(target.tag == "Player")
 		{
-			target.GetComponent<PlayerMovementController>().SlowEffect += speedEffect;
+			float playerSpeed = target.GetComponent<PlayerMovementController>().SlowEffect + speedEffect;
+
+			if(playerSpeed >= 1)
+            {
+				playerSpeed = 1;
+            }
+			else if(playerSpeed <= 0)
+            {
+				playerSpeed = 0;
+            }
+
+			target.GetComponent<PlayerMovementController>().SlowEffect = playerSpeed;
 		}
 		else if(target.tag == "Enemy")
 		{

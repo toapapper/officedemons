@@ -128,4 +128,9 @@ public class PlayerMovementController : MonoBehaviour
 		}
 		return false;
 	}
+
+	public void ResetNavMeshPath()
+    {
+		navmeshAgent.ResetPath();
+	}
 }

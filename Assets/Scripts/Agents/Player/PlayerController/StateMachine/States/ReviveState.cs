@@ -46,5 +46,6 @@ class ReviveState : AbstractPlayerState
     public override void OnStateExit()
     {
         Debug.Log("Exit ReviveState: " + gameObject.ToString());
+        specialHand.RevivedEffect();
     }
 }

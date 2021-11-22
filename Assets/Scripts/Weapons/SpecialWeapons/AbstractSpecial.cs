@@ -16,6 +16,7 @@ using UnityEngine;
 public abstract class AbstractSpecial : MonoBehaviour
 {
 	[SerializeField] protected List<WeaponEffects> effects;
+	[SerializeField] protected List<WeaponEffects> ultiEffects;
 
 	protected GameObject holderAgent;
 	protected SpecialHand specialController;
@@ -49,10 +50,14 @@ public abstract class AbstractSpecial : MonoBehaviour
 	public abstract void StartAttack();
 	public abstract void Attack();
 	public abstract void DoSpecialAction();
+	public virtual void DoSpecialActionEnd() { }
 
+	public abstract void StartTurnEffect();
 	public virtual void TakeDamageEffect() { }
 	public virtual void GiveRegularDamageEffect() { }
-	public virtual void AddCharge()
+	public virtual void KillEffect() { }
+	public virtual void RevivedEffect() { }
+	protected virtual void AddCharge()
 	{
 		if(charges < maxCharges)
 		{

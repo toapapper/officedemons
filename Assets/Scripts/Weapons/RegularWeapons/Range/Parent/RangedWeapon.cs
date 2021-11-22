@@ -48,7 +48,8 @@ public abstract class RangedWeapon : AbstractWeapon
 		get { return bulletFireForce; }
 		//set { bulletFireForce = value; }
 	}
-
+  [SerializeField]
+  protected GameObject particleEffect;
 	/// <summary>
 	/// The degrees by which the shot might change direction to either side. The effect of poison is included here
 	/// </summary>
@@ -70,66 +71,67 @@ public abstract class RangedWeapon : AbstractWeapon
 		laserAim.SetActive(true);
 		GetComponentInChildren<LineRenderer>().colorGradient = gradient;
 		laserAim.SetActive(false);
+		AimCone.GetComponentInChildren<MeshRenderer>().material.color = gradient.colorKeys[0].color;
 	}
 
 	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
 	{
-		laserAim.SetActive(isActive);
-
-		UpdateAimCone();
-		AimCone.SetActive(isActive);
+		if(Inaccuracy < 1)
+        {
+			laserAim.SetActive(isActive);
+        }
+        else
+        {
+			UpdateAimCone();
+			AimCone.SetActive(isActive);
+        }
 	}
 
 	public override void StartAttack(Animator animator)
 	{
 		animator.SetTrigger("isStartRangedSingleShot");
 	}
-	public override void Attack(Animator animator)
-	{
-		base.Attack(animator);
-	}
 
-
-	/// <summary>
-	/// The maximum amount of degrees from the aim direction that the shot can deviate. This takes the possibility of being po�soned into account.<br/>
-	/// Also updates the size and such of the aimcone.
-	/// </summary>
-	protected void UpdateAimCone()
+    public override void Attack(Animator animator)
     {
-		float width = 2 * Mathf.Tan(Inaccuracy * Mathf.Deg2Rad);//the 1,1,1 scale of the cone has length one and width one.
-		AimCone.transform.localScale = new Vector3(width, 1, 1);
-    }
-
-	/// <summary>
-	/// Returns a randomized direction within the weapons (in)accuracy.
-	/// </summary>
-	/// <param name="aim"></param>
-	/// <returns></returns>
-	protected Vector3 GetBulletDirection()
-    {
-		Vector3 bulletDir = transform.forward;//I rotate this forward vector by a random amount of degrees basically
-		float deviation = ((Random.value * 2) - 1) * Inaccuracy * Mathf.Deg2Rad;
-
-		float newX = bulletDir.x * Mathf.Cos(deviation) - bulletDir.z * Mathf.Sin(deviation);
-		float newZ = bulletDir.x * Mathf.Sin(deviation) + bulletDir.z * Mathf.Cos(deviation);
-		bulletDir = new Vector3(newX, 0, newZ);
-
-		return bulletDir;
+        base.Attack(animator);
     }
 
 
-    public override void PickUpIn(GameObject hand)//sets the color of the aimcone.
+    /// <summary>
+    /// The maximum amount of degrees from the aim direction that the shot can deviate. This takes the possibility of being po�soned into account.<br/>
+    /// Also updates the size and such of the aimcone.
+    /// </summary>
+    protected void UpdateAimCone()
     {
-        base.PickUpIn(hand);
+        float width = 2 * Mathf.Tan(Inaccuracy * Mathf.Deg2Rad);//the 1,1,1 scale of the cone has length one and width one.
+        AimCone.transform.localScale = new Vector3(width, 1, 1);
+    }
 
-		Color c0 = this.AimCone.GetComponentInChildren<MeshRenderer>().material.color;
-		float c0Alpha = c0.a;
-		Color pc = this.holderAgent.GetComponent<Attributes>().PlayerColor;
-		pc.a = c0Alpha;
+    /// <summary>
+    /// Returns a randomized direction within the weapons (in)accuracy.
+    /// </summary>
+    /// <param name="aim"></param>
+    /// <returns></returns>
+    protected Vector3 GetBulletDirection()
+    {
+        Vector3 bulletDir = transform.forward;//I rotate this forward vector by a random amount of degrees basically
+        float deviation = ((Random.value * 2) - 1) * Inaccuracy * Mathf.Deg2Rad;
 
-		this.AimCone.GetComponentInChildren<MeshRenderer>().material.color = pc;
-		UpdateAimCone();
-	}
+        float newX = bulletDir.x * Mathf.Cos(deviation) - bulletDir.z * Mathf.Sin(deviation);
+        float newZ = bulletDir.x * Mathf.Sin(deviation) + bulletDir.z * Mathf.Cos(deviation);
+        bulletDir = new Vector3(newX, 0, newZ);
+
+        return bulletDir;
+    }
+
+
+    //public override void PickUpIn(GameObject hand)//sets the color of the aimcone.
+    //{
+    //    base.PickUpIn(hand);
+
+        
+    //}
 
 
     public override void DoAction(FieldOfView fov)
@@ -167,7 +169,11 @@ public abstract class RangedWeapon : AbstractWeapon
 				Effects.Disarm(wielder);
 			}
 		}
+    if (particleEffect)
+    {
+        Instantiate(particleEffect, WeaponMuzzle.transform.position, WeaponMuzzle.transform.rotation * Quaternion.Euler(0f, 180f, 0f)/*Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z)*/);
 
+    }
 		base.DoAction(fov);
 	}
 }

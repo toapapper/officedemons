@@ -883,6 +883,7 @@ Transform:
   - {fileID: 4165906285195508355}
   - {fileID: 3014267142662663150}
   - {fileID: 2567214092754210932}
+  - {fileID: 8975078004027825454}
   m_Father: {fileID: 7184783443606198722}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1224,6 +1225,7 @@ MonoBehaviour:
   characterName: 1
   jobTitle: The Destroyer
   startHealth: 100
+  killCount: 0
   health: 0
   startStamina: 3.5
   stamina: 100
@@ -1614,6 +1616,76 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6084092835874375796, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
   m_PrefabInstance: {fileID: 115678248965774315}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &740628593000331368
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3741647841836255955}
+    m_Modifications:
+    - target: {fileID: 8115628193115245764, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: particleEffect
+      value: 
+      objectReference: {fileID: 1247311384876784, guid: 20a4d4405cba00c4fbff9564e674d35f, type: 3}
+    - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153911905426754129, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_Name
+      value: StarThrower
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153911905426754129, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+--- !u!4 &8975078004027825454 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
+  m_PrefabInstance: {fileID: 740628593000331368}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6058756447763005502
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1626,12 +1698,20 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 432747492130649802, guid: 757003ac3a623db448350add22f8af2b, type: 3}
+      propertyPath: particleEffect
+      value: 
+      objectReference: {fileID: 1247311384876784, guid: 5126cd38ff8cdfa4cbbf2663a8f4d23c, type: 3}
+    - target: {fileID: 432747492130649802, guid: 757003ac3a623db448350add22f8af2b, type: 3}
       propertyPath: distanceMultiplier
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8193754755920311457, guid: 757003ac3a623db448350add22f8af2b, type: 3}
       propertyPath: m_Name
       value: PaperShredder
+      objectReference: {fileID: 0}
+    - target: {fileID: 8193754755920311457, guid: 757003ac3a623db448350add22f8af2b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8625965033546338378, guid: 757003ac3a623db448350add22f8af2b, type: 3}
       propertyPath: m_RootOrder
