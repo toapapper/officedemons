@@ -50,6 +50,8 @@ public class UIManager : MonoBehaviour
     [Header("Polis")]
     [SerializeField] private GameObject enemys_turn_card;
 
+    [Header("DefaultWeapon")]
+    [SerializeField] private Sprite defaultWeapon;
     
     private void Awake()
     {
@@ -73,6 +75,8 @@ public class UIManager : MonoBehaviour
         #endregion
 
         //Uppdatera liv på spelarna
+
+        UpdateWeaponUI();
 
         //includes the displaying of enemys_turn_card
         #region TimerUpdates
@@ -162,5 +166,26 @@ public class UIManager : MonoBehaviour
     public void NewFloatingText(GameObject at, string text, Color color)
     {
         floatingTextManager.newText(at, text, color);
+    }
+
+
+    /// <summary>
+    /// Update the Image
+    /// Right now we do it every frame might wanna change it to only when we pickup/discard a weapon
+    /// </summary>
+    private void UpdateWeaponUI()
+    {
+        for (int i = 0; i < PlayerManager.players.Count; i++)
+        {
+            if (PlayerManager.players[i].GetComponent<WeaponHand>().objectInHand)
+            {
+                Sprite weaponSprite = PlayerManager.players[i].GetComponent<WeaponHand>().objectInHand.GetComponent<AbstractWeapon>().WeaponTexture;
+                transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>().UpdateWeaponSprite(weaponSprite);
+            }
+            else
+            {
+                transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>().UpdateWeaponSprite(defaultWeapon);
+            }
+        }
     }
 }

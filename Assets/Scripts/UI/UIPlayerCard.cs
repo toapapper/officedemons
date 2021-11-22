@@ -28,8 +28,13 @@ public class UIPlayerCard : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Image colorBar;
 
+
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text jobbText;
+
+    [SerializeField] private Image weapon;
+
+
 
     /// <summary>
     /// Initialize the playercard. Reading the relevant attributes of its asigned player and filling them in.
@@ -50,5 +55,11 @@ public class UIPlayerCard : MonoBehaviour
     {
         float ratio =  (float)player.GetComponent<Attributes>().Health / (float)player.GetComponent<Attributes>().StartHealth;
         colorBar.fillAmount = ratio;
+    }
+
+
+    public void UpdateWeaponSprite(Sprite sprite)
+    {
+        weapon.sprite = sprite;
     }
 }
