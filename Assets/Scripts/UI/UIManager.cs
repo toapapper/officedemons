@@ -171,7 +171,7 @@ public class UIManager : MonoBehaviour
 
 
     /// <summary>
-    /// Update the Image
+    /// Update the Images. Might do a check if there's any change before doing all this.
     /// Right now we do it every frame might wanna change it to only when we pickup/discard a weapon or shoot.
     /// </summary>
     private void UpdateWeaponUI()
@@ -182,19 +182,30 @@ public class UIManager : MonoBehaviour
             if (PlayerManager.players[i].GetComponent<WeaponHand>().objectInHand)
             {
                 Sprite weaponSprite = PlayerManager.players[i].GetComponent<WeaponHand>().objectInHand.GetComponent<AbstractWeapon>().WeaponTexture;
-                Sprite durability = GetDurabilitySprite(PlayerManager.players[i].GetComponent<WeaponHand>().objectInHand.GetComponent<AbstractWeapon>().Durability);
-                card.UpdateWeaponSprites(weaponSprite, durability);
+                int durability = PlayerManager.players[i].GetComponent<WeaponHand>().objectInHand.GetComponent<AbstractWeapon>().Durability;
+                if (durability > 9)
+                {
+                    float durabilityBig = durability / 10;
+                    int durabilitySmall = durability - (int)durabilityBig * 10;
+                    card.UpdateWeaponSprites(weaponSprite, GetDurabilitySprite((int)durabilityBig), GetDurabilitySprite(durabilitySmall));
+                }
+                else
+                {
+                    card.UpdateWeaponSprites(weaponSprite,numbers[10], GetDurabilitySprite(durability));
+                }
             }
             else
             {
-                card.UpdateWeaponSprites(defaultWeapon, GetDurabilitySprite(10));
+                card.UpdateWeaponSprites(defaultWeapon, numbers[10], numbers[10]);
             }
+
+            card.UpdateChargeSprites(PlayerManager.players[i].GetComponentInChildren<AbstractSpecial>().Charges);
         }
     }
 
 
     /// <summary>
-    /// To make the code in UpdateWeaponUI smaller
+    /// numbers[10] == blank
     /// </summary>
     /// <param name="durability"></param>
     /// <returns></returns>

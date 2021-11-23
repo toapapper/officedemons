@@ -34,7 +34,7 @@ public abstract class AbstractSpecial : MonoBehaviour
 	protected float Damage { get { return damage; } }
 	protected float HitForce { get { return hitForce; } }
 	protected int MaxCharges { get { return maxCharges; } }
-	protected int Charges { get { return charges; } set { charges = value; } }
+	public int Charges { get { return charges; } set { charges = value; } }
 	
 
 
