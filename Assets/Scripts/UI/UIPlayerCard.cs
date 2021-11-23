@@ -128,6 +128,12 @@ public class UIPlayerCard : MonoBehaviour
                         chargeObjects[i].sprite = chargeSprites[0];
                     }
                     break;
+                case 4:
+                    for (int i = 4; i < maxCharges; i++)
+                    {
+                        chargeObjects[i].sprite = chargeSprites[0];
+                    }
+                    break;
                 default:
                     break;
             }
