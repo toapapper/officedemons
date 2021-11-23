@@ -24,11 +24,12 @@ public class AIManager : MonoBehaviour
     private UnityEvent doneEvent;
     private AIManager instance;
     private Queue<GameObject> actionsQueue;
-
     public List<GameObject> enemyList;
     public List<Vector3> coverList;
     public List<Vector3> takenCoverPositions;
     public List<GameObject> killPriority;
+
+    
 
     private void Start()
     {
@@ -45,6 +46,7 @@ public class AIManager : MonoBehaviour
     /// <param name=""></param>
     public void BeginCombat()
     {
+        
         enemyList = GameManager.Instance.CurrentEncounter.GetEnemylist();
         GameManager.Instance.StillCheckList.AddRange(enemyList);
 
