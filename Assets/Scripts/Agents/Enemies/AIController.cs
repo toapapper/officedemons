@@ -51,11 +51,11 @@ public class AIController : MonoBehaviour
         set { targetPosition = value; }
     }
 
-    private bool inActiveEncounter = false;
-    public bool InActiveEncounter
+    private bool inActiveCombat;
+    public bool InActiveCombat
     {
-        get { return inActiveEncounter; }
-        set { inActiveEncounter = value; }
+        get { return inActiveCombat; }
+        set { inActiveCombat = value; }
     }
 
     private bool currentlyMoving;
