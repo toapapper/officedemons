@@ -22,7 +22,12 @@ public static class Effects
 		{
 			wielder.GetComponent<SpecialHand>().GiveRegularDamageEffect();
 		}
-		Damage(target, damage, wielder);
+        Damage(target, damage, wielder);
+        //if (!(target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat))
+        //{
+        //    Damage(target, damage, wielder);
+        //}
+		
 	}
 	public static void Damage(GameObject target, float damage, GameObject wielder = null)
 	{

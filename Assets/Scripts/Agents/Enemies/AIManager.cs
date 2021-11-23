@@ -24,7 +24,6 @@ public class AIManager : MonoBehaviour
     private UnityEvent doneEvent;
     private AIManager instance;
     private Queue<GameObject> actionsQueue;
-
     public List<GameObject> enemyList;
     public List<Vector3> coverList;
     public List<Vector3> takenCoverPositions;
@@ -155,6 +154,7 @@ public class AIManager : MonoBehaviour
 
     private List<Vector3> FindCoverSpotsInEncounter()
     {
+        Debug.Log("KOMEMR IN I FINDCOVERPOSITIONS");
         Bounds bounds = GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
         GameObject[] allCovers = GameObject.FindGameObjectsWithTag("CoverPosition");
         List<Vector3> temp = new List<Vector3>();
@@ -167,6 +167,7 @@ public class AIManager : MonoBehaviour
             }
         }
 
+        Debug.Log("KOMEMR FÖRBII COVERPOSITIONLIST");
         return temp;
     }
 
@@ -201,6 +202,7 @@ public class AIManager : MonoBehaviour
 
     private void UpdateKillPriority()
     {
+        Debug.Log("KOMEMR IN I KILLPRIORITY");
         killPriority.Add(playerList[0]);
 
         for (int i = 1; i < playerList.Count; i++)
@@ -209,7 +211,7 @@ public class AIManager : MonoBehaviour
             {
                 if (playerList[i].GetComponent<Attributes>().Health < killPriority[j].GetComponent<Attributes>().Health) // if new object should be highest prio
                 {
-                    killPriority.Insert(j, playerList[i]);
+                    //killPriority.Insert(j, playerList[i]); <--- retarded
                 }
             }
 
@@ -220,6 +222,7 @@ public class AIManager : MonoBehaviour
             }
         }
 
+        Debug.Log("KOMEMR FÖRBII KILLPRIORITY");
         ////DEBUG
         //Debug.Log("THE FOLLOWING SHOULD BE IN ORDER LOWEST TO HIGHEST");
         //foreach (GameObject go in killPriority)
