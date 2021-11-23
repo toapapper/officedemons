@@ -64,7 +64,8 @@ public class ThrowAim : MonoBehaviour
 
     //private Vector3 gravity;
     [SerializeField] private GameObject player;
-    [SerializeField] private GameObject target;
+	[SerializeField] private GameObject top;
+	[SerializeField] private GameObject target;
     [SerializeField] private GameObject explodesion;
     private Vector3 topPosition = new Vector3();
     //private Vector3 topPosition = new Vector3();
@@ -100,11 +101,35 @@ public class ThrowAim : MonoBehaviour
 
 
 
+    //  Debug.Log("HEJ");
+    ////velocity = Quaternion.AngleAxis(-initialAngle, transform.right) * transform.forward * initialVelocity;
+    ////velocity = CalculateInitialVelocity();
 
+
+    //      //velocity = Quaternion.AngleAxis(-initialAngle, transform.right) * transform.forward * CalculateInitialVelocity().magnitude;
+
+    //      Vector3 v = CalculateInitialVelocity();
+    //  Vector3 playerLookDir = new Vector3(v.x, 0, v.z).normalized;
+    //  player.transform.rotation = Quaternion.FromToRotation(player.transform.forward, playerLookDir);
+    //      //player.transform.rotation = Quaternion.Euler(v.normalized);
+    //      velocity = Quaternion.AngleAxis(-Vector3.Angle(v.normalized, transform.forward), transform.right) * transform.forward* v.magnitude;
+    //
     void RenderArc()
     {
+
+        //velocity = Quaternion.AngleAxis(-initialAngle, transform.right) * transform.forward * initialVelocity;
+        //velocity = CalculateInitialVelocity();
+        //velocity = Quaternion.AngleAxis(-Vector3.Angle(v.normalized, transform.forward), transform.right) * transform.forward* v.magnitude;
+
         Debug.Log("RENDER ARC");
 		velocity = CalculateInitialVelocity();
+        player.transform.LookAt(targetPosition);
+		player.transform.rotation = Quaternion.FromToRotation(player.transform.forward, new Vector3(velocity.x, 0, velocity.z).normalized);
+
+		//Vector3 v = CalculateInitialVelocity();
+		//      player.transform.rotation = Quaternion.FromToRotation(player.transform.forward, new Vector3(v.x, 0, v.z).normalized);
+		//      velocity = Quaternion.AngleAxis(-Vector3.Angle(v.normalized, transform.forward), transform.right) * transform.forward * v.magnitude;
+
 		Debug.Log(velocity);
         friction = initialFriction;
         bounce = initialBounce;
@@ -158,13 +183,23 @@ public class ThrowAim : MonoBehaviour
 
         float horizontalDistance = new Vector2(targetPosition.x - startPosition.x, targetPosition.z - startPosition.z).magnitude;
         Debug.Log(horizontalDistance);
-        topPosition = new Vector3((targetPosition.x - startPosition.x) / 2, horizontalDistance / 3, (targetPosition.z - startPosition.z) / 2);
-        Debug.Log(topPosition);
 
-        timeToTarget = Mathf.Sqrt(2 * (targetPosition.y - (topPosition.y * targetPosition.x / topPosition.x)) / (gravity * (1 - topPosition.x / targetPosition.x)));
-        Debug.Log(timeToTarget);
 
-        Vector3 velocity = targetPosition / timeToTarget - timeToTarget * new Vector3(0 ,gravity, 0) / 2;
+		//Original
+		topPosition = new Vector3((targetPosition.x - startPosition.x) / 2, horizontalDistance / 2, (targetPosition.z - startPosition.z) / 2);
+
+		//topPosition = (player.transform.forward * horizontalDistance / 2) + (player.transform.up * horizontalDistance / 3);
+		Debug.Log(topPosition);
+        top.transform.position = topPosition;
+
+		//Original
+		//timeToTarget = Mathf.Sqrt(2 * (targetPosition.y - (topPosition.y * targetPosition.x / topPosition.x)) / (gravity * (1 - topPosition.x / targetPosition.x)));
+
+		//t2 = sqrt(2 * (P2.y - P1.y*P2.x/P1.x)/(g.y*(1 - P1.x/P2.x)))
+		timeToTarget = Mathf.Sqrt(2 * (targetPosition.y - (topPosition.y * horizontalDistance / (horizontalDistance / 2))) / (gravity * (1 - (horizontalDistance / 2) / horizontalDistance)));
+		Debug.Log(timeToTarget);
+
+        Vector3 velocity = targetPosition / timeToTarget - (timeToTarget * new Vector3(0 ,gravity, 0)) / 2;
 
         return velocity;
 
@@ -193,17 +228,7 @@ public class ThrowAim : MonoBehaviour
 
 
 
-    //  Debug.Log("HEJ");
-    ////velocity = Quaternion.AngleAxis(-initialAngle, transform.right) * transform.forward * initialVelocity;
-    ////velocity = CalculateInitialVelocity();
-    //      //velocity = Quaternion.AngleAxis(-initialAngle, transform.right) * transform.forward * CalculateInitialVelocity().magnitude;
-
-    //      Vector3 v = CalculateInitialVelocity();
-    //  Vector3 playerLookDir = new Vector3(v.x, 0, v.z).normalized;
-    //  player.transform.rotation = Quaternion.FromToRotation(player.transform.forward, playerLookDir);
-    //      //player.transform.rotation = Quaternion.Euler(v.normalized);
-    //      velocity = Quaternion.AngleAxis(-Vector3.Angle(v.normalized, transform.forward), transform.right) * transform.forward* v.magnitude;
-    //
+   
     //
     //  public Vector3 CalculateInitialVelocity()
     //  {
