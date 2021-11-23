@@ -207,11 +207,11 @@ public class AIManager : MonoBehaviour
 
         for (int i = 1; i < playerList.Count; i++)
         {
-            for (int j = 0; j < killPriority.Count; j++)
+            for (int j = 0; j < playerList.Count; j++)
             {
                 if (playerList[i].GetComponent<Attributes>().Health < killPriority[j].GetComponent<Attributes>().Health) // if new object should be highest prio
                 {
-                    //killPriority.Insert(j, playerList[i]); <--- retarded
+                    killPriority.Insert(j, playerList[i]); 
                 }
             }
 
