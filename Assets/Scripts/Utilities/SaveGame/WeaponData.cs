@@ -30,6 +30,7 @@ public class WeaponData
 
 		weaponName = weaponHandle.name;
 		weaponType = weaponHandle.transform.GetChild(0).name;
+		Debug.Log(weaponType);
 		damage = weaponHandle.GetComponentInChildren<AbstractWeapon>().Damage;
 		hitForce = weaponHandle.GetComponentInChildren<AbstractWeapon>().HitForce;
 		throwDamage = weaponHandle.GetComponentInChildren<AbstractWeapon>().ThrowDamage;

@@ -415,7 +415,7 @@ public class AIController : MonoBehaviour
 
     public bool HoldingRangedWeapon()
     {
-        if (gameObject.transform.GetChild(0).transform.GetChild(1).childCount > 0 && gameObject.transform.GetChild(0).transform.GetChild(1).transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
+        if (GetComponent<WeaponHand>().objectInHand.GetComponent<AbstractWeapon>() is RangedWeapon)
         {
             return true;
         }
@@ -424,7 +424,7 @@ public class AIController : MonoBehaviour
 
     public bool HoldingMeleeWeapon()
     {
-        if (gameObject.transform.GetChild(0).transform.GetChild(1).childCount > 0 && gameObject.transform.GetChild(0).transform.GetChild(1).transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon))
+        if (GetComponent<WeaponHand>().objectInHand.GetComponent<AbstractWeapon>() is MeleeWeapon)
         {
             return true;
         }

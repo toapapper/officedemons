@@ -27,11 +27,12 @@ public class Checkpoint : MonoBehaviour
 		GameManager.Instance.CurrentCheckpoint = this;
 
 		List<GameObject> weaponList = new List<GameObject>();
-		foreach (GameObject weapon in GameObject.Find("Weapons").transform)
+		foreach (Transform weapon in GameObject.Find("Weapons").transform)
 		{
 			if (weapon.GetComponentInChildren<AbstractWeapon>())
 			{
-				weaponList.Add(weapon);
+				Debug.Log("SAVEWEAPON");
+				weaponList.Add(weapon.gameObject);
 			}
 		}
 		foreach (GameObject player in PlayerManager.players)
@@ -40,6 +41,7 @@ public class Checkpoint : MonoBehaviour
 
 			if (player.GetComponent<WeaponHand>().objectInHand)
 			{
+				Debug.Log("SAVEPLAYERWEAPON");
 				weaponList.Add(player.GetComponent<WeaponHand>().objectInHand.transform.parent.gameObject);
 			}
 		}
@@ -89,9 +91,11 @@ public class Checkpoint : MonoBehaviour
 		List<WeaponData> weaponDataList = SaveSystem.LoadWeapons();
 		foreach (WeaponData weaponData in weaponDataList)
 		{
+			Debug.Log(weaponData.weaponType + "Handle");
 			GameObject newWeapon = Instantiate(Resources.Load(weaponData.weaponType + "Handle"),
 				new Vector3(weaponData.position[0], weaponData.position[1], weaponData.position[2]),
-				Quaternion.Euler(0, 0, 0)) as GameObject;		
+				Quaternion.Euler(0, 0, 0)) as GameObject;
+			newWeapon.transform.parent = GameObject.Find("Weapons").transform;
 
 			AbstractWeapon abstractWeapon = newWeapon.GetComponentInChildren<AbstractWeapon>();
 			abstractWeapon.gameObject.name = weaponData.weaponName;
@@ -110,7 +114,9 @@ public class Checkpoint : MonoBehaviour
 
 			if (!string.IsNullOrEmpty(weaponData.wielder))
 			{
-				GameObject.Find(weaponData.wielder).GetComponent<WeaponHand>().Equip(newWeapon);
+				Debug.Log(weaponData.wielder);
+				Debug.Log(newWeapon);
+				GameObject.Find(weaponData.wielder).GetComponent<WeaponHand>().Equip(abstractWeapon.gameObject);
 			}
 		}
 
