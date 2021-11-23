@@ -198,8 +198,7 @@ public class UIManager : MonoBehaviour
             {
                 card.UpdateWeaponSprites(defaultWeapon, numbers[10], numbers[10]);
             }
-            //Temporary + 1 because for some reason 0 charge in abstractspecial means 1. special will never be 0?
-            card.UpdateChargeSprites(PlayerManager.players[i].GetComponentInChildren<AbstractSpecial>().Charges + 1);
+            card.UpdateChargeSprites(PlayerManager.players[i].GetComponentInChildren<AbstractSpecial>().Charges);
         }
     }
 
