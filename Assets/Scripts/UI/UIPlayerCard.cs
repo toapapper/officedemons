@@ -35,7 +35,7 @@ public class UIPlayerCard : MonoBehaviour
     [SerializeField] private Image weapon;
     [SerializeField] private List<Image> durability = new List<Image>();
     [SerializeField] private List<Image> chargeObjects = new List<Image>();
-    [SerializeField] private List<Sprite> chargeSprites;
+    [SerializeField] private List<Sprite> chargeSprites = new List<Sprite>();
 
     private int maxCharges = 5;
     private int oldCharges;
