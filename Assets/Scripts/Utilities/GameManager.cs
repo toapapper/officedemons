@@ -112,7 +112,6 @@ public class GameManager : MonoBehaviour
         //Ful "kolla om alla fiender �r d�da"-check
         if(CurrentCombatState != CombatState.none)
         {
-
             if(currentEncounter.GetEnemylist().Count <= 0)
             {
                 EndEncounter();

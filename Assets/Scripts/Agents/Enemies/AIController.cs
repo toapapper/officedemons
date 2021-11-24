@@ -433,9 +433,12 @@ public class AIController : MonoBehaviour
 
     public bool IsArmed()
     {
-        if (HoldingMeleeWeapon() || HoldingRangedWeapon())
-        {
-            return true;
+		if (GetComponent<WeaponHand>().objectInHand)
+		{
+            if (HoldingMeleeWeapon() || HoldingRangedWeapon())
+            {
+                return true;
+            }
         }
         return false;
     }
