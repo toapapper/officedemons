@@ -50,7 +50,7 @@ public class AIStateHandler : MonoBehaviour
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players);
+            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, encounter.GetComponentInChildren<AIManager>().KillPriority);
             Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             //Turn towards nearest player
         }
@@ -136,7 +136,7 @@ public class AIStateHandler : MonoBehaviour
                 //if player in range
                 foreach (GameObject target in fov.VisibleTargets)
                 {
-                    if (target.tag == "Player")
+                    if (target != null && target.tag == "Player")
                     {
                         return true;
                     }
@@ -182,10 +182,10 @@ public class AIStateHandler : MonoBehaviour
         int armedPlayers = 0;
         int alivePlayers = 0;
         int armedEnemies = 0;
-        int aliveEnemies = encounter.GetComponentInChildren<AIManager>().enemyList.Count;
+        int aliveEnemies = encounter.GetComponentInChildren<AIManager>().EnemyList.Count;
 
         //count how many players are alive and armed
-        foreach (GameObject player in encounter.GetComponentInChildren<AIManager>().playerList)
+        foreach (GameObject player in encounter.GetComponentInChildren<AIManager>().PlayerList)
         {
             if (player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon) || player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
             {
@@ -198,7 +198,7 @@ public class AIStateHandler : MonoBehaviour
             }
         }
 
-        foreach (GameObject enemy in encounter.GetComponentInChildren<AIManager>().enemyList)
+        foreach (GameObject enemy in encounter.GetComponentInChildren<AIManager>().EnemyList)
         {
             if (enemy.GetComponent<AIController>().IsArmed())
             {

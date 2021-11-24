@@ -18,17 +18,12 @@ using System.Linq;
 
 // Last Edited: 15-10-21
 
-public enum Class { Aggresive, Defensive, Healer };
-
 public class AIController : MonoBehaviour
 {
     private FieldOfView fov;
     public NavMeshAgent navMeshAgent; // TODO: Maybe change to property
     private AIManager aiManager;
     private WeaponHand weapon;
-
-    private Class aiClass;
-
 
     private GameObject targetPlayer;
     public GameObject TargetPlayer
@@ -85,6 +80,7 @@ public class AIController : MonoBehaviour
 
     void Start()
     {
+        gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         fov = GetComponent<FieldOfView>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         CurrentState = AIStates.States.Unassigned;
@@ -107,7 +103,7 @@ public class AIController : MonoBehaviour
             navMeshAgent.ResetPath();
         }
         aiManager.RemoveAction(gameObject);
-        aiManager.enemyList.Remove(gameObject);
+        aiManager.EnemyList.Remove(gameObject);
         Destroy(gameObject);
     }
 
@@ -126,7 +122,7 @@ public class AIController : MonoBehaviour
 
                 if (targetPosition == Vector3.zero)
                 {
-                    targetPlayer = CalculateClosest(PlayerManager.players);
+                    targetPlayer = CalculateClosest(PlayerManager.players, aiManager.KillPriority);
                     FindCover(targetPlayer);
                 }
 
@@ -139,9 +135,7 @@ public class AIController : MonoBehaviour
                     MoveTowards(targetPosition);
                 }
                 break;
-            case AIStates.States.CallForHealing:
-                // TO DO: Implement a behaviour for low health
-                break;
+
             case AIStates.States.Attack:
                 aiManager.SaveAction(this.gameObject);
                 ActionIsLocked = true;
@@ -153,11 +147,11 @@ public class AIController : MonoBehaviour
                     // if hasAdvantage or HasRangedWeapon chose the player with lowest health, else chose closest
                     if (HoldingRangedWeapon() || aiStateHandler.HasAdvantage())
                     {
-                        targetPlayer = aiManager.killPriority[0];
+                        targetPlayer = aiManager.KillPriority[0];
                     }
                     else
                     {
-                        targetPlayer = CalculateClosest(PlayerManager.players);
+                        targetPlayer = CalculateClosest(PlayerManager.players, aiManager.KillPriority);
                     }
 
                     if (targetPlayer == null)
@@ -247,29 +241,30 @@ public class AIController : MonoBehaviour
     /// Calculates what player is the closest to the AI-agent.
     /// </summary>
     /// <param name="players, priorities"></param>
-    public GameObject CalculateClosest(List<GameObject> players)
+    public GameObject CalculateClosest(List<GameObject> players, List<GameObject> killPriority)
     {
         float closestDistance = float.MaxValue;
-        for (int i = 0; i < aiManager.killPriority.Count; i++)
+
+        for (int i = 0; i < killPriority.Count; i++)
         {
-            if (aiManager.killPriority[i].GetComponent<Attributes>().Health <= 0)
+            if (killPriority[i].GetComponent<Attributes>().Health <= 0)
             {
-                aiManager.killPriority.RemoveAt(i);
+                killPriority.RemoveAt(i);
             }
         }
 
-        for (int i = 0; i < aiManager.killPriority.Count; i++)
+        for (int i = 0; i < killPriority.Count; i++)
         {
-            if (aiManager.killPriority[i].GetComponent<Attributes>().Health <= 0)
+            if (killPriority[i].GetComponent<Attributes>().Health <= 0)
             {
                 continue;
             }
-            float distance = CalculateDistance(aiManager.killPriority[i]);
+            float distance = CalculateDistance(killPriority[i]);
 
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                targetPlayer = aiManager.killPriority[i];
+                targetPlayer = killPriority[i];
             }
         }
 
@@ -361,7 +356,7 @@ public class AIController : MonoBehaviour
 
     public bool FindClosestAndCheckIfReachable()
     {
-        GameObject closest = CalculateClosest(PlayerManager.players);
+        GameObject closest = CalculateClosest(PlayerManager.players, aiManager.KillPriority);
         if (ReachableTarget(closest))
         {
             return true;
@@ -378,7 +373,7 @@ public class AIController : MonoBehaviour
         RaycastHit hit = new RaycastHit();
         float minDistToCover = Mathf.Infinity;
 
-        foreach (Vector3 pos in aiManager.coverList)
+        foreach (Vector3 pos in aiManager.CoverList)
         {
             if (Physics.Raycast(opponent.transform.position, (pos - opponent.transform.position).normalized, out hit))
             {
@@ -387,13 +382,13 @@ public class AIController : MonoBehaviour
                     foreach (Transform child in hit.transform)
                     {
                         RaycastHit hit2 = new RaycastHit();
-                        if (!aiManager.takenCoverPositions.Contains(child.transform.position) && Physics.Raycast(child.position, (opponent.transform.position - child.position).normalized, out hit2))
+                        if (!aiManager.TakenCoverPositions.Contains(child.transform.position) && Physics.Raycast(child.position, (opponent.transform.position - child.position).normalized, out hit2))
                         {
                             if (hit2.transform.gameObject.tag == "CoverObject")
                             {
                                 if (Vector3.Magnitude((hit2.transform.position - opponent.transform.position)) < minDistToCover)
                                 {
-                                    aiManager.takenCoverPositions.Add(child.position);
+                                    aiManager.TakenCoverPositions.Add(child.position);
                                     targetPosition = child.position;
                                     minDistToCover = Vector3.Magnitude((hit2.transform.position - opponent.transform.position));
                                 }
@@ -451,7 +446,7 @@ public class AIController : MonoBehaviour
 
     public void UpdateClosestPlayer()
     {
-        targetPlayer = CalculateClosest(PlayerManager.players);
+        targetPlayer = CalculateClosest(PlayerManager.players, aiManager.KillPriority);
     }
 
 

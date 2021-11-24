@@ -48,13 +48,7 @@ public class Encounter : MonoBehaviour
         // If procedurally generated -> Call SpawnEnemiesRrndomPositions() instead of ActivateEnemies()
     }
 
-    void ActivateEnemies(List<GameObject> enemyList)
-    {
-        foreach (GameObject e in enemyList)
-        {
-            e.GetComponent<AIController>().InActiveCombat = true; 
-        }
-    }
+    
 
     public List<GameObject> GetEnemylist()
     {
@@ -81,7 +75,7 @@ public class Encounter : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && GameManager.Instance.CurrentCombatState == CombatState.none)
         {
             GameManager.Instance.StartEncounter(this);
-            ActivateEnemies(GetEnemylist());
+            //GetComponentInChildren<AIManager>().EnableEnemyDamage(GetEnemylist());
         }
     }
 
