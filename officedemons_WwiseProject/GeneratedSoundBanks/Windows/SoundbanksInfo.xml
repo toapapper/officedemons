@@ -22,7 +22,7 @@
 				<GameParameter Id="2918011349" Name="MasterVolume" ObjectPath="\Game Parameters\Default Work Unit\Volume\MasterVolume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="3161908922" Language="SFX" Hash="4021916476">
+		<SoundBank Id="3161908922" Language="SFX" Hash="3921794065">
 			<ObjectPath>\SoundBanks\Default Work Unit\Main</ObjectPath>
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
@@ -40,6 +40,14 @@
 						<File Id="811453149" Language="SFX">
 							<ShortName>Blunt_thud.wav</ShortName>
 							<Path>SFX\Blunt_thud_55197359.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="4030404899" Name="Play_Explosion" ObjectPath="\Events\Default Work Unit\Play_Explosion" DurationType="OneShot" DurationMin="3.561250" DurationMax="3.561250">
+					<IncludedMemoryFiles>
+						<File Id="951172493" Language="SFX">
+							<ShortName>Explosion.wav</ShortName>
+							<Path>SFX\Explosion_55197359.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>

@@ -15,6 +15,7 @@ namespace AK
     {
         static const AkUniqueID PLAY_AMBIENCE_HALL_LARGE__ENTRANCE__OFFICE_BUILDING__MORNING__DOWNTOWN_CHICAGO__USA__LOOP_LRLSRS = 1546138968U;
         static const AkUniqueID PLAY_BLUNT_THUD = 3757306353U;
+        static const AkUniqueID PLAY_EXPLOSION = 4030404899U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
         static const AkUniqueID PLAY_OFFICE_SFX_CHUG1 = 1700212473U;
         static const AkUniqueID PLAY_OFFICE_SFX_MUTEDSTRING1 = 2348070506U;

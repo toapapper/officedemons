@@ -51,6 +51,7 @@ public abstract class MeleeWeapon : AbstractWeapon
                 Effects.ApplyWeaponEffects(target, effects);
                 if (particleEffect)
                 {
+                    AkSoundEngine.PostEvent("Play_Blunt_thud", gameObject);
                     Instantiate(particleEffect, target.transform.position, target.transform.rotation * Quaternion.Euler(0, 180, 0));
                 }
             }

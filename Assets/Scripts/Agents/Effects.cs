@@ -36,7 +36,12 @@ public static class Effects
 			return;
         }
 
-		int dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
+		int dmg = (int)damage;
+		if (target.tag == "Player" || target.tag == "Enemy")
+		{
+			dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
+		}
+
 		target.GetComponent<Attributes>().Health -= dmg;
 
 		UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
@@ -150,7 +155,10 @@ public static class Effects
 
 	public static void ApplyForce(GameObject target, Vector3 force)
 	{
-		target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
+		if(target.tag != "CoverObject")
+        {
+			target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
+        }
 	}
 
 	public static void Die(GameObject target)
@@ -168,6 +176,10 @@ public static class Effects
 
 			target.GetComponent<PlayerStateController>().Die();
 		}
+		else if(target.tag == "CoverObject")
+        {
+			target.GetComponent<DestructibleObjects>().Explode();
+        }
 	}
 	/// <summary>
 	/// Add or remove weight
@@ -210,4 +222,6 @@ public static class Effects
 	{
 		target.GetComponent<PlayerStateController>().Revive();
 	}
+
+
 }
