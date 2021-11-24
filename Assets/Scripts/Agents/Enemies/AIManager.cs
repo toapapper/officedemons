@@ -59,6 +59,13 @@ public class AIManager : MonoBehaviour
         set { killPriority = value; }
     }
 
+    private List<GameObject> allWeapons;
+    public List<GameObject> AllWeapons
+    {
+        get { return allWeapons; }
+    }
+
+
     private void Start()
     {
         actionsQueue = new Queue<GameObject>();
@@ -89,7 +96,7 @@ public class AIManager : MonoBehaviour
         actionsQueue.Clear();
         KillPriority.Clear();
         UpdateKillPriority();
-
+        allWeapons = new List<GameObject>(GameObject.FindGameObjectsWithTag("WeaponObject"));
         foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
         {
             go.GetComponent<GroundEffectObject>().ApplyEffectsOnEnemys();

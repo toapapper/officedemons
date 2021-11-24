@@ -23,7 +23,7 @@ public class AIController : MonoBehaviour
     private FieldOfView fov;
     public NavMeshAgent navMeshAgent; // TODO: Maybe change to property
     private AIManager aiManager;
-    private WeaponHand weapon;
+    private WeaponHand weaponHand;
 
     private GameObject targetPlayer;
     public GameObject TargetPlayer
@@ -86,7 +86,7 @@ public class AIController : MonoBehaviour
         CurrentState = AIStates.States.Unassigned;
         aiStateHandler = GetComponent<AIStateHandler>();
         aiManager = transform.parent.GetComponentInChildren<AIManager>();
-        weapon = GetComponent<WeaponHand>();
+        weaponHand = GetComponent<WeaponHand>();
     }
 
     public void Die()
@@ -141,7 +141,6 @@ public class AIController : MonoBehaviour
                 ActionIsLocked = true;
                 break;
             case AIStates.States.Move:
-
                 if (targetPosition == Vector3.zero)
                 {
                     // if hasAdvantage or HasRangedWeapon chose the player with lowest health, else chose closest
@@ -163,8 +162,11 @@ public class AIController : MonoBehaviour
                         targetPosition = targetPlayer.transform.position;
                     }
                 }
-
-                if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance || transform.position != targetPosition) // <-- -CanHitTarget?
+                if (Target.CompareTag("WeaponObject") && Vector3.Distance(gameObject.transform.position, Target.transform.position) < 2)
+                {
+                    PickupWeapon(Target);
+                }
+                else if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance || transform.position != targetPosition) // <-- -CanHitTarget?
                 {
                     MoveTowards(targetPosition);
                 }
@@ -172,6 +174,17 @@ public class AIController : MonoBehaviour
                 {
                     currentState = AIStates.States.Unassigned;
                 }
+                break;
+
+            case AIStates.States.SearchingForWeapon:
+                Target = GetClosestWeapon();
+                if (Target == null)
+                {
+                    TargetPlayer = CalculateClosest(PlayerManager.players, aiManager.KillPriority);
+                    Target = TargetPlayer;
+                }
+                TargetPosition = Target.transform.position;
+                CurrentState = AIStates.States.Move;
                 break;
 
             case AIStates.States.Wait:
@@ -194,7 +207,7 @@ public class AIController : MonoBehaviour
         switch (currentState)
         {
             case AIStates.States.Attack:
-                weapon.Attack();
+                weaponHand.Attack();
                 break;
             default:
                 Debug.Log("default");
@@ -203,35 +216,25 @@ public class AIController : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// Used for both if we want to pickup a ranged weapon instead of another and to simply find the closest weapon.
-    /// </summary>
-    /// <param name="minimumRangeForWeapon">0 == all weapons| How long range should the weapon you're looking for be as a minimum</param>
-    /// <returns></returns>
-    public GameObject GetClosestWeapon(float minimumRangeForWeapon, float maximumDistancefromObject)
+    private GameObject GetClosestWeapon()
     {
-        float closest = float.MaxValue;
+        Bounds bounds = aiManager.GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
         GameObject closestWeapon = null;
-        //We check all weapons everytime, might not wanna do this because of performance
-        GameObject[] weapons = GameObject.FindGameObjectsWithTag("WeaponObject");
-        for (int i = 0; i < weapons.Length; i++)
+        float closest = float.MaxValue;
+        foreach (GameObject weapon in aiManager.AllWeapons)
         {
-            float distance = CalculateDistance(weapons[i]);
-            if (distance < closest &&
-                weapons[i].GetComponent<AbstractWeapon>().ViewDistance >= minimumRangeForWeapon &&
-                distance <= maximumDistancefromObject &&
-                !weapons[i].GetComponent<AbstractWeapon>().IsHeld)
+            if (bounds.Contains(weapon.transform.position))
             {
-                closest = distance;
-                closestWeapon = weapons[i];
+                float distance = CalculateDistance(weapon);
+                if (distance < closest && !weapon.GetComponent<AbstractWeapon>().IsHeld)
+                {
+                    closest = distance;
+                    closestWeapon = weapon;
+                }
             }
         }
-        if (closest < float.MaxValue)
-        {
-            return closestWeapon;
-
-        }
-        return null;
+        aiManager.AllWeapons.Remove(closestWeapon);
+        return closestWeapon;
     }
 
 
@@ -452,16 +455,8 @@ public class AIController : MonoBehaviour
 
     public void PickupWeapon(GameObject weapon)
     {
-        Debug.Log("TRYING TO EQUIP");
-        if (Vector3.Distance(gameObject.transform.position, weapon.transform.position) < 1 && weapon.CompareTag("WeaponObject"))
-        {
-            gameObject.GetComponent<WeaponHand>().Equip(weapon);
-            navMeshAgent.isStopped = true;
-            currentState = AIStates.States.Unassigned;
-            Debug.Log("EQUIP");
-        }
+        gameObject.GetComponent<WeaponHand>().Equip(weapon);
+        navMeshAgent.isStopped = true;
+        currentState = AIStates.States.Unassigned;
     }
-
-
-
 }
