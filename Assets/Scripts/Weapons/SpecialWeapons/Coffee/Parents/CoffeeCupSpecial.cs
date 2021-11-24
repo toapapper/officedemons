@@ -26,8 +26,13 @@ public class CoffeeCupSpecial : AbstractSpecial
 		if (!isActive)
 		{
 			specialController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
+			specialController.ThrowAim.DeActivate();
 		}
-		specialController.ThrowAim.gameObject.SetActive(isActive);
+		else
+		{
+			specialController.ThrowAim.gameObject.SetActive(isActive);
+			specialController.ThrowAim.SetExplosionSize(explodeRadius * 2);
+		}
 	}
 
 	public override void StartAttack()

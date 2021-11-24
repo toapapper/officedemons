@@ -56,7 +56,7 @@ public class SpecialHand : MonoBehaviour
 		fovVisualization.GetComponent<Renderer>().material.color = aimGradient.colorKeys[0].color;
 		throwAim.gameObject.SetActive(true);
 		GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
-		throwAim.gameObject.SetActive(false);
+		throwAim.DeActivate();
 		if (objectInHand)
 		{
 			objectInHand.SetAimColor(aimGradient);
