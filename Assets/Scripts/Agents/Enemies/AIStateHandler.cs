@@ -62,21 +62,10 @@ public class AIStateHandler : MonoBehaviour
                 aiController.CurrentState = AIStates.States.FindCover;
 
             }
-            //else if (!aiController.IsArmed() && attributes.Stamina > 0 && aiController.GetClosestWeapon(0, 100) != null)
-            //{
-            //    //Might remove it later but for now just a quick fix
-            //    aiController.UpdateClosestPlayer();
-            //    //Check if there's a ranged weapon is closer than the closest enemy to try and shoot him from range
-            //    GameObject rangedWeapon = aiController.GetClosestWeapon(10, 100);
-            //    if ( rangedWeapon != null && aiController.CalculateDistance(aiController.TargetPlayer) <= aiController.CalculateDistance(rangedWeapon))
-            //    {
-            //        WalkTowardsWeapon(10);
-            //    }
-            //    else
-            //    {
-            //        WalkTowardsWeapon(0);
-            //    }
-            //}
+            else if (aiController.CurrentState != AIStates.States.Move && !aiController.IsArmed() && attributes.Stamina > 0)
+            {
+                aiController.CurrentState = AIStates.States.SearchingForWeapon;
+            }
             else if (PlayerIsInRange()) // <- If one or more players are within fov range
             {
                 aiController.CurrentState = AIStates.States.Attack;
@@ -89,7 +78,6 @@ public class AIStateHandler : MonoBehaviour
                 if (attributes.Stamina > 0 && gameObject.transform.position != aiController.TargetPosition)
                 {
                     aiController.CurrentState = AIStates.States.Move;
-
                 }
                 //No stamina -> wait/attack
                 else
@@ -120,11 +108,7 @@ public class AIStateHandler : MonoBehaviour
             {
                 if (hit.transform.gameObject.tag == "Player")
                 {
-                    // if not too far away
-                    if ((hit.transform.position - transform.position).magnitude <= fov.ViewRadius * 4) // maybe change fov.ViewRadius since bullets can travel further
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;
@@ -158,22 +142,6 @@ public class AIStateHandler : MonoBehaviour
     private bool HasReachedTargetPosition()
     {
         return aiController.TargetPosition == gameObject.transform.position;
-    }
-
-
-    private void WalkTowardsWeapon(float minimumWeaponRange)
-    {
-        GameObject weapon = aiController.GetClosestWeapon(minimumWeaponRange, float.MaxValue);
-        aiController.TargetPosition = weapon.transform.position;
-        aiController.Target = weapon;
-        aiController.CurrentState = AIStates.States.Move;
-    }
-
-    private void WalkTowardsWeapon(GameObject weapon)
-    {
-        aiController.TargetPosition = weapon.transform.position;
-        aiController.Target = weapon;
-        aiController.CurrentState = AIStates.States.Move;
     }
 
     // Check if players are fewer than AI, if players are unarmed but AI have weapons
