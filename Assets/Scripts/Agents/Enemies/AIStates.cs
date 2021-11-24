@@ -18,5 +18,5 @@ using UnityEngine;
 
 public static class AIStates 
 {
-    public enum States { FindCover, CallForHealing, Attack, Move, Wait , Unassigned, Dead};
+    public enum States { FindCover, Attack, Move, SearchingForWeapon, Wait , Unassigned, Dead};
 }
