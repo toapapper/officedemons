@@ -20,22 +20,52 @@ using UnityEngine.Events;
 
 public class AIManager : MonoBehaviour
 {
-    public List<GameObject> playerList;
     private UnityEvent doneEvent;
     private AIManager instance;
     private Queue<GameObject> actionsQueue;
-    public List<GameObject> enemyList;
-    public List<Vector3> coverList;
-    public List<Vector3> takenCoverPositions;
-    public List<GameObject> killPriority;
+
+    private List<GameObject> playerList;
+    public List<GameObject> PlayerList
+    {
+        get { return playerList; }
+        set { playerList = value; }
+    }
+
+    private List<GameObject> enemyList;
+    public List<GameObject> EnemyList
+    {
+        get { return enemyList; }
+        set { enemyList = value; }
+    }
+
+    private List<Vector3> coverList;
+    public List<Vector3> CoverList
+    {
+        get { return coverList; }
+        set { coverList = value; }
+    }
+
+    private List<Vector3> takenCoverPositions;
+    public List<Vector3> TakenCoverPositions
+    {
+        get { return takenCoverPositions; }
+        set { takenCoverPositions = value; }
+    }
+
+    private List<GameObject> killPriority;
+    public List<GameObject> KillPriority
+    {
+        get { return killPriority; }
+        set { killPriority = value; }
+    }
 
     private void Start()
     {
         actionsQueue = new Queue<GameObject>();
-        playerList = PlayerManager.players;
-        coverList = FindCoverSpotsInEncounter();
-        List<Vector3> takenCoverPositions = new List<Vector3>();
-        List<GameObject> killPriority = new List<GameObject>();
+        PlayerList = PlayerManager.players;
+        CoverList = FindCoverSpotsInEncounter();
+        TakenCoverPositions = new List<Vector3>();
+        KillPriority = new List<GameObject>();
     }
 
     /// <summary>
@@ -44,13 +74,9 @@ public class AIManager : MonoBehaviour
     /// <param name=""></param>
     public void BeginCombat()
     {
-        enemyList = GameManager.Instance.CurrentEncounter.GetEnemylist();
-        GameManager.Instance.StillCheckList.AddRange(enemyList);
-
-        foreach (GameObject e in enemyList)
-        {
-            e.GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
-        }
+        EnemyList = GameManager.Instance.CurrentEncounter.GetEnemylist();
+        GameManager.Instance.StillCheckList.AddRange(EnemyList);
+        EnableEnemyDamage();
     }
 
     /// <summary>
@@ -59,9 +85,9 @@ public class AIManager : MonoBehaviour
     /// <param name=""></param>
     public void BeginTurn()
     {
-        takenCoverPositions.Clear();
+        TakenCoverPositions.Clear();
         actionsQueue.Clear();
-        killPriority.Clear();
+        KillPriority.Clear();
         UpdateKillPriority();
 
         foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
@@ -69,7 +95,7 @@ public class AIManager : MonoBehaviour
             go.GetComponent<GroundEffectObject>().ApplyEffectsOnEnemys();
         }
 
-        foreach (GameObject e in enemyList)
+        foreach (GameObject e in EnemyList)
         {
             e.GetComponent<AIController>().TargetPosition = Vector3.zero;
 
@@ -94,9 +120,9 @@ public class AIManager : MonoBehaviour
         bool allDone = true;
         bool allDead = true;
 
-        for (int i = 0; i < enemyList.Count; i++)
+        for (int i = 0; i < EnemyList.Count; i++)
         {
-            GameObject e = enemyList[i];
+            GameObject e = EnemyList[i];
 
             if (!e.GetComponent<AIController>().ActionIsLocked) // if not all locked actions
             {
@@ -154,7 +180,6 @@ public class AIManager : MonoBehaviour
 
     private List<Vector3> FindCoverSpotsInEncounter()
     {
-        Debug.Log("KOMEMR IN I FINDCOVERPOSITIONS");
         Bounds bounds = GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
         GameObject[] allCovers = GameObject.FindGameObjectsWithTag("CoverPosition");
         List<Vector3> temp = new List<Vector3>();
@@ -167,7 +192,6 @@ public class AIManager : MonoBehaviour
             }
         }
 
-        Debug.Log("KOMEMR FÖRBII COVERPOSITIONLIST");
         return temp;
     }
 
@@ -198,36 +222,43 @@ public class AIManager : MonoBehaviour
         }
     }
 
-
-
     private void UpdateKillPriority()
     {
-        Debug.Log("KOMEMR IN I KILLPRIORITY");
-        killPriority.Add(playerList[0]);
+        KillPriority.Add(PlayerList[0]);
 
-        for (int i = 1; i < playerList.Count; i++)
+        for (int i = 1; i < PlayerList.Count; i++)
         {
-            for (int j = 0; j < playerList.Count; j++)
+            for (int j = 0; j < PlayerList.Count; j++)
             {
-                if (playerList[i].GetComponent<Attributes>().Health < killPriority[j].GetComponent<Attributes>().Health) // if new object should be highest prio
+                if (PlayerList[i].GetComponent<Attributes>().Health < KillPriority[j].GetComponent<Attributes>().Health) // if new object should be highest prio
                 {
-                    killPriority.Insert(j, playerList[i]); 
+                    KillPriority.Insert(j, PlayerList[i]); 
                 }
             }
 
             // If no one in killpriorty had higher health
-            if (!killPriority.Contains(playerList[i]))
+            if (!KillPriority.Contains(PlayerList[i]))
             {
-                killPriority.Add(playerList[i]);
+                KillPriority.Add(PlayerList[i]);
             }
         }
 
-        Debug.Log("KOMEMR FÖRBII KILLPRIORITY");
         ////DEBUG
         //Debug.Log("THE FOLLOWING SHOULD BE IN ORDER LOWEST TO HIGHEST");
         //foreach (GameObject go in killPriority)
         //{
         //    Debug.Log("KILL: " + go.GetComponent<Attributes>().Health);
         //}
+    }
+
+    private void EnableEnemyDamage()
+    {
+        foreach (GameObject e in EnemyList)
+        {
+            e.GetComponent<AIController>().InActiveCombat = true;
+            e.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            e.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+            e.GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
+        }
     }
 }
