@@ -57,7 +57,7 @@ public class Checkpoint : MonoBehaviour
 		int playerCounter = 0;
 		foreach (GameObject player in PlayerManager.players)
 		{
-			player.GetComponent<WeaponHand>().DropWeapon();
+			//player.GetComponent<WeaponHand>().DropWeapon();
 
 			PlayerData playerData = SaveSystem.LoadPlayer(player.name);
 
@@ -66,12 +66,8 @@ public class Checkpoint : MonoBehaviour
 			//
 
 			player.GetComponent<Attributes>().Health = playerData.playerHealth;
-			//if (playerData.hasWeapon)
-			//{
-			//	//Create weapon with playerData.weaponName and place in weaponHand
-			//	//player.GetComponent<WeaponHand>().objectInHand.Durability = playerData.durability
-			//}
-
+			player.GetComponent<Attributes>().KillCount = playerData.kills;
+			player.GetComponent<SpecialHand>().ObjectInHand.Charges = playerData.charges;
 
 			Vector3 newPos = new Vector3(positions[playerCounter].position.x, player.transform.position.y, positions[playerCounter].position.z);
 			Debug.Log("NEW POSITION:       " + newPos);
@@ -85,7 +81,17 @@ public class Checkpoint : MonoBehaviour
 		foreach (Transform weapon in GameObject.Find("Weapons").transform)
 		{
 			Debug.Log("WEAPON FOUND");
+			//RemoveFromNearbyLists
+			//foreach(GameObject player in PlayerManager.players)
+			//{
+			//	player.GetComponent<PlayerInputHandler>().RemoveObjectFromWeaponList(weapon.GetChild(0).gameObject);
+			//}
+			
 			Destroy(weapon.gameObject);
+			foreach (GameObject player in PlayerManager.players)
+			{
+				player.GetComponent<PlayerInputHandler>().ClearNearbyObjectList();
+			}
 		}
 
 		List<WeaponData> weaponDataList = SaveSystem.LoadWeapons();

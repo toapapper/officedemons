@@ -156,7 +156,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 		{
 			collider.enabled = true;
 		}
-		holderAgent = null;
+
 	}
 
 	public virtual void SetAimGradient(Gradient gradient) { }
@@ -196,6 +196,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 			}
 			isProjectile = false;
 		}
+		holderAgent = null;
 	}
 
 

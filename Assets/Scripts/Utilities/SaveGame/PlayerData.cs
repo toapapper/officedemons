@@ -7,8 +7,8 @@ public class PlayerData
 {
 	public string playerName;
 	public int playerHealth;
-	//public int kills;
-	//public int charges;
+	public int kills;
+	public int charges;
 	public bool hasWeapon;
 
 	public string weaponName;
@@ -19,9 +19,9 @@ public class PlayerData
 	{
 		playerName = player.name;
 		playerHealth = player.GetComponent<Attributes>().Health;
+		kills = player.GetComponent<Attributes>().KillCount;
+		charges = player.GetComponent<SpecialHand>().ObjectInHand.Charges;
 		hasWeapon = player.GetComponent<WeaponHand>().objectInHand;
-		//kills = player.GetComponent<Attributes>().Kills;
-		//charges = player.GetComponent<SpecialHand>().objectInHand.Charges
 
 		if (hasWeapon)
 		{
