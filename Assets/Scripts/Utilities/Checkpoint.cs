@@ -51,7 +51,7 @@ public class Checkpoint : MonoBehaviour
 	public void LoadCheckpoint()
 	{
 		//
-		GameManager.Instance.ResetEncounter();
+		//GameManager.Instance.ResetEncounter();
 		//
 
 		int playerCounter = 0;
@@ -103,8 +103,9 @@ public class Checkpoint : MonoBehaviour
 				Quaternion.Euler(0, 0, 0)) as GameObject;
 			newWeapon.transform.parent = GameObject.Find("Weapons").transform;
 
+			newWeapon.name = weaponData.weaponName;
 			AbstractWeapon abstractWeapon = newWeapon.GetComponentInChildren<AbstractWeapon>();
-			abstractWeapon.gameObject.name = weaponData.weaponName;
+			//abstractWeapon.gameObject.name = weaponData.weaponName;
 			abstractWeapon.Damage = weaponData.damage;
 			abstractWeapon.HitForce = weaponData.hitForce;
 			abstractWeapon.ThrowDamage = weaponData.throwDamage;
@@ -126,7 +127,8 @@ public class Checkpoint : MonoBehaviour
 			}
 		}
 
-		//GameManager.Instance.ResetEncounter();
+		GameManager.Instance.ResetEncounter();
+		isSaved = false;
 
 
 		//int playerCounter = 0;
@@ -144,6 +146,7 @@ public class Checkpoint : MonoBehaviour
 		//          newPlayer.transform.parent = PlayerManager.Instance.transform;
 		//          i++;
 		//      }
+
 	}
 
 	private void OnTriggerEnter(Collider other)
