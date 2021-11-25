@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 54085090842991952}
   - component: {fileID: 54085090842991966}
   - component: {fileID: 54085090842991967}
+  - component: {fileID: 1721156170}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -64,7 +65,21 @@ MonoBehaviour:
   InGame: 0
   OptionsMenu: {fileID: 0}
   FirstSelectedMainMenu: {fileID: 0}
-  BGImage: {fileID: 0}
+--- !u!114 &1721156170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 54085090842991953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3246ec73ddcc20e4d873df0db34b341e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  start: {fileID: 54085091581590093}
+  options: {fileID: 54085092044431994}
+  exit: {fileID: 54085091957401408}
 --- !u!1 &54085091581590093
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,6 +204,18 @@ MonoBehaviour:
       - m_Target: {fileID: 54085090842991967}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
         m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1721156170}
+        m_TargetAssemblyTypeName: UIButtonSound, Assembly-CSharp
+        m_MethodName: onClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

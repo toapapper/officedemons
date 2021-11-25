@@ -47,6 +47,7 @@ public class TerribleBreath : AbstractSpecial
     {
         if (!particleEffect.activeSelf)
         {
+            AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
             particleEffect.SetActive(true);
             StartCoroutine(CountdownTime(1.5f));
 

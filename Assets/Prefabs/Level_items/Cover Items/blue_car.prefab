@@ -13,12 +13,14 @@ GameObject:
   - component: {fileID: 6629458583759584825}
   - component: {fileID: -7485517018174384899}
   - component: {fileID: 8846118224203174416}
-  m_Layer: 3
+  - component: {fileID: 221749912}
+  - component: {fileID: 221749913}
+  m_Layer: 11
   m_Name: blue_car
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5497696306069013846
 Transform:
@@ -117,6 +119,40 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.6435728, y: 6.6406517, z: 1.5659595}
   m_Center: {x: 0, y: -0.93080956, z: -0.17150418}
+--- !u!114 &221749912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5116209045279662060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045394b85f26e804b916a3ed3c696019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  characterName: 3
+  jobTitle: "arbetsl\uFFFDs"
+  startHealth: 1
+  killCount: 0
+  health: 1
+  startStamina: 3.5
+  stamina: 0
+--- !u!114 &221749913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5116209045279662060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96207ad84dc1eb4428ffe1619bb9068d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyedPrefab: {fileID: 283342948209450664, guid: b8e25a1a56330704590deae9eaa28803, type: 3}
+  particleEffect: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
 --- !u!1001 &637074696058062326
 PrefabInstance:
   m_ObjectHideFlags: 0

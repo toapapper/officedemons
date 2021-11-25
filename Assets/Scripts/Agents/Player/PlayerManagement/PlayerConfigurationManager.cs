@@ -55,6 +55,11 @@ public class PlayerConfigurationManager : MonoBehaviour
 		if (playerConfigurations.Count >= minimumPlayers && playerConfigurations.All(p => p.IsReady == true))
 		{
 			SceneManager.LoadScene(gameSceneName);
+			AkSoundEngine.StopAll();
+			AkSoundEngine.SetState("Music_State", "Roaming");
+			AkSoundEngine.SetState("Music", "RoamingState1");
+			AkSoundEngine.PostEvent("Play_Music", gameObject);
+			AkSoundEngine.PostEvent("Play_AMBIENCE_Hall_Large__Entrance__Office_Building__Morning__Downtown_Chicago__USA__LOOP_LRLsRs", gameObject);
 		}
 	}
 

@@ -13,12 +13,14 @@ GameObject:
   - component: {fileID: 1254646458577327205}
   - component: {fileID: 3468711924421783360}
   - component: {fileID: 6713184926385275713}
-  m_Layer: 3
+  - component: {fileID: 6777326615435960760}
+  - component: {fileID: 8070533399917571991}
+  m_Layer: 11
   m_Name: red_car
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &81709734946402058
 Transform:
@@ -117,6 +119,40 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.6435728, y: 6.6406517, z: 1.6314597}
   m_Center: {x: 0, y: -0.93080956, z: -0.13875307}
+--- !u!114 &6777326615435960760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750300407042651568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96207ad84dc1eb4428ffe1619bb9068d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyedPrefab: {fileID: 283342948209450664, guid: b8e25a1a56330704590deae9eaa28803, type: 3}
+  particleEffect: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
+--- !u!114 &8070533399917571991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750300407042651568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045394b85f26e804b916a3ed3c696019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  characterName: 3
+  jobTitle: "arbetsl\uFFFDs"
+  startHealth: 1
+  killCount: 0
+  health: 1
+  startStamina: 3.5
+  stamina: 0
 --- !u!1001 &1693151191951612619
 PrefabInstance:
   m_ObjectHideFlags: 0
