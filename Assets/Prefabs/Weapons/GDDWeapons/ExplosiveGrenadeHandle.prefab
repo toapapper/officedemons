@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 1640495290005943815}
   - component: {fileID: 5467605085570437209}
   - component: {fileID: 9117773720820394243}
-  - component: {fileID: 4558851348326836831}
+  - component: {fileID: 3616725986684269109}
   m_Layer: 9
   m_Name: ExplosiveGrenade
   m_TagString: WeaponObject
@@ -198,7 +198,7 @@ FixedJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &4558851348326836831
+--- !u!114 &3616725986684269109
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -207,10 +207,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4161206502513874890}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d483b5e9cbb63d1418edc05d6d8b8dcc, type: 3}
+  m_Script: {fileID: 11500000, guid: 16a0399c6b7ab40418026df3704088be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponTexture: {fileID: 21300000, guid: a96b8a0901737fd4199ed62d0f649cc9, type: 3}
   effects: 
+  holderAgent: {fileID: 0}
   handle: {fileID: 3617718076009827125}
   damage: 30
   hitForce: 20
@@ -222,6 +224,7 @@ MonoBehaviour:
   isHeld: 0
   grenade: {fileID: 2517534622733268033, guid: bca13332cadbef1478767c6b1c3cc8f3, type: 3}
   grenadeThrowForce: 10
+  explodeRadius: 2
   noBouncing: 0
 --- !u!1 &6781675073259596092
 GameObject:

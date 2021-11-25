@@ -38,7 +38,16 @@ public abstract class AbstractWeapon : MonoBehaviour
 	public const float SlipperyDropChance = .3f;
 	public const float DisarmChance = .3f;
 
-	[SerializeField] protected List<WeaponEffects> effects;
+    [SerializeField]
+    private Sprite weaponTexture;
+
+    public Sprite WeaponTexture
+    {
+        get { return weaponTexture; }
+    }
+
+
+    [SerializeField] protected List<WeaponEffects> effects;
 
 	[SerializeField]
 	protected GameObject holderAgent;
@@ -137,6 +146,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 		{
 			collider.enabled = true;
 		}
+		holderAgent = null;
 	}
 
 	public virtual void SetAimGradient(Gradient gradient) { }

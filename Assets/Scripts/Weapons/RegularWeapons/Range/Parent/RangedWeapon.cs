@@ -85,7 +85,6 @@ public abstract class RangedWeapon : AbstractWeapon
 			UpdateAimCone();
 			AimCone.SetActive(isActive);
         }
-
 	}
 
 	public override void StartAttack(Animator animator)

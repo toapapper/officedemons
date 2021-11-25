@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
 		{
 			for (int i = 0; i < GroundEffectObjects.Count; i++)
 			{
-                GroundEffectObjects[i].GetComponent<CoffeStain>().UpdateTime();
+                GroundEffectObjects[i].GetComponent<GroundEffectObject>().UpdateTime();
 
             }
 		}
@@ -134,7 +134,9 @@ public class GameManager : MonoBehaviour
                 roundTimer = RoundTime;
                 PlayerManager.Instance.BeginTurn();
                 // Add all objects in checklist to maincamera
-                mainCamera.ObjectsInCamera = stillCheckList;
+                //mainCamera.ObjectsInCamera = stillCheckList;
+                //Add encounter corner points to camera to fix it to encounter
+                mainCamera.ObjectsInCamera = currentEncounter.GetCameraPoints();
             }
         }
         else if (CurrentCombatState == CombatState.player)
