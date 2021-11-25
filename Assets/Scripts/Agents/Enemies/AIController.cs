@@ -137,6 +137,7 @@ public class AIController : MonoBehaviour
                 break;
 
             case AIStates.States.Attack:
+                Debug.LogError("AI Attack player: " + Target.gameObject.tag);
                 aiManager.SaveAction(this.gameObject);
                 ActionIsLocked = true;
                 break;
