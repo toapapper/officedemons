@@ -36,9 +36,15 @@ public class BombardWeapon : AbstractWeapon
 		if (!isActive)
 		{
 			throwAim.GetComponent<LineRenderer>().positionCount = 0;
+			throwAim.GetComponent<ThrowAim>().DeActivate();
 		}
-		throwAim.SetActive(isActive);
-		throwAim.GetComponent<ThrowAim>().NoBounceing = noBouncing;
+		else
+		{
+			throwAim.SetActive(isActive);
+			throwAim.GetComponent<ThrowAim>().NoBounceing = noBouncing;
+			throwAim.GetComponent<ThrowAim>().SetExplosionSize(explodeRadius * 2);
+		}
+		
 	}
 
 	public override void StartAttack(Animator animator)

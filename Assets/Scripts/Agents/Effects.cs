@@ -22,7 +22,12 @@ public static class Effects
 		{
 			wielder.GetComponent<SpecialHand>().GiveRegularDamageEffect();
 		}
-		Damage(target, damage, wielder);
+        //Damage(target, damage, wielder);
+        if (!(target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat))
+        {
+            Damage(target, damage, wielder);
+        }
+		
 	}
 	public static void Damage(GameObject target, float damage, GameObject wielder = null)
 	{
@@ -86,9 +91,13 @@ public static class Effects
 
 	public static void ApplyStatusEffect(GameObject target, StatusEffectType type, int duration = 1, int stacks = 1)
     {
-		target.GetComponent<StatusEffectHandler>().ApplyEffect(type, duration, stacks);
+        if (!(target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat))
+        {
+            target.GetComponent<StatusEffectHandler>().ApplyEffect(type, duration, stacks);
 
-		UIManager.Instance.NewFloatingText(target, "Status applied: " + type, Color.cyan);
+            UIManager.Instance.NewFloatingText(target, "Status applied: " + type, Color.cyan);
+        }
+        
     }
 
 	public static void Disarm(GameObject target)
@@ -103,50 +112,53 @@ public static class Effects
 		UIManager.Instance.NewFloatingText(target, "WEAPON DROPPED!", Color.red);
     }
 
-	/// <summary>
-	/// Applies the offensive effects to the hit target
-	/// </summary>
-	public static void ApplyWeaponEffects(GameObject target, List<WeaponEffects> weaponEffects)
-	{
-		if(weaponEffects == null)
+    /// <summary>
+    /// Applies the offensive effects to the hit target
+    /// </summary>
+    public static void ApplyWeaponEffects(GameObject target, List<WeaponEffects> weaponEffects)
+    {
+        if (!(target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat))
         {
-			return;
+            if (weaponEffects == null)
+            {
+                return;
+            }
+            foreach (WeaponEffects effect in weaponEffects)
+            {
+                switch (effect)
+                {
+                    case WeaponEffects.Fire:
+                        Effects.ApplyStatusEffect(target, StatusEffectType.Fire, (int)EffectDurations.Medium, 1);
+                        break;
+                    case WeaponEffects.Bleed:
+                        Effects.ApplyStatusEffect(target, StatusEffectType.Bleed, (int)EffectDurations.Medium, 1);
+                        break;
+                    case WeaponEffects.Poison:
+                        Effects.ApplyStatusEffect(target, StatusEffectType.Poison, (int)EffectDurations.Long, 1);
+                        break;
+                    case WeaponEffects.StaminaDrain:
+                        Effects.ApplyStatusEffect(target, StatusEffectType.StaminaDrain, (int)EffectDurations.Long, 1);
+                        break;
+                    case WeaponEffects.Vulnerable:
+                        Effects.ApplyStatusEffect(target, StatusEffectType.Vulnerable, (int)EffectDurations.Short, 1);
+                        break;
+                    case WeaponEffects.Paralyze:
+                        Effects.ApplyStatusEffect(target, StatusEffectType.Paralyze, (int)EffectDurations.Short, 1);
+                        break;
+                    case WeaponEffects.Slow:
+                        Effects.ApplyStatusEffect(target, StatusEffectType.Slow, (int)EffectDurations.Medium, 1);
+                        break;
+                    case WeaponEffects.Disarm:
+                        float rand = Random.value;
+                        if (rand < AbstractWeapon.DisarmChance)
+                        {
+                            Effects.Disarm(target);
+                        }
+                        break;
+                }
+            }
         }
-		foreach (WeaponEffects effect in weaponEffects)
-		{
-			switch (effect)
-			{
-				case WeaponEffects.Fire:
-					Effects.ApplyStatusEffect(target, StatusEffectType.Fire, (int)EffectDurations.Medium, 1);
-					break;
-				case WeaponEffects.Bleed:
-					Effects.ApplyStatusEffect(target, StatusEffectType.Bleed, (int)EffectDurations.Medium, 1);
-					break;
-				case WeaponEffects.Poison:
-					Effects.ApplyStatusEffect(target, StatusEffectType.Poison, (int)EffectDurations.Long, 1);
-					break;
-				case WeaponEffects.StaminaDrain:
-					Effects.ApplyStatusEffect(target, StatusEffectType.StaminaDrain, (int)EffectDurations.Long, 1);
-					break;
-				case WeaponEffects.Vulnerable:
-					Effects.ApplyStatusEffect(target, StatusEffectType.Vulnerable, (int)EffectDurations.Short, 1);
-					break;
-				case WeaponEffects.Paralyze:
-					Effects.ApplyStatusEffect(target, StatusEffectType.Paralyze, (int)EffectDurations.Short, 1);
-					break;
-				case WeaponEffects.Slow:
-					Effects.ApplyStatusEffect(target, StatusEffectType.Slow, (int)EffectDurations.Medium, 1);
-					break;
-				case WeaponEffects.Disarm:
-					float rand = Random.value;
-					if (rand < AbstractWeapon.DisarmChance)
-					{
-						Effects.Disarm(target);
-					}
-					break;
-			}
-		}
-	}
+    }
 
 	public static void ApplyForce(GameObject target, Vector3 force)
 	{

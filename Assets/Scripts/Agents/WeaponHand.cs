@@ -84,7 +84,7 @@ public class WeaponHand : MonoBehaviour
 		{
 			throwAim.gameObject.SetActive(true);
 			throwAim.GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
-			throwAim.gameObject.SetActive(false);
+			throwAim.DeActivate();
 		}
 	}
 

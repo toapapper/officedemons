@@ -169,6 +169,7 @@ public class StatusEffectHandler : MonoBehaviour
 
     public void ClearEffects()
     {
+        RemoveSlow();
         activeEffects.Clear();
     }
 
@@ -187,10 +188,12 @@ public class StatusEffectHandler : MonoBehaviour
                 {
                     if(si == StatusEffectType.Slow)
                     {
-                        Effects.ChangeWeight(gameObject, activeEffects[si].stacks * -slowWeight);
+                        RemoveSlow();
                     }
-
-                    activeEffects.Remove(si);
+                    else
+                    {
+                        activeEffects.Remove(si);
+                    }
                 }
                 else
                 {
@@ -200,6 +203,16 @@ public class StatusEffectHandler : MonoBehaviour
 
         }
     }
+
+    public void RemoveSlow()
+    {
+        if (activeEffects.ContainsKey(StatusEffectType.Slow))
+        {
+            Effects.ChangeWeight(gameObject, activeEffects[StatusEffectType.Slow].stacks * -slowWeight);
+            activeEffects.Remove(StatusEffectType.Slow);
+        }
+    }
+
 }
 
 

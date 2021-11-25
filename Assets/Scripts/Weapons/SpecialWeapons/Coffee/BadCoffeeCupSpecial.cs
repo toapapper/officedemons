@@ -29,7 +29,8 @@ public class BadCoffeeCupSpecial : CoffeeCupSpecial
 		Vector3 right = new Vector3(forward.z, 0, -forward.x);
 
 		Vector3 direction = (Quaternion.AngleAxis(-specialController.ThrowAim.initialAngle, right) * forward).normalized;
-		float throwForce = specialController.ThrowAim.initialVelocity;
+		//float throwForce = specialController.ThrowAim.initialVelocity;
+		float throwForce = specialController.ThrowAim.ThrowForce;
 
 
 		if (Charges == 0)
