@@ -25,6 +25,14 @@ public class AIController : MonoBehaviour
     private AIManager aiManager;
     private WeaponHand weaponHand;
 
+    private List<GameObject> killPriority;
+    public List<GameObject> KillPriority
+    {
+        get { return killPriority; }
+        set { killPriority = value; }
+    }
+    
+
     private GameObject targetPlayer;
     public GameObject TargetPlayer
     {
@@ -87,6 +95,7 @@ public class AIController : MonoBehaviour
         aiStateHandler = GetComponent<AIStateHandler>();
         aiManager = transform.parent.GetComponentInChildren<AIManager>();
         weaponHand = GetComponent<WeaponHand>();
+        KillPriority = new List<GameObject>();
     }
 
     public void Die()
@@ -107,7 +116,6 @@ public class AIController : MonoBehaviour
         Destroy(gameObject);
     }
 
-
     /// <summary>
     /// Performs the behaviour corresponding to the current state.
     /// </summary>
@@ -122,7 +130,7 @@ public class AIController : MonoBehaviour
 
                 if (targetPosition == Vector3.zero)
                 {
-                    targetPlayer = CalculateClosest(PlayerManager.players, aiManager.KillPriority);
+                    targetPlayer = CalculateClosest(PlayerManager.players, KillPriority);
                     FindCover(targetPlayer);
                 }
 
@@ -140,17 +148,18 @@ public class AIController : MonoBehaviour
                 aiManager.SaveAction(this.gameObject);
                 ActionIsLocked = true;
                 break;
+
             case AIStates.States.Move:
                 if (targetPosition == Vector3.zero)
                 {
                     // if hasAdvantage or HasRangedWeapon chose the player with lowest health, else chose closest
                     if (HoldingRangedWeapon() || aiStateHandler.HasAdvantage())
                     {
-                        targetPlayer = aiManager.KillPriority[0];
+                        targetPlayer = KillPriority[0];
                     }
                     else
                     {
-                        targetPlayer = CalculateClosest(PlayerManager.players, aiManager.KillPriority);
+                        targetPlayer = CalculateClosest(PlayerManager.players, KillPriority);
                     }
 
                     if (targetPlayer == null)
@@ -180,7 +189,7 @@ public class AIController : MonoBehaviour
                 Target = GetClosestWeapon();
                 if (Target == null)
                 {
-                    TargetPlayer = CalculateClosest(PlayerManager.players, aiManager.KillPriority);
+                    TargetPlayer = CalculateClosest(PlayerManager.players, KillPriority);
                     Target = TargetPlayer;
                 }
                 TargetPosition = Target.transform.position;
@@ -215,7 +224,6 @@ public class AIController : MonoBehaviour
         }
     }
 
-
     private GameObject GetClosestWeapon()
     {
         Bounds bounds = aiManager.GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
@@ -236,8 +244,6 @@ public class AIController : MonoBehaviour
         aiManager.AllWeapons.Remove(closestWeapon);
         return closestWeapon;
     }
-
-
 
     /// <summary>
     /// Calculates what player is the closest to the AI-agent.
@@ -358,7 +364,7 @@ public class AIController : MonoBehaviour
 
     public bool FindClosestAndCheckIfReachable()
     {
-        GameObject closest = CalculateClosest(PlayerManager.players, aiManager.KillPriority);
+        GameObject closest = CalculateClosest(PlayerManager.players, KillPriority);
         if (ReachableTarget(closest))
         {
             return true;
@@ -368,10 +374,6 @@ public class AIController : MonoBehaviour
 
     public void FindCover(GameObject opponent)
     {
-        // casta en ray fr�n opponent till coverpositions
-        // v�lj den som �r n�rmst och obstructed               (�ndra kanske sen s� att den kollar om det finns en som �r obstructed av flera)
-
-        // Add a check if spot already taken
         RaycastHit hit = new RaycastHit();
         float minDistToCover = Mathf.Infinity;
 
@@ -396,7 +398,6 @@ public class AIController : MonoBehaviour
                                 }
                             }
                         }
-                        //targetPosition = child.position;
                     }
                 }
             }
@@ -442,13 +443,12 @@ public class AIController : MonoBehaviour
 
         navMeshAgent.SetDestination(targetPos);
         gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
-        //gameObject.GetComponent<Attributes>().Stamina -= 1;
         targetPosition = targetPos;
     }
 
     public void UpdateClosestPlayer()
     {
-        targetPlayer = CalculateClosest(PlayerManager.players, aiManager.KillPriority);
+        targetPlayer = CalculateClosest(PlayerManager.players, KillPriority);
     }
 
 
@@ -458,4 +458,134 @@ public class AIController : MonoBehaviour
         navMeshAgent.isStopped = true;
         currentState = AIStates.States.Unassigned;
     }
+
+    public void UpdateKillPriority(List<GameObject> players) // maybe only target?
+    {
+        KillPriority.Clear();
+
+        float maxTravelDist = GetComponent<Attributes>().Stamina * navMeshAgent.speed / 1.2f;
+        float minDist = Mathf.Infinity;
+        float minHealth = Mathf.Infinity;
+        NavMeshPath sim_path = new NavMeshPath();
+
+
+        // of all players within range, chose the one with lowest health
+        // if none found walk towards the player closest to AI
+
+
+
+        foreach (GameObject player in players)
+        {
+            //simulates a path from AI to player
+            NavMesh.CalculatePath(transform.position, player.transform.position, NavMesh.AllAreas, sim_path);
+            float pathLength = 0;
+            Vector3 previousCorner = sim_path.corners[0];
+
+            if (HoldingRangedWeapon())
+            {
+                //for each corner in path see if you can shoot player and break if path is bigger than what AI can travel
+                for (int i = 0; i < sim_path.corners.Length - 1; i++)
+                {
+                    //check if path has gotten too long for stamina
+                    pathLength += Vector3.Distance(previousCorner, sim_path.corners[i]);
+                    if (pathLength > maxTravelDist)
+                    {
+                        break;
+                    }
+                    previousCorner = sim_path.corners[i];
+
+                    // Raycast to player and see if hit
+                    Vector3 direction = (player.transform.position - sim_path.corners[i]).normalized;
+                    RaycastHit hit = new RaycastHit();
+
+                    if (Physics.Raycast(sim_path.corners[i], direction, out hit))
+                    {
+                        if (hit.transform.gameObject.tag == "Player")
+                        {
+                            // if lowest health yet
+                            if (player.GetComponent<Attributes>().Health < minHealth)
+                            {
+                                minHealth = player.GetComponent<Attributes>().Health;
+                                KillPriority.Insert(0, player);
+                            }
+                            // OR if closest distance to travel yet 
+                            else if (pathLength < minDist)
+                            {
+                                //update target
+                                minDist = Vector3.Distance(sim_path.corners[i], transform.position);
+                                KillPriority.Insert(0, player);
+                            }
+                        }
+                    }
+                }
+            }
+            //Melee or unarmed should calculate travel distanse to hit and chose the one with lowest health or shortest travel distance
+            else
+            {
+                if(ReachableTarget(player))
+                {
+                    // if lowest health yet
+                    if (player.GetComponent<Attributes>().Health < minHealth)
+                    {
+                        minHealth = player.GetComponent<Attributes>().Health;
+                        KillPriority.Insert(0, player);
+                    }
+                    // OR if closest distance to travel yet 
+                    else if (CalculateNavMeshPathLength(sim_path) < minDist)
+                    {
+                        //update target
+                        minDist = CalculateNavMeshPathLength(sim_path);
+                        KillPriority.Insert(0, player);
+                    }
+                }
+            }
+
+            // If nothing reachable strat walking towards closest player
+            if (KillPriority.Count == 0)
+            {
+                
+            }
+
+            //for (int i = 1; i < players.Count; i++)
+            //{
+            //    for (int j = 0; j < players.Count; j++)
+            //    {
+            //        if (players[i].GetComponent<Attributes>().Health < KillPriority[j].GetComponent<Attributes>().Health) // if new object should be highest prio
+            //        {
+            //            KillPriority.Insert(j, players[i]);
+            //        }
+            //    }
+            //
+            //    // If no one in killpriorty had higher health
+            //    if (!KillPriority.Contains(players[i]))
+            //    {
+            //        KillPriority.Add(players[i]);
+            //    }
+            //}
+
+            ////DEBUG
+            //Debug.Log("THE FOLLOWING SHOULD BE IN ORDER LOWEST TO HIGHEST");
+            //foreach (GameObject go in killPriority)
+            //{
+            //    Debug.Log("KILL: " + go.GetComponent<Attributes>().Health);
+            //}
+        }
+
+
+    }
+
+    private float CalculateNavMeshPathLength(NavMeshPath path)
+    {
+        float dist = 0;
+        Vector3 previousCorner = path.corners[0];
+
+        for (int i = 0; i < path.corners.Length - 1; i++)
+        {
+            dist += Vector3.Distance(previousCorner, path.corners[i]);
+            previousCorner = path.corners[i];
+        }
+
+        return dist;
+    }
+
 }

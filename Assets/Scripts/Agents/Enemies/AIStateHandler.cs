@@ -50,14 +50,14 @@ public class AIStateHandler : MonoBehaviour
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, encounter.GetComponentInChildren<AIManager>().KillPriority);
+            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, aiController.KillPriority);
             Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             //Turn towards nearest player
         }
         //DeathCheck       
         if (aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
         {
-            if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !HasReachedTargetPosition()) // if low health and disadvantage and has stamina
+            if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !ReachedTargetPosition()) // if low health and disadvantage and has stamina
             {
                 aiController.CurrentState = AIStates.States.FindCover;
 
@@ -68,6 +68,7 @@ public class AIStateHandler : MonoBehaviour
             }
             else if (PlayerIsInRange()) // <- If one or more players are within fov range
             {
+                Debug.Log("ENEMY CHOSE ATTACK");
                 aiController.CurrentState = AIStates.States.Attack;
                 aiController.ActionIsLocked = true;
             }
@@ -101,16 +102,21 @@ public class AIStateHandler : MonoBehaviour
     {
         if (aiController.HoldingRangedWeapon())
         {
-            Vector3 direction = (aiController.TargetPlayer.transform.position - transform.position).normalized;
-            RaycastHit hit = new RaycastHit();
-
-            if (Physics.Raycast(transform.position, direction, out hit))
+            foreach(GameObject player in encounter.GetComponentInChildren<AIManager>().PlayerList)
             {
-                if (hit.transform.gameObject.tag == "Player")
+                // Raycast to every player and se eif move not needed
+                Vector3 direction = (aiController.TargetPlayer.transform.position - transform.position).normalized;
+                RaycastHit hit = new RaycastHit();
+
+                if (Physics.Raycast(transform.position, direction, out hit))
                 {
-                    return true;
+                    if (hit.transform.gameObject.tag == "Player")
+                    {
+                        return true;
+                    }
                 }
             }
+            
             return false;
         }
         else
@@ -139,9 +145,9 @@ public class AIStateHandler : MonoBehaviour
         return attributes.Health <= attributes.StartHealth / 2; // 
     }
 
-    private bool HasReachedTargetPosition()
+    private bool ReachedTargetPosition()
     {
-        return aiController.TargetPosition == gameObject.transform.position;
+        return Vector3.Distance(aiController.TargetPosition, gameObject.transform.position) < 2;
     }
 
     // Check if players are fewer than AI, if players are unarmed but AI have weapons
