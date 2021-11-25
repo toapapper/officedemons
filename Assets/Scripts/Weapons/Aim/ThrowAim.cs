@@ -66,6 +66,14 @@ public class ThrowAim : MonoBehaviour
 	{
 		get { return target; }
 	}
+	public Vector3 Velocity
+	{
+		get { return velocity; }
+	}
+	public float ThrowForce
+	{
+		get { return velocity.magnitude / 2; }
+	}
 
     void Awake()
     {
