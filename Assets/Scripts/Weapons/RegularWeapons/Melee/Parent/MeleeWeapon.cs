@@ -46,7 +46,7 @@ public abstract class MeleeWeapon : AbstractWeapon
         {
             foreach (GameObject target in fov.VisibleTargets)
             {
-                Effects.RegularDamage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost), holderAgent);
+                Effects.RegularDamage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost), HolderAgent);
                 Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
                 Effects.ApplyWeaponEffects(target, effects);
                 if (particleEffect)

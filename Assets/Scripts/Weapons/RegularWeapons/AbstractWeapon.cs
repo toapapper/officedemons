@@ -50,7 +50,9 @@ public abstract class AbstractWeapon : MonoBehaviour
     [SerializeField] protected List<WeaponEffects> effects;
 
 	[SerializeField]
-	protected GameObject holderAgent;
+	private GameObject holderAgent;
+	private WeaponHand weaponController;
+
 	[SerializeField]
 	private GameObject handle;
 	[SerializeField]
@@ -72,6 +74,16 @@ public abstract class AbstractWeapon : MonoBehaviour
 	private bool isHeld;
 	private bool isProjectile;
 
+	protected GameObject HolderAgent
+	{
+		get { return holderAgent; }
+		set { holderAgent = value; }
+	}
+	protected WeaponHand WeaponController
+	{
+		get { return weaponController; }
+		set { weaponController = value; }
+	}
 	protected GameObject Handle
 	{
 		get { return handle; }
@@ -187,6 +199,4 @@ public abstract class AbstractWeapon : MonoBehaviour
 			isProjectile = false;
 		}
 	}
-
-
 }

@@ -30,6 +30,7 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			if (weaponHand.StartBombard())
 			{
+				ChosenAction = TypeOfAction.BOMBARD;
 				weaponHand.ToggleAimView(true);
 				IsActionTriggered = true;
 				return true;
@@ -43,8 +44,9 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			if (weaponHand.PerformBombard())
 			{
+				ChosenAction = TypeOfAction.NOACTION;
 				IsActionTriggered = false;
-				weaponHand.ToggleAimView(false);
+				//weaponHand.ToggleAimView(false);
 				return true;
 			}
 		}
@@ -67,6 +69,8 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			if (specialHand.StartAttack())
 			{
+				Debug.Log("START SPECIAL");
+				ChosenAction = TypeOfAction.SPECIALBOMBARD;
 				specialHand.ToggleAimView(true);
 				IsActionTriggered = true;
 				return true;
@@ -80,12 +84,45 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			if (specialHand.Attack())
 			{
+				Debug.Log("DO SPECIAL");
+				ChosenAction = TypeOfAction.NOACTION;
 				IsActionTriggered = false;
-				specialHand.ToggleAimView(false);
+				//specialHand.ToggleAimView(false);
 				return true;
 			}
 		}
 		return false;
+	}
+	public override void LockAction()
+	{
+		switch (ChosenAction)
+		{
+			case TypeOfAction.BOMBARD:
+				OnBombard();
+				break;
+			case TypeOfAction.SPECIALBOMBARD:
+				OnSpecialBombard();
+				break;
+		}
+		ChosenAction = TypeOfAction.NOACTION;
+		IsActionTriggered = false;
+	}
+	public override void CancelAction()
+	{
+		switch (ChosenAction)
+		{
+			case TypeOfAction.BOMBARD:
+				weaponHand.CancelAction();
+				weaponHand.ToggleAimView(false);
+
+				break;
+			case TypeOfAction.SPECIALBOMBARD:
+				specialHand.CancelAction();
+				specialHand.ToggleAimView(false);
+				break;
+		}
+		ChosenAction = TypeOfAction.NOACTION;
+		IsActionTriggered = false;
 	}
 
 	//PickUp

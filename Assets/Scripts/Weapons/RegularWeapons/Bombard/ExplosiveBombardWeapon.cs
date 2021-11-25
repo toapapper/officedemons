@@ -11,11 +11,13 @@ public class ExplosiveBombardWeapon : BombardWeapon
 		forward.Normalize();
 		Vector3 right = new Vector3(forward.z, 0, -forward.x);
 
-		Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<WeaponHand>().ThrowAim.initialAngle, right) * forward).normalized;
+		Vector3 direction = (Quaternion.AngleAxis(-WeaponController.ThrowAim.initialAngle, right) * forward).normalized;
+		float throwForce = WeaponController.ThrowAim.ThrowForce;
 		//float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity;
-		float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.ThrowForce;
+		//float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.ThrowForce;
 
-		grenade.GetComponent<ExplosiveGrenadeProjectile>().CreateGrenade(holderAgent, transform.position, direction, throwForce, explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
+		grenade.GetComponent<ExplosiveGrenadeProjectile>().CreateGrenade(HolderAgent, transform.position, direction, throwForce,
+			explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
 
 		base.DoAction(fov);
 	}

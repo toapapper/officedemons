@@ -35,14 +35,19 @@ public class BombardWeapon : AbstractWeapon
 	{
 		if (!isActive)
 		{
-			throwAim.GetComponent<LineRenderer>().positionCount = 0;
-			throwAim.GetComponent<ThrowAim>().DeActivate();
+			WeaponController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
+			WeaponController.ThrowAim.DeActivate();
+			//throwAim.GetComponent<LineRenderer>().positionCount = 0;
+			//throwAim.GetComponent<ThrowAim>().DeActivate();
 		}
 		else
 		{
-			throwAim.SetActive(isActive);
-			throwAim.GetComponent<ThrowAim>().NoBounceing = noBouncing;
-			throwAim.GetComponent<ThrowAim>().SetExplosionSize(explodeRadius * 2);
+			WeaponController.ThrowAim.gameObject.SetActive(isActive);
+			WeaponController.ThrowAim.NoBounceing = noBouncing;
+			WeaponController.ThrowAim.SetExplosionSize(explodeRadius * 2);
+			//throwAim.SetActive(isActive);
+			//throwAim.GetComponent<ThrowAim>().NoBounceing = noBouncing;
+			//throwAim.GetComponent<ThrowAim>().SetExplosionSize(explodeRadius * 2);
 		}
 		
 	}
@@ -59,6 +64,8 @@ public class BombardWeapon : AbstractWeapon
 
 	public override void DoAction(FieldOfView fov)
 	{
+		WeaponController.ToggleAimView(false);
+
 		GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
 		if (wielder == null)
 		{

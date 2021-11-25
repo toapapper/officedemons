@@ -77,7 +77,7 @@ public class SpecialHand : MonoBehaviour
 	{
 		if (objectInHand)
 		{
-			objectInHand.ToggleAim(isActive/*, fovVisualization, throwAim.gameObject*/);
+			objectInHand.ToggleAim(isActive);
 		}
 	}
 
@@ -144,8 +144,8 @@ public class SpecialHand : MonoBehaviour
 	{
 		objectInHand.DoSpecialAction(/*fov*/);
 	}
-	public void DoSpecialActionEnd()
-	{
-		objectInHand.DoSpecialActionEnd();
-	}
+	//public void DoSpecialActionEnd()
+	//{
+	//	objectInHand.DoSpecialActionEnd();
+	//}
 }

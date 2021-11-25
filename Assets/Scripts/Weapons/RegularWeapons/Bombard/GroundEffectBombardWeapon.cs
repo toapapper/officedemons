@@ -13,7 +13,7 @@ public class GroundEffectBombardWeapon : BombardWeapon
 
 		Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<WeaponHand>().ThrowAim.initialAngle, right) * forward).normalized;
 		float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity;
-		grenade.GetComponent<PooGrenadeProjectile>().CreateGrenade(holderAgent, transform.position, direction, throwForce, explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
+		grenade.GetComponent<PooGrenadeProjectile>().CreateGrenade(HolderAgent, transform.position, direction, throwForce, explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
 
 		base.DoAction(fov);
 	}

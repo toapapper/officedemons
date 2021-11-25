@@ -29,22 +29,22 @@ public class SpinningChair : AbstractSpecial
 
 	public override void SetFOVSize()
 	{
-		specialController.FOV.ViewAngle = viewAngle;
-		specialController.FOV.ViewRadius = viewDistance;
+		SpecialController.FOV.ViewAngle = viewAngle;
+		SpecialController.FOV.ViewRadius = viewDistance;
 	}
 
 	public override void ToggleAim(bool isActive)
 	{
-		specialController.FOVVisualization.SetActive(isActive);
+		SpecialController.FOVVisualization.SetActive(isActive);
 	}
 
 	public override void StartAttack()
 	{
-		specialController.Animator.SetTrigger("isStartSpecialSpin");
+		SpecialController.Animator.SetTrigger("isStartSpecialSpin");
 	}
 	public override void Attack()
 	{
-		specialController.Animator.SetTrigger("isSpecialSpin");
+		SpecialController.Animator.SetTrigger("isSpecialSpin");
 	}
 
 	public override void StartTurnEffect()
@@ -58,7 +58,7 @@ public class SpinningChair : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
-		int nrOfTargets = specialController.FOV.VisibleTargets.Count;
+		int nrOfTargets = SpecialController.FOV.VisibleTargets.Count;
 
 		if(Charges == MaxCharges)
 		{
@@ -67,7 +67,7 @@ public class SpinningChair : AbstractSpecial
 				DoDamage();
 			}
 
-			Effects.Heal(holderAgent, healAmount * 2);
+			Effects.Heal(HolderAgent, healAmount * 2);
 
 			if (nrOfTargets < 2)
 			{
@@ -84,11 +84,11 @@ public class SpinningChair : AbstractSpecial
 				{
 					if(Charges == 1)
 					{
-						Effects.Heal(holderAgent, healAmount);
+						Effects.Heal(HolderAgent, healAmount);
 					}
 					else
 					{
-						Effects.Heal(holderAgent, healAmount * 2);
+						Effects.Heal(HolderAgent, healAmount * 2);
 					}
 				}
 			}
@@ -98,17 +98,17 @@ public class SpinningChair : AbstractSpecial
 
 	private void DoDamage()
 	{
-		foreach (GameObject target in specialController.FOV.VisibleTargets)
+		foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 		{
 			if (Charges == 0)
 			{
-				Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
+				Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
 			}
 			else
 			{
-				Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
+				Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
 			}
-			Effects.ApplyForce(target, (target.transform.position - specialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
+			Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
 		}
 	}
 }

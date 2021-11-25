@@ -25,23 +25,23 @@ public class CoffeeCupSpecial : AbstractSpecial
 	{
 		if (!isActive)
 		{
-			specialController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
-			specialController.ThrowAim.DeActivate();
+			SpecialController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
+			SpecialController.ThrowAim.DeActivate();
 		}
 		else
 		{
-			specialController.ThrowAim.gameObject.SetActive(isActive);
-			specialController.ThrowAim.SetExplosionSize(explodeRadius * 2);
+			SpecialController.ThrowAim.gameObject.SetActive(isActive);
+			SpecialController.ThrowAim.SetExplosionSize(explodeRadius * 2);
 		}
 	}
 
 	public override void StartAttack()
 	{
-		specialController.Animator.SetTrigger("isStartSpecialBombard");
+		SpecialController.Animator.SetTrigger("isStartSpecialBombard");
 	}
 	public override void Attack()
 	{
-		specialController.Animator.SetTrigger("isSpecialBombard");
+		SpecialController.Animator.SetTrigger("isSpecialBombard");
 	}
 
 	public override void StartTurnEffect()
@@ -62,5 +62,8 @@ public class CoffeeCupSpecial : AbstractSpecial
 		isHit = true;
 	}
 
-	public override void DoSpecialAction() { }
+	public override void DoSpecialAction()
+	{
+		SpecialController.ToggleAimView(false);
+	}
 }

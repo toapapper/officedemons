@@ -51,6 +51,8 @@ public class PlayerInputHandler : MonoBehaviour
 	private float maxBombardForce = 10f;
 	private float addedBombardForce;
 
+	private float targetSpeed = 0.1f;
+
 	public void Start()
 	{
 		forward = Camera.main.transform.forward;
@@ -251,7 +253,55 @@ public class PlayerInputHandler : MonoBehaviour
 		{
 			if (!player.CurrentState.IsActionLocked)
 			{
-				if (context.action.name == inputControls.PlayerMovement.Move.name)
+				if (isAddingBombardForce)
+				{
+					switch (player.CurrentState.ChosenAction)
+					{
+						case TypeOfAction.BOMBARD:
+							if (context.action.name == inputControls.PlayerMovement.Move.name)
+							{
+								Vector2 moveInput = context.ReadValue<Vector2>();
+								//weaponHand.ThrowAim.Target.transform.position += (moveInput.x * right + moveInput.y * forward).normalized * targetSpeed;
+								playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+								weaponHand.ThrowAim.Target.transform.Translate((moveInput.x * right + moveInput.y * forward).normalized * targetSpeed);
+							}
+							else if (context.performed)
+							{
+								if (context.action.name == inputControls.PlayerMovement.Attack.name)
+								{
+									player.LockAction();
+								}
+								else
+								{
+									player.CancelAction();
+								}
+								isAddingBombardForce = false;
+							}
+							break;
+						case TypeOfAction.SPECIALBOMBARD:
+							if (context.action.name == inputControls.PlayerMovement.Move.name)
+							{
+								Vector2 moveInput = context.ReadValue<Vector2>();
+								//specialHand.ThrowAim.Target.transform.position += (moveInput.x * right + moveInput.y * forward).normalized * targetSpeed;
+								playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+								specialHand.ThrowAim.Target.transform.Translate((moveInput.x * right + moveInput.y * forward).normalized * targetSpeed);
+							}
+							else if (context.performed)
+							{
+								if (context.action.name == inputControls.PlayerMovement.Special.name)
+								{
+									player.LockAction();
+								}
+								else
+								{
+									player.CancelAction();
+								}
+								isAddingBombardForce = false;
+							}
+							break;
+					}
+				}
+				else if (context.action.name == inputControls.PlayerMovement.Move.name)
 				{
 					Vector2 moveInput = context.ReadValue<Vector2>();
 					playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
@@ -440,15 +490,15 @@ public class PlayerInputHandler : MonoBehaviour
 				weaponHand.SetThrowForce(addedThrowForce);
 			}
 		}
-		else if (isAddingBombardForce)
-		{
-			if (addedBombardForce < maxBombardForce)
-			{
-				addedBombardForce += bombardForceMultiplier * Time.fixedDeltaTime;
-				weaponHand.SetBombardForce(addedBombardForce);
-				specialHand.SetBombardForce(addedBombardForce);
-			}
-		}
+		//else if (isAddingBombardForce)
+		//{
+		//	if (addedBombardForce < maxBombardForce)
+		//	{
+		//		addedBombardForce += bombardForceMultiplier * Time.fixedDeltaTime;
+		//		weaponHand.SetBombardForce(addedBombardForce);
+		//		specialHand.SetBombardForce(addedBombardForce);
+		//	}
+		//}
 	}
 
 	

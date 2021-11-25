@@ -130,21 +130,21 @@ public class CombatTurnState : AbstractPlayerState
 	{
 		if (IsActionTriggered)
 		{
-			switch (ChosenAction)
-			{
-				case TypeOfAction.ATTACK:
-				case TypeOfAction.BOMBARD:
-					weaponHand.ToggleAimView(false);
-					break;
-				case TypeOfAction.SPECIALATTACK:
-				case TypeOfAction.SPECIALBOMBARD:
-					specialHand.ToggleAimView(false);
-					break;
-				//case TypeOfAction.THROW:
-				//	//TODO
-				//	//weaponHand.ToggleThrowAimView(false);
-				//	break;
-			}
+			//switch (ChosenAction)
+			//{
+			//	case TypeOfAction.ATTACK:
+			//	case TypeOfAction.BOMBARD:
+			//		weaponHand.ToggleAimView(false);
+			//		break;
+			//	case TypeOfAction.SPECIALATTACK:
+			//	case TypeOfAction.SPECIALBOMBARD:
+			//		specialHand.ToggleAimView(false);
+			//		break;
+			//	//case TypeOfAction.THROW:
+			//	//	//TODO
+			//	//	//weaponHand.ToggleThrowAimView(false);
+			//	//	break;
+			//}
 			IsActionLocked = true;
 			Debug.Log("Chosenaction: " + ChosenAction);
 			PlayerManager.Instance.ActionDone(gameObject);

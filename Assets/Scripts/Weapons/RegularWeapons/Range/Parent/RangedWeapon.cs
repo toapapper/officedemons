@@ -57,9 +57,9 @@ public abstract class RangedWeapon : AbstractWeapon
     {
         get {
 			float modval = 0;
-			if (this.holderAgent != null)
+			if (this.HolderAgent != null)
 			{
-				modval = this.holderAgent.GetComponent<StatusEffectHandler>().InAccuracyMod;
+				modval = this.HolderAgent.GetComponent<StatusEffectHandler>().InAccuracyMod;
 			}
 			return Mathf.Clamp(inaccuracy + modval, 0, 89);
 		}
@@ -144,7 +144,7 @@ public abstract class RangedWeapon : AbstractWeapon
 
 		Vector3 direction = GetBulletDirection();
 
-		bullet.GetComponent<Bullet>().CreateBullet(holderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage/* * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost)*/, this.effects);
+		bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage/* * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost)*/, this.effects);
 
 		//recoil and slippery-checks
 
