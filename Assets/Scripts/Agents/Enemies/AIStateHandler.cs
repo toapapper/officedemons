@@ -50,7 +50,7 @@ public class AIStateHandler : MonoBehaviour
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players);
+            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, encounter.GetComponentInChildren<AIManager>().KillPriority);
             Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             //Turn towards nearest player
         }
@@ -62,21 +62,10 @@ public class AIStateHandler : MonoBehaviour
                 aiController.CurrentState = AIStates.States.FindCover;
 
             }
-            //else if (!aiController.IsArmed() && attributes.Stamina > 0 && aiController.GetClosestWeapon(0, 100) != null)
-            //{
-            //    //Might remove it later but for now just a quick fix
-            //    aiController.UpdateClosestPlayer();
-            //    //Check if there's a ranged weapon is closer than the closest enemy to try and shoot him from range
-            //    GameObject rangedWeapon = aiController.GetClosestWeapon(10, 100);
-            //    if ( rangedWeapon != null && aiController.CalculateDistance(aiController.TargetPlayer) <= aiController.CalculateDistance(rangedWeapon))
-            //    {
-            //        WalkTowardsWeapon(10);
-            //    }
-            //    else
-            //    {
-            //        WalkTowardsWeapon(0);
-            //    }
-            //}
+            else if (aiController.CurrentState != AIStates.States.Move && !aiController.IsArmed() && attributes.Stamina > 0)
+            {
+                aiController.CurrentState = AIStates.States.SearchingForWeapon;
+            }
             else if (PlayerIsInRange()) // <- If one or more players are within fov range
             {
                 aiController.CurrentState = AIStates.States.Attack;
@@ -89,7 +78,6 @@ public class AIStateHandler : MonoBehaviour
                 if (attributes.Stamina > 0 && gameObject.transform.position != aiController.TargetPosition)
                 {
                     aiController.CurrentState = AIStates.States.Move;
-
                 }
                 //No stamina -> wait/attack
                 else
@@ -120,11 +108,7 @@ public class AIStateHandler : MonoBehaviour
             {
                 if (hit.transform.gameObject.tag == "Player")
                 {
-                    // if not too far away
-                    if ((hit.transform.position - transform.position).magnitude <= fov.ViewRadius * 4) // maybe change fov.ViewRadius since bullets can travel further
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;
@@ -136,7 +120,7 @@ public class AIStateHandler : MonoBehaviour
                 //if player in range
                 foreach (GameObject target in fov.VisibleTargets)
                 {
-                    if (target.tag == "Player")
+                    if (target != null && target.tag == "Player")
                     {
                         return true;
                     }
@@ -160,32 +144,16 @@ public class AIStateHandler : MonoBehaviour
         return aiController.TargetPosition == gameObject.transform.position;
     }
 
-
-    private void WalkTowardsWeapon(float minimumWeaponRange)
-    {
-        GameObject weapon = aiController.GetClosestWeapon(minimumWeaponRange, float.MaxValue);
-        aiController.TargetPosition = weapon.transform.position;
-        aiController.Target = weapon;
-        aiController.CurrentState = AIStates.States.Move;
-    }
-
-    private void WalkTowardsWeapon(GameObject weapon)
-    {
-        aiController.TargetPosition = weapon.transform.position;
-        aiController.Target = weapon;
-        aiController.CurrentState = AIStates.States.Move;
-    }
-
     // Check if players are fewer than AI, if players are unarmed but AI have weapons
     public bool HasAdvantage()
     {
         int armedPlayers = 0;
         int alivePlayers = 0;
         int armedEnemies = 0;
-        int aliveEnemies = encounter.GetComponentInChildren<AIManager>().enemyList.Count;
+        int aliveEnemies = encounter.GetComponentInChildren<AIManager>().EnemyList.Count;
 
         //count how many players are alive and armed
-        foreach (GameObject player in encounter.GetComponentInChildren<AIManager>().playerList)
+        foreach (GameObject player in encounter.GetComponentInChildren<AIManager>().PlayerList)
         {
             if (player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon) || player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
             {
@@ -198,7 +166,7 @@ public class AIStateHandler : MonoBehaviour
             }
         }
 
-        foreach (GameObject enemy in encounter.GetComponentInChildren<AIManager>().enemyList)
+        foreach (GameObject enemy in encounter.GetComponentInChildren<AIManager>().EnemyList)
         {
             if (enemy.GetComponent<AIController>().IsArmed())
             {
