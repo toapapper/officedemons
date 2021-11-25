@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Checkpoint : MonoBehaviour
 {
@@ -54,10 +55,11 @@ public class Checkpoint : MonoBehaviour
 	public void LoadCheckpoint()
 	{
 		//
-		GameManager.Instance.ResetEncounter();
+		//GameManager.Instance.ResetEncounter();
 		//
 		camPos.transform.position = checkPointPos.position;
-		Debug.LogError("CAMERAMOVE");
+		//Debug.LogError("CAMERAMOVE");
+		Camera.main.GetComponent<MultipleTargetCamera>().ObjectsInCamera = new List<GameObject>();
 
 		int playerCounter = 0;
 		foreach (GameObject player in PlayerManager.players)
@@ -73,8 +75,13 @@ public class Checkpoint : MonoBehaviour
 			Debug.Log("PLAYER POSITION:       " + player.transform.position);
 
 			//
-			Effects.Revive(player);
+			//Effects.Revive(player);
 			//
+
+			//player.GetComponent<PlayerMovementController>().MoveAmount = Vector3.zero;
+			//player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+			//player.GetComponent<NavMeshAgent>().velocity = Vector3.zero;
+			//player.GetComponent<NavMeshAgent>().isStopped = true;
 
 			player.GetComponent<Attributes>().Health = playerData.playerHealth;
 			player.GetComponent<Attributes>().KillCount = playerData.kills;
@@ -133,9 +140,9 @@ public class Checkpoint : MonoBehaviour
 			}
 		}
 
-		//GameManager.Instance.ResetEncounter();
-		isSaved = false;
-
+        GameManager.Instance.ResetEncounter();
+        isSaved = false;
+		//Camera.main.GetComponent<MultipleTargetCamera>().ObjectsInCamera = PlayerManager.players;
 
 		//int playerCounter = 0;
 		//foreach (GameObject player in PlayerManager.players)

@@ -81,6 +81,7 @@ public class MultipleTargetCamera : MonoBehaviour
 		//Vector3 newPosition = centerPoint + offset;
 
 		transform.parent.position = Vector3.SmoothDamp(transform.parent.position, centerPoint, ref velocity, smoothTime);
+        Debug.Log("Camera Move: " + transform.parent.position);
 	}
 
     /// <summary>
