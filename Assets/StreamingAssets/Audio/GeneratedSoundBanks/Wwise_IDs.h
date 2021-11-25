@@ -13,16 +13,27 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID PLAY_AMBIENCE = 278617630U;
         static const AkUniqueID PLAY_AMBIENCE_HALL_LARGE__ENTRANCE__OFFICE_BUILDING__MORNING__DOWNTOWN_CHICAGO__USA__LOOP_LRLSRS = 1546138968U;
         static const AkUniqueID PLAY_BLUNT_THUD = 3757306353U;
         static const AkUniqueID PLAY_EXPLOSION = 4030404899U;
+        static const AkUniqueID PLAY_FIRE_WOOSH = 2758889567U;
+        static const AkUniqueID PLAY_FMW_WEAPON_HIT10C = 3034079729U;
+        static const AkUniqueID PLAY_MELEESWINGSPACK_96KHZ_STEREO_NORMALSWINGS39 = 1158643645U;
         static const AkUniqueID PLAY_MUSIC = 2932040671U;
+        static const AkUniqueID PLAY_OFFICE_SFX_BRAMBRAM2 = 837663453U;
         static const AkUniqueID PLAY_OFFICE_SFX_CHUG1 = 1700212473U;
         static const AkUniqueID PLAY_OFFICE_SFX_MUTEDSTRING1 = 2348070506U;
         static const AkUniqueID PLAY_OFFICE_SFX_PICKSLIDE1 = 4099660466U;
+        static const AkUniqueID PLAY_RADIOMUSIC = 1219454676U;
+        static const AkUniqueID PLAY_SHOTSFX = 3745549323U;
+        static const AkUniqueID PLAY_SIZZLE = 985374763U;
+        static const AkUniqueID PLAY_SPLASH = 3948925255U;
         static const AkUniqueID SET_COMBAT1 = 2667565123U;
         static const AkUniqueID SET_ROAMING1 = 1319730832U;
         static const AkUniqueID SET_ROAMING2 = 1319730835U;
+        static const AkUniqueID STOP_AMBIENCE = 2477713992U;
+        static const AkUniqueID STOP_RADIOMUSIC = 252541922U;
     } // namespace EVENTS
 
     namespace STATES

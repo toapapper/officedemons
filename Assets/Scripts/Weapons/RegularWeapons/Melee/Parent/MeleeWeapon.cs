@@ -31,7 +31,8 @@ public abstract class MeleeWeapon : AbstractWeapon
 	public override void Attack(Animator animator)
     {
 		base.Attack(animator);
-	}
+        AkSoundEngine.PostEvent("Play_MeleeSwingsPack_96khz_Stereo_NormalSwings39", gameObject);
+    }
 
     public override void DoAction(FieldOfView fov)
     {

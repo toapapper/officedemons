@@ -12,7 +12,11 @@ public class MainMenu : MonoBehaviour
     public bool InGame = false;
     public GameObject OptionsMenu;
     public GameObject FirstSelectedMainMenu;
-
+    private void Start()
+    {
+        AkSoundEngine.PostEvent("Play_RadioMusic", gameObject);
+        AkSoundEngine.PostEvent("Play_Ambience", gameObject);
+    }
     public void Play()
     {
         SceneManager.LoadScene("PlayerSelection");

@@ -121,6 +121,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="Splash" ID="{0BF640B7-D2E7-471F-ACCC-D28B95053D6C}" ShortID="918698673">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>-380</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
@@ -164,6 +171,128 @@
 							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Squeaky Chicken" ID="{D8DDF336-999F-4320-A75F-A3356192E795}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="ShotSFX" ID="{7637A1D7-6DEF-4BEE-86C9-CAC61740694A}" ShortID="678459595">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="ShotSFX" ID="{C7DC6B88-A8BA-4E5B-8D5E-8765E2FD1B2A}">
+									<Language>SFX</Language>
+									<AudioFile>ShotSFX.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="622181413"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="ShotSFX" ID="{C7DC6B88-A8BA-4E5B-8D5E-8765E2FD1B2A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="FMW_Weapon_Hit10C" ID="{CC4F27B8-2EE5-4194-9E04-BA18FC2D01D4}" ShortID="34420024">
+							<PropertyList>
+								<Property Name="Highpass" Type="int16">
+									<ValueList>
+										<Value>29</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>17</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>450</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="FMW_Weapon_Hit10C" ID="{43614A71-433E-48A5-8926-DDD458A1F524}">
+									<Language>SFX</Language>
+									<AudioFile>FMW_Weapon_Hit10C.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="31658556"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="FMW_Weapon_Hit10C" ID="{43614A71-433E-48A5-8926-DDD458A1F524}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="MeleeSwingsPack_96khz_Stereo_NormalSwings39" ID="{5C33C424-04F9-4DE1-BFCD-A8FF5A2E69A7}" ShortID="577968215">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="Highpass" Type="int16">
+									<ValueList>
+										<Value>39</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>280</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="MeleeSwingsPack_96khz_Stereo_NormalSwings39" ID="{93E63225-617B-4B23-89EE-E3BC5F10BC60}">
+									<Language>SFX</Language>
+									<AudioFile>MeleeSwingsPack_96khz_Stereo_NormalSwings39.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="791910420"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="MeleeSwingsPack_96khz_Stereo_NormalSwings39" ID="{93E63225-617B-4B23-89EE-E3BC5F10BC60}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="ReturnFromHell" ID="{CF8CB3A6-C602-40CD-B394-A13B788A2680}" ShortID="37124645">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="ReturnFromHell" ID="{6226471F-590A-4BA9-BC24-A0780AB3D15F}">
+									<Language>SFX</Language>
+									<AudioFile>ReturnFromHell.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="838128380"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="ReturnFromHell" ID="{6226471F-590A-4BA9-BC24-A0780AB3D15F}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
@@ -318,6 +447,9 @@
 				<Folder Name="Ambience" ID="{CF33E40B-7842-41C0-B8E2-0C90933100ED}" ShortID="212010686">
 					<ChildrenList>
 						<Sound Name="AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP_LRLsRs" ID="{554E7C6F-89B1-4378-B204-B5C6EA0F6EF7}" ShortID="1044847193">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
@@ -331,7 +463,7 @@
 									<Language>SFX</Language>
 									<AudioFile>AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP.LRLsRs.wav</AudioFile>
 									<MediaIDList>
-										<MediaID ID="835688430"/>
+										<MediaID ID="656346830"/>
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>

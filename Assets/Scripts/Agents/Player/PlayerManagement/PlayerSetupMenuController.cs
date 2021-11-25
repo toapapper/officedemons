@@ -27,19 +27,17 @@ public class PlayerSetupMenuController : MonoBehaviour
     [SerializeField]
     private Button readyButton;
 
-    private float ignoreInputTime = 1.5f;
     private bool inputEnabled;
 
     public void SetPlayerIndex(int playerIndex)
 	{
         this.playerIndex = playerIndex;
         //titleText.SetText("Player " + (playerIndex + 1).ToString());
-        ignoreInputTime += Time.time;
 	}
 
     void Update()
     {
-        if(inputEnabled == false && Time.time > ignoreInputTime)
+        if(inputEnabled == false)
 		{
             inputEnabled = true;
         }

@@ -17,6 +17,11 @@ public class UIButtonSound : MonoBehaviour
         AkSoundEngine.PostEvent("Play_Office_SFX_Chug1", gameObject);
     }
 
+    public void PlayerSelectSound()
+    {
+        AkSoundEngine.PostEvent("Play_Office_SFX_BramBram2", gameObject);
+    }
+
     private void Update()
     {
         if(start == EventSystem.current.currentSelectedGameObject)

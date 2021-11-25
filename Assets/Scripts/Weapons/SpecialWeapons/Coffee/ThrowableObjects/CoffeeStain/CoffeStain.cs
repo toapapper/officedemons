@@ -72,7 +72,7 @@ public abstract class CoffeStain : MonoBehaviour
 	{
         if (other.gameObject.GetComponent<Attributes>().Health > 0)
 		{
-            Debug.Log(other.gameObject.name + "ADDED");
+            AkSoundEngine.PostEvent("Play_Sizzle", gameObject);
             agentsOnStain.Add(other.gameObject);
         }
     }

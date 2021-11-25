@@ -38,6 +38,7 @@ public abstract class CoffeeGrenade : MonoBehaviour
 	private void OnCollisionEnter(Collision collision)
 	{
 		Instantiate(particleEffect, transform.position, transform.rotation * Quaternion.Euler(90f, 0f, 0f));
+		AkSoundEngine.PostEvent("Play_Splash", gameObject);
 		Explode();
 		if (collision.gameObject.transform.tag == "Ground")
 		{

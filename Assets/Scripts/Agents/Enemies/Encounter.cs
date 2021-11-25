@@ -105,7 +105,7 @@ public class Encounter : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && GameManager.Instance.CurrentCombatState == CombatState.none)
         {
-            //combatMusicState.SetValue();
+            combatMusicState.SetValue();
             GameManager.Instance.StartEncounter(this);
             ActivateEnemies(GetEnemylist());
         }
@@ -113,7 +113,7 @@ public class Encounter : MonoBehaviour
 
     public void EndEncounter()
     {
-        roamingState1.SetValue();
+        AkSoundEngine.SetState("Music", "RoamingState1");
         Destroy(gameObject);
     }
 }

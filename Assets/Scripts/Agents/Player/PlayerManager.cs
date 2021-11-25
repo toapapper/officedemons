@@ -29,9 +29,13 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance;
 
     [SerializeField] private GameObject viciousVicky;
+    [SerializeField] private GameObject viciousVicky2;
     [SerializeField] private GameObject terribleTim;
+    [SerializeField] private GameObject terribleTim2;
     [SerializeField] private GameObject susanTheDestroyer;
+    [SerializeField] private GameObject susanTheDestroyer2;
     [SerializeField] private GameObject devin;
+    [SerializeField] private GameObject devin2;
 
     [SerializeField] private bool joinAnyTime = false;
     private List<GameObject> playerCounterList;

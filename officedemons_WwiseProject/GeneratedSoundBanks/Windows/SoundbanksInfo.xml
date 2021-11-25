@@ -11,7 +11,7 @@
 	<StreamedFiles/>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Language="SFX" Hash="4067209884">
+		<SoundBank Id="1355168291" Language="SFX" Hash="364420591">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
@@ -22,16 +22,16 @@
 				<GameParameter Id="2918011349" Name="MasterVolume" ObjectPath="\Game Parameters\Default Work Unit\Volume\MasterVolume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="3161908922" Language="SFX" Hash="3921794065">
+		<SoundBank Id="3161908922" Language="SFX" Hash="1750375709">
 			<ObjectPath>\SoundBanks\Default Work Unit\Main</ObjectPath>
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<IncludedEvents>
-				<Event Id="1546138968" Name="Play_AMBIENCE_Hall_Large__Entrance__Office_Building__Morning__Downtown_Chicago__USA__LOOP_LRLsRs" ObjectPath="\Events\Default Work Unit\Play_AMBIENCE_Hall_Large__Entrance__Office_Building__Morning__Downtown_Chicago__USA__LOOP_LRLsRs" DurationType="OneShot" DurationMin="36.091991" DurationMax="36.091991">
+				<Event Id="1546138968" Name="Play_AMBIENCE_Hall_Large__Entrance__Office_Building__Morning__Downtown_Chicago__USA__LOOP_LRLsRs" ObjectPath="\Events\Default Work Unit\Play_AMBIENCE_Hall_Large__Entrance__Office_Building__Morning__Downtown_Chicago__USA__LOOP_LRLsRs" DurationType="Infinite">
 					<IncludedMemoryFiles>
-						<File Id="835688430" Language="SFX">
+						<File Id="656346830" Language="SFX">
 							<ShortName>AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP.LRLsRs.wav</ShortName>
-							<Path>SFX\AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP.LRLsRs_55197359.wem</Path>
+							<Path>SFX\AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP.LRLsRs_C5444A27.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -48,6 +48,38 @@
 						<File Id="951172493" Language="SFX">
 							<ShortName>Explosion.wav</ShortName>
 							<Path>SFX\Explosion_55197359.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2758889567" Name="Play_Fire_woosh" ObjectPath="\Events\Default Work Unit\Play_Fire_woosh" DurationType="OneShot" DurationMin="2.250000" DurationMax="2.250000">
+					<IncludedMemoryFiles>
+						<File Id="883740259" Language="SFX">
+							<ShortName>Fire_woosh.wav</ShortName>
+							<Path>SFX\Fire_woosh_55197359.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3034079729" Name="Play_FMW_Weapon_Hit10C" ObjectPath="\Events\Default Work Unit\Play_FMW_Weapon_Hit10C" DurationType="OneShot" DurationMin="0.946363" DurationMax="0.946363">
+					<IncludedMemoryFiles>
+						<File Id="31658556" Language="SFX">
+							<ShortName>FMW_Weapon_Hit10C.wav</ShortName>
+							<Path>SFX\FMW_Weapon_Hit10C_55197359.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1158643645" Name="Play_MeleeSwingsPack_96khz_Stereo_NormalSwings39" ObjectPath="\Events\Default Work Unit\Play_MeleeSwingsPack_96khz_Stereo_NormalSwings39" DurationType="OneShot" DurationMin="0.915424" DurationMax="0.915424">
+					<IncludedMemoryFiles>
+						<File Id="791910420" Language="SFX">
+							<ShortName>MeleeSwingsPack_96khz_Stereo_NormalSwings39.wav</ShortName>
+							<Path>SFX\MeleeSwingsPack_96khz_Stereo_NormalSwings39_55197359.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="837663453" Name="Play_Office_SFX_BramBram2" ObjectPath="\Events\Default Work Unit\Play_Office_SFX_BramBram2" DurationType="OneShot" DurationMin="2.970703" DurationMax="2.970703">
+					<IncludedMemoryFiles>
+						<File Id="296989114" Language="SFX">
+							<ShortName>Office_SFX_BramBram2.wav</ShortName>
+							<Path>SFX\Office_SFX_BramBram2_55197359.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -75,13 +107,61 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
+				<Event Id="3745549323" Name="Play_ShotSFX" ObjectPath="\Events\Default Work Unit\Play_ShotSFX" DurationType="OneShot" DurationMin="0.090698" DurationMax="0.090698">
+					<IncludedMemoryFiles>
+						<File Id="622181413" Language="SFX">
+							<ShortName>ShotSFX.wav</ShortName>
+							<Path>SFX\ShotSFX_55197359.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="985374763" Name="Play_Sizzle" ObjectPath="\Events\Default Work Unit\Play_Sizzle" DurationType="OneShot" DurationMin="2.602062" DurationMax="2.602062">
+					<IncludedMemoryFiles>
+						<File Id="515210164" Language="SFX">
+							<ShortName>Sizzle.wav</ShortName>
+							<Path>SFX\Sizzle_55197359.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3948925255" Name="Play_Splash" ObjectPath="\Events\Default Work Unit\Play_Splash" DurationType="OneShot" DurationMin="2.664198" DurationMax="2.664198">
+					<IncludedMemoryFiles>
+						<File Id="1041224517" Language="SFX">
+							<ShortName>Splash.wav</ShortName>
+							<Path>SFX\Splash_55197359.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 			</IncludedEvents>
 		</SoundBank>
-		<SoundBank Id="3991942870" Language="SFX" Hash="2699369947">
+		<SoundBank Id="3991942870" Language="SFX" Hash="2996220159">
 			<ObjectPath>\SoundBanks\Default Work Unit\Music</ObjectPath>
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<IncludedEvents>
+				<Event Id="278617630" Name="Play_Ambience" ObjectPath="\Events\Default Work Unit\Play_Ambience" DurationType="Infinite">
+					<IncludedMemoryFiles>
+						<File Id="656346830" Language="SFX">
+							<ShortName>AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP.LRLsRs.wav</ShortName>
+							<Path>SFX\AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP.LRLsRs_C5444A27.wem</Path>
+						</File>
+						<File Id="661251927" Language="SFX">
+							<ShortName>442160-Printing_Tickets-1.wav</ShortName>
+							<Path>SFX\442160-Printing_Tickets-1_C5444A27.wem</Path>
+						</File>
+						<File Id="852451253" Language="SFX">
+							<ShortName>94128-Fax_machine_send_fax-BLASTWAVEFX-27965.wav</ShortName>
+							<Path>SFX\94128-Fax_machine_send_fax-BLASTWAVEFX-27965_C5444A27.wem</Path>
+						</File>
+						<File Id="875116127" Language="SFX">
+							<ShortName>Office_Amb_Loop.wav</ShortName>
+							<Path>SFX\Office_Amb_Loop_C5444A27.wem</Path>
+						</File>
+						<File Id="1049067463" Language="SFX">
+							<ShortName>132597-Telephone-Ornate-Ring-Multiple-Fienup-001.wav</ShortName>
+							<Path>SFX\132597-Telephone-Ornate-Ring-Multiple-Fienup-001_C5444A27.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 				<Event Id="2932040671" Name="Play_Music" ObjectPath="\Events\Music\Play_Music" DurationType="Infinite">
 					<IncludedMemoryFiles>
 						<File Id="13891880" Language="SFX">
@@ -357,6 +437,38 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
+				<Event Id="1219454676" Name="Play_RadioMusic" ObjectPath="\Events\Default Work Unit\Play_RadioMusic" DurationType="Infinite">
+					<IncludedMemoryFiles>
+						<File Id="55728287" Language="SFX">
+							<ShortName>Casino_From_Hell.wav</ShortName>
+							<Path>SFX\Casino_From_Hell_C5444A27.wem</Path>
+						</File>
+						<File Id="194853111" Language="SFX">
+							<ShortName>Part1\Office_Bossa_Part1_Comp.wav</ShortName>
+							<Path>SFX\Part1\Office_Bossa_Part1_Comp_C5444A27.wem</Path>
+						</File>
+						<File Id="274496453" Language="SFX">
+							<ShortName>Part1\Office_Bossa_Part1_Riff.wav</ShortName>
+							<Path>SFX\Part1\Office_Bossa_Part1_Riff_C5444A27.wem</Path>
+						</File>
+						<File Id="374727642" Language="SFX">
+							<ShortName>Part1\Office_Bossa_Part1_MelodySteeldrum.wav</ShortName>
+							<Path>SFX\Part1\Office_Bossa_Part1_MelodySteeldrum_C5444A27.wem</Path>
+						</File>
+						<File Id="437928703" Language="SFX">
+							<ShortName>Part1\Office_Bossa_Part1_Perc.wav</ShortName>
+							<Path>SFX\Part1\Office_Bossa_Part1_Perc_C5444A27.wem</Path>
+						</File>
+						<File Id="542102429" Language="SFX">
+							<ShortName>Part1\Office_Bossa_Part1_Melody.wav</ShortName>
+							<Path>SFX\Part1\Office_Bossa_Part1_Melody_C5444A27.wem</Path>
+						</File>
+						<File Id="1062809145" Language="SFX">
+							<ShortName>Part1\Office_Bossa_Part1_Bass.wav</ShortName>
+							<Path>SFX\Part1\Office_Bossa_Part1_Bass_C5444A27.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 				<Event Id="2667565123" Name="Set_Combat1" ObjectPath="\Events\Music\Set_Combat1" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000">
 					<ActionSetState>
 						<ActionSetStateEntry Id="2764240573" Name="Combat" ObjectPath="\States\Default Work Unit\Music_State\Combat"/>
@@ -375,6 +487,8 @@
 						<ActionSetStateEntry Id="3557636762" Name="Roaming" ObjectPath="\States\Default Work Unit\Music_State\Roaming"/>
 					</ActionSetState>
 				</Event>
+				<Event Id="2477713992" Name="Stop_Ambience" ObjectPath="\Events\Default Work Unit\Stop_Ambience" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
+				<Event Id="252541922" Name="Stop_RadioMusic" ObjectPath="\Events\Default Work Unit\Stop_RadioMusic" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 			</IncludedEvents>
 			<StateGroups>
 				<StateGroup Id="1891249345" Name="RoamingState2" ObjectPath="\States\Default Work Unit\Music\RoamingState2" GUID="{08551772-BFD4-4574-9D33-67A5B3BD64A4}">
