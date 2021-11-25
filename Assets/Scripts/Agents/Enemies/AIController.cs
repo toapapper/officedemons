@@ -162,7 +162,7 @@ public class AIController : MonoBehaviour
                         targetPosition = targetPlayer.transform.position;
                     }
                 }
-                if (Target.CompareTag("WeaponObject") && Vector3.Distance(gameObject.transform.position, Target.transform.position) < 2)
+                if (!IsArmed() &&Target.CompareTag("WeaponObject") && Vector3.Distance(gameObject.transform.position, Target.transform.position) < 2)
                 {
                     PickupWeapon(Target);
                 }
@@ -236,7 +236,7 @@ public class AIController : MonoBehaviour
         aiManager.AllWeapons.Remove(closestWeapon);
         return closestWeapon;
     }
-
+mer
 
 
 
