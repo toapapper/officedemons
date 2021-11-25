@@ -6,7 +6,10 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour
 {
 	[SerializeField]
+	Transform checkPointPos;
+	[SerializeField]
 	List<Transform> positions;
+	
 	GameObject camPos;
 
 	private bool isSaved;
@@ -51,8 +54,10 @@ public class Checkpoint : MonoBehaviour
 	public void LoadCheckpoint()
 	{
 		//
-		//GameManager.Instance.ResetEncounter();
+		GameManager.Instance.ResetEncounter();
 		//
+		camPos.transform.position = checkPointPos.position;
+		Debug.LogError("CAMERAMOVE");
 
 		int playerCounter = 0;
 		foreach (GameObject player in PlayerManager.players)
@@ -60,6 +65,12 @@ public class Checkpoint : MonoBehaviour
 			//player.GetComponent<WeaponHand>().DropWeapon();
 
 			PlayerData playerData = SaveSystem.LoadPlayer(player.name);
+			
+			Vector3 newPos = new Vector3(positions[playerCounter].position.x, player.transform.position.y, positions[playerCounter].position.z);
+			Debug.Log("NEW POSITION:       " + newPos);
+			
+			player.transform.position = newPos;
+			Debug.Log("PLAYER POSITION:       " + player.transform.position);
 
 			//
 			Effects.Revive(player);
@@ -69,11 +80,6 @@ public class Checkpoint : MonoBehaviour
 			player.GetComponent<Attributes>().KillCount = playerData.kills;
 			player.GetComponent<SpecialHand>().ObjectInHand.Charges = playerData.charges;
 
-			Vector3 newPos = new Vector3(positions[playerCounter].position.x, player.transform.position.y, positions[playerCounter].position.z);
-			Debug.Log("NEW POSITION:       " + newPos);
-			camPos.transform.position = transform.position;
-			player.transform.position = newPos;
-			Debug.Log("PLAYER POSITION:       " + player.transform.position);
 			playerCounter++;
 		}
 		
@@ -127,7 +133,7 @@ public class Checkpoint : MonoBehaviour
 			}
 		}
 
-		GameManager.Instance.ResetEncounter();
+		//GameManager.Instance.ResetEncounter();
 		isSaved = false;
 
 
