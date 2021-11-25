@@ -236,7 +236,6 @@ public class AIController : MonoBehaviour
         aiManager.AllWeapons.Remove(closestWeapon);
         return closestWeapon;
     }
-mer
 
 
 
