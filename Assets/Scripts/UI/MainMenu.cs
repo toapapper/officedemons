@@ -12,8 +12,11 @@ public class MainMenu : MonoBehaviour
     public bool InGame = false;
     public GameObject OptionsMenu;
     public GameObject FirstSelectedMainMenu;
-    [SerializeField] Image BGImage;
-
+    private void Start()
+    {
+        AkSoundEngine.PostEvent("Play_RadioMusic", gameObject);
+        AkSoundEngine.PostEvent("Play_Ambience", gameObject);
+    }
     public void Play()
     {
         SceneManager.LoadScene("PlayerSelection");
@@ -27,7 +30,6 @@ public class MainMenu : MonoBehaviour
     public void Options()
     {
         OptionsMenu.SetActive(true);
-        BGImage.color = Color.cyan;
         EventSystem.current.SetSelectedGameObject(FirstSelectedMainMenu);
         Debug.Log(EventSystem.current);
         gameObject.SetActive(false);

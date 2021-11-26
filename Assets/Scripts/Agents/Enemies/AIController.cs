@@ -31,7 +31,7 @@ public class AIController : MonoBehaviour
         get { return targetsChosen; }
         set { targetsChosen = value; }
     }
-    
+
     private GameObject targetPlayer;
     public GameObject TargetPlayer
     {
@@ -166,7 +166,7 @@ public class AIController : MonoBehaviour
                 {
                     PickupWeapon(Target);
                 }
-                else if (!TargetPositionReached()) 
+                else if (!TargetPositionReached())
                 {
                     MoveTowards(targetPosition);
                 }
@@ -226,22 +226,22 @@ public class AIController : MonoBehaviour
             return Vector3.Distance(gameObject.transform.position, Target.transform.position) < 2;
         }
     }
-        
+
 
     private GameObject GetClosestWeapon()
     {
         Bounds bounds = aiManager.GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
         GameObject closestWeapon = null;
         float closest = float.MaxValue;
-        foreach (GameObject weapon in aiManager.AllWeapons)
+        for (int i = 0; i < aiManager.AllWeapons.Count; i++)
         {
-            if (bounds.Contains(weapon.transform.position))
+            if (bounds.Contains(aiManager.AllWeapons[i].transform.position))
             {
-                float distance = CalculateDistance(weapon);
-                if (distance < closest && !weapon.GetComponent<AbstractWeapon>().IsHeld)
+                float distance = CalculateDistance(aiManager.AllWeapons[i]);
+                if (distance < closest && !aiManager.AllWeapons[i].GetComponent<AbstractWeapon>().IsHeld)
                 {
                     closest = distance;
-                    closestWeapon = weapon;
+                    closestWeapon = aiManager.AllWeapons[i];
                 }
             }
         }
@@ -407,6 +407,10 @@ public class AIController : MonoBehaviour
         {
             return true;
         }
+        if (gameObject.GetComponentInChildren<AbstractWeapon>())
+        {
+            return true;
+        }
         return false;
     }
 
@@ -478,7 +482,7 @@ public class AIController : MonoBehaviour
                                 minHealth = player.GetComponent<Attributes>().Health;
                                 target = player;
                             }
-                            // OR if closest distance to travel yet 
+                            // OR if closest distance to travel yet
                             else if (pathLength < minDist)
                             {
                                 //update target
@@ -500,7 +504,7 @@ public class AIController : MonoBehaviour
                         minHealth = player.GetComponent<Attributes>().Health;
                         target = player;
                     }
-                    // OR if closest distance to travel yet 
+                    // OR if closest distance to travel yet
                     else if (CalculateNavMeshPathLength(sim_path) < minDist)
                     {
                         //update target
