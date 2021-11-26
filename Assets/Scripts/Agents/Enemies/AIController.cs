@@ -32,6 +32,7 @@ public class AIController : MonoBehaviour
         set { targetsChosen = value; }
     }
 
+    // ändra sen till ett target? just nu både player och target, reduntant?
     private GameObject targetPlayer;
     public GameObject TargetPlayer
     {

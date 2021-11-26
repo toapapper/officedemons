@@ -43,7 +43,6 @@ public class AIStateHandler : MonoBehaviour
     /// </summary>
     public void StateUpdate()
     {
-
         if (attributes.Health <= 0)
         {
             aiController.CurrentState = AIStates.States.Dead;
@@ -51,12 +50,9 @@ public class AIStateHandler : MonoBehaviour
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players);
-            Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
-            aiController.TargetPlayer = closestPlayer;
-            aiController.Target = closestPlayer;
-            aiController.TargetPosition = closestPlayer.transform.position;
-            //Turn towards nearest player
+            aiController.TargetPlayer = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
+            aiController.TargetPosition = aiController.TargetPlayer.transform.position;
+            Vector3.RotateTowards(transform.forward, aiController.TargetPosition, 1 * Time.deltaTime, 0.0f);
         }
         //DeathCheck       
         if (aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
@@ -68,6 +64,11 @@ public class AIStateHandler : MonoBehaviour
             else if (aiController.CurrentState != AIStates.States.Move && !aiController.IsArmed() && attributes.Stamina > 0)
             {
                 aiController.CurrentState = AIStates.States.SearchingForWeapon;
+            }
+            else if (CanAttackPlayer())
+            {
+                aiController.CurrentState = AIStates.States.Attack;
+                aiController.ActionIsLocked = true;
             }
             else
             {
@@ -108,8 +109,11 @@ public class AIStateHandler : MonoBehaviour
                 {
                     if (hit.transform.gameObject.tag == "Player")
                     {
-                         aiController.TargetPlayer = hit.transform.gameObject;
-                         return true;
+                        if(Vector3.Angle(transform.forward, hit.transform.position - transform.position) < 10f)
+                        {
+                            Debug.LogError("YESSSSSSSSS");
+                            return true;
+                        }
                     }
                 }
             }
