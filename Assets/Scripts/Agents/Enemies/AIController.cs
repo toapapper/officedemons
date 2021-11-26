@@ -144,6 +144,9 @@ public class AIController : MonoBehaviour
                 break;
 
             case AIStates.States.Attack:
+                Debug.Log("Target : "  + Target);
+                Debug.Log("TargetPlayer : " + TargetPlayer);
+                Debug.Log("TargetPosition : " + TargetPosition);
                 aiManager.SaveAction(this.gameObject);
                 ActionIsLocked = true;
                 break;
@@ -407,10 +410,10 @@ public class AIController : MonoBehaviour
         {
             return true;
         }
-        if (gameObject.GetComponentInChildren<AbstractWeapon>())
-        {
-            return true;
-        }
+        //if (gameObject.GetComponentInChildren<AbstractWeapon>())
+        //{
+        //    return true;
+        //}
         return false;
     }
 
