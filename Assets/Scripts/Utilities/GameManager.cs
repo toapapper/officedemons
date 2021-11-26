@@ -84,6 +84,12 @@ public class GameManager : MonoBehaviour
         mainCamera = Camera.main.GetComponent<MultipleTargetCamera>();
     }
 
+    private void Start()
+    {
+        AkSoundEngine.PostEvent("Stop_Ambience", gameObject);
+        AkSoundEngine.PostEvent("Stop_RadioMusic", gameObject);
+    }
+
     void Update()
     {
         #region are all the needed gameObjects still-check
@@ -128,7 +134,9 @@ public class GameManager : MonoBehaviour
                 roundTimer = RoundTime;
                 PlayerManager.Instance.BeginTurn();
                 // Add all objects in checklist to maincamera
-                mainCamera.ObjectsInCamera = stillCheckList;
+                //mainCamera.ObjectsInCamera = stillCheckList;
+                //Add encounter corner points to camera to fix it to encounter
+                mainCamera.ObjectsInCamera = currentEncounter.GetCameraPoints();
             }
         }
         else if (CurrentCombatState == CombatState.player)

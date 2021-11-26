@@ -36,19 +36,66 @@ public class Encounter : MonoBehaviour
     public AIManager aIManager;
 
     public List<GameObject> playerPositions;
-
+    [SerializeField] AK.Wwise.State combatMusicState;
+    [SerializeField] AK.Wwise.State roamingState1;
     private bool myTurn = false;
     private int currentEnemysTurn = 0;
+
+    private GameObject midPoint;
+    private GameObject leftBottomPoint;
+    private GameObject rightBottomPoint;
+    private GameObject leftTopPoint;
+    private GameObject rightTopPoint;
+    public GameObject MidPoint { get { return midPoint; } }
+    Collider boxCollider;
+    Vector3 m_Center;
+    Vector3 m_Size, m_Min, m_Max;
 
     void Awake()
     {        
         aIManager = GetComponentInChildren<AIManager>();
-        
+
+        CreateCornerPoints();
 
         // If procedurally generated -> Call SpawnEnemiesRrndomPositions() instead of ActivateEnemies()
     }
 
-    
+    /// <summary>
+    /// Returns a list of all the corner points in the box collider
+    /// Author: Jonas
+    /// </summary>
+    /// <returns></returns>
+    public List<GameObject> GetCameraPoints()
+    {
+        return new List<GameObject> { leftBottomPoint, rightBottomPoint, leftTopPoint, rightTopPoint };
+    }
+
+    /// <summary>
+    /// Create gameobjects that are points in each corner of the box collider of the encounter
+    /// Author: Jonas
+    /// </summary>
+    private void CreateCornerPoints()
+    {
+        boxCollider = GetComponent<BoxCollider>();
+
+        midPoint = new GameObject("Midpoint");
+        leftBottomPoint = new GameObject("LeftBottomPoint");
+        rightBottomPoint = new GameObject("RightBottomPoint");
+        leftTopPoint = new GameObject("LeftTopPoint");
+        rightTopPoint = new GameObject("RightTopPoint");
+
+        midPoint.transform.parent = transform;
+        leftBottomPoint.transform.parent = transform;
+        rightBottomPoint.transform.parent = transform;
+        leftTopPoint.transform.parent = transform;
+        rightTopPoint.transform.parent = transform;
+
+        midPoint.transform.position = GetComponent<BoxCollider>().bounds.center;
+        leftBottomPoint.transform.position = boxCollider.bounds.min;
+        rightBottomPoint.transform.position = new Vector3(boxCollider.bounds.min.x + boxCollider.bounds.size.x, boxCollider.bounds.min.y, boxCollider.bounds.min.z);
+        leftTopPoint.transform.position = new Vector3(boxCollider.bounds.min.x, boxCollider.bounds.min.y, boxCollider.bounds.max.z);
+        rightTopPoint.transform.position = new Vector3(boxCollider.bounds.max.x, boxCollider.bounds.min.y, boxCollider.bounds.max.z);
+    }
 
     public List<GameObject> GetEnemylist()
     {
@@ -74,6 +121,7 @@ public class Encounter : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && GameManager.Instance.CurrentCombatState == CombatState.none)
         {
+            combatMusicState.SetValue();
             GameManager.Instance.StartEncounter(this);
             //GetComponentInChildren<AIManager>().EnableEnemyDamage(GetEnemylist());
         }
@@ -81,6 +129,7 @@ public class Encounter : MonoBehaviour
 
     public void EndEncounter()
     {
+        AkSoundEngine.SetState("Music", "RoamingState1");
         Destroy(gameObject);
     }
 }

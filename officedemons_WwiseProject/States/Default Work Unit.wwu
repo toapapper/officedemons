@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{E89EA517-C8AB-4949-8CE0-D0463E513AAE}" SchemaVersion="103">
 	<States>
-		<WorkUnit Name="Default Work Unit" ID="{E89EA517-C8AB-4949-8CE0-D0463E513AAE}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{E89EA517-C8AB-4949-8CE0-D0463E513AAE}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="Music" ID="{BB10B715-211A-409D-ADFA-3BFD784B91A4}">
+					<ChildrenList>
+						<State Name="None" ID="{8C356A50-1BD9-419D-9FBD-E80C682B8FC6}"/>
+						<State Name="CombatState1" ID="{78F66928-6237-4954-BF12-9B56F76B50CC}"/>
+						<State Name="CombatState2" ID="{00DC69D1-D3F0-4342-ACB7-FE16861996D6}"/>
+						<State Name="CombatState3" ID="{3238818B-0315-445D-9EC1-32D249571F81}"/>
+						<State Name="CombatState4" ID="{25C2235A-AB75-47F3-BF6D-A0C1ADFF78C8}"/>
+						<State Name="CombatState5" ID="{03F2C12D-9F72-4D42-AF13-0C9582771189}"/>
+						<State Name="CombatState6" ID="{78BE3DBC-04A7-460D-94E5-66B37E70AB3B}"/>
+						<State Name="RoamingState1" ID="{5406B0AA-4A6B-40F5-BFDF-49CDBA256AB1}"/>
+						<State Name="RoamingState2" ID="{08551772-BFD4-4574-9D33-67A5B3BD64A4}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="Music_State" ID="{8FFC3398-F7B1-4A0A-BCC9-456C58AC66A8}">
+					<ChildrenList>
+						<State Name="None" ID="{3B4B5550-1372-483A-9090-A97FA6F88B50}"/>
+						<State Name="Roaming" ID="{B1E21B09-4EA1-4D56-9A46-085314C87635}"/>
+						<State Name="Combat" ID="{99C31985-ABE6-4558-AB11-10EB81D34509}"/>
+					</ChildrenList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</States>
 </WwiseDocument>
