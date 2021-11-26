@@ -30,7 +30,6 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			if (weaponHand.StartBombard())
 			{
-				Debug.Log("BOMBARD STARTED");
 				ChosenAction = TypeOfAction.BOMBARD;
 				weaponHand.ToggleAimView(true);
 				IsAddingBombardForce = true;
@@ -47,8 +46,8 @@ public class OutOfCombatState : AbstractPlayerState
 			if (weaponHand.PerformBombard())
 			{
 				ChosenAction = TypeOfAction.NOACTION;
-				//IsActionTriggered = false;
-				//weaponHand.ToggleAimView(false);
+				IsAddingBombardForce = false;
+				specialHand.ToggleAimView(false);
 				return true;
 			}
 		}
@@ -89,8 +88,8 @@ public class OutOfCombatState : AbstractPlayerState
 			{
 				Debug.Log("DO SPECIAL");
 				ChosenAction = TypeOfAction.NOACTION;
-				//IsActionTriggered = false;
-				//specialHand.ToggleAimView(false);
+				IsAddingBombardForce = false;
+				specialHand.ToggleAimView(false);
 				return true;
 			}
 		}
@@ -108,7 +107,6 @@ public class OutOfCombatState : AbstractPlayerState
 				break;
 		}
 		ChosenAction = TypeOfAction.NOACTION;
-		IsAddingBombardForce = false;
 		IsActionTriggered = false;
 	}
 	public override void CancelAction()

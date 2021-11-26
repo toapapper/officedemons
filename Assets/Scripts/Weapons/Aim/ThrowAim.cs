@@ -120,11 +120,8 @@ public class ThrowAim : MonoBehaviour
         targetPosition = target.transform.position;
         zeroedPlayer = new Vector3(player.transform.position.x, 0, player.transform.position.z);
         zeroedTarget = new Vector3(targetPosition.x, 0, targetPosition.z);
-		Debug.Log("LOOK ROTATION" + (zeroedTarget - zeroedPlayer).normalized);
 		player.transform.rotation = Quaternion.LookRotation((zeroedTarget - zeroedPlayer).normalized);
-		//
 		playerMovement.RotationDirection = player.transform.rotation;
-		//
 		zeroedOrigin = new Vector3(transform.position.x, 0, transform.position.z);
     }
 

@@ -75,14 +75,14 @@ public class CombatTurnState : AbstractPlayerState
 		}
 		return false;
 	}
-	public override bool OnSpecialBombard()
-	{
-		if (IsActionTriggered)
-		{
-			return true;
-		}
-		return false;
-	}
+	//public override bool OnSpecialBombard()
+	//{
+	//	if (IsActionTriggered)
+	//	{
+	//		return true;
+	//	}
+	//	return false;
+	//}
 
 	public override void OnPickUp(GameObject weapon)
 	{
@@ -98,7 +98,6 @@ public class CombatTurnState : AbstractPlayerState
 		{
 			if (weaponHand.StartThrow())
 			{
-				//weaponHand.ToggleThrowAimView(true);
 				ChosenAction = TypeOfAction.THROW;
 				IsActionTriggered = true;
 				return true;
@@ -130,21 +129,17 @@ public class CombatTurnState : AbstractPlayerState
 	{
 		if (IsActionTriggered)
 		{
-			//switch (ChosenAction)
-			//{
-			//	case TypeOfAction.ATTACK:
-			//	case TypeOfAction.BOMBARD:
-			//		weaponHand.ToggleAimView(false);
-			//		break;
-			//	case TypeOfAction.SPECIALATTACK:
-			//	case TypeOfAction.SPECIALBOMBARD:
-			//		specialHand.ToggleAimView(false);
-			//		break;
-			//	//case TypeOfAction.THROW:
-			//	//	//TODO
-			//	//	//weaponHand.ToggleThrowAimView(false);
-			//	//	break;
-			//}
+			switch (ChosenAction)
+			{
+				case TypeOfAction.ATTACK:
+				case TypeOfAction.BOMBARD:
+					weaponHand.ToggleAimView(false);
+					break;
+				case TypeOfAction.SPECIALATTACK:
+				case TypeOfAction.SPECIALBOMBARD:
+					specialHand.ToggleAimView(false);
+					break;
+			}
 			IsActionLocked = true;
 			Debug.Log("Chosenaction: " + ChosenAction);
 			PlayerManager.Instance.ActionDone(gameObject);
