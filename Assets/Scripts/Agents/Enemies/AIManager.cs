@@ -67,6 +67,7 @@ public class AIManager : MonoBehaviour
         
         CoverList = FindCoverSpotsInEncounter();
         TakenCoverPositions = new List<Vector3>();
+        PlayerList = new List<GameObject>();
         
     }
 
@@ -99,7 +100,7 @@ public class AIManager : MonoBehaviour
         foreach (GameObject e in EnemyList)
         {
             e.GetComponent<AIController>().TargetPosition = Vector3.zero;
-            e.GetComponent<AIController>().UpdateKillPriority(PlayerList);
+            e.GetComponent<AIController>().GetTargetPlayer(PlayerList);
 
             //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
             if (!e.GetComponent<StatusEffectHandler>().Paralyzed)
@@ -185,7 +186,7 @@ public class AIManager : MonoBehaviour
         PlayerList.Clear();
         foreach (GameObject player in PlayerManager.players)
         {
-            if (player.GetComponent<Attributes>().Health > 0)
+            if (player != null && player.GetComponent<Attributes>().Health > 0)
             {
                 PlayerList.Add(player);
             }

@@ -25,14 +25,13 @@ public class AIController : MonoBehaviour
     private AIManager aiManager;
     private WeaponHand weaponHand;
 
-    private List<GameObject> killPriority;
+    private List<GameObject> targetsChosen;
     public List<GameObject> KillPriority
     {
-        get { return killPriority; }
-        set { killPriority = value; }
+        get { return targetsChosen; }
+        set { targetsChosen = value; }
     }
     
-
     private GameObject targetPlayer;
     public GameObject TargetPlayer
     {
@@ -130,7 +129,7 @@ public class AIController : MonoBehaviour
 
                 if (targetPosition == Vector3.zero)
                 {
-                    targetPlayer = CalculateClosest(PlayerManager.players, KillPriority);
+                    targetPlayer = CalculateClosest(PlayerManager.players);
                     FindCover(targetPlayer);
                 }
 
@@ -152,15 +151,7 @@ public class AIController : MonoBehaviour
             case AIStates.States.Move:
                 if (targetPosition == Vector3.zero)
                 {
-                    // if hasAdvantage or HasRangedWeapon chose the player with lowest health, else chose closest
-                    if (HoldingRangedWeapon() || aiStateHandler.HasAdvantage())
-                    {
-                        targetPlayer = KillPriority[0];
-                    }
-                    else
-                    {
-                        targetPlayer = CalculateClosest(PlayerManager.players, KillPriority);
-                    }
+                    targetPlayer = GetTargetPlayer(aiManager.PlayerList);
 
                     if (targetPlayer == null)
                     {
@@ -171,11 +162,11 @@ public class AIController : MonoBehaviour
                         targetPosition = targetPlayer.transform.position;
                     }
                 }
-                if (!IsArmed() &&Target.CompareTag("WeaponObject") && Vector3.Distance(gameObject.transform.position, Target.transform.position) < 2)
+                if (!IsArmed() &&Target.CompareTag("WeaponObject") && TargetPositionReached())
                 {
                     PickupWeapon(Target);
                 }
-                else if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance || transform.position != targetPosition) // <-- -CanHitTarget?
+                else if (!TargetPositionReached()) 
                 {
                     MoveTowards(targetPosition);
                 }
@@ -189,7 +180,7 @@ public class AIController : MonoBehaviour
                 Target = GetClosestWeapon();
                 if (Target == null)
                 {
-                    TargetPlayer = CalculateClosest(PlayerManager.players, KillPriority);
+                    TargetPlayer = CalculateClosest(PlayerManager.players);
                     Target = TargetPlayer;
                 }
                 TargetPosition = Target.transform.position;
@@ -224,6 +215,19 @@ public class AIController : MonoBehaviour
         }
     }
 
+    private bool TargetPositionReached()
+    {
+        if (Target == null)
+        {
+            return false;
+        }
+        else
+        {
+            return Vector3.Distance(gameObject.transform.position, Target.transform.position) < 2;
+        }
+    }
+        
+
     private GameObject GetClosestWeapon()
     {
         Bounds bounds = aiManager.GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
@@ -249,54 +253,23 @@ public class AIController : MonoBehaviour
     /// Calculates what player is the closest to the AI-agent.
     /// </summary>
     /// <param name="players, priorities"></param>
-    public GameObject CalculateClosest(List<GameObject> players, List<GameObject> killPriority)
+    public GameObject CalculateClosest(List<GameObject> players)
     {
         float closestDistance = float.MaxValue;
+        GameObject closestTarget = new GameObject();
 
-        for (int i = 0; i < killPriority.Count; i++)
+        for (int i = 0; i < players.Count; i++)
         {
-            if (killPriority[i].GetComponent<Attributes>().Health <= 0)
-            {
-                killPriority.RemoveAt(i);
-            }
-        }
-
-        for (int i = 0; i < killPriority.Count; i++)
-        {
-            if (killPriority[i].GetComponent<Attributes>().Health <= 0)
-            {
-                continue;
-            }
-            float distance = CalculateDistance(killPriority[i]);
+            float distance = CalculateDistance(players[i]);
 
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                targetPlayer = killPriority[i];
+                closestTarget = players[i];
             }
         }
 
-        if (closestDistance == float.MaxValue)
-        {
-            for (int i = 0; i < players.Count; i++)
-            {
-                if (players[i] == null)
-                {
-                    continue;
-                }
-                else if (players[i].GetComponent<Attributes>().Health <= 0)
-                {
-                    continue;
-                }
-                float distance = CalculateDistance(players[i]);
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    targetPlayer = players[i];
-                }
-            }
-        }
-        return targetPlayer;
+        return closestTarget;
     }
 
     /// <summary>
@@ -364,7 +337,7 @@ public class AIController : MonoBehaviour
 
     public bool FindClosestAndCheckIfReachable()
     {
-        GameObject closest = CalculateClosest(PlayerManager.players, KillPriority);
+        GameObject closest = CalculateClosest(PlayerManager.players);
         if (ReachableTarget(closest))
         {
             return true;
@@ -412,7 +385,7 @@ public class AIController : MonoBehaviour
 
     public bool HoldingRangedWeapon()
     {
-        if (gameObject.transform.GetChild(0).transform.GetChild(1).childCount > 0 && gameObject.transform.GetChild(0).transform.GetChild(1).transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
+        if (gameObject.GetComponentInChildren<RangedWeapon>())
         {
             return true;
         }
@@ -421,7 +394,7 @@ public class AIController : MonoBehaviour
 
     public bool HoldingMeleeWeapon()
     {
-        if (gameObject.transform.GetChild(0).transform.GetChild(1).childCount > 0 && gameObject.transform.GetChild(0).transform.GetChild(1).transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon))
+        if (gameObject.GetComponentInChildren<MeleeWeapon>())
         {
             return true;
         }
@@ -448,7 +421,7 @@ public class AIController : MonoBehaviour
 
     public void UpdateClosestPlayer()
     {
-        targetPlayer = CalculateClosest(PlayerManager.players, KillPriority);
+        targetPlayer = CalculateClosest(PlayerManager.players);
     }
 
 
@@ -459,20 +432,17 @@ public class AIController : MonoBehaviour
         currentState = AIStates.States.Unassigned;
     }
 
-    public void UpdateKillPriority(List<GameObject> players) // maybe only target?
+    public GameObject GetTargetPlayer(List<GameObject> players) // maybe only target?
     {
-        KillPriority.Clear();
-
+        //KillPriority.Clear();
+        GameObject target = new GameObject();
         float maxTravelDist = GetComponent<Attributes>().Stamina * navMeshAgent.speed / 1.2f;
         float minDist = Mathf.Infinity;
         float minHealth = Mathf.Infinity;
         NavMeshPath sim_path = new NavMeshPath();
 
-
         // of all players within range, chose the one with lowest health
         // if none found walk towards the player closest to AI
-
-
 
         foreach (GameObject player in players)
         {
@@ -506,14 +476,14 @@ public class AIController : MonoBehaviour
                             if (player.GetComponent<Attributes>().Health < minHealth)
                             {
                                 minHealth = player.GetComponent<Attributes>().Health;
-                                KillPriority.Insert(0, player);
+                                target = player;
                             }
                             // OR if closest distance to travel yet 
                             else if (pathLength < minDist)
                             {
                                 //update target
                                 minDist = Vector3.Distance(sim_path.corners[i], transform.position);
-                                KillPriority.Insert(0, player);
+                                target = player;
                             }
                         }
                     }
@@ -528,50 +498,26 @@ public class AIController : MonoBehaviour
                     if (player.GetComponent<Attributes>().Health < minHealth)
                     {
                         minHealth = player.GetComponent<Attributes>().Health;
-                        KillPriority.Insert(0, player);
+                        target = player;
                     }
                     // OR if closest distance to travel yet 
                     else if (CalculateNavMeshPathLength(sim_path) < minDist)
                     {
                         //update target
                         minDist = CalculateNavMeshPathLength(sim_path);
-                        KillPriority.Insert(0, player);
+                        target = player;
                     }
                 }
             }
-
-            // If nothing reachable strat walking towards closest player
-            if (KillPriority.Count == 0)
-            {
-                
-            }
-
-            //for (int i = 1; i < players.Count; i++)
-            //{
-            //    for (int j = 0; j < players.Count; j++)
-            //    {
-            //        if (players[i].GetComponent<Attributes>().Health < KillPriority[j].GetComponent<Attributes>().Health) // if new object should be highest prio
-            //        {
-            //            KillPriority.Insert(j, players[i]);
-            //        }
-            //    }
-            //
-            //    // If no one in killpriorty had higher health
-            //    if (!KillPriority.Contains(players[i]))
-            //    {
-            //        KillPriority.Add(players[i]);
-            //    }
-            //}
-
-            ////DEBUG
-            //Debug.Log("THE FOLLOWING SHOULD BE IN ORDER LOWEST TO HIGHEST");
-            //foreach (GameObject go in killPriority)
-            //{
-            //    Debug.Log("KILL: " + go.GetComponent<Attributes>().Health);
-            //}
         }
 
+        // If nothing reachable start walking towards closest player
+        if (KillPriority.Count == 0)
+        {
+            target = CalculateClosest(players);
+        }
 
+        return target;
     }
 
     private float CalculateNavMeshPathLength(NavMeshPath path)

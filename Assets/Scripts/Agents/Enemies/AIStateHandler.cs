@@ -43,6 +43,7 @@ public class AIStateHandler : MonoBehaviour
     /// </summary>
     public void StateUpdate()
     {
+
         if (attributes.Health <= 0)
         {
             aiController.CurrentState = AIStates.States.Dead;
@@ -50,7 +51,7 @@ public class AIStateHandler : MonoBehaviour
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, aiController.KillPriority);
+            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players);
             Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             //Turn towards nearest player
         }
@@ -60,30 +61,22 @@ public class AIStateHandler : MonoBehaviour
             if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !ReachedTargetPosition()) // if low health and disadvantage and has stamina
             {
                 aiController.CurrentState = AIStates.States.FindCover;
-
             }
             else if (aiController.CurrentState != AIStates.States.Move && !aiController.IsArmed() && attributes.Stamina > 0)
             {
                 aiController.CurrentState = AIStates.States.SearchingForWeapon;
             }
-            else if (PlayerIsInRange()) // <- If one or more players are within fov range
-            {
-                Debug.Log("ENEMY CHOSE ATTACK");
-                aiController.CurrentState = AIStates.States.Attack;
-                aiController.ActionIsLocked = true;
-            }
-            //No target within range and health is fine 
             else
             {
                 //If we have stamina move(Later on will move towards target but for now only sets the next action to move)
-                if (attributes.Stamina > 0 && gameObject.transform.position != aiController.TargetPosition)
+                if (attributes.Stamina > 0 && !ReachedTargetPosition())
                 {
                     aiController.CurrentState = AIStates.States.Move;
                 }
                 //No stamina -> wait/attack
                 else
                 {
-                    if (PlayerIsInRange())
+                    if (CanAttackPlayer())
                     {
                         aiController.CurrentState = AIStates.States.Attack;
                         aiController.ActionIsLocked = true;
@@ -98,7 +91,7 @@ public class AIStateHandler : MonoBehaviour
         }
     }
 
-    private bool PlayerIsInRange()
+    private bool CanAttackPlayer()
     {
         if (aiController.HoldingRangedWeapon())
         {
