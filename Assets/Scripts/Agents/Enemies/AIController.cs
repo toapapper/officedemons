@@ -162,7 +162,7 @@ public class AIController : MonoBehaviour
                         targetPosition = targetPlayer.transform.position;
                     }
                 }
-                if (!IsArmed() &&Target.CompareTag("WeaponObject") && Vector3.Distance(gameObject.transform.position, Target.transform.position) < 2)
+                if (!IsArmed() && Target.CompareTag("WeaponObject") && !Target.GetComponent<AbstractWeapon>().IsHeld && Vector3.Distance(gameObject.transform.position, Target.transform.position) < 2)
                 {
                     PickupWeapon(Target);
                 }
@@ -221,15 +221,15 @@ public class AIController : MonoBehaviour
         Bounds bounds = aiManager.GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
         GameObject closestWeapon = null;
         float closest = float.MaxValue;
-        foreach (GameObject weapon in aiManager.AllWeapons)
+        for (int i = 0; i < aiManager.AllWeapons.Count; i++)
         {
-            if (bounds.Contains(weapon.transform.position))
+            if (bounds.Contains(aiManager.AllWeapons[i].transform.position))
             {
-                float distance = CalculateDistance(weapon);
-                if (distance < closest && !weapon.GetComponent<AbstractWeapon>().IsHeld)
+                float distance = CalculateDistance(aiManager.AllWeapons[i]);
+                if (distance < closest && !aiManager.AllWeapons[i].GetComponent<AbstractWeapon>().IsHeld)
                 {
                     closest = distance;
-                    closestWeapon = weapon;
+                    closestWeapon = aiManager.AllWeapons[i];
                 }
             }
         }
@@ -430,6 +430,10 @@ public class AIController : MonoBehaviour
     public bool IsArmed()
     {
         if (HoldingMeleeWeapon() || HoldingRangedWeapon())
+        {
+            return true;
+        }
+        if (gameObject.GetComponentInChildren<AbstractWeapon>())
         {
             return true;
         }
