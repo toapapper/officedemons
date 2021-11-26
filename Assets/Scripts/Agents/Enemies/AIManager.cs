@@ -6,14 +6,14 @@ using UnityEngine.Events;
 /// <summary>
 /// <para>
 /// Manages the group behaviour of AI-agents.
-/// 
+///
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Tinea Larsson, Tim Wennerberg
-///  
+///
 /// </para>
-///  
+///
 /// </summary>
 
 // Last Edited: 15-10-21
@@ -52,7 +52,7 @@ public class AIManager : MonoBehaviour
         set { takenCoverPositions = value; }
     }
 
-    
+
 
     private List<GameObject> allWeapons;
     public List<GameObject> AllWeapons
@@ -64,11 +64,11 @@ public class AIManager : MonoBehaviour
     private void Start()
     {
         actionsQueue = new Queue<GameObject>();
-        
+
         CoverList = FindCoverSpotsInEncounter();
         TakenCoverPositions = new List<Vector3>();
         PlayerList = new List<GameObject>();
-        
+
     }
 
     /// <summary>
@@ -236,6 +236,7 @@ public class AIManager : MonoBehaviour
             actionsQueue = newQueue;
         }
     }
+
 
 
     private void EnableEnemyDamage()

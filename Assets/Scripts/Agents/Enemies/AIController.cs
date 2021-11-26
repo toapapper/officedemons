@@ -31,7 +31,8 @@ public class AIController : MonoBehaviour
         get { return targetsChosen; }
         set { targetsChosen = value; }
     }
-    
+
+    // ändra sen till ett target? just nu både player och target, reduntant?
     private GameObject targetPlayer;
     public GameObject TargetPlayer
     {
@@ -165,12 +166,11 @@ public class AIController : MonoBehaviour
                         targetPosition = targetPlayer.transform.position;
                     }
                 }
-
                 if (!IsArmed() &&Target.CompareTag("WeaponObject") && TargetPositionReached())
                 {
                     PickupWeapon(Target);
                 }
-                else if (!TargetPositionReached()) 
+                else if (!TargetPositionReached())
                 {
                     MoveTowards(targetPosition);
                 }
@@ -230,7 +230,7 @@ public class AIController : MonoBehaviour
             return Vector3.Distance(gameObject.transform.position, Target.transform.position) < 2;
         }
     }
-        
+
 
     private GameObject GetClosestWeapon()
     {
@@ -486,7 +486,7 @@ public class AIController : MonoBehaviour
                                 minHealth = player.GetComponent<Attributes>().Health;
                                 target = player;
                             }
-                            // OR if closest distance to travel yet 
+                            // OR if closest distance to travel yet
                             else if (pathLength < minDist)
                             {
                                 //update target
@@ -508,7 +508,7 @@ public class AIController : MonoBehaviour
                         minHealth = player.GetComponent<Attributes>().Health;
                         target = player;
                     }
-                    // OR if closest distance to travel yet 
+                    // OR if closest distance to travel yet
                     else if (CalculateNavMeshPathLength(sim_path) < minDist)
                     {
                         //update target
