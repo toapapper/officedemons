@@ -58,7 +58,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         get { return isAddingThrowForce; }
         set { isAddingThrowForce = value; }
     }
-    protected bool IsAddingBombardForce
+    public bool IsAddingBombardForce
 	{
         get { return isAddingBombardForce; }
         set { isAddingBombardForce = value; }
