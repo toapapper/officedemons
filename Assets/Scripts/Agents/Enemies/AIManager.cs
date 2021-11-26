@@ -97,19 +97,25 @@ public class AIManager : MonoBehaviour
             go.GetComponent<GroundEffectObject>().ApplyEffectsOnEnemys();
         }
 
-        foreach (GameObject e in EnemyList)
+        int enemiesCount = EnemyList.Count;
+        for(int i=0; i<enemiesCount;i++)
         {
-            e.GetComponent<AIController>().TargetPosition = Vector3.zero;
-            e.GetComponent<AIController>().GetTargetPlayer(PlayerList);
-
-            //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
-            if (!e.GetComponent<StatusEffectHandler>().Paralyzed)
+            if (EnemyList[i] != null)
             {
-                e.GetComponent<Attributes>().Stamina = e.GetComponent<Attributes>().StartStamina;
-                e.GetComponent<AIController>().ActionIsLocked = false;
-            }
+                EnemyList[i].GetComponent<AIController>().TargetType = AIController.TargetTypes.None;
+                EnemyList[i].GetComponent<AIController>().Target = null;
+                EnemyList[i].GetComponent<AIController>().TargetPosition = Vector3.zero;
+                //e.GetComponent<AIController>().GetTargetPlayer(PlayerList);
 
-            e.GetComponent<StatusEffectHandler>().UpdateEffects();
+                //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
+                if (!EnemyList[i].GetComponent<StatusEffectHandler>().Paralyzed)
+                {
+                    EnemyList[i].GetComponent<Attributes>().Stamina = EnemyList[i].GetComponent<Attributes>().StartStamina;
+                    EnemyList[i].GetComponent<AIController>().ActionIsLocked = false;
+                }
+
+                EnemyList[i].GetComponent<StatusEffectHandler>().UpdateEffects();
+            }
         }
     }
 
