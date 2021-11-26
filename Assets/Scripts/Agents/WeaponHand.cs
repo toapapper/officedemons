@@ -92,7 +92,7 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand != null)
 		{
-			objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
+			objectInHand.ToggleAim(isActive, FOVVisualization/*, throwAim.gameObject*/);
 		}
 		else
 		{
@@ -186,7 +186,7 @@ public class WeaponHand : MonoBehaviour
 	{
 		if(objectInHand != null && objectInHand is BombardWeapon)
 		{
-			throwAim.initialVelocity = bombardForce;
+			throwAim.initialSpeed = bombardForce;
 			return true;
 		}
 		return false;

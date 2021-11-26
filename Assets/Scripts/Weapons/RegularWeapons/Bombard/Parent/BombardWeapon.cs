@@ -31,8 +31,9 @@ public class BombardWeapon : AbstractWeapon
 		set { grenadeThrowForce = value; }
 	}
 
-	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
+	public override void ToggleAim(bool isActive, GameObject FOVView/*, GameObject throwAim*/)
 	{
+		
 		if (!isActive)
 		{
 			WeaponController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
@@ -42,7 +43,10 @@ public class BombardWeapon : AbstractWeapon
 		}
 		else
 		{
+			Debug.Log(isActive);
 			WeaponController.ThrowAim.gameObject.SetActive(isActive);
+
+			Debug.Log("TOGGLED AIM");
 			WeaponController.ThrowAim.NoBounceing = noBouncing;
 			WeaponController.ThrowAim.SetExplosionSize(explodeRadius * 2);
 			//throwAim.SetActive(isActive);

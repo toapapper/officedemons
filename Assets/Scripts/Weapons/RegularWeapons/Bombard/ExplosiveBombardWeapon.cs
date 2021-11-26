@@ -6,17 +6,9 @@ public class ExplosiveBombardWeapon : BombardWeapon
 {
 	public override void DoAction(FieldOfView fov)
 	{
-		Vector3 forward = transform.forward;
-		forward.y = 0;
-		forward.Normalize();
-		Vector3 right = new Vector3(forward.z, 0, -forward.x);
+		Vector3 velocity = WeaponController.ThrowAim.InitialVelocity;
 
-		Vector3 direction = (Quaternion.AngleAxis(-WeaponController.ThrowAim.initialAngle, right) * forward).normalized;
-		float throwForce = WeaponController.ThrowAim.ThrowForce;
-		//float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity;
-		//float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.ThrowForce;
-
-		grenade.GetComponent<ExplosiveGrenadeProjectile>().CreateGrenade(HolderAgent, transform.position, direction, throwForce,
+		grenade.GetComponent<ExplosiveGrenadeProjectile>().CreateGrenade(HolderAgent, transform.position, velocity,
 			explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
 
 		base.DoAction(fov);

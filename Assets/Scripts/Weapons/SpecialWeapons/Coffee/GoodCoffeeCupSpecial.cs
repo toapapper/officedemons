@@ -25,28 +25,21 @@ public class GoodCoffeeCupSpecial : CoffeeCupSpecial
 
 	public override void DoSpecialAction()
 	{
-		Vector3 forward = HolderAgent.transform.forward;
-		forward.y = 0;
-		forward.Normalize();
-		Vector3 right = new Vector3(forward.z, 0, -forward.x);
-
-		Vector3 direction = (Quaternion.AngleAxis(-SpecialController.ThrowAim.initialAngle, right) * forward).normalized;
-		float throwForce = SpecialController.ThrowAim.initialVelocity;
-
+		Vector3 velocity = SpecialController.ThrowAim.InitialVelocity;
 
 		if (Charges == 0)
 		{
-			grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, direction, throwForce,
+			grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity,
 				explodeRadius, 0, buffEffects);
 		}
 		else if (Charges == 1)
 		{
-			grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, direction, throwForce,
+			grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity,
 			explodeRadius, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), buffEffects);
 		}
 		else
 		{
-			grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, direction, throwForce,
+			grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity,
 			explodeRadius + explodeRadiusAdder, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), buffEffects);
 		}
 		Charges = 0;

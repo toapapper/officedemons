@@ -19,16 +19,16 @@ public class PooGrenadeProjectile : GroundEffectGrenade
 	[SerializeField]
 	private NegativeGroundObject groundObject;
 
-	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce,
+	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 velocity,
 		float explodeRadius, float grenadeExplodeForce, float grenadeDamage, List<WeaponEffects> effects)
 	{
-		grenade = Instantiate(this, position, Quaternion.LookRotation(direction));
+		grenade = Instantiate(this, position, Quaternion.LookRotation(velocity.normalized));
 		grenade.thrower = thrower;
 		grenade.FOV.ViewRadius = explodeRadius;
 		grenade.healthModifyAmount = grenadeDamage;
 		grenade.explosionForce = grenadeExplodeForce;
 		grenade.weaponEffects = effects;
-		grenade.GetComponent<Rigidbody>().AddForce(direction * grenadeThrowForce, ForceMode.Impulse);
+		grenade.GetComponent<Rigidbody>().AddForce(velocity, ForceMode.Impulse);
 
 		GameManager.Instance.StillCheckList.Add(grenade.gameObject);
 	}

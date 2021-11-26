@@ -23,30 +23,22 @@ public class BadCoffeeCupSpecial : CoffeeCupSpecial
 
 	public override void DoSpecialAction()
 	{
-		Vector3 forward = HolderAgent.transform.forward;
-		forward.y = 0;
-		forward.Normalize();
-		Vector3 right = new Vector3(forward.z, 0, -forward.x);
-
-		Vector3 direction = (Quaternion.AngleAxis(-SpecialController.ThrowAim.initialAngle, right) * forward).normalized;
-		//float throwForce = specialController.ThrowAim.initialVelocity;
-		float throwForce = SpecialController.ThrowAim.ThrowForce;
-
+		Vector3 velocity = SpecialController.ThrowAim.InitialVelocity;
 
 		if (Charges == 0)
 		{
-			grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, direction, throwForce,
-				explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
+			grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity,explodeRadius,
+				HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
 		}
 		else if (Charges == 1)
 		{
-			grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, direction, throwForce,
-			explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
+			grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, explodeRadius,
+				HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
 		}
 		else
 		{
-			grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, direction, throwForce,
-			explodeRadius + explodeRadiusAdder, HitForce, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
+			grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, explodeRadius + explodeRadiusAdder,
+				HitForce, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
 		}
 		Charges = 0;
 		base.DoSpecialAction();

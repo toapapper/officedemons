@@ -74,7 +74,7 @@ public abstract class RangedWeapon : AbstractWeapon
 		AimCone.GetComponentInChildren<MeshRenderer>().material.color = gradient.colorKeys[0].color;
 	}
 
-	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
+	public override void ToggleAim(bool isActive, GameObject FOVView/*, GameObject throwAim*/)
 	{
 		if(Inaccuracy < 1)
         {

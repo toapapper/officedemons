@@ -16,6 +16,7 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class ThrowAim : MonoBehaviour
 {
+	private PlayerMovementController playerMovement;
     private LineRenderer lineRenderer;
 	private float gravity;
 
@@ -24,7 +25,7 @@ public class ThrowAim : MonoBehaviour
     [SerializeField]
     public float initialAngle = 45f;
     [SerializeField]
-    public float initialVelocity;
+    public float initialSpeed;
     [SerializeField]
     [Range(0.1f, 0.95f)]
     private float initialFriction = 0.7f;
@@ -46,11 +47,15 @@ public class ThrowAim : MonoBehaviour
 
 	private Vector3 targetStartPosition;
 	private Vector3 targetPosition;
+	private Vector3 targetDirection/* = Vector3.zero*/;
+	private float targetSpeed = 10f;
+
 	private Vector3 zeroedPlayer;
 	private Vector3 zeroedOrigin;
 	private Vector3 zeroedTarget;
 
 	private Vector3 currentArcPosition;
+	private Vector3 initialVelocity;
 	private Vector3 velocity;
 	private Vector3 u, w;
 
@@ -66,24 +71,31 @@ public class ThrowAim : MonoBehaviour
 	{
 		get { return target; }
 	}
-	public Vector3 Velocity
+	public Vector3 TargetDirection
 	{
-		get { return velocity; }
+		get { return targetDirection; }
+		set { targetDirection = value; }
+	}
+	public Vector3 InitialVelocity
+	{
+		get { return initialVelocity; }
 	}
 	public float ThrowForce
 	{
-		get { return velocity.magnitude / 2; }
+		get { return velocity.magnitude; }
 	}
 
     void Awake()
     {
-        lineRenderer = GetComponent<LineRenderer>();
+		playerMovement = GetComponentInParent<PlayerMovementController>();
+		lineRenderer = GetComponent<LineRenderer>();
         gravity = Physics.gravity.y;
 		targetStartPosition = target.transform.localPosition;
 	}
 	private void OnEnable()
 	{
 		target.transform.parent = null;
+		//player.transform.rotation = playerMovement.RotationDirection;
 	}
 
 	public void SetExplosionSize(float explosionSize)
@@ -93,17 +105,27 @@ public class ThrowAim : MonoBehaviour
 
 	private void FixedUpdate()
     {
+		MoveTarget();
         SetDirection();
 		RenderArc();
     }
+
+	private void MoveTarget()
+	{
+		target.transform.position += targetDirection * targetSpeed * Time.fixedDeltaTime;
+	}
 
     private void SetDirection()
 	{
         targetPosition = target.transform.position;
         zeroedPlayer = new Vector3(player.transform.position.x, 0, player.transform.position.z);
         zeroedTarget = new Vector3(targetPosition.x, 0, targetPosition.z);
-        player.transform.rotation = Quaternion.LookRotation((zeroedTarget - zeroedPlayer).normalized);
-        zeroedOrigin = new Vector3(transform.position.x, 0, transform.position.z);
+		Debug.Log("LOOK ROTATION" + (zeroedTarget - zeroedPlayer).normalized);
+		player.transform.rotation = Quaternion.LookRotation((zeroedTarget - zeroedPlayer).normalized);
+		//
+		playerMovement.RotationDirection = player.transform.rotation;
+		//
+		zeroedOrigin = new Vector3(transform.position.x, 0, transform.position.z);
     }
 
     public Vector3 CalculateVelocity()
@@ -122,7 +144,8 @@ public class ThrowAim : MonoBehaviour
 
     void RenderArc()
     {
-        velocity = CalculateVelocity();
+		initialVelocity = CalculateVelocity();
+		velocity = initialVelocity;
 
         friction = initialFriction;
         bounce = initialBounce;

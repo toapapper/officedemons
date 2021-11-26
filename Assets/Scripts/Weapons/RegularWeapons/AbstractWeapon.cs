@@ -128,6 +128,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	public virtual void PickUpIn(GameObject hand)
 	{
 		holderAgent = hand.transform.parent.parent.gameObject;
+		weaponController = holderAgent.GetComponent<WeaponHand>();
 		isHeld = true;
 		handle.GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<Rigidbody>().isKinematic = true;
@@ -162,7 +163,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	}
 
 	public virtual void SetAimGradient(Gradient gradient) { }
-	public virtual void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim) { }
+	public virtual void ToggleAim(bool isActive, GameObject FOVView/*, GameObject throwAim*/) { }
 	public virtual void StartAttack(Animator animator) { }
 	public virtual void Attack(Animator animator) 
 	{

@@ -104,7 +104,7 @@ public class SpecialHand : MonoBehaviour
 	{
 		if (objectInHand && objectInHand is CoffeeCupSpecial)
 		{
-			throwAim.initialVelocity = bombardForce;
+			throwAim.initialSpeed = bombardForce;
 			return true;
 		}
 		return false;

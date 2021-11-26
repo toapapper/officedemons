@@ -23,7 +23,7 @@ public abstract class MeleeWeapon : AbstractWeapon
     //}
     [SerializeField]
     protected GameObject particleEffect;
-    public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
+    public override void ToggleAim(bool isActive, GameObject FOVView/*, GameObject throwAim*/)
 	{
 		FOVView.SetActive(isActive);
 	}
