@@ -43,6 +43,7 @@ public class AIStateHandler : MonoBehaviour
     /// </summary>
     public void StateUpdate()
     {
+
         if (attributes.Health <= 0)
         {
             aiController.CurrentState = AIStates.States.Dead;
@@ -50,7 +51,7 @@ public class AIStateHandler : MonoBehaviour
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, encounter.GetComponentInChildren<AIManager>().KillPriority);
+            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players);
             Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
             aiController.TargetPlayer = closestPlayer;
             aiController.Target = closestPlayer;
@@ -60,32 +61,25 @@ public class AIStateHandler : MonoBehaviour
         //DeathCheck       
         if (aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
         {
-            if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !HasReachedTargetPosition()) // if low health and disadvantage and has stamina
+            if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !ReachedTargetPosition()) // if low health and disadvantage and has stamina
             {
                 aiController.CurrentState = AIStates.States.FindCover;
-
             }
             else if (aiController.CurrentState != AIStates.States.Move && !aiController.IsArmed() && attributes.Stamina > 0)
             {
                 aiController.CurrentState = AIStates.States.SearchingForWeapon;
             }
-            else if (PlayerIsInRange()) // <- If one or more players are within fov range
-            {
-                aiController.CurrentState = AIStates.States.Attack;
-                aiController.ActionIsLocked = true;
-            }
-            //No target within range and health is fine 
             else
             {
                 //If we have stamina move(Later on will move towards target but for now only sets the next action to move)
-                if (attributes.Stamina > 0 && gameObject.transform.position != aiController.TargetPosition)
+                if (attributes.Stamina > 0 && !ReachedTargetPosition())
                 {
                     aiController.CurrentState = AIStates.States.Move;
                 }
                 //No stamina -> wait/attack
                 else
                 {
-                    if (PlayerIsInRange())
+                    if (CanAttackPlayer())
                     {
                         aiController.CurrentState = AIStates.States.Attack;
                         aiController.ActionIsLocked = true;
@@ -100,21 +94,26 @@ public class AIStateHandler : MonoBehaviour
         }
     }
 
-    private bool PlayerIsInRange()
+    private bool CanAttackPlayer()
     {
         if (aiController.HoldingRangedWeapon())
         {
-            Vector3 direction = (aiController.TargetPlayer.transform.position - transform.position).normalized;
-            RaycastHit hit = new RaycastHit();
-
-            if (Physics.Raycast(transform.position, direction, out hit))
+            foreach(GameObject player in encounter.GetComponentInChildren<AIManager>().PlayerList)
             {
-                if (hit.transform.gameObject.tag == "Player")
+                // Raycast to every player and se eif move not needed
+                Vector3 direction = (aiController.TargetPlayer.transform.position - transform.position).normalized;
+                RaycastHit hit = new RaycastHit();
+
+                if (Physics.Raycast(transform.position, direction, out hit))
                 {
-                    aiController.TargetPlayer = hit.transform.gameObject;
-                    return true;
+                    if (hit.transform.gameObject.tag == "Player")
+                    {
+                         aiController.TargetPlayer = hit.transform.gameObject;
+                         return true;
+                    }
                 }
             }
+            
             return false;
         }
         else
@@ -143,9 +142,9 @@ public class AIStateHandler : MonoBehaviour
         return attributes.Health <= attributes.StartHealth / 2; // 
     }
 
-    private bool HasReachedTargetPosition()
+    private bool ReachedTargetPosition()
     {
-        return aiController.TargetPosition == gameObject.transform.position;
+        return Vector3.Distance(aiController.TargetPosition, gameObject.transform.position) < 2;
     }
 
     // Check if players are fewer than AI, if players are unarmed but AI have weapons
