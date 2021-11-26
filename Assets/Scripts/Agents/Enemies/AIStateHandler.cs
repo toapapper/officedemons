@@ -111,6 +111,7 @@ public class AIStateHandler : MonoBehaviour
             {
                 if (hit.transform.gameObject.tag == "Player")
                 {
+                    aiController.TargetPlayer = hit.transform.gameObject;
                     return true;
                 }
             }
