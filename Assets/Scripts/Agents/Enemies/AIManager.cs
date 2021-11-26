@@ -237,7 +237,6 @@ public class AIManager : MonoBehaviour
         }
     }
 
-    
 
     private void EnableEnemyDamage()
     {

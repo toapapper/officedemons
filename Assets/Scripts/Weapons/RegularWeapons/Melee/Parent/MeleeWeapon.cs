@@ -31,7 +31,8 @@ public abstract class MeleeWeapon : AbstractWeapon
 	public override void Attack(Animator animator)
     {
 		base.Attack(animator);
-	}
+        AkSoundEngine.PostEvent("Play_MeleeSwingsPack_96khz_Stereo_NormalSwings39", gameObject);
+    }
 
     public override void DoAction(FieldOfView fov)
     {
@@ -51,6 +52,7 @@ public abstract class MeleeWeapon : AbstractWeapon
                 Effects.ApplyWeaponEffects(target, effects);
                 if (particleEffect)
                 {
+                    AkSoundEngine.PostEvent("Play_Blunt_thud", gameObject);
                     Instantiate(particleEffect, target.transform.position, target.transform.rotation * Quaternion.Euler(0, 180, 0));
                 }
             }

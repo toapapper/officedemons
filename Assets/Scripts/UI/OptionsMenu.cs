@@ -17,7 +17,6 @@ public class OptionsMenu : MonoBehaviour
     public GameObject FirstSelectedVideoMenu;
     public GameObject FirstSelectedAudioMenu;
     public GameObject FirstSelectedControllerMenu;
-    [SerializeField] Image BGImage;
 
     public void Video()
     {
@@ -43,7 +42,6 @@ public class OptionsMenu : MonoBehaviour
     public void Back()
     {
         MainMenu.SetActive(true);
-        BGImage.color = new Color(238, 243, 203, 255);
         EventSystem.current.SetSelectedGameObject(FirstSelectedOptionMenu);
         gameObject.SetActive(false);
     }

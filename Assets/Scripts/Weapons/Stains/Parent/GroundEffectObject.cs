@@ -71,6 +71,7 @@ public abstract class GroundEffectObject : MonoBehaviour
     {
         if (!agentsOnGroundEffect.Contains(other.gameObject) && other.gameObject.GetComponent<Attributes>().Health > 0)
         {
+            AkSoundEngine.PostEvent("Play_Sizzle", gameObject);
             agentsOnGroundEffect.Add(other.gameObject);
         }
     }

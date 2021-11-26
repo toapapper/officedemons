@@ -36,7 +36,8 @@ public class Encounter : MonoBehaviour
     public AIManager aIManager;
 
     public List<GameObject> playerPositions;
-
+    [SerializeField] AK.Wwise.State combatMusicState;
+    [SerializeField] AK.Wwise.State roamingState1;
     private bool myTurn = false;
     private int currentEnemysTurn = 0;
 
@@ -120,6 +121,7 @@ public class Encounter : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && GameManager.Instance.CurrentCombatState == CombatState.none)
         {
+            combatMusicState.SetValue();
             GameManager.Instance.StartEncounter(this);
             //GetComponentInChildren<AIManager>().EnableEnemyDamage(GetEnemylist());
         }
@@ -127,6 +129,7 @@ public class Encounter : MonoBehaviour
 
     public void EndEncounter()
     {
+        AkSoundEngine.SetState("Music", "RoamingState1");
         Destroy(gameObject);
     }
 }

@@ -26,6 +26,7 @@ public class Bullet : MonoBehaviour
 
     public void CreateBullet(GameObject shooter, Vector3 position, Vector3 direction, float bulletFireForce, float bulletHitForce, float bulletDamage, List<WeaponEffects> effects)
     {
+        AkSoundEngine.PostEvent("Play_ShotSFX", gameObject);
         bulletObject = Instantiate(this, position, Quaternion.LookRotation(direction));
         bulletObject.shooter = shooter;
         bulletObject.bulletDamage = bulletDamage;
@@ -70,7 +71,7 @@ public class Bullet : MonoBehaviour
 
             Effects.ApplyWeaponEffects(collision.gameObject, effects);
         }
-
+        AkSoundEngine.PostEvent("Play_FMW_Weapon_Hit10C", gameObject);
         Destroy(gameObject);
     }
 }

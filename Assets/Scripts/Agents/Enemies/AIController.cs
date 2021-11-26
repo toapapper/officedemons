@@ -144,6 +144,9 @@ public class AIController : MonoBehaviour
                 break;
 
             case AIStates.States.Attack:
+                Debug.Log("Target : "  + Target);
+                Debug.Log("TargetPlayer : " + TargetPlayer);
+                Debug.Log("TargetPosition : " + TargetPosition);
                 aiManager.SaveAction(this.gameObject);
                 ActionIsLocked = true;
                 break;
@@ -162,6 +165,7 @@ public class AIController : MonoBehaviour
                         targetPosition = targetPlayer.transform.position;
                     }
                 }
+
                 if (!IsArmed() &&Target.CompareTag("WeaponObject") && TargetPositionReached())
                 {
                     PickupWeapon(Target);
@@ -233,15 +237,15 @@ public class AIController : MonoBehaviour
         Bounds bounds = aiManager.GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
         GameObject closestWeapon = null;
         float closest = float.MaxValue;
-        foreach (GameObject weapon in aiManager.AllWeapons)
+        for (int i = 0; i < aiManager.AllWeapons.Count; i++)
         {
-            if (bounds.Contains(weapon.transform.position))
+            if (bounds.Contains(aiManager.AllWeapons[i].transform.position))
             {
-                float distance = CalculateDistance(weapon);
-                if (distance < closest && !weapon.GetComponent<AbstractWeapon>().IsHeld)
+                float distance = CalculateDistance(aiManager.AllWeapons[i]);
+                if (distance < closest && !aiManager.AllWeapons[i].GetComponent<AbstractWeapon>().IsHeld)
                 {
                     closest = distance;
-                    closestWeapon = weapon;
+                    closestWeapon = aiManager.AllWeapons[i];
                 }
             }
         }
@@ -407,6 +411,10 @@ public class AIController : MonoBehaviour
         {
             return true;
         }
+        //if (gameObject.GetComponentInChildren<AbstractWeapon>())
+        //{
+        //    return true;
+        //}
         return false;
     }
 
