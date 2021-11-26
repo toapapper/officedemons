@@ -231,8 +231,10 @@ public class AIManager : MonoBehaviour
 
     private void UpdateKillPriority()
     {
-        KillPriority.Add(PlayerList[0]);
-
+        for (int i = 0; i < PlayerList.Count; i++)
+        {
+            KillPriority.Add(PlayerList[i]);
+        }
         for (int i = 1; i < PlayerList.Count; i++)
         {
             for (int j = 0; j < PlayerList.Count; j++)
@@ -242,14 +244,13 @@ public class AIManager : MonoBehaviour
                     KillPriority.Insert(j, PlayerList[i]); 
                 }
             }
-
             // If no one in killpriorty had higher health
             if (!KillPriority.Contains(PlayerList[i]))
             {
+
                 KillPriority.Add(PlayerList[i]);
             }
         }
-
         ////DEBUG
         //Debug.Log("THE FOLLOWING SHOULD BE IN ORDER LOWEST TO HIGHEST");
         //foreach (GameObject go in killPriority)

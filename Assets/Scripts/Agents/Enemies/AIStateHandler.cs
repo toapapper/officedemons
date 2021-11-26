@@ -52,6 +52,9 @@ public class AIStateHandler : MonoBehaviour
         {
             GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, encounter.GetComponentInChildren<AIManager>().KillPriority);
             Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
+            aiController.TargetPlayer = closestPlayer;
+            aiController.Target = closestPlayer;
+            aiController.TargetPosition = closestPlayer.transform.position;
             //Turn towards nearest player
         }
         //DeathCheck       
