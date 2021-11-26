@@ -50,14 +50,15 @@ public class AIStateHandler : MonoBehaviour
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            aiController.TargetPlayer = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
-            aiController.TargetPosition = aiController.TargetPlayer.transform.position;
+            aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
+            aiController.TargetType = AIController.TargetTypes.Player;
+            aiController.TargetPosition = aiController.Target.transform.position;
             Vector3.RotateTowards(transform.forward, aiController.TargetPosition, 1 * Time.deltaTime, 0.0f);
         }
         //DeathCheck       
         if (aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
         {
-            if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !ReachedTargetPosition()) // if low health and disadvantage and has stamina
+            if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !ReachedTargetPosition())  // if low health and disadvantage and has stamina
             {
                 aiController.CurrentState = AIStates.States.FindCover;
             }
@@ -65,13 +66,25 @@ public class AIStateHandler : MonoBehaviour
             {
                 aiController.CurrentState = AIStates.States.SearchingForWeapon;
             }
-            else if (CanAttackPlayer())
+            else if (aiController.TargetType == AIController.TargetTypes.ShootSpot && ReachedTargetPosition())
+            {
+                aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
+                aiController.TargetPosition = aiController.Target.transform.position;
+                aiController.TargetType = AIController.TargetTypes.Player;
+            }
+            else if (!TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
             {
                 aiController.CurrentState = AIStates.States.Attack;
                 aiController.ActionIsLocked = true;
             }
             else
             {
+                if (aiController.TargetType == AIController.TargetTypes.ShootSpot && ReachedTargetPosition())
+                {
+                    aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
+                    aiController.TargetType = AIController.TargetTypes.Player;
+                }
+
                 //If we have stamina move(Later on will move towards target but for now only sets the next action to move)
                 if (attributes.Stamina > 0 && !ReachedTargetPosition())
                 {
@@ -80,19 +93,37 @@ public class AIStateHandler : MonoBehaviour
                 //No stamina -> wait/attack
                 else
                 {
-                    if (CanAttackPlayer())
+                    if (aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
                     {
                         aiController.CurrentState = AIStates.States.Attack;
                         aiController.ActionIsLocked = true;
                     }
                     else
                     {
-                        aiController.CurrentState = AIStates.States.Wait;
-                        aiController.ActionIsLocked = true;
+                        if (attributes.Stamina > 0 && TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player)
+                        {
+                            aiController.GetShootPosition();
+                            aiController.CurrentState = AIStates.States.Move;
+                        }
+                        else
+                        {
+                            aiController.CurrentState = AIStates.States.Wait;
+                            aiController.ActionIsLocked = true;
+                        }
                     }
                 }
             }
         }
+        //Debug.LogError("STATE: " + aiController.CurrentState.ToString());
+    }
+
+    private bool TooCloseToAttack()
+    {
+        if (aiController.HoldingMeleeWeapon())
+        {
+            return false;
+        }
+        return (Vector3.Distance(gameObject.transform.position, aiController.TargetPosition)) < 2;
     }
 
     private bool CanAttackPlayer()
@@ -102,7 +133,7 @@ public class AIStateHandler : MonoBehaviour
             foreach(GameObject player in encounter.GetComponentInChildren<AIManager>().PlayerList)
             {
                 // Raycast to every player and se eif move not needed
-                Vector3 direction = (aiController.TargetPlayer.transform.position - transform.position).normalized;
+                Vector3 direction = (aiController.Target.transform.position - transform.position).normalized;
                 RaycastHit hit = new RaycastHit();
 
                 if (Physics.Raycast(transform.position, direction, out hit))
@@ -111,7 +142,6 @@ public class AIStateHandler : MonoBehaviour
                     {
                         if(Vector3.Angle(transform.forward, hit.transform.position - transform.position) < 10f)
                         {
-                            Debug.LogError("YESSSSSSSSS");
                             return true;
                         }
                     }
@@ -162,7 +192,7 @@ public class AIStateHandler : MonoBehaviour
         //count how many players are alive and armed
         foreach (GameObject player in encounter.GetComponentInChildren<AIManager>().PlayerList)
         {
-            if (player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon) || player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
+            if (gameObject.GetComponentInChildren<RangedWeapon>() || gameObject.GetComponentInChildren<MeleeWeapon>())
             {
                 armedPlayers++;
             }
