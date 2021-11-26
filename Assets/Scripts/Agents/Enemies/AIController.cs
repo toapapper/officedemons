@@ -32,19 +32,21 @@ public class AIController : MonoBehaviour
         set { targetsChosen = value; }
     }
 
-    // ändra sen till ett target? just nu både player och target, reduntant?
-    private GameObject targetPlayer;
-    public GameObject TargetPlayer
-    {
-        get { return targetPlayer; }
-        set { targetPlayer = value; }
-    }
-
+    // Class for traget?
     private GameObject target;
     public GameObject Target
     {
         get { return target; }
         set { target = value; }
+    }
+
+    public enum TargetTypes { CoverSpot, ShootSpot, Player, Item, None};
+
+    private TargetTypes targetType;
+    public TargetTypes TargetType
+    {
+        get { return targetType; }
+        set { targetType = value; }
     }
 
     private Vector3 targetPosition;
@@ -88,6 +90,7 @@ public class AIController : MonoBehaviour
 
     void Start()
     {
+        Target = new GameObject(); //
         gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         fov = GetComponent<FieldOfView>();
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -128,66 +131,71 @@ public class AIController : MonoBehaviour
         {
             case AIStates.States.FindCover:
 
-                if (targetPosition == Vector3.zero)
+                if (TargetPosition == Vector3.zero)
                 {
-                    targetPlayer = CalculateClosest(PlayerManager.players);
-                    FindCover(targetPlayer);
+                    GameObject closestPlayer = CalculateClosest(PlayerManager.players);
+                    FindCover(closestPlayer);
+                    TargetType = TargetTypes.CoverSpot;
+                    TargetPosition = Target.transform.position;
                 }
 
-                if (transform.position == targetPosition)
+                if (ReachedTargetPosition())
                 {
                     currentState = AIStates.States.Wait;
                 }
                 else
                 {
-                    MoveTowards(targetPosition);
+                    MoveTowards(TargetPosition);
                 }
                 break;
 
             case AIStates.States.Attack:
-                Debug.Log("Target : "  + Target);
-                Debug.Log("TargetPlayer : " + TargetPlayer);
-                Debug.Log("TargetPosition : " + TargetPosition);
+                //Debug.Log("Target : "  + Target + "of type: " + TargetType);
+                //Debug.Log("TargetPosition : " + TargetPosition);
                 aiManager.SaveAction(this.gameObject);
                 ActionIsLocked = true;
                 break;
 
             case AIStates.States.Move:
-                if (targetPosition == Vector3.zero)
+                if (TargetPosition == Vector3.zero || TargetType == TargetTypes.None)
                 {
-                    targetPlayer = GetTargetPlayer(aiManager.PlayerList);
+                    Target = GetTargetPlayer(aiManager.PlayerList);
+                    TargetType = TargetTypes.Player;
+                    TargetPosition = Target.transform.position;
+                }
 
-                    if (targetPlayer == null)
-                    {
-                        currentState = AIStates.States.Wait;
-                    }
-                    else
-                    {
-                        targetPosition = targetPlayer.transform.position;
-                    }
-                }
-                if (!IsArmed() &&Target.CompareTag("WeaponObject") && TargetPositionReached())
+                //Debug.LogError("IsArmed(): " + IsArmed());
+                //Debug.LogError("TargetType: " + TargetType.ToString());
+                //Debug.LogError("TargetPosition: " + TargetPosition);
+                //Debug.LogError("ReachedTargetPosition(): " + ReachedTargetPosition());
+
+
+                if (!IsArmed() && TargetType == TargetTypes.Item && ReachedTargetPosition())
                 {
+                    Debug.LogError("KOMMIT TILL PICKUP");
                     PickupWeapon(Target);
+                    currentState = AIStates.States.Unassigned;         
                 }
-                else if (!TargetPositionReached())
+                else if (!ReachedTargetPosition())
                 {
-                    MoveTowards(targetPosition);
+                    MoveTowards(TargetPosition);
                 }
                 else
                 {
-                    currentState = AIStates.States.Unassigned;
+                    currentState = AIStates.States.Unassigned;         //Kanske kan tas bort?
+                    TargetType = TargetTypes.None;
                 }
                 break;
 
             case AIStates.States.SearchingForWeapon:
                 Target = GetClosestWeapon();
+                TargetType = TargetTypes.Item;
                 if (Target == null)
                 {
-                    TargetPlayer = CalculateClosest(PlayerManager.players);
-                    Target = TargetPlayer;
+                    Target = CalculateClosest(PlayerManager.players);
+                    TargetType = TargetTypes.Player;
                 }
-                TargetPosition = Target.transform.position;
+                TargetPosition = new Vector3(Target.transform.position.x, 0.5f, Target.transform.position.z);
                 CurrentState = AIStates.States.Move;
                 break;
 
@@ -214,21 +222,14 @@ public class AIController : MonoBehaviour
                 weaponHand.Attack();
                 break;
             default:
-                Debug.Log("default");
+                //Debug.Log("default");
                 break;
         }
     }
 
-    private bool TargetPositionReached()
+    public bool ReachedTargetPosition()
     {
-        if (Target == null)
-        {
-            return false;
-        }
-        else
-        {
-            return Vector3.Distance(gameObject.transform.position, Target.transform.position) < 2;
-        }
+        return Vector3.Distance(TargetPosition, gameObject.transform.position) < 2;
     }
 
 
@@ -370,7 +371,9 @@ public class AIController : MonoBehaviour
                                 if (Vector3.Magnitude((hit2.transform.position - opponent.transform.position)) < minDistToCover)
                                 {
                                     aiManager.TakenCoverPositions.Add(child.position);
-                                    targetPosition = child.position;
+                                    //Target = hit.transform.gameObject;
+                                    TargetPosition = child.position;
+                                    TargetType = TargetTypes.CoverSpot;
                                     minDistToCover = Vector3.Magnitude((hit2.transform.position - opponent.transform.position));
                                 }
                             }
@@ -427,17 +430,28 @@ public class AIController : MonoBehaviour
         targetPosition = targetPos;
     }
 
-    public void UpdateClosestPlayer()
-    {
-        targetPlayer = CalculateClosest(PlayerManager.players);
-    }
-
-
     public void PickupWeapon(GameObject weapon)
     {
         gameObject.GetComponent<WeaponHand>().Equip(weapon);
         navMeshAgent.isStopped = true;
         currentState = AIStates.States.Unassigned;
+        Target = GetTargetPlayer(aiManager.PlayerList);
+        TargetPosition = Target.transform.position;
+        TargetType = TargetTypes.Player;
+    }
+
+    //To solve the issue of standing too close to shoot
+    public void GetShootPosition()
+    {
+        //Targetplayer
+        GameObject target = GetTargetPlayer(aiManager.PlayerList);
+        //walk x meters in opposite direction of it
+        float distance = 7;
+        Vector3 oppositeDirection = -(target.transform.position - gameObject.transform.position).normalized;
+
+        Target = null;
+        TargetType = TargetTypes.ShootSpot;
+        TargetPosition = transform.position + (oppositeDirection * distance);
     }
 
     public GameObject GetTargetPlayer(List<GameObject> players) // maybe only target?
