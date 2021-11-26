@@ -76,7 +76,7 @@ public class DeadState : AbstractPlayerState
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
         gameObject.GetComponent<NavMeshAgent>().enabled = false;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
-
+        gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
     }
 
@@ -92,5 +92,6 @@ public class DeadState : AbstractPlayerState
         gameObject.GetComponent<CapsuleCollider>().enabled = true;
         gameObject.GetComponent<NavMeshAgent>().enabled = true;
         gameObject.GetComponent<Rigidbody>().useGravity = true;
+        gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
     }
 }
