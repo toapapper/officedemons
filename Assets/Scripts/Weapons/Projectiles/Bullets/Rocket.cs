@@ -36,6 +36,10 @@ public class Rocket : Bullet
                         //Effects.Damage(target, bulletDamage);
                         Effects.ApplyForce(target, (target.transform.position - transform.position).normalized * bulletHitForce);
                     }
+                    else if(target.tag == "CoverObject")
+					{
+                        Effects.Damage(target, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost));
+					}
                 }
             }
 
@@ -52,7 +56,7 @@ public class Rocket : Bullet
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" || other.tag == "Enemy")
+        if (other.tag == "Player" || other.tag == "Enemy" || other.tag == "CoverObject")
         {
             if (!targetList.Contains(other.gameObject))
             {
@@ -63,9 +67,13 @@ public class Rocket : Bullet
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player" || other.tag == "Enemy")
+        if (targetList.Contains(other.gameObject))
         {
             targetList.Remove(other.gameObject);
         }
+        //if (other.tag == "Player" || other.tag == "Enemy" || other.tag == "CoverObject")
+        //{
+        //    targetList.Remove(other.gameObject);
+        //}
     }
 }

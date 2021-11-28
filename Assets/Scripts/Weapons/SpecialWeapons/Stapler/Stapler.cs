@@ -62,7 +62,6 @@ public class Stapler : AbstractSpecial
 	public override void ToggleAim(bool isActive)
 	{
 		laserAim.SetActive(isActive);
-
 		UpdateAimCone();
 		aimCone.SetActive(isActive);
 	}
@@ -89,6 +88,10 @@ public class Stapler : AbstractSpecial
 	public override void StartTurnEffect()
 	{
 		base.AddCharge();
+	}
+	public override void RevivedEffect()
+	{
+		Charges = MaxCharges;
 	}
 
 	/// <summary>
@@ -121,6 +124,7 @@ public class Stapler : AbstractSpecial
 			else
 			{
 				SpecialController.Animator.SetTrigger("isCancelAction");
+				Charges = 0;
 			}			
 		}
 		else
@@ -132,16 +136,4 @@ public class Stapler : AbstractSpecial
 			SpecialController.Animator.SetTrigger("isSpecialStaplerShot");
 		}
 	}
-	//public override void DoSpecialActionEnd()
-	//{
-	//	//if (bulletCount <= 0)
-	//	//{
-	//	//	//specialController.Animator.SetTrigger("isSpecialStaplerShot");
-	//	//	specialController.Animator.SetTrigger("isCancelAction");
-	//	//}
-	//	//else
-	//	//{
-	//	//	specialController.Animator.SetTrigger("isSpecialStaplerShot");
-	//	//}
-	//}
 }

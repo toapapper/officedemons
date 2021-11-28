@@ -114,21 +114,40 @@ public class SpinningChair : AbstractSpecial
 	{
 		foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 		{
-			switch (Charges)
+			if(target.tag != "CoverObject")
 			{
-				case 1:
-					Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
-					break;
-				case 2:
-					Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
-					break;
-				case 3:
-					Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
-					Effects.ApplyWeaponEffects(target, effects);
-					break;
+				switch (Charges)
+				{
+					case 1:
+						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						break;
+					case 2:
+						Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						break;
+					case 3:
+						Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						Effects.ApplyWeaponEffects(target, effects);
+						break;
 
+				}
+				Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
 			}
-			Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
+			else
+			{
+				switch (Charges)
+				{
+					case 1:
+						Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						break;
+					case 2:
+						Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						break;
+					case 3:
+						Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						break;
+
+				}
+			}
 		}
 	}
 

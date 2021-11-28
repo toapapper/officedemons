@@ -155,38 +155,28 @@ public class RushChair : AbstractSpecial
 						break;
 				}
 				EndSpecial();
-
-
-				//if (Charges == 0)
-				//{
-				//	Effects.WeaponDamage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
-				//	Effects.ApplyForce(other.gameObject, forceDirection * HitForce);
-				//	Charges = 0;
-				//}
-				//else if(Charges == 1)
-				//{
-				//	Effects.WeaponDamage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
-				//	Effects.ApplyForce(other.gameObject, forceDirection * (HitForce + hitForceAdder));
-				//	Charges = 0;
-				//}
-				//else
-				//{
-				//	Effects.WeaponDamage(other.gameObject, (Damage +(2 * damageAdder)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
-				//	Effects.ApplyForce(other.gameObject, forceDirection * (HitForce + hitForceAdder));
-				//	Effects.ApplyWeaponEffects(other.gameObject, effects);
-				//	if (!isKillEffect)
-				//	{
-				//		Charges = 0;
-				//	}
-				//}
-
-				//EndSpecial();
 			}
-			//else
-			//{
-			//	Charges = 0;
-			//}
-			//EndSpecial();
+			else if(other.gameObject.tag == "CoverObject")
+			{
+				switch (Charges)
+				{
+					case 1:
+						Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						Charges = 0;
+						break;
+					case 2:
+						Effects.Damage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						Charges = 0;
+						break;
+					case 3:
+						Effects.Damage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						if (!isKillEffect)
+						{
+							Charges = 0;
+						}
+						break;
+				}
+			}
 		}
 	}
 }

@@ -46,13 +46,20 @@ public class BadCoffeeGrenade : GroundEffectGrenade
 		{
 			if(target.GetComponent<Attributes>().Health > 0)
 			{
-				Vector3 explosionForceDirection = target.transform.position - transform.position;
-				explosionForceDirection.y = 0;
-				explosionForceDirection.Normalize();
+				if(target.tag != "CoverObject")
+				{
+					Vector3 explosionForceDirection = target.transform.position - transform.position;
+					explosionForceDirection.y = 0;
+					explosionForceDirection.Normalize();
 
-				Effects.ApplyForce(target, explosionForceDirection * explosionForce);
-				//Effects.ApplyWeaponEffects(target, weaponEffects);
-				Effects.WeaponDamage(target, healthModifyAmount, thrower);
+					Effects.ApplyForce(target, explosionForceDirection * explosionForce);
+					//Effects.ApplyWeaponEffects(target, weaponEffects);
+					Effects.WeaponDamage(target, healthModifyAmount, thrower);
+				}
+				else
+				{
+					Effects.Damage(target, healthModifyAmount);
+				}
 			}
 		}
 		//AddToEffectList(coffeeStain);

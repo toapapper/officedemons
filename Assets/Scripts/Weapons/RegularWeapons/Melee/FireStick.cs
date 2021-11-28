@@ -16,10 +16,16 @@ public class FireStick : SwingWeapon
 		{
 			foreach (GameObject target in fov.VisibleTargets)
 			{
-				Effects.RegularWeaponDamage(target, Damage, HolderAgent);
-				//Effects.Damage(target, Damage);
-				Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
-				Effects.ApplyStatusEffect(target, StatusEffectType.StaminaDrain, 3, fireStacks);
+				if(target.tag != "CoverObject")
+				{
+					Effects.RegularWeaponDamage(target, Damage, HolderAgent);
+					Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
+					Effects.ApplyStatusEffect(target, StatusEffectType.StaminaDrain, 3, fireStacks);
+				}
+				else
+				{
+					Effects.Damage(target, Damage);
+				}
 			}
 		}
 	}

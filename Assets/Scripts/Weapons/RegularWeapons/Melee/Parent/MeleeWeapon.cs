@@ -42,9 +42,17 @@ public abstract class MeleeWeapon : AbstractWeapon
         {
             foreach (GameObject target in fov.VisibleTargets)
             {
-                Effects.RegularWeaponDamage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost), HolderAgent);
-                Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
-                Effects.ApplyWeaponEffects(target, effects);
+                if(target.tag != "CoverObject")
+				{
+                    Effects.RegularWeaponDamage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost), HolderAgent);
+                    Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
+                    Effects.ApplyWeaponEffects(target, effects);
+                }
+				else
+				{
+                    Effects.Damage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost));
+                }
+
                 if (particleEffect)
                 {
                     AkSoundEngine.PostEvent("Play_Blunt_thud", gameObject);

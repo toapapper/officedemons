@@ -71,16 +71,23 @@ public class PaperShredder : AbstractSpecial
 		{
 			foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 			{
-				if(Charges < MaxCharges)
+				if(target.tag != "CoverObject")
 				{
-					Effects.ApplyWeaponEffects(target, effects);
+					if (Charges < MaxCharges)
+					{
+						Effects.ApplyWeaponEffects(target, effects);
+					}
+					else
+					{
+						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
+						Effects.ApplyWeaponEffects(target, ultiEffects);
+					}
 				}
-				else
+				else if (Charges >= MaxCharges)
 				{
-					Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
-					Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
-					Effects.ApplyWeaponEffects(target, ultiEffects);
-				}				
+					Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+				}		
 			}
 		}
 		Charges = 0;

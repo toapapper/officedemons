@@ -70,9 +70,17 @@ public class TerribleBreath : AbstractSpecial
         {
             foreach (GameObject target in SpecialController.FOV.VisibleTargets)
             {
-                Effects.WeaponDamage(target, (Damage + (damageMultiplier * Charges)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
-                Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
-                Effects.ApplyWeaponEffects(target, effects);
+                if(target.tag != "CoverObject")
+				{
+                    Effects.WeaponDamage(target, (Damage + (damageMultiplier * Charges)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+                    Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
+                    Effects.ApplyWeaponEffects(target, effects);
+                }
+				else
+				{
+                    Effects.Damage(target, (Damage + (damageMultiplier * Charges)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+                }
+                
             }
         }
         Charges = 0;

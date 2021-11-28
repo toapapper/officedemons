@@ -15,12 +15,6 @@ using UnityEngine;
 // Last Edited: 15-11-16
 public class BadCoffeeCupSpecial : CoffeeCupSpecial
 {
-	//[SerializeField]
-	//private int explodeRadiusAdder = 2;
-	//[SerializeField]
-	//private int damageAdder = 5;
-	
-
 	public override void DoSpecialAction()
 	{
 		Vector3 velocity = SpecialController.ThrowAim.InitialVelocity;
@@ -41,22 +35,5 @@ public class BadCoffeeCupSpecial : CoffeeCupSpecial
 				break;
 		}
 		Charges = 0;
-
-		//if (Charges == 0)
-		//{
-		//	grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity,explodeRadius,
-		//		HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
-		//}
-		//else if (Charges == 1)
-		//{
-		//	grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, explodeRadius,
-		//		HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
-		//}
-		//else
-		//{
-		//	grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, explodeRadius + explodeRadiusAdder,
-		//		HitForce, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
-		//}
-		//Charges = 0;
 	}
 }
