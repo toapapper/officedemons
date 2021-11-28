@@ -42,7 +42,7 @@ public abstract class MeleeWeapon : AbstractWeapon
         {
             foreach (GameObject target in fov.VisibleTargets)
             {
-                Effects.RegularDamage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost), HolderAgent);
+                Effects.RegularWeaponDamage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost), HolderAgent);
                 Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
                 Effects.ApplyWeaponEffects(target, effects);
                 if (particleEffect)
@@ -60,7 +60,7 @@ public abstract class MeleeWeapon : AbstractWeapon
             float rand = Random.value;
             if(rand < RecoilChance)
             {
-                Effects.Damage(wielder, Damage/2);
+                Effects.WeaponDamage(wielder, Damage/2);
                 Effects.ApplyForce(wielder, (wielder.transform.forward * -1 * HitForce));
                 Effects.ApplyWeaponEffects(wielder, effects);
             }

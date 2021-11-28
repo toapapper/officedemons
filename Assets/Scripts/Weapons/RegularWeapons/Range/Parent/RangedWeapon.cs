@@ -143,7 +143,7 @@ public abstract class RangedWeapon : AbstractWeapon
 			float rand = Random.value;
 			if (rand < RecoilChance)
 			{
-				Effects.Damage(wielder, Damage / 2);
+				Effects.WeaponDamage(wielder, Damage / 2);
 				Effects.ApplyForce(wielder, (wielder.transform.forward * -1 * HitForce));
 				Effects.ApplyWeaponEffects(wielder, effects);
 			}

@@ -1155,8 +1155,6 @@ MonoBehaviour:
   recentlySpawned: 0
   throwForceMultiplier: 25
   maxThrowForce: 30
-  bombardForceMultiplier: 5
-  maxBombardForce: 10
 --- !u!114 &5243656074504488707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1622,6 +1620,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3741647841836255955}
     m_Modifications:
+    - target: {fileID: 432747492130649802, guid: 757003ac3a623db448350add22f8af2b, type: 3}
+      propertyPath: maxCharges
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 432747492130649802, guid: 757003ac3a623db448350add22f8af2b, type: 3}
       propertyPath: viewDistance
       value: 2

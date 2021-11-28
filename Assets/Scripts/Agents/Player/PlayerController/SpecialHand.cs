@@ -27,7 +27,7 @@ public class SpecialHand : MonoBehaviour
 	private void Awake()
 	{
 		animator = GetComponent<Animator>();
-		objectInHand = GetComponentInChildren<AbstractSpecial>();
+		//objectInHand = GetComponentInChildren<AbstractSpecial>();
 	}
 
 	private void Start()
@@ -66,10 +66,7 @@ public class SpecialHand : MonoBehaviour
 	public void Equip()
 	{
 		objectInHand.PickUpIn(gameObject);
-		//SetAimColor();
 		objectInHand.SetFOVSize();
-
-		//objectInHand.SetAim(fov, aimGradient);
 	}
 
 	//Aim

@@ -196,7 +196,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 		{
 			if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
 			{
-				Effects.Damage(collision.gameObject, throwDamage, holderAgent);
+				Effects.WeaponDamage(collision.gameObject, throwDamage, holderAgent);
 				//Effects.Damage(collision.gameObject, throwDamage);
 				Effects.ApplyWeaponEffects(collision.gameObject, effects);
 			}

@@ -51,7 +51,7 @@ public class PooGrenadeProjectile : GroundEffectGrenade
 
 				Effects.ApplyForce(target, explosionForceDirection * explosionForce);
 				//Effects.ApplyWeaponEffects(target, weaponEffects);
-				Effects.RegularDamage(target, healthModifyAmount, thrower);
+				Effects.RegularWeaponDamage(target, healthModifyAmount, thrower);
 			}
 		}
 		//AddToEffectList(groundObject);

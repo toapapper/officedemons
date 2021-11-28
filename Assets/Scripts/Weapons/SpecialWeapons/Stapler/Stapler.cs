@@ -24,7 +24,7 @@ public class Stapler : AbstractSpecial
 	[SerializeField]
 	protected GameObject bullet;
 	[SerializeField]
-	private int bulletsPerShot = 4;
+	private int bulletsInBurstShot = 4;
 	private int bulletCount;
 
 	[Tooltip("The maximum amount of degrees away from the direction aimed that the projectile might fly")]
@@ -82,7 +82,7 @@ public class Stapler : AbstractSpecial
 	}
 	public override void Attack()
 	{
-		bulletCount = bulletsPerShot;
+		bulletCount = bulletsInBurstShot;
 		SpecialController.Animator.SetTrigger("isSpecialStapler");
 	}
 
@@ -110,7 +110,7 @@ public class Stapler : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
-		if(bulletCount < bulletsPerShot)
+		if(bulletCount < bulletsInBurstShot)
 		{
 			if (bulletCount > 0)
 			{

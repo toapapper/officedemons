@@ -16,7 +16,7 @@ using UnityEngine.AI;
 // Last Edited: 14/10-28
 public static class Effects
 {
-	public static void RegularDamage(GameObject target, float damage, GameObject wielder)
+	public static void RegularWeaponDamage(GameObject target, float damage, GameObject wielder)
 	{
 		if(wielder.tag == "Player")
 		{
@@ -25,21 +25,31 @@ public static class Effects
         //Damage(target, damage, wielder);
         if (!(target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat))
         {
-            Damage(target, damage, wielder);
+            WeaponDamage(target, damage, wielder);
         }
 		
 	}
+	public static void WeaponDamage(GameObject target, float damage, GameObject wielder = null)
+	{
+		Damage(target, damage, wielder);
+
+		if(target.tag == "Player")
+		{
+			target.GetComponent<SpecialHand>().TakeDamageEffect();
+		}
+	}
+
 	public static void Damage(GameObject target, float damage, GameObject wielder = null)
 	{
-		if(damage < 0)
-        {
+		if (damage < 0)
+		{
 			Heal(target, -damage);
 			return;
-        }
-		else if(damage == 0)
-        {
+		}
+		else if (damage == 0)
+		{
 			return;
-        }
+		}
 
 		int dmg = (int)damage;
 		if (target.tag == "Player" || target.tag == "Enemy")
@@ -51,7 +61,7 @@ public static class Effects
 
 		UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
 
-		if(wielder != null && target.GetComponent<Attributes>().Health <= 0)
+		if (wielder != null && target.GetComponent<Attributes>().Health <= 0)
 		{
 			if (wielder.tag == "Player")
 			{
@@ -59,18 +69,12 @@ public static class Effects
 				wielder.GetComponent<SpecialHand>().KillEffect();
 			}
 		}
-		else if(target.tag == "Player")
-		{
-			target.GetComponent<SpecialHand>().TakeDamageEffect();
-		}
-
 	}
-
 	public static void Heal(GameObject target, float amount)
     {
 		if(amount < 0)
         {
-			Damage(target, amount);
+			WeaponDamage(target, amount);
 			return;
         }
 		else if(amount == 0)

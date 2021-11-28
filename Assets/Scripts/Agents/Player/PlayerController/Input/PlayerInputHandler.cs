@@ -148,7 +148,6 @@ public class PlayerInputHandler : MonoBehaviour
 					{
 						if (player.OnThrow())
 						{
-							Debug.Log("CANCEL THROW");
 							isAddingThrowForce = false;
 							player.CurrentState.IsActionTriggered = false;
 							addedThrowForce = 0;

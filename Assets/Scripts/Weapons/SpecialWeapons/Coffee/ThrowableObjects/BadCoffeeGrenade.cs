@@ -52,7 +52,7 @@ public class BadCoffeeGrenade : GroundEffectGrenade
 
 				Effects.ApplyForce(target, explosionForceDirection * explosionForce);
 				//Effects.ApplyWeaponEffects(target, weaponEffects);
-				Effects.Damage(target, healthModifyAmount, thrower);
+				Effects.WeaponDamage(target, healthModifyAmount, thrower);
 			}
 		}
 		//AddToEffectList(coffeeStain);

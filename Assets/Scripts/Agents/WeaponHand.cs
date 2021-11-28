@@ -224,7 +224,7 @@ public class WeaponHand : MonoBehaviour
 		{
 			foreach (GameObject target in FOV.VisibleTargets)
 			{
-				Effects.RegularDamage(target, handHitDamage, gameObject);
+				Effects.RegularWeaponDamage(target, handHitDamage, gameObject);
 				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
 
 				float rand = Random.value;

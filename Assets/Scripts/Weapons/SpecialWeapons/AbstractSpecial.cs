@@ -28,7 +28,7 @@ public abstract class AbstractSpecial : MonoBehaviour
 
 	[SerializeField]
 	private int maxCharges = 3;
-	private int charges = 3;
+	private int charges = 2;
 
 	protected GameObject HolderAgent { get { return holderAgent; } set { holderAgent = value; } }
 	protected SpecialHand SpecialController { get { return specialController; } set { specialController = value; } }

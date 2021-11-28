@@ -65,7 +65,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
         {
-            Effects.RegularDamage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost), shooter);
+            Effects.RegularWeaponDamage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost), shooter);
             //Effects.Damage(collision.gameObject, bulletDamage);
             Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce);
 
