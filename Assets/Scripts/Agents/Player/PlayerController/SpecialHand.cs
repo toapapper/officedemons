@@ -86,7 +86,7 @@ public class SpecialHand : MonoBehaviour
 	{
 		if (objectInHand)
 		{
-			objectInHand.StartAttack(/*animator*/);
+			objectInHand.StartAttack();
 			return true;
 		}
 		return false;
@@ -95,7 +95,7 @@ public class SpecialHand : MonoBehaviour
 	{
 		if (objectInHand)
 		{
-			objectInHand.Attack(/*animator*/);
+			objectInHand.Attack();
 			return true;
 		}
 		return false;
@@ -117,6 +117,10 @@ public class SpecialHand : MonoBehaviour
 	public void StartTurnEffect()
 	{
 		objectInHand.StartTurnEffect();
+	}
+	public void EndTurnEffects()
+	{
+		objectInHand.EndTurnEffects();
 	}
 	public void TakeDamageEffect()
 	{

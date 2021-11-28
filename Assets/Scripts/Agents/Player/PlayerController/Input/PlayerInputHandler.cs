@@ -14,7 +14,7 @@ using static UnityEngine.InputSystem.InputAction;
 /// </para>
 /// </summary>
 
-// Last Edited: 2021-10-12
+// Last Edited: 2021-11-26
 public class PlayerInputHandler : MonoBehaviour
 {
 	private PlayerConfiguration playerConfiguration;
@@ -45,15 +45,15 @@ public class PlayerInputHandler : MonoBehaviour
 	private float maxThrowForce = 30f;
 	private float addedThrowForce;
 
-	//Bombard variables
-	[SerializeField]
-	private float bombardForceMultiplier = 5f;
-	[SerializeField]
-	private float maxBombardForce = 10f;
-	private float addedBombardForce;
+	////Bombard variables
+	//[SerializeField]
+	//private float bombardForceMultiplier = 5f;
+	//[SerializeField]
+	//private float maxBombardForce = 10f;
+	//private float addedBombardForce;
 
-	private Vector3 targetDirection;
-	private float targetSpeed = 10f;
+	//private Vector3 targetDirection;
+	//private float targetSpeed = 10f;
 
 	public void Start()
 	{
@@ -148,7 +148,9 @@ public class PlayerInputHandler : MonoBehaviour
 					{
 						if (player.OnThrow())
 						{
+							Debug.Log("CANCEL THROW");
 							isAddingThrowForce = false;
+							player.CurrentState.IsActionTriggered = false;
 							addedThrowForce = 0;
 						}
 					}
@@ -172,7 +174,6 @@ public class PlayerInputHandler : MonoBehaviour
 								if (player.OnBombard())
 								{
 									player.CurrentState.IsAddingBombardForce = false;
-									addedBombardForce = 0;
 								}
 							}
 						}
@@ -181,7 +182,7 @@ public class PlayerInputHandler : MonoBehaviour
 							player.OnAttack();
 						}
 					}
-					else if (context.action.name == inputControls.PlayerMovement.Special.name)
+					else if (context.action.name == inputControls.PlayerMovement.Special.name && specialHand.ObjectInHand.Charges > 0)
 					{
 						if(specialHand.ObjectInHand is CoffeeCupSpecial)
 						{
@@ -198,7 +199,6 @@ public class PlayerInputHandler : MonoBehaviour
 								if (player.OnSpecialBombard())
 								{
 									player.CurrentState.IsAddingBombardForce = false;
-									addedBombardForce = 0;
 								}
 							}
 						}
@@ -233,14 +233,6 @@ public class PlayerInputHandler : MonoBehaviour
 									isAddingThrowForce = true;
 								}
 							}
-							//if (context.canceled)
-							//{
-							//	if (player.OnThrow())
-							//	{
-							//		isAddingThrowForce = false;
-							//		addedThrowForce = 0;
-							//	}
-							//}
 						}
 					}
 					else if (context.action.name == inputControls.PlayerMovement.Revive.name)
@@ -339,18 +331,6 @@ public class PlayerInputHandler : MonoBehaviour
 				weaponHand.SetThrowForce(addedThrowForce);
 			}
 		}
-		//else if (isAddingBombardForce)
-		//{
-		//	//specialHand.ThrowAim.Target.transform.Translate(targetDirection * targetSpeed * Time.fixedDeltaTime);
-
-
-		//	//if (addedBombardForce < maxBombardForce)
-		//	//{
-		//	//	addedBombardForce += bombardForceMultiplier * Time.fixedDeltaTime;
-		//	//	weaponHand.SetBombardForce(addedBombardForce);
-		//	//	specialHand.SetBombardForce(addedBombardForce);
-		//	//}
-		//}
 	}
 
 	

@@ -15,15 +15,10 @@ using UnityEngine;
 // Last Edited: 14/10-28
 public abstract class MeleeWeapon : AbstractWeapon
 {
-    //public override void SetAim(FieldOfView fov, /*GameObject fovVisualization, GameObject throwAim,*/ Gradient gradient)
-    //{
-    //    //fovVisualization.GetComponent<Renderer>().material.color = gradient.colorKeys[0].color;
-    //    fov.ViewAngle = ViewAngle;
-    //    fov.ViewRadius = ViewDistance;
-    //}
     [SerializeField]
     protected GameObject particleEffect;
-    public override void ToggleAim(bool isActive, GameObject FOVView/*, GameObject throwAim*/)
+
+    public override void ToggleAim(bool isActive, GameObject FOVView)
 	{
 		FOVView.SetActive(isActive);
 	}

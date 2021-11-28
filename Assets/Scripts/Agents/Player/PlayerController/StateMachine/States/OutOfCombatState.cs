@@ -47,7 +47,7 @@ public class OutOfCombatState : AbstractPlayerState
 			{
 				ChosenAction = TypeOfAction.NOACTION;
 				IsAddingBombardForce = false;
-				specialHand.ToggleAimView(false);
+				weaponHand.ToggleAimView(false);
 				return true;
 			}
 		}
@@ -139,6 +139,7 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			if (weaponHand.StartThrow())
 			{
+				Debug.Log("START THROW");
 				IsActionTriggered = true;
 
 				return true;
@@ -152,7 +153,8 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			if (weaponHand.Throw())
 			{
-				IsActionTriggered = false;
+				Debug.Log("DO THROW");
+				//IsActionTriggered = false;
 				return true;
 			}
 		}
@@ -197,6 +199,14 @@ public class OutOfCombatState : AbstractPlayerState
 		ChosenAction = TypeOfAction.NOACTION;
 		playerMovement.MoveDirection = Vector3.zero;
 		playerMovement.MoveAmount = Vector3.zero;
+
+		if (IsActionTriggered)
+		{
+			weaponHand.CancelAction();
+			specialHand.CancelAction();
+			IsAddingBombardForce = false;
+			IsActionTriggered = false;
+		}
 	}
 
 	public override void OnStateExit()

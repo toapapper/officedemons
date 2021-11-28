@@ -31,27 +31,18 @@ public class BombardWeapon : AbstractWeapon
 		set { grenadeThrowForce = value; }
 	}
 
-	public override void ToggleAim(bool isActive, GameObject FOVView/*, GameObject throwAim*/)
-	{
-		
+	public override void ToggleAim(bool isActive, GameObject FOVView)
+	{	
 		if (!isActive)
 		{
 			WeaponController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
 			WeaponController.ThrowAim.DeActivate();
-			//throwAim.GetComponent<LineRenderer>().positionCount = 0;
-			//throwAim.GetComponent<ThrowAim>().DeActivate();
 		}
 		else
 		{
-			Debug.Log(isActive);
 			WeaponController.ThrowAim.gameObject.SetActive(isActive);
-
-			Debug.Log("TOGGLED AIM");
 			WeaponController.ThrowAim.NoBounceing = noBouncing;
 			WeaponController.ThrowAim.SetExplosionSize(explodeRadius * 2);
-			//throwAim.SetActive(isActive);
-			//throwAim.GetComponent<ThrowAim>().NoBounceing = noBouncing;
-			//throwAim.GetComponent<ThrowAim>().SetExplosionSize(explodeRadius * 2);
 		}
 		
 	}
@@ -68,23 +59,11 @@ public class BombardWeapon : AbstractWeapon
 
 	public override void DoAction(FieldOfView fov)
 	{
-		WeaponController.ToggleAimView(false);
-
 		GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
 		if (wielder == null)
 		{
 			return;
 		}
-
-		//Vector3 forward = transform.forward;
-		//forward.y = 0;
-		//forward.Normalize();
-		//Vector3 right = new Vector3(forward.z, 0, -forward.x);
-
-		//Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<WeaponHand>().ThrowAim.initialAngle, right) * forward).normalized;
-		//float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity;
-		//Debug.Log(effects);
-		//grenade.GetComponent<GrenadeObject>().CreateGrenade(holderAgent, transform.position, direction, throwForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
 
 		//recoil and slippery-checks
 		//deals half the weapondamage and applies the effects

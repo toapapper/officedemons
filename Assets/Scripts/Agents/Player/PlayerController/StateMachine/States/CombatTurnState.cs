@@ -98,7 +98,6 @@ public class CombatTurnState : AbstractPlayerState
 		{
 			if (weaponHand.StartThrow())
 			{
-				ChosenAction = TypeOfAction.THROW;
 				IsActionTriggered = true;
 				return true;
 			}
@@ -109,6 +108,9 @@ public class CombatTurnState : AbstractPlayerState
 	{
 		if (IsActionTriggered)
 		{
+			ChosenAction = TypeOfAction.THROW;
+			LockAction();
+			IsActionTriggered = false;
 			return true;
 		}
 		return false;
@@ -212,7 +214,7 @@ public class CombatTurnState : AbstractPlayerState
 	{
 		weaponHand.ToggleAimView(false);
 		specialHand.ToggleAimView(false);
-
+		specialHand.EndTurnEffects();
 		if (IsActionTriggered && !IsActionLocked)
 		{
 			PlayerManager.Instance.ActionDone(gameObject);
