@@ -25,26 +25,40 @@ public class SpinningChair : AbstractSpecial
 	private float hitForceMultiplier = 20f;
 	[SerializeField]
 	private float healAmount = 5f;
+	[SerializeField]
+	private List<TrailRenderer> trails;
 
+	private void Start()
+	{
+		foreach (TrailRenderer trail in trails)
+		{
+			trail.enabled = false;
+		}
+	}
 
 	public override void SetFOVSize()
 	{
-		specialController.FOV.ViewAngle = viewAngle;
-		specialController.FOV.ViewRadius = viewDistance;
+		SpecialController.FOV.ViewAngle = viewAngle;
+		SpecialController.FOV.ViewRadius = viewDistance;
 	}
 
 	public override void ToggleAim(bool isActive)
 	{
-		specialController.FOVVisualization.SetActive(isActive);
+		SpecialController.FOVVisualization.SetActive(isActive);
 	}
 
 	public override void StartAttack()
 	{
-		specialController.Animator.SetTrigger("isStartSpecialSpin");
+		SpecialController.Animator.SetTrigger("isStartSpecialSpin");
 	}
 	public override void Attack()
 	{
-		specialController.Animator.SetTrigger("isSpecialSpin");
+		foreach (TrailRenderer trail in trails)
+		{
+			trail.enabled = true;
+		}
+		GameManager.Instance.StillCheckList.Add(HolderAgent);
+		SpecialController.Animator.SetTrigger("isSpecialSpin");
 	}
 
 	public override void StartTurnEffect()
@@ -58,21 +72,20 @@ public class SpinningChair : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
-		int nrOfTargets = specialController.FOV.VisibleTargets.Count;
+		int nrOfTargets = SpecialController.FOV.VisibleTargets.Count;
 
 		if(Charges == MaxCharges)
 		{
 			if (nrOfTargets > 0)
 			{
 				DoDamage();
+				if (nrOfTargets < MaxCharges)
+				{
+					Charges = 0;
+				}
 			}
 
-			Effects.Heal(holderAgent, healAmount * 2);
-
-			if (nrOfTargets < 2)
-			{
-				Charges = 0;
-			}
+			Effects.Heal(HolderAgent, healAmount * 2);
 		}
 		else
 		{
@@ -84,31 +97,53 @@ public class SpinningChair : AbstractSpecial
 				{
 					if(Charges == 1)
 					{
-						Effects.Heal(holderAgent, healAmount);
+						Effects.Heal(HolderAgent, healAmount);
 					}
 					else
 					{
-						Effects.Heal(holderAgent, healAmount * 2);
+						Effects.Heal(HolderAgent, healAmount * 2);
 					}
 				}
 			}
 			Charges = 0;
 		}
+		StartCoroutine(CountdownTime(0.5f));
 	}
 
 	private void DoDamage()
 	{
-		foreach (GameObject target in specialController.FOV.VisibleTargets)
+		foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 		{
-			if (Charges == 0)
+			switch (Charges)
 			{
-				Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
+				case 1:
+					Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+					break;
+				case 2:
+					Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+					break;
+				case 3:
+					Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+					Effects.ApplyWeaponEffects(target, effects);
+					break;
+
 			}
-			else
-			{
-				Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
-			}
-			Effects.ApplyForce(target, (target.transform.position - specialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
+			Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
+		}
+	}
+
+	private IEnumerator CountdownTime(float time)
+	{
+		yield return new WaitForSeconds(time);
+		EndSpecial();
+	}
+
+	private void EndSpecial()
+	{
+		GameManager.Instance.StillCheckList.Remove(HolderAgent);
+		foreach (TrailRenderer trail in trails)
+		{
+			trail.enabled = false;
 		}
 	}
 }

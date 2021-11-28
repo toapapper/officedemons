@@ -1055,8 +1055,6 @@ MonoBehaviour:
   recentlySpawned: 0
   throwForceMultiplier: 25
   maxThrowForce: 30
-  bombardForceMultiplier: 5
-  maxBombardForce: 10
 --- !u!114 &5681545412562592736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1570,6 +1568,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7325289924295572769}
     m_Modifications:
+    - target: {fileID: 7509051820429576500, guid: 17b3599f30e865447b8b0f29338b54a2, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 7325289924295572781}
     - target: {fileID: 7509051820429576501, guid: 17b3599f30e865447b8b0f29338b54a2, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1695,6 +1697,10 @@ PrefabInstance:
       propertyPath: mouth
       value: 
       objectReference: {fileID: 2761588951242304992}
+    - target: {fileID: 7992218039419898715, guid: 2d8e763ec5af6ab4a91f299ce8fedf92, type: 3}
+      propertyPath: maxCharges
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7992218039419898715, guid: 2d8e763ec5af6ab4a91f299ce8fedf92, type: 3}
       propertyPath: particleEffect
       value: 
@@ -1912,6 +1918,10 @@ PrefabInstance:
       propertyPath: m_Parameters.colorGradient.key1.r
       value: 0.21960784
       objectReference: {fileID: 0}
+    - target: {fileID: 3957912097024091557, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 7325289924295572781}
     - target: {fileID: 3957912097024091557, guid: 4d0af92889d5244408d155e28aa42910, type: 3}
       propertyPath: initialVelocity
       value: 0

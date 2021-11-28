@@ -24,7 +24,7 @@ public class Stapler : AbstractSpecial
 	[SerializeField]
 	protected GameObject bullet;
 	[SerializeField]
-	private int bulletsPerShot = 4;
+	private int bulletsInBurstShot = 4;
 	private int bulletCount;
 
 	[Tooltip("The maximum amount of degrees away from the direction aimed that the projectile might fly")]
@@ -42,9 +42,9 @@ public class Stapler : AbstractSpecial
 		get
 		{
 			float modval = 0;
-			if (this.holderAgent != null)
+			if (this.HolderAgent != null)
 			{
-				modval = this.holderAgent.GetComponent<StatusEffectHandler>().InAccuracyMod;
+				modval = this.HolderAgent.GetComponent<StatusEffectHandler>().InAccuracyMod;
 			}
 			return Mathf.Clamp(inaccuracy + modval, 0, 89);
 		}
@@ -78,12 +78,12 @@ public class Stapler : AbstractSpecial
 
 	public override void StartAttack()
 	{
-		specialController.Animator.SetTrigger("isStartSpecialStapler");
+		SpecialController.Animator.SetTrigger("isStartSpecialStapler");
 	}
 	public override void Attack()
 	{
-		bulletCount = bulletsPerShot;
-		specialController.Animator.SetTrigger("isSpecialStapler");
+		bulletCount = bulletsInBurstShot;
+		SpecialController.Animator.SetTrigger("isSpecialStapler");
 	}
 
 	public override void StartTurnEffect()
@@ -110,26 +110,26 @@ public class Stapler : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
-		if(bulletCount < bulletsPerShot)
+		if(bulletCount < bulletsInBurstShot)
 		{
 			if (bulletCount > 0)
 			{
 				Vector3 direction = GetBulletDirection();
-				bullet.GetComponent<Bullet>().CreateBullet(holderAgent, weaponMuzzle.transform.position, direction, bulletFireForce, HitForce, Damage, this.effects);
+				bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, weaponMuzzle.transform.position, direction, bulletFireForce, HitForce, Damage, this.effects);
 				bulletCount--;
 			}
 			else
 			{
-				specialController.Animator.SetTrigger("isCancelAction");
+				SpecialController.Animator.SetTrigger("isCancelAction");
 			}			
 		}
 		else
 		{
 			Vector3 direction = GetBulletDirection();
-			bullet.GetComponent<Bullet>().CreateBullet(holderAgent, weaponMuzzle.transform.position, direction, bulletFireForce, HitForce, Damage, this.effects);
+			bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, weaponMuzzle.transform.position, direction, bulletFireForce, HitForce, Damage, this.effects);
 			bulletCount--;
 
-			specialController.Animator.SetTrigger("isSpecialStaplerShot");
+			SpecialController.Animator.SetTrigger("isSpecialStaplerShot");
 		}
 	}
 	//public override void DoSpecialActionEnd()

@@ -50,7 +50,9 @@ public abstract class AbstractWeapon : MonoBehaviour
     [SerializeField] protected List<WeaponEffects> effects;
 
 	[SerializeField]
-	protected GameObject holderAgent;
+	private GameObject holderAgent;
+	private WeaponHand weaponController;
+
 	[SerializeField]
 	private GameObject handle;
 	[SerializeField]
@@ -75,6 +77,16 @@ public abstract class AbstractWeapon : MonoBehaviour
 	private bool isHeld;
 	private bool isProjectile;
 
+	protected GameObject HolderAgent
+	{
+		get { return holderAgent; }
+		set { holderAgent = value; }
+	}
+	protected WeaponHand WeaponController
+	{
+		get { return weaponController; }
+		set { weaponController = value; }
+	}
 	protected GameObject Handle
 	{
 		get { return handle; }
@@ -153,6 +165,7 @@ public abstract class AbstractWeapon : MonoBehaviour
     public virtual void PickUpIn(GameObject hand)
 	{
 		holderAgent = hand.transform.parent.parent.gameObject;
+		weaponController = holderAgent.GetComponent<WeaponHand>();
 		isHeld = true;
 		handle.GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<Rigidbody>().isKinematic = true;
@@ -169,8 +182,11 @@ public abstract class AbstractWeapon : MonoBehaviour
 	public void ReleaseThrow(float force)
 	{
 		Drop();
-		GetComponentInChildren<Rigidbody>().AddForce(transform.up * force, ForceMode.VelocityChange);
-		isProjectile = true;
+		if(force > 1)
+		{
+			GetComponentInChildren<Rigidbody>().AddForce(transform.up * force, ForceMode.VelocityChange);
+			isProjectile = true;
+		}
 	}
 	public void Drop()
 	{
@@ -187,7 +203,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	}
 
 	public virtual void SetAimGradient(Gradient gradient) { }
-	public virtual void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim) { }
+	public virtual void ToggleAim(bool isActive, GameObject FOVView) { }
 	public virtual void StartAttack(Animator animator) { }
 	public virtual void Attack(Animator animator) 
 	{
@@ -217,13 +233,11 @@ public abstract class AbstractWeapon : MonoBehaviour
 		{
 			if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
 			{
-				Effects.RegularDamage(collision.gameObject, throwDamage, holderAgent);
+				Effects.WeaponDamage(collision.gameObject, throwDamage, holderAgent);
 				//Effects.Damage(collision.gameObject, throwDamage);
 				Effects.ApplyWeaponEffects(collision.gameObject, effects);
 			}
 			isProjectile = false;
 		}
 	}
-
-
 }

@@ -27,7 +27,7 @@ public class SpecialHand : MonoBehaviour
 	private void Awake()
 	{
 		animator = GetComponent<Animator>();
-		objectInHand = GetComponentInChildren<AbstractSpecial>();
+		//objectInHand = GetComponentInChildren<AbstractSpecial>();
 	}
 
 	private void Start()
@@ -56,7 +56,7 @@ public class SpecialHand : MonoBehaviour
 		fovVisualization.GetComponent<Renderer>().material.color = aimGradient.colorKeys[0].color;
 		throwAim.gameObject.SetActive(true);
 		GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
-		throwAim.gameObject.SetActive(false);
+		throwAim.DeActivate();
 		if (objectInHand)
 		{
 			objectInHand.SetAimColor(aimGradient);
@@ -66,10 +66,7 @@ public class SpecialHand : MonoBehaviour
 	public void Equip()
 	{
 		objectInHand.PickUpIn(gameObject);
-		//SetAimColor();
 		objectInHand.SetFOVSize();
-
-		//objectInHand.SetAim(fov, aimGradient);
 	}
 
 	//Aim
@@ -77,7 +74,7 @@ public class SpecialHand : MonoBehaviour
 	{
 		if (objectInHand)
 		{
-			objectInHand.ToggleAim(isActive/*, fovVisualization, throwAim.gameObject*/);
+			objectInHand.ToggleAim(isActive);
 		}
 	}
 
@@ -86,7 +83,7 @@ public class SpecialHand : MonoBehaviour
 	{
 		if (objectInHand)
 		{
-			objectInHand.StartAttack(/*animator*/);
+			objectInHand.StartAttack();
 			return true;
 		}
 		return false;
@@ -95,7 +92,7 @@ public class SpecialHand : MonoBehaviour
 	{
 		if (objectInHand)
 		{
-			objectInHand.Attack(/*animator*/);
+			objectInHand.Attack();
 			return true;
 		}
 		return false;
@@ -104,7 +101,7 @@ public class SpecialHand : MonoBehaviour
 	{
 		if (objectInHand && objectInHand is CoffeeCupSpecial)
 		{
-			throwAim.initialVelocity = bombardForce;
+			throwAim.initialSpeed = bombardForce;
 			return true;
 		}
 		return false;
@@ -117,6 +114,10 @@ public class SpecialHand : MonoBehaviour
 	public void StartTurnEffect()
 	{
 		objectInHand.StartTurnEffect();
+	}
+	public void EndTurnEffects()
+	{
+		objectInHand.EndTurnEffects();
 	}
 	public void TakeDamageEffect()
 	{
@@ -144,8 +145,8 @@ public class SpecialHand : MonoBehaviour
 	{
 		objectInHand.DoSpecialAction(/*fov*/);
 	}
-	public void DoSpecialActionEnd()
-	{
-		objectInHand.DoSpecialActionEnd();
-	}
+	//public void DoSpecialActionEnd()
+	//{
+	//	objectInHand.DoSpecialActionEnd();
+	//}
 }

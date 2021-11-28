@@ -15,38 +15,48 @@ using UnityEngine;
 // Last Edited: 15-11-16
 public class BadCoffeeCupSpecial : CoffeeCupSpecial
 {
-	[SerializeField]
-	private int explodeRadiusAdder = 2;
-	[SerializeField]
-	private int damageAdder = 5;
+	//[SerializeField]
+	//private int explodeRadiusAdder = 2;
+	//[SerializeField]
+	//private int damageAdder = 5;
 	
 
 	public override void DoSpecialAction()
 	{
-		Vector3 forward = holderAgent.transform.forward;
-		forward.y = 0;
-		forward.Normalize();
-		Vector3 right = new Vector3(forward.z, 0, -forward.x);
+		Vector3 velocity = SpecialController.ThrowAim.InitialVelocity;
 
-		Vector3 direction = (Quaternion.AngleAxis(-specialController.ThrowAim.initialAngle, right) * forward).normalized;
-		float throwForce = specialController.ThrowAim.initialVelocity;
-
-
-		if (Charges == 0)
+		switch (Charges)
 		{
-			grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
-				explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
-		}
-		else if (Charges == 1)
-		{
-			grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
-			explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
-		}
-		else
-		{
-			grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(holderAgent, transform.position, direction, throwForce,
-			explodeRadius + explodeRadiusAdder, HitForce, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
+			case 1:
+				grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, explodeRadius,
+				HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
+				break;
+			case 2:
+				grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, explodeRadius,
+				HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
+				break;
+			case 3:
+				grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, explodeRadius + explodeRadiusAdder,
+				HitForce, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
+				break;
 		}
 		Charges = 0;
+
+		//if (Charges == 0)
+		//{
+		//	grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity,explodeRadius,
+		//		HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
+		//}
+		//else if (Charges == 1)
+		//{
+		//	grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, explodeRadius,
+		//		HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
+		//}
+		//else
+		//{
+		//	grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, explodeRadius + explodeRadiusAdder,
+		//		HitForce, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
+		//}
+		//Charges = 0;
 	}
 }

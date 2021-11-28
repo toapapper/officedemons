@@ -18,8 +18,8 @@ public abstract class AbstractSpecial : MonoBehaviour
 	[SerializeField] protected List<WeaponEffects> effects;
 	[SerializeField] protected List<WeaponEffects> ultiEffects;
 
-	protected GameObject holderAgent;
-	protected SpecialHand specialController;
+	private GameObject holderAgent;
+	private SpecialHand specialController;
 
 	[SerializeField]
 	private float damage;
@@ -27,10 +27,11 @@ public abstract class AbstractSpecial : MonoBehaviour
 	private float hitForce;
 
 	[SerializeField]
-	private int maxCharges;
-	private int charges = 0;
+	private int maxCharges = 3;
+	private int charges = 2;
 
-
+	protected GameObject HolderAgent { get { return holderAgent; } set { holderAgent = value; } }
+	protected SpecialHand SpecialController { get { return specialController; } set { specialController = value; } }
 	protected float Damage { get { return damage; } }
 	protected float HitForce { get { return hitForce; } }
 	protected int MaxCharges { get { return maxCharges; } }
@@ -50,13 +51,14 @@ public abstract class AbstractSpecial : MonoBehaviour
 	public abstract void StartAttack();
 	public abstract void Attack();
 	public abstract void DoSpecialAction();
-	public virtual void DoSpecialActionEnd() { }
 
 	public abstract void StartTurnEffect();
+	public virtual void EndTurnEffects() { }
 	public virtual void TakeDamageEffect() { }
 	public virtual void GiveRegularDamageEffect() { }
 	public virtual void KillEffect() { }
 	public virtual void RevivedEffect() { }
+
 	protected virtual void AddCharge()
 	{
 		if(charges < maxCharges)
