@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -31,7 +32,7 @@ public enum WeaponEffects
 /// </para>
 /// </summary>
 
-// Last Edited: 15/10-29
+// Last Edited: 28/11-21
 public abstract class AbstractWeapon : MonoBehaviour
 {
 	public const float RecoilChance = .3f;
@@ -45,7 +46,6 @@ public abstract class AbstractWeapon : MonoBehaviour
     {
         get { return weaponTexture; }
     }
-
 
     [SerializeField] protected List<WeaponEffects> effects;
 
@@ -68,7 +68,10 @@ public abstract class AbstractWeapon : MonoBehaviour
 	[SerializeField]
 	private float weight = 5;
 
-	[SerializeField]
+    private TextMeshPro name;
+
+
+    [SerializeField]
 	private bool isHeld;
 	private bool isProjectile;
 
@@ -113,7 +116,41 @@ public abstract class AbstractWeapon : MonoBehaviour
 		set { durability = value; }
 	}
 
-	public virtual void PickUpIn(GameObject hand)
+    private void Start()
+    {
+        name = gameObject.transform.parent.GetComponentInChildren<TextMeshPro>();
+        name.text = gameObject.name;
+        name.faceColor = gameObject.transform.parent.GetComponent<Outline>().OutlineColor;
+    }
+
+    protected virtual void Update()
+    {
+        bool showName = false;
+        if (IsHeld)
+        {
+            showName = false;
+            name.gameObject.SetActive(false);
+        }
+        else
+        {
+            for (int i = 0; i < PlayerManager.players.Count; i++)
+            {
+                if (Vector3.Distance(PlayerManager.players[i].transform.position,gameObject.transform.position) < 5)
+                {
+                    name.gameObject.SetActive(true);
+                    showName = true;
+                    name.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+                }
+            }
+        }
+        if (!showName)
+        {
+            name.gameObject.SetActive(false);
+        }
+    }
+
+
+    public virtual void PickUpIn(GameObject hand)
 	{
 		holderAgent = hand.transform.parent.parent.gameObject;
 		isHeld = true;
