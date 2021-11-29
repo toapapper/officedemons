@@ -11,7 +11,7 @@
 	<StreamedFiles/>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Language="SFX" Hash="364420591">
+		<SoundBank Id="1355168291" Language="SFX" Hash="801683945">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
@@ -22,7 +22,7 @@
 				<GameParameter Id="2918011349" Name="MasterVolume" ObjectPath="\Game Parameters\Default Work Unit\Volume\MasterVolume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="3161908922" Language="SFX" Hash="1750375709">
+		<SoundBank Id="3161908922" Language="SFX" Hash="1976837712">
 			<ObjectPath>\SoundBanks\Default Work Unit\Main</ObjectPath>
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
@@ -131,9 +131,39 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
+				<Event Id="2126492817" Name="SusanBurst" ObjectPath="\Events\Default Work Unit\SusanBurst" DurationType="OneShot" DurationMin="1.170427" DurationMax="1.170427">
+					<IncludedMemoryFiles>
+						<File Id="922848603" Language="SFX">
+							<ShortName>MeleeSwingsPack_96khz_Mono_DesignedSwings12.wav</ShortName>
+							<Path>SFX\MeleeSwingsPack_96khz_Mono_DesignedSwings12_55197359.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="240172070" Name="SusanScream" ObjectPath="\Events\Default Work Unit\SusanScream" DurationType="OneShot" DurationMin="0.811465" DurationMax="0.811465">
+					<IncludedMemoryFiles>
+						<File Id="575710491" Language="SFX">
+							<ShortName>Camel_grunt1.wav</ShortName>
+							<Path>SFX\Camel_grunt1_55197359.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3316389248" Name="VickySlide" ObjectPath="\Events\Default Work Unit\VickySlide" DurationType="OneShot" DurationMin="2.970703" DurationMax="2.970703">
+					<IncludedMemoryFiles>
+						<File Id="967212949" Language="SFX">
+							<ShortName>Office_SFX_LowHarmonic.wav</ShortName>
+							<Path>SFX\Office_SFX_LowHarmonic_55197359.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 			</IncludedEvents>
+			<GameParameters>
+				<GameParameter Id="988953028" Name="SFXVolume" ObjectPath="\Game Parameters\Default Work Unit\Volume\SFXVolume"/>
+				<GameParameter Id="2346531308" Name="MusicVolume" ObjectPath="\Game Parameters\Default Work Unit\Volume\MusicVolume"/>
+				<GameParameter Id="2893115286" Name="VoicesVolume" ObjectPath="\Game Parameters\Default Work Unit\Volume\VoicesVolume"/>
+				<GameParameter Id="2918011349" Name="MasterVolume" ObjectPath="\Game Parameters\Default Work Unit\Volume\MasterVolume"/>
+			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="3991942870" Language="SFX" Hash="2996220159">
+		<SoundBank Id="3991942870" Language="SFX" Hash="1080058199">
 			<ObjectPath>\SoundBanks\Default Work Unit\Music</ObjectPath>
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
@@ -490,6 +520,9 @@
 				<Event Id="2477713992" Name="Stop_Ambience" ObjectPath="\Events\Default Work Unit\Stop_Ambience" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="252541922" Name="Stop_RadioMusic" ObjectPath="\Events\Default Work Unit\Stop_RadioMusic" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 			</IncludedEvents>
+			<GameParameters>
+				<GameParameter Id="2346531308" Name="MusicVolume" ObjectPath="\Game Parameters\Default Work Unit\Volume\MusicVolume"/>
+			</GameParameters>
 			<StateGroups>
 				<StateGroup Id="1891249345" Name="RoamingState2" ObjectPath="\States\Default Work Unit\Music\RoamingState2" GUID="{08551772-BFD4-4574-9D33-67A5B3BD64A4}">
 					<States/>

@@ -146,6 +146,9 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void OpenMenu()
     {
+        AkSoundEngine.StopAll();
+        AkSoundEngine.PostEvent("Play_RadioMusic", gameObject);
+        AkSoundEngine.PostEvent("Play_Ambience", gameObject);
         pauseMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(firstButtonSelectedOnPause);
     }
@@ -155,6 +158,11 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void CloseMenu()
     {
+        AkSoundEngine.StopAll();
+        AkSoundEngine.SetState("Music_State", "Roaming");
+        AkSoundEngine.SetState("Music", "RoamingState1");
+        AkSoundEngine.PostEvent("Play_Music", gameObject);
+        AkSoundEngine.PostEvent("Play_AMBIENCE_Hall_Large__Entrance__Office_Building__Morning__Downtown_Chicago__USA__LOOP_LRLsRs", gameObject);
         pauseMenu.SetActive(false);
     }
 

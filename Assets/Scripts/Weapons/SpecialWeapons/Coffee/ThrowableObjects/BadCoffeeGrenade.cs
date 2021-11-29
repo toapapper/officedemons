@@ -68,6 +68,7 @@ public class BadCoffeeGrenade : GroundEffectGrenade
 	protected override void OnCollisionEnter(Collision collision)
 	{
 		base.OnCollisionEnter(collision);
+		AkSoundEngine.PostEvent("Play_Splash", gameObject);
 		Explode();
 	}
 }

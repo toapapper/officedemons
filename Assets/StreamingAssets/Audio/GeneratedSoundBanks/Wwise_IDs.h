@@ -34,6 +34,9 @@ namespace AK
         static const AkUniqueID SET_ROAMING2 = 1319730835U;
         static const AkUniqueID STOP_AMBIENCE = 2477713992U;
         static const AkUniqueID STOP_RADIOMUSIC = 252541922U;
+        static const AkUniqueID SUSANBURST = 2126492817U;
+        static const AkUniqueID SUSANSCREAM = 240172070U;
+        static const AkUniqueID VICKYSLIDE = 3316389248U;
     } // namespace EVENTS
 
     namespace STATES

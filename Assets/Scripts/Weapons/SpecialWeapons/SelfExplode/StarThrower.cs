@@ -42,7 +42,8 @@ public class StarThrower : AbstractSpecial
 	}
 	public override void Attack()
 	{
-		SpecialController.Animator.SetTrigger("isSpecialSelfExplode");
+		AkSoundEngine.PostEvent("SusanScream", gameObject);
+		specialController.Animator.SetTrigger("isSpecialSelfExplode");
 	}
 
 	public override void StartTurnEffect()
@@ -60,7 +61,7 @@ public class StarThrower : AbstractSpecial
 			}
 			SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
 		}
-		
+
 		if (Charges == MaxCharges)
 		{
 			Attack();
@@ -75,6 +76,7 @@ public class StarThrower : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
+		AkSoundEngine.PostEvent("SusanBurst", gameObject);
 		Instantiate(particleEffect, transform.position, transform.rotation);
 
 		if (SpecialController.FOV.VisibleTargets.Count > 0)

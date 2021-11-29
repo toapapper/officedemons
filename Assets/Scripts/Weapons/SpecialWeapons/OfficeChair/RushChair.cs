@@ -78,8 +78,9 @@ public class RushChair : AbstractSpecial
 	public override void DoSpecialAction()
 	{
 		isKillEffect = false;
-
-		if (Charges == 0)
+		AkSoundEngine.PostEvent("VickySlide", gameObject);
+		
+		if (Charges == 1)
 		{
 			HolderAgent.GetComponent<Rigidbody>().AddForce(HolderAgent.transform.forward * rushForce, ForceMode.VelocityChange);
 		}
