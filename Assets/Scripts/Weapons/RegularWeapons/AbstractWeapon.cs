@@ -190,7 +190,9 @@ public abstract class AbstractWeapon : MonoBehaviour
 	}
 	public void Drop()
 	{
-		Effects.ChangeWeight(handle.transform.parent.parent.gameObject, -weight);
+		Debug.Log("WeaponDrop(begining of method)");
+
+		Effects.ChangeWeight(holderAgent, -weight);
 		handle.transform.parent = null;
 		handle.GetComponent<Rigidbody>().isKinematic = false;
 		GetComponent<Rigidbody>().isKinematic = false;
@@ -200,6 +202,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 			collider.enabled = true;
 		}
 		holderAgent = null;
+
+		Debug.Log("Weapon dropped");
 	}
 
 	public virtual void SetAimGradient(Gradient gradient) { }

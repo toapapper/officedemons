@@ -89,7 +89,6 @@ public class RushChair : AbstractSpecial
 		}
 		
 		isProjectile = true;
-		GameManager.Instance.StillCheckList.Add(HolderAgent);
 
 		foreach(TrailRenderer trail in trails)
         {
@@ -112,7 +111,6 @@ public class RushChair : AbstractSpecial
 	private void EndSpecial()
 	{
 		isProjectile = false;
-		GameManager.Instance.StillCheckList.Remove(HolderAgent);
 
 		foreach (TrailRenderer trail in trails)
 		{

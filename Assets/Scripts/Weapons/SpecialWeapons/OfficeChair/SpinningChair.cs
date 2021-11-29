@@ -57,7 +57,6 @@ public class SpinningChair : AbstractSpecial
 		{
 			trail.enabled = true;
 		}
-		GameManager.Instance.StillCheckList.Add(HolderAgent);
 		SpecialController.Animator.SetTrigger("isSpecialSpin");
 	}
 
@@ -159,7 +158,6 @@ public class SpinningChair : AbstractSpecial
 
 	private void EndSpecial()
 	{
-		GameManager.Instance.StillCheckList.Remove(HolderAgent);
 		foreach (TrailRenderer trail in trails)
 		{
 			trail.enabled = false;
