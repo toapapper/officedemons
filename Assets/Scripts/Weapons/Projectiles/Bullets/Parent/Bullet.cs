@@ -43,7 +43,7 @@ public class Bullet : MonoBehaviour
         {
             bulletObject.GetComponent<Rigidbody>().AddForce(direction * bulletFireForce, ForceMode.VelocityChange);
         }
-        GameManager.Instance.StillCheckList.Add(bulletObject.gameObject);
+        //GameManager.Instance.StillCheckList.Add(bulletObject.gameObject);
 
         bulletObject.effects = effects;
     }
@@ -53,6 +53,7 @@ public class Bullet : MonoBehaviour
         Vector2 viewpos = Camera.main.WorldToViewportPoint(transform.position);
         if (viewpos.x > 1 || viewpos.x < 0 || viewpos.y > 1 || viewpos.y < 0)
         {
+            //GameManager.Instance.StillCheckList.Remove(gameObject);
             Destroy(gameObject);
         }
         if (this is Rocket && gameObject)
@@ -63,6 +64,8 @@ public class Bullet : MonoBehaviour
 
     protected virtual void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("projectile collision");
+
         if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
         {
             Effects.RegularWeaponDamage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost), shooter);
@@ -71,11 +74,12 @@ public class Bullet : MonoBehaviour
 
             Effects.ApplyWeaponEffects(collision.gameObject, effects);
         }
-		else if (collision.gameObject.tag == "CoverObject")
-		{
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
+        {
             Effects.Damage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost));
         }
         AkSoundEngine.PostEvent("Play_FMW_Weapon_Hit10C", gameObject);
+        //GameManager.Instance.StillCheckList.Remove(gameObject);
         Destroy(gameObject);
     }
 }

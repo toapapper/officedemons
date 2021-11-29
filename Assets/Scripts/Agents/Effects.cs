@@ -41,6 +41,9 @@ public static class Effects
 
 	public static void Damage(GameObject target, float damage, GameObject wielder = null)
 	{
+		Debug.Log("Damage done, wielder: " + wielder + " + target: " + target);
+
+
 		if (damage < 0)
 		{
 			Heal(target, -damage);
@@ -57,16 +60,19 @@ public static class Effects
 			dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
 		}
 
-		target.GetComponent<Attributes>().Health -= dmg;
+		if(target.GetComponent<Attributes>().Health > 0)
+        {
+			target.GetComponent<Attributes>().Health -= dmg;
 
-		UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
+			UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
 
-		if (wielder != null && target.GetComponent<Attributes>().Health <= 0)
-		{
-			if (wielder.tag == "Player")
+			if (wielder != null && target.GetComponent<Attributes>().Health <= 0)
 			{
-				wielder.GetComponent<Attributes>().KillCount++;
-				wielder.GetComponent<SpecialHand>().KillEffect();
+				if (wielder.tag == "Player")
+				{
+					wielder.GetComponent<Attributes>().KillCount++;
+					wielder.GetComponent<SpecialHand>().KillEffect();
+				}
 			}
 		}
 	}
@@ -190,10 +196,14 @@ public static class Effects
 		}
 		else if (target.tag == "Player")
 		{
+			Debug.Log("pre player death disarm:");
+
 			Disarm(target);
 
+			Debug.Log("pre player death cleareffects:");
 			target.GetComponent<StatusEffectHandler>().ClearEffects();
 
+			Debug.Log("pre player death Die:");
 			target.GetComponent<PlayerStateController>().Die();
 		}
 		else if(target.tag == "CoverObject")
@@ -227,7 +237,7 @@ public static class Effects
 	/// <param name="speedEffect"> value between -1 - +1 (positive value speeds up, negative value slows down)</param>
 	public static void ModifySpeed(GameObject target, float speedEffect)
 	{
-		
+		Debug.Log("ModifySpeed target: " + target + " amount: " + speedEffect);
 
 		if(target.tag == "Player")
 		{
@@ -241,6 +251,8 @@ public static class Effects
             {
 				playerSpeed = 0;
             }
+
+			Debug.Log("playerSpeeed on speedmodify: " + playerSpeed);
 
 			target.GetComponent<PlayerMovementController>().SlowEffect = playerSpeed;
 		}

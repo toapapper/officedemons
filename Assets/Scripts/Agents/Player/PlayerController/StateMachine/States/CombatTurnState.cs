@@ -198,6 +198,14 @@ public class CombatTurnState : AbstractPlayerState
 		attributes.Stamina = attributes.StartStamina;
 		playerMovement.MoveDirection = Vector3.zero;
 		playerMovement.MoveAmount = Vector3.zero;
+
+		if (IsActionTriggered)
+		{
+			weaponHand.CancelAction();
+			specialHand.CancelAction();
+			IsAddingBombardForce = false;
+			IsActionTriggered = false;
+		}
 	}
 
 	public override void OnStateExit()

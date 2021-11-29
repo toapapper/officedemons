@@ -149,7 +149,7 @@ public class OutOfCombatState : AbstractPlayerState
 		if (IsActionTriggered)
 		{
 			weaponHand.Throw();
-			IsActionTriggered = false;
+			//IsActionTriggered = false;
 			return true;
 		}
 		return false;

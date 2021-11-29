@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2523452119958049613}
   - component: {fileID: 7241662924250638897}
   - component: {fileID: 3609605636798313953}
+  - component: {fileID: 6185783510061245806}
   m_Layer: 9
   m_Name: Baton
   m_TagString: WeaponObject
@@ -168,6 +169,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a77e37a2e2e2f24cbbfe7d7bfd5e08b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6185783510061245806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2523452119958049614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &2523452120710243802
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +197,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2523452120710243800}
   - component: {fileID: 2523452120710243803}
-  - component: {fileID: 4167663305715254371}
   m_Layer: 9
   m_Name: BatonHandle
   m_TagString: WeaponHandle
@@ -218,24 +236,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4167663305715254371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2523452120710243802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!1001 &2788302000229070046
 PrefabInstance:
   m_ObjectHideFlags: 0

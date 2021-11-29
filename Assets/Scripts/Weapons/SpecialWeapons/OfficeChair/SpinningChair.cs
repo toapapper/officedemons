@@ -57,7 +57,6 @@ public class SpinningChair : AbstractSpecial
 		{
 			trail.enabled = true;
 		}
-		GameManager.Instance.StillCheckList.Add(HolderAgent);
 		SpecialController.Animator.SetTrigger("isSpecialSpin");
 	}
 
@@ -72,9 +71,10 @@ public class SpinningChair : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
-		int nrOfTargets = SpecialController.FOV.VisibleTargets.Count;
-
-		if(Charges == MaxCharges)
+		int nrOfTargets = specialController.FOV.VisibleTargets.Count;
+		AkSoundEngine.PostEvent("VickySlide", gameObject);
+		AkSoundEngine.PostEvent("SusanBurst", gameObject);
+		if (Charges == MaxCharges)
 		{
 			if (nrOfTargets > 0)
 			{
@@ -114,7 +114,7 @@ public class SpinningChair : AbstractSpecial
 	{
 		foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 		{
-			if(target.tag != "CoverObject")
+			if (target.layer != LayerMask.NameToLayer("Destructible"))
 			{
 				switch (Charges)
 				{
@@ -159,7 +159,6 @@ public class SpinningChair : AbstractSpecial
 
 	private void EndSpecial()
 	{
-		GameManager.Instance.StillCheckList.Remove(HolderAgent);
 		foreach (TrailRenderer trail in trails)
 		{
 			trail.enabled = false;

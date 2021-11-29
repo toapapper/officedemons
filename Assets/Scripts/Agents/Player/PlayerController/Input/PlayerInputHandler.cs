@@ -138,7 +138,6 @@ public class PlayerInputHandler : MonoBehaviour
 						if (player.OnThrow())
 						{
 							isAddingThrowForce = false;
-							//player.CurrentState.IsActionTriggered = false;
 							addedThrowForce = 0;
 						}
 					}
@@ -157,18 +156,13 @@ public class PlayerInputHandler : MonoBehaviour
 									player.CurrentState.IsAddingBombardForce = true;
 								}
 							}
-							//else if (context.canceled)
-							//{
-							//	if (player.OnBombard())
-							//	{
-							//		player.CurrentState.IsAddingBombardForce = false;
-							//	}
-							//}
 						}
 						else if (context.performed)
 						{
 							player.OnAttack();
 						}
+						playerMovement.MoveDirection = Vector3.zero;
+						playerMovement.MoveAmount = Vector3.zero;
 					}
 					else if (context.action.name == inputControls.PlayerMovement.Special.name && specialHand.ObjectInHand.Charges > 0)
 					{
@@ -182,18 +176,13 @@ public class PlayerInputHandler : MonoBehaviour
 									player.CurrentState.IsAddingBombardForce = true;
 								}
 							}
-							//else if (context.canceled)
-							//{
-							//	if (player.OnSpecialBombard())
-							//	{
-							//		player.CurrentState.IsAddingBombardForce = false;
-							//	}
-							//}
 						}
 						else if (context.performed)
 						{
 							player.OnSpecial();
 						}
+						playerMovement.MoveDirection = Vector3.zero;
+						playerMovement.MoveAmount = Vector3.zero;
 					}
 					else if (context.action.name == inputControls.PlayerMovement.PickUp.name)
 					{

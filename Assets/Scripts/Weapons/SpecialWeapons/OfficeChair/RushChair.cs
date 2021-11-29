@@ -78,8 +78,9 @@ public class RushChair : AbstractSpecial
 	public override void DoSpecialAction()
 	{
 		isKillEffect = false;
-
-		if (Charges == 0)
+		AkSoundEngine.PostEvent("VickySlide", gameObject);
+		
+		if (Charges == 1)
 		{
 			HolderAgent.GetComponent<Rigidbody>().AddForce(HolderAgent.transform.forward * rushForce, ForceMode.VelocityChange);
 		}
@@ -89,7 +90,6 @@ public class RushChair : AbstractSpecial
 		}
 		
 		isProjectile = true;
-		GameManager.Instance.StillCheckList.Add(HolderAgent);
 
 		foreach(TrailRenderer trail in trails)
         {
@@ -112,7 +112,6 @@ public class RushChair : AbstractSpecial
 	private void EndSpecial()
 	{
 		isProjectile = false;
-		GameManager.Instance.StillCheckList.Remove(HolderAgent);
 
 		foreach (TrailRenderer trail in trails)
 		{
@@ -157,26 +156,21 @@ public class RushChair : AbstractSpecial
 				}
 				EndSpecial();
 			}
-			else if(other.gameObject.tag == "CoverObject")
+			else if (other.gameObject.layer == LayerMask.NameToLayer("Destructible"))
 			{
 				switch (Charges)
 				{
 					case 1:
 						Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
-						Charges = 0;
 						break;
 					case 2:
 						Effects.Damage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
-						Charges = 0;
 						break;
 					case 3:
 						Effects.Damage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
-						if (!isKillEffect)
-						{
-							Charges = 0;
-						}
 						break;
 				}
+				Charges = 0;
 			}
 		}
 	}

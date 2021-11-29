@@ -46,7 +46,7 @@ public class BadCoffeeGrenade : GroundEffectGrenade
 		{
 			if(target.GetComponent<Attributes>().Health > 0)
 			{
-				if(target.tag != "CoverObject")
+				if (target.layer != LayerMask.NameToLayer("Destructible"))
 				{
 					Vector3 explosionForceDirection = target.transform.position - transform.position;
 					explosionForceDirection.y = 0;
@@ -68,6 +68,7 @@ public class BadCoffeeGrenade : GroundEffectGrenade
 	protected override void OnCollisionEnter(Collision collision)
 	{
 		base.OnCollisionEnter(collision);
+		AkSoundEngine.PostEvent("Play_Splash", gameObject);
 		Explode();
 	}
 }

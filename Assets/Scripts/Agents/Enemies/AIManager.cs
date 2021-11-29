@@ -78,7 +78,6 @@ public class AIManager : MonoBehaviour
     public void BeginCombat()
     {
         EnemyList = GameManager.Instance.CurrentEncounter.GetEnemylist();
-        GameManager.Instance.StillCheckList.AddRange(EnemyList);
         EnableEnemyDamage();
     }
 

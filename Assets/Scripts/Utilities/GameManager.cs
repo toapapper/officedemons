@@ -84,18 +84,12 @@ public class GameManager : MonoBehaviour
         mainCamera = Camera.main.GetComponent<MultipleTargetCamera>();
     }
 
-    private void Start()
-    {
-        AkSoundEngine.PostEvent("Stop_Ambience", gameObject);
-        AkSoundEngine.PostEvent("Stop_RadioMusic", gameObject);
-    }
-
     void Update()
     {
         #region are all the needed gameObjects still-check
         allStill = true;
         Utilities.CleanList(stillCheckList);
-        foreach(GameObject gObject in stillCheckList)
+        foreach (GameObject gObject in stillCheckList)
         {
             if (gObject.CompareTag("Projectile"))
             {
@@ -106,7 +100,7 @@ public class GameManager : MonoBehaviour
 
 
         //Ful "kolla om alla fiender är döda"-check
-        if(CurrentCombatState != CombatState.none)
+        if (CurrentCombatState != CombatState.none)
         {
 
             if(currentEncounter.GetEnemylist().Count <= 0)

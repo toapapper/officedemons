@@ -29,7 +29,10 @@ public class CombatEnterState : AbstractPlayerState
 		int i = PlayerManager.players.FindIndex(gameObject => gameObject == this.gameObject);
 		Vector3 movePosition = GameManager.Instance.CurrentEncounter.playerPositions[i].transform.position;
 		movePosition.y = transform.position.y;
-		playerMovement.MoveTo(movePosition);
+		if(GetComponent<Attributes>().Health > 0)
+		{
+			playerMovement.MoveTo(movePosition);
+		}
 	}
 
 

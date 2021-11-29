@@ -45,7 +45,7 @@ public class DeadState : AbstractPlayerState
     private Color originalColor; //is here temporarily i assume. This is because we have no proper animation to show one is dead other than to change the color
     public override void OnStateEnter()
     {
-        Debug.Log("Enters DeadState" + this);
+        Debug.Log("Enters DeadState " + this);
         originalColor = GetComponentInChildren<MeshRenderer>().material.color;
         gameObject.GetComponent<CombatTurnState>().IsActionLocked = false;
         gameObject.GetComponent<CombatTurnState>().IsActionTriggered = false;
@@ -77,6 +77,8 @@ public class DeadState : AbstractPlayerState
         gameObject.GetComponent<NavMeshAgent>().enabled = false;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
         gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+
+        Debug.Log("end of enterDeadState");
 
     }
 

@@ -52,10 +52,17 @@ public class ExplosiveGrenadeProjectile : GrenadeProjectile
 		}
 	}
 
+	protected override void Explode()
+    {
+		AkSoundEngine.PostEvent("Play_Explosion", gameObject);
+		base.Explode();
+	}
+
 	private void SetExplosion()
 	{
 		FOVVisualization.SetActive(true);
 		StartCoroutine(CountdownTime(explodeTime));
+		
 	}
 
 	protected override void ImpactAgents()
@@ -64,13 +71,23 @@ public class ExplosiveGrenadeProjectile : GrenadeProjectile
 
 		foreach (GameObject target in targetList)
 		{
-			Vector3 explosionForceDirection = target.transform.position - transform.position;
-			explosionForceDirection.y = 0;
-			explosionForceDirection.Normalize();
+			if (target.GetComponent<Attributes>().Health > 0)
+			{
+				if (target.layer != LayerMask.NameToLayer("Destructible"))
+				{
+					Vector3 explosionForceDirection = target.transform.position - transform.position;
+					explosionForceDirection.y = 0;
+					explosionForceDirection.Normalize();
 
-			Effects.RegularWeaponDamage(target, healthModifyAmount, thrower);
-			Effects.ApplyForce(target, explosionForceDirection * explosionForce);
-			Effects.ApplyWeaponEffects(target, weaponEffects);
+					Effects.RegularWeaponDamage(target, healthModifyAmount, thrower);
+					Effects.ApplyForce(target, explosionForceDirection * explosionForce);
+					Effects.ApplyWeaponEffects(target, weaponEffects);
+				}
+				else
+				{
+					Effects.Damage(target, healthModifyAmount);
+				}
+			}
 		}
 	}
 }
