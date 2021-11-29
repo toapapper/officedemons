@@ -559,6 +559,59 @@
 								<ActiveSource Name="ReturnFromHell" ID="{6226471F-590A-4BA9-BC24-A0780AB3D15F}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="MeleeSwingsPack_96khz_Mono_DesignedSwings12" ID="{55D5B745-636C-434E-9EC9-D10657DA91FC}" ShortID="799467257">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{C77C0580-99F1-4880-9BDF-33C497B42BEC}" ShortID="709438251">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="SFXVolume" ID="{2E320340-4327-4DC3-9671-F52326DAFF61}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{0F34E1FB-090E-4F57-A8EC-2A47765BCF1D}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{F80A384D-1182-4C0E-AE62-A1DC7CB6A8A7}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="MeleeSwingsPack_96khz_Mono_DesignedSwings12" ID="{A5214475-883E-4B62-A0F9-A2DD65F07A5B}">
+									<Language>SFX</Language>
+									<AudioFile>MeleeSwingsPack_96khz_Mono_DesignedSwings12.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="922848603"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="MeleeSwingsPack_96khz_Mono_DesignedSwings12" ID="{A5214475-883E-4B62-A0F9-A2DD65F07A5B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Voices" ID="{EFA9561B-965D-40A2-B6F4-98A935DD9311}" ShortID="273683978">
@@ -629,6 +682,34 @@
 									<ValueList>
 										<Value>1500</Value>
 									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{0B7E2CA0-8EBF-49BA-85FD-7815561478F1}" ShortID="924477098">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="VoicesVolume" ID="{EFCE783F-6620-42F0-8996-12B2ED78912D}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{F3674B08-974C-4E1E-B589-0E318389011D}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
 								</Property>
 							</PropertyList>
 							<ReferenceList>
@@ -769,6 +850,36 @@
 				<Folder Name="GuitarEffects" ID="{5ACC9E57-D2C0-423B-B316-77EDABA77BB2}" ShortID="576498807">
 					<ChildrenList>
 						<Sound Name="Office_SFX_BramBram1" ID="{D4F6A03C-5D4B-4F5D-B5B7-AF0D3A05001B}" ShortID="629468403">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{E1F13253-0618-4531-94B1-2DEBDA5B6D37}" ShortID="571000176">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="SFXVolume" ID="{2E320340-4327-4DC3-9671-F52326DAFF61}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{6DADFE31-66A8-485E-A0FC-E0A2DFAECD2D}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
@@ -1105,6 +1216,36 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="Office_SFX_LowHarmonic" ID="{1FD8AC41-919A-4516-9910-5A435F5C127C}" ShortID="339420456">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{0495B2BE-FAAF-4E64-BEB8-6A1E4523C9C2}" ShortID="517261024">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="SFXVolume" ID="{2E320340-4327-4DC3-9671-F52326DAFF61}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{64EFBAE1-D1A6-422C-A55D-3385A9E6166D}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
