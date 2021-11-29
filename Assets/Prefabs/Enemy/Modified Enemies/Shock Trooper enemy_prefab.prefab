@@ -1546,6 +1546,7 @@ MonoBehaviour:
   characterName: 3
   jobTitle: "arbetsl\xF6s"
   startHealth: 50
+  killCount: 0
   health: 0
   startStamina: 3.5
   stamina: 50
@@ -1561,6 +1562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewRadius: 0
   viewAngle: 18.7
   targetMask:
     serializedVersion: 2
@@ -1808,11 +1810,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5365136312770313499, guid: a0a591e9170dd2945bfb787423672cdd, type: 3}
       propertyPath: viewAngle
-      value: 20
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5365136312770313499, guid: a0a591e9170dd2945bfb787423672cdd, type: 3}
       propertyPath: inaccuracy
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5365136312770313499, guid: a0a591e9170dd2945bfb787423672cdd, type: 3}
       propertyPath: viewDistance
@@ -1820,11 +1822,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5365136312770313499, guid: a0a591e9170dd2945bfb787423672cdd, type: 3}
       propertyPath: effects.Array.size
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5365136312770313499, guid: a0a591e9170dd2945bfb787423672cdd, type: 3}
       propertyPath: effects.Array.data[0]
-      value: 9
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5365136312770313499, guid: a0a591e9170dd2945bfb787423672cdd, type: 3}
       propertyPath: effects.Array.data[1]
@@ -1896,6 +1898,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5777175204362155758, guid: a0a591e9170dd2945bfb787423672cdd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484595920383163329, guid: a0a591e9170dd2945bfb787423672cdd, type: 3}
+      propertyPath: outlineColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484595920383163329, guid: a0a591e9170dd2945bfb787423672cdd, type: 3}
+      propertyPath: outlineColor.g
+      value: 0.09082031
+      objectReference: {fileID: 0}
+    - target: {fileID: 8484595920383163329, guid: a0a591e9170dd2945bfb787423672cdd, type: 3}
+      propertyPath: outlineColor.r
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9108008418583676965, guid: a0a591e9170dd2945bfb787423672cdd, type: 3}

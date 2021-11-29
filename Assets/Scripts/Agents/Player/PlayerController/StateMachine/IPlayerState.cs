@@ -16,6 +16,8 @@ using static UnityEngine.InputSystem.InputAction;
 // Last Edited: 2021-10-12
 public interface IPlayerState
 {
+    TypeOfAction ChosenAction { get; set; }
+    bool IsAddingBombardForce { get; set; }
     bool IsActionTriggered { get; set; }
     bool IsActionLocked { get; set; }
     bool IsStaminaDepleted { get; }

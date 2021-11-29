@@ -6,14 +6,14 @@ using UnityEngine.Events;
 /// <summary>
 /// <para>
 /// Manages the group behaviour of AI-agents.
-/// 
+///
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Tinea Larsson, Tim Wennerberg
-///  
+///
 /// </para>
-///  
+///
 /// </summary>
 
 // Last Edited: 15-10-21
@@ -52,12 +52,7 @@ public class AIManager : MonoBehaviour
         set { takenCoverPositions = value; }
     }
 
-    private List<GameObject> killPriority;
-    public List<GameObject> KillPriority
-    {
-        get { return killPriority; }
-        set { killPriority = value; }
-    }
+
 
     private List<GameObject> allWeapons;
     public List<GameObject> AllWeapons
@@ -69,10 +64,11 @@ public class AIManager : MonoBehaviour
     private void Start()
     {
         actionsQueue = new Queue<GameObject>();
-        PlayerList = PlayerManager.players;
+
         CoverList = FindCoverSpotsInEncounter();
         TakenCoverPositions = new List<Vector3>();
-        KillPriority = new List<GameObject>();
+        PlayerList = new List<GameObject>();
+
     }
 
     /// <summary>
@@ -82,7 +78,6 @@ public class AIManager : MonoBehaviour
     public void BeginCombat()
     {
         EnemyList = GameManager.Instance.CurrentEncounter.GetEnemylist();
-        GameManager.Instance.StillCheckList.AddRange(EnemyList);
         EnableEnemyDamage();
     }
 
@@ -92,28 +87,34 @@ public class AIManager : MonoBehaviour
     /// <param name=""></param>
     public void BeginTurn()
     {
+        UpdatePlayerList();
         TakenCoverPositions.Clear();
         actionsQueue.Clear();
-        KillPriority.Clear();
-        UpdateKillPriority();
         allWeapons = new List<GameObject>(GameObject.FindGameObjectsWithTag("WeaponObject"));
         foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
         {
             go.GetComponent<GroundEffectObject>().ApplyEffectsOnEnemys();
         }
 
-        foreach (GameObject e in EnemyList)
+        int enemiesCount = EnemyList.Count;
+        for(int i=0; i<enemiesCount;i++)
         {
-            e.GetComponent<AIController>().TargetPosition = Vector3.zero;
-
-            //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
-            if (!e.GetComponent<StatusEffectHandler>().Paralyzed)
+            if (EnemyList[i] != null)
             {
-                e.GetComponent<Attributes>().Stamina = e.GetComponent<Attributes>().StartStamina;
-                e.GetComponent<AIController>().ActionIsLocked = false;
-            }
+                EnemyList[i].GetComponent<AIController>().TargetType = AIController.TargetTypes.None;
+                EnemyList[i].GetComponent<AIController>().Target = null;
+                EnemyList[i].GetComponent<AIController>().TargetPosition = Vector3.zero;
+                //e.GetComponent<AIController>().GetTargetPlayer(PlayerList);
 
-            e.GetComponent<StatusEffectHandler>().UpdateEffects();
+                //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
+                if (!EnemyList[i].GetComponent<StatusEffectHandler>().Paralyzed)
+                {
+                    EnemyList[i].GetComponent<Attributes>().Stamina = EnemyList[i].GetComponent<Attributes>().StartStamina;
+                    EnemyList[i].GetComponent<AIController>().ActionIsLocked = false;
+                }
+
+                EnemyList[i].GetComponent<StatusEffectHandler>().UpdateEffects();
+            }
         }
     }
 
@@ -185,6 +186,18 @@ public class AIManager : MonoBehaviour
         }
     }
 
+    private void UpdatePlayerList()
+    {
+        PlayerList.Clear();
+        foreach (GameObject player in PlayerManager.players)
+        {
+            if (player != null && player.GetComponent<Attributes>().Health > 0)
+            {
+                PlayerList.Add(player);
+            }
+        }
+    }
+
     private List<Vector3> FindCoverSpotsInEncounter()
     {
         Bounds bounds = GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
@@ -229,34 +242,7 @@ public class AIManager : MonoBehaviour
         }
     }
 
-    private void UpdateKillPriority()
-    {
-        KillPriority.Add(PlayerList[0]);
 
-        for (int i = 1; i < PlayerList.Count; i++)
-        {
-            for (int j = 0; j < PlayerList.Count; j++)
-            {
-                if (PlayerList[i].GetComponent<Attributes>().Health < KillPriority[j].GetComponent<Attributes>().Health) // if new object should be highest prio
-                {
-                    KillPriority.Insert(j, PlayerList[i]); 
-                }
-            }
-
-            // If no one in killpriorty had higher health
-            if (!KillPriority.Contains(PlayerList[i]))
-            {
-                KillPriority.Add(PlayerList[i]);
-            }
-        }
-
-        ////DEBUG
-        //Debug.Log("THE FOLLOWING SHOULD BE IN ORDER LOWEST TO HIGHEST");
-        //foreach (GameObject go in killPriority)
-        //{
-        //    Debug.Log("KILL: " + go.GetComponent<Attributes>().Health);
-        //}
-    }
 
     private void EnableEnemyDamage()
     {

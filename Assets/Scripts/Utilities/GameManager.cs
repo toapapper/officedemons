@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         #region are all the needed gameObjects still-check
         allStill = true;
         Utilities.CleanList(stillCheckList);
-        foreach(GameObject gObject in stillCheckList)
+        foreach (GameObject gObject in stillCheckList)
         {
             if (gObject.CompareTag("Projectile"))
             {
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
 
 
         //Ful "kolla om alla fiender är döda"-check
-        if(CurrentCombatState != CombatState.none)
+        if (CurrentCombatState != CombatState.none)
         {
 
             if(currentEncounter.GetEnemylist().Count <= 0)

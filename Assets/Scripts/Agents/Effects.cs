@@ -16,7 +16,7 @@ using UnityEngine.AI;
 // Last Edited: 14/10-28
 public static class Effects
 {
-	public static void RegularDamage(GameObject target, float damage, GameObject wielder)
+	public static void RegularWeaponDamage(GameObject target, float damage, GameObject wielder)
 	{
 		if(wielder.tag == "Player")
 		{
@@ -25,21 +25,34 @@ public static class Effects
         //Damage(target, damage, wielder);
         if (!(target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat))
         {
-            Damage(target, damage, wielder);
+            WeaponDamage(target, damage, wielder);
         }
 		
 	}
+	public static void WeaponDamage(GameObject target, float damage, GameObject wielder = null)
+	{
+		Damage(target, damage, wielder);
+
+		if(target.tag == "Player")
+		{
+			target.GetComponent<SpecialHand>().TakeDamageEffect();
+		}
+	}
+
 	public static void Damage(GameObject target, float damage, GameObject wielder = null)
 	{
-		if(damage < 0)
-        {
+		Debug.Log("Damage done, wielder: " + wielder + " + target: " + target);
+
+
+		if (damage < 0)
+		{
 			Heal(target, -damage);
 			return;
-        }
-		else if(damage == 0)
-        {
+		}
+		else if (damage == 0)
+		{
 			return;
-        }
+		}
 
 		int dmg = (int)damage;
 		if (target.tag == "Player" || target.tag == "Enemy")
@@ -47,30 +60,27 @@ public static class Effects
 			dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
 		}
 
-		target.GetComponent<Attributes>().Health -= dmg;
+		if(target.GetComponent<Attributes>().Health > 0)
+        {
+			target.GetComponent<Attributes>().Health -= dmg;
 
-		UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
+			UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
 
-		if(wielder != null && target.GetComponent<Attributes>().Health <= 0)
-		{
-			if (wielder.tag == "Player")
+			if (wielder != null && target.GetComponent<Attributes>().Health <= 0)
 			{
-				wielder.GetComponent<Attributes>().KillCount++;
-				wielder.GetComponent<SpecialHand>().KillEffect();
+				if (wielder.tag == "Player")
+				{
+					wielder.GetComponent<Attributes>().KillCount++;
+					wielder.GetComponent<SpecialHand>().KillEffect();
+				}
 			}
 		}
-		else if(target.tag == "Player")
-		{
-			target.GetComponent<SpecialHand>().TakeDamageEffect();
-		}
-
 	}
-
 	public static void Heal(GameObject target, float amount)
     {
 		if(amount < 0)
         {
-			Damage(target, amount);
+			WeaponDamage(target, amount);
 			return;
         }
 		else if(amount == 0)
@@ -186,10 +196,14 @@ public static class Effects
 		}
 		else if (target.tag == "Player")
 		{
+			Debug.Log("pre player death disarm:");
+
 			Disarm(target);
 
+			Debug.Log("pre player death cleareffects:");
 			target.GetComponent<StatusEffectHandler>().ClearEffects();
 
+			Debug.Log("pre player death Die:");
 			target.GetComponent<PlayerStateController>().Die();
 		}
 		else if(target.tag == "CoverObject")
@@ -223,7 +237,7 @@ public static class Effects
 	/// <param name="speedEffect"> value between -1 - +1 (positive value speeds up, negative value slows down)</param>
 	public static void ModifySpeed(GameObject target, float speedEffect)
 	{
-		
+		Debug.Log("ModifySpeed target: " + target + " amount: " + speedEffect);
 
 		if(target.tag == "Player")
 		{
@@ -237,6 +251,8 @@ public static class Effects
             {
 				playerSpeed = 0;
             }
+
+			Debug.Log("playerSpeeed on speedmodify: " + playerSpeed);
 
 			target.GetComponent<PlayerMovementController>().SlowEffect = playerSpeed;
 		}

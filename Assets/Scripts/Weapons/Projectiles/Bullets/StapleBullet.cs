@@ -33,7 +33,7 @@ public class StapleBullet : Bullet
             Hit();
 
         }
-        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy" || collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
         {
             base.OnCollisionEnter(collision);
         }

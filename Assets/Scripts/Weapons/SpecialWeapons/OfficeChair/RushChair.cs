@@ -55,11 +55,11 @@ public class RushChair : AbstractSpecial
 
 	public override void StartAttack()
 	{
-		specialController.Animator.SetTrigger("isStartSpecialRush");
+		SpecialController.Animator.SetTrigger("isStartSpecialRush");
 	}
 	public override void Attack()
 	{
-		specialController.Animator.SetTrigger("isSpecialRush");
+		SpecialController.Animator.SetTrigger("isSpecialRush");
 	}
 
 	public override void StartTurnEffect()
@@ -82,22 +82,21 @@ public class RushChair : AbstractSpecial
 		
 		if (Charges == 1)
 		{
-			holderAgent.GetComponent<Rigidbody>().AddForce(holderAgent.transform.forward * rushForce, ForceMode.VelocityChange);
+			HolderAgent.GetComponent<Rigidbody>().AddForce(HolderAgent.transform.forward * rushForce, ForceMode.VelocityChange);
 		}
 		else
 		{
-			holderAgent.GetComponent<Rigidbody>().AddForce(holderAgent.transform.forward * (rushForce + rushForceAdder), ForceMode.VelocityChange);
+			HolderAgent.GetComponent<Rigidbody>().AddForce(HolderAgent.transform.forward * (rushForce + rushForceAdder), ForceMode.VelocityChange);
 		}
 		
 		isProjectile = true;
-		GameManager.Instance.StillCheckList.Add(holderAgent);
 
 		foreach(TrailRenderer trail in trails)
         {
 			trail.enabled = true;
         }
 
-		StartCoroutine(CountdownTime(2));
+		StartCoroutine(CountdownTime(0.5f));
 	}
 
 	private IEnumerator CountdownTime(float time)
@@ -105,6 +104,7 @@ public class RushChair : AbstractSpecial
 		yield return new WaitForSeconds(time);
 		if (isProjectile)
 		{
+			Charges = 0;
 			EndSpecial();
 		}
 	}
@@ -112,12 +112,12 @@ public class RushChair : AbstractSpecial
 	private void EndSpecial()
 	{
 		isProjectile = false;
-		GameManager.Instance.StillCheckList.Remove(holderAgent);
 
 		foreach (TrailRenderer trail in trails)
 		{
 			trail.enabled = false;
 		}
+		base.DoSpecialAction();
 	}
 
 	public void OnTriggerEnter(Collider other)
@@ -132,34 +132,46 @@ public class RushChair : AbstractSpecial
 
 				Instantiate(particleEffect, transform.position, transform.rotation);
 
-				if (Charges == 0)
+				switch (Charges)
 				{
-					Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
-					Effects.ApplyForce(other.gameObject, forceDirection * HitForce);
-					Charges = 0;
-				}
-				else if(Charges == 1)
-				{
-					Effects.Damage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
-					Effects.ApplyForce(other.gameObject, forceDirection * (HitForce + hitForceAdder));
-					Charges = 0;
-				}
-				else
-				{
-					Effects.Damage(other.gameObject, (Damage +(2 * damageAdder)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
-					Effects.ApplyForce(other.gameObject, forceDirection * (HitForce + hitForceAdder));
-					Effects.ApplyWeaponEffects(other.gameObject, effects);
-					if (!isKillEffect)
-					{
+					case 1:
+						Effects.WeaponDamage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						Effects.ApplyForce(other.gameObject, forceDirection * HitForce);
 						Charges = 0;
-					}
+						break;
+					case 2:
+						Effects.WeaponDamage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						Effects.ApplyForce(other.gameObject, forceDirection * (HitForce + hitForceAdder));
+						Charges = 0;
+						break;
+					case 3:
+						Effects.WeaponDamage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						Effects.ApplyForce(other.gameObject, forceDirection * (HitForce + hitForceAdder));
+						Effects.ApplyWeaponEffects(other.gameObject, effects);
+						if (!isKillEffect)
+						{
+							Charges = 0;
+						}
+						break;
 				}
+				EndSpecial();
 			}
-			else
+			else if (other.gameObject.layer == LayerMask.NameToLayer("Destructible"))
 			{
+				switch (Charges)
+				{
+					case 1:
+						Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						break;
+					case 2:
+						Effects.Damage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						break;
+					case 3:
+						Effects.Damage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						break;
+				}
 				Charges = 0;
 			}
-			EndSpecial();
 		}
 	}
 }

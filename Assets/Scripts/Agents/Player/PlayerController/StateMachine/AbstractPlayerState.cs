@@ -16,7 +16,7 @@ using static UnityEngine.InputSystem.InputAction;
 // Last Edited: 2021-10-29
 public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 {
-	protected PlayerMovementController playerMovement;
+    protected PlayerMovementController playerMovement;
     protected WeaponHand weaponHand;
     protected SpecialHand specialHand;
     protected Attributes attributes;//ossian o jonas
@@ -24,10 +24,10 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 
     private TypeOfAction typeOfActions;
 
-    private bool isActionTriggered;
-    private bool isActionLocked;
-    private bool isAddingThrowForce;
-    private bool isAddingBombardForce;
+    [SerializeField] private bool isActionTriggered;
+    [SerializeField] private bool isActionLocked;
+    [SerializeField] private bool isAddingThrowForce;
+    [SerializeField] private bool isAddingBombardForce;
     private TypeOfAction chosenAction;
     private bool isStaminaDepleted;
 
@@ -45,8 +45,8 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     }
     public bool IsActionTriggered
 	{
-        get { return isActionTriggered; }
-        set { isActionTriggered = value; }
+		get { return isActionTriggered; }
+		set { isActionTriggered = value; }
     }
     public bool IsActionLocked
     {
@@ -58,7 +58,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         get { return isAddingThrowForce; }
         set { isAddingThrowForce = value; }
     }
-    protected bool IsAddingBombardForce
+    public bool IsAddingBombardForce
 	{
         get { return isAddingBombardForce; }
         set { isAddingBombardForce = value; }
@@ -96,6 +96,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     public virtual void OnPickUp(GameObject weapon) { }
     public virtual bool OnStartThrow() { return false; }
     public virtual bool OnThrow() { return false; }
+
     public virtual void OnRevive(GameObject player) { }
     public virtual void TransitionState(IPlayerState state)
     {

@@ -20,6 +20,7 @@ public class OutOfCombatState : AbstractPlayerState
 		if (!IsActionTriggered)
 		{
 			weaponHand.Attack();
+			IsActionTriggered = true;
 		}
 	}
 
@@ -30,7 +31,9 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			if (weaponHand.StartBombard())
 			{
+				ChosenAction = TypeOfAction.BOMBARD;
 				weaponHand.ToggleAimView(true);
+				IsAddingBombardForce = true;
 				IsActionTriggered = true;
 				return true;
 			}
@@ -43,7 +46,8 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			if (weaponHand.PerformBombard())
 			{
-				IsActionTriggered = false;
+				ChosenAction = TypeOfAction.NOACTION;
+				IsAddingBombardForce = false;
 				weaponHand.ToggleAimView(false);
 				return true;
 			}
@@ -54,10 +58,10 @@ public class OutOfCombatState : AbstractPlayerState
 	//Special action
 	public override void OnSpecial()
 	{
-		//TODO
 		if (!IsActionTriggered)
 		{
 			specialHand.Attack();
+			IsActionTriggered = true;
 		}
 	}
 	//Special Bombard action
@@ -67,7 +71,10 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			if (specialHand.StartAttack())
 			{
+				Debug.Log("START SPECIAL");
+				ChosenAction = TypeOfAction.SPECIALBOMBARD;
 				specialHand.ToggleAimView(true);
+				IsAddingBombardForce = true;
 				IsActionTriggered = true;
 				return true;
 			}
@@ -80,12 +87,46 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			if (specialHand.Attack())
 			{
-				IsActionTriggered = false;
+				Debug.Log("DO SPECIAL");
+				ChosenAction = TypeOfAction.NOACTION;
+				IsAddingBombardForce = false;
 				specialHand.ToggleAimView(false);
 				return true;
 			}
 		}
 		return false;
+	}
+	public override void LockAction()
+	{
+		switch (ChosenAction)
+		{
+			case TypeOfAction.BOMBARD:
+				OnBombard();
+				break;
+			case TypeOfAction.SPECIALBOMBARD:
+				OnSpecialBombard();
+				break;
+		}
+		ChosenAction = TypeOfAction.NOACTION;
+		IsActionTriggered = false;
+	}
+	public override void CancelAction()
+	{
+		switch (ChosenAction)
+		{
+			case TypeOfAction.BOMBARD:
+				weaponHand.CancelAction();
+				weaponHand.ToggleAimView(false);
+
+				break;
+			case TypeOfAction.SPECIALBOMBARD:
+				specialHand.CancelAction();
+				specialHand.ToggleAimView(false);
+				break;
+		}
+		ChosenAction = TypeOfAction.NOACTION;
+		IsAddingBombardForce = false;
+		IsActionTriggered = false;
 	}
 
 	//PickUp
@@ -97,12 +138,9 @@ public class OutOfCombatState : AbstractPlayerState
 	{
 		if (!IsActionTriggered)
 		{
-			if (weaponHand.StartThrow())
-			{
-				IsActionTriggered = true;
-
-				return true;
-			}
+			weaponHand.StartThrow();
+			IsActionTriggered = true;
+			return true;
 		}
 		return false;
 	}
@@ -110,11 +148,9 @@ public class OutOfCombatState : AbstractPlayerState
 	{
 		if (IsActionTriggered)
 		{
-			if (weaponHand.Throw())
-			{
-				IsActionTriggered = false;
-				return true;
-			}
+			weaponHand.Throw();
+			IsActionTriggered = false;
+			return true;
 		}
 		return false;
 	}
@@ -132,10 +168,14 @@ public class OutOfCombatState : AbstractPlayerState
 	//Update
 	public override void OnFixedUpdateState()
 	{
+
 		//Rotation
 		if (playerMovement.CalculateRotation() != transform.rotation)
 		{
-			playerMovement.PerformRotation();
+			if (!IsAddingBombardForce)
+			{
+				playerMovement.PerformRotation();
+			}
 		}
 		if (!IsActionTriggered)
 		{
@@ -145,21 +185,32 @@ public class OutOfCombatState : AbstractPlayerState
 				playerMovement.PerformMovement();
 			}
 		}
+
 	}
 
-    public override void OnStateEnter()
-    {
-        ChosenAction = TypeOfAction.NOACTION;
-        playerMovement.MoveDirection = Vector3.zero;
-        playerMovement.MoveAmount = Vector3.zero;
-    }
+	public override void OnStateEnter()
+	{
+		ChosenAction = TypeOfAction.NOACTION;
+		playerMovement.MoveDirection = Vector3.zero;
+		playerMovement.MoveAmount = Vector3.zero;
+
+		if (IsActionTriggered)
+		{
+			weaponHand.CancelAction();
+			specialHand.CancelAction();
+			IsAddingBombardForce = false;
+			IsActionTriggered = false;
+		}
+	}
 
 	public override void OnStateExit()
 	{
 		if (IsActionTriggered)
 		{
 			weaponHand.CancelAction();
+			specialHand.CancelAction();
+			IsAddingBombardForce = false;
 			IsActionTriggered = false;
 		}
-    }
+	}
 }

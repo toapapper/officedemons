@@ -50,67 +50,108 @@ public class AIStateHandler : MonoBehaviour
         //Before the agents has had any state changes it is set to Unassigned
         if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            GameObject closestPlayer = aiController.CalculateClosest(PlayerManager.players, encounter.GetComponentInChildren<AIManager>().KillPriority);
-            Vector3.RotateTowards(transform.forward, closestPlayer.transform.position, 1 * Time.deltaTime, 0.0f);
-            //Turn towards nearest player
+            aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
+            aiController.TargetType = AIController.TargetTypes.Player;
+            aiController.TargetPosition = aiController.Target.transform.position;
+            Vector3.RotateTowards(transform.forward, aiController.TargetPosition, 1 * Time.deltaTime, 0.0f);
         }
         //DeathCheck       
         if (aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
         {
-            if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !HasReachedTargetPosition()) // if low health and disadvantage and has stamina
+            if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !aiController.ReachedTargetPosition())  // if low health and disadvantage and has stamina
             {
                 aiController.CurrentState = AIStates.States.FindCover;
-
             }
             else if (aiController.CurrentState != AIStates.States.Move && !aiController.IsArmed() && attributes.Stamina > 0)
             {
                 aiController.CurrentState = AIStates.States.SearchingForWeapon;
             }
-            else if (PlayerIsInRange()) // <- If one or more players are within fov range
+            else if (aiController.TargetType == AIController.TargetTypes.ShootSpot && aiController.ReachedTargetPosition())
+            {
+                aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
+                aiController.TargetPosition = aiController.Target.transform.position;
+                aiController.TargetType = AIController.TargetTypes.Player;
+            }
+            else if (!TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
             {
                 aiController.CurrentState = AIStates.States.Attack;
                 aiController.ActionIsLocked = true;
             }
-            //No target within range and health is fine 
             else
             {
-                //If we have stamina move(Later on will move towards target but for now only sets the next action to move)
-                if (attributes.Stamina > 0 && gameObject.transform.position != aiController.TargetPosition)
+                if (aiController.TargetType == AIController.TargetTypes.ShootSpot && aiController.ReachedTargetPosition())
+                {
+                    aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
+                    aiController.TargetType = AIController.TargetTypes.Player;
+                }
+
+                //If we have stamina move
+                if (attributes.Stamina > 0 && !aiController.ReachedTargetPosition())
                 {
                     aiController.CurrentState = AIStates.States.Move;
                 }
                 //No stamina -> wait/attack
                 else
                 {
-                    if (PlayerIsInRange())
+                    if (aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
                     {
                         aiController.CurrentState = AIStates.States.Attack;
                         aiController.ActionIsLocked = true;
                     }
+                    else if(aiController.TargetType == AIController.TargetTypes.Item && aiController.ReachedTargetPosition())
+                    {
+                        aiController.PickupWeapon(aiController.Target);
+                        aiController.CurrentState = AIStates.States.Unassigned;
+                    }
                     else
                     {
-                        aiController.CurrentState = AIStates.States.Wait;
-                        aiController.ActionIsLocked = true;
+                        if (attributes.Stamina > 0 && TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player)
+                        {
+                            aiController.GetShootPosition();
+                            aiController.CurrentState = AIStates.States.Move;
+                        }
+                        else
+                        {
+                            aiController.CurrentState = AIStates.States.Wait;
+                            aiController.ActionIsLocked = true;
+                        }
                     }
                 }
             }
         }
     }
 
-    private bool PlayerIsInRange()
+    private bool TooCloseToAttack()
+    {
+        if (aiController.HoldingMeleeWeapon())
+        {
+            return false;
+        }
+        return (Vector3.Distance(gameObject.transform.position, aiController.TargetPosition)) < 2;
+    }
+
+    private bool CanAttackPlayer()
     {
         if (aiController.HoldingRangedWeapon())
         {
-            Vector3 direction = (aiController.TargetPlayer.transform.position - transform.position).normalized;
-            RaycastHit hit = new RaycastHit();
-
-            if (Physics.Raycast(transform.position, direction, out hit))
+            foreach(GameObject player in encounter.GetComponentInChildren<AIManager>().PlayerList)
             {
-                if (hit.transform.gameObject.tag == "Player")
+                // Raycast to every player and se eif move not needed
+                Vector3 direction = (aiController.Target.transform.position - transform.position).normalized;
+                RaycastHit hit = new RaycastHit();
+
+                if (Physics.Raycast(transform.position, direction, out hit))
                 {
-                    return true;
+                    if (hit.transform.gameObject.tag == "Player")
+                    {
+                        if(Vector3.Angle(transform.forward, hit.transform.position - transform.position) < 10f)
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
+            
             return false;
         }
         else
@@ -139,11 +180,6 @@ public class AIStateHandler : MonoBehaviour
         return attributes.Health <= attributes.StartHealth / 2; // 
     }
 
-    private bool HasReachedTargetPosition()
-    {
-        return aiController.TargetPosition == gameObject.transform.position;
-    }
-
     // Check if players are fewer than AI, if players are unarmed but AI have weapons
     public bool HasAdvantage()
     {
@@ -155,7 +191,7 @@ public class AIStateHandler : MonoBehaviour
         //count how many players are alive and armed
         foreach (GameObject player in encounter.GetComponentInChildren<AIManager>().PlayerList)
         {
-            if (player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(MeleeWeapon) || player.GetComponent<WeaponHand>().transform.GetChild(0).gameObject.GetType() == typeof(RangedWeapon))
+            if (gameObject.GetComponentInChildren<RangedWeapon>() || gameObject.GetComponentInChildren<MeleeWeapon>())
             {
                 armedPlayers++;
             }
