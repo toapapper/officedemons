@@ -19,7 +19,7 @@ public abstract class AbstractSpecial : MonoBehaviour
 	[SerializeField] protected List<WeaponEffects> ultiEffects;
 
 	private GameObject holderAgent;
-	private SpecialHand specialController;
+	protected SpecialHand specialController;
 
 	[SerializeField]
 	private float damage;
