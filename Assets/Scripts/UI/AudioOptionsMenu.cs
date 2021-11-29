@@ -20,6 +20,7 @@ public class AudioOptionsMenu : MonoBehaviour
     public GameObject OptionsMenu;
     public GameObject firstSelectedOptionsMenu;
     float defaultValue = 50f;
+    static bool hasChanged = false;
     ChangeVolumeLevels volumeLevels;
     [SerializeField] Slider masterSlider;
     [SerializeField] Slider musicSlider;
@@ -34,14 +35,19 @@ public class AudioOptionsMenu : MonoBehaviour
             musicSlider.value = volumeLevels.MusicVolume;
             sfxSlider.value = volumeLevels.SFXVolume;
             voiceSlider.value = volumeLevels.VoiceVolume;
+            hasChanged = true;
         }
-        //else
-        //{
-        //    masterSlider.value = defaultValue;
-        //    musicSlider.value = defaultValue;
-        //    sfxSlider.value = defaultValue;
-        //    voiceSlider.value = defaultValue;
-        //}
+        if(hasChanged == false)
+        {
+            volumeLevels.MasterVolume = defaultValue;
+            volumeLevels.MusicVolume = defaultValue;
+            volumeLevels.SFXVolume = defaultValue;
+            volumeLevels.VoiceVolume = defaultValue;
+            masterSlider.value = volumeLevels.MasterVolume;
+            musicSlider.value = volumeLevels.MusicVolume;
+            sfxSlider.value = volumeLevels.SFXVolume;
+            voiceSlider.value = volumeLevels.VoiceVolume;
+        }
     }
 
 

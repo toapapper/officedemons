@@ -45,10 +45,11 @@ public abstract class GrenadeProjectile : MonoBehaviour
 	protected IEnumerator CountdownTime(float time)
     {
         yield return new WaitForSeconds(time);
+
         Explode();
     }
 
-    protected void Explode()
+    protected virtual void Explode()
     {
         Instantiate(particleEffect, transform.position, Quaternion.Euler(90, 0, 0));
         ImpactAgents();

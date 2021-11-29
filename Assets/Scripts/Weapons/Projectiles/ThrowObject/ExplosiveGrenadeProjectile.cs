@@ -52,10 +52,17 @@ public class ExplosiveGrenadeProjectile : GrenadeProjectile
 		}
 	}
 
+	protected override void Explode()
+    {
+		AkSoundEngine.PostEvent("Play_Explosion", gameObject);
+		base.Explode();
+	}
+
 	private void SetExplosion()
 	{
 		FOVVisualization.SetActive(true);
 		StartCoroutine(CountdownTime(explodeTime));
+		
 	}
 
 	protected override void ImpactAgents()
