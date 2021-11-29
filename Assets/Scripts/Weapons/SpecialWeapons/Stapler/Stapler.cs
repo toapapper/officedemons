@@ -24,7 +24,7 @@ public class Stapler : AbstractSpecial
 	[SerializeField]
 	protected GameObject bullet;
 	[SerializeField]
-	private int bulletsInBurstShot = 4;
+	private int bulletsInBurst = 4;
 	private int bulletCount;
 
 	[Tooltip("The maximum amount of degrees away from the direction aimed that the projectile might fly")]
@@ -81,7 +81,7 @@ public class Stapler : AbstractSpecial
 	}
 	public override void Attack()
 	{
-		bulletCount = bulletsInBurstShot;
+		bulletCount = bulletsInBurst;
 		SpecialController.Animator.SetTrigger("isSpecialStapler");
 	}
 
@@ -113,10 +113,14 @@ public class Stapler : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
-		if(bulletCount < bulletsInBurstShot)
+		if(bulletCount < bulletsInBurst)
 		{
 			if (bulletCount > 0)
 			{
+				//if (particleEffect)
+				//{
+				//	Instantiate(particleEffect, weaponMuzzle.transform.position, weaponMuzzle.transform.rotation * Quaternion.Euler(0, 180, 0));
+				//}
 				Vector3 direction = GetBulletDirection();
 				bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, weaponMuzzle.transform.position, direction, bulletFireForce, HitForce, Damage, this.effects);
 				bulletCount--;

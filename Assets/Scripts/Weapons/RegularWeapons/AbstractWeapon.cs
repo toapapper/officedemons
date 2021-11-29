@@ -70,7 +70,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	[SerializeField]
 	private float weight = 5;
 
-    private TextMeshPro name;
+    private TextMeshPro objectName;
 
 
     [SerializeField]
@@ -130,9 +130,9 @@ public abstract class AbstractWeapon : MonoBehaviour
 
     private void Start()
     {
-        name = gameObject.transform.parent.GetComponentInChildren<TextMeshPro>();
-        name.text = gameObject.name;
-        name.faceColor = gameObject.transform.parent.GetComponent<Outline>().OutlineColor;
+        objectName = gameObject.transform.parent.GetComponentInChildren<TextMeshPro>();
+        objectName.text = gameObject.name;
+        objectName.faceColor = gameObject.transform.parent.GetComponent<Outline>().OutlineColor;
     }
 
     protected virtual void Update()
@@ -141,7 +141,7 @@ public abstract class AbstractWeapon : MonoBehaviour
         if (IsHeld)
         {
             showName = false;
-            name.gameObject.SetActive(false);
+            objectName.gameObject.SetActive(false);
         }
         else
         {
@@ -149,15 +149,15 @@ public abstract class AbstractWeapon : MonoBehaviour
             {
                 if (Vector3.Distance(PlayerManager.players[i].transform.position,gameObject.transform.position) < 5)
                 {
-                    name.gameObject.SetActive(true);
+                    objectName.gameObject.SetActive(true);
                     showName = true;
-                    name.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+                    objectName.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
                 }
             }
         }
         if (!showName)
         {
-            name.gameObject.SetActive(false);
+            objectName.gameObject.SetActive(false);
         }
     }
 
@@ -219,6 +219,10 @@ public abstract class AbstractWeapon : MonoBehaviour
 	/// <param name="fov"></param>
 	public virtual void DoAction(FieldOfView fov)
 	{
+		if (HolderAgent.tag == "Player")
+		{
+			HolderAgent.GetComponent<AbstractPlayerState>().IsActionTriggered = false;
+		}
 		if (durability <= 0)
 		{
 			handle.GetComponentInParent<PlayerInputHandler>().RemoveObjectFromWeaponList(this.gameObject);

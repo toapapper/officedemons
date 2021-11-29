@@ -36,8 +36,6 @@ public class PlayerInputHandler : MonoBehaviour
 	public bool recentlySpawned = false;
 	private bool isAddingThrowForce;
 
-	
-
 	//Throwing variables
 	[SerializeField]
 	private float throwForceMultiplier = 25f;
@@ -45,15 +43,6 @@ public class PlayerInputHandler : MonoBehaviour
 	private float maxThrowForce = 30f;
 	private float addedThrowForce;
 
-	////Bombard variables
-	//[SerializeField]
-	//private float bombardForceMultiplier = 5f;
-	//[SerializeField]
-	//private float maxBombardForce = 10f;
-	//private float addedBombardForce;
-
-	//private Vector3 targetDirection;
-	//private float targetSpeed = 10f;
 
 	public void Start()
 	{
@@ -142,7 +131,6 @@ public class PlayerInputHandler : MonoBehaviour
 					Vector2 moveInput = context.ReadValue<Vector2>();
 					playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
 				}
-				///////////////////////////////////////////////////////////////////////////////
 				else if (isAddingThrowForce)
 				{
 					if (context.canceled)
@@ -223,7 +211,6 @@ public class PlayerInputHandler : MonoBehaviour
 								}
 							}
 						}
-						//////////////////////////////////////////////////////////////////////////////////
 						else if(!isAddingThrowForce)
 						{
 							if (context.started)

@@ -20,6 +20,7 @@ public class OutOfCombatState : AbstractPlayerState
 		if (!IsActionTriggered)
 		{
 			weaponHand.Attack();
+			IsActionTriggered = true;
 		}
 	}
 

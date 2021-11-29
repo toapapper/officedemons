@@ -46,6 +46,10 @@ public class WeaponHand : MonoBehaviour
 		get { return throwAim; }
 		set { throwAim = value; }
 	}
+	public Animator Animator
+	{
+		get { return animator; }
+	}
 
 	private void Awake()
 	{

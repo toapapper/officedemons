@@ -125,15 +125,17 @@ public abstract class RangedWeapon : AbstractWeapon
 
 	public override void DoAction(FieldOfView fov)
 	{
+		base.DoAction(fov);
+
 		GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
 		if (wielder == null)
 		{
 			return;
 		}
 
-		Vector3 direction = GetBulletDirection();
+		//Vector3 direction = GetBulletDirection();
 
-		bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage/* * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost)*/, this.effects);
+		//bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage/* * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost)*/, this.effects);
 
 		//recoil and slippery-checks
 
@@ -158,11 +160,11 @@ public abstract class RangedWeapon : AbstractWeapon
 				Effects.Disarm(wielder);
 			}
 		}
-		if (particleEffect)
-		{
-			Instantiate(particleEffect, WeaponMuzzle.transform.position, WeaponMuzzle.transform.rotation * Quaternion.Euler(0f, 180f, 0f)/*Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z)*/);
+		//if (particleEffect)
+		//{
+		//	Instantiate(particleEffect, WeaponMuzzle.transform.position, WeaponMuzzle.transform.rotation * Quaternion.Euler(0f, 180f, 0f)/*Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z)*/);
 
-		}
-		base.DoAction(fov);
+		//}
+		
 	}
 }
