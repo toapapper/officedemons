@@ -167,16 +167,16 @@ public class GameManager : MonoBehaviour
                 Debug.Log("ENEMIES MOVES ARE DONE");
                 EnemiesActionsDone = false;
                 combatState = CombatState.enemyActions;
-
-                if(currentEncounter != null)//to fix the nullreference error that happens when an encounter is ended
-                {
-                    currentEncounter.aIManager.PerformNextAction();
-                }
             }
         }
         else if (CurrentCombatState == CombatState.enemyActions)
         {
-            if (enemiesActionsDone)
+            if (currentEncounter != null && !enemiesActionsDone)//to fix the nullreference error that happens when an encounter is ended
+            {
+                currentEncounter.aIManager.PerformNextAction();
+            }
+            
+            if(enemiesActionsDone)
             {
                 Debug.Log("ENEMIES ACTIONS ARE DONE");
                 combatState = CombatState.player;

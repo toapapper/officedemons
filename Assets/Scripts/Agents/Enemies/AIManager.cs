@@ -23,6 +23,8 @@ public class AIManager : MonoBehaviour
     private UnityEvent doneEvent;
     private AIManager instance;
     private Queue<GameObject> actionsQueue;
+    private float actionsTime;
+    private const float maxActionsTime = 2.5f;
 
     private List<GameObject> playerList;
     public List<GameObject> PlayerList
@@ -91,6 +93,7 @@ public class AIManager : MonoBehaviour
         TakenCoverPositions.Clear();
         actionsQueue.Clear();
         allWeapons = new List<GameObject>(GameObject.FindGameObjectsWithTag("WeaponObject"));
+        actionsTime = 0;
         foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
         {
             go.GetComponent<GroundEffectObject>().ApplyEffectsOnEnemys();
@@ -144,7 +147,7 @@ public class AIManager : MonoBehaviour
                 allDead = false;
             }
         }
-        if (!GameManager.Instance.AllStill)
+        if (actionsQueue.Count != EnemyList.Count && !GameManager.Instance.AllStill)
             allDone = false;
 
         if (allDone)
@@ -163,27 +166,35 @@ public class AIManager : MonoBehaviour
         if (actionsQueue.Count > 0)
         {
             GameObject agent = actionsQueue.Dequeue();
+            actionsTime += AddToTimer(agent);
             agent.GetComponent<AIController>().PerformAction();
-            StartCoroutine("WaitDone");
         }
         else
         {
-            GameManager.Instance.EnemiesActionsDone = true;
+            if (actionsTime >= maxActionsTime)
+            {
+                actionsTime = maxActionsTime;
+            }
+
+            Invoke("Continue", actionsTime);
         }
     }
-    IEnumerator WaitDone()
-    {
-        yield return new WaitForSeconds(1f);
 
-        while (true)
+    float AddToTimer(GameObject agent)
+    {
+        if (agent.GetComponent<AIController>().CurrentState == AIStates.States.Attack)
         {
-            if (GameManager.Instance.AllStill)
-            {
-                StopCoroutine("WaitDone");
-                PerformNextAction();
-            }
-            yield return null;
+            return 1f;
         }
+        else
+        {
+            return 0f;
+        }
+    }
+
+    void Continue()
+    {
+        GameManager.Instance.EnemiesActionsDone = true;
     }
 
     private void UpdatePlayerList()
