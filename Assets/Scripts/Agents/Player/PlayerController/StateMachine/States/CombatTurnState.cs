@@ -75,14 +75,6 @@ public class CombatTurnState : AbstractPlayerState
 		}
 		return false;
 	}
-	//public override bool OnSpecialBombard()
-	//{
-	//	if (IsActionTriggered)
-	//	{
-	//		return true;
-	//	}
-	//	return false;
-	//}
 
 	public override void OnPickUp(GameObject weapon)
 	{
@@ -96,11 +88,9 @@ public class CombatTurnState : AbstractPlayerState
 	{
 		if (!IsActionTriggered)
 		{
-			if (weaponHand.StartThrow())
-			{
-				IsActionTriggered = true;
-				return true;
-			}
+			weaponHand.StartThrow();
+			IsActionTriggered = true;
+			return true;
 		}
 		return false;
 	}
@@ -110,7 +100,7 @@ public class CombatTurnState : AbstractPlayerState
 		{
 			ChosenAction = TypeOfAction.THROW;
 			LockAction();
-			IsActionTriggered = false;
+			//IsActionTriggered = false;
 			return true;
 		}
 		return false;

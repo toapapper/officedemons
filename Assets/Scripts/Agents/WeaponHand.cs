@@ -179,33 +179,18 @@ public class WeaponHand : MonoBehaviour
 	//Throw weapon
 	public bool StartThrow()
 	{
-		if (objectInHand != null)
-		{
-			Debug.Log("START THROW");
-			animator.SetTrigger("isAimThrow");
-			//animator.ResetTrigger
-			return true;
-		}
-		return false;
+		animator.SetTrigger("isAimThrow");
+		return true;
 	}
 	public bool SetThrowForce(float throwForce)
 	{
-		if (objectInHand != null)
-		{
-			this.throwForce = throwForce;
-			return true;
-		}
-		return false;
+		this.throwForce = throwForce;
+		return true;
 	}
 	public bool Throw()
 	{
-		if (objectInHand != null)
-		{
-			Debug.Log("DO THROW");
-			animator.SetTrigger("isThrow");
-			return true;
-		}
-		return false;
+		animator.SetTrigger("isThrow");
+		return true;
 	}
 
 	public void CancelAction()

@@ -50,7 +50,10 @@ public abstract class AbstractSpecial : MonoBehaviour
 	public abstract void ToggleAim(bool isActive);
 	public abstract void StartAttack();
 	public abstract void Attack();
-	public abstract void DoSpecialAction();
+	public virtual void DoSpecialAction()
+	{
+		holderAgent.GetComponent<AbstractPlayerState>().IsActionTriggered = false;
+	}
 
 	public abstract void StartTurnEffect();
 	public virtual void EndTurnEffects() { }

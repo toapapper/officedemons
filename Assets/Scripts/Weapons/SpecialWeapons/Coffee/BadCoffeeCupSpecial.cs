@@ -35,5 +35,6 @@ public class BadCoffeeCupSpecial : CoffeeCupSpecial
 				break;
 		}
 		Charges = 0;
+		base.DoSpecialAction();
 	}
 }

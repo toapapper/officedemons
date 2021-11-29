@@ -164,5 +164,6 @@ public class SpinningChair : AbstractSpecial
 		{
 			trail.enabled = false;
 		}
+		base.DoSpecialAction();
 	}
 }

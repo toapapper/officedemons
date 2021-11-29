@@ -135,18 +135,10 @@ public class SpecialHand : MonoBehaviour
 	{
 		objectInHand.RevivedEffect();
 	}
-	//public void AddCharge()
-	//{
-	//	objectInHand.AddCharge();
-	//}
 
 	//Animation events
 	public void DoSpecialAction()
 	{
-		objectInHand.DoSpecialAction(/*fov*/);
+		objectInHand.DoSpecialAction();
 	}
-	//public void DoSpecialActionEnd()
-	//{
-	//	objectInHand.DoSpecialActionEnd();
-	//}
 }

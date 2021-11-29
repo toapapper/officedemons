@@ -118,6 +118,7 @@ public class RushChair : AbstractSpecial
 		{
 			trail.enabled = false;
 		}
+		base.DoSpecialAction();
 	}
 
 	public void OnTriggerEnter(Collider other)

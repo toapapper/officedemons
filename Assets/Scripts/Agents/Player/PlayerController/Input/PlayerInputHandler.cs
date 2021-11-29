@@ -142,6 +142,7 @@ public class PlayerInputHandler : MonoBehaviour
 					Vector2 moveInput = context.ReadValue<Vector2>();
 					playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
 				}
+				///////////////////////////////////////////////////////////////////////////////
 				else if (isAddingThrowForce)
 				{
 					if (context.canceled)
@@ -168,13 +169,13 @@ public class PlayerInputHandler : MonoBehaviour
 									player.CurrentState.IsAddingBombardForce = true;
 								}
 							}
-							else if (context.canceled)
-							{
-								if (player.OnBombard())
-								{
-									player.CurrentState.IsAddingBombardForce = false;
-								}
-							}
+							//else if (context.canceled)
+							//{
+							//	if (player.OnBombard())
+							//	{
+							//		player.CurrentState.IsAddingBombardForce = false;
+							//	}
+							//}
 						}
 						else if (context.performed)
 						{
@@ -193,13 +194,13 @@ public class PlayerInputHandler : MonoBehaviour
 									player.CurrentState.IsAddingBombardForce = true;
 								}
 							}
-							else if (context.canceled)
-							{
-								if (player.OnSpecialBombard())
-								{
-									player.CurrentState.IsAddingBombardForce = false;
-								}
-							}
+							//else if (context.canceled)
+							//{
+							//	if (player.OnSpecialBombard())
+							//	{
+							//		player.CurrentState.IsAddingBombardForce = false;
+							//	}
+							//}
 						}
 						else if (context.performed)
 						{
@@ -222,7 +223,8 @@ public class PlayerInputHandler : MonoBehaviour
 								}
 							}
 						}
-						else
+						//////////////////////////////////////////////////////////////////////////////////
+						else if(!isAddingThrowForce)
 						{
 							if (context.started)
 							{

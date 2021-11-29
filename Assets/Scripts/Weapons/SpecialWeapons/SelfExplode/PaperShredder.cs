@@ -92,5 +92,6 @@ public class PaperShredder : AbstractSpecial
 		}
 		Charges = 0;
 		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		base.DoSpecialAction();
 	}
 }

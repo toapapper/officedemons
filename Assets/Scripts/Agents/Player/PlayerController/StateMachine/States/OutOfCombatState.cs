@@ -57,10 +57,10 @@ public class OutOfCombatState : AbstractPlayerState
 	//Special action
 	public override void OnSpecial()
 	{
-		//TODO
 		if (!IsActionTriggered)
 		{
 			specialHand.Attack();
+			IsActionTriggered = true;
 		}
 	}
 	//Special Bombard action
@@ -137,13 +137,9 @@ public class OutOfCombatState : AbstractPlayerState
 	{
 		if (!IsActionTriggered)
 		{
-			if (weaponHand.StartThrow())
-			{
-				Debug.Log("START THROW");
-				IsActionTriggered = true;
-
-				return true;
-			}
+			weaponHand.StartThrow();
+			IsActionTriggered = true;
+			return true;
 		}
 		return false;
 	}
@@ -151,12 +147,9 @@ public class OutOfCombatState : AbstractPlayerState
 	{
 		if (IsActionTriggered)
 		{
-			if (weaponHand.Throw())
-			{
-				Debug.Log("DO THROW");
-				//IsActionTriggered = false;
-				return true;
-			}
+			weaponHand.Throw();
+			IsActionTriggered = false;
+			return true;
 		}
 		return false;
 	}

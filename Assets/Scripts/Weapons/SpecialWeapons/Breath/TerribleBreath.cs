@@ -84,6 +84,7 @@ public class TerribleBreath : AbstractSpecial
             }
         }
         Charges = 0;
+        base.DoSpecialAction();
     }
     private IEnumerator CountdownTime(float time)
     {

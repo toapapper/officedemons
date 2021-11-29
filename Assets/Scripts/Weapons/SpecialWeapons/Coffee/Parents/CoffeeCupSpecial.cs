@@ -80,5 +80,8 @@ public abstract class CoffeeCupSpecial : AbstractSpecial
 		isHit = true;
 	}
 
-	public abstract override void DoSpecialAction();
+	public override void DoSpecialAction()
+	{
+		base.DoSpecialAction();
+	}
 }

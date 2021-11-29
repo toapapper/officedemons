@@ -125,6 +125,7 @@ public class Stapler : AbstractSpecial
 			{
 				SpecialController.Animator.SetTrigger("isCancelAction");
 				Charges = 0;
+				base.DoSpecialAction();
 			}			
 		}
 		else
