@@ -70,7 +70,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	[SerializeField]
 	private float weight = 5;
 
-    private TextMeshPro objectName;
+    private TextMeshPro textObjectName;
 
 
     [SerializeField]
@@ -130,9 +130,9 @@ public abstract class AbstractWeapon : MonoBehaviour
 
     private void Start()
     {
-        objectName = gameObject.transform.parent.GetComponentInChildren<TextMeshPro>();
-        objectName.text = gameObject.name;
-        objectName.faceColor = gameObject.transform.parent.GetComponent<Outline>().OutlineColor;
+        textObjectName = gameObject.transform.parent.GetComponentInChildren<TextMeshPro>();
+        textObjectName.text = gameObject.name;
+        textObjectName.faceColor = gameObject.transform.parent.GetComponent<Outline>().OutlineColor;
     }
 
     protected virtual void Update()
@@ -141,7 +141,7 @@ public abstract class AbstractWeapon : MonoBehaviour
         if (IsHeld)
         {
             showName = false;
-            objectName.gameObject.SetActive(false);
+            textObjectName.gameObject.SetActive(false);
         }
         else
         {
@@ -149,15 +149,15 @@ public abstract class AbstractWeapon : MonoBehaviour
             {
                 if (Vector3.Distance(PlayerManager.players[i].transform.position,gameObject.transform.position) < 5)
                 {
-                    objectName.gameObject.SetActive(true);
+                    textObjectName.gameObject.SetActive(true);
                     showName = true;
-                    objectName.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+                    textObjectName.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
                 }
             }
         }
         if (!showName)
         {
-            objectName.gameObject.SetActive(false);
+            textObjectName.gameObject.SetActive(false);
         }
     }
 
