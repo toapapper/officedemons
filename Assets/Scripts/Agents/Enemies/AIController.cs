@@ -133,10 +133,21 @@ public class AIController : MonoBehaviour
 
                 if (TargetPosition == Vector3.zero)
                 {
-                    GameObject closestPlayer = CalculateClosest(PlayerManager.players);
+                    GameObject closestPlayer = CalculateClosest(aiManager.PlayerList);
                     FindCover(closestPlayer);
-                    TargetType = TargetTypes.CoverSpot;
-                    TargetPosition = Target.transform.position;
+                    if (Target == null)
+                    {
+                        Target = GetTargetPlayer(aiManager.PlayerList);
+                        TargetType = TargetTypes.Player;
+                        TargetPosition = Target.transform.position;
+                        CurrentState = AIStates.States.Attack;
+                    }
+                    else
+                    {
+                        TargetType = TargetTypes.CoverSpot;
+                        TargetPosition = Target.transform.position;
+                    }
+                    
                 }
 
                 if (ReachedTargetPosition())
