@@ -48,7 +48,7 @@ public class BurstShotWeapon : RangedWeapon
 
             Vector3 direction = GetBulletDirection();
 
-            bullet.GetComponent<Bullet>().CreateBullet(holderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage, this.effects);
+            bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage, this.effects);
 
             //recoil and slippery-checks
 
@@ -58,7 +58,7 @@ public class BurstShotWeapon : RangedWeapon
                 float rand = Random.value;
                 if (rand < RecoilChance)
                 {
-                    Effects.Damage(wielder, Damage / 2);
+                    Effects.WeaponDamage(wielder, Damage / 2);
                     Effects.ApplyForce(wielder, (wielder.transform.forward * -1 * HitForce));
                     Effects.ApplyWeaponEffects(wielder, effects);
                 }

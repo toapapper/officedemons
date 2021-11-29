@@ -84,7 +84,7 @@ public class WeaponHand : MonoBehaviour
 		{
 			throwAim.gameObject.SetActive(true);
 			throwAim.GetComponentInChildren<LineRenderer>().colorGradient = aimGradient;
-			throwAim.gameObject.SetActive(false);
+			throwAim.DeActivate();
 		}
 	}
 
@@ -92,20 +92,15 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand != null)
 		{
-			objectInHand.ToggleAim(isActive, FOVVisualization, throwAim.gameObject);
+			objectInHand.ToggleAim(isActive, FOVVisualization);
 		}
 		else
 		{
 			FOVVisualization.SetActive(isActive);
 		}
 	}
-	//public void ToggleThrowAim()
-	//{
-	//	if (objectInHand)
-	//	{
-	//		//objectInHand.ToggleThrowAim(isActive);
-	//	}
-	//}
+
+	//Pick up
 	public void Equip(GameObject newObject)
 	{
 		objectInHand = newObject.GetComponent<AbstractWeapon>();
@@ -115,37 +110,17 @@ public class WeaponHand : MonoBehaviour
 		FOV.ViewAngle = objectInHand.ViewAngle;
 		FOV.ViewRadius = objectInHand.ViewDistance;
 	}
-	//Pick up
-	//public void Equip(GameObject newObject)
-	//{
-	//	objectInHand = newObject.GetComponent<AbstractWeapon>();
-	//	objectInHand.PickUpIn(handObject);
-	//	foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
-	//	{
-	//		collider.enabled = false;
-	//	}
-	//	objectInHand.SetAimGradient(aimGradient);
-
-	//	FOV.ViewAngle = objectInHand.ViewAngle;
-	//	FOV.ViewRadius = objectInHand.ViewDistance;
-	//}
 
 	//Unequip weapon
 	public void DropWeapon()
     {
-		if(objectInHand == null)
+		if(objectInHand != null)
         {
-			return;
-        }
-
-		objectInHand.Drop();
-		//foreach (Collider collider in objectInHand.GetComponentsInChildren<Collider>())
-		//{
-		//	collider.enabled = true;
-		//}
-		objectInHand = null;
-		FOV.ViewRadius = handHitDistance;
-		FOV.ViewAngle = handHitAngle;
+			objectInHand.Drop();
+			objectInHand = null;
+			FOV.ViewRadius = handHitDistance;
+			FOV.ViewAngle = handHitAngle;
+		}
 	}
 
 	//Attack
@@ -182,15 +157,15 @@ public class WeaponHand : MonoBehaviour
 		}
 		return false;
 	}
-	public bool SetBombardForce(float bombardForce)
-	{
-		if(objectInHand != null && objectInHand is BombardWeapon)
-		{
-			throwAim.initialVelocity = bombardForce;
-			return true;
-		}
-		return false;
-	}
+	//public bool SetBombardForce(float bombardForce)
+	//{
+	//	if(objectInHand != null && objectInHand is BombardWeapon)
+	//	{
+	//		throwAim.initialSpeed = bombardForce;
+	//		return true;
+	//	}
+	//	return false;
+	//}
 	public bool PerformBombard()
 	{
 		if (objectInHand != null && objectInHand is BombardWeapon)
@@ -204,30 +179,18 @@ public class WeaponHand : MonoBehaviour
 	//Throw weapon
 	public bool StartThrow()
 	{
-		if (objectInHand != null)
-		{
-			animator.SetTrigger("isAimThrow");
-			return true;
-		}
-		return false;
+		animator.SetTrigger("isAimThrow");
+		return true;
 	}
 	public bool SetThrowForce(float throwForce)
 	{
-		if (objectInHand != null)
-		{
-			this.throwForce = throwForce;
-			return true;
-		}
-		return false;
+		this.throwForce = throwForce;
+		return true;
 	}
 	public bool Throw()
 	{
-		if (objectInHand != null)
-		{
-			animator.SetTrigger("isThrow");
-			return true;
-		}
-		return false;
+		animator.SetTrigger("isThrow");
+		return true;
 	}
 
 	public void CancelAction()
@@ -246,7 +209,7 @@ public class WeaponHand : MonoBehaviour
 		{
 			foreach (GameObject target in FOV.VisibleTargets)
 			{
-				Effects.RegularDamage(target, handHitDamage, gameObject);
+				Effects.RegularWeaponDamage(target, handHitDamage, gameObject);
 				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
 
 				float rand = Random.value;

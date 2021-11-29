@@ -15,15 +15,10 @@ using UnityEngine;
 // Last Edited: 14/10-28
 public abstract class MeleeWeapon : AbstractWeapon
 {
-    //public override void SetAim(FieldOfView fov, /*GameObject fovVisualization, GameObject throwAim,*/ Gradient gradient)
-    //{
-    //    //fovVisualization.GetComponent<Renderer>().material.color = gradient.colorKeys[0].color;
-    //    fov.ViewAngle = ViewAngle;
-    //    fov.ViewRadius = ViewDistance;
-    //}
     [SerializeField]
     protected GameObject particleEffect;
-    public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
+
+    public override void ToggleAim(bool isActive, GameObject FOVView)
 	{
 		FOVView.SetActive(isActive);
 	}
@@ -47,9 +42,17 @@ public abstract class MeleeWeapon : AbstractWeapon
         {
             foreach (GameObject target in fov.VisibleTargets)
             {
-                Effects.RegularDamage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost), holderAgent);
-                Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
-                Effects.ApplyWeaponEffects(target, effects);
+                if(target.tag != "CoverObject")
+				{
+                    Effects.RegularWeaponDamage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost), HolderAgent);
+                    Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
+                    Effects.ApplyWeaponEffects(target, effects);
+                }
+				else
+				{
+                    Effects.Damage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost));
+                }
+
                 if (particleEffect)
                 {
                     AkSoundEngine.PostEvent("Play_Blunt_thud", gameObject);
@@ -65,7 +68,7 @@ public abstract class MeleeWeapon : AbstractWeapon
             float rand = Random.value;
             if(rand < RecoilChance)
             {
-                Effects.Damage(wielder, Damage/2);
+                Effects.WeaponDamage(wielder, Damage/2);
                 Effects.ApplyForce(wielder, (wielder.transform.forward * -1 * HitForce));
                 Effects.ApplyWeaponEffects(wielder, effects);
             }

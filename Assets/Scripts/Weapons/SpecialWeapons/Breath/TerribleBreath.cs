@@ -30,18 +30,18 @@ public class TerribleBreath : AbstractSpecial
 
     public override void SetFOVSize()
     {
-        specialController.FOV.ViewAngle = viewAngle;
-        specialController.FOV.ViewRadius = viewDistance;
+        SpecialController.FOV.ViewAngle = viewAngle;
+        SpecialController.FOV.ViewRadius = viewDistance;
     }
 
     public override void ToggleAim(bool isActive)
     {
-        specialController.FOVVisualization.SetActive(isActive);
+        SpecialController.FOVVisualization.SetActive(isActive);
     }
 
     public override void StartAttack()
     {
-        specialController.Animator.SetTrigger("isStartSpecialBreath");
+        SpecialController.Animator.SetTrigger("isStartSpecialBreath");
     }
     public override void Attack()
     {
@@ -52,7 +52,7 @@ public class TerribleBreath : AbstractSpecial
             StartCoroutine(CountdownTime(1.5f));
 
         }
-        specialController.Animator.SetTrigger("isSpecialBreath");
+        SpecialController.Animator.SetTrigger("isSpecialBreath");
     }
 
     public override void StartTurnEffect()
@@ -66,16 +66,25 @@ public class TerribleBreath : AbstractSpecial
 
     public override void DoSpecialAction()
     {
-        if (specialController.FOV.VisibleTargets.Count > 0)
+        if (SpecialController.FOV.VisibleTargets.Count > 0)
         {
-            foreach (GameObject target in specialController.FOV.VisibleTargets)
+            foreach (GameObject target in SpecialController.FOV.VisibleTargets)
             {
-                Effects.Damage(target, (Damage + (damageMultiplier * Charges)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
-                Effects.ApplyForce(target, (target.transform.position - specialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
-                Effects.ApplyWeaponEffects(target, effects);
+                if(target.tag != "CoverObject")
+				{
+                    Effects.WeaponDamage(target, (Damage + (damageMultiplier * Charges)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+                    Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
+                    Effects.ApplyWeaponEffects(target, effects);
+                }
+				else
+				{
+                    Effects.Damage(target, (Damage + (damageMultiplier * Charges)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+                }
+                
             }
         }
         Charges = 0;
+        base.DoSpecialAction();
     }
     private IEnumerator CountdownTime(float time)
     {

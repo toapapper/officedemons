@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -31,7 +32,7 @@ public enum WeaponEffects
 /// </para>
 /// </summary>
 
-// Last Edited: 15/10-29
+// Last Edited: 28/11-21
 public abstract class AbstractWeapon : MonoBehaviour
 {
 	public const float RecoilChance = .3f;
@@ -46,11 +47,12 @@ public abstract class AbstractWeapon : MonoBehaviour
         get { return weaponTexture; }
     }
 
-
     [SerializeField] protected List<WeaponEffects> effects;
 
 	[SerializeField]
-	protected GameObject holderAgent;
+	private GameObject holderAgent;
+	private WeaponHand weaponController;
+
 	[SerializeField]
 	private GameObject handle;
 	[SerializeField]
@@ -68,10 +70,23 @@ public abstract class AbstractWeapon : MonoBehaviour
 	[SerializeField]
 	private float weight = 5;
 
-	[SerializeField]
+    private TextMeshPro name;
+
+
+    [SerializeField]
 	private bool isHeld;
 	private bool isProjectile;
 
+	protected GameObject HolderAgent
+	{
+		get { return holderAgent; }
+		set { holderAgent = value; }
+	}
+	protected WeaponHand WeaponController
+	{
+		get { return weaponController; }
+		set { weaponController = value; }
+	}
 	protected GameObject Handle
 	{
 		get { return handle; }
@@ -113,9 +128,44 @@ public abstract class AbstractWeapon : MonoBehaviour
 		set { durability = value; }
 	}
 
-	public virtual void PickUpIn(GameObject hand)
+    private void Start()
+    {
+        name = gameObject.transform.parent.GetComponentInChildren<TextMeshPro>();
+        name.text = gameObject.name;
+        name.faceColor = gameObject.transform.parent.GetComponent<Outline>().OutlineColor;
+    }
+
+    protected virtual void Update()
+    {
+        bool showName = false;
+        if (IsHeld)
+        {
+            showName = false;
+            name.gameObject.SetActive(false);
+        }
+        else
+        {
+            for (int i = 0; i < PlayerManager.players.Count; i++)
+            {
+                if (Vector3.Distance(PlayerManager.players[i].transform.position,gameObject.transform.position) < 5)
+                {
+                    name.gameObject.SetActive(true);
+                    showName = true;
+                    name.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+                }
+            }
+        }
+        if (!showName)
+        {
+            name.gameObject.SetActive(false);
+        }
+    }
+
+
+    public virtual void PickUpIn(GameObject hand)
 	{
 		holderAgent = hand.transform.parent.parent.gameObject;
+		weaponController = holderAgent.GetComponent<WeaponHand>();
 		isHeld = true;
 		handle.GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<Rigidbody>().isKinematic = true;
@@ -132,8 +182,11 @@ public abstract class AbstractWeapon : MonoBehaviour
 	public void ReleaseThrow(float force)
 	{
 		Drop();
-		GetComponentInChildren<Rigidbody>().AddForce(transform.up * force, ForceMode.VelocityChange);
-		isProjectile = true;
+		if(force > 1)
+		{
+			GetComponentInChildren<Rigidbody>().AddForce(transform.up * force, ForceMode.VelocityChange);
+			isProjectile = true;
+		}
 	}
 	public void Drop()
 	{
@@ -150,7 +203,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	}
 
 	public virtual void SetAimGradient(Gradient gradient) { }
-	public virtual void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim) { }
+	public virtual void ToggleAim(bool isActive, GameObject FOVView) { }
 	public virtual void StartAttack(Animator animator) { }
 	public virtual void Attack(Animator animator) 
 	{
@@ -180,13 +233,11 @@ public abstract class AbstractWeapon : MonoBehaviour
 		{
 			if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
 			{
-				Effects.RegularDamage(collision.gameObject, throwDamage, holderAgent);
+				Effects.WeaponDamage(collision.gameObject, throwDamage, holderAgent);
 				//Effects.Damage(collision.gameObject, throwDamage);
 				Effects.ApplyWeaponEffects(collision.gameObject, effects);
 			}
 			isProjectile = false;
 		}
 	}
-
-
 }
