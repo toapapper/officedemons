@@ -119,7 +119,6 @@ public class AIStateHandler : MonoBehaviour
                 }
             }
         }
-        Debug.LogError("STATE: " + aiController.CurrentState.ToString());
     }
 
     private bool TooCloseToAttack()
