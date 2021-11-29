@@ -59,8 +59,9 @@ public class SpinningChair : AbstractSpecial
 	public override void DoSpecialAction()
 	{
 		int nrOfTargets = specialController.FOV.VisibleTargets.Count;
-
-		if(Charges == MaxCharges)
+		AkSoundEngine.PostEvent("VickySlide", gameObject);
+		AkSoundEngine.PostEvent("SusanBurst", gameObject);
+		if (Charges == MaxCharges)
 		{
 			if (nrOfTargets > 0)
 			{

@@ -17,10 +17,15 @@ using UnityEngine.UI;
 public class ChangeVolumeLevels : MonoBehaviour
 {
     [SerializeField] private Slider thisSlider;
-    private float masterVolume;
-    private float musicVolume;
-    private float SFXVolume;
-    private float voiceVolume;
+    private static float masterVolume = 50f;
+    private static float musicVolume = 50f;
+    private static float sfxVolume = 50f;
+    private static float voiceVolume = 50f;
+
+    public float MasterVolume { get { return masterVolume; } set { masterVolume = value; } }
+    public float MusicVolume { get { return musicVolume; } set { musicVolume = value; } }
+    public float SFXVolume { get { return sfxVolume; } set { sfxVolume = value; } }
+    public float VoiceVolume { get { return voiceVolume; } set { voiceVolume = value; } }
 
     public void SetSpecificVolume(string whatValue)
     {
@@ -28,25 +33,26 @@ public class ChangeVolumeLevels : MonoBehaviour
 
         if (whatValue == "Master")
         {
-            masterVolume = thisSlider.value;
+            MasterVolume = thisSlider.value;
+            Debug.Log("MasterVolume = " + masterVolume);
             AkSoundEngine.SetRTPCValue("MasterVolume", masterVolume);
         }
 
         if (whatValue == "Music")
         {
-            masterVolume = thisSlider.value;
+            MusicVolume = thisSlider.value;
             AkSoundEngine.SetRTPCValue("MusicVolume", musicVolume);
         }
 
         if (whatValue == "SFX")
         {
-            masterVolume = thisSlider.value;
-            AkSoundEngine.SetRTPCValue("SFXVolume", SFXVolume);
+            SFXVolume = thisSlider.value;
+            AkSoundEngine.SetRTPCValue("SFXVolume", sfxVolume);
         }
 
         if (whatValue == "Voices")
         {
-            masterVolume = thisSlider.value;
+            VoiceVolume = thisSlider.value;
             AkSoundEngine.SetRTPCValue("VoicesVolume", voiceVolume);
         }
     }

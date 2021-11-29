@@ -84,12 +84,6 @@ public class GameManager : MonoBehaviour
         mainCamera = Camera.main.GetComponent<MultipleTargetCamera>();
     }
 
-    private void Start()
-    {
-        AkSoundEngine.PostEvent("Stop_Ambience", gameObject);
-        AkSoundEngine.PostEvent("Stop_RadioMusic", gameObject);
-    }
-
     void Update()
     {
         #region are all the needed gameObjects still-check

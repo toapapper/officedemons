@@ -42,6 +42,7 @@ public class StarThrower : AbstractSpecial
 	}
 	public override void Attack()
 	{
+		AkSoundEngine.PostEvent("SusanScream", gameObject);
 		specialController.Animator.SetTrigger("isSpecialSelfExplode");
 	}
 
@@ -75,6 +76,7 @@ public class StarThrower : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
+		AkSoundEngine.PostEvent("SusanBurst", gameObject);
 		Instantiate(particleEffect, transform.position, transform.rotation);
 
 		if (specialController.FOV.VisibleTargets.Count > 0)

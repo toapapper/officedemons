@@ -8,6 +8,34 @@
 						<Property Name="Tempo" Type="Real64" Value="180"/>
 						<Property Name="TimeSignatureLower" Type="int16" Value="8"/>
 						<Property Name="TimeSignatureUpper" Type="int16" Value="12"/>
+						<Property Name="Volume" Type="Real64">
+							<RTPCList>
+								<RTPC Name="" ID="{6ACAD696-D8DF-487D-A0A4-A2C1729183D9}" ShortID="744554202">
+									<ReferenceList>
+										<Reference Name="ControlInput">
+											<ObjectRef Name="MusicVolume" ID="{DA8E5203-6B23-4FAC-8A7E-543AC5B77D8B}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+										</Reference>
+									</ReferenceList>
+									<Curve Name="" ID="{60D87A2B-26AE-4220-A886-6E451F5F0EF3}">
+										<PropertyList>
+											<Property Name="Flags" Type="int32" Value="3"/>
+										</PropertyList>
+										<PointList>
+											<Point>
+												<XPos>0</XPos>
+												<YPos>-200</YPos>
+												<Flags>5</Flags>
+											</Point>
+											<Point>
+												<XPos>100</XPos>
+												<YPos>0</YPos>
+												<Flags>37</Flags>
+											</Point>
+										</PointList>
+									</Curve>
+								</RTPC>
+							</RTPCList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -2002,6 +2030,34 @@
 							<PropertyList>
 								<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 								<Property Name="Tempo" Type="Real64" Value="115"/>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{91543FC4-90C5-4EA6-B0C7-BA912D38B9E9}" ShortID="559611395">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="MusicVolume" ID="{DA8E5203-6B23-4FAC-8A7E-543AC5B77D8B}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{AF297F74-2AF6-4F9D-8A09-CA54AD01C2E6}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2381,6 +2437,34 @@
 							<PropertyList>
 								<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 								<Property Name="Tempo" Type="Real64" Value="115"/>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{AA1B945A-00F0-4A79-8D4A-47BB6A81A957}" ShortID="808514406">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="MusicVolume" ID="{DA8E5203-6B23-4FAC-8A7E-543AC5B77D8B}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{234A7667-DACF-4B69-BA93-A6A971B50C89}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2804,12 +2888,42 @@
 					</EntryList>
 				</MusicSwitchContainer>
 				<MusicSwitchContainer Name="MenuMusic" ID="{5D08FFA4-06A6-4EC4-AF07-E372A757B61B}" ShortID="83511972">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<RTPCList>
+								<RTPC Name="" ID="{09DE8852-6CCC-4A9A-B2B3-929BEE06EE48}" ShortID="842282174">
+									<ReferenceList>
+										<Reference Name="ControlInput">
+											<ObjectRef Name="MusicVolume" ID="{DA8E5203-6B23-4FAC-8A7E-543AC5B77D8B}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+										</Reference>
+									</ReferenceList>
+									<Curve Name="" ID="{3FA8AAEB-7DD1-40EB-A8A3-E78D333A153E}">
+										<PropertyList>
+											<Property Name="Flags" Type="int32" Value="3"/>
+										</PropertyList>
+										<PointList>
+											<Point>
+												<XPos>0</XPos>
+												<YPos>-200</YPos>
+												<Flags>5</Flags>
+											</Point>
+											<Point>
+												<XPos>100</XPos>
+												<YPos>0</YPos>
+												<Flags>37</Flags>
+											</Point>
+										</PointList>
+									</Curve>
+								</RTPC>
+							</RTPCList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+							<ObjectRef Name="Music" ID="{04711349-015F-4B84-9B0C-CB2499051D24}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -2817,6 +2931,37 @@
 							<PropertyList>
 								<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 								<Property Name="Tempo" Type="Real64" Value="115"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-6</Value>
+									</ValueList>
+									<RTPCList>
+										<RTPC Name="" ID="{B89C8E11-F8C4-4422-8D8E-F27B4F97B210}" ShortID="643552808">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="MusicVolume" ID="{DA8E5203-6B23-4FAC-8A7E-543AC5B77D8B}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{5867FBB1-F8A1-4EF5-B1B8-2E1E9647B0B8}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -3312,6 +3457,36 @@
 							</Playlist>
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="Ambience" ID="{FF8DC6D7-EF90-4297-9D35-5C50757AD228}" ShortID="245154357">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{093ADD98-2CC0-40B4-AD00-E21FFAF65CA5}" ShortID="894885550">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="MusicVolume" ID="{DA8E5203-6B23-4FAC-8A7E-543AC5B77D8B}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{4DF49E29-2DDD-4666-93C1-BA239AD6457C}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>

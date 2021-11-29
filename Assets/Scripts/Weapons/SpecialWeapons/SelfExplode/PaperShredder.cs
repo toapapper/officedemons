@@ -41,6 +41,7 @@ public class PaperShredder : AbstractSpecial
 	}
 	public override void Attack()
 	{
+		AkSoundEngine.PostEvent("SusanScream", gameObject);
 		specialController.Animator.SetTrigger("isSpecialSelfExplode");
 	}
 
@@ -66,7 +67,15 @@ public class PaperShredder : AbstractSpecial
 	public override void DoSpecialAction()
 	{
 		Instantiate(particleEffect, transform.position, transform.rotation);
-
+		if(Charges < MaxCharges)
+        {
+			AkSoundEngine.PostEvent("SusanBurst", gameObject);
+        }
+        else
+        {
+			AkSoundEngine.PostEvent("Play_Explosion", gameObject);
+        }
+		
 		if (specialController.FOV.VisibleTargets.Count > 0)
 		{
 			foreach (GameObject target in specialController.FOV.VisibleTargets)
