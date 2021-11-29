@@ -127,12 +127,12 @@ public abstract class RangedWeapon : AbstractWeapon
 	{
 		base.DoAction(fov);
 
-		GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
-		if (wielder == null)
+		//GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
+		if (HolderAgent == null)
 		{
 			return;
 		}
-
+		GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
 		//Vector3 direction = GetBulletDirection();
 
 		//bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage/* * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost)*/, this.effects);
