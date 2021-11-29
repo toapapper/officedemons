@@ -38,6 +38,7 @@ public class DeadState : AbstractPlayerState
     IEnumerator DelayedSelfRevive()
     {
         yield return new WaitForSeconds(2);
+        Debug.Log("SELF REVIVE");
         Effects.Revive(gameObject);
         yield return null;
     }
@@ -71,15 +72,16 @@ public class DeadState : AbstractPlayerState
             StartCoroutine(DelayedSelfRevive());
         }
 
-        gameObject.GetComponent<Animator>().SetTrigger("isCancelAction");
+		//
+		//weaponHand.ToggleAimView(false);
+		//specialHand.ToggleAimView(false);
+		//
+		gameObject.GetComponent<Animator>().SetTrigger("isCancelAction");
         gameObject.GetComponent<Animator>().SetTrigger("isDead");
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
         gameObject.GetComponent<NavMeshAgent>().enabled = false;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
         gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-
-        Debug.Log("end of enterDeadState");
-
     }
 
     public override void OnStateExit()

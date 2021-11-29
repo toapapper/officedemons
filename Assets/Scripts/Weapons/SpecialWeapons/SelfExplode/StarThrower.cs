@@ -72,6 +72,11 @@ public class StarThrower : AbstractSpecial
 	{
 		base.AddCharge();
 		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+
+		if (Charges == MaxCharges)
+		{
+			Attack();
+		}
 	}
 
 	public override void DoSpecialAction()

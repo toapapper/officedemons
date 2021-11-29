@@ -199,7 +199,14 @@ public class PlayerManager : MonoBehaviour
 
         foreach (GameObject p in players)
         {
-            p.GetComponent<PlayerStateController>().StartOutOfCombat();
+            if(p.GetComponent<Attributes>().Health <= 0)
+			{
+                p.GetComponent<PlayerStateController>().Revive();
+            }
+			else
+			{
+                p.GetComponent<PlayerStateController>().StartOutOfCombat();
+            }
         }
     }
 

@@ -196,6 +196,10 @@ public static class Effects
 		}
 		else if (target.tag == "Player")
 		{
+			target.GetComponent<WeaponHand>().ToggleAimView(false);
+			target.GetComponent<SpecialHand>().ToggleAimView(false);
+			target.GetComponent<Animator>().SetTrigger("isCancelAction");
+
 			Debug.Log("pre player death disarm:");
 
 			Disarm(target);
