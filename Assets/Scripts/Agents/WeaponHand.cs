@@ -209,18 +209,25 @@ public class WeaponHand : MonoBehaviour
 		{
 			objectInHand.DoAction(FOV);
 		}
-		else if (FOV.VisibleTargets.Count > 0)
+		else 
 		{
-			foreach (GameObject target in FOV.VisibleTargets)
+			if (FOV.VisibleTargets.Count > 0)
 			{
-				Effects.RegularWeaponDamage(target, handHitDamage, gameObject);
-				Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
-
-				float rand = Random.value;
-				if (rand < SlipperyDropChance)
+				foreach (GameObject target in FOV.VisibleTargets)
 				{
-					Effects.Disarm(target);
+					Effects.RegularWeaponDamage(target, handHitDamage, gameObject);
+					Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
+
+					float rand = Random.value;
+					if (rand < SlipperyDropChance)
+					{
+						Effects.Disarm(target);
+					}
 				}
+			}
+			if (gameObject.tag == "Player")
+			{
+				GetComponent<AbstractPlayerState>().IsActionTriggered = false;
 			}
 		}
 	}
@@ -238,6 +245,11 @@ public class WeaponHand : MonoBehaviour
 			objectInHand = null;
 			FOV.ViewAngle = handHitAngle;
 			FOV.ViewRadius = handHitDistance;
+
+			if (gameObject.tag == "Player")
+			{
+				GetComponent<AbstractPlayerState>().IsActionTriggered = false;
+			}
 		}
 	}
 }

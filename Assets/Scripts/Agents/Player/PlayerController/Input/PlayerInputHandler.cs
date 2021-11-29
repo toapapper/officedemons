@@ -138,7 +138,7 @@ public class PlayerInputHandler : MonoBehaviour
 						if (player.OnThrow())
 						{
 							isAddingThrowForce = false;
-							player.CurrentState.IsActionTriggered = false;
+							//player.CurrentState.IsActionTriggered = false;
 							addedThrowForce = 0;
 						}
 					}
