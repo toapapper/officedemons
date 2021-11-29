@@ -114,7 +114,7 @@ public class SpinningChair : AbstractSpecial
 	{
 		foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 		{
-			if(target.tag != "CoverObject")
+			if (target.layer != LayerMask.NameToLayer("Destructible"))
 			{
 				switch (Charges)
 				{

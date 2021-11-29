@@ -42,8 +42,8 @@ public abstract class MeleeWeapon : AbstractWeapon
         {
             foreach (GameObject target in fov.VisibleTargets)
             {
-                if(target.tag != "CoverObject")
-				{
+                if (target.layer != LayerMask.NameToLayer("Destructible"))
+                {
                     Effects.RegularWeaponDamage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost), HolderAgent);
                     Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
                     Effects.ApplyWeaponEffects(target, effects);

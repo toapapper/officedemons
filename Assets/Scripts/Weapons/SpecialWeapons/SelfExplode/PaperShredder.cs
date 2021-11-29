@@ -71,7 +71,7 @@ public class PaperShredder : AbstractSpecial
 		{
 			foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 			{
-				if(target.tag != "CoverObject")
+				if (target.layer != LayerMask.NameToLayer("Destructible"))
 				{
 					if (Charges < MaxCharges)
 					{
