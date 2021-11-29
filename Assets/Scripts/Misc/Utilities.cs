@@ -31,7 +31,7 @@ public static class Utilities
     /// <param name="ts"></param>
     public static void CleanList<T>(List<T> ts)
     {
-        Debug.Log("CleanList");
+        //Debug.Log("CleanList");
 
         List<int> rmvAt = new List<int>();
 

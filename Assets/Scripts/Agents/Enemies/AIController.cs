@@ -133,10 +133,21 @@ public class AIController : MonoBehaviour
 
                 if (TargetPosition == Vector3.zero)
                 {
-                    GameObject closestPlayer = CalculateClosest(PlayerManager.players);
+                    GameObject closestPlayer = CalculateClosest(aiManager.PlayerList);
                     FindCover(closestPlayer);
-                    TargetType = TargetTypes.CoverSpot;
-                    TargetPosition = Target.transform.position;
+                    if (Target == null)
+                    {
+                        Target = GetTargetPlayer(aiManager.PlayerList);
+                        TargetType = TargetTypes.Player;
+                        TargetPosition = Target.transform.position;
+                        CurrentState = AIStates.States.Attack;
+                    }
+                    else
+                    {
+                        TargetType = TargetTypes.CoverSpot;
+                        TargetPosition = Target.transform.position;
+                    }
+                    
                 }
 
                 if (ReachedTargetPosition())
@@ -153,7 +164,7 @@ public class AIController : MonoBehaviour
                 //Debug.Log("Target : "  + Target + "of type: " + TargetType);
                 //Debug.Log("TargetPosition : " + TargetPosition);
                 aiManager.SaveAction(this.gameObject);
-                ActionIsLocked = true;
+                
                 break;
 
             case AIStates.States.Move:
@@ -201,6 +212,7 @@ public class AIController : MonoBehaviour
 
             case AIStates.States.Wait:
                 aiManager.SaveAction(this.gameObject);
+                
                 Debug.Log("Wait");
                 break;
 
@@ -238,6 +250,11 @@ public class AIController : MonoBehaviour
         Bounds bounds = aiManager.GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
         GameObject closestWeapon = null;
         float closest = float.MaxValue;
+        if (aiManager.AllWeapons.Count == 0)
+        {
+            return null;
+        }
+
         for (int i = 0; i < aiManager.AllWeapons.Count; i++)
         {
             if (bounds.Contains(aiManager.AllWeapons[i].transform.position))
