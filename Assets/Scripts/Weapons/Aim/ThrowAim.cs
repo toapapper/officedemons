@@ -6,25 +6,26 @@ using UnityEngine;
 /// <para>
 /// Aim used for the bombard weapons
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>
 /// </summary>
 
-// Last Edited: 14/10-21
+// Last Edited: 14/11-26
 [RequireComponent(typeof(LineRenderer))]
 public class ThrowAim : MonoBehaviour
 {
+	private PlayerMovementController playerMovement;
     private LineRenderer lineRenderer;
-    private float gravity;
+	private float gravity;
 
-    private RaycastHit hit;
+	private RaycastHit hit;
 
     [SerializeField]
     public float initialAngle = 45f;
     [SerializeField]
-    public float initialVelocity;
+    public float initialSpeed;
     [SerializeField]
     [Range(0.1f, 0.95f)]
     private float initialFriction = 0.7f;
@@ -40,66 +41,142 @@ public class ThrowAim : MonoBehaviour
     [SerializeField]
     private bool noBouncing;
 
-    private Vector3 currentPosition;
-    private Vector3 newPosition;
+    [SerializeField] private GameObject player;
+	[SerializeField] private GameObject target;
+    [SerializeField] private GameObject explosion;
 
-    private Vector3 velocity;
-    private Vector3 u, w;
+	private Vector3 targetStartPosition;
+	private Vector3 targetPosition;
+	private Vector3 targetDirection;
+	private float targetSpeed = 10f;
 
-    private float friction;
-    private float bounce;
+	private Vector3 zeroedPlayer;
+	private Vector3 zeroedOrigin;
+	private Vector3 zeroedTarget;
 
-    public bool NoBounceing
+	private Vector3 currentArcPosition;
+	private Vector3 initialVelocity;
+	private Vector3 velocity;
+	private Vector3 u, w;
+
+	private float friction;
+	private float bounce;
+
+	public bool NoBounceing
 	{
 		get { return noBouncing; }
 		set { noBouncing = value; }
 	}
+	//public GameObject Target
+	//{
+	//	get { return target; }
+	//}
+	public Vector3 TargetDirection
+	{
+		//get { return targetDirection; }
+		set { targetDirection = value; }
+	}
+	public Vector3 InitialVelocity
+	{
+		get { return initialVelocity; }
+	}
 
     void Awake()
     {
-        lineRenderer = GetComponent<LineRenderer>();
-        gravity = Mathf.Abs(Physics.gravity.y);
+		playerMovement = GetComponentInParent<PlayerMovementController>();
+		lineRenderer = GetComponent<LineRenderer>();
+        gravity = Physics.gravity.y;
+		targetStartPosition = target.transform.localPosition;
+	}
+	private void OnEnable()
+	{
+		target.transform.parent = null;
+	}
+
+	public void SetExplosionSize(float explosionSize)
+	{
+		explosion.transform.localScale = new Vector3(explosionSize, explosionSize, explosionSize);
+	}
+
+	private void FixedUpdate()
+    {
+		MoveTarget();
+        SetDirection();
+		RenderArc();
     }
 
-    private void FixedUpdate()
+	private void MoveTarget()
+	{
+		target.transform.position += targetDirection * targetSpeed * Time.fixedDeltaTime;
+	}
+
+    private void SetDirection()
+	{
+        targetPosition = target.transform.position;
+        zeroedPlayer = new Vector3(player.transform.position.x, 0, player.transform.position.z);
+        zeroedTarget = new Vector3(targetPosition.x, 0, targetPosition.z);
+		player.transform.rotation = Quaternion.LookRotation((zeroedTarget - zeroedPlayer).normalized);
+		playerMovement.RotationDirection = player.transform.rotation;
+		zeroedOrigin = new Vector3(transform.position.x, 0, transform.position.z);
+    }
+
+    public Vector3 CalculateVelocity()
     {
-        RenderArc();
+        float angleRad = initialAngle * Mathf.Deg2Rad;
+        float heightDifference = transform.position.y - targetPosition.y;
+        float targetRange = Vector3.Distance(zeroedOrigin, zeroedTarget);
+
+        float speed
+            = (Mathf.Sqrt(2) * targetRange * Mathf.Sqrt(-gravity) * Mathf.Sqrt(1 / (Mathf.Sin(2 * angleRad)))) /
+              (Mathf.Sqrt((2 * targetRange) + (heightDifference * Mathf.Sin(2 * angleRad) *
+              (1 / Mathf.Sin(angleRad)) * (1 / Mathf.Sin(angleRad)))));
+
+        return Quaternion.AngleAxis(-initialAngle, transform.right) * transform.forward * speed;
     }
 
     void RenderArc()
     {
-        velocity = Quaternion.AngleAxis(-initialAngle, transform.right) * transform.forward * initialVelocity;
+		initialVelocity = CalculateVelocity();
+		velocity = initialVelocity;
+
         friction = initialFriction;
         bounce = initialBounce;
 
-        newPosition = transform.position;
+        currentArcPosition = transform.position;
         lineRenderer.positionCount = 1;
-        lineRenderer.SetPosition(0, newPosition);
+        lineRenderer.SetPosition(0, currentArcPosition);
 
         while (velocity.magnitude > stopVelocity && lineRenderer.positionCount < maxLineLength)
         {
-            currentPosition = newPosition;
-            newPosition += velocity * Time.fixedDeltaTime;
-            velocity.y -= gravity * Time.fixedDeltaTime;
+            currentArcPosition += velocity * Time.fixedDeltaTime;
+            velocity.y += gravity * Time.fixedDeltaTime;
 
-            if (Physics.Raycast(newPosition, velocity, out hit, maxRayDistance))
+            if (Physics.Raycast(currentArcPosition, velocity, out hit, maxRayDistance))
             {
 				if (noBouncing)
 				{
-                    newPosition = hit.point;
+                    currentArcPosition = hit.point;
                     lineRenderer.positionCount += 1;
-                    lineRenderer.SetPosition(lineRenderer.positionCount - 1, newPosition);
+                    lineRenderer.SetPosition(lineRenderer.positionCount - 1, currentArcPosition);
                     break;
                 }
 
-				newPosition = hit.point;
+				currentArcPosition = hit.point;
 				u = Vector3.Dot(velocity, hit.normal) * hit.normal;
                 w = velocity - u;
                 velocity = friction * w - bounce * u;
             }
 
             lineRenderer.positionCount += 1;
-            lineRenderer.SetPosition(lineRenderer.positionCount - 1, newPosition);
+            lineRenderer.SetPosition(lineRenderer.positionCount - 1, currentArcPosition);
         }
-    }
+        explosion.transform.position = currentArcPosition;
+	}
+
+	public void DeActivate()
+	{
+		target.transform.parent = transform;
+		target.transform.localPosition = targetStartPosition;
+		gameObject.SetActive(false);
+	}
 }

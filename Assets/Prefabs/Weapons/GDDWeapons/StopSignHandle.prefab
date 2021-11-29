@@ -167,7 +167,7 @@ MonoBehaviour:
   throwDamage: 2
   viewDistance: 4.5
   viewAngle: 100
-  durability: 10
+  durability: 15
   weight: 50
   isHeld: 0
   particleEffect: {fileID: 100004, guid: f95ff734540a0d749be6571b6cb5b37f, type: 3}
@@ -213,6 +213,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5086481119640459901}
+  - {fileID: 292400973961040313}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -251,10 +252,13 @@ MonoBehaviour:
   bakeKeys: []
   bakeValues: []
 --- !u!1001 &317530552316326278
+
+
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+
     m_TransformParent: {fileID: 5086481119640459901}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 9bec0a8555280e64d81f9f1f40a3c8b0, type: 3}
@@ -323,4 +327,5 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9bec0a8555280e64d81f9f1f40a3c8b0, type: 3}
   m_PrefabInstance: {fileID: 317530552316326278}
+
   m_PrefabAsset: {fileID: 0}

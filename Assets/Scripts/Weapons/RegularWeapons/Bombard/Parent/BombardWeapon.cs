@@ -31,14 +31,20 @@ public class BombardWeapon : AbstractWeapon
 		set { grenadeThrowForce = value; }
 	}
 
-	public override void ToggleAim(bool isActive, GameObject FOVView, GameObject throwAim)
-	{
+	public override void ToggleAim(bool isActive, GameObject FOVView)
+	{	
 		if (!isActive)
 		{
-			throwAim.GetComponent<LineRenderer>().positionCount = 0;
+			WeaponController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
+			WeaponController.ThrowAim.DeActivate();
 		}
-		throwAim.SetActive(isActive);
-		throwAim.GetComponent<ThrowAim>().NoBounceing = noBouncing;
+		else
+		{
+			WeaponController.ThrowAim.gameObject.SetActive(isActive);
+			WeaponController.ThrowAim.NoBounceing = noBouncing;
+			WeaponController.ThrowAim.SetExplosionSize(explodeRadius * 2);
+		}
+		
 	}
 
 	public override void StartAttack(Animator animator)
@@ -59,16 +65,6 @@ public class BombardWeapon : AbstractWeapon
 			return;
 		}
 
-		//Vector3 forward = transform.forward;
-		//forward.y = 0;
-		//forward.Normalize();
-		//Vector3 right = new Vector3(forward.z, 0, -forward.x);
-
-		//Vector3 direction = (Quaternion.AngleAxis(-GetComponentInParent<WeaponHand>().ThrowAim.initialAngle, right) * forward).normalized;
-		//float throwForce = GetComponentInParent<WeaponHand>().ThrowAim.initialVelocity;
-		//Debug.Log(effects);
-		//grenade.GetComponent<GrenadeObject>().CreateGrenade(holderAgent, transform.position, direction, throwForce, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
-
 		//recoil and slippery-checks
 		//deals half the weapondamage and applies the effects
 		if (effects.Contains(WeaponEffects.Recoil))
@@ -76,7 +72,7 @@ public class BombardWeapon : AbstractWeapon
 			float rand = Random.value;
 			if (rand < RecoilChance)
 			{
-				Effects.Damage(wielder, Damage / 2);
+				Effects.WeaponDamage(wielder, Damage / 2);
 				Effects.ApplyForce(wielder, (wielder.transform.forward * -1 * HitForce));
 				Effects.ApplyWeaponEffects(wielder, effects);			}
 		}

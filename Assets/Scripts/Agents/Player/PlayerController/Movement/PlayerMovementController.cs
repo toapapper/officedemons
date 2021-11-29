@@ -51,6 +51,11 @@ public class PlayerMovementController : MonoBehaviour
 		get { return slowEffect; }
 		set { slowEffect = value; }
 	}
+	public Quaternion RotationDirection
+	{
+		get { return rotationDirection; }
+		set { rotationDirection = value; }
+	}
 
 	private void Awake()
 	{
@@ -62,6 +67,7 @@ public class PlayerMovementController : MonoBehaviour
 	{
 		if(moveDirection != Vector3.zero)
 		{
+			//Debug.Log("CALCULATES ROTATION");
 			rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up);
 		}
 		return rotationDirection;
@@ -76,6 +82,7 @@ public class PlayerMovementController : MonoBehaviour
 	//Perform movement
 	public void PerformRotation()
 	{
+		//Debug.Log("PERFORMS ROTATION");
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotationDirection, rotationSpeed * Time.fixedDeltaTime);
 	}
 	public void PerformMovement()
