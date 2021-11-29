@@ -36,7 +36,7 @@ public class Rocket : Bullet
                         //Effects.Damage(target, bulletDamage);
                         Effects.ApplyForce(target, (target.transform.position - transform.position).normalized * bulletHitForce);
                     }
-                    else if(target.tag == "CoverObject")
+                    else if(target.layer == LayerMask.NameToLayer("Destructible"))
 					{
                         Effects.Damage(target, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost));
 					}

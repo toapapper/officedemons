@@ -46,7 +46,7 @@ public class BadCoffeeGrenade : GroundEffectGrenade
 		{
 			if(target.GetComponent<Attributes>().Health > 0)
 			{
-				if(target.tag != "CoverObject")
+				if (target.layer != LayerMask.NameToLayer("Destructible"))
 				{
 					Vector3 explosionForceDirection = target.transform.position - transform.position;
 					explosionForceDirection.y = 0;

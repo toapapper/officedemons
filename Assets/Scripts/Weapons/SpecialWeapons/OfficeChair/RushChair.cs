@@ -157,26 +157,21 @@ public class RushChair : AbstractSpecial
 				}
 				EndSpecial();
 			}
-			else if(other.gameObject.tag == "CoverObject")
+			else if (other.gameObject.layer == LayerMask.NameToLayer("Destructible"))
 			{
 				switch (Charges)
 				{
 					case 1:
 						Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
-						Charges = 0;
 						break;
 					case 2:
 						Effects.Damage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
-						Charges = 0;
 						break;
 					case 3:
 						Effects.Damage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
-						if (!isKillEffect)
-						{
-							Charges = 0;
-						}
 						break;
 				}
+				Charges = 0;
 			}
 		}
 	}

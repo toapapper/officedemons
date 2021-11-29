@@ -71,8 +71,8 @@ public class Bullet : MonoBehaviour
 
             Effects.ApplyWeaponEffects(collision.gameObject, effects);
         }
-		else if (collision.gameObject.tag == "CoverObject")
-		{
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
+        {
             Effects.Damage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost));
         }
         AkSoundEngine.PostEvent("Play_FMW_Weapon_Hit10C", gameObject);
