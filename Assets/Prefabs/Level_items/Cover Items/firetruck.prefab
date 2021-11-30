@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8408514526761491559
 Transform:
   m_ObjectHideFlags: 0
@@ -133,7 +133,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2772793469214625111}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
@@ -237,6 +237,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightLight: {fileID: 1487567333564458093}
   leftLight: {fileID: 7750016241222133027}
+  right:
+  - {fileID: 1141376480772714155}
+  left:
+  - {fileID: 7592167183222200527}
+  blinkingTime: 0.9
 --- !u!1 &3731297021784096591
 GameObject:
   m_ObjectHideFlags: 0
