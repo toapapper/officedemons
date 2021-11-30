@@ -212,7 +212,6 @@ public class AIController : MonoBehaviour
 
             case AIStates.States.Wait:
                 aiManager.SaveAction(this.gameObject);
-                
                 Debug.Log("Wait");
                 break;
 
