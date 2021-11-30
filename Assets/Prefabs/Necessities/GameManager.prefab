@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2858810204695947052}
   - component: {fileID: 2858810204695947053}
+  - component: {fileID: 663738875251298719}
+  - component: {fileID: 3077627504429669717}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -43,5 +45,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 930f806258d3c414eb78f290c66efded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemiesTurnDone: 0
-  RoundTime: 12
+  roundTime: 5
+  combatState: 0
+--- !u!114 &663738875251298719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2858810204695947042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c77049b68cd226c45915499ca5ca1904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vicotryUI: {fileID: 0}
+--- !u!114 &3077627504429669717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2858810204695947042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887589a19a5536543b6dfda0e6ee13cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  victoryExit: {fileID: 0}
