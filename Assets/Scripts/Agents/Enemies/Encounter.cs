@@ -125,22 +125,22 @@ public class Encounter : MonoBehaviour
     }
 
     public void DestroyEnemies()
-	{
+    {
         //aIManager.EnemyList.Clear();
 
         for (int i = 0; i < transform.childCount; i++)
-		{
-			GameObject child = transform.GetChild(i).gameObject;
-			if (child.CompareTag("Enemy"))
-			{
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+            if (child.CompareTag("Enemy"))
+            {
                 child.GetComponent<AIController>().Die();
-				//Destroy(child);
-			}
-		}
-  //      Utilities.CleanList(GameManager.Instance.StillCheckList);
-		//Camera.main.GetComponent<MultipleTargetCamera>().ObjectsInCamera = GameManager.Instance.StillCheckList;
+                //Destroy(child);
+            }
+        }
+        //      Utilities.CleanList(GameManager.Instance.StillCheckList);
+        //Camera.main.GetComponent<MultipleTargetCamera>().ObjectsInCamera = GameManager.Instance.StillCheckList;
 
-	}
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -154,11 +154,11 @@ public class Encounter : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && GameManager.Instance.CurrentCombatState == CombatState.none)
         {
             AkSoundEngine.SetState("Music_State", "Combat");
-            if(encounterNumber == 1)
+            if (encounterNumber == 1)
             {
                 AkSoundEngine.SetState("Music", "CombatState1");
             }
-            else if(encounterNumber == 2)
+            else if (encounterNumber == 2)
             {
                 AkSoundEngine.SetState("Music", "CombatState2");
             }
@@ -181,15 +181,19 @@ public class Encounter : MonoBehaviour
     public void ResetEncounter()
     {
         DestroyEnemies();
-        foreach(KeyValuePair<Vector3, string> enemy in enemyStartPositions)
-		{
+        foreach (KeyValuePair<Vector3, string> enemy in enemyStartPositions)
+        {
             string enemyName = enemy.Value/*.Remove(enemy.Value.IndexOf(' '))*/;
-            if(enemyName.Contains(" "))
-			{
+            if (enemyName.Contains(" "))
+            {
                 enemyName = enemyName.Remove(enemy.Value.IndexOf(' '));
             }
-            GameObject newEnemy = Instantiate(Resources.Load(enemyName), enemy.Key, Quaternion.Euler(0,0,0)) as GameObject;
-            newEnemy.transform.parent = this.transform;
+            if (Resources.Load(enemyName))
+            {
+                GameObject newEnemy = Instantiate(Resources.Load(enemyName), enemy.Key, Quaternion.Euler(0, 0, 0)) as GameObject;
+                newEnemy.transform.parent = this.transform;
+
+            }
         }
     }
 }
