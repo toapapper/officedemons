@@ -147,7 +147,7 @@ public class AIManager : MonoBehaviour
                 allDead = false;
             }
         }
-        if (actionsQueue.Count != EnemyList.Count && !GameManager.Instance.AllStill)
+        if (actionsQueue.Count != EnemyList.Count)
             allDone = false;
 
         if (allDone)
@@ -161,40 +161,38 @@ public class AIManager : MonoBehaviour
     /// Performs the next action in the queue and waits until it's finished.
     /// </summary>
     /// <param name=""></param>
+    /// 
+
     public void PerformNextAction()
     {
         if (actionsQueue.Count > 0)
         {
-            GameObject agent = actionsQueue.Dequeue();
-            actionsTime += AddToTimer(agent);
-            agent.GetComponent<AIController>().PerformAction();
+            GameObject currentEnemy = actionsQueue.Dequeue();
+            currentEnemy.GetComponent<AIController>().PerformAction();
         }
         else
         {
-            if (actionsTime >= maxActionsTime)
+            StartCoroutine(WaitDone());
+        }
+    }
+
+    /// <summary>
+    /// Waits for 1 seconds and untill all gameObjects are still. It then signals the gamemanager that all players are done
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator WaitDone()
+    {
+        yield return new WaitForSeconds(1f);
+
+        while (true)
+        {
+            if (GameManager.Instance.AllStill)
             {
-                actionsTime = maxActionsTime;
+                GameManager.Instance.EnemiesActionsDone = true;
+                break;
             }
-
-            Invoke("Continue", actionsTime);
         }
-    }
-
-    float AddToTimer(GameObject agent)
-    {
-        if (agent.GetComponent<AIController>().CurrentState == AIStates.States.Attack)
-        {
-            return 1f;
-        }
-        else
-        {
-            return 0f;
-        }
-    }
-
-    void Continue()
-    {
-        GameManager.Instance.EnemiesActionsDone = true;
+        yield return null;
     }
 
     private void UpdatePlayerList()

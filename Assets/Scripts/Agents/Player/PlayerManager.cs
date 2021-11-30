@@ -166,12 +166,13 @@ public class PlayerManager : MonoBehaviour
     /// <returns></returns>
     IEnumerator WaitDone()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(1f); 
 
         while (true)
         {
             if (GameManager.Instance.AllStill)
             {
+                Debug.LogError("ALL STILL TRUE");
                 GameManager.Instance.PlayerActionsDone = true;
                 break;
             }
