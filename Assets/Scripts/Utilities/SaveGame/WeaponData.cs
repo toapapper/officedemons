@@ -18,6 +18,7 @@ public class WeaponData
     public int durability;
     public float weight;
     public List<WeaponEffects> effects;
+    public int bulletsInBurst;
 
     public float inaccuracy;
 
@@ -49,6 +50,10 @@ public class WeaponData
                 outlineColor[i] = weaponHandle.GetComponentInChildren<Outline>().OutlineColor[i];
             }
 
+        }
+        if (weaponHandle.GetComponentInChildren<AbstractWeapon>() is BurstShotWeapon)
+        {
+            bulletsInBurst = weaponHandle.GetComponentInChildren<BurstShotWeapon>().BulletsInBurst;
         }
 
         if (weaponHandle.GetComponentInChildren<AbstractWeapon>() is RangedWeapon)

@@ -135,6 +135,11 @@ public class Checkpoint : MonoBehaviour
                 }
                 abstractWeapon.GetComponentInChildren<Outline>().OutlineColor = outlineColor;
 
+                if (abstractWeapon is BurstShotWeapon)
+                {
+                    newWeapon.GetComponentInChildren<BurstShotWeapon>().BulletsInBurst = weaponData.bulletsInBurst;
+                }
+
                 if (abstractWeapon is RangedWeapon)
                 {
                     newWeapon.GetComponentInChildren<RangedWeapon>().Inaccuracy = weaponData.inaccuracy;
