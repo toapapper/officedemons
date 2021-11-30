@@ -172,7 +172,6 @@ public class PlayerManager : MonoBehaviour
         {
             if (GameManager.Instance.AllStill)
             {
-                Debug.LogError("ALL STILL TRUE");
                 GameManager.Instance.PlayerActionsDone = true;
                 break;
             }

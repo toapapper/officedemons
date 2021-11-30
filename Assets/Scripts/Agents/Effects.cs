@@ -43,7 +43,6 @@ public static class Effects
 	{
 		Debug.Log("Damage done, wielder: " + wielder + " + target: " + target);
 
-
 		if (damage < 0)
 		{
 			Heal(target, -damage);
