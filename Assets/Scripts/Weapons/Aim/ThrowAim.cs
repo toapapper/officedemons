@@ -40,6 +40,8 @@ public class ThrowAim : MonoBehaviour
     private float maxRayDistance = 0.2f;
     [SerializeField]
     private bool noBouncing;
+	[SerializeField]
+	private float maxThrowDistance = 10f;
 
     [SerializeField] private GameObject player;
 	[SerializeField] private GameObject target;
@@ -107,7 +109,16 @@ public class ThrowAim : MonoBehaviour
 
 	private void MoveTarget()
 	{
-		target.transform.position += targetDirection * targetSpeed * Time.fixedDeltaTime;
+		Vector3 newPos = target.transform.position + targetDirection * targetSpeed * Time.fixedDeltaTime;
+		float distance = Vector3.Distance(player.transform.position, newPos);
+		if (distance > maxThrowDistance)
+		{
+			distance = maxThrowDistance;
+		}
+
+		target.transform.position = player.transform.position + (newPos - player.transform.position).normalized * distance;
+
+		//target.transform.position += targetDirection * targetSpeed * Time.fixedDeltaTime;
 	}
 
     private void SetDirection()

@@ -102,7 +102,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 		get { return hitForce; }
 		set { hitForce = value; }
 	}
-	protected float ThrowDamage
+	public float ThrowDamage
 	{
 		get { return throwDamage; }
 		set { throwDamage = value; }
@@ -126,6 +126,16 @@ public abstract class AbstractWeapon : MonoBehaviour
 	{
 		get { return durability; }
 		set { durability = value; }
+	}
+	public float Weight
+	{
+		get { return weight; }
+		set { weight = value; }
+	}
+	public List<WeaponEffects> EffectList
+	{
+		get { return effects; }
+		set { effects = value; }
 	}
 
     private void Start()
@@ -190,10 +200,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 	}
 	public void Drop()
 	{
-		Debug.Log("WeaponDrop(begining of method)");
-
 		Effects.ChangeWeight(holderAgent, -weight);
-		handle.transform.parent = null;
+		handle.transform.parent = GameObject.Find("Weapons").transform;
 		handle.GetComponent<Rigidbody>().isKinematic = false;
 		GetComponent<Rigidbody>().isKinematic = false;
 		isHeld = false;
@@ -209,7 +217,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	public virtual void SetAimGradient(Gradient gradient) { }
 	public virtual void ToggleAim(bool isActive, GameObject FOVView) { }
 	public virtual void StartAttack(Animator animator) { }
-	public virtual void Attack(Animator animator) 
+	public virtual void Attack(Animator animator)
 	{
 		if(GameManager.Instance.CurrentCombatState == CombatState.playerActions)
 		{
@@ -247,5 +255,6 @@ public abstract class AbstractWeapon : MonoBehaviour
 			}
 			isProjectile = false;
 		}
+		holderAgent = null;
 	}
 }

@@ -13,18 +13,18 @@ using UnityEngine.AI;
 /// </para>
 ///  <para>
 ///  Author: Tinea & Tim
-///  
+///
 /// </para>
-///  
+///
 /// </summary>
-/// 
+///
 
 // Last Edited: 13/10/2021
 public class AIStateHandler : MonoBehaviour
 {
     Encounter encounter;
     Attributes attributes;
-    
+
     FieldOfView fov;
     AIController aiController;
 
@@ -36,8 +36,8 @@ public class AIStateHandler : MonoBehaviour
         fov = GetComponent<FieldOfView>(); //weapon's fov
         aiController = GetComponent<AIController>();
     }
-    
-    
+
+
     /// <summary>
     /// Updates the state of the agent
     /// </summary>
@@ -47,87 +47,78 @@ public class AIStateHandler : MonoBehaviour
         {
             aiController.CurrentState = AIStates.States.Dead;
         }
-        else if(gameObject.GetComponent<StatusEffectHandler>().Paralyzed)
+        //Before the agents has had any state changes it is set to Unassigned
+        if (aiController.CurrentState == AIStates.States.Unassigned)
         {
-            Debug.LogError("PARALYZED");
-            aiController.CurrentState = AIStates.States.Wait;
-            aiController.ActionIsLocked = true;
+            aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
+            aiController.TargetType = AIController.TargetTypes.Player;
+            aiController.TargetPosition = aiController.Target.transform.position;
+            Vector3.RotateTowards(transform.forward, aiController.TargetPosition, 1 * Time.deltaTime, 0.0f);
         }
-        else
+        //DeathCheck
+        if (aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
         {
-            //Before the agents has had any state changes it is set to Unassigned
-            if (aiController.CurrentState == AIStates.States.Unassigned)
+            if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !aiController.ReachedTargetPosition())  // if low health and disadvantage and has stamina
+            {
+                aiController.CurrentState = AIStates.States.FindCover;
+            }
+            else if (aiController.CurrentState != AIStates.States.Move && !aiController.IsArmed() && attributes.Stamina > 0)
+            {
+                aiController.CurrentState = AIStates.States.SearchingForWeapon;
+            }
+            else if (aiController.TargetType == AIController.TargetTypes.ShootSpot && aiController.ReachedTargetPosition())
             {
                 aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
-                aiController.TargetType = AIController.TargetTypes.Player;
                 aiController.TargetPosition = aiController.Target.transform.position;
-                Vector3.RotateTowards(transform.forward, aiController.TargetPosition, 1 * Time.deltaTime, 0.0f);
+                aiController.TargetType = AIController.TargetTypes.Player;
             }
-            //DeathCheck       
-            if (aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
+            else if (!TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
             {
-                if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !aiController.ReachedTargetPosition())  // if low health and disadvantage and has stamina
-                {
-                    aiController.CurrentState = AIStates.States.FindCover;
-                }
-                else if (aiController.CurrentState != AIStates.States.Move && !aiController.IsArmed() && attributes.Stamina > 0)
-                {
-                    aiController.CurrentState = AIStates.States.SearchingForWeapon;
-                }
-                else if (aiController.TargetType == AIController.TargetTypes.ShootSpot && aiController.ReachedTargetPosition())
+                aiController.CurrentState = AIStates.States.Attack;
+                aiController.ActionIsLocked = true;
+            }
+            else
+            {
+                if (aiController.TargetType == AIController.TargetTypes.ShootSpot && aiController.ReachedTargetPosition())
                 {
                     aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
-                    aiController.TargetPosition = aiController.Target.transform.position;
                     aiController.TargetType = AIController.TargetTypes.Player;
                 }
-                else if (!TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
+
+                //If we have stamina move
+                if (attributes.Stamina > 0 && !aiController.ReachedTargetPosition())
                 {
-                    aiController.CurrentState = AIStates.States.Attack;
-                    aiController.ActionIsLocked = true;
+                    aiController.CurrentState = AIStates.States.Move;
                 }
+                //No stamina -> wait/attack
                 else
                 {
-                    if (aiController.TargetType == AIController.TargetTypes.ShootSpot && aiController.ReachedTargetPosition())
+                    if (aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
                     {
-                        aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
-                        aiController.TargetType = AIController.TargetTypes.Player;
+                        aiController.CurrentState = AIStates.States.Attack;
+                        aiController.ActionIsLocked = true;
                     }
-
-                    //If we have stamina move
-                    if (attributes.Stamina > 0 && !aiController.ReachedTargetPosition())
+                    else if(aiController.TargetType == AIController.TargetTypes.Item && aiController.ReachedTargetPosition())
                     {
-                        aiController.CurrentState = AIStates.States.Move;
+                        aiController.PickupWeapon(aiController.Target);
+                        aiController.CurrentState = AIStates.States.Unassigned;
                     }
-                    //No stamina -> wait/attack
                     else
                     {
-                        if (aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
+                        if (attributes.Stamina > 0 && TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player)
                         {
-                            aiController.CurrentState = AIStates.States.Attack;
-                            aiController.ActionIsLocked = true;
-                        }
-                        else if (aiController.TargetType == AIController.TargetTypes.Item && aiController.ReachedTargetPosition())
-                        {
-                            aiController.PickupWeapon(aiController.Target);
-                            aiController.CurrentState = AIStates.States.Unassigned;
+                            aiController.GetShootPosition();
+                            aiController.CurrentState = AIStates.States.Move;
                         }
                         else
                         {
-                            if (attributes.Stamina > 0 && TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player)
-                            {
-                                aiController.GetShootPosition();
-                                aiController.CurrentState = AIStates.States.Move;
-                            }
-                            else
-                            {
-                                aiController.CurrentState = AIStates.States.Wait;
-                                aiController.ActionIsLocked = true;
-                            }
+                            aiController.CurrentState = AIStates.States.Wait;
+                            aiController.ActionIsLocked = true;
                         }
                     }
                 }
             }
-        }        
+        }
     }
 
     private bool TooCloseToAttack()
@@ -160,7 +151,7 @@ public class AIStateHandler : MonoBehaviour
                     }
                 }
             }
-            
+
             return false;
         }
         else
@@ -186,7 +177,7 @@ public class AIStateHandler : MonoBehaviour
     /// <returns></returns>
     bool HealthLow()
     {
-        return attributes.Health <= attributes.StartHealth / 2; // 
+        return attributes.Health <= attributes.StartHealth / 2; //
     }
 
     // Check if players are fewer than AI, if players are unarmed but AI have weapons
