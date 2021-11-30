@@ -147,6 +147,7 @@ public class WeaponHand : MonoBehaviour
 		}
 		else
 		{
+			AkSoundEngine.PostEvent("Play_MeleeSwingsPack_96khz_Stereo_NormalSwings39", gameObject);
 			animator.SetTrigger("isHandAttack");
 		}
 	}
@@ -211,10 +212,12 @@ public class WeaponHand : MonoBehaviour
 		}
 		else 
 		{
+			
 			if (FOV.VisibleTargets.Count > 0)
 			{
 				foreach (GameObject target in FOV.VisibleTargets)
 				{
+					AkSoundEngine.PostEvent("Play_Blunt_thud", gameObject);
 					Effects.RegularWeaponDamage(target, handHitDamage, gameObject);
 					Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
 

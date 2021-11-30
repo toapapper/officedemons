@@ -2967,15 +2967,121 @@
 							<ChildrenList>
 								<MusicTransition Name="Transition" ID="{4DC738D0-569E-4D6F-803F-6B91AD3AB8D8}">
 									<PropertyList>
+										<Property Name="EnableDestinationFadeIn" Type="bool" Value="True"/>
+										<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
 										<Property Name="ExitSourceAt" Type="int16" Value="0"/>
 									</PropertyList>
-									<TransitionInfo/>
+									<TransitionInfo>
+										<SourceFadeOut>
+											<MusicFade Name="Source Fade-out" ID="{76F6C4A0-1EFF-4F58-A3A9-5A250E4B34A5}">
+												<PropertyList>
+													<Property Name="FadeTime" Type="Real64" Value="1"/>
+													<Property Name="FadeType" Type="int16" Value="1"/>
+												</PropertyList>
+											</MusicFade>
+										</SourceFadeOut>
+										<DestinationFadeIn>
+											<MusicFade Name="Destination Fade-in" ID="{EBABB135-35E1-472C-B4E7-3434B258283C}">
+												<PropertyList>
+													<Property Name="FadeOffset" Type="Real64" Value="-1"/>
+													<Property Name="FadeTime" Type="Real64" Value="1"/>
+												</PropertyList>
+											</MusicFade>
+										</DestinationFadeIn>
+									</TransitionInfo>
 								</MusicTransition>
 							</ChildrenList>
 							<TransitionInfo/>
 						</MusicTransition>
 					</TransitionList>
 					<ObjectLists/>
+					<ArgumentList>
+						<ArgumentRef Name="Music_State" ID="{8FFC3398-F7B1-4A0A-BCC9-456C58AC66A8}"/>
+						<ArgumentRef Name="Music" ID="{BB10B715-211A-409D-ADFA-3BFD784B91A4}"/>
+					</ArgumentList>
+					<EntryList>
+						<Entry>
+							<Path>
+								<PathElementRef Name="Music_State" ID="{8FFC3398-F7B1-4A0A-BCC9-456C58AC66A8}"/>
+								<PathElementRef Name="Music" ID="{BB10B715-211A-409D-ADFA-3BFD784B91A4}"/>
+							</Path>
+							<AudioNodeInfo>
+								<NoObject Platform="Linked"/>
+							</AudioNodeInfo>
+						</Entry>
+						<Entry>
+							<Path>
+								<PathElementRef Name="Combat" ID="{99C31985-ABE6-4558-AB11-10EB81D34509}"/>
+								<PathElementRef Name="CombatState1" ID="{78F66928-6237-4954-BF12-9B56F76B50CC}"/>
+							</Path>
+							<AudioNodeInfo>
+								<AudioNodeRef Name="Combat_Part1" ID="{CD3C9FCA-C961-4D79-AA85-F804FD35080C}" WorkUnitID="{A4B3C506-085D-40A4-BED8-25528ACA305F}" Platform="Linked"/>
+							</AudioNodeInfo>
+						</Entry>
+						<Entry>
+							<Path>
+								<PathElementRef Name="Combat" ID="{99C31985-ABE6-4558-AB11-10EB81D34509}"/>
+								<PathElementRef Name="CombatState2" ID="{00DC69D1-D3F0-4342-ACB7-FE16861996D6}"/>
+							</Path>
+							<AudioNodeInfo>
+								<AudioNodeRef Name="Combat_Part2" ID="{C9341D1B-F330-4367-B740-205B32E0CC90}" WorkUnitID="{A4B3C506-085D-40A4-BED8-25528ACA305F}" Platform="Linked"/>
+							</AudioNodeInfo>
+						</Entry>
+						<Entry>
+							<Path>
+								<PathElementRef Name="Combat" ID="{99C31985-ABE6-4558-AB11-10EB81D34509}"/>
+								<PathElementRef Name="CombatState3" ID="{3238818B-0315-445D-9EC1-32D249571F81}"/>
+							</Path>
+							<AudioNodeInfo>
+								<AudioNodeRef Name="Combat_Part3" ID="{709C0EB5-8B58-46AA-89FE-9E3B72750B32}" WorkUnitID="{A4B3C506-085D-40A4-BED8-25528ACA305F}" Platform="Linked"/>
+							</AudioNodeInfo>
+						</Entry>
+						<Entry>
+							<Path>
+								<PathElementRef Name="Combat" ID="{99C31985-ABE6-4558-AB11-10EB81D34509}"/>
+								<PathElementRef Name="CombatState4" ID="{25C2235A-AB75-47F3-BF6D-A0C1ADFF78C8}"/>
+							</Path>
+							<AudioNodeInfo>
+								<AudioNodeRef Name="Combat_Part4" ID="{7819DBFF-2D68-48AB-9A43-AD01953045D3}" WorkUnitID="{A4B3C506-085D-40A4-BED8-25528ACA305F}" Platform="Linked"/>
+							</AudioNodeInfo>
+						</Entry>
+						<Entry>
+							<Path>
+								<PathElementRef Name="Combat" ID="{99C31985-ABE6-4558-AB11-10EB81D34509}"/>
+								<PathElementRef Name="CombatState5" ID="{03F2C12D-9F72-4D42-AF13-0C9582771189}"/>
+							</Path>
+							<AudioNodeInfo>
+								<AudioNodeRef Name="Combat_Part5" ID="{62879948-02FC-4025-AD72-B631262C5D93}" WorkUnitID="{A4B3C506-085D-40A4-BED8-25528ACA305F}" Platform="Linked"/>
+							</AudioNodeInfo>
+						</Entry>
+						<Entry>
+							<Path>
+								<PathElementRef Name="Combat" ID="{99C31985-ABE6-4558-AB11-10EB81D34509}"/>
+								<PathElementRef Name="CombatState6" ID="{78BE3DBC-04A7-460D-94E5-66B37E70AB3B}"/>
+							</Path>
+							<AudioNodeInfo>
+								<AudioNodeRef Name="Combat_Part6" ID="{E3247E8B-FDC0-4217-9E55-5A2B44E48033}" WorkUnitID="{A4B3C506-085D-40A4-BED8-25528ACA305F}" Platform="Linked"/>
+							</AudioNodeInfo>
+						</Entry>
+						<Entry>
+							<Path>
+								<PathElementRef Name="Roaming" ID="{B1E21B09-4EA1-4D56-9A46-085314C87635}"/>
+								<PathElementRef Name="RoamingState1" ID="{5406B0AA-4A6B-40F5-BFDF-49CDBA256AB1}"/>
+							</Path>
+							<AudioNodeInfo>
+								<AudioNodeRef Name="Roaming_Part1" ID="{D6688C9C-3258-41D2-8352-E24D5AA010DA}" WorkUnitID="{A4B3C506-085D-40A4-BED8-25528ACA305F}" Platform="Linked"/>
+							</AudioNodeInfo>
+						</Entry>
+						<Entry>
+							<Path>
+								<PathElementRef Name="Roaming" ID="{B1E21B09-4EA1-4D56-9A46-085314C87635}"/>
+								<PathElementRef Name="RoamingState2" ID="{08551772-BFD4-4574-9D33-67A5B3BD64A4}"/>
+							</Path>
+							<AudioNodeInfo>
+								<AudioNodeRef Name="Roaming_Part2" ID="{2FBCC82D-A339-4E84-B97B-068325DA6D0E}" WorkUnitID="{A4B3C506-085D-40A4-BED8-25528ACA305F}" Platform="Linked"/>
+							</AudioNodeInfo>
+						</Entry>
+					</EntryList>
 				</MusicSwitchContainer>
 				<MusicSwitchContainer Name="MenuMusic" ID="{5D08FFA4-06A6-4EC4-AF07-E372A757B61B}" ShortID="83511972">
 					<PropertyList>

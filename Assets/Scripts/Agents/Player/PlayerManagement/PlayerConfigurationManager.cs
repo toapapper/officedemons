@@ -59,7 +59,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 			AkSoundEngine.SetState("Music", "RoamingState1");
 			AkSoundEngine.PostEvent("Play_Music", gameObject);
 			AkSoundEngine.PostEvent("Play_AMBIENCE_Hall_Large__Entrance__Office_Building__Morning__Downtown_Chicago__USA__LOOP_LRLsRs", gameObject);
-			SceneManager.LoadScene(gameSceneName);
+			SceneManagment.Instance.NextLevel();
 		}
 	}
 

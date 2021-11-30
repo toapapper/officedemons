@@ -133,7 +133,10 @@ public class Encounter : MonoBehaviour
             {
                 AkSoundEngine.SetState("Music", "CombatState3");
             }
-
+            else if (encounterNumber == 4)
+            {
+                AkSoundEngine.SetState("Music", "CombatState4");
+            }
             GameManager.Instance.StartEncounter(this);
             //GetComponentInChildren<AIManager>().EnableEnemyDamage(GetEnemylist());
         }

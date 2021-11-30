@@ -100,6 +100,7 @@ public class AIManager : MonoBehaviour
         }
 
         int enemiesCount = EnemyList.Count;
+        Debug.Log("EnemiesCount " + enemiesCount);
         for(int i=0; i<enemiesCount;i++)
         {
             if (EnemyList[i] != null)

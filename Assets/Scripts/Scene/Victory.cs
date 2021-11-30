@@ -10,6 +10,7 @@ public class Victory : MonoBehaviour
     private bool achievedVictory;
     [SerializeField]
     private GameObject victoryExit;
+    [SerializeField] bool isLevel = true;
 
 
     private void Start()
@@ -20,10 +21,13 @@ public class Victory : MonoBehaviour
 
     private void Update()
     {
-        if (!achievedVictory && IsArrayEmpty())
+        if (isLevel)
         {
-            victoryExit.SetActive(true);
-            achievedVictory = true;
+            if (!achievedVictory && IsArrayEmpty())
+            {
+                victoryExit.SetActive(true);
+                achievedVictory = true;
+            }
         }
     }
 
