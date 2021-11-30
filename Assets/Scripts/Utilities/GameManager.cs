@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
         Utilities.CleanList(stillCheckList);
         foreach (GameObject gObject in stillCheckList)
         {
-            if (gObject.CompareTag("Projectile"))
+            if (gObject.CompareTag("Projectile")) 
             {
                 allStill = false;
             }
