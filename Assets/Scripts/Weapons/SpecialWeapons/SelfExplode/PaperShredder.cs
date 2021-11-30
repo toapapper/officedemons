@@ -23,6 +23,8 @@ public class PaperShredder : AbstractSpecial
 	private float distanceMultiplier = 1f;
 	[SerializeField]
 	private GameObject particleEffect;
+	[SerializeField]
+	private GameObject explosionParticleEffect;
 
 	public override void SetFOVSize()
 	{
@@ -66,15 +68,18 @@ public class PaperShredder : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
-		Instantiate(particleEffect, transform.position, transform.rotation);
+		
 		if(Charges < MaxCharges)
         {
 			AkSoundEngine.PostEvent("SusanBurst", gameObject);
-        }
+			Instantiate(particleEffect, transform.position, transform.rotation);
+		}
         else
         {
 			AkSoundEngine.PostEvent("Play_Explosion", gameObject);
-        }
+			CameraShake.Shake(0.25f, 0.25f);
+			Instantiate(explosionParticleEffect, transform.position, transform.rotation);
+		}
 
 		if (specialController.FOV.VisibleTargets.Count > 0)
 		{

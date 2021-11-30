@@ -13,6 +13,7 @@ public class DestructibleObjects : MonoBehaviour
         AkSoundEngine.PostEvent("Play_Explosion", gameObject);
         Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
         Instantiate(destroyedPrefab, transform.position, transform.rotation);
+        CameraShake.Shake(0.25f, 0.25f);
         Destroy(gameObject);
     }
 
