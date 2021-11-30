@@ -53,7 +53,12 @@ public class GameManager : MonoBehaviour
 
     private Encounter currentEncounter;
     private List<GameObject> stillCheckList = new List<GameObject>();
+
+    //private List<Checkpoint> checkpointList = new List<Checkpoint>();
+    private Checkpoint currentCheckpoint;
+
     private List<GameObject> groundEffectObjects = new List<GameObject>();
+
 
     private MultipleTargetCamera mainCamera;
 
@@ -66,7 +71,12 @@ public class GameManager : MonoBehaviour
     public bool PlayerEnterCombatDone { set { playerEnterCombatDone = value; } }
     public bool EnemiesActionsDone { set { enemiesActionsDone = value; } }
     public List<GameObject> StillCheckList { get { return stillCheckList; } }
+
+    //public List<Checkpoint> CheckpointList { get { return checkpointList; } }
+    public Checkpoint CurrentCheckpoint { get { return currentCheckpoint; } set { currentCheckpoint = value; } }
+
     public List<GameObject> GroundEffectObjects { get { return groundEffectObjects; } }
+
     [SerializeField] public bool AllStill
     {
         get { return allStill; }
@@ -99,10 +109,9 @@ public class GameManager : MonoBehaviour
         #endregion
 
 
-        //Ful "kolla om alla fiender är döda"-check
+        //Ful "kolla om alla fiender ï¿½r dï¿½da"-check
         if (CurrentCombatState != CombatState.none)
         {
-
             if(currentEncounter.GetEnemylist().Count <= 0)
             {
                 EndEncounter();
@@ -175,7 +184,7 @@ public class GameManager : MonoBehaviour
             {
                 currentEncounter.aIManager.PerformNextAction();
             }
-            
+
             if(enemiesActionsDone)
             {
                 Debug.Log("ENEMIES ACTIONS ARE DONE");
@@ -212,6 +221,20 @@ public class GameManager : MonoBehaviour
         roundTimer = RoundTime;
         // Remove everything but players from the camera
         mainCamera.ObjectsInCamera = PlayerManager.players;
+    }
+
+    public void ResetEncounter()
+	{
+		if (CurrentEncounter)
+		{
+            CurrentEncounter.ResetEncounter();
+            currentEncounter = null;
+            combatState = CombatState.none;
+            PlayerManager.Instance.EndCombat();
+            roundTimer = RoundTime;
+            // Remove everything but players from the camera
+            mainCamera.ObjectsInCamera = PlayerManager.players;
+        }
     }
 
     /// <summary>
@@ -259,5 +282,14 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
 
         paused = false;
+    }
+
+    public void LoadCheckpoint()
+    {
+        if(combatState != CombatState.none)
+		{
+            currentCheckpoint.LoadCheckpoint();
+        }
+        //ResetEncounter();
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 /// <para>
 /// Methods connected to all bombard weapons
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>

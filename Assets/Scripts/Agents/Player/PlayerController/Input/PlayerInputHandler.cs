@@ -342,4 +342,9 @@ public class PlayerInputHandler : MonoBehaviour
 	{
 		nearbyObjects.Remove(weapon);
 	}
+
+	public void ClearNearbyObjectList()
+	{
+		nearbyObjects.Clear();
+	}
 }

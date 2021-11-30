@@ -35,7 +35,10 @@ public class PlayerMovementController : MonoBehaviour
 
 	public float getMoveSpeed{ get{ return moveSpeed; }}
 
-
+	public NavMeshAgent NavMeshAgent
+	{
+		get { return navmeshAgent; }
+	}
 	public Vector3 MoveDirection
 	{
 		get { return moveDirection; }
@@ -92,7 +95,7 @@ public class PlayerMovementController : MonoBehaviour
 		pos.y = Mathf.Clamp01(pos.y);
 		pos = Camera.main.ViewportToWorldPoint(pos);
 		pos.y = Mathf.Clamp(pos.y, 0, 1.05f);
-
+		
 		navmeshAgent.Move(pos - transform.position);
 	}
 
