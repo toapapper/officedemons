@@ -20,14 +20,14 @@ public class GoodCoffeeGrenade : GroundEffectGrenade
 	[SerializeField]
 	private PositiveGroundObject coffeeStain;
 
-	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce,
+	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 velocity,
 		float explodeRadius, float grenadeHeal, List<StatusEffectType> effects)
 	{
-		coffeeGrenade = Instantiate(this, position, Quaternion.LookRotation(direction));
+		coffeeGrenade = Instantiate(this, position, Quaternion.LookRotation(velocity.normalized));
 		coffeeGrenade.thrower = thrower;
 		coffeeGrenade.FOV.ViewRadius = explodeRadius;
 		coffeeGrenade.healthModifyAmount = grenadeHeal;
-		coffeeGrenade.GetComponent<Rigidbody>().AddForce(direction * grenadeThrowForce, ForceMode.Impulse);
+		coffeeGrenade.GetComponent<Rigidbody>().AddForce(velocity, ForceMode.Impulse);
 		GameManager.Instance.StillCheckList.Add(coffeeGrenade.gameObject);
 
 		coffeeGrenade.statusEffects = effects;
@@ -61,6 +61,7 @@ public class GoodCoffeeGrenade : GroundEffectGrenade
 	protected override void OnCollisionEnter(Collision collision)
 	{
 		base.OnCollisionEnter(collision);
+		AkSoundEngine.PostEvent("Play_Splash", gameObject);
 		Explode();
 	}
 }

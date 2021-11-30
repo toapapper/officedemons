@@ -18,34 +18,46 @@ public class Rocket : Bullet
     private List<GameObject> targetList = new List<GameObject>();
     [SerializeField]
     private GameObject particleEffect;
+    private bool isExploded = false;
 
 	protected override void OnCollisionEnter(Collision collision)
 	{
-		if(targetList.Count > 0)
+		if (!isExploded)
 		{
-			foreach (GameObject target in targetList)
-			{
-				if (target.tag == "Player" || target.tag == "Enemy")
-				{
-					Effects.RegularDamage(target, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost), shooter);
-					//Effects.Damage(target, bulletDamage);
-					Effects.ApplyForce(target, (target.transform.position - transform.position).normalized * bulletHitForce);
-				}
-			}
-		}
+            isExploded = true;
 
-        //TODO Explosion
-        if (particleEffect)
-        {
-            Instantiate(particleEffect, transform.position, transform.rotation);
+            if (targetList.Count > 0)
+            {
+                foreach (GameObject target in targetList)
+                {
+                    if (target.tag == "Player" || target.tag == "Enemy")
+                    {
+                        Effects.RegularWeaponDamage(target, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost), shooter);
+                        //Effects.Damage(target, bulletDamage);
+                        Effects.ApplyForce(target, (target.transform.position - transform.position).normalized * bulletHitForce);
+                    }
+                    else if(target.layer == LayerMask.NameToLayer("Destructible"))
+					{
+                        Effects.Damage(target, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost));
+					}
+                }
+            }
+
+            //TODO Explosion
+            if (particleEffect)
+            {
+                Instantiate(particleEffect, transform.position, transform.rotation);
+                AkSoundEngine.PostEvent("Play_Explosion", gameObject);
+                CameraShake.Shake(0.25f, 0.25f);
+            }
+            //gameObject.GetComponentInChildren<ParticleSystem>().Play();
+            Destroy(gameObject);
         }
-        //gameObject.GetComponentInChildren<ParticleSystem>().Play();
-        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" || other.tag == "Enemy")
+        if (other.tag == "Player" || other.tag == "Enemy" || other.tag == "CoverObject")
         {
             if (!targetList.Contains(other.gameObject))
             {
@@ -56,9 +68,13 @@ public class Rocket : Bullet
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player" || other.tag == "Enemy")
+        if (targetList.Contains(other.gameObject))
         {
             targetList.Remove(other.gameObject);
         }
+        //if (other.tag == "Player" || other.tag == "Enemy" || other.tag == "CoverObject")
+        //{
+        //    targetList.Remove(other.gameObject);
+        //}
     }
 }

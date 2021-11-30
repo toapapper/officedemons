@@ -5,14 +5,9 @@ using UnityEngine;
 /// <summary>
 /// <para>
 /// Camera script that focuses on the midpoint between all players, and enemies when in an encounter
-/// 
+/// </para><para>
+/// Author: Jonas
 /// </para>
-///   
-///  <para>
-///  Author: Jonas
-///  
-/// </para>
-///  
 /// </summary>
 
 // Last Edited: 14/10-21

@@ -10,12 +10,12 @@ using UnityEngine.InputSystem;
 /// Handles the players. contains a static list containing all the active players.<br/>
 /// alerts the players when it's time to enter combat, exit combat, or wait for their turn to do an action, or just wait for the enemies to be done with their turn.
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Ossian
-///  
+///
 /// </para>
-///  
+///
 /// </summary>
 
 /*
@@ -29,9 +29,13 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance;
 
     [SerializeField] private GameObject viciousVicky;
+    [SerializeField] private GameObject viciousVicky2;
     [SerializeField] private GameObject terribleTim;
+    [SerializeField] private GameObject terribleTim2;
     [SerializeField] private GameObject susanTheDestroyer;
+    [SerializeField] private GameObject susanTheDestroyer2;
     [SerializeField] private GameObject devin;
+    [SerializeField] private GameObject devin2;
 
     [SerializeField] private bool joinAnyTime = false;
     private List<GameObject> playerCounterList;
@@ -72,6 +76,7 @@ public class PlayerManager : MonoBehaviour
         {
             GameManager.Instance.AllPlayersLockedIn();
         }
+
     }
 
     /// <summary>
@@ -82,27 +87,39 @@ public class PlayerManager : MonoBehaviour
     {
         #region select character, it's just random atm
         GameObject playerChar = devin;
-        float rand = Random.value * 3;
+        float rand = Random.value * 7;
         rand = Mathf.Round(rand);
 
-        switch (rand)
-        {
-            case 0:
-                playerChar = terribleTim;
-                break;
-            case 1:
-                playerChar = susanTheDestroyer;
-                break;
-            case 2:
-                playerChar = devin;
-                break;
-            case 3:
-                playerChar = viciousVicky;
-                break;
-        }
-        #endregion
+		switch (rand)
+		{
+			case 0:
+				playerChar = terribleTim;
+				break;
+			case 1:
+				playerChar = susanTheDestroyer;
+				break;
+			case 2:
+				playerChar = devin;
+				break;
+			case 3:
+				playerChar = viciousVicky;
+				break;
+			case 4:
+				playerChar = terribleTim2;
+				break;
+			case 5:
+				playerChar = susanTheDestroyer2;
+				break;
+			case 6:
+				playerChar = devin2;
+				break;
+			case 7:
+				playerChar = viciousVicky2;
+				break;
+		}
+		#endregion
 
-        Vector3 spawnPos = GameObject.Find("WorldCenter").transform.position;
+		Vector3 spawnPos = GameObject.Find("WorldCenter").transform.position;
         if (spawnPos.Equals(null))
         {
             spawnPos = Vector3.zero;
@@ -131,7 +148,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Signal the next player in line to do their action.<br/> 
+    /// Signal the next player in line to do their action.<br/>
     /// If no players remain, wait untill all is still in the scene and then signal the gamemanager
     /// </summary>
     public void NextPlayerAction()
@@ -183,11 +200,17 @@ public class PlayerManager : MonoBehaviour
     public void EndCombat()
     {
         Debug.Log("End combat");
-        
+
         foreach (GameObject p in players)
         {
-            Debug.Log("PLAYER POSITION:       " + p.transform.position);
-            p.GetComponent<PlayerStateController>().StartOutOfCombat();
+            if(p.GetComponent<Attributes>().Health <= 0)
+			{
+                p.GetComponent<PlayerStateController>().Revive();
+            }
+			else
+			{
+                p.GetComponent<PlayerStateController>().StartOutOfCombat();
+            }
         }
     }
 

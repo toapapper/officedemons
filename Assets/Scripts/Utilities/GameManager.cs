@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
         #region are all the needed gameObjects still-check
         allStill = true;
         Utilities.CleanList(stillCheckList);
-        foreach(GameObject gObject in stillCheckList)
+        foreach (GameObject gObject in stillCheckList)
         {
             if (gObject.CompareTag("Projectile"))
             {
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
 
 
         //Ful "kolla om alla fiender �r d�da"-check
-        if(CurrentCombatState != CombatState.none)
+        if (CurrentCombatState != CombatState.none)
         {
             if(currentEncounter.GetEnemylist().Count <= 0)
             {
@@ -176,16 +176,16 @@ public class GameManager : MonoBehaviour
                 Debug.Log("ENEMIES MOVES ARE DONE");
                 EnemiesActionsDone = false;
                 combatState = CombatState.enemyActions;
-
-                if(currentEncounter != null)//to fix the nullreference error that happens when an encounter is ended
-                {
-                    currentEncounter.aIManager.PerformNextAction();
-                }
             }
         }
         else if (CurrentCombatState == CombatState.enemyActions)
         {
-            if (enemiesActionsDone)
+            if (currentEncounter != null && !enemiesActionsDone)//to fix the nullreference error that happens when an encounter is ended
+            {
+                currentEncounter.aIManager.PerformNextAction();
+            }
+
+            if(enemiesActionsDone)
             {
                 Debug.Log("ENEMIES ACTIONS ARE DONE");
                 combatState = CombatState.player;

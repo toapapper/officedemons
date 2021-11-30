@@ -27,21 +27,22 @@ public class StarThrower : AbstractSpecial
 
 	public override void SetFOVSize()
 	{
-		specialController.FOV.ViewAngle = viewAngle;
-		specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		SpecialController.FOV.ViewAngle = viewAngle;
+		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
 	}
 
 	public override void ToggleAim(bool isActive)
 	{
-		specialController.FOVVisualization.SetActive(isActive);
+		SpecialController.FOVVisualization.SetActive(isActive);
 	}
 
 	public override void StartAttack()
 	{
-		specialController.Animator.SetTrigger("isStartSpecialSelfExplode");
+		SpecialController.Animator.SetTrigger("isStartSpecialSelfExplode");
 	}
 	public override void Attack()
 	{
+		AkSoundEngine.PostEvent("SusanScream", gameObject);
 		specialController.Animator.SetTrigger("isSpecialSelfExplode");
 	}
 
@@ -49,18 +50,18 @@ public class StarThrower : AbstractSpecial
 	{
 		AddCharge();
 
-		int targets = specialController.FOV.VisibleTargets.Count;
+		int targets = SpecialController.FOV.VisibleTargets.Count;
 		if (targets > 0)
 		{
 			//TODO DamageBoost buff effect?
-			foreach (GameObject target in specialController.FOV.VisibleTargets)
+			foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 			{
 				Effects.ApplyStatusEffect(target, StatusEffectType.DamageBoost);
 				base.AddCharge();
 			}
-			specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+			SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
 		}
-		
+
 		if (Charges == MaxCharges)
 		{
 			Attack();
@@ -70,16 +71,22 @@ public class StarThrower : AbstractSpecial
 	protected override void AddCharge()
 	{
 		base.AddCharge();
-		specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+
+		if (Charges == MaxCharges)
+		{
+			Attack();
+		}
 	}
 
 	public override void DoSpecialAction()
 	{
+		AkSoundEngine.PostEvent("SusanBurst", gameObject);
 		Instantiate(particleEffect, transform.position, transform.rotation);
 
-		if (specialController.FOV.VisibleTargets.Count > 0)
+		if (SpecialController.FOV.VisibleTargets.Count > 0)
 		{
-			foreach (GameObject target in specialController.FOV.VisibleTargets)
+			foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 			{
 				if(target.tag == "Player")
 				{
@@ -88,10 +95,11 @@ public class StarThrower : AbstractSpecial
 			}
 			if (Charges == MaxCharges)
 			{
-				Effects.Heal(holderAgent, Damage);
+				Effects.Heal(HolderAgent, Damage);
 			}
 		}
 		Charges = 0;
-		specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		base.DoSpecialAction();
 	}
 }

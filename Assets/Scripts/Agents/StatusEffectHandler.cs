@@ -169,6 +169,7 @@ public class StatusEffectHandler : MonoBehaviour
 
     public void ClearEffects()
     {
+        Debug.Log("Clear effects");
         RemoveSlow();
         activeEffects.Clear();
     }
@@ -206,6 +207,7 @@ public class StatusEffectHandler : MonoBehaviour
 
     public void RemoveSlow()
     {
+        Debug.Log("RemoveSlow");
         if (activeEffects.ContainsKey(StatusEffectType.Slow))
         {
             Effects.ChangeWeight(gameObject, activeEffects[StatusEffectType.Slow].stacks * -slowWeight);

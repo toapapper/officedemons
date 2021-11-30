@@ -36,8 +36,12 @@ public class Encounter : MonoBehaviour
     public AIManager aIManager;
 
     public List<GameObject> playerPositions;
+
     public Dictionary<Vector3, string> enemyStartPositions;
 
+
+
+    [SerializeField] int encounterNumber = 0;
 
     private bool myTurn = false;
     private int currentEnemysTurn = 0;
@@ -149,6 +153,20 @@ public class Encounter : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && GameManager.Instance.CurrentCombatState == CombatState.none)
         {
+            AkSoundEngine.SetState("Music_State", "Combat");
+            if(encounterNumber == 1)
+            {
+                AkSoundEngine.SetState("Music", "CombatState1");
+            }
+            else if(encounterNumber == 2)
+            {
+                AkSoundEngine.SetState("Music", "CombatState2");
+            }
+            else if (encounterNumber == 3)
+            {
+                AkSoundEngine.SetState("Music", "CombatState3");
+            }
+
             GameManager.Instance.StartEncounter(this);
             //GetComponentInChildren<AIManager>().EnableEnemyDamage(GetEnemylist());
         }
@@ -156,6 +174,7 @@ public class Encounter : MonoBehaviour
 
     public void EndEncounter()
     {
+        AkSoundEngine.SetState("Music", "RoamingState1");
         Destroy(gameObject);
     }
 

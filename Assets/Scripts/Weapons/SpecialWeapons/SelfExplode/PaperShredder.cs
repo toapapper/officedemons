@@ -23,24 +23,27 @@ public class PaperShredder : AbstractSpecial
 	private float distanceMultiplier = 1f;
 	[SerializeField]
 	private GameObject particleEffect;
+	[SerializeField]
+	private GameObject explosionParticleEffect;
 
 	public override void SetFOVSize()
 	{
-		specialController.FOV.ViewAngle = viewAngle;
-		specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		SpecialController.FOV.ViewAngle = viewAngle;
+		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
 	}
 
 	public override void ToggleAim(bool isActive)
 	{
-		specialController.FOVVisualization.SetActive(isActive);
+		SpecialController.FOVVisualization.SetActive(isActive);
 	}
 
 	public override void StartAttack()
 	{
-		specialController.Animator.SetTrigger("isStartSpecialSelfExplode");
+		SpecialController.Animator.SetTrigger("isStartSpecialSelfExplode");
 	}
 	public override void Attack()
 	{
+		AkSoundEngine.PostEvent("SusanScream", gameObject);
 		specialController.Animator.SetTrigger("isSpecialSelfExplode");
 	}
 
@@ -56,7 +59,7 @@ public class PaperShredder : AbstractSpecial
 	{
 		base.AddCharge();
 
-		specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
 		if (Charges == MaxCharges)
 		{
 			Attack();
@@ -65,25 +68,44 @@ public class PaperShredder : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
-		Instantiate(particleEffect, transform.position, transform.rotation);
+		
+		if(Charges < MaxCharges)
+        {
+			AkSoundEngine.PostEvent("SusanBurst", gameObject);
+			Instantiate(particleEffect, transform.position, transform.rotation);
+		}
+        else
+        {
+			AkSoundEngine.PostEvent("Play_Explosion", gameObject);
+			CameraShake.Shake(0.25f, 0.25f);
+			Instantiate(explosionParticleEffect, transform.position, transform.rotation);
+		}
 
 		if (specialController.FOV.VisibleTargets.Count > 0)
 		{
-			foreach (GameObject target in specialController.FOV.VisibleTargets)
+			foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 			{
-				if(Charges < MaxCharges)
+				if (target.layer != LayerMask.NameToLayer("Destructible"))
 				{
-					Effects.ApplyWeaponEffects(target, effects);
+					if (Charges < MaxCharges)
+					{
+						Effects.ApplyWeaponEffects(target, effects);
+					}
+					else
+					{
+						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
+						Effects.ApplyWeaponEffects(target, ultiEffects);
+					}
 				}
-				else
+				else if (Charges >= MaxCharges)
 				{
-					Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), holderAgent);
-					Effects.ApplyForce(target, (target.transform.position - specialController.FOV.transform.position).normalized * HitForce);
-					Effects.ApplyWeaponEffects(target, ultiEffects);
-				}				
+					Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+				}
 			}
 		}
 		Charges = 0;
-		specialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		base.DoSpecialAction();
 	}
 }

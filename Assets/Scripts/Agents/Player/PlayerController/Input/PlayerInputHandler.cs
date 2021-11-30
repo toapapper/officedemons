@@ -14,7 +14,7 @@ using static UnityEngine.InputSystem.InputAction;
 /// </para>
 /// </summary>
 
-// Last Edited: 2021-10-12
+// Last Edited: 2021-11-26
 public class PlayerInputHandler : MonoBehaviour
 {
 	private PlayerConfiguration playerConfiguration;
@@ -35,7 +35,6 @@ public class PlayerInputHandler : MonoBehaviour
 
 	public bool recentlySpawned = false;
 	private bool isAddingThrowForce;
-	private bool isAddingBombardForce;
 
 	//Throwing variables
 	[SerializeField]
@@ -44,12 +43,6 @@ public class PlayerInputHandler : MonoBehaviour
 	private float maxThrowForce = 30f;
 	private float addedThrowForce;
 
-	//Bombard variables
-	[SerializeField]
-	private float bombardForceMultiplier = 5f;
-	[SerializeField]
-	private float maxBombardForce = 10f;
-	private float addedBombardForce;
 
 	public void Start()
 	{
@@ -85,163 +78,222 @@ public class PlayerInputHandler : MonoBehaviour
 		{
 			if (!player.CurrentState.IsActionLocked)
 			{
-				if (context.action.name == inputControls.PlayerMovement.Move.name)
+				if (player.CurrentState.IsAddingBombardForce)
+				{
+					switch (player.CurrentState.ChosenAction)
+					{
+						case TypeOfAction.BOMBARD:
+							if (context.action.name == inputControls.PlayerMovement.Move.name)
+							{
+								Vector2 moveInput = context.ReadValue<Vector2>();
+								weaponHand.ThrowAim.TargetDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+							}
+							else if (context.performed)
+							{
+								if (context.action.name == inputControls.PlayerMovement.Attack.name)
+								{
+									player.LockAction();
+								}
+								else
+								{
+									player.CancelAction();
+								}
+								player.CurrentState.IsAddingBombardForce = false;
+								playerMovement.MoveDirection = Vector3.zero;
+								playerMovement.MoveAmount = Vector3.zero;
+							}
+							break;
+						case TypeOfAction.SPECIALBOMBARD:
+							if (context.action.name == inputControls.PlayerMovement.Move.name)
+							{
+								Vector2 moveInput = context.ReadValue<Vector2>();
+								specialHand.ThrowAim.TargetDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+							}
+							else if (context.performed)
+							{
+								if (context.action.name == inputControls.PlayerMovement.Special.name)
+								{
+									player.LockAction();
+								}
+								else
+								{
+									player.CancelAction();
+								}
+								player.CurrentState.IsAddingBombardForce = false;
+								playerMovement.MoveDirection = Vector3.zero;
+								playerMovement.MoveAmount = Vector3.zero;
+							}
+							break;
+					}
+				}
+				else if (context.action.name == inputControls.PlayerMovement.Move.name)
 				{
 					Vector2 moveInput = context.ReadValue<Vector2>();
 					playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
 				}
-				else if (context.action.name == inputControls.PlayerMovement.Attack.name)
+				else if (isAddingThrowForce)
 				{
-					if (player.CurrentState.IsActionTriggered && context.performed)
+					if (context.canceled)
 					{
-						player.LockAction();
-					}
-					else if(weaponHand.objectInHand != null && weaponHand.objectInHand is BombardWeapon)
-					{
-						if (context.performed)
+						if (player.OnThrow())
 						{
-							if (player.OnStartBombard())
-							{
-								playerMovement.MoveAmount = Vector3.zero;
-								isAddingBombardForce = true;
-							}
+							isAddingThrowForce = false;
+							addedThrowForce = 0;
 						}
-						else if(context.canceled)
-						{
-							if (player.OnBombard())
-							{
-								isAddingBombardForce = false;
-								addedBombardForce = 0;
-							}
-						}
-					}
-					else if (context.performed)
-					{
-						player.OnAttack();
 					}
 				}
-				else if (context.action.name == inputControls.PlayerMovement.Special.name)
+				else if (!player.CurrentState.IsActionTriggered)
 				{
-					if (player.CurrentState.IsActionTriggered)
+					if (context.action.name == inputControls.PlayerMovement.Attack.name)
 					{
-						if (context.performed)
+						if (weaponHand.objectInHand != null && weaponHand.objectInHand is BombardWeapon)
 						{
-							player.CancelAction();
-						}
-						else if(specialHand.ObjectInHand is CoffeeCupSpecial && context.canceled)
-						{
-							if (player.OnSpecialBombard())
+							if (context.performed)
 							{
-								isAddingBombardForce = false;
-								addedBombardForce = 0;
+								if (player.OnStartBombard())
+								{
+									playerMovement.MoveAmount = Vector3.zero;
+									player.CurrentState.IsAddingBombardForce = true;
+								}
 							}
 						}
+						else if (context.performed)
+						{
+							player.OnAttack();
+						}
+						playerMovement.MoveDirection = Vector3.zero;
+						playerMovement.MoveAmount = Vector3.zero;
 					}
-					else if (context.performed)
+					else if (context.action.name == inputControls.PlayerMovement.Special.name && specialHand.ObjectInHand.Charges > 0)
 					{
-						if (specialHand.ObjectInHand is CoffeeCupSpecial)
+						if(specialHand.ObjectInHand is CoffeeCupSpecial)
 						{
-							if (player.OnStartSpecialBombard())
+							if (context.performed)
 							{
-								playerMovement.MoveAmount = Vector3.zero;
-								isAddingBombardForce = true;
+								if (player.OnStartSpecialBombard())
+								{
+									playerMovement.MoveAmount = Vector3.zero;
+									player.CurrentState.IsAddingBombardForce = true;
+								}
 							}
 						}
-						else
+						else if (context.performed)
 						{
 							player.OnSpecial();
 						}
+						playerMovement.MoveDirection = Vector3.zero;
+						playerMovement.MoveAmount = Vector3.zero;
 					}
-
-
-					//if (context.performed)
-					//{
-					//	if (!player.CurrentState.IsActionTriggered)
-					//	{
-					//		player.OnSpecial();
-					//	}
-					//	else
-					//	{
-					//		player.CancelAction();
-					//		if (isAddingThrowForce)
-					//		{
-					//			addedThrowForce = 0;
-					//			weaponHand.SetThrowForce(addedThrowForce);
-					//		}
-					//		else if (isAddingBombardForce)
-					//		{
-					//			addedBombardForce = 0;
-					//			weaponHand.SetBombardForce(addedBombardForce);
-					//		}
-					//	}
-					//}
-				}
-				else if (context.action.name == inputControls.PlayerMovement.PickUp.name)
-				{
-					if (weaponHand.objectInHand == null)
+					else if (context.action.name == inputControls.PlayerMovement.PickUp.name)
 					{
-						if (context.canceled && nearbyObjects.Count > 0)
+						if (weaponHand.objectInHand == null)
 						{
-							foreach (GameObject nearbyObject in nearbyObjects)
+							if (context.canceled && nearbyObjects.Count > 0)
 							{
-								if (!nearbyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
+								foreach (GameObject nearbyObject in nearbyObjects)
 								{
-									player.OnPickUp(nearbyObject);
-									break;
+									if (!nearbyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
+									{
+										player.OnPickUp(nearbyObject);
+										break;
+									}
+								}
+							}
+						}
+						else if(!isAddingThrowForce)
+						{
+							if (context.started)
+							{
+								if (player.OnStartThrow())
+								{
+									playerMovement.MoveAmount = Vector3.zero;
+									isAddingThrowForce = true;
 								}
 							}
 						}
 					}
-					else
+					else if (context.action.name == inputControls.PlayerMovement.Revive.name)
 					{
-						if (context.started)
+						if (context.performed)
 						{
-							if (player.OnStartThrow())
+							Debug.Log(name);
+							Debug.Log("Revive " + nearbyPlayers.Count);
+							if (nearbyPlayers.Count > 0)
 							{
-								playerMovement.MoveAmount = Vector3.zero;
-								isAddingThrowForce = true;
-							}
-						}
-						if (context.canceled)
-						{
-							if (player.OnThrow())
-							{
-								isAddingThrowForce = false;
-								addedThrowForce = 0;
-							}
-						}
-					}
-				}
-				else if (context.action.name == inputControls.PlayerMovement.Revive.name)
-				{
-					if (context.performed)
-					{
-						Debug.Log(name);
-						Debug.Log("Revive " + nearbyPlayers.Count);
-						if (nearbyPlayers.Count > 0)
-						{
-							foreach (GameObject nearbyPlayer in nearbyPlayers)
-							{
-								//if (nearbyPlayer.GetComponentInChildren<AbstractPlayerState>() is DeadState)
-								if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
+								foreach (GameObject nearbyPlayer in nearbyPlayers)
 								{
-									Debug.Log("Player name " + nearbyPlayer.ToString());
-									player.OnRevive(nearbyPlayer);
-									return;
+									//if (nearbyPlayer.GetComponentInChildren<AbstractPlayerState>() is DeadState)
+									if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
+									{
+										Debug.Log("Player name " + nearbyPlayer.ToString());
+										player.OnRevive(nearbyPlayer);
+										return;
+									}
 								}
 							}
 						}
 					}
 				}
-				else if(context.action.name == inputControls.PlayerMovement.Pause.name)
-                {
-					GameManager.Instance.OnPause();
-                }
+				else if (context.performed)
+				{
+					switch(player.CurrentState.ChosenAction)
+					{
+						case TypeOfAction.ATTACK:
+						case TypeOfAction.BOMBARD:
+							if (context.action.name == inputControls.PlayerMovement.Attack.name)
+							{
+								player.LockAction();
+							}
+							else
+							{
+								player.CancelAction();
+							}
+							break;
+						case TypeOfAction.SPECIALATTACK:
+						case TypeOfAction.SPECIALBOMBARD:
+							if (context.action.name == inputControls.PlayerMovement.Special.name)
+							{
+								player.LockAction();
+							}
+							else
+							{
+								player.CancelAction();
+							}
+							break;
+						case TypeOfAction.THROW:
+							if (context.action.name == inputControls.PlayerMovement.PickUp.name)
+							{
+								player.LockAction();
+							}
+							else
+							{
+								player.CancelAction();
+							}
+							break;
+						case TypeOfAction.REVIVE:
+							if (context.action.name == inputControls.PlayerMovement.Revive.name)
+							{
+								player.LockAction();
+							}
+							else
+							{
+								player.CancelAction();
+							}
+							break;
+					}
+					playerMovement.MoveDirection = Vector3.zero;
+					playerMovement.MoveAmount = Vector3.zero;
+				}
 			}
 			else if (playerMovement.MoveAmount != Vector3.zero)
 			{
 				playerMovement.MoveDirection = Vector3.zero;
 				playerMovement.MoveAmount = Vector3.zero;
+			}
+			
+			if (context.action.name == inputControls.PlayerMovement.Pause.name && context.performed)
+			{
+				GameManager.Instance.OnPause();
 			}
 		}
 	}
@@ -254,15 +306,6 @@ public class PlayerInputHandler : MonoBehaviour
 			{
 				addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
 				weaponHand.SetThrowForce(addedThrowForce);
-			}
-		}
-		else if (isAddingBombardForce)
-		{
-			if (addedBombardForce < maxBombardForce)
-			{
-				addedBombardForce += bombardForceMultiplier * Time.fixedDeltaTime;
-				weaponHand.SetBombardForce(addedBombardForce);
-				specialHand.SetBombardForce(addedBombardForce);
 			}
 		}
 	}

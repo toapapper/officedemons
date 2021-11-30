@@ -22,16 +22,16 @@ public class ExplosiveGrenadeProjectile : GrenadeProjectile
 	[SerializeField]
 	private float explodeTime = 1f;
 
-	public virtual void CreateGrenade(GameObject thrower, Vector3 position, Vector3 direction, float grenadeThrowForce,
+	public virtual void CreateGrenade(GameObject thrower, Vector3 position, Vector3 velocity,
 		float explodeRadius, float grenadeExplodeForce, float grenadeDamage, List<WeaponEffects> effects)
 	{
-		grenade = Instantiate(this, position, Quaternion.LookRotation(direction));
+		grenade = Instantiate(this, position, Quaternion.LookRotation(velocity.normalized));
 		grenade.thrower = thrower;
 		grenade.FOV.ViewRadius = explodeRadius;
 		grenade.healthModifyAmount = grenadeDamage;
 		grenade.explosionForce = grenadeExplodeForce;
 		grenade.weaponEffects = effects;
-		grenade.GetComponent<Rigidbody>().AddForce(direction * grenadeThrowForce, ForceMode.Impulse);
+		grenade.GetComponent<Rigidbody>().AddForce(velocity, ForceMode.Impulse);
 
 		GameManager.Instance.StillCheckList.Add(grenade.gameObject);
 	}
@@ -52,10 +52,18 @@ public class ExplosiveGrenadeProjectile : GrenadeProjectile
 		}
 	}
 
+	protected override void Explode()
+    {
+		AkSoundEngine.PostEvent("Play_Explosion", gameObject);
+		CameraShake.Shake(0.25f, 0.25f);
+		base.Explode();
+	}
+
 	private void SetExplosion()
 	{
 		FOVVisualization.SetActive(true);
 		StartCoroutine(CountdownTime(explodeTime));
+		
 	}
 
 	protected override void ImpactAgents()
@@ -64,13 +72,23 @@ public class ExplosiveGrenadeProjectile : GrenadeProjectile
 
 		foreach (GameObject target in targetList)
 		{
-			Vector3 explosionForceDirection = target.transform.position - transform.position;
-			explosionForceDirection.y = 0;
-			explosionForceDirection.Normalize();
+			if (target.GetComponent<Attributes>().Health > 0)
+			{
+				if (target.layer != LayerMask.NameToLayer("Destructible"))
+				{
+					Vector3 explosionForceDirection = target.transform.position - transform.position;
+					explosionForceDirection.y = 0;
+					explosionForceDirection.Normalize();
 
-			Effects.RegularDamage(target, healthModifyAmount, thrower);
-			Effects.ApplyForce(target, explosionForceDirection * explosionForce);
-			Effects.ApplyWeaponEffects(target, weaponEffects);
+					Effects.RegularWeaponDamage(target, healthModifyAmount, thrower);
+					Effects.ApplyForce(target, explosionForceDirection * explosionForce);
+					Effects.ApplyWeaponEffects(target, weaponEffects);
+				}
+				else
+				{
+					Effects.Damage(target, healthModifyAmount);
+				}
+			}
 		}
 	}
 }

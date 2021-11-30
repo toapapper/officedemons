@@ -68,8 +68,6 @@ public class PlayerStateController : MonoBehaviour
             PlayerManager.players = new List<GameObject>();
         PlayerManager.players.Add(this.gameObject);
         UIManager.Instance.EnablePlayerUI(this.gameObject);
-
-        GameManager.Instance.StillCheckList.Add(gameObject);
     }
 
     private void SetupStates()
