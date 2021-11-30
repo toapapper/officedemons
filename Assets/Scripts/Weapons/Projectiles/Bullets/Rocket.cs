@@ -48,6 +48,7 @@ public class Rocket : Bullet
             {
                 Instantiate(particleEffect, transform.position, transform.rotation);
                 AkSoundEngine.PostEvent("Play_Explosion", gameObject);
+                CameraShake.Shake(0.25f, 0.25f);
             }
             //gameObject.GetComponentInChildren<ParticleSystem>().Play();
             Destroy(gameObject);

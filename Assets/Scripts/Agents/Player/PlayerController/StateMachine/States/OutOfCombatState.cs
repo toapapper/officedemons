@@ -205,12 +205,12 @@ public class OutOfCombatState : AbstractPlayerState
 
 	public override void OnStateExit()
 	{
-		if (IsActionTriggered)
-		{
-			weaponHand.CancelAction();
-			specialHand.CancelAction();
-			IsAddingBombardForce = false;
-			IsActionTriggered = false;
-		}
+		ChosenAction = TypeOfAction.NOACTION;
+		weaponHand.ToggleAimView(false);
+		specialHand.ToggleAimView(false);
+		weaponHand.CancelAction();
+		specialHand.CancelAction();
+		IsAddingBombardForce = false;
+		IsActionTriggered = false;
 	}
 }

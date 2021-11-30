@@ -56,6 +56,7 @@ public class ExplosiveGrenadeProjectile : GrenadeProjectile
 	protected override void Explode()
     {
 		AkSoundEngine.PostEvent("Play_Explosion", gameObject);
+		CameraShake.Shake(0.25f, 0.25f);
 		base.Explode();
 	}
 
