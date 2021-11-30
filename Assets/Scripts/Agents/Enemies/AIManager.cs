@@ -70,7 +70,6 @@ public class AIManager : MonoBehaviour
         CoverList = FindCoverSpotsInEncounter();
         TakenCoverPositions = new List<Vector3>();
         PlayerList = new List<GameObject>();
-
     }
 
     /// <summary>
@@ -94,6 +93,8 @@ public class AIManager : MonoBehaviour
         actionsQueue.Clear();
         allWeapons = new List<GameObject>(GameObject.FindGameObjectsWithTag("WeaponObject"));
         actionsTime = 0;
+        EnemyList = GameManager.Instance.CurrentEncounter.GetEnemylist();
+
         foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
         {
             go.GetComponent<GroundEffectObject>().ApplyEffectsOnEnemys();
