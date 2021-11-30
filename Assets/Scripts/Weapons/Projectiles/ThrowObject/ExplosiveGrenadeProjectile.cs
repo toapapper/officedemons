@@ -32,6 +32,7 @@ public class ExplosiveGrenadeProjectile : GrenadeProjectile
 		grenade.explosionForce = grenadeExplodeForce;
 		grenade.weaponEffects = effects;
 		grenade.GetComponent<Rigidbody>().AddForce(velocity, ForceMode.Impulse);
+        grenade.tag = "Projectile"; // Tinea 30/11
 
 		GameManager.Instance.StillCheckList.Add(grenade.gameObject);
 	}
