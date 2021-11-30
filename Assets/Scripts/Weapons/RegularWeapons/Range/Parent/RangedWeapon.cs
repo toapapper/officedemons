@@ -38,12 +38,12 @@ public abstract class RangedWeapon : AbstractWeapon
 	protected GameObject WeaponMuzzle
 	{
 		get { return weaponMuzzle; }
-		set { weaponMuzzle = value; }
+		//set { weaponMuzzle = value; }
 	}
 	protected float BulletFireForce
 	{
 		get { return bulletFireForce; }
-		set { bulletFireForce = value; }
+		//set { bulletFireForce = value; }
 	}
 
 

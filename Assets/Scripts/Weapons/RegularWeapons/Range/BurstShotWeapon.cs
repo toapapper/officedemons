@@ -18,6 +18,12 @@ public class BurstShotWeapon : RangedWeapon
     private int bulletCount;
     [SerializeField]
     private int bulletsInBurst = 4;
+    public int BulletsInBurst 
+    { 
+        get { return bulletsInBurst; } 
+        set { bulletsInBurst = value; }
+    
+    }
 
     public override void Attack(Animator animator)
     {

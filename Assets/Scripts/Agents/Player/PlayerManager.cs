@@ -10,12 +10,12 @@ using UnityEngine.InputSystem;
 /// Handles the players. contains a static list containing all the active players.<br/>
 /// alerts the players when it's time to enter combat, exit combat, or wait for their turn to do an action, or just wait for the enemies to be done with their turn.
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Ossian
-///  
+///
 /// </para>
-///  
+///
 /// </summary>
 
 /*
@@ -66,13 +66,17 @@ public class PlayerManager : MonoBehaviour
             if (playerState is DeadState || playerState is ReviveState)
             {
                 deadPlayers++;
+                if(deadPlayers >= players.Count)
+                {
+                    GameManager.Instance.LoadCheckpoint();
+                }
             }
         }
         if (GameManager.Instance.CurrentCombatState == CombatState.player && actions.Count == players.Count - deadPlayers)
         {
             GameManager.Instance.AllPlayersLockedIn();
         }
-        
+
     }
 
     /// <summary>
@@ -144,7 +148,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Signal the next player in line to do their action.<br/> 
+    /// Signal the next player in line to do their action.<br/>
     /// If no players remain, wait untill all is still in the scene and then signal the gamemanager
     /// </summary>
     public void NextPlayerAction()
@@ -172,7 +176,6 @@ public class PlayerManager : MonoBehaviour
         {
             if (GameManager.Instance.AllStill)
             {
-                Debug.LogError("ALL STILL TRUE");
                 GameManager.Instance.PlayerActionsDone = true;
                 break;
             }

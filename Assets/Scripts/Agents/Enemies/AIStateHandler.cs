@@ -13,18 +13,18 @@ using UnityEngine.AI;
 /// </para>
 ///  <para>
 ///  Author: Tinea & Tim
-///  
+///
 /// </para>
-///  
+///
 /// </summary>
-/// 
+///
 
 // Last Edited: 13/10/2021
 public class AIStateHandler : MonoBehaviour
 {
     Encounter encounter;
     Attributes attributes;
-    
+
     FieldOfView fov;
     AIController aiController;
 
@@ -36,8 +36,8 @@ public class AIStateHandler : MonoBehaviour
         fov = GetComponent<FieldOfView>(); //weapon's fov
         aiController = GetComponent<AIController>();
     }
-    
-    
+
+
     /// <summary>
     /// Updates the state of the agent
     /// </summary>
@@ -55,7 +55,7 @@ public class AIStateHandler : MonoBehaviour
             aiController.TargetPosition = aiController.Target.transform.position;
             Vector3.RotateTowards(transform.forward, aiController.TargetPosition, 1 * Time.deltaTime, 0.0f);
         }
-        //DeathCheck       
+        //DeathCheck
         if (aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
         {
             if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !aiController.ReachedTargetPosition())  // if low health and disadvantage and has stamina
@@ -151,7 +151,7 @@ public class AIStateHandler : MonoBehaviour
                     }
                 }
             }
-            
+
             return false;
         }
         else
@@ -177,7 +177,7 @@ public class AIStateHandler : MonoBehaviour
     /// <returns></returns>
     bool HealthLow()
     {
-        return attributes.Health <= attributes.StartHealth / 2; // 
+        return attributes.Health <= attributes.StartHealth / 2; //
     }
 
     // Check if players are fewer than AI, if players are unarmed but AI have weapons

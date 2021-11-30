@@ -147,7 +147,7 @@ public class AIController : MonoBehaviour
                         TargetType = TargetTypes.CoverSpot;
                         TargetPosition = Target.transform.position;
                     }
-                    
+
                 }
 
                 if (ReachedTargetPosition())
@@ -164,7 +164,7 @@ public class AIController : MonoBehaviour
                 //Debug.Log("Target : "  + Target + "of type: " + TargetType);
                 //Debug.Log("TargetPosition : " + TargetPosition);
                 aiManager.SaveAction(this.gameObject);
-                
+
                 break;
 
             case AIStates.States.Move:
@@ -185,7 +185,7 @@ public class AIController : MonoBehaviour
                 {
                     Debug.LogError("KOMMIT TILL PICKUP");
                     PickupWeapon(Target);
-                    currentState = AIStates.States.Unassigned;         
+                    currentState = AIStates.States.Unassigned;
                 }
                 else if (!ReachedTargetPosition())
                 {
@@ -212,7 +212,7 @@ public class AIController : MonoBehaviour
 
             case AIStates.States.Wait:
                 aiManager.SaveAction(this.gameObject);
-                
+
                 Debug.Log("Wait");
                 break;
 
@@ -277,6 +277,7 @@ public class AIController : MonoBehaviour
     /// <param name="players, priorities"></param>
     public GameObject CalculateClosest(List<GameObject> players)
     {
+        //Debug.Log("PLAYERS " + players.Count + "       PRIORITIES " + priorites.Count);
         float closestDistance = float.MaxValue;
         GameObject closestTarget = new GameObject();
 
@@ -427,9 +428,12 @@ public class AIController : MonoBehaviour
 
     public bool IsArmed()
     {
-        if (HoldingMeleeWeapon() || HoldingRangedWeapon())
-        {
-            return true;
+		if (GetComponent<WeaponHand>().objectInHand)
+		{
+            if (HoldingMeleeWeapon() || HoldingRangedWeapon())
+            {
+                return true;
+            }
         }
         //if (gameObject.GetComponentInChildren<AbstractWeapon>())
         //{
