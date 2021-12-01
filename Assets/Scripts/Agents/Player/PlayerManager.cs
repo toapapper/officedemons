@@ -179,6 +179,7 @@ public class PlayerManager : MonoBehaviour
                 GameManager.Instance.PlayerActionsDone = true;
                 break;
             }
+            yield return null;
         }
         yield return null;
     }

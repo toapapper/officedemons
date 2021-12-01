@@ -160,23 +160,24 @@ public class AIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Performs the next action in the queue and waits until it's finished.
+    /// Performs the next action in the queue and then calls itself again after a delay. If there are no actions left however it starts the coroutine WaitDone()
     /// </summary>
-    /// <param name=""></param>
-    /// 
-
     public void PerformNextAction()
     {
+        float nextActionDelay = .25f; //i sekunder
+
         if (actionsQueue.Count > 0)
         {
             GameObject currentEnemy = actionsQueue.Dequeue();
             currentEnemy.GetComponent<AIController>().PerformAction();
+            Invoke("PerformNextAction", nextActionDelay);
         }
         else
         {
             StartCoroutine(WaitDone());
         }
     }
+
 
     /// <summary>
     /// Waits for 1 seconds and untill all gameObjects are still. It then signals the gamemanager that all enemies are done
@@ -193,6 +194,7 @@ public class AIManager : MonoBehaviour
                 GameManager.Instance.EnemiesActionsDone = true;
                 break;
             }
+            yield return null;
         }
         yield return null;
     }
