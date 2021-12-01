@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class RevivePrompt : MonoBehaviour
 {
     [SerializeField] private Image revivePrompt;
+    [SerializeField] private TextMeshProUGUI pPlayer;
     private Vector2 startValue, currentValue;
     private float min, max;
     private bool expanding = true;
@@ -66,6 +68,13 @@ public class RevivePrompt : MonoBehaviour
             }
             revivePrompt.transform.localScale = new Vector3(revivePrompt.transform.localScale.x - 0.005f * Time.deltaTime, revivePrompt.transform.localScale.y - 0.005f * Time.deltaTime, revivePrompt.transform.localScale.z);
         }
+    }
+
+
+    public void OneTimeUse(int playerNumber, Color playerColor)
+    {
+        pPlayer.text = "P" + (playerNumber + 1);
+        pPlayer.color = playerColor;
     }
 
 }
