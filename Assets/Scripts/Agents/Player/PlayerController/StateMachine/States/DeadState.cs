@@ -48,8 +48,6 @@ public class DeadState : AbstractPlayerState
     {
         Debug.Log("Enters DeadState " + this);
         originalColor = GetComponentInChildren<MeshRenderer>().material.color;
-        //gameObject.GetComponent<CombatTurnState>().IsActionLocked = false;
-        //gameObject.GetComponent<CombatTurnState>().IsActionTriggered = false;
         PlayerManager.Instance.NextPlayerAction();
 
         int layerMask = 1 << 10;
@@ -72,10 +70,6 @@ public class DeadState : AbstractPlayerState
             StartCoroutine(DelayedSelfRevive());
         }
 
-		//
-		//weaponHand.ToggleAimView(false);
-		//specialHand.ToggleAimView(false);
-		//
 		gameObject.GetComponent<Animator>().SetTrigger("isCancelAction");
         gameObject.GetComponent<Animator>().SetTrigger("isDead");
         gameObject.GetComponent<CapsuleCollider>().enabled = false;

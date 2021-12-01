@@ -41,41 +41,6 @@ public class CombatActionState : AbstractPlayerState
 		}
 
 		StartCoroutine("WaitDone");
-
-
-
-
-
-
-
-		////Debug.Log("Enters CombatActionState" + this + " Action: " + GetComponent<CombatTurnState>().ChosenAction);
-		//switch (GetComponent<CombatTurnState>().ChosenAction)
-		//{
-		//	case TypeOfAction.ATTACK:
-		//		weaponHand.Attack();
-		//		break;
-		//	case TypeOfAction.BOMBARD:
-		//		weaponHand.PerformBombard();
-		//		break;
-		//	case TypeOfAction.SPECIALATTACK:
-		//		specialHand.Attack();
-		//		break;
-		//	case TypeOfAction.SPECIALBOMBARD:
-		//		specialHand.Attack();
-		//		break;
-		//	case TypeOfAction.THROW:
-		//		weaponHand.Throw();
-		//		break;
-		//	case TypeOfAction.REVIVE:
-		//		Effects.Revive(GetComponent<CombatTurnState>().PlayerToRevive);
-		//		//Debug.LogWarning("combatActionState revive " + GetComponent<CombatTurnState>().PlayerToRevive);
-		//		break;
-		//	case TypeOfAction.NOACTION:
-		//		break;
-		//}
-		//GetComponent<CombatTurnState>().ChosenAction = TypeOfAction.NOACTION;
-
-		//StartCoroutine("WaitDone");
 	}
 
 	IEnumerator WaitDone()
