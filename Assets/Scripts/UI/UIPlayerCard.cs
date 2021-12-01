@@ -34,6 +34,7 @@ public class UIPlayerCard : MonoBehaviour
     [SerializeField] private TextMeshProUGUI weaponText;
 
     [SerializeField] private Image weapon;
+    [SerializeField] private Image portrait;
     [SerializeField] private List<Image> durability = new List<Image>();
     [SerializeField] private List<Image> chargeObjects = new List<Image>();
     [SerializeField] private List<Sprite> chargeSprites = new List<Sprite>();
@@ -58,6 +59,7 @@ public class UIPlayerCard : MonoBehaviour
         nameText.text = characterName;
         jobbText.text = attributes.JobTitle;
         colorBar.color = attributes.PlayerColor;
+        portrait.sprite = attributes.portrait;
         if (attributes.Name != Characters.Susan_The_Destroyer)
         {
             chargeObjects[3].enabled = false;
