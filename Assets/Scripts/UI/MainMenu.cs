@@ -19,7 +19,7 @@ public class MainMenu : MonoBehaviour
     }
     public void Play()
     {
-        SceneManager.LoadScene("PlayerSelection");
+        SceneManagment.Instance.NextLevel();
     }
     
     public void Resume()

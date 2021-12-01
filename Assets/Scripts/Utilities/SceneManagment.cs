@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 /// <summary>
 /// SceneManager is already a thing. Handles scene shifts
@@ -10,7 +12,9 @@ public class SceneManagment : MonoBehaviour
 {
     //Right now I just set the scene to the corresponding scene but we might want to load in them later if they become bigger
     Scene scene;
-
+    [SerializeField] private GameObject loadingScreen;
+    private Image progressBar;
+    private float target;
     public static SceneManagment Instance { get; private set; }
 
     private void Awake()
@@ -21,6 +25,7 @@ public class SceneManagment : MonoBehaviour
     private void Start()
     {
         scene = SceneManager.GetActiveScene();
+        progressBar = loadingScreen.GetComponentInChildren<Image>();
     }
 
     public void Restart()
@@ -28,9 +33,23 @@ public class SceneManagment : MonoBehaviour
         SceneManager.LoadScene(scene.buildIndex);
     }
 
-    public void NextLevel()
+    public async void NextLevel()
     {
-        SceneManager.LoadScene(scene.buildIndex + 1);
+        var nextScene = SceneManager.LoadSceneAsync(scene.buildIndex +1);
+        nextScene.allowSceneActivation = false;
+        
+        loadingScreen.SetActive(true);
+
+        do
+        {
+            await Task.Delay(100);
+            target = nextScene.progress;
+        } while (nextScene.progress < 0.9f);
+
+        await Task.Delay(1000);
+
+        nextScene.allowSceneActivation = true;
+        loadingScreen.SetActive(false);
     }
 
     private void GetLevel(int levelIndex)
@@ -42,5 +61,9 @@ public class SceneManagment : MonoBehaviour
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
     }
 
+    private void Update()
+    {
+        progressBar.fillAmount = Mathf.MoveTowards(progressBar.fillAmount, target, 3 * Time.deltaTime);
+    }
 
 }
