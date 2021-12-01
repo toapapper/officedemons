@@ -43,12 +43,11 @@ public class PlayerInputHandler : MonoBehaviour
 	private float maxThrowForce = 30f;
 	private float addedThrowForce;
 
-	[SerializeField] private TypeOfAction chosenAction;
-	[SerializeField] private bool isInputLocked;
-	[SerializeField] private bool isInputTriggered;
-	[SerializeField] private bool isBombarding;
-	[SerializeField] private bool isThrowing;
-	[SerializeField] private bool confirmed;
+	private TypeOfAction chosenAction;
+	private bool isInputLocked;
+	private bool isInputTriggered;
+	private bool isBombarding;
+	private bool isThrowing;
 
 	public TypeOfAction ChosenAction { get { return chosenAction; } }
 	public bool IsInputLocked {	get { return isInputLocked; } }
@@ -285,7 +284,6 @@ public class PlayerInputHandler : MonoBehaviour
 				case TypeOfAction.ATTACK:
 					if (context.action.name == inputControls.PlayerMovement.Attack.name)
 					{
-						confirmed = true;
 						isInputLocked = true;
 						player.LockAction();
 					}

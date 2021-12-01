@@ -303,6 +303,12 @@ MonoBehaviour:
   recentlySpawned: 0
   throwForceMultiplier: 25
   maxThrowForce: 30
+  chosenAction: 0
+  isInputLocked: 0
+  isInputTriggered: 0
+  isBombarding: 0
+  isThrowing: 0
+  confirmed: 0
 --- !u!114 &4537723862147702307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,7 +339,7 @@ MonoBehaviour:
   handObject: {fileID: 8311064319920876806}
   FOV: {fileID: 6677983523492725315}
   FOVVisualization: {fileID: 8367517485440295439}
-  handHitDamage: 5
+  handHitDamage: 10
   handHitForce: 5
   handHitDistance: 1.5
   handHitAngle: 100
@@ -368,6 +374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerColor: {r: 0.05882353, g: 0.5019608, b: 0, a: 1}
   characterName: 0
+  portrait: {fileID: 21300000, guid: cd1f08fb06c224f4785f9320b1d199ff, type: 3}
   jobTitle: Terrible programmer
   startHealth: 100
   killCount: 0
