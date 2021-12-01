@@ -19,209 +19,300 @@ public class CombatTurnState : AbstractPlayerState
 {
 	public override void OnAttack()
 	{
-		if (!IsActionTriggered)
-		{
-			weaponHand.ToggleAimView(true);
-			weaponHand.StartAttack();
-			ChosenAction = TypeOfAction.ATTACK;
-			IsActionTriggered = true;
-		}
+		weaponHand.ToggleAimView(true);
+		weaponHand.StartAttack();
+
+		//if (!IsActionTriggered)
+		//{
+		//	weaponHand.ToggleAimView(true);
+		//	weaponHand.StartAttack();
+		//	ChosenAction = TypeOfAction.ATTACK;
+		//	IsActionTriggered = true;
+		//}
 	}
 
-	public override bool OnStartBombard()
+	public override void OnStartBombard()
 	{
-		if (!IsActionTriggered)
-		{
-			if (weaponHand.StartBombard())
-			{
-				weaponHand.ToggleAimView(true);
-				ChosenAction = TypeOfAction.BOMBARD;
-				IsActionTriggered = true;
-				return true;
-			}
-		}
-		return false;
+		weaponHand.ToggleAimView(true);
+		weaponHand.StartBombard();
+
+		//if (!IsActionTriggered)
+		//{
+		//	if (weaponHand.StartBombard())
+		//	{
+		//		weaponHand.ToggleAimView(true);
+		//		ChosenAction = TypeOfAction.BOMBARD;
+		//		IsActionTriggered = true;
+		//		return true;
+		//	}
+		//}
+		//return false;
 	}
-	public override bool OnBombard()
-	{
-		if (IsActionTriggered)
-		{
-			return true;
-		}
-		return false;
-	}
+	//public override bool OnBombard()
+	//{
+	//	if (IsActionTriggered)
+	//	{
+	//		return true;
+	//	}
+	//	return false;
+	//}
 
 	public override void OnSpecial()
 	{
-		if (!IsActionTriggered)
-		{
-			specialHand.ToggleAimView(true);
-			specialHand.StartAttack();
-			ChosenAction = TypeOfAction.SPECIALATTACK;
-			IsActionTriggered = true;
-		}
+		specialHand.ToggleAimView(true);
+		specialHand.StartAttack();
+
+		//if (!IsActionTriggered)
+		//{
+		//	specialHand.ToggleAimView(true);
+		//	specialHand.StartAttack();
+		//	ChosenAction = TypeOfAction.SPECIALATTACK;
+		//	IsActionTriggered = true;
+		//}
 	}
-	public override bool OnStartSpecialBombard()
+	public override void OnStartSpecialBombard()
 	{
-		if (!IsActionTriggered)
-		{
-			if (specialHand.StartAttack())
-			{
-				specialHand.ToggleAimView(true);
-				ChosenAction = TypeOfAction.SPECIALBOMBARD;
-				IsActionTriggered = true;
-				return true;
-			}
-		}
-		return false;
+		specialHand.ToggleAimView(true);
+		specialHand.StartAttack();
+
+		//if (!IsActionTriggered)
+		//{
+		//	if (specialHand.StartAttack())
+		//	{
+		//		specialHand.ToggleAimView(true);
+		//		ChosenAction = TypeOfAction.SPECIALBOMBARD;
+		//		IsActionTriggered = true;
+		//		return true;
+		//	}
+		//}
+		//return false;
 	}
 
 	public override void OnPickUp(GameObject weapon)
 	{
-		if (!IsActionTriggered)
-		{
-			weaponHand.Equip(weapon);
-		}
+		weaponHand.Equip(weapon);
+
+		//if (!IsActionTriggered)
+		//{
+		//	weaponHand.Equip(weapon);
+		//}
 	}
 
-	public override bool OnStartThrow()
+	public override void OnStartThrow()
 	{
-		if (!IsActionTriggered)
-		{
-			weaponHand.StartThrow();
-			IsActionTriggered = true;
-			return true;
-		}
-		return false;
+		weaponHand.StartThrow();
+
+		//if (!IsActionTriggered)
+		//{
+		//	weaponHand.StartThrow();
+		//	IsActionTriggered = true;
+		//	return true;
+		//}
+		//return false;
 	}
-	public override bool OnThrow()
+	public override void OnThrow()
 	{
-		if (IsActionTriggered)
-		{
-			ChosenAction = TypeOfAction.THROW;
-			LockAction();
-			//IsActionTriggered = false;
-			return true;
-		}
-		return false;
+		LockAction();
+
+		//if (IsActionTriggered)
+		//{
+		//	ChosenAction = TypeOfAction.THROW;
+		//	LockAction();
+		//	//IsActionTriggered = false;
+		//	return true;
+		//}
+		//return false;
 	}
 
 	public override void OnRevive(GameObject player)
 	{
-		if (!IsActionTriggered)
-		{
-			PlayerToRevive = player;
-			ChosenAction = TypeOfAction.REVIVE;
-			IsActionTriggered = true;
-		}
+		PlayerToRevive = player;
+
+		//if (!IsActionTriggered)
+		//{
+		//	PlayerToRevive = player;
+		//	ChosenAction = TypeOfAction.REVIVE;
+		//	IsActionTriggered = true;
+		//}
 	}
 
 	//Lock action
 	public override void LockAction()
 	{
-		if (IsActionTriggered)
+		switch (inputHandler.ChosenAction)
 		{
-			switch (ChosenAction)
-			{
-				case TypeOfAction.ATTACK:
-				case TypeOfAction.BOMBARD:
-					weaponHand.ToggleAimView(false);
-					break;
-				case TypeOfAction.SPECIALATTACK:
-				case TypeOfAction.SPECIALBOMBARD:
-					specialHand.ToggleAimView(false);
-					break;
-			}
-			IsActionLocked = true;
-			Debug.Log("Chosenaction: " + ChosenAction);
-			PlayerManager.Instance.ActionDone(gameObject);
+			case TypeOfAction.ATTACK:
+			case TypeOfAction.BOMBARD:
+				weaponHand.ToggleAimView(false);
+				break;
+			case TypeOfAction.SPECIALATTACK:
+			case TypeOfAction.SPECIALBOMBARD:
+				specialHand.ToggleAimView(false);
+				break;
 		}
+		Debug.Log("Chosenaction: " + inputHandler.ChosenAction);
+		PlayerManager.Instance.ActionDone(gameObject);
+
+
+
+		//if (IsActionTriggered)
+		//{
+		//	switch (ChosenAction)
+		//	{
+		//		case TypeOfAction.ATTACK:
+		//		case TypeOfAction.BOMBARD:
+		//			weaponHand.ToggleAimView(false);
+		//			break;
+		//		case TypeOfAction.SPECIALATTACK:
+		//		case TypeOfAction.SPECIALBOMBARD:
+		//			specialHand.ToggleAimView(false);
+		//			break;
+		//	}
+		//	IsActionLocked = true;
+		//	Debug.Log("Chosenaction: " + ChosenAction);
+		//	PlayerManager.Instance.ActionDone(gameObject);
+		//}
 	}
 
 	public override void CancelAction()
 	{
-		if (IsActionTriggered)
+		switch (inputHandler.ChosenAction)
 		{
-			switch (ChosenAction)
-			{
-				case TypeOfAction.ATTACK:
-				case TypeOfAction.BOMBARD:
-					weaponHand.ToggleAimView(false);
-					weaponHand.CancelAction();
-					break;
-				case TypeOfAction.SPECIALATTACK:
-				case TypeOfAction.SPECIALBOMBARD:
-					specialHand.ToggleAimView(false);
-					specialHand.CancelAction();
-					break;
-				case TypeOfAction.THROW:
-					weaponHand.CancelAction();
-					break;
-				case TypeOfAction.REVIVE:
-					PlayerToRevive = null;
-					break;
-			}
-			Debug.LogWarning("Reset action");
-			ChosenAction = TypeOfAction.NOACTION;
-			IsActionTriggered = false;
+			case TypeOfAction.ATTACK:
+			case TypeOfAction.BOMBARD:
+				weaponHand.ToggleAimView(false);
+				weaponHand.CancelAction();
+				break;
+			case TypeOfAction.SPECIALATTACK:
+			case TypeOfAction.SPECIALBOMBARD:
+				specialHand.ToggleAimView(false);
+				specialHand.CancelAction();
+				break;
+			case TypeOfAction.THROW:
+				weaponHand.CancelAction();
+				break;
+			case TypeOfAction.REVIVE:
+				PlayerToRevive = null;
+				break;
 		}
+		Debug.LogWarning("Reset action");
+
+
+
+
+		//if (IsActionTriggered)
+		//{
+		//	switch (ChosenAction)
+		//	{
+		//		case TypeOfAction.ATTACK:
+		//		case TypeOfAction.BOMBARD:
+		//			weaponHand.ToggleAimView(false);
+		//			weaponHand.CancelAction();
+		//			break;
+		//		case TypeOfAction.SPECIALATTACK:
+		//		case TypeOfAction.SPECIALBOMBARD:
+		//			specialHand.ToggleAimView(false);
+		//			specialHand.CancelAction();
+		//			break;
+		//		case TypeOfAction.THROW:
+		//			weaponHand.CancelAction();
+		//			break;
+		//		case TypeOfAction.REVIVE:
+		//			PlayerToRevive = null;
+		//			break;
+		//	}
+		//	Debug.LogWarning("Reset action");
+		//	ChosenAction = TypeOfAction.NOACTION;
+		//	IsActionTriggered = false;
+		//}
 	}
 
 	//Update
 	public override void OnFixedUpdateState()
 	{
-		if (!IsAddingBombardForce)
+		if(playerMovement.MoveDirection != Vector3.zero)
 		{
-			//Rotation
-			if (playerMovement.CalculateRotation() != transform.rotation)
-			{
-				playerMovement.PerformRotation();
-			}
-			if (!IsActionTriggered && !IsStaminaDepleted)
-			{
-				//Movement
-				if (playerMovement.CalculateMovement() != Vector3.zero)
-				{
-					playerMovement.PerformMovement();
-
-					if (GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
-						attributes.Stamina -= Time.deltaTime;
-				}
-			}
+			attributes.Stamina -= Time.deltaTime;
 		}
+
+
+
+
+
+		//if (!IsAddingBombardForce)
+		//{
+		//	//Rotation
+		//	if (playerMovement.CalculateRotation() != transform.rotation)
+		//	{
+		//		playerMovement.PerformRotation();
+		//	}
+		//	if (!IsActionTriggered && !IsStaminaDepleted)
+		//	{
+		//		//Movement
+		//		if (playerMovement.CalculateMovement() != Vector3.zero)
+		//		{
+		//			playerMovement.PerformMovement();
+
+		//			if (GetComponent<PlayerMovementController>().MoveDirection != Vector3.zero)
+		//				attributes.Stamina -= Time.deltaTime;
+		//		}
+		//	}
+		//}
 	}
 
 	public override void OnStateEnter()
 	{
 		Debug.Log("Enters CombatTurnState" + this);
-		specialHand.StartTurnEffect();
 		attributes.Stamina = attributes.StartStamina;
-		playerMovement.MoveDirection = Vector3.zero;
-		playerMovement.MoveAmount = Vector3.zero;
+		specialHand.StartTurnEffect();		
+		inputHandler.ResetInput();
 
-		if (IsActionTriggered)
-		{
-			weaponHand.CancelAction();
-			specialHand.CancelAction();
-			IsAddingBombardForce = false;
-			IsActionTriggered = false;
-		}
+
+		//playerMovement.MoveDirection = Vector3.zero;
+		//playerMovement.MoveAmount = Vector3.zero;
+
+		//if (IsActionTriggered)
+		//{
+		//	weaponHand.CancelAction();
+		//	specialHand.CancelAction();
+		//	IsAddingBombardForce = false;
+		//	IsActionTriggered = false;
+		//}
 	}
 
 	public override void OnStateExit()
 	{
-		weaponHand.ToggleAimView(false);
-		specialHand.ToggleAimView(false);
-		specialHand.EndTurnEffects();
-		if (IsActionTriggered && !IsActionLocked)
-		{
-			PlayerManager.Instance.ActionDone(gameObject);
-		}
+		//weaponHand.ToggleAimView(false);
+		//specialHand.ToggleAimView(false);
+		//specialHand.EndTurnEffects();
 
-		IsActionLocked = false;
-		IsActionTriggered = false;
-		IsAddingThrowForce = false;
-		IsAddingBombardForce = false;
+		if (inputHandler.IsInputTriggered && !inputHandler.IsInputLocked)
+		{
+			LockAction();
+			inputHandler.LockInput();
+			//PlayerManager.Instance.ActionDone(gameObject);
+		}
 		Debug.Log("Exits CombatTurnState" + this);
+
+
+
+
+
+
+
+
+		//weaponHand.ToggleAimView(false);
+		//specialHand.ToggleAimView(false);
+		//specialHand.EndTurnEffects();
+		//if (IsActionTriggered && !IsActionLocked)
+		//{
+		//	PlayerManager.Instance.ActionDone(gameObject);
+		//}
+
+		//IsActionLocked = false;
+		//IsActionTriggered = false;
+		//IsAddingThrowForce = false;
+		//IsAddingBombardForce = false;
+		//Debug.Log("Exits CombatTurnState" + this);
 	}
 }

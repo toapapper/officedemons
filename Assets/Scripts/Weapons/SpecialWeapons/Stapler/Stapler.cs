@@ -81,6 +81,8 @@ public class Stapler : AbstractSpecial
 	}
 	public override void Attack()
 	{
+		ActionPower = Charges;
+		Charges = 0;
 		bulletCount = bulletsInBurst;
 		SpecialController.Animator.SetTrigger("isSpecialStapler");
 	}
@@ -128,12 +130,15 @@ public class Stapler : AbstractSpecial
 			else
 			{
 				SpecialController.Animator.SetTrigger("isCancelAction");
-				Charges = 0;
-				base.DoSpecialAction();
+				ActionPower = 0;
 			}			
 		}
 		else
 		{
+			//if (particleEffect)
+			//{
+			//	Instantiate(particleEffect, weaponMuzzle.transform.position, weaponMuzzle.transform.rotation * Quaternion.Euler(0, 180, 0));
+			//}
 			Vector3 direction = GetBulletDirection();
 			bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, weaponMuzzle.transform.position, direction, bulletFireForce, HitForce, Damage, this.effects);
 			bulletCount--;

@@ -48,8 +48,8 @@ public class DeadState : AbstractPlayerState
     {
         Debug.Log("Enters DeadState " + this);
         originalColor = GetComponentInChildren<MeshRenderer>().material.color;
-        gameObject.GetComponent<CombatTurnState>().IsActionLocked = false;
-        gameObject.GetComponent<CombatTurnState>().IsActionTriggered = false;
+        //gameObject.GetComponent<CombatTurnState>().IsActionLocked = false;
+        //gameObject.GetComponent<CombatTurnState>().IsActionTriggered = false;
         PlayerManager.Instance.NextPlayerAction();
 
         int layerMask = 1 << 10;

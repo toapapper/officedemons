@@ -231,10 +231,6 @@ public abstract class AbstractWeapon : MonoBehaviour
 	/// <param name="fov"></param>
 	public virtual void DoAction(FieldOfView fov)
 	{
-		if (HolderAgent.tag == "Player")
-		{
-			HolderAgent.GetComponent<AbstractPlayerState>().IsActionTriggered = false;
-		}
 		if (durability <= 0)
 		{
 			handle.GetComponentInParent<PlayerInputHandler>().RemoveObjectFromWeaponList(this.gameObject);

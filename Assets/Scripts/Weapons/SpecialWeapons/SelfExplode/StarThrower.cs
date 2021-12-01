@@ -42,14 +42,14 @@ public class StarThrower : AbstractSpecial
 	}
 	public override void Attack()
 	{
+		ActionPower = Charges;
+		Charges = 0;
 		AkSoundEngine.PostEvent("SusanScream", gameObject);
 		specialController.Animator.SetTrigger("isSpecialSelfExplode");
 	}
 
 	public override void StartTurnEffect()
 	{
-		AddCharge();
-
 		int targets = SpecialController.FOV.VisibleTargets.Count;
 		if (targets > 0)
 		{
@@ -59,13 +59,9 @@ public class StarThrower : AbstractSpecial
 				Effects.ApplyStatusEffect(target, StatusEffectType.DamageBoost);
 				base.AddCharge();
 			}
-			SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
 		}
 
-		if (Charges == MaxCharges)
-		{
-			Attack();
-		}
+		AddCharge();
 	}
 
 	protected override void AddCharge()
@@ -93,13 +89,12 @@ public class StarThrower : AbstractSpecial
 					Effects.Heal(target, Damage);
 				}
 			}
-			if (Charges == MaxCharges)
+			if (ActionPower >= MaxCharges)
 			{
 				Effects.Heal(HolderAgent, Damage);
 			}
 		}
-		Charges = 0;
+		ActionPower = 0;
 		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
-		base.DoSpecialAction();
 	}
 }
