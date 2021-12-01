@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -62,6 +63,8 @@ public class UIPlayerCard : MonoBehaviour
             chargeObjects[4].enabled = false;
             maxCharges = 3;
         }
+        string name = gameObject.name.Substring(gameObject.name.Length - 1);
+        player.GetComponentInChildren<RevivePrompt>().OneTimeUse(Int32.Parse(name),player.GetComponent<Attributes>().PlayerColor);
     }
 
 
