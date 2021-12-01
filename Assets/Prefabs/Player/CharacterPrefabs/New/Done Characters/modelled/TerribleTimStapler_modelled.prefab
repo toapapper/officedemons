@@ -719,6 +719,12 @@ MonoBehaviour:
   recentlySpawned: 0
   throwForceMultiplier: 25
   maxThrowForce: 30
+  chosenAction: 0
+  isInputLocked: 0
+  isInputTriggered: 0
+  isBombarding: 0
+  isThrowing: 0
+  confirmed: 0
 --- !u!114 &1178546191250430318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -784,6 +790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerColor: {r: 0.05882353, g: 0.5019608, b: 0, a: 1}
   characterName: 0
+  portrait: {fileID: 21300000, guid: caeab0699cae72f459d4deb7089f65a6, type: 3}
   jobTitle: Terrible programmer
   startHealth: 100
   killCount: 0
