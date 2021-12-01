@@ -68,7 +68,7 @@ public class PlayerManager : MonoBehaviour
                 deadPlayers++;
                 if(deadPlayers >= players.Count)
                 {
-                    GameManager.Instance.LoadCheckpoint();
+                    Invoke("Restart", 3f); // Tinea 1/12
                 }
             }
         }
@@ -251,4 +251,10 @@ public class PlayerManager : MonoBehaviour
     {
         actions.Enqueue(player);
     }
+
+    private void Restart()
+    {
+        GameManager.Instance.LoadCheckpoint();
+    }
+
 }

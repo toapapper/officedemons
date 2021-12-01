@@ -17,7 +17,7 @@ using UnityEngine;
 
 // Last Edited: 18-10-21
 
-public enum Characters { Tim, Susan, Vicky, Devin }
+public enum Characters { Terrible_Tim, Susan_The_Destroyer, Vicious_Vicky, Devin }
 
 public class Attributes : MonoBehaviour
 {

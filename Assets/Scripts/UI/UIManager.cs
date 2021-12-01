@@ -184,6 +184,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     private void UpdateWeaponUI()
     {
+
         for (int i = 0; i < PlayerManager.players.Count; i++)
         {
             UIPlayerCard card = transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>();
@@ -207,8 +208,42 @@ public class UIManager : MonoBehaviour
                 card.UpdateWeaponSprites(defaultWeapon, numbers[10], numbers[10]);
             }
             card.UpdateChargeSprites(PlayerManager.players[i].GetComponentInChildren<AbstractSpecial>().Charges);
+
+
+            Dictionary<StatusEffectType, StatusEffect> activeEffects = PlayerManager.players[i].GetComponent<StatusEffectHandler>().ActiveEffects;
+            List<StatusEffectType> effectList = new List<StatusEffectType>();
+            for (int j = 0; j < (int)StatusEffectType.NumberOfTypes; j++)
+            {
+                StatusEffectType si = (StatusEffectType)j;
+
+                if (activeEffects.ContainsKey(si))
+                {
+                    effectList.Add(si);
+                }
+            }
+            card.UpdateEffectSprites(ConvertEffectsIntoSprites(effectList));
         }
     }
+
+
+
+    private int[] ConvertEffectsIntoSprites(List<StatusEffectType> list)
+    {
+        int[] sprites = new int[4];
+
+        for (int i = 0; i < 4; i++)
+        {
+            int index = 0;
+            sprites[i] = index;
+            if (i < list.Count)
+            {
+                index = (int)list[i];
+                sprites[i] = index + 1;
+            }
+        }
+        return sprites;
+    }
+
 
 
     /// <summary>
