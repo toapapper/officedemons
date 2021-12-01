@@ -284,7 +284,6 @@ public class PlayerInputHandler : MonoBehaviour
 				case TypeOfAction.ATTACK:
 					if (context.action.name == inputControls.PlayerMovement.Attack.name)
 					{
-						confirmed = true;
 						isInputLocked = true;
 						player.LockAction();
 					}
