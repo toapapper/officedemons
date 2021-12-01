@@ -29,6 +29,7 @@ public abstract class AbstractSpecial : MonoBehaviour
 	[SerializeField]
 	private int maxCharges = 3;
 	private int charges = 2;
+	private int actionPower = 0;
 
 	protected GameObject HolderAgent { get { return holderAgent; } set { holderAgent = value; } }
 	protected SpecialHand SpecialController { get { return specialController; } set { specialController = value; } }
@@ -36,7 +37,8 @@ public abstract class AbstractSpecial : MonoBehaviour
 	protected float HitForce { get { return hitForce; } }
 	protected int MaxCharges { get { return maxCharges; } }
 	public int Charges { get { return charges; } set { charges = value; } }
-	
+	public int ActionPower { get { return actionPower; } set { actionPower = value; } }
+
 
 
 	public void PickUpIn(GameObject agent)
@@ -50,11 +52,7 @@ public abstract class AbstractSpecial : MonoBehaviour
 	public abstract void ToggleAim(bool isActive);
 	public abstract void StartAttack();
 	public abstract void Attack();
-	public virtual void DoSpecialAction()
-	{
-		holderAgent.GetComponent<AbstractPlayerState>().IsActionTriggered = false;
-	}
-
+	public abstract void DoSpecialAction();
 	public abstract void StartTurnEffect();
 	public virtual void EndTurnEffects() { }
 	public virtual void TakeDamageEffect() { }

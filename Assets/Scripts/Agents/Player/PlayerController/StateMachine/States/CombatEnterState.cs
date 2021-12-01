@@ -25,6 +25,8 @@ public class CombatEnterState : AbstractPlayerState
 
 	public override void OnStateEnter()
 	{
+		inputHandler.LockInput();
+
 		Debug.Log("Enters CombatEnterState" + this);
 		int i = PlayerManager.players.FindIndex(gameObject => gameObject == this.gameObject);
 		Vector3 movePosition = GameManager.Instance.CurrentEncounter.playerPositions[i].transform.position;
@@ -40,5 +42,7 @@ public class CombatEnterState : AbstractPlayerState
 	{
 		Debug.Log("Exits CombatEnterState" + this);
 		playerMovement.ResetNavMeshPath();
+
+		inputHandler.ResetInput();
 	}
 }
