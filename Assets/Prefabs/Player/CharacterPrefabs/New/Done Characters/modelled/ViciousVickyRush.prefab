@@ -139,6 +139,12 @@ MonoBehaviour:
   recentlySpawned: 0
   throwForceMultiplier: 25
   maxThrowForce: 30
+  chosenAction: 0
+  isInputLocked: 0
+  isInputTriggered: 0
+  isBombarding: 0
+  isThrowing: 0
+  confirmed: 0
 --- !u!114 &3546347222493082320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerColor: {r: 0.15281235, g: 0.15477836, b: 0.4811321, a: 1}
   characterName: 2
+  portrait: {fileID: 21300000, guid: 8ae44a22a9bb3f54aa718e36b176931d, type: 3}
   jobTitle: Vicious programmer
   startHealth: 100
   killCount: 0
