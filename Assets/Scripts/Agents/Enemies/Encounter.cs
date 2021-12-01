@@ -177,6 +177,7 @@ public class Encounter : MonoBehaviour
 
     public void EndEncounter()
     {
+        AkSoundEngine.SetState("Music_State", "Roaming");
         AkSoundEngine.SetState("Music", "RoamingState1");
         Destroy(gameObject);
     }
