@@ -90,33 +90,35 @@ public class PlayerManager : MonoBehaviour
         float rand = Random.value * 7;
         rand = Mathf.Round(rand);
 
-		switch (rand)
-		{
-			case 0:
-				playerChar = terribleTim;
-				break;
-			case 1:
-				playerChar = susanTheDestroyer;
-				break;
-			case 2:
-				playerChar = devin;
-				break;
-			case 3:
-				playerChar = viciousVicky;
-				break;
-			case 4:
-				playerChar = terribleTim2;
-				break;
-			case 5:
-				playerChar = susanTheDestroyer2;
-				break;
-			case 6:
-				playerChar = devin2;
-				break;
-			case 7:
-				playerChar = viciousVicky2;
-				break;
-		}
+        playerChar = susanTheDestroyer2;
+
+  //      switch (rand)
+		//{
+		//	case 0:
+		//		playerChar = terribleTim;
+		//		break;
+		//	case 1:
+		//		playerChar = susanTheDestroyer;
+		//		break;
+		//	case 2:
+		//		playerChar = devin;
+		//		break;
+		//	case 3:
+		//		playerChar = viciousVicky;
+		//		break;
+		//	case 4:
+		//		playerChar = terribleTim2;
+		//		break;
+		//	case 5:
+		//		playerChar = susanTheDestroyer2;
+		//		break;
+		//	case 6:
+		//		playerChar = devin2;
+		//		break;
+		//	case 7:
+		//		playerChar = viciousVicky2;
+		//		break;
+		//}
 		#endregion
 
 		Vector3 spawnPos = GameObject.Find("WorldCenter").transform.position;
