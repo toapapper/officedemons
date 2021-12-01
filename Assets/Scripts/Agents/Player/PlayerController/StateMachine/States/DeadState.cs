@@ -47,7 +47,7 @@ public class DeadState : AbstractPlayerState
     public override void OnStateEnter()
     {
         Debug.Log("Enters DeadState " + this);
-        originalColor = GetComponentInChildren<MeshRenderer>().material.color;
+        originalColor = GetComponentInChildren<Attributes>().PlayerColor; 
         PlayerManager.Instance.NextPlayerAction();
 
         int layerMask = 1 << 10;
