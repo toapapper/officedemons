@@ -34,7 +34,6 @@ public class PlayerInputHandler : MonoBehaviour
 	private List<GameObject> nearbyPlayers = new List<GameObject>();
 
 	public bool recentlySpawned = false;
-	private bool isAddingThrowForce;
 
 	//Throwing variables
 	[SerializeField]
