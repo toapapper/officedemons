@@ -32,19 +32,32 @@ public class BombardWeapon : AbstractWeapon
 	}
 
 	public override void ToggleAim(bool isActive, GameObject FOVView)
-	{	
-		if (!isActive)
-		{
-			WeaponController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
-			WeaponController.ThrowAim.DeActivate();
-		}
-		else
+	{
+		if (!WeaponController.ThrowAim.gameObject.activeSelf && isActive)
 		{
 			WeaponController.ThrowAim.gameObject.SetActive(isActive);
 			WeaponController.ThrowAim.NoBounceing = noBouncing;
 			WeaponController.ThrowAim.SetExplosionSize(explodeRadius * 2);
 		}
+		else if (WeaponController.ThrowAim.gameObject.activeSelf && !isActive)
+		{
+			WeaponController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
+			WeaponController.ThrowAim.DeActivate();
+		}
 		
+		
+		
+		//if (!isActive)
+		//{
+		//	WeaponController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
+		//	WeaponController.ThrowAim.DeActivate();
+		//}
+		//else
+		//{
+		//	WeaponController.ThrowAim.gameObject.SetActive(isActive);
+		//	WeaponController.ThrowAim.NoBounceing = noBouncing;
+		//	WeaponController.ThrowAim.SetExplosionSize(explodeRadius * 2);
+		//}
 	}
 
 	public override void StartAttack(Animator animator)

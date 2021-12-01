@@ -76,13 +76,38 @@ public abstract class RangedWeapon : AbstractWeapon
 	{
 		if (Inaccuracy < 1)
 		{
-			laserAim.SetActive(isActive);
+			if (!laserAim.activeSelf && isActive)
+			{
+				laserAim.SetActive(isActive);
+			}
+			else if (laserAim.activeSelf && !isActive)
+			{
+				laserAim.SetActive(isActive);
+			}
 		}
 		else
 		{
-			UpdateAimCone();
-			AimCone.SetActive(isActive);
+			if (!AimCone.activeSelf && isActive)
+			{
+				UpdateAimCone();
+				AimCone.SetActive(isActive);
+			}
+			else if (AimCone.activeSelf && !isActive)
+			{
+				AimCone.SetActive(isActive);
+			}
 		}
+
+
+		//if (Inaccuracy < 1)
+		//{
+		//	laserAim.SetActive(isActive);
+		//}
+		//else
+		//{
+		//	UpdateAimCone();
+		//	AimCone.SetActive(isActive);
+		//}
 	}
 
 	public override void StartAttack(Animator animator)

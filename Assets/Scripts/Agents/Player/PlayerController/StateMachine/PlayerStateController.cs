@@ -96,43 +96,48 @@ public class PlayerStateController : MonoBehaviour
     {
         CurrentState.OnAttack();
     }
-    public bool OnStartBombard()
+    public void OnStartBombard()
 	{
-        return CurrentState.OnStartBombard();
+        CurrentState.OnStartBombard();
     }
-    public bool OnBombard()
+    public void OnBombard()
 	{
-        return CurrentState.OnBombard();
+        CurrentState.OnBombard();
     }
     public void OnSpecial()
     {
         CurrentState.OnSpecial();
     }
-    public bool OnStartSpecialBombard()
+    public void OnStartSpecialBombard()
     {
-        return CurrentState.OnStartSpecialBombard();
+        CurrentState.OnStartSpecialBombard();
     }
-    public bool OnSpecialBombard()
+    public void OnSpecialBombard()
     {
-        return CurrentState.OnSpecialBombard();
+        CurrentState.OnSpecialBombard();
     }
     public void OnPickUp(GameObject weapon)
 	{
         CurrentState.OnPickUp(weapon);
     }
-    public bool OnStartThrow()
+    public void OnStartThrow()
 	{
-        return CurrentState.OnStartThrow();
+        CurrentState.OnStartThrow();
 	}
-    public bool OnThrow()
+    public void OnThrow()
 	{
-        return CurrentState.OnThrow();
+        CurrentState.OnThrow();
 	}
     public void OnRevive(GameObject player)
     {
         CurrentState.OnRevive(player);
     }
 	#endregion
+
+    public void OnUpdateState()
+	{
+        CurrentState.OnFixedUpdateState();
+    }
 
 	private void FixedUpdate() => CurrentState.OnFixedUpdateState();
 }

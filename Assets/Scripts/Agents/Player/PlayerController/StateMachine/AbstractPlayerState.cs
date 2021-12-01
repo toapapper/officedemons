@@ -16,6 +16,7 @@ using static UnityEngine.InputSystem.InputAction;
 // Last Edited: 2021-10-29
 public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 {
+    protected PlayerInputHandler inputHandler;
     protected PlayerMovementController playerMovement;
     protected WeaponHand weaponHand;
     protected SpecialHand specialHand;
@@ -75,7 +76,8 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 
     private void Awake()
     {
-		ChosenAction = TypeOfAction.NOACTION;
+        inputHandler = GetComponent<PlayerInputHandler>();
+        ChosenAction = TypeOfAction.NOACTION;
 		playerMovement = GetComponent<PlayerMovementController>();
         weaponHand = GetComponent<WeaponHand>();
         specialHand = GetComponent<SpecialHand>();
@@ -88,14 +90,14 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     public virtual void LockAction() { }
     public virtual void CancelAction() { }
 	public virtual void OnAttack() { }
-    public virtual bool OnStartBombard() { return false; }
-    public virtual bool OnBombard() { return false; }
+    public virtual void OnStartBombard() { }
+    public virtual void OnBombard() { }
     public virtual void OnSpecial() { }
-    public virtual bool OnStartSpecialBombard() { return false; }
-    public virtual bool OnSpecialBombard() { return false; }
+    public virtual void OnStartSpecialBombard() { }
+    public virtual void OnSpecialBombard() { }
     public virtual void OnPickUp(GameObject weapon) { }
-    public virtual bool OnStartThrow() { return false; }
-    public virtual bool OnThrow() { return false; }
+    public virtual void OnStartThrow() { }
+    public virtual void OnThrow() { }
 
     public virtual void OnRevive(GameObject player) { }
     public virtual void TransitionState(IPlayerState state)
@@ -109,4 +111,11 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 
     public abstract void OnStateExit();
     public abstract void OnStateEnter();
+    public virtual void ResetState()
+	{
+        isActionLocked = false;
+        isActionTriggered = false;
+        isAddingBombardForce = false;
+        isAddingThrowForce = false;
+	}
 }
