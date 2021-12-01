@@ -30,6 +30,9 @@ public class Attributes : MonoBehaviour
     public Characters Name { get { return characterName; } }
 
     [SerializeField]
+    public Sprite portrait;
+
+    [SerializeField]
     private string jobTitle = "arbetsl�s";
     public string JobTitle { get { return jobTitle; } }
 

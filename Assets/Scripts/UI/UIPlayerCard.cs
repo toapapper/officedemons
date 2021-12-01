@@ -29,11 +29,12 @@ public class UIPlayerCard : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Image colorBar;
 
-
-    [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text jobbText;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI jobbText;
+    [SerializeField] private TextMeshProUGUI weaponText;
 
     [SerializeField] private Image weapon;
+    [SerializeField] private Image portrait;
     [SerializeField] private List<Image> durability = new List<Image>();
     [SerializeField] private List<Image> chargeObjects = new List<Image>();
     [SerializeField] private List<Sprite> chargeSprites = new List<Sprite>();
@@ -54,9 +55,11 @@ public class UIPlayerCard : MonoBehaviour
         this.player = player;
         Attributes attributes = player.GetComponent<Attributes>();
 
-        nameText.text = attributes.Name.ToString();
+        string characterName = attributes.Name.ToString().Replace("_", " ");
+        nameText.text = characterName;
         jobbText.text = attributes.JobTitle;
         colorBar.color = attributes.PlayerColor;
+        portrait.sprite = attributes.portrait;
         if (attributes.Name != Characters.Susan_The_Destroyer)
         {
             chargeObjects[3].enabled = false;
@@ -80,11 +83,12 @@ public class UIPlayerCard : MonoBehaviour
     /// <param name="weaponSprite"></param>
     /// <param name="durabilitySprite1">this is the first number aka 10 20 30 40 50</param>
     /// <param name="durabilitySprite2">this is the second number aka 1 2 3 4 5</param>
-    public void UpdateWeaponSprites(Sprite weaponSprite, Sprite durabilitySprite1, Sprite durabilitySprite2)
+    public void UpdateWeaponSprites(Sprite weaponSprite,string weaponName, Sprite durabilitySprite1, Sprite durabilitySprite2)
     {
         if (weapon.sprite != weaponSprite)
         {
             weapon.sprite = weaponSprite;
+            weaponText.text = weaponName;
         }
         if (durability[0].sprite != durabilitySprite1)
         {
