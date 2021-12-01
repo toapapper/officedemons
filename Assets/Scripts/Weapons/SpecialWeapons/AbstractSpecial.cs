@@ -53,10 +53,6 @@ public abstract class AbstractSpecial : MonoBehaviour
 	public abstract void StartAttack();
 	public abstract void Attack();
 	public abstract void DoSpecialAction();
-	//{
-	//	//holderAgent.GetComponent<AbstractPlayerState>().IsActionTriggered = false;
-	//}
-
 	public abstract void StartTurnEffect();
 	public virtual void EndTurnEffects() { }
 	public virtual void TakeDamageEffect() { }
