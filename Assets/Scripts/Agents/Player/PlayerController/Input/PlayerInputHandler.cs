@@ -20,10 +20,12 @@ public class PlayerInputHandler : MonoBehaviour
 	private PlayerConfiguration playerConfiguration;
 	private InputActions inputControls;
 
-	private PlayerStateController player;
-	private PlayerMovementController playerMovement;
-	private WeaponHand weaponHand;
-	private SpecialHand specialHand;
+	private Attributes attributes;//ossian o jonas
+
+	private PlayerStateController stateController;
+	private PlayerMovementController movementController;
+	private WeaponHand weaponController;
+	private SpecialHand specialController;
 
 	//World transform variables
 	private Vector3 forward;
@@ -48,9 +50,13 @@ public class PlayerInputHandler : MonoBehaviour
 	private bool isBombarding;
 	private bool isThrowing;
 
+
 	public TypeOfAction ChosenAction { get { return chosenAction; } }
 	public bool IsInputLocked {	get { return isInputLocked; } }
 	public bool IsInputTriggered { get { return isInputTriggered; } }
+	public bool IsStaminaDepleted {	get { return attributes.Stamina <= 0; } }
+	public Attributes Attributes { get { return attributes; } }
+	public float Stamina { get { return attributes.Stamina; }	set { attributes.Stamina = value; } }
 
 
 	public void Start()
@@ -61,10 +67,12 @@ public class PlayerInputHandler : MonoBehaviour
 		right = new Vector3(forward.z, 0, -forward.x);
 
 		inputControls = new InputActions();
-		player = GetComponent<PlayerStateController>();
-		playerMovement = GetComponent<PlayerMovementController>();
-		weaponHand = GetComponent<WeaponHand>();
-		specialHand = GetComponent<SpecialHand>();
+		stateController = GetComponent<PlayerStateController>();
+		movementController = GetComponent<PlayerMovementController>();
+		weaponController = GetComponent<WeaponHand>();
+		specialController = GetComponent<SpecialHand>();
+
+		attributes = GetComponent<Attributes>();
 
 		//if you spawned while the game was running this will be set to true.
 		//It's here just in order to put you into the proper state, if for example you where to spawn in combat.
@@ -86,7 +94,7 @@ public class PlayerInputHandler : MonoBehaviour
 	#region INPUTEVENT
 	private void Input_onActionTriggered(CallbackContext context)
 	{
-		if (player != null)
+		if (stateController != null)
 		{
 			if (context.action.name == inputControls.PlayerMovement.Pause.name && context.performed)
 			{
@@ -125,10 +133,10 @@ public class PlayerInputHandler : MonoBehaviour
 					ConfirmInput(context);
 				}
 			}
-			else if (playerMovement.MoveAmount != Vector3.zero)
+			else if (movementController.MoveAmount != Vector3.zero)
 			{
-				playerMovement.MoveDirection = Vector3.zero;
-				playerMovement.MoveAmount = Vector3.zero;
+				movementController.MoveDirection = Vector3.zero;
+				movementController.MoveAmount = Vector3.zero;
 			}
 		}
 	}
@@ -142,17 +150,17 @@ public class PlayerInputHandler : MonoBehaviour
 		Vector2 moveInput = context.ReadValue<Vector2>();
 		if (!isBombarding)
 		{
-			playerMovement.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+			movementController.MoveDirection = (moveInput.x * right + moveInput.y * forward).normalized;
 		}
 		else
 		{
 			switch (chosenAction)
 			{
 				case TypeOfAction.BOMBARD:
-					weaponHand.ThrowAim.TargetDirection = (moveInput.x * right + moveInput.y * forward).normalized;
+					weaponController.ThrowAim.TargetDirection = (moveInput.x * right + moveInput.y * forward).normalized;
 					break;
 				case TypeOfAction.SPECIALBOMBARD:
-					specialHand.ThrowAim.TargetDirection = (moveInput.x * right + moveInput.y * forward).normalized; playerMovement.MoveAmount = Vector3.zero;
+					specialController.ThrowAim.TargetDirection = (moveInput.x * right + moveInput.y * forward).normalized; movementController.MoveAmount = Vector3.zero;
 					break;
 			}
 		}
@@ -163,19 +171,19 @@ public class PlayerInputHandler : MonoBehaviour
 	private void InpuAttack(CallbackContext context)
 	{
 		isInputTriggered = true;
-		playerMovement.MoveDirection = Vector3.zero;
-		playerMovement.MoveAmount = Vector3.zero;
+		movementController.MoveDirection = Vector3.zero;
+		movementController.MoveAmount = Vector3.zero;
 
-		if (weaponHand.objectInHand != null && weaponHand.objectInHand is BombardWeapon)
+		if (weaponController.objectInHand != null && weaponController.objectInHand is BombardWeapon)
 		{
 			chosenAction = TypeOfAction.BOMBARD;
 			isBombarding = true;
-			player.OnStartBombard();
+			stateController.OnStartBombard();
 		}
 		else
 		{
 			chosenAction = TypeOfAction.ATTACK;
-			player.OnAttack();
+			stateController.OnAttack();
 		}
 	}
 	#endregion
@@ -183,22 +191,22 @@ public class PlayerInputHandler : MonoBehaviour
 	#region SPECIAL
 	private void InputSpecial(CallbackContext context)
 	{
-		if (specialHand.ObjectInHand.Charges > 0)
+		if (specialController.ObjectInHand.Charges > 0)
 		{
 			isInputTriggered = true;
-			playerMovement.MoveDirection = Vector3.zero;
-			playerMovement.MoveAmount = Vector3.zero;
+			movementController.MoveDirection = Vector3.zero;
+			movementController.MoveAmount = Vector3.zero;
 
-			if (specialHand.ObjectInHand is CoffeeCupSpecial)
+			if (specialController.ObjectInHand is CoffeeCupSpecial)
 			{
 				chosenAction = TypeOfAction.SPECIALBOMBARD;
 				isBombarding = true;
-				player.OnStartSpecialBombard();
+				stateController.OnStartSpecialBombard();
 			}
 			else
 			{
 				chosenAction = TypeOfAction.SPECIALATTACK;
-				player.OnSpecial();
+				stateController.OnSpecial();
 			}
 		}
 	}
@@ -207,7 +215,7 @@ public class PlayerInputHandler : MonoBehaviour
 	#region PICKUP/THROW
 	private void InputPickupThrow(CallbackContext context)
 	{
-		if (weaponHand.objectInHand == null)
+		if (weaponController.objectInHand == null)
 		{
 			if (nearbyObjects.Count > 0)
 			{
@@ -220,7 +228,7 @@ public class PlayerInputHandler : MonoBehaviour
 						//playerMovement.MoveDirection = Vector3.zero;
 
 						//chosenAction = TypeOfAction.PICKUP;
-						player.OnPickUp(nearbyObject);
+						stateController.OnPickUp(nearbyObject);
 						break;
 					}
 				}
@@ -229,12 +237,12 @@ public class PlayerInputHandler : MonoBehaviour
 		else
 		{
 			isInputTriggered = true;
-			playerMovement.MoveAmount = Vector3.zero;
-			playerMovement.MoveDirection = Vector3.zero;
+			movementController.MoveAmount = Vector3.zero;
+			movementController.MoveDirection = Vector3.zero;
 
 			chosenAction = TypeOfAction.THROW;
 			isThrowing = true;
-			player.OnStartThrow();
+			stateController.OnStartThrow();
 		}
 	}
 	#endregion
@@ -250,11 +258,11 @@ public class PlayerInputHandler : MonoBehaviour
 				if (nearbyPlayer.GetComponentInChildren<Attributes>().Health <= 0)
 				{
 					isInputTriggered = true;
-					playerMovement.MoveAmount = Vector3.zero;
-					playerMovement.MoveDirection = Vector3.zero;
+					movementController.MoveAmount = Vector3.zero;
+					movementController.MoveDirection = Vector3.zero;
 
 					chosenAction = TypeOfAction.REVIVE;
-					player.OnRevive(nearbyPlayer);
+					stateController.OnRevive(nearbyPlayer);
 					return;
 				}
 			}
@@ -272,7 +280,7 @@ public class PlayerInputHandler : MonoBehaviour
 				isInputLocked = true;
 				isThrowing = false;
 				addedThrowForce = 0;
-				player.OnThrow();
+				stateController.OnThrow();
 			}
 		}
 		else if (context.performed)
@@ -284,11 +292,11 @@ public class PlayerInputHandler : MonoBehaviour
 					if (context.action.name == inputControls.PlayerMovement.Attack.name)
 					{
 						isInputLocked = true;
-						player.LockAction();
+						stateController.LockAction();
 					}
 					else
 					{
-						player.CancelAction();
+						stateController.CancelAction();
 						ResetInput();
 					}
 					isBombarding = false;
@@ -299,11 +307,11 @@ public class PlayerInputHandler : MonoBehaviour
 					if (context.action.name == inputControls.PlayerMovement.Special.name)
 					{
 						isInputLocked = true;
-						player.LockAction();
+						stateController.LockAction();
 					}
 					else
 					{
-						player.CancelAction();
+						stateController.CancelAction();
 						ResetInput();
 					}
 					isBombarding = false;
@@ -313,17 +321,17 @@ public class PlayerInputHandler : MonoBehaviour
 					if (context.action.name == inputControls.PlayerMovement.Revive.name)
 					{
 						isInputLocked = true;
-						player.LockAction();
+						stateController.LockAction();
 					}
 					else
 					{
-						player.CancelAction();
+						stateController.CancelAction();
 						ResetInput();
 					}
 					break;
 			}
-			playerMovement.MoveDirection = Vector3.zero;
-			playerMovement.MoveAmount = Vector3.zero;
+			movementController.MoveDirection = Vector3.zero;
+			movementController.MoveAmount = Vector3.zero;
 		}
 	}
 	#endregion
@@ -345,6 +353,10 @@ public class PlayerInputHandler : MonoBehaviour
 	}
 	#endregion
 
+
+	//RESET ACTION ANIMATION
+
+
 	#region UPDATE
 	private void FixedUpdate()
 	{
@@ -355,27 +367,25 @@ public class PlayerInputHandler : MonoBehaviour
 				if (addedThrowForce < maxThrowForce)
 				{
 					addedThrowForce += throwForceMultiplier * Time.fixedDeltaTime;
-					weaponHand.SetThrowForce(addedThrowForce);
+					weaponController.SetThrowForce(addedThrowForce);
 				}
 			}
 			if (!isBombarding)
 			{
 				//Rotation
-				if (playerMovement.CalculateRotation() != transform.rotation)
+				if (movementController.CalculateRotation() != transform.rotation)
 				{
-					playerMovement.PerformRotation();
+					movementController.PerformRotation();
 				}
-				if (!isInputTriggered)
+				if (!isInputTriggered && !IsStaminaDepleted)
 				{
 					//Movement
-					if (playerMovement.CalculateMovement() != Vector3.zero)
+					if (movementController.CalculateMovement() != Vector3.zero)
 					{
-						playerMovement.PerformMovement();
+						movementController.PerformMovement();
 					}
 				}
 			}
-
-			//player.OnUpdateState();
 		}
 	}
 	#endregion

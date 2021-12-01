@@ -109,6 +109,7 @@ public class OutOfCombatState : AbstractPlayerState
 		{
 			inputHandler.ResetInput();
 		}
+		inputHandler.Attributes.Stamina = inputHandler.Attributes.StartStamina;
 	}
 
 	public override void OnStateExit()

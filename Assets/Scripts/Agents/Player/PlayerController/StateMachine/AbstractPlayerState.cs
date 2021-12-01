@@ -20,16 +20,16 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     protected PlayerMovementController playerMovement;
     protected WeaponHand weaponHand;
     protected SpecialHand specialHand;
-    protected Attributes attributes;//ossian o jonas
+	//protected Attributes attributes;//ossian o jonas
 
-    private bool isStaminaDepleted;
+	private bool isStaminaDepleted;
 
     private GameObject playerToRevive;
 
-    public bool IsStaminaDepleted
-    {
-        get { return attributes.Stamina <= 0; }
-    }
+    //public bool IsStaminaDepleted
+    //{
+    //    get { return attributes.Stamina <= 0; }
+    //}
     public GameObject PlayerToRevive
 	{
         get { return playerToRevive; }
@@ -43,7 +43,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
         weaponHand = GetComponent<WeaponHand>();
         specialHand = GetComponent<SpecialHand>();
 
-        attributes = GetComponent<Attributes>();//ossian o jonas
+        //attributes = GetComponent<Attributes>();//ossian o jonas
     }
 
     //public abstract void OnMove(CallbackContext context);

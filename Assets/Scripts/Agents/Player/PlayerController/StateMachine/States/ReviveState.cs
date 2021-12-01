@@ -28,12 +28,12 @@ class ReviveState : AbstractPlayerState
         PlayerStates toState = PlayerStates.DEAD;
         if(GameManager.Instance.CurrentCombatState == CombatState.none)
         {
-            attributes.Health = attributes.StartHealth;
+            inputHandler.Attributes.Health = inputHandler.Attributes.StartHealth;
             toState = PlayerStates.OUTOFCOMBAT;
         }
         else
         {
-            attributes.Health = attributes.StartHealth / 2;
+            inputHandler.Attributes.Health = inputHandler.Attributes.StartHealth / 2;
             toState = PlayerStates.COMBATWAIT;
         }
 

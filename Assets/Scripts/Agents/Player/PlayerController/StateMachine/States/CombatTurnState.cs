@@ -114,14 +114,14 @@ public class CombatTurnState : AbstractPlayerState
 	{
 		if(playerMovement.MoveDirection != Vector3.zero)
 		{
-			attributes.Stamina -= Time.deltaTime;
+			inputHandler.Stamina -= Time.deltaTime;
 		}
 	}
 
 	public override void OnStateEnter()
 	{
 		Debug.Log("Enters CombatTurnState" + this);
-		attributes.Stamina = attributes.StartStamina;
+		inputHandler.Attributes.Stamina = inputHandler.Attributes.StartStamina;
 		specialHand.StartTurnEffect();		
 		inputHandler.ResetInput();
 	}
