@@ -175,7 +175,8 @@ public class Checkpoint : MonoBehaviour
         //          newPlayer.transform.parent = PlayerManager.Instance.transform;
         //          i++;
         //      }
-
+        AkSoundEngine.SetState("Music_State", "Roaming");
+        AkSoundEngine.SetState("Music", "RoamingState1");
     }
 
     private void OnTriggerEnter(Collider other)
