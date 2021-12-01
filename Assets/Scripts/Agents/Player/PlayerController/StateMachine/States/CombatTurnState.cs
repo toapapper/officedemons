@@ -130,10 +130,10 @@ public class CombatTurnState : AbstractPlayerState
 	{
 		if (inputHandler.IsInputTriggered && !inputHandler.IsInputLocked)
 		{
-			LockAction();
-			inputHandler.LockInput();
+			LockAction();			
 			//PlayerManager.Instance.ActionDone(gameObject);
 		}
+		inputHandler.LockInput();
 		Debug.Log("Exits CombatTurnState" + this);
 	}
 }

@@ -215,11 +215,11 @@ public class PlayerInputHandler : MonoBehaviour
 				{
 					if (!nearbyObject.GetComponentInChildren<AbstractWeapon>().IsHeld)
 					{
-						isInputTriggered = true;
-						playerMovement.MoveAmount = Vector3.zero;
-						playerMovement.MoveDirection = Vector3.zero;
+						//isInputTriggered = true;
+						//playerMovement.MoveAmount = Vector3.zero;
+						//playerMovement.MoveDirection = Vector3.zero;
 
-						chosenAction = TypeOfAction.PICKUP;
+						//chosenAction = TypeOfAction.PICKUP;
 						player.OnPickUp(nearbyObject);
 						break;
 					}
