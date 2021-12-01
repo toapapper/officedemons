@@ -20,7 +20,18 @@ public abstract class MeleeWeapon : AbstractWeapon
 
     public override void ToggleAim(bool isActive, GameObject FOVView)
 	{
-		FOVView.SetActive(isActive);
+        if (!FOVView.activeSelf && isActive)
+        {
+            FOVView.SetActive(isActive);
+        }
+        else if (FOVView.activeSelf && !isActive)
+        {
+            FOVView.SetActive(isActive);
+        }
+
+
+
+        //FOVView.SetActive(isActive);
 	}
 
 	public override void Attack(Animator animator)

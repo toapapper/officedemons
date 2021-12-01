@@ -27,12 +27,7 @@ public abstract class CoffeeCupSpecial : AbstractSpecial
 
 	public override void ToggleAim(bool isActive)
 	{
-		if (!isActive)
-		{
-			SpecialController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
-			SpecialController.ThrowAim.DeActivate();
-		}
-		else
+		if (!SpecialController.ThrowAim.gameObject.activeSelf && isActive)
 		{
 			SpecialController.ThrowAim.gameObject.SetActive(isActive);
 			switch (Charges)
@@ -45,7 +40,11 @@ public abstract class CoffeeCupSpecial : AbstractSpecial
 					SpecialController.ThrowAim.SetExplosionSize((explodeRadius + explodeRadiusAdder) * 2);
 					break;
 			}
-			
+		}
+		else if (SpecialController.ThrowAim.gameObject.activeSelf && !isActive)
+		{
+			SpecialController.ThrowAim.GetComponent<LineRenderer>().positionCount = 0;
+			SpecialController.ThrowAim.DeActivate();
 		}
 	}
 
@@ -55,6 +54,8 @@ public abstract class CoffeeCupSpecial : AbstractSpecial
 	}
 	public override void Attack()
 	{
+		ActionPower = Charges;
+		Charges = 0;
 		SpecialController.Animator.SetTrigger("isSpecialBombard");
 	}
 
@@ -78,10 +79,5 @@ public abstract class CoffeeCupSpecial : AbstractSpecial
 	public override void TakeDamageEffect()
 	{
 		isHit = true;
-	}
-
-	public override void DoSpecialAction()
-	{
-		base.DoSpecialAction();
 	}
 }

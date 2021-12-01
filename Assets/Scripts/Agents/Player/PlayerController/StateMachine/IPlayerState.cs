@@ -16,22 +16,17 @@ using static UnityEngine.InputSystem.InputAction;
 // Last Edited: 2021-10-12
 public interface IPlayerState
 {
-    TypeOfAction ChosenAction { get; set; }
-    bool IsAddingBombardForce { get; set; }
-    bool IsActionTriggered { get; set; }
-    bool IsActionLocked { get; set; }
-    bool IsStaminaDepleted { get; }
     void LockAction();
     void CancelAction();
 	void OnAttack();
-    bool OnStartBombard();
-    bool OnBombard();
+    void OnStartBombard();
+    void OnBombard();
     void OnSpecial();
-    bool OnStartSpecialBombard();
-    bool OnSpecialBombard();
+    void OnStartSpecialBombard();
+    void OnSpecialBombard();
     void OnPickUp(GameObject weapon);
-    bool OnStartThrow();
-	bool OnThrow();
+    void OnStartThrow();
+    void OnThrow();
     void OnRevive(GameObject player);
     void TransitionState(IPlayerState state);
     void OnFixedUpdateState();

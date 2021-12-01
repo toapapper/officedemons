@@ -45,6 +45,8 @@ public class TerribleBreath : AbstractSpecial
     }
     public override void Attack()
     {
+        ActionPower = Charges;
+        Charges = 0;
         if (!particleEffect.activeSelf)
         {
             AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
@@ -72,19 +74,18 @@ public class TerribleBreath : AbstractSpecial
             {
                 if (target.layer != LayerMask.NameToLayer("Destructible"))
                 {
-                    Effects.WeaponDamage(target, (Damage + (damageMultiplier * Charges)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
-                    Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
+                    Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+                    Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
                     Effects.ApplyWeaponEffects(target, effects);
                 }
 				else
 				{
-                    Effects.Damage(target, (Damage + (damageMultiplier * Charges)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+                    Effects.Damage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
                 }
                 
             }
         }
-        Charges = 0;
-        base.DoSpecialAction();
+        ActionPower = 0;
     }
     private IEnumerator CountdownTime(float time)
     {
