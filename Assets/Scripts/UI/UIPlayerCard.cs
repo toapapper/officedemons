@@ -37,6 +37,10 @@ public class UIPlayerCard : MonoBehaviour
     [SerializeField] private List<Image> chargeObjects = new List<Image>();
     [SerializeField] private List<Sprite> chargeSprites = new List<Sprite>();
 
+    [SerializeField] private List<Image> effects = new List<Image>();
+    [SerializeField] private List<Sprite> effectsSprite = new List<Sprite>();
+
+
     private int maxCharges = 5;
     private int oldCharges;
 
@@ -52,18 +56,18 @@ public class UIPlayerCard : MonoBehaviour
         nameText.text = attributes.Name.ToString();
         jobbText.text = attributes.JobTitle;
         colorBar.color = attributes.PlayerColor;
-        if (attributes.Name != Characters.Susan)
+        if (attributes.Name != Characters.Susan_The_Destroyer)
         {
             chargeObjects[3].enabled = false;
             chargeObjects[4].enabled = false;
             maxCharges = 3;
         }
     }
-    
+
 
     void Update()
     {
-        float ratio =  (float)player.GetComponent<Attributes>().Health / (float)player.GetComponent<Attributes>().StartHealth;
+        float ratio = (float)player.GetComponent<Attributes>().Health / (float)player.GetComponent<Attributes>().StartHealth;
         colorBar.fillAmount = ratio;
     }
 
@@ -88,6 +92,24 @@ public class UIPlayerCard : MonoBehaviour
             durability[1].sprite = durabilitySprite2;
         }
     }
+
+    public void UpdateEffectSprites(int[] spriteValue)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (spriteValue[i] == 0)
+            {
+                effects[i].sprite = effectsSprite[0];
+            }
+            else
+            {
+                Debug.Log("changing sprite of i:" + i);
+                effects[i].sprite = effectsSprite[spriteValue[i]];
+
+            }
+        }
+    }
+
 
     /// <summary>
     /// To update the current charges a player has
@@ -139,4 +161,7 @@ public class UIPlayerCard : MonoBehaviour
             }
         }
     }
+
+
+
 }

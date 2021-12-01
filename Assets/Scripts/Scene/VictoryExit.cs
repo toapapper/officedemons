@@ -7,8 +7,10 @@ public class VictoryExit : MonoBehaviour
 {
     private bool alreadyWon;
 
-    [SerializeField]
-    private GameObject victoryUI;
+    [SerializeField] private GameObject victoryUI;
+    [SerializeField] private List<TextMeshProUGUI> playerColor;
+    [SerializeField] private List<TextMeshProUGUI> playerNames;
+    [SerializeField] private List<TextMeshProUGUI> playerKills;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,29 +31,17 @@ public class VictoryExit : MonoBehaviour
         Debug.Log(PlayerManager.players.Count);
         for (int i = 0; i < PlayerManager.players.Count; i++)
         {
-            Debug.Log("HEJ0");
-
             GameObject playerObject = victoryUI.transform.Find("P" + i).gameObject;
 
-            Debug.Log("HEJ1");
-
             playerObject.SetActive(true);
-            Debug.Log("HEJ1.5");
 
+            playerColor[i].color = PlayerManager.players[i].GetComponent<Attributes>().PlayerColor;
 
-            //Color playerColor = PlayerManager.players[i].GetComponent<Attributes>().PlayerColor;
+            string name = PlayerManager.players[i].GetComponent<Attributes>().Name.ToString().Replace("_"," ");
+            
+            playerNames[i].text = name;
 
-            //playerObject.GetComponent<TextMeshPro>().color = new Color32(50, 50, 50, 255);
-            Debug.Log("HEJ2");
-
-            playerObject.transform.GetChild(0).gameObject.GetComponent<TextMeshPro>().text = PlayerManager.players[i].GetComponent<Attributes>().name;
-            Debug.Log("HEJ3");
-
-            //playerObject.transform.GetChild(1).gameObject.GetComponent<TextMeshPro>().text = PlayerManager.players[i].GetComponent<Attributes>().KillCount.ToString();
-            Debug.Log("HEJ4");
-
-            Debug.Log("HEJ");
+            playerKills[i].text = PlayerManager.players[i].GetComponent<Attributes>().KillCount.ToString();
         }
     }
-
 }

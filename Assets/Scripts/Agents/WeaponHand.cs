@@ -27,7 +27,7 @@ public class WeaponHand : MonoBehaviour
 	[SerializeField]
 	private GameObject FOVVisualization;
 	[SerializeField]
-	private int handHitDamage = 5;
+	private int handHitDamage = 10;
 	[SerializeField]
 	private int handHitForce = 5;
 	[SerializeField]

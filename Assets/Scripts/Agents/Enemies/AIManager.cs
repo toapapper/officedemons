@@ -149,7 +149,7 @@ public class AIManager : MonoBehaviour
                 allDead = false;
             }
         }
-        if (actionsQueue.Count != EnemyList.Count)
+        if (actionsQueue.Count != EnemyList.Count && !GameManager.Instance.AllStill)
             allDone = false;
 
         if (allDone)
@@ -179,7 +179,7 @@ public class AIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Waits for 1 seconds and untill all gameObjects are still. It then signals the gamemanager that all players are done
+    /// Waits for 1 seconds and untill all gameObjects are still. It then signals the gamemanager that all enemies are done
     /// </summary>
     /// <returns></returns>
     IEnumerator WaitDone()
