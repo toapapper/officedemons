@@ -42,7 +42,7 @@ public class MultipleTargetCamera : MonoBehaviour
         objectsInCamera = PlayerManager.players;
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (objectsInCamera == null)
         {
