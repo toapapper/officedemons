@@ -225,10 +225,6 @@ public class WeaponHand : MonoBehaviour
 					}
 				}
 			}
-			if (gameObject.tag == "Player")
-			{
-				GetComponent<AbstractPlayerState>().IsActionTriggered = false;
-			}
 		}
 	}
 	public void ReleaseThrow()
@@ -245,11 +241,6 @@ public class WeaponHand : MonoBehaviour
 			objectInHand = null;
 			FOV.ViewAngle = handHitAngle;
 			FOV.ViewRadius = handHitDistance;
-
-			if (gameObject.tag == "Player")
-			{
-				GetComponent<AbstractPlayerState>().IsActionTriggered = false;
-			}
 		}
 	}
 }

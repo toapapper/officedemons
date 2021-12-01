@@ -43,6 +43,8 @@ public class PaperShredder : AbstractSpecial
 	}
 	public override void Attack()
 	{
+		ActionPower = Charges;
+		Charges = 0;
 		AkSoundEngine.PostEvent("SusanScream", gameObject);
 		specialController.Animator.SetTrigger("isSpecialSelfExplode");
 	}
@@ -69,7 +71,7 @@ public class PaperShredder : AbstractSpecial
 	public override void DoSpecialAction()
 	{
 		
-		if(Charges < MaxCharges)
+		if(ActionPower < MaxCharges)
         {
 			AkSoundEngine.PostEvent("SusanBurst", gameObject);
 			Instantiate(particleEffect, transform.position, transform.rotation);
@@ -87,7 +89,7 @@ public class PaperShredder : AbstractSpecial
 			{
 				if (target.layer != LayerMask.NameToLayer("Destructible"))
 				{
-					if (Charges < MaxCharges)
+					if (ActionPower < MaxCharges)
 					{
 						Effects.ApplyWeaponEffects(target, effects);
 					}
@@ -98,14 +100,14 @@ public class PaperShredder : AbstractSpecial
 						Effects.ApplyWeaponEffects(target, ultiEffects);
 					}
 				}
-				else if (Charges >= MaxCharges)
+				else if (ActionPower >= MaxCharges)
 				{
 					Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
 				}
 			}
 		}
-		Charges = 0;
+		ActionPower = 0;
 		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
-		base.DoSpecialAction();
+		//base.DoSpecialAction();
 	}
 }

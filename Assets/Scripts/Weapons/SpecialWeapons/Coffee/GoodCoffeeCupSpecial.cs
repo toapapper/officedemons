@@ -23,7 +23,7 @@ public class GoodCoffeeCupSpecial : CoffeeCupSpecial
 	{
 		Vector3 velocity = SpecialController.ThrowAim.InitialVelocity;
 
-		switch (Charges)
+		switch (ActionPower)
 		{
 			case 1:
 				grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity,explodeRadius, 0, buffEffects);
@@ -38,7 +38,6 @@ public class GoodCoffeeCupSpecial : CoffeeCupSpecial
 
 				break;
 		}
-		Charges = 0;
-		base.DoSpecialAction();
+		ActionPower = 0;
 	}
 }

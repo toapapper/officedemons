@@ -57,6 +57,8 @@ public class SpinningChair : AbstractSpecial
 		{
 			trail.enabled = true;
 		}
+		ActionPower = Charges;
+		Charges = 0;
 		SpecialController.Animator.SetTrigger("isSpecialSpin");
 	}
 
@@ -74,14 +76,14 @@ public class SpinningChair : AbstractSpecial
 		int nrOfTargets = specialController.FOV.VisibleTargets.Count;
 		AkSoundEngine.PostEvent("VickySlide", gameObject);
 		AkSoundEngine.PostEvent("SusanBurst", gameObject);
-		if (Charges == MaxCharges)
+		if (ActionPower == MaxCharges)
 		{
 			if (nrOfTargets > 0)
 			{
 				DoDamage();
-				if (nrOfTargets < MaxCharges)
+				if (nrOfTargets >= MaxCharges)
 				{
-					Charges = 0;
+					Charges = MaxCharges;
 				}
 			}
 
@@ -95,7 +97,7 @@ public class SpinningChair : AbstractSpecial
 
 				if (nrOfTargets > 1)
 				{
-					if(Charges == 1)
+					if(ActionPower == 1)
 					{
 						Effects.Heal(HolderAgent, healAmount);
 					}
@@ -105,7 +107,6 @@ public class SpinningChair : AbstractSpecial
 					}
 				}
 			}
-			Charges = 0;
 		}
 		StartCoroutine(CountdownTime(0.5f));
 	}
@@ -116,7 +117,7 @@ public class SpinningChair : AbstractSpecial
 		{
 			if (target.layer != LayerMask.NameToLayer("Destructible"))
 			{
-				switch (Charges)
+				switch (ActionPower)
 				{
 					case 1:
 						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
@@ -130,11 +131,11 @@ public class SpinningChair : AbstractSpecial
 						break;
 
 				}
-				Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * Charges)));
+				Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
 			}
 			else
 			{
-				switch (Charges)
+				switch (ActionPower)
 				{
 					case 1:
 						Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
@@ -159,10 +160,10 @@ public class SpinningChair : AbstractSpecial
 
 	private void EndSpecial()
 	{
+		ActionPower = 0;
 		foreach (TrailRenderer trail in trails)
 		{
 			trail.enabled = false;
 		}
-		base.DoSpecialAction();
 	}
 }

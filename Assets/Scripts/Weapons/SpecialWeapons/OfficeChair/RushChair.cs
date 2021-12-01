@@ -59,6 +59,8 @@ public class RushChair : AbstractSpecial
 	}
 	public override void Attack()
 	{
+		ActionPower = Charges;
+		Charges = 0;
 		SpecialController.Animator.SetTrigger("isSpecialRush");
 	}
 
@@ -80,7 +82,7 @@ public class RushChair : AbstractSpecial
 		isKillEffect = false;
 		AkSoundEngine.PostEvent("VickySlide", gameObject);
 		
-		if (Charges == 1)
+		if (ActionPower == 1)
 		{
 			HolderAgent.GetComponent<Rigidbody>().AddForce(HolderAgent.transform.forward * rushForce, ForceMode.VelocityChange);
 		}
@@ -104,7 +106,6 @@ public class RushChair : AbstractSpecial
 		yield return new WaitForSeconds(time);
 		if (isProjectile)
 		{
-			Charges = 0;
 			EndSpecial();
 		}
 	}
@@ -112,12 +113,12 @@ public class RushChair : AbstractSpecial
 	private void EndSpecial()
 	{
 		isProjectile = false;
-
+		ActionPower = 0;
 		foreach (TrailRenderer trail in trails)
 		{
 			trail.enabled = false;
 		}
-		base.DoSpecialAction();
+		//base.DoSpecialAction();
 	}
 
 	public void OnTriggerEnter(Collider other)
@@ -132,25 +133,23 @@ public class RushChair : AbstractSpecial
 
 				Instantiate(particleEffect, transform.position, transform.rotation);
 
-				switch (Charges)
+				switch (ActionPower)
 				{
 					case 1:
 						Effects.WeaponDamage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
 						Effects.ApplyForce(other.gameObject, forceDirection * HitForce);
-						Charges = 0;
 						break;
 					case 2:
 						Effects.WeaponDamage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
 						Effects.ApplyForce(other.gameObject, forceDirection * (HitForce + hitForceAdder));
-						Charges = 0;
 						break;
 					case 3:
 						Effects.WeaponDamage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
 						Effects.ApplyForce(other.gameObject, forceDirection * (HitForce + hitForceAdder));
 						Effects.ApplyWeaponEffects(other.gameObject, effects);
-						if (!isKillEffect)
+						if (isKillEffect)
 						{
-							Charges = 0;
+							Charges = MaxCharges;
 						}
 						break;
 				}
@@ -158,7 +157,7 @@ public class RushChair : AbstractSpecial
 			}
 			else if (other.gameObject.layer == LayerMask.NameToLayer("Destructible"))
 			{
-				switch (Charges)
+				switch (ActionPower)
 				{
 					case 1:
 						Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
@@ -170,7 +169,7 @@ public class RushChair : AbstractSpecial
 						Effects.Damage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
 						break;
 				}
-				Charges = 0;
+				EndSpecial();
 			}
 		}
 	}

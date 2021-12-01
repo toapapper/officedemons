@@ -21,49 +21,11 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     protected WeaponHand weaponHand;
     protected SpecialHand specialHand;
     protected Attributes attributes;//ossian o jonas
-    protected CharacterController characterController;
 
-    private TypeOfAction typeOfActions;
-
-    [SerializeField] private bool isActionTriggered;
-    [SerializeField] private bool isActionLocked;
-    [SerializeField] private bool isAddingThrowForce;
-    [SerializeField] private bool isAddingBombardForce;
-    private TypeOfAction chosenAction;
     private bool isStaminaDepleted;
 
     private GameObject playerToRevive;
 
-    protected TypeOfAction TypeOfActions
-	{
-        get { return typeOfActions; }
-		set { typeOfActions = value; }
-	}
-    public TypeOfAction ChosenAction
-	{
-        get { return chosenAction; }
-        set { chosenAction = value; }
-    }
-    public bool IsActionTriggered
-	{
-		get { return isActionTriggered; }
-		set { isActionTriggered = value; }
-    }
-    public bool IsActionLocked
-    {
-        get { return isActionLocked; }
-        set { isActionLocked = value; }
-    }
-    protected bool IsAddingThrowForce
-    {
-        get { return isAddingThrowForce; }
-        set { isAddingThrowForce = value; }
-    }
-    public bool IsAddingBombardForce
-	{
-        get { return isAddingBombardForce; }
-        set { isAddingBombardForce = value; }
-    }
     public bool IsStaminaDepleted
     {
         get { return attributes.Stamina <= 0; }
@@ -77,13 +39,11 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     private void Awake()
     {
         inputHandler = GetComponent<PlayerInputHandler>();
-        ChosenAction = TypeOfAction.NOACTION;
 		playerMovement = GetComponent<PlayerMovementController>();
         weaponHand = GetComponent<WeaponHand>();
         specialHand = GetComponent<SpecialHand>();
 
         attributes = GetComponent<Attributes>();//ossian o jonas
-        //characterController = GetComponent<CharacterController>();
     }
 
     //public abstract void OnMove(CallbackContext context);
@@ -111,11 +71,4 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 
     public abstract void OnStateExit();
     public abstract void OnStateEnter();
-    public virtual void ResetState()
-	{
-        isActionLocked = false;
-        isActionTriggered = false;
-        isAddingBombardForce = false;
-        isAddingThrowForce = false;
-	}
 }
