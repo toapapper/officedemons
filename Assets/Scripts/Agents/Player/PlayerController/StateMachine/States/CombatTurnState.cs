@@ -263,18 +263,21 @@ public class CombatTurnState : AbstractPlayerState
 	public override void OnStateEnter()
 	{
 		Debug.Log("Enters CombatTurnState" + this);
-		specialHand.StartTurnEffect();
 		attributes.Stamina = attributes.StartStamina;
-		playerMovement.MoveDirection = Vector3.zero;
-		playerMovement.MoveAmount = Vector3.zero;
+		specialHand.StartTurnEffect();		
+		inputHandler.ResetInput();
 
-		if (IsActionTriggered)
-		{
-			weaponHand.CancelAction();
-			specialHand.CancelAction();
-			IsAddingBombardForce = false;
-			IsActionTriggered = false;
-		}
+
+		//playerMovement.MoveDirection = Vector3.zero;
+		//playerMovement.MoveAmount = Vector3.zero;
+
+		//if (IsActionTriggered)
+		//{
+		//	weaponHand.CancelAction();
+		//	specialHand.CancelAction();
+		//	IsAddingBombardForce = false;
+		//	IsActionTriggered = false;
+		//}
 	}
 
 	public override void OnStateExit()
@@ -286,6 +289,7 @@ public class CombatTurnState : AbstractPlayerState
 		if (inputHandler.IsInputTriggered && !inputHandler.IsInputLocked)
 		{
 			LockAction();
+			inputHandler.LockInput();
 			//PlayerManager.Instance.ActionDone(gameObject);
 		}
 		Debug.Log("Exits CombatTurnState" + this);

@@ -39,7 +39,6 @@ public class CombatActionState : AbstractPlayerState
 				//Debug.LogWarning("combatActionState revive " + GetComponent<CombatTurnState>().PlayerToRevive);
 				break;
 		}
-		inputHandler.ResetInput();
 
 		StartCoroutine("WaitDone");
 
