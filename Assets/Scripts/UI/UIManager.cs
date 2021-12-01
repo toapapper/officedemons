@@ -139,6 +139,8 @@ public class UIManager : MonoBehaviour
         StaminaCircle stamCirc = transform.Find("StamCircle" + i).GetComponent<StaminaCircle>();
         stamCirc.gameObject.SetActive(true);
         stamCirc.SetPlayer(PlayerManager.players[i]);
+
+
     }
 
     /// <summary>
@@ -196,16 +198,16 @@ public class UIManager : MonoBehaviour
                 {
                     float durabilityBig = durability / 10;
                     int durabilitySmall = durability - (int)durabilityBig * 10;
-                    card.UpdateWeaponSprites(weaponSprite, GetDurabilitySprite((int)durabilityBig), GetDurabilitySprite(durabilitySmall));
+                    card.UpdateWeaponSprites(weaponSprite, PlayerManager.players[i].GetComponent<WeaponHand>().objectInHand.name, GetDurabilitySprite((int)durabilityBig), GetDurabilitySprite(durabilitySmall));
                 }
                 else
                 {
-                    card.UpdateWeaponSprites(weaponSprite,numbers[10], GetDurabilitySprite(durability));
+                    card.UpdateWeaponSprites(weaponSprite, PlayerManager.players[i].GetComponent<WeaponHand>().objectInHand.name, numbers[10], GetDurabilitySprite(durability));
                 }
             }
             else
             {
-                card.UpdateWeaponSprites(defaultWeapon, numbers[10], numbers[10]);
+                card.UpdateWeaponSprites(defaultWeapon,"", numbers[10], numbers[10]);
             }
             card.UpdateChargeSprites(PlayerManager.players[i].GetComponentInChildren<AbstractSpecial>().Charges);
 
