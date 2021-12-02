@@ -56,8 +56,11 @@ public class StarThrower : AbstractSpecial
 			//TODO DamageBoost buff effect?
 			foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 			{
-				Effects.ApplyStatusEffect(target, StatusEffectType.DamageBoost);
-				base.AddCharge();
+				if (target.layer != LayerMask.NameToLayer("Destructible"))
+				{
+					Effects.ApplyStatusEffect(target, StatusEffectType.DamageBoost);
+					base.AddCharge();
+				}
 			}
 		}
 
