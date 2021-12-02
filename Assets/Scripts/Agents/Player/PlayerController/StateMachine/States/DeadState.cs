@@ -47,6 +47,9 @@ public class DeadState : AbstractPlayerState
     public override void OnStateEnter()
     {
         Debug.Log("Enters DeadState " + this);
+        inputHandler.LockInput();
+        inputHandler.ResetAction();
+
         originalColor = GetComponentInChildren<Attributes>().PlayerColor; 
         PlayerManager.Instance.NextPlayerAction();
 
@@ -70,7 +73,7 @@ public class DeadState : AbstractPlayerState
             StartCoroutine(DelayedSelfRevive());
         }
 
-		gameObject.GetComponent<Animator>().SetTrigger("isCancelAction");
+		//gameObject.GetComponent<Animator>().SetTrigger("isCancelAction");
         gameObject.GetComponent<Animator>().SetTrigger("isDead");
         gameObject.GetComponent<CapsuleCollider>().enabled = false;
         gameObject.GetComponent<NavMeshAgent>().enabled = false;

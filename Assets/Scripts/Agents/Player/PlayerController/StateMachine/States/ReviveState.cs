@@ -24,6 +24,7 @@ class ReviveState : AbstractPlayerState
     public override void OnStateEnter()
     {
         Debug.Log("Entered ReviveState: " + gameObject.ToString());
+        
 
         PlayerStates toState = PlayerStates.DEAD;
         if(GameManager.Instance.CurrentCombatState == CombatState.none)
