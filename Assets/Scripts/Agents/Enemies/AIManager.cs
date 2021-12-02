@@ -117,6 +117,11 @@ public class AIManager : MonoBehaviour
                     EnemyList[i].GetComponent<Attributes>().Stamina = EnemyList[i].GetComponent<Attributes>().StartStamina;
                     EnemyList[i].GetComponent<AIController>().ActionIsLocked = false;
                 }
+                else
+                {
+                    EnemyList[i].GetComponent<Attributes>().Stamina = 0;
+                    EnemyList[i].GetComponent<AIController>().ActionIsLocked = true;
+                }
 
                 EnemyList[i].GetComponent<StatusEffectHandler>().UpdateEffects();
             }

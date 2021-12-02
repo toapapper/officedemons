@@ -34,6 +34,7 @@ public class PlayerInputHandler : MonoBehaviour
 	//Helper variables
 	private List<GameObject> nearbyObjects = new List<GameObject>();
 	private List<GameObject> nearbyPlayers = new List<GameObject>();
+	private GameObject playerToRevive;
 
 	public bool recentlySpawned = false;
 
@@ -51,12 +52,12 @@ public class PlayerInputHandler : MonoBehaviour
 	private bool isThrowing;
 
 
-	public TypeOfAction ChosenAction { get { return chosenAction; } }
+	public TypeOfAction ChosenAction { get { return chosenAction; } set { chosenAction = value; } }
+	public GameObject PlayerToRevive { get { return playerToRevive; } set { playerToRevive = value; } }
+	public Attributes Attributes { get { return attributes; } }
+	public bool IsStaminaDepleted {	get { return attributes.Stamina <= 0; } }
 	public bool IsInputLocked {	get { return isInputLocked; } }
 	public bool IsInputTriggered { get { return isInputTriggered; } }
-	public bool IsStaminaDepleted {	get { return attributes.Stamina <= 0; } }
-	public Attributes Attributes { get { return attributes; } }
-	public float Stamina { get { return attributes.Stamina; }	set { attributes.Stamina = value; } }
 
 
 	public void Start()
@@ -133,11 +134,11 @@ public class PlayerInputHandler : MonoBehaviour
 					ConfirmInput(context);
 				}
 			}
-			else if (movementController.MoveAmount != Vector3.zero)
-			{
-				movementController.MoveDirection = Vector3.zero;
-				movementController.MoveAmount = Vector3.zero;
-			}
+			//else if (movementController.MoveAmount != Vector3.zero )
+			//{
+			//	movementController.MoveDirection = Vector3.zero;
+			//	movementController.MoveAmount = Vector3.zero;
+			//}
 		}
 	}
 	#endregion
@@ -262,6 +263,7 @@ public class PlayerInputHandler : MonoBehaviour
 					movementController.MoveDirection = Vector3.zero;
 
 					chosenAction = TypeOfAction.REVIVE;
+					playerToRevive = nearbyPlayer;
 					stateController.OnRevive(nearbyPlayer);
 					return;
 				}
@@ -342,19 +344,41 @@ public class PlayerInputHandler : MonoBehaviour
 	public void LockInput()
 	{
 		isInputLocked = true;
+		movementController.MoveDirection = Vector3.zero;
+		movementController.MoveAmount = Vector3.zero;
 	}
 	public void ResetInput()
 	{
-		chosenAction = TypeOfAction.NOACTION;
 		isInputLocked = false;
 		isInputTriggered = false;
 		isBombarding = false;
 		isThrowing = false;
 	}
+	public void ResetAction()
+	{
+		switch (chosenAction)
+		{
+			case TypeOfAction.ATTACK:
+			case TypeOfAction.BOMBARD:
+				weaponController.ToggleAimView(false);
+				weaponController.CancelAction();
+				break;
+			case TypeOfAction.SPECIALATTACK:
+			case TypeOfAction.SPECIALBOMBARD:
+				specialController.ToggleAimView(false);
+				specialController.CancelAction();
+				break;
+			case TypeOfAction.THROW:
+				weaponController.CancelAction();
+				break;
+			case TypeOfAction.REVIVE:
+				playerToRevive = null;
+				break;
+		}
+
+		chosenAction = TypeOfAction.NOACTION;
+	}
 	#endregion
-
-
-	//RESET ACTION ANIMATION
 
 
 	#region UPDATE
@@ -370,6 +394,7 @@ public class PlayerInputHandler : MonoBehaviour
 					weaponController.SetThrowForce(addedThrowForce);
 				}
 			}
+
 			if (!isBombarding)
 			{
 				//Rotation

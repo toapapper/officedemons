@@ -555,7 +555,7 @@ MonoBehaviour:
   startHealth: 100
   killCount: 0
   health: 0
-  startStamina: 3.5
+  startStamina: 1
   stamina: 50
 --- !u!114 &8537220933488057913
 MonoBehaviour:
@@ -650,6 +650,7 @@ GameObject:
   - component: {fileID: 396508003784110315}
   - component: {fileID: 6029501195552038405}
   - component: {fileID: 8182697512204223536}
+  - component: {fileID: 4960717334685932229}
   m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
@@ -724,6 +725,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4960717334685932229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4707187134949398911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 2
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &6819832516666823707
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,7 +803,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e75edc85eb701bc4e8b01ca1eff97de1, type: 2}
+  - {fileID: 2541027889296251942, guid: 6896dc7b17aa0344c87fbcf8da5f3297, type: 3}
   - {fileID: 2100000, guid: 8cd3d9b5ca7b79148b9dc3e4d1815b1a, type: 2}
   - {fileID: 2100000, guid: c0017305d49bcc641a2e3bb920d7e91e, type: 2}
   - {fileID: 2100000, guid: 49536c26125c8a64c8b01a20f02ef085, type: 2}

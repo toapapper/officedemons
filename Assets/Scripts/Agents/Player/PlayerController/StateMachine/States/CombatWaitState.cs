@@ -17,6 +17,8 @@ public class CombatWaitState : AbstractPlayerState
 	public override void OnStateEnter()
 	{
 		Debug.Log("Enters CombatWaitState" + this);
+		inputHandler.LockInput();
+		//inputHandler.ResetAction();
 	}
 
 	public override void OnStateExit()
