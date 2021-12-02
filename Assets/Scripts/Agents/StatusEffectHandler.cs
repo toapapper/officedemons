@@ -185,6 +185,8 @@ public class StatusEffectHandler : MonoBehaviour
 
             if (activeEffects.ContainsKey(si))
             {
+               activeEffects[(StatusEffectType)i].Update(this.gameObject);
+                
                 if(activeEffects[si].duration <= 0)
                 {
                     if(si == StatusEffectType.Slow)
@@ -195,10 +197,6 @@ public class StatusEffectHandler : MonoBehaviour
                     {
                         activeEffects.Remove(si);
                     }
-                }
-                else
-                {
-                    activeEffects[(StatusEffectType)i].Update(this.gameObject);
                 }
             }
 
