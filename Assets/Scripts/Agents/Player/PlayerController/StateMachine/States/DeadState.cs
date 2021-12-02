@@ -49,6 +49,7 @@ public class DeadState : AbstractPlayerState
         Debug.Log("Enters DeadState " + this);
         inputHandler.LockInput();
         inputHandler.ResetAction();
+        inputHandler.Attributes.Stamina = 0;
 
         originalColor = GetComponentInChildren<Attributes>().PlayerColor; 
         PlayerManager.Instance.NextPlayerAction();
@@ -84,6 +85,7 @@ public class DeadState : AbstractPlayerState
     public override void OnStateExit()
     {
         Debug.Log("Exits DeadState" + this);
+        inputHandler.Attributes.Stamina = inputHandler.Attributes.StartStamina;
         GetComponentInChildren<MeshRenderer>().material.color = originalColor;
         if (particleEffect)
         {
