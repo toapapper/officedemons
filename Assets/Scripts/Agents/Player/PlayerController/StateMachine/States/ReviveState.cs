@@ -32,6 +32,11 @@ class ReviveState : AbstractPlayerState
             inputHandler.Attributes.Health = inputHandler.Attributes.StartHealth;
             toState = PlayerStates.OUTOFCOMBAT;
         }
+        else if(GameManager.Instance.CurrentCombatState == CombatState.enterCombat)
+        {
+            inputHandler.Attributes.Health = inputHandler.Attributes.StartHealth;
+            toState = PlayerStates.ENTERCOMBAT;
+        }
         else
         {
             inputHandler.Attributes.Health = inputHandler.Attributes.StartHealth / 2;
