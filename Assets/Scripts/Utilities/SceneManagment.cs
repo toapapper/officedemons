@@ -52,6 +52,12 @@ public class SceneManagment : MonoBehaviour
         loadingScreen.SetActive(false);
     }
 
+    public void GetMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+
     private void GetLevel(int levelIndex)
     {
         SceneManager.LoadScene(levelIndex);
