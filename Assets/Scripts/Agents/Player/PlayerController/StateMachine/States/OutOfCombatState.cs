@@ -66,18 +66,19 @@ public class OutOfCombatState : AbstractPlayerState
 	}
 	public override void CancelAction()
 	{
-		switch (inputHandler.ChosenAction)
-		{
-			case TypeOfAction.BOMBARD:
-				weaponHand.CancelAction();
-				weaponHand.ToggleAimView(false);
+		inputHandler.ResetAction();
+		//switch (inputHandler.ChosenAction)
+		//{
+		//	case TypeOfAction.BOMBARD:
+		//		weaponHand.CancelAction();
+		//		weaponHand.ToggleAimView(false);
 
-				break;
-			case TypeOfAction.SPECIALBOMBARD:
-				specialHand.CancelAction();
-				specialHand.ToggleAimView(false);
-				break;
-		}
+		//		break;
+		//	case TypeOfAction.SPECIALBOMBARD:
+		//		specialHand.CancelAction();
+		//		specialHand.ToggleAimView(false);
+		//		break;
+		//}
 	}
 
 	//PickUp
@@ -105,18 +106,14 @@ public class OutOfCombatState : AbstractPlayerState
 
 	public override void OnStateEnter()
 	{
-		if (inputHandler.IsInputTriggered)
-		{
-			inputHandler.ResetInput();
-		}
-		inputHandler.Attributes.Stamina = inputHandler.Attributes.StartStamina;
+		inputHandler.ResetAction();
+		inputHandler.ResetInput();
+		//inputHandler.Attributes.Stamina = inputHandler.Attributes.StartStamina;
 	}
 
 	public override void OnStateExit()
 	{
-		if (inputHandler.IsInputTriggered)
-		{
-			inputHandler.ResetInput();
-		}
+		inputHandler.ResetAction();
+		inputHandler.ResetInput();
 	}
 }

@@ -62,10 +62,11 @@ public class CombatTurnState : AbstractPlayerState
 		LockAction();
 	}
 
-	public override void OnRevive(GameObject player)
-	{
-		PlayerToRevive = player;
-	}
+	//public override void OnRevive(GameObject player)
+	//{
+	//	PlayerToRevive = player;
+	//	inputHandler.PlayerToRevive = player;
+	//}
 
 	//Lock action
 	public override void LockAction()
@@ -81,40 +82,42 @@ public class CombatTurnState : AbstractPlayerState
 				specialHand.ToggleAimView(false);
 				break;
 		}
-		Debug.Log("Chosenaction: " + inputHandler.ChosenAction);
+		//Debug.Log("Chosenaction: " + inputHandler.ChosenAction);
 		PlayerManager.Instance.ActionDone(gameObject);
 	}
-
+	//Cancel action
 	public override void CancelAction()
 	{
-		switch (inputHandler.ChosenAction)
-		{
-			case TypeOfAction.ATTACK:
-			case TypeOfAction.BOMBARD:
-				weaponHand.ToggleAimView(false);
-				weaponHand.CancelAction();
-				break;
-			case TypeOfAction.SPECIALATTACK:
-			case TypeOfAction.SPECIALBOMBARD:
-				specialHand.ToggleAimView(false);
-				specialHand.CancelAction();
-				break;
-			case TypeOfAction.THROW:
-				weaponHand.CancelAction();
-				break;
-			case TypeOfAction.REVIVE:
-				PlayerToRevive = null;
-				break;
-		}
-		Debug.LogWarning("Reset action");
+		inputHandler.ResetAction();
+
+		//switch (inputHandler.ChosenAction)
+		//{
+		//	case TypeOfAction.ATTACK:
+		//	case TypeOfAction.BOMBARD:
+		//		weaponHand.ToggleAimView(false);
+		//		weaponHand.CancelAction();
+		//		break;
+		//	case TypeOfAction.SPECIALATTACK:
+		//	case TypeOfAction.SPECIALBOMBARD:
+		//		specialHand.ToggleAimView(false);
+		//		specialHand.CancelAction();
+		//		break;
+		//	case TypeOfAction.THROW:
+		//		weaponHand.CancelAction();
+		//		break;
+		//	case TypeOfAction.REVIVE:
+		//		inputHandler.PlayerToRevive = null;
+		//		break;
+		//}
+		//Debug.LogWarning("Reset action");
 	}
 
 	//Update
 	public override void OnFixedUpdateState()
 	{
-		if(playerMovement.MoveDirection != Vector3.zero)
+		if(!inputHandler.IsInputTriggered && playerMovement.MoveDirection != Vector3.zero)
 		{
-			inputHandler.Stamina -= Time.deltaTime;
+			inputHandler.Attributes.Stamina -= Time.deltaTime;
 		}
 	}
 
@@ -131,9 +134,9 @@ public class CombatTurnState : AbstractPlayerState
 		if (inputHandler.IsInputTriggered && !inputHandler.IsInputLocked)
 		{
 			LockAction();			
-			//PlayerManager.Instance.ActionDone(gameObject);
 		}
 		inputHandler.LockInput();
+		inputHandler.Attributes.Stamina = inputHandler.Attributes.StartStamina;
 		Debug.Log("Exits CombatTurnState" + this);
 	}
 }
