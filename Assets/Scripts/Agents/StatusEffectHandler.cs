@@ -239,7 +239,11 @@ public class StatusEffect
     public void Update(GameObject gameObject)
     {
         Effects.Damage(gameObject, damage * stacks);
-        Effects.DrainStamina(gameObject, stamDrain * stacks);
+
+        if(GameManager.Instance.CurrentCombatState != CombatState.none)
+        {
+            Effects.DrainStamina(gameObject, stamDrain * stacks);
+        }
 
         this.duration--;
     }
