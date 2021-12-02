@@ -17,7 +17,7 @@ using UnityEngine.UI;
 public class ChangeVolumeLevels : MonoBehaviour
 {
     [SerializeField] private Slider thisSlider;
-    private static float masterVolume = 50f;
+    private static float masterVolume = 20f;
     private static float musicVolume = 50f;
     private static float sfxVolume = 50f;
     private static float voiceVolume = 50f;
