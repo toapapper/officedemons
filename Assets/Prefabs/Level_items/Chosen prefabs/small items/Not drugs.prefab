@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8023496009885164458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2039879987360777794}
+  - component: {fileID: 5117229125841778931}
+  m_Layer: 0
+  m_Name: FOV
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2039879987360777794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8023496009885164458}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9116470052662336089}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5117229125841778931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8023496009885164458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 3
+  viewAngle: 360
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 2432
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 8
+  meshResolution: 1
+  viewMeshFilter: {fileID: 0}
 --- !u!1 &8959796059819658059
 GameObject:
   m_ObjectHideFlags: 0
@@ -31,7 +84,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -28.22724, y: -19.869152, z: -28.063385}
   m_LocalScale: {x: 10.571, y: 10.571, z: 10.571}
-  m_Children: []
+  m_Children:
+  - {fileID: 2039879987360777794}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -112,6 +166,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyedPrefab: {fileID: 762013300987907600, guid: da0ff39065bbfc140bbbee33967db9fa, type: 3}
   particleEffect: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
+  damage: 10
+  force: 100
+  effects: 
 --- !u!114 &2054164511806414491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   characterName: 3
+  portrait: {fileID: 0}
   jobTitle: "arbetsl\uFFFDs"
   startHealth: 5
   killCount: 0
