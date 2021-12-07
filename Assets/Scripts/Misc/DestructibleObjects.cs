@@ -30,7 +30,7 @@ public class DestructibleObjects : MonoBehaviour
 		ImpactAgents();
 
 		Instantiate(destroyedPrefab, transform.position, transform.rotation);
-		CameraShake.Shake(0.25f, 0.25f);
+		CameraShake.Shake(0.5f, 0.5f);
 		Destroy(gameObject);
 	}
 
