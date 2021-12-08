@@ -16,7 +16,7 @@ using System.Linq;
 ///
 /// </summary>
 
-// Last Edited: 15-10-21
+// Last Edited: 08-12-21
 
 public class AIController : MonoBehaviour
 {
@@ -32,7 +32,6 @@ public class AIController : MonoBehaviour
         set { targetsChosen = value; }
     }
 
-    // Class for traget?
     private GameObject target;
     public GameObject Target
     {
@@ -52,8 +51,7 @@ public class AIController : MonoBehaviour
     private Vector3 targetPosition;
     public Vector3 TargetPosition
     {
-        get { return targetPosition; }
-        set { targetPosition = value; }
+        get { return Target.transform.position; }
     }
 
     private bool inActiveCombat;
@@ -139,13 +137,11 @@ public class AIController : MonoBehaviour
                     {
                         Target = GetTargetPlayer(aiManager.PlayerList);
                         TargetType = TargetTypes.Player;
-                        TargetPosition = Target.transform.position;
                         CurrentState = AIStates.States.Attack;
                     }
                     else
                     {
                         TargetType = TargetTypes.CoverSpot;
-                        TargetPosition = Target.transform.position;
                     }
 
                 }
@@ -172,7 +168,6 @@ public class AIController : MonoBehaviour
                 {
                     Target = GetTargetPlayer(aiManager.PlayerList);
                     TargetType = TargetTypes.Player;
-                    TargetPosition = Target.transform.position;
                 }
 
                 //Debug.LogError("IsArmed(): " + IsArmed());
@@ -206,7 +201,6 @@ public class AIController : MonoBehaviour
                     Target = CalculateClosest(PlayerManager.players);
                     TargetType = TargetTypes.Player;
                 }
-                TargetPosition = new Vector3(Target.transform.position.x, 0.5f, Target.transform.position.z);
                 CurrentState = AIStates.States.Move;
                 break;
 
@@ -390,7 +384,6 @@ public class AIController : MonoBehaviour
                                 {
                                     aiManager.TakenCoverPositions.Add(child.position);
                                     //Target = hit.transform.gameObject;
-                                    TargetPosition = child.position;
                                     TargetType = TargetTypes.CoverSpot;
                                     minDistToCover = Vector3.Magnitude((hit2.transform.position - opponent.transform.position));
                                 }
@@ -457,7 +450,6 @@ public class AIController : MonoBehaviour
         navMeshAgent.isStopped = true;
         currentState = AIStates.States.Unassigned;
         Target = GetTargetPlayer(aiManager.PlayerList);
-        TargetPosition = Target.transform.position;
         TargetType = TargetTypes.Player;
     }
 
@@ -472,7 +464,6 @@ public class AIController : MonoBehaviour
 
         Target = null;
         TargetType = TargetTypes.ShootSpot;
-        TargetPosition = transform.position + (oppositeDirection * distance);
     }
 
     public GameObject GetTargetPlayer(List<GameObject> players) // maybe only target?

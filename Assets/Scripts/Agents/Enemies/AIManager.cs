@@ -108,7 +108,6 @@ public class AIManager : MonoBehaviour
             {
                 EnemyList[i].GetComponent<AIController>().TargetType = AIController.TargetTypes.None;
                 EnemyList[i].GetComponent<AIController>().Target = null;
-                EnemyList[i].GetComponent<AIController>().TargetPosition = Vector3.zero;
                 //e.GetComponent<AIController>().GetTargetPlayer(PlayerList);
 
                 //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
