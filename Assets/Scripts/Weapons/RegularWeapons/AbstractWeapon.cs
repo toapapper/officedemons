@@ -223,6 +223,10 @@ public abstract class AbstractWeapon : MonoBehaviour
 		{
 			durability -= 1;
 		}
+        if (HolderAgent.GetComponent<AIController>())
+        {
+			durability -= 1;
+		}
 	}
 
 	/// <summary>
@@ -233,7 +237,10 @@ public abstract class AbstractWeapon : MonoBehaviour
 	{
 		if (durability <= 0)
 		{
-			handle.GetComponentInParent<PlayerInputHandler>().RemoveObjectFromWeaponList(this.gameObject);
+            if (!HolderAgent.GetComponent<AIController>())
+            {
+				handle.GetComponentInParent<PlayerInputHandler>().RemoveObjectFromWeaponList(this.gameObject);
+            }
 			handle.GetComponentInParent<WeaponHand>().DropWeapon();
 			Destroy(this.gameObject);
 		}
