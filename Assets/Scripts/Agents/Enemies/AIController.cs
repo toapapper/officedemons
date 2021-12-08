@@ -165,7 +165,6 @@ public class AIController : MonoBehaviour
 
             case AIStates.States.Attack:
                 aiManager.SaveAction(this.gameObject);
-
                 break;
 
             case AIStates.States.Move:
