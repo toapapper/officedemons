@@ -21,7 +21,7 @@ public abstract class RangedWeapon : AbstractWeapon
 	[SerializeField]
 	private GameObject laserAim;
 	[SerializeField]
-	private float bulletFireForce = 20;
+	private float bulletFireForce = 70;
 	[SerializeField]
 	protected GameObject bullet;
 
