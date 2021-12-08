@@ -109,7 +109,7 @@ public class Attributes : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Vector3 knockedbackVelocity = collision.relativeVelocity;
-        if (characterName != Characters.Vicious_Vicky /*&& !collision.gameObject.CompareTag("Enemy")*/ && !collision.gameObject.CompareTag("Ground"))
+        if (characterName != Characters.Vicious_Vicky && !collision.gameObject.CompareTag("Projectile") && !collision.gameObject.CompareTag("Ground"))
         {
             float force = Mathf.Abs(knockedbackVelocity.x) + Mathf.Abs(knockedbackVelocity.z);
             if ( force >= 100)
@@ -138,7 +138,7 @@ public class Attributes : MonoBehaviour
             }
             else
             {
-                Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
+                //Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
             }
         }
     }
