@@ -104,28 +104,22 @@ public class Attributes : MonoBehaviour
     //TODO Vicky takes dmg when rushing fix
     private void OnCollisionEnter(Collision collision)
     {
-        Vector3 velocity = gameObject.GetComponent<Rigidbody>().velocity;
-        if (characterName != Characters.Vicious_Vicky)
+        Vector3 knockedbackVelocity = collision.relativeVelocity;
+        if (characterName != Characters.Vicious_Vicky && !collision.gameObject.CompareTag("Enemy") && !collision.gameObject.CompareTag("Ground"))
         {
-            float force = Mathf.Abs(velocity.x) + Mathf.Abs(velocity.z);
+            float force = Mathf.Abs(knockedbackVelocity.x) + Mathf.Abs(knockedbackVelocity.z);
             if ( force >= 100)
             {
-                Debug.Log("VELOCITY.X : " + velocity.x + "| VELOCITY.Z : " + velocity.z);
-                Debug.Log("BOOM BIG DAMAGE");
                 health -= 70;
-                velocity = Vector3.zero;
+                gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
             }
             else if (force >= 20)
             {
-                Debug.Log("VELOCITY.X : " + velocity.x + "| VELOCITY.Z : " + velocity.z);
-                Debug.Log("Abs"+Mathf.Abs(velocity.x + velocity.z));
-                Debug.Log("BOOM MEDIUM DAMAGE");
                 health -= 20;
-                velocity = Vector3.zero;
+                gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
             }
             else
             {
-                //Debug.Log("VELOCITY.X : " + velocity.x + "| VELOCITY.Z : " + velocity.z);
             }
         }
     }
