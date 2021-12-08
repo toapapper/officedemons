@@ -110,7 +110,7 @@ public class Checkpoint : MonoBehaviour
         List<WeaponData> weaponDataList = SaveSystem.LoadWeapons();
         foreach (WeaponData weaponData in weaponDataList)
         {
-            Debug.Log(weaponData.weaponType + "Handle");
+            //Debug.Log(weaponData.weaponType + "Handle");
             if (Resources.Load(weaponData.weaponType + "Handle"))
             {
                 GameObject newWeapon = Instantiate(Resources.Load(weaponData.weaponType + "Handle"),
