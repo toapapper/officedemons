@@ -34,8 +34,6 @@ public class AIController : MonoBehaviour
         set { navMeshAgent = value; }
     }
 
-
-
     private GameObject target;
     public GameObject Target
     {
@@ -114,7 +112,6 @@ public class AIController : MonoBehaviour
         aiStateHandler = GetComponent<AIStateHandler>();
         aiManager = transform.parent.GetComponentInChildren<AIManager>();
         weaponHand = GetComponent<WeaponHand>();
-        
     }
 
     public void Die()

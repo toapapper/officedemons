@@ -186,12 +186,21 @@ public static class Effects
 	{
 		if (target.tag == "Enemy")
 		{
-			Disarm(target);
+            if (target.name == "tank")
+            {
+                target.GetComponent<TankController>().CurrentState = TankController.TankStates.Dead;
+                target.GetComponent<TankController>().Die();
+            }
+            else
+            {
+                Disarm(target);
 
-			target.GetComponent<StatusEffectHandler>().ClearEffects();
+                target.GetComponent<StatusEffectHandler>().ClearEffects();
 
-			target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
-			target.GetComponent<AIController>().Die();
+                target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
+                target.GetComponent<AIController>().Die();
+            }
+			
 		}
 		else if (target.tag == "Player")
 		{
