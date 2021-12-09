@@ -149,8 +149,10 @@ public class AIManager : MonoBehaviour
             // Tanks
             if (e.name == "tank")
             {
+                
                 if (!e.GetComponent<TankController>().ActionIsLocked) // if not all locked actions
                 {
+                    Debug.LogError("TANK PERFORMING TURN");
                     e.GetComponent<TankController>().PerformBehaviour();
                     allDone = false;
                 }

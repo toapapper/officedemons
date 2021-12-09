@@ -39,20 +39,22 @@ public class TankController : MonoBehaviour
         set { actionIsLocked = value; }
     }
 
-    // Start is called before the first frame update
+    Transform towerTransform;
+
     void Start()
     {
-
+        aiManager = transform.parent.GetComponentInChildren<AIManager>();
+        towerTransform = this.gameObject.transform.GetChild(0);
     }
 
     public void PerformBehaviour()
     {
         // child "tiger-head" is the rotating part
         StateUpdate();
-
         switch (CurrentState)
         {
             case TankStates.Rotate:
+                Debug.LogError("ROTATING");
                 RotateTowards(TargetPosition);
                 break;
         }
@@ -86,24 +88,25 @@ public class TankController : MonoBehaviour
     private void RotateTowards(Vector3 targetPosition)
     {
         // Determine which direction to rotate towards
-        Vector3 targetDirection = targetPosition - transform.position;
+        Vector3 targetDirection = targetPosition - towerTransform.position;
 
         // The step size is equal to speed times frame time.
         float singleStep = rotationSpeed * Time.deltaTime;
 
         // Rotate the forward vector towards the target direction by one step
-        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+        Vector3 newDirection = Vector3.RotateTowards(towerTransform.forward, targetDirection, singleStep, 0.0f);
 
         // Draw a ray pointing at our target in
-        Debug.DrawRay(transform.position, newDirection, Color.red);
+        Debug.DrawRay(towerTransform.position, newDirection, Color.red);
 
         // Calculate a rotation a step closer to the target and applies rotation to this object
-        transform.rotation = Quaternion.LookRotation(newDirection);
+        
+        towerTransform.rotation = Quaternion.LookRotation(newDirection);
     }
 
-    private bool RotationFinished()
+    private bool RotationFinished() //add maxrotation?
     {
-        return (Quaternion.Angle(transform.rotation, targetRotation) <= 0.01f);
+        return (Quaternion.Angle(towerTransform.rotation, targetRotation) <= 1f);
     }
 
     // The decisions are made here
@@ -115,11 +118,11 @@ public class TankController : MonoBehaviour
 
                 // find traget 
                 GameObject target = GetTargetPlayer(aiManager.PlayerList);
-
+                
                 if (target != null)
                 {
                     TargetPosition = target.transform.position;
-                    targetRotation = Quaternion.LookRotation((TargetPosition - transform.position).normalized);
+                    targetRotation = Quaternion.LookRotation((TargetPosition - towerTransform.position).normalized);
                     CurrentState = TankStates.Rotate;
                 }
                 // if no player found that you can shoot, wait
@@ -136,10 +139,12 @@ public class TankController : MonoBehaviour
                     if (InLineOfSight())
                     {
                         CurrentState = TankStates.Shoot;
+
                     }
                     else
                     {
                         CurrentState = TankStates.Wait;
+
                     }
                 }
                 break;
@@ -168,19 +173,31 @@ public class TankController : MonoBehaviour
         targetRotation = Quaternion.identity;
     }
 
-    // IMPLEMENT
-    public GameObject GetTargetPlayer(List<GameObject> players) // maybe only target?
+    public GameObject GetTargetPlayer(List<GameObject> players) // maybe change to always rotate but not shoot 
     {
         GameObject target = null;
 
         float minHealth = Mathf.Infinity;
+        Vector3 myPosition = new Vector3(towerTransform.position.x, towerTransform.position.y+ 10, towerTransform.position.z);                  //  hard coded
 
         // of all players possible to shoot, chose the one with lowest health
         foreach (GameObject player in players)
         {
             // Raycast to player
-            // if hit is player and <= minHealth
-            //update target
+            RaycastHit hit = new RaycastHit();
+            Vector3 direction = (player.transform.position - myPosition).normalized;
+
+            if (Physics.Raycast(myPosition, direction, out hit))
+            {
+                if (hit.transform.gameObject.tag == "Player")
+                {
+                    if (player.gameObject.GetComponent<Attributes>().Health <= minHealth)
+                    {
+                        target = player;
+                        minHealth = player.GetComponent<Attributes>().Health;
+                    }
+                }
+            }
         }
 
         return target;
