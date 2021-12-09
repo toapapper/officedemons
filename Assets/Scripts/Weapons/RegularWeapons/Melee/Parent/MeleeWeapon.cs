@@ -55,13 +55,13 @@ public abstract class MeleeWeapon : AbstractWeapon
             {
                 if (target.layer != LayerMask.NameToLayer("Destructible"))
                 {
-                    Effects.RegularWeaponDamage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost), HolderAgent);
+                    Effects.RegularWeaponDamage(target, Damage * (1 + wielder.GetComponent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
                     Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
-                    Effects.ApplyWeaponEffects(target, effects);
+                    Effects.ApplyWeaponEffects(target, Utilities.ListDictionaryKeys(effects));
                 }
 				else
 				{
-                    Effects.Damage(target, Damage * (1 + wielder.GetComponent<StatusEffectHandler>().DmgBoost));
+                    Effects.Damage(target, Damage * (1 + wielder.GetComponent<Attributes>().statusEffectHandler.DmgBoost));
                 }
 
                 if (particleEffect)
@@ -69,29 +69,6 @@ public abstract class MeleeWeapon : AbstractWeapon
                     AkSoundEngine.PostEvent("Play_Blunt_thud", gameObject);
                     Instantiate(particleEffect, target.transform.position, target.transform.rotation * Quaternion.Euler(0, 180, 0));
                 }
-            }
-        }
-
-
-        //Check for recoil recoil deals half the weapondamage and applies the effects
-        if (effects.Contains(WeaponEffects.Recoil))
-        {
-            float rand = Random.value;
-            if(rand < RecoilChance)
-            {
-                Effects.WeaponDamage(wielder, Damage/2);
-                Effects.ApplyForce(wielder, (wielder.transform.forward * -1 * HitForce));
-                Effects.ApplyWeaponEffects(wielder, effects);
-            }
-        }
-
-        //disarms the wielder
-        if (effects.Contains(WeaponEffects.Slippery))
-        {
-            float rand = Random.value;
-            if(rand < SlipperyDropChance)
-            {
-                Effects.Disarm(wielder);
             }
         }
 

@@ -28,8 +28,11 @@ public class SingleShotWeapon : RangedWeapon
 			CameraShake.Shake(0.1f, 0.1f);
 		}
 		Vector3 direction = GetBulletDirection();
-		bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage, this.effects);
+
+		float dmg = Damage * (1 + HolderAgent.GetComponent<Attributes>().statusEffectHandler.DmgBoost);
+		bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, dmg, Utilities.ListDictionaryKeys(effects));
 
 		base.DoAction(fov);
+
 	}
 }

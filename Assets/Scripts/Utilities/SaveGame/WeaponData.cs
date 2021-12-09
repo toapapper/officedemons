@@ -17,7 +17,7 @@ public class WeaponData
     public float viewAngle;
     public int durability;
     public float weight;
-    public List<WeaponEffects> effects;
+    public List<StatusEffectType> effects;
     public int bulletsInBurst;
 
     public float inaccuracy;
@@ -41,7 +41,7 @@ public class WeaponData
         viewAngle = weaponHandle.GetComponentInChildren<AbstractWeapon>().ViewAngle;
         durability = weaponHandle.GetComponentInChildren<AbstractWeapon>().Durability;
         weight = weaponHandle.GetComponentInChildren<AbstractWeapon>().Weight;
-        effects = weaponHandle.GetComponentInChildren<AbstractWeapon>().EffectList;
+        effects = Utilities.ListDictionaryKeys(weaponHandle.GetComponentInChildren<AbstractWeapon>().EffectList);
         if (weaponHandle.GetComponentInChildren<Outline>())
         {
             outlineColor = new float[4];

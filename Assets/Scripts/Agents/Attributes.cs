@@ -45,6 +45,7 @@ public class Attributes : MonoBehaviour
 
     [SerializeField] private GameObject particleEffect;
 
+    [SerializeField] public StatusEffectHandler statusEffectHandler;
 
     public int StartHealth
     {
@@ -103,7 +104,17 @@ public class Attributes : MonoBehaviour
         Stamina = StartStamina;
     }
 
-
+    private void Start()
+    {
+        if(statusEffectHandler == null && (this.CompareTag("Player") || this.CompareTag("Enemy"))) //Initialize the statuseffecthandler prefab that should be a child of this agent.
+        {
+            statusEffectHandler = gameObject.GetComponentInChildren<StatusEffectHandler>();
+            if(statusEffectHandler != null)
+            {
+                statusEffectHandler.myAgent = gameObject;
+            }
+        }
+    }
 
     //TODO Vicky takes dmg when rushing fix
     private void OnCollisionEnter(Collision collision)

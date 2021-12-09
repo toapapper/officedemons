@@ -58,7 +58,7 @@ public class StarThrower : AbstractSpecial
 			{
 				if (target.layer != LayerMask.NameToLayer("Destructible"))
 				{
-					Effects.ApplyStatusEffect(target, StatusEffectType.DamageBoost);
+					Effects.ApplyStatusEffect(target, StatusEffectType.damage_boost);
 					base.AddCharge();
 				}
 			}

@@ -30,11 +30,11 @@ public class GoodCoffeeCupSpecial : CoffeeCupSpecial
 				break;
 			case 2:
 				grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity,
-			explodeRadius, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), buffEffects);
+			explodeRadius, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), buffEffects);
 				break;
 			case 3:
 				grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity,explodeRadius + explodeRadiusAdder,
-					(Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), buffEffects);
+					(Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), buffEffects);
 
 				break;
 		}

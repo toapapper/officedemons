@@ -136,15 +136,15 @@ public class RushChair : AbstractSpecial
 				switch (ActionPower)
 				{
 					case 1:
-						Effects.WeaponDamage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						Effects.WeaponDamage(other.gameObject, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
 						Effects.ApplyForce(other.gameObject, forceDirection * HitForce);
 						break;
 					case 2:
-						Effects.WeaponDamage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						Effects.WeaponDamage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
 						Effects.ApplyForce(other.gameObject, forceDirection * (HitForce + hitForceAdder));
 						break;
 					case 3:
-						Effects.WeaponDamage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						Effects.WeaponDamage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
 						Effects.ApplyForce(other.gameObject, forceDirection * (HitForce + hitForceAdder));
 						Effects.ApplyWeaponEffects(other.gameObject, effects);
 						if (isKillEffect)
@@ -160,13 +160,13 @@ public class RushChair : AbstractSpecial
 				switch (ActionPower)
 				{
 					case 1:
-						Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
 						break;
 					case 2:
-						Effects.Damage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						Effects.Damage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
 						break;
 					case 3:
-						Effects.Damage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						Effects.Damage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
 						break;
 				}
 				EndSpecial();

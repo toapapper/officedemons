@@ -4,23 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-/// <summary>
-/// Simple enum of possible special effects that a weapon can have
-/// </summary>
-public enum WeaponEffects
-{
-	Nothing,
-	Fire,			//applies a stack of fire to the target				duration:	Medium (short = 1, medium = 3, long = 5(defined in StatusEffectHandler.cs))
-	Bleed,			//applies a stack of bleed to the target			duration:	Medium
-	Poison,			//applies a stack of posion to the target			duration:	Long
-	StaminaDrain,	//applies a stack of stamina drain on the target	duration:	Long
-	Vulnerable,		//applies a stack of vulnerability to the target	duration:	Short
-	Paralyze,		//paralyzes target on hit							duration:	Short
-	Slow,			//slows the target on hit							duration:	Medium
-	Disarm,			//chance of disarming target on hit
-	Slippery,		//risk of dropping the weapon on attack
-	Recoil			//risk of hitting youself on attack
-}
+
 
 /// <summary>
 /// <para>
@@ -35,10 +19,6 @@ public enum WeaponEffects
 // Last Edited: 28/11-21
 public abstract class AbstractWeapon : MonoBehaviour
 {
-	public const float RecoilChance = .3f;
-	public const float SlipperyDropChance = .3f;
-	public const float DisarmChance = .3f;
-
     [SerializeField]
     private Sprite weaponTexture;
 
@@ -47,7 +27,11 @@ public abstract class AbstractWeapon : MonoBehaviour
         get { return weaponTexture; }
     }
 
-    [SerializeField] protected List<WeaponEffects> effects;
+	[Tooltip("The Status effects this weapon has at spawn. Starts with standard amount of uses as well")]
+	[SerializeField] protected List<StatusEffectType> EffectsAtSpawn;
+	/// <summary> key = type, value = particleeffect and uses left. </summary>
+    protected Dictionary<StatusEffectType, WeaponEffectInfo> effects = new Dictionary<StatusEffectType, WeaponEffectInfo>();
+	[SerializeField] protected GameObject particleEffectsPosition;
 
 	[SerializeField]
 	private GameObject holderAgent;
@@ -132,7 +116,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 		get { return weight; }
 		set { weight = value; }
 	}
-	public List<WeaponEffects> EffectList
+	public Dictionary<StatusEffectType, WeaponEffectInfo> EffectList
 	{
 		get { return effects; }
 		set { effects = value; }
@@ -143,6 +127,14 @@ public abstract class AbstractWeapon : MonoBehaviour
         textObjectName = gameObject.transform.parent.GetComponentInChildren<TextMeshPro>();
         textObjectName.text = gameObject.transform.parent.name;
         textObjectName.faceColor = gameObject.GetComponent<Outline>().OutlineColor;
+
+
+		if(particleEffectsPosition == null)//if no custom particleeffectsposition has been defined use the weapon-gameobject
+        {
+			particleEffectsPosition = gameObject;
+        }
+
+		AddStatusEffects(EffectsAtSpawn);
     }
 
     protected virtual void Update()
@@ -171,6 +163,113 @@ public abstract class AbstractWeapon : MonoBehaviour
         }
     }
 
+	/// <summary>
+	/// Called each attack to reduce the amount of charges left on the status effects and remove the ones with none.
+	/// </summary>
+	protected virtual void StatusEffectUpdate()
+    {
+		List<StatusEffectType> toRemove = new List<StatusEffectType>(2);
+
+		foreach(KeyValuePair<StatusEffectType, WeaponEffectInfo> pair in effects)
+        {
+			effects[pair.Key].uses -= 1;
+			
+			if(pair.Value.uses <= 0) //charges == 0 therefore destroy particle effect and remove from list
+            {
+				toRemove.Add(pair.Key);
+            }
+        }
+
+		foreach(StatusEffectType type in toRemove)
+        {
+			Destroy(effects[type].particleEffect);
+			effects.Remove(type);
+        }
+	}
+
+	/// <summary>
+	/// Used on startup and when loading a checkpoint.
+	/// </summary>
+	/// <param name="effects"></param>
+	public virtual void AddStatusEffects(List<StatusEffectType> effects)
+    {
+		foreach (StatusEffectType type in effects)
+		{
+			AddStatusEffect(type);
+		}
+	}
+
+
+	/// <summary>
+	/// Hell effects only get one use. all other get the same amount of uses that they have duration in turns when normally applied
+	/// </summary>
+	/// <param name="type"></param>
+	public virtual void AddStatusEffect(StatusEffectType type)
+    {
+		GameObject particleEffect = null;
+		int uses = 0;
+
+		switch (type)
+		{
+			case StatusEffectType.fire:
+				particleEffect = ParticleEffectContainer.fireEffect;
+				uses = FireStatus.StdDuration;
+				break;
+			case StatusEffectType.poison:
+				particleEffect = ParticleEffectContainer.poisonEffect;
+				uses = PoisonStatus.StdDuration;
+				break;
+			case StatusEffectType.ice:
+				particleEffect = ParticleEffectContainer.iceEffect;
+				uses = IceStatus.StdDuration;
+				break;
+			case StatusEffectType.vulnerable:
+				particleEffect = ParticleEffectContainer.vulnerableEffect;
+				uses = VulnerableStatus.StdDuration;
+				break;
+			case StatusEffectType.damage_boost:
+				particleEffect = ParticleEffectContainer.damageBoostEffect;
+				uses = DamageBoostStatus.StdDuration;
+				break;
+			case StatusEffectType.glass_cannon:
+				particleEffect = ParticleEffectContainer.glassCannonEffect;
+				uses = GlassCannonStatus.StdDuration;
+				break;
+			case StatusEffectType.hell_fire:
+				particleEffect = ParticleEffectContainer.hellFireEffect;
+				uses = 1;
+				break;
+			case StatusEffectType.hell_poison:
+				particleEffect = ParticleEffectContainer.hellPoisonEffect;
+				uses = 1;
+				break;
+			case StatusEffectType.hell_ice:
+				particleEffect = ParticleEffectContainer.hellIceEffect;
+				uses = 1;
+				break;
+			case StatusEffectType.paralysis:
+				particleEffect = ParticleEffectContainer.paralysisEffect;
+				uses = ParalysisStatus.StdDuration;
+				break;
+			case StatusEffectType.mega_paralysis:
+				particleEffect = ParticleEffectContainer.megaParalysisEffect;
+				uses = MegaParalysisStatus.StdDuration;
+				break;
+		}
+
+		if (effects.ContainsKey(type))//if already contains the statuseffect. simply reset its amount of uses.
+		{
+			effects[type].uses = uses;
+		}
+		else
+		{
+			effects.Add(type, new WeaponEffectInfo(particleEffect, uses));
+			//instantiate particle effect as child of particleEffectsPosition and set weaponEffectsInfo to point to it.
+			GameObject instEffect = Instantiate(particleEffect, particleEffectsPosition.transform, false);
+			instEffect.transform.localPosition = Vector3.zero;
+			effects[type].particleEffect = instEffect;
+        }
+    }
 
     public virtual void PickUpIn(GameObject hand)
 	{
@@ -182,7 +281,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 
 		handle.transform.parent = hand.transform;
 		handle.transform.position = hand.transform.position;
-		handle.transform.rotation = hand.transform.rotation;
+		handle.transform.localRotation = Quaternion.Euler(0,0,0);
 		Effects.ChangeWeight(hand.transform.parent.gameObject, weight);
 		foreach (Collider collider in GetComponentsInChildren<Collider>())
 		{
@@ -198,6 +297,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 			isProjectile = true;
 		}
 	}
+
 	public void Drop()
 	{
 		Effects.ChangeWeight(holderAgent, -weight);
@@ -227,6 +327,7 @@ public abstract class AbstractWeapon : MonoBehaviour
         {
 			durability -= 1;
 		}
+
 	}
 
 	/// <summary>
@@ -244,6 +345,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 			handle.GetComponentInParent<WeaponHand>().DropWeapon();
 			Destroy(this.gameObject);
 		}
+
+		StatusEffectUpdate();
 	}
 
 	private void OnCollisionEnter(Collision collision)
@@ -254,7 +357,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 			{
 				Effects.WeaponDamage(collision.gameObject, throwDamage, holderAgent);
 				//Effects.Damage(collision.gameObject, throwDamage);
-				Effects.ApplyWeaponEffects(collision.gameObject, effects);
+				Effects.ApplyWeaponEffects(collision.gameObject, Utilities.ListDictionaryKeys(effects));
 			}
 			isProjectile = false;
 		}

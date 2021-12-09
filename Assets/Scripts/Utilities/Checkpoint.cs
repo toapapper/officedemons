@@ -127,7 +127,10 @@ public class Checkpoint : MonoBehaviour
                 abstractWeapon.ViewAngle = weaponData.viewAngle;
                 abstractWeapon.Durability = weaponData.durability;
                 abstractWeapon.Weight = weaponData.weight;
-                abstractWeapon.EffectList = weaponData.effects;
+
+                //does not remember the current uses left on the statuseffect when saved. But that should only possibly be a small balance-problem
+                abstractWeapon.AddStatusEffects(weaponData.effects);
+
                 Color outlineColor = new Color();
                 for (int i = 0; i < 4; i++)
                 {

@@ -23,15 +23,15 @@ public class BadCoffeeCupSpecial : CoffeeCupSpecial
 		{
 			case 1:
 				grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, explodeRadius,
-				HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
+				HitForce, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), effects);
 				break;
 			case 2:
 				grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, explodeRadius,
-				HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
+				HitForce, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), ultiEffects);
 				break;
 			case 3:
 				grenade.GetComponent<BadCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, explodeRadius + explodeRadiusAdder,
-				HitForce, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), ultiEffects);
+				HitForce, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), ultiEffects);
 				break;
 		}
 		ActionPower = 0;

@@ -210,9 +210,9 @@ public class UIManager : MonoBehaviour
             card.UpdateChargeSprites(PlayerManager.players[i].GetComponentInChildren<AbstractSpecial>().Charges);
 
 
-            Dictionary<StatusEffectType, StatusEffect> activeEffects = PlayerManager.players[i].GetComponent<StatusEffectHandler>().ActiveEffects;
+            Dictionary<StatusEffectType, StatusEffect> activeEffects = PlayerManager.players[i].GetComponent<Attributes>().statusEffectHandler.ActiveEffects;
             List<StatusEffectType> effectList = new List<StatusEffectType>();
-            for (int j = 0; j < (int)StatusEffectType.NumberOfTypes; j++)
+            for (int j = 0; j < (int)StatusEffectType.comboAction; j++)
             {
                 StatusEffectType si = (StatusEffectType)j;
 

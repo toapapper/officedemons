@@ -19,7 +19,7 @@ public class WeaponStatsGeneration
     public float range;
     public int durability;
     public float weight;
-    public List<WeaponEffects> effects;
+    public List<StatusEffectType> effects;
 
 
     /// <summary>
@@ -31,7 +31,7 @@ public class WeaponStatsGeneration
     /// <param name="durability">Add a Flat amount</param>
     /// <param name="weight">% Weight | base * weight</param>
     /// <param name="effects">Add all effects you wish to be on the weapon</param>
-    public WeaponStatsGeneration(float damage, float knockback, float range, int durability, float weight, List<WeaponEffects> effects)
+    public WeaponStatsGeneration(float damage, float knockback, float range, int durability, float weight, List<StatusEffectType> effects)
     {
         this.damage = damage;
         this.knockback = knockback;

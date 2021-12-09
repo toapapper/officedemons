@@ -26,7 +26,7 @@ public abstract class GrenadeProjectile : MonoBehaviour
     protected float healthModifyAmount;
     protected float explosionForce;
 
-    protected List<WeaponEffects> weaponEffects;
+    protected List<StatusEffectType> weaponEffects;
     protected List<StatusEffectType> statusEffects;
 
     private void Awake()

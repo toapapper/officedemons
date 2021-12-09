@@ -58,9 +58,22 @@ public class GameManager : MonoBehaviour
     private Checkpoint currentCheckpoint;
 
     private List<GameObject> groundEffectObjects = new List<GameObject>();
-
-
+    
     private MultipleTargetCamera mainCamera;
+
+    //ParticleEffect-slots. stored in static ParticleEffectsContainer-class. you will find that class below this in the same file.
+    [Header("ParticleEffects")]
+    [SerializeField] private GameObject fireEffect;
+    [SerializeField] private GameObject hellFireEffect;
+    [SerializeField] private GameObject iceEffect;
+    [SerializeField] private GameObject hellIceEffect;
+    [SerializeField] private GameObject poisonEffect;
+    [SerializeField] private GameObject hellPoisonEffect;
+    [SerializeField] private GameObject paralysisEffect;
+    [SerializeField] private GameObject megaParalysisEffect;
+    [SerializeField] private GameObject vulnerableEffect;
+    [SerializeField] private GameObject damageBoostEffect;
+    [SerializeField] private GameObject glassCannonEffect;
 
     public CombatState CurrentCombatState { get { return combatState; } }
     public bool Paused { get { return paused; } }
@@ -92,6 +105,19 @@ public class GameManager : MonoBehaviour
 
         // Add maincamera to gamemanager
         mainCamera = Camera.main.GetComponent<MultipleTargetCamera>();
+
+
+        ParticleEffectContainer.fireEffect = fireEffect;
+        ParticleEffectContainer.hellFireEffect = hellFireEffect;
+        ParticleEffectContainer.iceEffect = iceEffect;
+        ParticleEffectContainer.hellIceEffect = hellIceEffect;
+        ParticleEffectContainer.poisonEffect = poisonEffect;
+        ParticleEffectContainer.hellPoisonEffect = hellPoisonEffect;
+        ParticleEffectContainer.paralysisEffect = paralysisEffect;
+        ParticleEffectContainer.megaParalysisEffect = megaParalysisEffect;
+        ParticleEffectContainer.vulnerableEffect = vulnerableEffect;
+        ParticleEffectContainer.damageBoostEffect = damageBoostEffect;
+        ParticleEffectContainer.glassCannonEffect = glassCannonEffect;
     }
 
     void Update()
@@ -292,4 +318,23 @@ public class GameManager : MonoBehaviour
         }
         //ResetEncounter();
     }
+}
+
+
+/// <summary>
+/// A workaround to let the weapons reload with effects on.
+/// </summary>
+public static class ParticleEffectContainer
+{
+    public static GameObject fireEffect;
+    public static GameObject hellFireEffect;
+    public static GameObject iceEffect;
+    public static GameObject hellIceEffect;
+    public static GameObject poisonEffect;
+    public static GameObject hellPoisonEffect;
+    public static GameObject paralysisEffect;
+    public static GameObject megaParalysisEffect;
+    public static GameObject vulnerableEffect;
+    public static GameObject damageBoostEffect;
+    public static GameObject glassCannonEffect;
 }
