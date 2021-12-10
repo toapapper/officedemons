@@ -25,7 +25,7 @@ public class DeadState : AbstractPlayerState
     /// <param name="state"></param>
     public override void TransitionState(IPlayerState state)
     {
-        if (state is ReviveState || state is OutOfCombatState)
+        if (state is ReviveState || state is OutOfCombatState || state is CombatEnterState)
         {
             base.TransitionState(state);
         }
