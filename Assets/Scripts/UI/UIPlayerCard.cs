@@ -37,6 +37,12 @@ public class UIPlayerCard : MonoBehaviour
     [SerializeField] private Image portrait;
     [SerializeField] private List<Image> durability = new List<Image>();
     [SerializeField] private List<Image> chargeObjects = new List<Image>();
+
+    public List<Image> ChargeObjects
+    {
+       get{ return chargeObjects; }
+    }
+
     [SerializeField] private List<Sprite> chargeSprites = new List<Sprite>();
 
     [SerializeField] private List<Image> effects = new List<Image>();
@@ -67,7 +73,7 @@ public class UIPlayerCard : MonoBehaviour
             maxCharges = 3;
         }
         string name = gameObject.name.Substring(gameObject.name.Length - 1);
-        player.GetComponentInChildren<RevivePrompt>().OneTimeUse(Int32.Parse(name),player.GetComponent<Attributes>().PlayerColor);
+        player.GetComponentInChildren<PlayerUIExtras>().GetPlayerSymbol(Int32.Parse(name),player.GetComponent<Attributes>().PlayerColor);
     }
 
 

@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class RevivePrompt : MonoBehaviour
+public class PlayerUIExtras : MonoBehaviour
 {
     [SerializeField] private Image revivePrompt;
     [SerializeField] private TextMeshProUGUI pPlayer;
+    [SerializeField] private List<Image> charges = new List<Image>();
+    [SerializeField] private List<Sprite> chargeSprites = new List<Sprite>();
     private Vector2 startValue, currentValue;
     private float min, max;
     private bool expanding = true;
@@ -19,6 +21,11 @@ public class RevivePrompt : MonoBehaviour
         startValue = revivePrompt.transform.localScale;
         max = startValue.x * 1.1f;
         min = startValue.x * 0.9f;
+        if (gameObject.transform.parent.GetComponent<Attributes>().Name != Characters.Susan_The_Destroyer)
+        {
+            charges[3].enabled = false;
+            charges[4].enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -71,10 +78,29 @@ public class RevivePrompt : MonoBehaviour
     }
 
 
-    public void OneTimeUse(int playerNumber, Color playerColor)
+    public void GetPlayerSymbol(int playerNumber, Color playerColor)
     {
         pPlayer.text = "P" + (playerNumber + 1);
         pPlayer.color = playerColor;
     }
 
+
+    public void ChargeUpdate(List<Image> uiCharges)
+    {
+        for (int i = 0; i < charges.Count; i++)
+        {
+            if (charges[i].sprite != uiCharges[i].sprite)
+            {
+                charges[i].sprite = uiCharges[i].sprite;
+                //if (charges[i].sprite == chargeSprites[0])
+                //{
+                //    charges[i].sprite = chargeSprites[1];
+                //}
+                //else
+                //{
+                //    charges[i].sprite = chargeSprites[0];
+                //}
+            }
+        }
+    }
 }
