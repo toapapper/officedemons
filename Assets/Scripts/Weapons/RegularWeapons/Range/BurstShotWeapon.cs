@@ -38,7 +38,7 @@ public class BurstShotWeapon : RangedWeapon
 		{
             if (particleEffect)
             {
-                Instantiate(particleEffect, WeaponMuzzle.transform.position, WeaponMuzzle.transform.rotation * Quaternion.Euler(0, 180, 0));
+                Instantiate(particleEffect, WeaponMuzzle.transform.position, WeaponMuzzle.transform.rotation * Quaternion.Euler(0, 0, 0));
                 CameraShake.Shake(0.1f, 0.1f);
             }
             Vector3 direction = GetBulletDirection();
