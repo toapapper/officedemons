@@ -182,8 +182,9 @@ public abstract class AbstractWeapon : MonoBehaviour
 
 		handle.transform.parent = hand.transform;
 		handle.transform.position = hand.transform.position;
-		handle.transform.rotation = hand.transform.rotation;
-		Effects.ChangeWeight(hand.transform.parent.gameObject, weight);
+		//handle.transform.rotation = hand.transform.rotation;
+        handle.transform.localRotation = Quaternion.Euler(0, 0, 0); // Maybe fixes the wrong rotation of weapon at pick up
+        Effects.ChangeWeight(hand.transform.parent.gameObject, weight);
 		foreach (Collider collider in GetComponentsInChildren<Collider>())
 		{
 			collider.enabled = false;
