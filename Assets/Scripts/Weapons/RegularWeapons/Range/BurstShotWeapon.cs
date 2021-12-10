@@ -32,7 +32,7 @@ public class BurstShotWeapon : RangedWeapon
         base.Attack(animator);
     }
 
-    public override void DoAction(FieldOfView fov)
+    public override void DoAction(/*FieldOfView fov*/)
     {
         if(bulletCount > 0)
 		{
@@ -52,7 +52,7 @@ public class BurstShotWeapon : RangedWeapon
 		else
 		{
             WeaponController.Animator.SetTrigger("isCancelAction");
-            base.DoAction(fov);
+            base.DoAction(/*fov*/);
         }
     }
 }

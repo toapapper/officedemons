@@ -175,7 +175,9 @@ public abstract class AbstractWeapon : MonoBehaviour
     public virtual void PickUpIn(GameObject hand)
 	{
 		holderAgent = hand.transform.parent.parent.gameObject;
+		
 		weaponController = holderAgent.GetComponent<WeaponHand>();
+
 		isHeld = true;
 		handle.GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<Rigidbody>().isKinematic = true;
@@ -216,7 +218,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	}
 
 	public virtual void SetAimGradient(Gradient gradient) { }
-	public virtual void ToggleAim(bool isActive, GameObject FOVView) { }
+	public virtual void ToggleAim(bool isActive/*, GameObject FOVView*/) { }
 	public virtual void StartAttack(Animator animator) { }
 	public virtual void Attack(Animator animator)
 	{
@@ -234,7 +236,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	/// Method triggered by animation, Shoots projectile for ranged or deals damage for melee
 	/// </summary>
 	/// <param name="fov"></param>
-	public virtual void DoAction(FieldOfView fov)
+	public virtual void DoAction(/*FieldOfView fov*/)
 	{
 		if (durability <= 0)
 		{

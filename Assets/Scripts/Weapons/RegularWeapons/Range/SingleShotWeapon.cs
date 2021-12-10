@@ -20,7 +20,7 @@ public class SingleShotWeapon : RangedWeapon
 		animator.SetTrigger("isRangedSingleShot");
 		base.Attack(animator);
 	}
-	public override void DoAction(FieldOfView fov)
+	public override void DoAction(/*FieldOfView fov*/)
 	{
 		if (particleEffect)
 		{
@@ -30,6 +30,6 @@ public class SingleShotWeapon : RangedWeapon
 		Vector3 direction = GetBulletDirection();
 		bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage, this.effects);
 
-		base.DoAction(fov);
+		base.DoAction(/*fov*/);
 	}
 }
