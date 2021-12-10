@@ -72,7 +72,7 @@ public class TankController : MonoBehaviour
 
     private void Shoot()
     {
-
+        //
     }
 
     public void Die()
@@ -93,6 +93,8 @@ public class TankController : MonoBehaviour
         // The step size is equal to speed times frame time.
         float singleStep = rotationSpeed * Time.deltaTime;
 
+        //maxRotation -= singlestep
+
         // Rotate the forward vector towards the target direction by one step
         Vector3 newDirection = Vector3.RotateTowards(towerTransform.forward, targetDirection, singleStep, 0.0f);
 
@@ -102,10 +104,12 @@ public class TankController : MonoBehaviour
         // Calculate a rotation a step closer to the target and applies rotation to this object
         
         towerTransform.rotation = Quaternion.LookRotation(newDirection);
+        towerTransform.rotation = Quaternion.Euler(0, towerTransform.eulerAngles.y, 0);
     }
 
     private bool RotationFinished() //add maxrotation?
     {
+        //return Vector3.Angle(new Vector3(0, towerTransform.rotation.y, 0), new Vector3(0, targetRotation.y, 0)) <= 1;
         return (Quaternion.Angle(towerTransform.rotation, targetRotation) <= 1f);
     }
 
@@ -123,6 +127,7 @@ public class TankController : MonoBehaviour
                 {
                     TargetPosition = target.transform.position;
                     targetRotation = Quaternion.LookRotation((TargetPosition - towerTransform.position).normalized);
+                    targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
                     CurrentState = TankStates.Rotate;
                 }
                 // if no player found that you can shoot, wait
@@ -171,6 +176,7 @@ public class TankController : MonoBehaviour
         CurrentState = TankStates.Unassigned;
         targetPosition = Vector3.zero;
         targetRotation = Quaternion.identity;
+        ActionIsLocked = false;
     }
 
     public GameObject GetTargetPlayer(List<GameObject> players) // maybe change to always rotate but not shoot 

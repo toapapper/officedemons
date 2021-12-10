@@ -211,7 +211,7 @@ public class AIStateHandler : MonoBehaviour
 
         foreach (GameObject enemy in encounter.GetComponentInChildren<AIManager>().EnemyList)
         {
-            if (enemy.GetComponent<AIController>().IsArmed())
+            if (enemy.name != "tank" && enemy.GetComponent<AIController>().IsArmed())
             {
                 armedEnemies++;
             }
