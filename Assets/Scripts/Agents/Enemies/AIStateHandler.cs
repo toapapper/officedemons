@@ -59,7 +59,6 @@ public class AIStateHandler : MonoBehaviour
             {
                 aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
                 aiController.TargetType = AIController.TargetTypes.Player;
-                aiController.TargetPosition = aiController.Target.transform.position;
                 Vector3.RotateTowards(transform.forward, aiController.TargetPosition, 1 * Time.deltaTime, 0.0f);
             }
             //DeathCheck
@@ -76,7 +75,6 @@ public class AIStateHandler : MonoBehaviour
                 else if (aiController.TargetType == AIController.TargetTypes.ShootSpot && aiController.ReachedTargetPosition())
                 {
                     aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
-                    aiController.TargetPosition = aiController.Target.transform.position;
                     aiController.TargetType = AIController.TargetTypes.Player;
                 }
                 else if (!TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
@@ -213,7 +211,7 @@ public class AIStateHandler : MonoBehaviour
 
         foreach (GameObject enemy in encounter.GetComponentInChildren<AIManager>().EnemyList)
         {
-            if (enemy.GetComponent<AIController>().IsArmed())
+            if (enemy.name != "tank" && enemy.GetComponent<AIController>().IsArmed())
             {
                 armedEnemies++;
             }

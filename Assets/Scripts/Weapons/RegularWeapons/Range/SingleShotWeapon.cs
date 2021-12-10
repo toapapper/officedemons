@@ -6,7 +6,7 @@ using UnityEngine;
 /// <para>
 /// Methods connected to all single shot weapons
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>

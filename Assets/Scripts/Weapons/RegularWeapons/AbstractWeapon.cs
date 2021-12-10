@@ -148,7 +148,7 @@ public abstract class AbstractWeapon : MonoBehaviour
     protected virtual void Update()
     {
         bool showName = false;
-        if (IsHeld)
+        if (IsHeld && textObjectName != null)
         {
             showName = false;
             textObjectName.gameObject.SetActive(false);
@@ -165,7 +165,7 @@ public abstract class AbstractWeapon : MonoBehaviour
                 }
             }
         }
-        if (!showName)
+        if (!showName && textObjectName != null)
         {
             textObjectName.gameObject.SetActive(false);
         }

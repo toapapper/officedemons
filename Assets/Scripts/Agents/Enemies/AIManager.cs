@@ -54,8 +54,6 @@ public class AIManager : MonoBehaviour
         set { takenCoverPositions = value; }
     }
 
-
-
     private List<GameObject> allWeapons;
     public List<GameObject> AllWeapons
     {
@@ -101,29 +99,35 @@ public class AIManager : MonoBehaviour
         }
 
         int enemiesCount = EnemyList.Count;
-        Debug.Log("EnemiesCount " + enemiesCount);
         for(int i=0; i<enemiesCount;i++)
         {
             if (EnemyList[i] != null)
             {
-                EnemyList[i].GetComponent<AIController>().TargetType = AIController.TargetTypes.None;
-                EnemyList[i].GetComponent<AIController>().Target = null;
-                EnemyList[i].GetComponent<AIController>().TargetPosition = Vector3.zero;
-                //e.GetComponent<AIController>().GetTargetPlayer(PlayerList);
-
-                //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
-                if (!EnemyList[i].GetComponent<StatusEffectHandler>().Paralyzed)
+                if (EnemyList[i].name == "tank")
                 {
-                    EnemyList[i].GetComponent<Attributes>().Stamina = EnemyList[i].GetComponent<Attributes>().StartStamina;
-                    EnemyList[i].GetComponent<AIController>().ActionIsLocked = false;
+                    EnemyList[i].GetComponent<TankController>().ResetValues();
                 }
                 else
                 {
-                    EnemyList[i].GetComponent<Attributes>().Stamina = 0;
-                    EnemyList[i].GetComponent<AIController>().ActionIsLocked = true;
-                }
+                    // if HumanEnemy
+                    EnemyList[i].GetComponent<AIController>().TargetType = AIController.TargetTypes.None;
+                    EnemyList[i].GetComponent<AIController>().Target = null;
+                    //e.GetComponent<AIController>().GetTargetPlayer(PlayerList);
 
-                EnemyList[i].GetComponent<StatusEffectHandler>().UpdateEffects();
+                    //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
+                    if (!EnemyList[i].GetComponent<StatusEffectHandler>().Paralyzed)
+                    {
+                        EnemyList[i].GetComponent<Attributes>().Stamina = EnemyList[i].GetComponent<Attributes>().StartStamina;
+                        EnemyList[i].GetComponent<AIController>().ActionIsLocked = false;
+                    }
+                    else
+                    {
+                        EnemyList[i].GetComponent<Attributes>().Stamina = 0;
+                        EnemyList[i].GetComponent<AIController>().ActionIsLocked = true;
+                    }
+
+                    EnemyList[i].GetComponent<StatusEffectHandler>().UpdateEffects();
+                }
             }
         }
     }
@@ -142,17 +146,33 @@ public class AIManager : MonoBehaviour
         {
             GameObject e = EnemyList[i];
 
-            if (!e.GetComponent<AIController>().ActionIsLocked) // if not all locked actions
+            // Tanks
+            if (e.name == "tank")
             {
-                e.GetComponent<AIController>().PerformBehaviour();
-
-                allDone = false;
+                if (!e.GetComponent<TankController>().ActionIsLocked) // if not all locked actions
+                {
+                    e.GetComponent<TankController>().PerformBehaviour();
+                    allDone = false;
+                }
+                if (e.GetComponent<Attributes>().Health > 0)
+                {
+                    allDead = false;
+                }
+            }
+            // All other enemies
+            else
+            {
+                if (!e.GetComponent<AIController>().ActionIsLocked) // if not all locked actions
+                {
+                    e.GetComponent<AIController>().PerformBehaviour();
+                    allDone = false;
+                }
+                if (e.GetComponent<Attributes>().Health > 0)
+                {
+                    allDead = false;
+                }
             }
 
-            if (e.GetComponent<Attributes>().Health > 0)
-            {
-                allDead = false;
-            }
         }
         if (actionsQueue.Count != EnemyList.Count && !GameManager.Instance.AllStill)
             allDone = false;
@@ -174,7 +194,15 @@ public class AIManager : MonoBehaviour
         if (actionsQueue.Count > 0)
         {
             GameObject currentEnemy = actionsQueue.Dequeue();
-            currentEnemy.GetComponent<AIController>().PerformAction();
+            if (currentEnemy.name == "tank")
+            {
+                currentEnemy.GetComponent<TankController>().PerformAction();
+            }
+            else
+            {
+                currentEnemy.GetComponent<AIController>().PerformAction();
+            }
+            
             Invoke("PerformNextAction", nextActionDelay);
         }
         else
@@ -236,17 +264,32 @@ public class AIManager : MonoBehaviour
     public void SaveAction(GameObject agent)
     {
         actionsQueue.Enqueue(agent);
-        agent.GetComponent<AIController>().ActionIsLocked = true;
-        agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
+
+        if (agent.name == "tank")
+        {
+            agent.GetComponent<TankController>().ActionIsLocked = true;
+        }
+        else
+        {
+            agent.GetComponent<AIController>().ActionIsLocked = true;
+            agent.GetComponent<AIController>().NMAgent.isStopped = true;
+        }
     }
 
     public void RemoveAction(GameObject agent)
     {
         if (actionsQueue.Contains(agent))
         {
-            agent.GetComponent<AIController>().ActionIsLocked = false;
-            agent.GetComponent<AIController>().navMeshAgent.isStopped = true;
-
+            if (agent.name == "tank")
+            {
+                agent.GetComponent<TankController>().ActionIsLocked = false;
+            }
+            else
+            {
+                agent.GetComponent<AIController>().NMAgent.isStopped = true;
+                agent.GetComponent<AIController>().ActionIsLocked = false;
+            }
+           
             Queue<GameObject> newQueue = new Queue<GameObject>();
 
             foreach (GameObject go in actionsQueue)
@@ -260,16 +303,22 @@ public class AIManager : MonoBehaviour
         }
     }
 
-
-
     private void EnableEnemyDamage()
     {
         foreach (GameObject e in EnemyList)
         {
-            e.GetComponent<AIController>().InActiveCombat = true;
-            e.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            e.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
-            e.GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
+            if (e.name == "tank")
+            {
+                e.GetComponent<TankController>().InActiveCombat = true;
+                e.GetComponent<TankController>().CurrentState = TankController.TankStates.Unassigned;
+            }
+            else
+            {
+                e.GetComponent<AIController>().InActiveCombat = true;
+                e.GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
+                e.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                e.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+            }
         }
     }
 }

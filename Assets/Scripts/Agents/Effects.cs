@@ -23,9 +23,17 @@ public static class Effects
 			wielder.GetComponent<SpecialHand>().GiveRegularDamageEffect();
 		}
         //Damage(target, damage, wielder);
-        if (!(target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat))
+        if (target.tag == "Enemy")
         {
-            WeaponDamage(target, damage, wielder);
+            if (target.name != "tank" && target.GetComponent<AIController>().InActiveCombat)
+            {
+                WeaponDamage(target, damage, wielder);
+            }
+            else if(target.name == "tank" && target.GetComponent<TankController>().InActiveCombat)
+            {
+                Debug.Log("INNE I DAMAGE");
+                WeaponDamage(target, damage, wielder);
+            }
         }
 		
 	}
@@ -105,11 +113,13 @@ public static class Effects
 
 	public static void ApplyStatusEffect(GameObject target, StatusEffectType type, int duration = 1, int stacks = 1)
     {
-        if (!(target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat))
+        if (target.tag == "Enemy")
         {
-            target.GetComponent<StatusEffectHandler>().ApplyEffect(type, duration, stacks);
-
-            UIManager.Instance.NewFloatingText(target, "Status applied: " + type, Color.cyan);
+            if (target.name != "tank" && target.GetComponent<AIController>().InActiveCombat)
+            {
+                target.GetComponent<StatusEffectHandler>().ApplyEffect(type, duration, stacks);
+                UIManager.Instance.NewFloatingText(target, "Status applied: " + type, Color.cyan);
+            }
         }
         
     }
@@ -131,44 +141,48 @@ public static class Effects
     /// </summary>
     public static void ApplyWeaponEffects(GameObject target, List<WeaponEffects> weaponEffects)
     {
-        if (!(target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat))
+
+        if (target.tag == "Enemy")
         {
-            if (weaponEffects == null)
-            {
-                return;
-            }
-            foreach (WeaponEffects effect in weaponEffects)
-            {
-                switch (effect)
+            if (target.name != "tank" && target.GetComponent<AIController>().InActiveCombat)
                 {
-                    case WeaponEffects.Fire:
-                        Effects.ApplyStatusEffect(target, StatusEffectType.Fire, (int)EffectDurations.Medium, 1);
-                        break;
-                    case WeaponEffects.Bleed:
-                        Effects.ApplyStatusEffect(target, StatusEffectType.Bleed, (int)EffectDurations.Medium, 1);
-                        break;
-                    case WeaponEffects.Poison:
-                        Effects.ApplyStatusEffect(target, StatusEffectType.Poison, (int)EffectDurations.Long, 1);
-                        break;
-                    case WeaponEffects.StaminaDrain:
-                        Effects.ApplyStatusEffect(target, StatusEffectType.StaminaDrain, (int)EffectDurations.Long, 1);
-                        break;
-                    case WeaponEffects.Vulnerable:
-                        Effects.ApplyStatusEffect(target, StatusEffectType.Vulnerable, (int)EffectDurations.Short, 1);
-                        break;
-                    case WeaponEffects.Paralyze:
-                        Effects.ApplyStatusEffect(target, StatusEffectType.Paralyze, (int)EffectDurations.Short, 1);
-                        break;
-                    case WeaponEffects.Slow:
-                        Effects.ApplyStatusEffect(target, StatusEffectType.Slow, (int)EffectDurations.Medium, 1);
-                        break;
-                    case WeaponEffects.Disarm:
-                        float rand = Random.value;
-                        if (rand < AbstractWeapon.DisarmChance)
-                        {
-                            Effects.Disarm(target);
-                        }
-                        break;
+                if (weaponEffects == null)
+                {
+                    return;
+                }
+                foreach (WeaponEffects effect in weaponEffects)
+                {
+                    switch (effect)
+                    {
+                        case WeaponEffects.Fire:
+                            Effects.ApplyStatusEffect(target, StatusEffectType.Fire, (int)EffectDurations.Medium, 1);
+                            break;
+                        case WeaponEffects.Bleed:
+                            Effects.ApplyStatusEffect(target, StatusEffectType.Bleed, (int)EffectDurations.Medium, 1);
+                            break;
+                        case WeaponEffects.Poison:
+                            Effects.ApplyStatusEffect(target, StatusEffectType.Poison, (int)EffectDurations.Long, 1);
+                            break;
+                        case WeaponEffects.StaminaDrain:
+                            Effects.ApplyStatusEffect(target, StatusEffectType.StaminaDrain, (int)EffectDurations.Long, 1);
+                            break;
+                        case WeaponEffects.Vulnerable:
+                            Effects.ApplyStatusEffect(target, StatusEffectType.Vulnerable, (int)EffectDurations.Short, 1);
+                            break;
+                        case WeaponEffects.Paralyze:
+                            Effects.ApplyStatusEffect(target, StatusEffectType.Paralyze, (int)EffectDurations.Short, 1);
+                            break;
+                        case WeaponEffects.Slow:
+                            Effects.ApplyStatusEffect(target, StatusEffectType.Slow, (int)EffectDurations.Medium, 1);
+                            break;
+                        case WeaponEffects.Disarm:
+                            float rand = Random.value;
+                            if (rand < AbstractWeapon.DisarmChance)
+                            {
+                                Effects.Disarm(target);
+                            }
+                            break;
+                    }
                 }
             }
         }
@@ -176,7 +190,7 @@ public static class Effects
 
 	public static void ApplyForce(GameObject target, Vector3 force)
 	{
-		if(target.tag != "CoverObject")
+		if(target.tag != "CoverObject" && target.GetComponent<Rigidbody>() != null)
         {
 			target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
         }
@@ -186,12 +200,22 @@ public static class Effects
 	{
 		if (target.tag == "Enemy")
 		{
-			Disarm(target);
+            if (target.name == "tank")
+            {
+                Debug.Log("BYTER TILL DEAD STATE");
+                target.GetComponent<TankController>().CurrentState = TankController.TankStates.Dead;
+                target.GetComponent<TankController>().Die();
+            }
+            else
+            {
+                Disarm(target);
 
-			target.GetComponent<StatusEffectHandler>().ClearEffects();
+                target.GetComponent<StatusEffectHandler>().ClearEffects();
 
-			target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
-			target.GetComponent<AIController>().Die();
+                target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
+                target.GetComponent<AIController>().Die();
+            }
+			
 		}
 		else if (target.tag == "Player")
 		{
@@ -240,7 +264,7 @@ public static class Effects
 	/// <param name="speedEffect"> value between -1 - +1 (positive value speeds up, negative value slows down)</param>
 	public static void ModifySpeed(GameObject target, float speedEffect)
 	{
-		Debug.Log("ModifySpeed target: " + target + " amount: " + speedEffect);
+		//Debug.Log("ModifySpeed target: " + target + " amount: " + speedEffect);
 
 		if(target.tag == "Player")
 		{
@@ -255,7 +279,7 @@ public static class Effects
 				playerSpeed = 0;
             }
 
-			Debug.Log("playerSpeeed on speedmodify: " + playerSpeed);
+			//Debug.Log("playerSpeeed on speedmodify: " + playerSpeed);
 
 			target.GetComponent<PlayerMovementController>().SlowEffect = playerSpeed;
 		}
