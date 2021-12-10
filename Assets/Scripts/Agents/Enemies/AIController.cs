@@ -256,7 +256,7 @@ public class AIController : MonoBehaviour
 
         for (int i = 0; i < aiManager.AllWeapons.Count; i++)
         {
-            if (bounds.Contains(aiManager.AllWeapons[i].transform.position))
+            if (aiManager.AllWeapons[i] != null && bounds.Contains(aiManager.AllWeapons[i].transform.position))
             {
                 float distance = CalculateDistance(aiManager.AllWeapons[i]);
                 if (distance < closest && !aiManager.AllWeapons[i].GetComponent<AbstractWeapon>().IsHeld)

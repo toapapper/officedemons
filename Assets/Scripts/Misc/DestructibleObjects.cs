@@ -29,10 +29,23 @@ public class DestructibleObjects : MonoBehaviour
 
 		ImpactAgents();
 
-		Instantiate(destroyedPrefab, transform.position, transform.rotation);
-		CameraShake.Shake(0.5f, 0.5f);
-		Destroy(gameObject);
-	}
+        if (destroyedPrefab == null)
+        {
+            foreach (MeshRenderer mr in gameObject.GetComponentsInChildren<MeshRenderer>())
+            {
+                foreach (Material m in mr.materials)
+                {
+                    m.color = Color.black;
+                }
+            }
+        }
+        else
+        {
+            Instantiate(destroyedPrefab, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
+        CameraShake.Shake(0.5f, 0.5f);
+    }
 
 	private void ImpactAgents()
 	{

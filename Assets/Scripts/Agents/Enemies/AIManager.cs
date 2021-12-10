@@ -149,10 +149,8 @@ public class AIManager : MonoBehaviour
             // Tanks
             if (e.name == "tank")
             {
-                
                 if (!e.GetComponent<TankController>().ActionIsLocked) // if not all locked actions
                 {
-                    Debug.LogError("TANK PERFORMING TURN");
                     e.GetComponent<TankController>().PerformBehaviour();
                     allDone = false;
                 }
@@ -318,10 +316,9 @@ public class AIManager : MonoBehaviour
             {
                 e.GetComponent<AIController>().InActiveCombat = true;
                 e.GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
+                e.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                e.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
             }
-            
-            e.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            e.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class TankController : MonoBehaviour
 {
     private AIManager aiManager;
-    private const float maxRotation = 45f;
+    private const float maxRotationX = 20f;
     private const float rotationSpeed = 0.5f;
 
     private Vector3 targetPosition;
@@ -15,7 +15,8 @@ public class TankController : MonoBehaviour
         set { targetPosition = value; }
     }
 
-    Quaternion targetRotation;
+    Quaternion targetTowerRotation;
+    Quaternion targetPipeRotation;
 
     private bool inActiveCombat;
     public bool InActiveCombat
@@ -40,11 +41,13 @@ public class TankController : MonoBehaviour
     }
 
     Transform towerTransform;
+    Transform pipeTransform;
 
     void Start()
     {
         aiManager = transform.parent.GetComponentInChildren<AIManager>();
         towerTransform = this.gameObject.transform.GetChild(0);
+        pipeTransform = towerTransform.GetChild(0);
     }
 
     public void PerformBehaviour()
@@ -54,7 +57,6 @@ public class TankController : MonoBehaviour
         switch (CurrentState)
         {
             case TankStates.Rotate:
-                Debug.LogError("ROTATING");
                 RotateTowards(TargetPosition);
                 break;
         }
@@ -65,57 +67,64 @@ public class TankController : MonoBehaviour
         switch (CurrentState)
         {
             case TankStates.Shoot:
-                //SHOOTERINO
+                Shoot();
                 break;
         }
     }
 
     private void Shoot()
     {
-        //
+        GetComponentInChildren<TankShotWeapon>().DoAction(GetComponent<FieldOfView>());
     }
 
     public void Die()
     {
         aiManager.RemoveAction(gameObject);
-        aiManager.EnemyList.Remove(gameObject);
+        //aiManager.EnemyList.Remove(gameObject);
 
         // Make object black and smoke
+        GetComponent<DestructibleObjects>().Explode();
+        CurrentState = TankStates.Dead;
     }
 
 
 
-    private void RotateTowards(Vector3 targetPosition)
+    private void RotateTowards(Vector3 targetPosition) // lägg till pipan i x led // max rotation för x 20 grader
     {
         // Determine which direction to rotate towards
-        Vector3 targetDirection = targetPosition - towerTransform.position;
+        Vector3 targetTowerDirection = targetPosition - towerTransform.position;
+        Vector3 targetPipeDirection = targetPosition - pipeTransform.position;
 
         // The step size is equal to speed times frame time.
         float singleStep = rotationSpeed * Time.deltaTime;
 
-        //maxRotation -= singlestep
-
         // Rotate the forward vector towards the target direction by one step
-        Vector3 newDirection = Vector3.RotateTowards(towerTransform.forward, targetDirection, singleStep, 0.0f);
-
-        // Draw a ray pointing at our target in
-        Debug.DrawRay(towerTransform.position, newDirection, Color.red);
-
-        // Calculate a rotation a step closer to the target and applies rotation to this object
+        Vector3 newTowerDirection = Vector3.RotateTowards(towerTransform.forward, targetTowerDirection, singleStep, 0.0f);
+        Vector3 newPipeDirection = Vector3.RotateTowards(pipeTransform.forward, targetPipeDirection, singleStep, 0.0f);
         
-        towerTransform.rotation = Quaternion.LookRotation(newDirection);
+        //Tower
+        towerTransform.rotation = Quaternion.LookRotation(newTowerDirection);
         towerTransform.rotation = Quaternion.Euler(0, towerTransform.eulerAngles.y, 0);
+
+        //Pipe
+        pipeTransform.localRotation = Quaternion.LookRotation(newPipeDirection);
+        pipeTransform.localRotation = Quaternion.Euler(pipeTransform.eulerAngles.x, 0, 0);
     }
 
     private bool RotationFinished() //add maxrotation?
     {
-        //return Vector3.Angle(new Vector3(0, towerTransform.rotation.y, 0), new Vector3(0, targetRotation.y, 0)) <= 1;
-        return (Quaternion.Angle(towerTransform.rotation, targetRotation) <= 1f);
+        return ((Quaternion.Angle(towerTransform.rotation, targetTowerRotation) <= 1f) && (Quaternion.Angle(pipeTransform.localRotation, targetPipeRotation) <= 1f || pipeTransform.localRotation.x >= maxRotationX));
     }
 
     // The decisions are made here
     private void StateUpdate()
     {
+        if (GetComponent<Attributes>().Health <= 0)
+        {
+            CurrentState = TankStates.Dead;
+            ActionIsLocked = true;
+        }
+
         switch (CurrentState)
         {
             case TankStates.Unassigned:
@@ -126,8 +135,13 @@ public class TankController : MonoBehaviour
                 if (target != null)
                 {
                     TargetPosition = target.transform.position;
-                    targetRotation = Quaternion.LookRotation((TargetPosition - towerTransform.position).normalized);
-                    targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
+                    targetTowerRotation = Quaternion.LookRotation((TargetPosition - towerTransform.position).normalized);
+                    targetTowerRotation = Quaternion.Euler(0, targetTowerRotation.eulerAngles.y, 0);
+
+                    //TargetPipeRotation
+                    targetPipeRotation = Quaternion.LookRotation((TargetPosition - pipeTransform.position).normalized);
+                    targetPipeRotation = Quaternion.Euler(targetPipeRotation.eulerAngles.x, 0, 0);
+
                     CurrentState = TankStates.Rotate;
                 }
                 // if no player found that you can shoot, wait
@@ -144,12 +158,10 @@ public class TankController : MonoBehaviour
                     if (InLineOfSight())
                     {
                         CurrentState = TankStates.Shoot;
-
                     }
                     else
                     {
                         CurrentState = TankStates.Wait;
-
                     }
                 }
                 break;
@@ -164,9 +176,11 @@ public class TankController : MonoBehaviour
                 ActionIsLocked = true;
                 break;
         }
+
+        
     }
 
-    private bool InLineOfSight() // IMPLEMENTERA
+    private bool InLineOfSight() // IMPLEMENTERA ?
     {
         return true;
     }
@@ -175,7 +189,7 @@ public class TankController : MonoBehaviour
     {
         CurrentState = TankStates.Unassigned;
         targetPosition = Vector3.zero;
-        targetRotation = Quaternion.identity;
+        targetTowerRotation = Quaternion.identity;
         ActionIsLocked = false;
     }
 

@@ -29,7 +29,6 @@ public class SingleShotWeapon : RangedWeapon
 		}
 		Vector3 direction = GetBulletDirection();
 		bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage, this.effects);
-
 		base.DoAction(fov);
 	}
 }
