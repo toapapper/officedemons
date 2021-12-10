@@ -74,7 +74,7 @@ public class TankController : MonoBehaviour
 
     private void Shoot()
     {
-        GetComponentInChildren<TankShotWeapon>().DoAction(GetComponent<FieldOfView>());
+        GetComponentInChildren<TankShotWeapon>().DoAction();
     }
 
     public void Die()

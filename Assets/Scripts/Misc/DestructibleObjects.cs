@@ -38,6 +38,8 @@ public class DestructibleObjects : MonoBehaviour
                     m.color = Color.black;
                 }
             }
+
+            // Spawn smoking particle effect
         }
         else
         {
