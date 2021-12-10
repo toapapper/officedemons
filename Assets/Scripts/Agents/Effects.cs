@@ -233,7 +233,7 @@ public static class Effects
 			Debug.Log("pre player death Die:");
 			target.GetComponent<PlayerStateController>().Die();
 		}
-		else if(target.tag == "CoverObject")
+		else if(target.layer == LayerMask.NameToLayer("Destructible"))
         {
 			target.GetComponent<DestructibleObjects>().Explode();
         }

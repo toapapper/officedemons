@@ -6,7 +6,7 @@ using UnityEngine;
 /// <para>
 /// Methods connected to all single shot weapons
 /// </para>
-///   
+///
 ///  <para>
 ///  Author: Johan Melkersson
 /// </para>
@@ -20,15 +20,16 @@ public class SingleShotWeapon : RangedWeapon
 		animator.SetTrigger("isRangedSingleShot");
 		base.Attack(animator);
 	}
-	public override void DoAction(FieldOfView fov)
+	public override void DoAction(/*FieldOfView fov*/)
 	{
 		if (particleEffect)
 		{
-			Instantiate(particleEffect, WeaponMuzzle.transform.position, WeaponMuzzle.transform.rotation * Quaternion.Euler(0f, 180f, 0f));
+			Instantiate(particleEffect, WeaponMuzzle.transform.position, WeaponMuzzle.transform.rotation * Quaternion.Euler(0f, 0f, 0f));
 			CameraShake.Shake(0.1f, 0.1f);
 		}
 		Vector3 direction = GetBulletDirection();
 		bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage, this.effects);
-		base.DoAction(fov);
+
+		base.DoAction(/*fov*/);
 	}
 }

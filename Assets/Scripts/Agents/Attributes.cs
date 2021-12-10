@@ -42,6 +42,10 @@ public class Attributes : MonoBehaviour
     [SerializeField]
     private int killCount = 0;
 
+
+    [SerializeField] private GameObject particleEffect;
+
+
     public int StartHealth
     {
         get { return startHealth; }
@@ -97,5 +101,45 @@ public class Attributes : MonoBehaviour
     {
         Health = StartHealth;
         Stamina = StartStamina;
+    }
+
+
+
+    //TODO Vicky takes dmg when rushing fix
+    private void OnCollisionEnter(Collision collision)
+    {
+        Vector3 knockedbackVelocity = collision.relativeVelocity;
+        if (characterName != Characters.Vicious_Vicky && !collision.gameObject.CompareTag("Projectile") && !collision.gameObject.CompareTag("Ground"))
+        {
+            float force = Mathf.Abs(knockedbackVelocity.x) + Mathf.Abs(knockedbackVelocity.z);
+            if ( force >= 100)
+            {
+
+                Effects.Damage(gameObject, 50);
+                gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
+                {
+                    Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
+                    Effects.Damage(collision.gameObject, 50);
+                    CameraShake.Shake(1f, 1f);
+
+                }
+            }
+            else if (force >= 20)
+            {
+                Effects.Damage(gameObject, 20);
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
+                {
+                    Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
+                    Effects.Damage(collision.gameObject, 20);
+                    CameraShake.Shake(0.5f, 0.5f);
+                }
+                gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
+            }
+            else
+            {
+                //Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
+            }
+        }
     }
 }

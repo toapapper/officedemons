@@ -21,7 +21,7 @@ public abstract class RangedWeapon : AbstractWeapon
 	[SerializeField]
 	private GameObject laserAim;
 	[SerializeField]
-	private float bulletFireForce = 20;
+	private float bulletFireForce = 70;
 	[SerializeField]
 	protected GameObject bullet;
 
@@ -72,7 +72,7 @@ public abstract class RangedWeapon : AbstractWeapon
 		AimCone.GetComponentInChildren<MeshRenderer>().material.color = gradient.colorKeys[0].color;
 	}
 
-	public override void ToggleAim(bool isActive, GameObject FOVView)
+	public override void ToggleAim(bool isActive/*, GameObject FOVView*/)
 	{
 		if (Inaccuracy < 1)
 		{
@@ -148,9 +148,9 @@ public abstract class RangedWeapon : AbstractWeapon
 		return bulletDir;
 	}
 
-	public override void DoAction(FieldOfView fov)
+	public override void DoAction(/*FieldOfView fov*/)
 	{
-		base.DoAction(fov);
+		base.DoAction(/*fov*/);
 
 		//GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
 		if (HolderAgent == null)

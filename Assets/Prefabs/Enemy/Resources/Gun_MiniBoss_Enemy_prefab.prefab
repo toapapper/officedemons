@@ -745,7 +745,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5835691295770083879}
-  m_LocalRotation: {x: -0, y: -0.7274138, z: -0, w: 0.68619925}
+  m_LocalRotation: {x: 0, y: -0.7274134, z: 0, w: 0.6861995}
   m_LocalPosition: {x: 87.509, y: 1.42, z: 241.72498}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -831,8 +831,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwAim: {fileID: 0}
   handObject: {fileID: 8324602405451883554}
-  FOV: {fileID: 1862528915827589258}
-  FOVVisualization: {fileID: 3560828182848131268}
+  fov: {fileID: 1862528915827589258}
+  fovVisualization: {fileID: 3560828182848131268}
   handHitDamage: 5
   handHitForce: 5
   handHitDistance: 1.5
@@ -856,6 +856,7 @@ MonoBehaviour:
   jobTitle: "arbetsl\xF6s"
   startHealth: 150
   killCount: 0
+  particleEffect: {fileID: 1892078723244562, guid: 5c54fe1b59bcfa64e8f9946ffe239568, type: 3}
   health: 0
   startStamina: 3.5
   stamina: 50

@@ -14,6 +14,10 @@ public class MainMenu : MonoBehaviour
     public GameObject FirstSelectedMainMenu;
     private void Start()
     {
+        if(GameObject.Find("PlayerConfigurationManager") != null)
+        {
+            Destroy(GameObject.Find("PlayerConfigurationManager"));
+        }
         AkSoundEngine.PostEvent("Play_RadioMusic", gameObject);
         AkSoundEngine.PostEvent("Play_Ambience", gameObject);
     }
@@ -40,7 +44,9 @@ public class MainMenu : MonoBehaviour
         if (!InGame)
             Application.Quit(1000);
         else
+        {
             SceneManager.LoadScene("Main Menu");
+        }
     }
     
 }

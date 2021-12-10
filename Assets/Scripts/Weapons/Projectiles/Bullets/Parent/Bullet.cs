@@ -31,7 +31,7 @@ public class Bullet : MonoBehaviour
         bulletObject.shooter = shooter;
         bulletObject.bulletDamage = bulletDamage;
 
-        bulletObject.bulletHitForce = bulletFireForce;
+        bulletObject.bulletHitForce = bulletHitForce;
         bulletObject.bulletDirection = direction;
 
         //bulletObject.bulletHitForce = direction * bulletHitForce;

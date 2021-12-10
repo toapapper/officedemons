@@ -23,9 +23,9 @@ public class WeaponHand : MonoBehaviour
 	[SerializeField]
 	private GameObject handObject;
 	[SerializeField]
-	private FieldOfView FOV;
+	private FieldOfView fov;
 	[SerializeField]
-	private GameObject FOVVisualization;
+	private GameObject fovVisualization;
 	[SerializeField]
 	private int handHitDamage = 10;
 	[SerializeField]
@@ -41,15 +41,11 @@ public class WeaponHand : MonoBehaviour
 
 	private float throwForce;
 
-	public ThrowAim ThrowAim
-	{
-		get { return throwAim; }
-		set { throwAim = value; }
-	}
-	public Animator Animator
-	{
-		get { return animator; }
-	}
+	public FieldOfView FOV { get { return fov; } }
+	public GameObject FOVVisualization { get { return fovVisualization; } }
+	public ThrowAim ThrowAim { get { return throwAim; } set { throwAim = value; } }
+	public Animator Animator { get { return animator; } }
+
 
 	private void Awake()
 	{
@@ -83,7 +79,7 @@ public class WeaponHand : MonoBehaviour
 		aimGradient = new Gradient();
 		aimGradient.SetKeys(colorKey, alphaKey);
 
-		FOVVisualization.GetComponent<Renderer>().material.color = aimGradient.colorKeys[0].color;
+		fovVisualization.GetComponent<Renderer>().material.color = aimGradient.colorKeys[0].color;
 		if (throwAim != null)
 		{
 			throwAim.gameObject.SetActive(true);
@@ -96,11 +92,11 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand != null)
 		{
-			objectInHand.ToggleAim(isActive, FOVVisualization);
+			objectInHand.ToggleAim(isActive/*, fovVisualization*/);
 		}
 		else
 		{
-			FOVVisualization.SetActive(isActive);
+			fovVisualization.SetActive(isActive);
 		}
 	}
 
@@ -208,7 +204,7 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand)
 		{
-			objectInHand.DoAction(FOV);
+			objectInHand.DoAction(/*FOV*/);
 		}
 		else 
 		{

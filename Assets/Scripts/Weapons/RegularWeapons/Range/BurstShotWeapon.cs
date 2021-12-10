@@ -32,13 +32,13 @@ public class BurstShotWeapon : RangedWeapon
         base.Attack(animator);
     }
 
-    public override void DoAction(FieldOfView fov)
+    public override void DoAction(/*FieldOfView fov*/)
     {
         if(bulletCount > 0)
 		{
             if (particleEffect)
             {
-                Instantiate(particleEffect, WeaponMuzzle.transform.position, WeaponMuzzle.transform.rotation * Quaternion.Euler(0, 180, 0));
+                Instantiate(particleEffect, WeaponMuzzle.transform.position, WeaponMuzzle.transform.rotation * Quaternion.Euler(0, 0, 0));
                 CameraShake.Shake(0.1f, 0.1f);
             }
             Vector3 direction = GetBulletDirection();
@@ -52,7 +52,7 @@ public class BurstShotWeapon : RangedWeapon
 		else
 		{
             WeaponController.Animator.SetTrigger("isCancelAction");
-            base.DoAction(fov);
+            base.DoAction(/*fov*/);
         }
     }
 }

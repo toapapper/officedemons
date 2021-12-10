@@ -175,15 +175,18 @@ public abstract class AbstractWeapon : MonoBehaviour
     public virtual void PickUpIn(GameObject hand)
 	{
 		holderAgent = hand.transform.parent.parent.gameObject;
+		
 		weaponController = holderAgent.GetComponent<WeaponHand>();
+
 		isHeld = true;
 		handle.GetComponent<Rigidbody>().isKinematic = true;
 		GetComponent<Rigidbody>().isKinematic = true;
 
 		handle.transform.parent = hand.transform;
 		handle.transform.position = hand.transform.position;
-		handle.transform.rotation = hand.transform.rotation;
-		Effects.ChangeWeight(hand.transform.parent.gameObject, weight);
+		//handle.transform.rotation = hand.transform.rotation;
+        handle.transform.localRotation = Quaternion.Euler(0, 0, 0); // Maybe fixes the wrong rotation of weapon at pick up
+        Effects.ChangeWeight(hand.transform.parent.gameObject, weight);
 		foreach (Collider collider in GetComponentsInChildren<Collider>())
 		{
 			collider.enabled = false;
@@ -215,12 +218,16 @@ public abstract class AbstractWeapon : MonoBehaviour
 	}
 
 	public virtual void SetAimGradient(Gradient gradient) { }
-	public virtual void ToggleAim(bool isActive, GameObject FOVView) { }
+	public virtual void ToggleAim(bool isActive/*, GameObject FOVView*/) { }
 	public virtual void StartAttack(Animator animator) { }
 	public virtual void Attack(Animator animator)
 	{
 		if(GameManager.Instance.CurrentCombatState == CombatState.playerActions)
 		{
+			durability -= 1;
+		}
+        if (HolderAgent.GetComponent<AIController>())
+        {
 			durability -= 1;
 		}
 	}
@@ -229,11 +236,14 @@ public abstract class AbstractWeapon : MonoBehaviour
 	/// Method triggered by animation, Shoots projectile for ranged or deals damage for melee
 	/// </summary>
 	/// <param name="fov"></param>
-	public virtual void DoAction(FieldOfView fov)
+	public virtual void DoAction(/*FieldOfView fov*/)
 	{
 		if (durability <= 0)
 		{
-			handle.GetComponentInParent<PlayerInputHandler>().RemoveObjectFromWeaponList(this.gameObject);
+            if (!HolderAgent.GetComponent<AIController>())
+            {
+				handle.GetComponentInParent<PlayerInputHandler>().RemoveObjectFromWeaponList(this.gameObject);
+            }
 			handle.GetComponentInParent<WeaponHand>().DropWeapon();
 			Destroy(this.gameObject);
 		}
