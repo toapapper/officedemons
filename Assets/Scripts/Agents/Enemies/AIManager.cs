@@ -93,13 +93,15 @@ public class AIManager : MonoBehaviour
         actionsTime = 0;
         EnemyList = GameManager.Instance.CurrentEncounter.GetEnemylist();
 
+
         foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
         {
             go.GetComponent<GroundEffectObject>().ApplyEffectsOnEnemys();
         }
 
         int enemiesCount = EnemyList.Count;
-        for(int i=0; i<enemiesCount;i++)
+
+        for (int i=0; i<enemiesCount;i++)
         {
             if (EnemyList[i] != null)
             {
@@ -112,6 +114,7 @@ public class AIManager : MonoBehaviour
                     // if HumanEnemy
                     EnemyList[i].GetComponent<AIController>().TargetType = AIController.TargetTypes.None;
                     EnemyList[i].GetComponent<AIController>().Target = null;
+                    EnemyList[i].GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
                     //e.GetComponent<AIController>().GetTargetPlayer(PlayerList);
 
                     //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
@@ -119,11 +122,6 @@ public class AIManager : MonoBehaviour
                     {
                         EnemyList[i].GetComponent<Attributes>().Stamina = EnemyList[i].GetComponent<Attributes>().StartStamina;
                         EnemyList[i].GetComponent<AIController>().ActionIsLocked = false;
-                    }
-                    else
-                    {
-                        EnemyList[i].GetComponent<Attributes>().Stamina = 0;
-                        EnemyList[i].GetComponent<AIController>().ActionIsLocked = true;
                     }
 
                     EnemyList[i].GetComponent<StatusEffectHandler>().UpdateEffects();

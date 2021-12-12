@@ -160,18 +160,20 @@ public class AIController : MonoBehaviour
                     }
                 }
 
-                if (ReachedTargetPosition())
+                if (TargetType != TargetTypes.None && ReachedTargetPosition())
                 {
                     currentState = AIStates.States.Wait;
                 }
                 else
                 {
                     MoveTowards(TargetPosition);
+                    currentState = AIStates.States.Move;
                 }
                 break;
 
             case AIStates.States.Attack:
                 aiManager.SaveAction(this.gameObject);
+                Debug.Log("Attack");
                 break;
 
             case AIStates.States.Move:
@@ -179,11 +181,18 @@ public class AIController : MonoBehaviour
                 {
                     SetTarget(GetTargetPlayer(aiManager.PlayerList), TargetTypes.Player);
                 }
+                
+                Debug.Log("TargetPos: " + TargetPosition);
+                Debug.Log("Enemy Pos: " + gameObject.transform.position);
+                Debug.Log("ReachedTargetPosition(): " + ReachedTargetPosition());
 
                 if (!IsArmed() && TargetType == TargetTypes.Item && ReachedTargetPosition())
                 {
+                    Debug.Log("Trying to pick up");
+                    Debug.Log("Target: " + Target.name);
                     PickupWeapon(Target);
                     currentState = AIStates.States.Unassigned;
+                    ResetTarget();
                 }
                 else if (!ReachedTargetPosition())
                 {
@@ -208,7 +217,9 @@ public class AIController : MonoBehaviour
                 {
                     SetTarget(closestWeapon, TargetTypes.Item);
                 }
+
                 CurrentState = AIStates.States.Move;
+
                 break;
 
             case AIStates.States.Wait:
@@ -241,8 +252,11 @@ public class AIController : MonoBehaviour
 
     public bool ReachedTargetPosition()
     {
-        return Vector3.Distance(TargetPosition, gameObject.transform.position) < 2;
+        Debug.Log("Enemy Pos: " + gameObject.transform.position + "  TargetPos: "+ TargetPosition + "   Distance: " + Vector3.Distance(TargetPosition, gameObject.transform.position));
+        return Vector3.Distance(TargetPosition, gameObject.transform.position) <= 3;
     }
+
+    
 
     private GameObject GetClosestWeapon()
     {
@@ -557,7 +571,7 @@ public class AIController : MonoBehaviour
         return dist;
     }
 
-    private void SetTarget(GameObject target, TargetTypes type, Vector3 position = default(Vector3))
+    public void SetTarget(GameObject target, TargetTypes type, Vector3 position = default(Vector3))
     {
         TargetType = type;
 
@@ -575,7 +589,7 @@ public class AIController : MonoBehaviour
 
             case TargetTypes.Item:
                 TargetPosition = target.transform.position;
-                Target = null;
+                Target = target;
                 break;
 
             case TargetTypes.Player:
