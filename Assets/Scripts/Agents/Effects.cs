@@ -31,11 +31,9 @@ public static class Effects
             }
             else if(target.name == "tank" && target.GetComponent<TankController>().InActiveCombat)
             {
-                Debug.Log("INNE I DAMAGE");
                 WeaponDamage(target, damage, wielder);
             }
         }
-		
 	}
 	public static void WeaponDamage(GameObject target, float damage, GameObject wielder = null)
 	{
@@ -49,7 +47,7 @@ public static class Effects
 
 	public static void Damage(GameObject target, float damage, GameObject wielder = null)
 	{
-		Debug.Log("Damage done, wielder: " + wielder + " + target: " + target);
+		//Debug.Log("Damage done, wielder: " + wielder + " + target: " + target);
 
 		if (damage < 0)
 		{
