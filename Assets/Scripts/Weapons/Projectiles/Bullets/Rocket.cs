@@ -19,8 +19,8 @@ public class Rocket : Bullet
     [SerializeField]
     private GameObject particleEffect;
     private bool isExploded = false;
-
-	protected override void OnCollisionEnter(Collision collision)
+  
+    protected override void OnCollisionEnter(Collision collision)
 	{
 		if (!isExploded)
 		{

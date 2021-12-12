@@ -13,10 +13,21 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID BAZOOKA_LAUNCH = 3201576128U;
+        static const AkUniqueID BULLET_HIT = 384143791U;
+        static const AkUniqueID BULLET_IMPACT_DIRT = 3326819226U;
+        static const AkUniqueID BULLET_IMPACT_FLESH = 3754544321U;
+        static const AkUniqueID BULLET_IMPACT_GLASS = 1713137135U;
+        static const AkUniqueID BULLETS_WHIZ_BY = 1113486413U;
+        static const AkUniqueID GUN_COCKING = 3751980148U;
+        static const AkUniqueID PISTOL_SHOT = 991589999U;
         static const AkUniqueID PLAY_AMBIENCE = 278617630U;
         static const AkUniqueID PLAY_AMBIENCE_HALL_LARGE__ENTRANCE__OFFICE_BUILDING__MORNING__DOWNTOWN_CHICAGO__USA__LOOP_LRLSRS = 1546138968U;
+        static const AkUniqueID PLAY_BAZOOKA_SHELL_WHOOSH = 232351957U;
         static const AkUniqueID PLAY_BLUNT_THUD = 3757306353U;
         static const AkUniqueID PLAY_EXPLOSION = 4030404899U;
+        static const AkUniqueID PLAY_FEMALE_GRUNT = 3618582937U;
+        static const AkUniqueID PLAY_FEMALE_GRUNT_PITCHED = 923869857U;
         static const AkUniqueID PLAY_FIRE_WOOSH = 2758889567U;
         static const AkUniqueID PLAY_FMW_WEAPON_HIT10C = 3034079729U;
         static const AkUniqueID PLAY_MELEESWINGSPACK_96KHZ_STEREO_NORMALSWINGS39 = 1158643645U;
@@ -29,10 +40,13 @@ namespace AK
         static const AkUniqueID PLAY_SHOTSFX = 3745549323U;
         static const AkUniqueID PLAY_SIZZLE = 985374763U;
         static const AkUniqueID PLAY_SPLASH = 3948925255U;
+        static const AkUniqueID PLAY_STAPLER = 2785491777U;
+        static const AkUniqueID RANDOM_SHELL_CASINGS = 2302815610U;
         static const AkUniqueID SET_COMBAT1 = 2667565123U;
         static const AkUniqueID SET_ROAMING1 = 1319730832U;
         static const AkUniqueID SET_ROAMING2 = 1319730835U;
         static const AkUniqueID STOP_AMBIENCE = 2477713992U;
+        static const AkUniqueID STOP_BAZOOKA_SHELL_WHOOSH = 825044507U;
         static const AkUniqueID STOP_RADIOMUSIC = 252541922U;
         static const AkUniqueID SUSANBURST = 2126492817U;
         static const AkUniqueID SUSANSCREAM = 240172070U;

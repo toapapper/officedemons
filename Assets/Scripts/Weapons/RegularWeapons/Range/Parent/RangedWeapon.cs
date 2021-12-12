@@ -112,6 +112,7 @@ public abstract class RangedWeapon : AbstractWeapon
 
 	public override void StartAttack(Animator animator)
 	{
+		AkSoundEngine.PostEvent("Gun_Cocking", gameObject);
 		animator.SetTrigger("isStartRangedSingleShot");
 	}
 

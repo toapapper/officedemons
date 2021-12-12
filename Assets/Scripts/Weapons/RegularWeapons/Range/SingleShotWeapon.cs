@@ -15,6 +15,7 @@ using UnityEngine;
 // Last Edited: 14/10-21
 public class SingleShotWeapon : RangedWeapon
 {
+	[SerializeField] ParticleSystem casings;
 	public override void Attack(Animator animator)
 	{
 		animator.SetTrigger("isRangedSingleShot");
@@ -22,6 +23,10 @@ public class SingleShotWeapon : RangedWeapon
 	}
 	public override void DoAction(/*FieldOfView fov*/)
 	{
+		if(casings != null)
+        {
+			casings.Emit(1);
+        }
 		if (particleEffect)
 		{
 			Instantiate(particleEffect, WeaponMuzzle.transform.position, WeaponMuzzle.transform.rotation * Quaternion.Euler(0f, 0f, 0f));

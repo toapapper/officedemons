@@ -59,7 +59,7 @@ public class WeaponInitializer : MonoBehaviour
                 //{
                 //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
                 //}
-                GetComponentInParent<Outline>().OutlineColor = Color.gray;
+                //GetComponentInParent<Outline>().OutlineColor = Color.gray;
             }
             else if(rnd >= 50 && rnd < 75)
             {
@@ -74,7 +74,7 @@ public class WeaponInitializer : MonoBehaviour
                 //{
                 //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
                 //}
-                GetComponentInParent<Outline>().OutlineColor = Color.green;
+                //GetComponentInParent<Outline>().OutlineColor = Color.green;
             }
             else if(rnd >= 75 && rnd < 90)
             {
@@ -91,7 +91,7 @@ public class WeaponInitializer : MonoBehaviour
                 //{
                 //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
                 //}
-                GetComponentInParent<Outline>().OutlineColor = Color.blue;
+                //GetComponentInParent<Outline>().OutlineColor = Color.blue;
             }
             else if(rnd >= 90 && rnd < 97)
             {
@@ -108,7 +108,7 @@ public class WeaponInitializer : MonoBehaviour
                 //{
                 //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
                 //}
-                GetComponentInParent<Outline>().OutlineColor = Color.magenta;
+                //GetComponentInParent<Outline>().OutlineColor = Color.magenta;
             }
             else
             {
@@ -124,7 +124,7 @@ public class WeaponInitializer : MonoBehaviour
                 //{
                 //    GetComponent<AbstractWeapon>().effectList.add(stats.effetcs[i]);
                 //}
-                GetComponentInParent<Outline>().OutlineColor = new Color(1,0.5f,0,1);
+                //GetComponentInParent<Outline>().OutlineColor = new Color(1,0.5f,0,1);
             }
             transform.parent.name = GetName(name,rarity, stats);
         }            
