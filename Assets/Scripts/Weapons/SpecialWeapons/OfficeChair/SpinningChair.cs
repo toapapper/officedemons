@@ -27,6 +27,8 @@ public class SpinningChair : AbstractSpecial
 	private float healAmount = 5f;
 	[SerializeField]
 	private List<TrailRenderer> trails;
+	[SerializeField]
+	private GameObject particleEffect;
 
 	private void Start()
 	{
@@ -76,6 +78,8 @@ public class SpinningChair : AbstractSpecial
 		int nrOfTargets = specialController.FOV.VisibleTargets.Count;
 		AkSoundEngine.PostEvent("VickySlide", gameObject);
 		AkSoundEngine.PostEvent("SusanBurst", gameObject);
+		Instantiate(particleEffect, transform.position, Quaternion.Euler(-90,0,0));
+		Debug.LogError(particleEffect);
 		if (ActionPower == MaxCharges)
 		{
 			if (nrOfTargets > 0)

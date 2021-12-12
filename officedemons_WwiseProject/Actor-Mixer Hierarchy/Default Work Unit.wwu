@@ -134,62 +134,6 @@
 								<ActiveSource Name="Sizzle" ID="{49721D07-4965-42A6-B211-95C399AA10F8}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="Explosion" ID="{4E636DB8-A6CA-41FF-9C0B-4EC7780F3024}" ShortID="171001801">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-6</Value>
-									</ValueList>
-									<RTPCList>
-										<RTPC Name="" ID="{413D5E55-08A8-4606-A80E-16A542482735}" ShortID="44228688">
-											<ReferenceList>
-												<Reference Name="ControlInput">
-													<ObjectRef Name="SFXVolume" ID="{2E320340-4327-4DC3-9671-F52326DAFF61}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
-												</Reference>
-											</ReferenceList>
-											<Curve Name="" ID="{B8D04F1D-E12A-44CE-AFBB-2DF243A6C1BD}">
-												<PropertyList>
-													<Property Name="Flags" Type="int32" Value="3"/>
-												</PropertyList>
-												<PointList>
-													<Point>
-														<XPos>0</XPos>
-														<YPos>-200</YPos>
-														<Flags>5</Flags>
-													</Point>
-													<Point>
-														<XPos>100</XPos>
-														<YPos>-2.56968</YPos>
-														<Flags>37</Flags>
-													</Point>
-												</PointList>
-											</Curve>
-										</RTPC>
-									</RTPCList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="SFX" ID="{F80A384D-1182-4C0E-AE62-A1DC7CB6A8A7}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="Explosion" ID="{46CEA93E-97C1-4531-A49D-6B8C31D54872}">
-									<Language>SFX</Language>
-									<AudioFile>Explosion.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="951172493"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ObjectLists/>
-							<ActiveSourceList>
-								<ActiveSource Name="Explosion" ID="{46CEA93E-97C1-4531-A49D-6B8C31D54872}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="Fire_woosh" ID="{C03F3ECA-54D8-4B83-9F77-3AE434834287}" ShortID="356186117">
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
@@ -379,22 +323,15 @@
 						</Sound>
 						<Sound Name="FMW_Weapon_Hit10C" ID="{CC4F27B8-2EE5-4194-9E04-BA18FC2D01D4}" ShortID="34420024">
 							<PropertyList>
-								<Property Name="Highpass" Type="int16">
-									<ValueList>
-										<Value>29</Value>
-									</ValueList>
-								</Property>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>17</Value>
-									</ValueList>
-								</Property>
-								<Property Name="Pitch" Type="int32">
-									<ValueList>
-										<Value>450</Value>
+										<Value>25</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-6</Value>
+									</ValueList>
 									<RTPCList>
 										<RTPC Name="" ID="{C584CBE9-07BF-4621-88C4-5DD597EE3F2F}" ShortID="321463011">
 											<ReferenceList>
@@ -615,6 +552,534 @@
 								<ActiveSource Name="MeleeSwingsPack_96khz_Mono_DesignedSwings12" ID="{A5214475-883E-4B62-A0F9-A2DD65F07A5B}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="Bazooka_Launch" ID="{64A541F9-0342-437A-B448-025CFD4C0ECB}" ShortID="11119970">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{9AA311C1-5491-4616-BB8F-D4C15A48BC43}" ShortID="819468844">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="SFXVolume" ID="{2E320340-4327-4DC3-9671-F52326DAFF61}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{FF6FD66B-F0EB-4A18-B00C-C36DFFFA1E64}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Bazooka_Launch" ID="{22CC7F30-F9D2-4F98-A4DC-0B1BFFEAF613}">
+									<Language>SFX</Language>
+									<AudioFile>Bazooka_Launch.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1047081195"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Bazooka_Launch" ID="{22CC7F30-F9D2-4F98-A4DC-0B1BFFEAF613}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Bullet impact flesh" ID="{E07A868D-1F15-4BEF-A052-39B7C09A0BE0}" ShortID="343871571">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{5138DE1C-DE25-43CE-B166-B161D43A0F1A}" ShortID="47288089">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="SFXVolume" ID="{2E320340-4327-4DC3-9671-F52326DAFF61}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{BC538AF8-39A2-46CE-BD60-5CD1DB547E11}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Bullet impact flesh" ID="{084512B1-BDA6-436C-AB9E-2530BE6A0201}">
+									<Language>SFX</Language>
+									<AudioFile>Bullet impact flesh.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="304165649"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Bullet impact flesh" ID="{084512B1-BDA6-436C-AB9E-2530BE6A0201}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Bullet_hit" ID="{8CE47AEC-2BAF-42F1-B864-0FFBFE0357BE}" ShortID="1053087552">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{0DCC38A4-DF1E-4070-B778-66A74DB2CBAB}" ShortID="97178220">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="SFXVolume" ID="{2E320340-4327-4DC3-9671-F52326DAFF61}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{D8F3F91F-C0CA-40BC-98DD-EB4D4B1216B7}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Bullet_hit" ID="{DA6B80A3-082B-4EEA-80BC-405399FA72F8}">
+									<Language>SFX</Language>
+									<AudioFile>Bullet_hit.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="425416782"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Bullet_hit" ID="{DA6B80A3-082B-4EEA-80BC-405399FA72F8}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Bullet_impact_glass" ID="{9ADDDAFB-141F-4FBA-B4B2-408D7A71FEDE}" ShortID="917663671">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Bullet_impact_glass" ID="{F2B5A5C5-44DA-4C22-A076-767E63DD26F9}">
+									<Language>SFX</Language>
+									<AudioFile>Bullet_impact_glass.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="630969953"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Bullet_impact_glass" ID="{F2B5A5C5-44DA-4C22-A076-767E63DD26F9}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Gun_Cocking" ID="{5A8874C8-2B76-4A13-81A3-963BCE1B5561}" ShortID="537525026">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{A9BF4D1A-B1E7-4254-BE8C-9DC6AB28EDE2}" ShortID="966428091">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="SFXVolume" ID="{2E320340-4327-4DC3-9671-F52326DAFF61}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{86EEF4BD-1F6A-4186-AFD0-2CB3D025D98F}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Gun_Cocking" ID="{F9E2F7FD-9DC8-46C3-999E-024D6483B313}">
+									<Language>SFX</Language>
+									<AudioFile>Gun_Cocking.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="662633027"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Gun_Cocking" ID="{F9E2F7FD-9DC8-46C3-999E-024D6483B313}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Pistol_shot" ID="{A2544116-8115-42E0-A9B9-BF865BB079A1}" ShortID="25403647">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{D946F1A2-C3D3-4219-B838-FD3E0432A059}" ShortID="648516582">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="SFXVolume" ID="{2E320340-4327-4DC3-9671-F52326DAFF61}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{B292E961-BCCA-4EF7-B6C3-60DC690BB6F5}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Pistol_shot" ID="{35F5397B-3E85-4CD0-AE54-78290B2385C4}">
+									<Language>SFX</Language>
+									<AudioFile>Pistol_shot.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="279693683"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Pistol_shot" ID="{35F5397B-3E85-4CD0-AE54-78290B2385C4}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Stapler" ID="{71B78A11-2F56-404B-BAD4-99029493D505}" ShortID="411509010">
+							<PropertyList>
+								<Property Name="MakeUpGain" Type="Real64">
+									<ValueList>
+										<Value>6</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{C3B04091-A8D6-4B68-97C2-9EFBC37025B7}" ShortID="14555816">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="SFXVolume" ID="{2E320340-4327-4DC3-9671-F52326DAFF61}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{371B58CF-918F-4FCE-9398-F1ADB3608399}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="Effect0">
+									<Custom>
+										<Effect Name="Wwise Gain (Custom)" ID="{4E3DE13F-FB55-4E3A-9E13-7A83A7B504BF}" ShortID="697867587" PluginName="Wwise Gain" CompanyID="0" PluginID="139" PluginType="3">
+											<PropertyList>
+												<Property Name="FullBandGain" Type="Real32" Value="4"/>
+												<Property Name="LFEGain" Type="Real32" Value="8"/>
+											</PropertyList>
+										</Effect>
+									</Custom>
+								</Reference>
+								<Reference Name="Effect1">
+									<Custom>
+										<Effect Name="Wwise Parametric EQ (Custom)" ID="{E25C3740-A60E-4A6E-B62A-1A224F4791EA}" ShortID="887835658" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+											<PropertyList>
+												<Property Name="GainBand1" Type="Real32" Value="3"/>
+												<Property Name="OnOffBand2" Type="bool" Value="False"/>
+												<Property Name="OnOffBand3" Type="bool" Value="False"/>
+											</PropertyList>
+										</Effect>
+									</Custom>
+								</Reference>
+								<Reference Name="Effect2">
+									<Custom>
+										<Effect Name="Wwise Compressor (Custom)" ID="{FE157561-C0EF-45C5-BAE2-21A8103395C4}" ShortID="158574687" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
+											<PropertyList>
+												<Property Name="AttackTime" Type="Real32" Value="0.37"/>
+												<Property Name="Ratio" Type="Real32" Value="4.1"/>
+												<Property Name="ReleaseTime" Type="Real32" Value="0.29"/>
+												<Property Name="Threshold" Type="Real32" Value="-23.3"/>
+											</PropertyList>
+										</Effect>
+									</Custom>
+								</Reference>
+								<Reference Name="Effect3" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
+									<ObjectRef Name="Brick_Wall_Minus_1dB_Peak_Fast_Release" ID="{2144284E-7ADD-4341-86A4-4E468BEC9A2D}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Stapler" ID="{DB7401B0-7F23-4E2A-8E07-0DCE1CF8A661}">
+									<Language>SFX</Language>
+									<AudioFile>Stapler.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="939740541"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Stapler" ID="{DB7401B0-7F23-4E2A-8E07-0DCE1CF8A661}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Bullet_Impact_Dirt" ID="{FEAF76C5-85E5-4C0B-AC71-5B3C468FBA59}" ShortID="84420955">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{54695175-D0C9-4C0E-86F7-E82AF7E09F99}" ShortID="826848283">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="SFXVolume" ID="{2E320340-4327-4DC3-9671-F52326DAFF61}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{C2F720B2-41B7-450B-80B6-EF4A55636E2B}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Bullet_Impact_Dirt" ID="{E032C156-3E98-469D-9C36-FAA26F569E1F}">
+									<Language>SFX</Language>
+									<AudioFile>Bullet_Impact_Dirt.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="451773611"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Bullet_Impact_Dirt" ID="{E032C156-3E98-469D-9C36-FAA26F569E1F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Explosion" ID="{82F2C049-F13E-4867-B579-EB5E042A1887}" ShortID="289924405">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{AFACFAF9-1D1A-45F7-91F3-4E651076A48F}" ShortID="749067124">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="SFXVolume" ID="{2E320340-4327-4DC3-9671-F52326DAFF61}" WorkUnitID="{BDDCCFA3-2371-4AFD-9874-0245ECC5C4ED}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{DD7915EC-0BF3-458A-9CE7-0E7A11A121FC}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="Effect0" PluginName="Wwise Expander" CompanyID="0" PluginID="109" PluginType="3">
+									<ObjectRef Name="Noise_Gate_Fast_Attack" ID="{747A6B61-E953-474C-8227-672C884DA616}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+								</Reference>
+								<Reference Name="Effect1">
+									<Custom>
+										<Effect Name="Wwise Parametric EQ (Custom)" ID="{8090D34F-D63C-4D82-8296-AE69379FF8BD}" ShortID="427059003" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+											<PropertyList>
+												<Property Name="GainBand1" Type="Real32" Value="3"/>
+												<Property Name="OnOffBand2" Type="bool" Value="False"/>
+												<Property Name="OnOffBand3" Type="bool" Value="False"/>
+											</PropertyList>
+										</Effect>
+									</Custom>
+								</Reference>
+								<Reference Name="Effect2" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
+									<ObjectRef Name="Brick_Wall_Minus_1dB_Peak_Fast_Release" ID="{2144284E-7ADD-4341-86A4-4E468BEC9A2D}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Explosion" ID="{CAFFCAD9-15AB-4809-AA6E-B1982ECDB269}">
+									<Language>SFX</Language>
+									<AudioFile>Explosion.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="951172493"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Explosion" ID="{CAFFCAD9-15AB-4809-AA6E-B1982ECDB269}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Bazooka_Shell_Whoosh" ID="{BA3C6D22-061E-4BAD-9F4F-3115E1460F7F}" ShortID="273375281">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Fire_Stream" ID="{BE0E163C-CF0D-4441-A9B3-3F1B111E38F7}">
+									<Language>SFX</Language>
+									<AudioFile>Fire_Stream.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="576210128"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Fire_Stream" ID="{BE0E163C-CF0D-4441-A9B3-3F1B111E38F7}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Voices" ID="{EFA9561B-965D-40A2-B6F4-98A935DD9311}" ShortID="273683978">
@@ -683,7 +1148,7 @@
 							<PropertyList>
 								<Property Name="Pitch" Type="int32">
 									<ValueList>
-										<Value>1500</Value>
+										<Value>1520</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Volume" Type="Real64">
@@ -788,6 +1253,105 @@
 							<ObjectLists/>
 							<ActiveSourceList>
 								<ActiveSource Name="Screams_Crowd" ID="{1E306196-1512-45AD-8D15-1658E6D2BB09}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Female_voice_Amused" ID="{085C3D87-AC2D-45C6-B3EA-221B6CDF4085}" ShortID="968333250">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Female_voice_Amused" ID="{E715CCF4-25D7-48DC-AFA8-1C14261D57E1}">
+									<Language>SFX</Language>
+									<AudioFile>Female_voice_Amused.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="885725150"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Female_voice_Amused" ID="{E715CCF4-25D7-48DC-AFA8-1C14261D57E1}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Female_voice_talking" ID="{A39A8214-5A9F-4597-84F5-3032D4CDC90B}" ShortID="272591170">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Female_voice_talking" ID="{E99F6D40-7572-4756-BA72-DBA9A6BE6496}">
+									<Language>SFX</Language>
+									<AudioFile>Female_voice_talking.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="905861808"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Female_voice_talking" ID="{E99F6D40-7572-4756-BA72-DBA9A6BE6496}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Male_Voice_Talking" ID="{04247636-FB32-4AF9-B5E7-39F86B12803A}" ShortID="708988880">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Male_Voice_Talking" ID="{04B8AAA6-C362-445F-A1A2-622149F2138B}">
+									<Language>SFX</Language>
+									<AudioFile>Male_Voice_Talking.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="732447112"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Male_Voice_Talking" ID="{04B8AAA6-C362-445F-A1A2-622149F2138B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Female_Grunt_Pitched" ID="{2BC0C283-F1BD-4F59-A518-6A7D02A1DABD}" ShortID="296533708">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>-300</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Female_Grunt_Pitched" ID="{A05F59A9-C417-4CBE-9FF7-603082EE6BAF}">
+									<Language>SFX</Language>
+									<AudioFile>Female_Grunt_Pitched.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1028535371"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Female_Grunt_Pitched" ID="{A05F59A9-C417-4CBE-9FF7-603082EE6BAF}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>

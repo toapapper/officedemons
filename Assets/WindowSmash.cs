@@ -15,12 +15,15 @@ public class WindowSmash : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     private void OnCollisionEnter(Collision collision)
     {
-
-        Instantiate(particleEffect, transform.position, transform.rotation * Quaternion.Euler(0, 180, 0));
-        Destroy(gameObject);
+        if (collision.gameObject.tag == "Projectile")
+        {
+            AkSoundEngine.PostEvent("Bullet_impact_glass", gameObject);
+            Instantiate(particleEffect, transform.position, transform.rotation * Quaternion.Euler(0, 180, 0));
+            gameObject.GetComponentInChildren<Renderer>().material.color = Color.black;
+        }
     }
 }

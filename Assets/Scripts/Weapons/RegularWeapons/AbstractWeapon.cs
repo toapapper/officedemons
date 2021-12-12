@@ -142,7 +142,8 @@ public abstract class AbstractWeapon : MonoBehaviour
     {
         textObjectName = gameObject.transform.parent.GetComponentInChildren<TextMeshPro>();
         textObjectName.text = gameObject.transform.parent.name;
-        textObjectName.faceColor = gameObject.GetComponent<Outline>().OutlineColor;
+		//textObjectName.faceColor = gameObject.GetComponent<Outline>().OutlineColor;
+		textObjectName.faceColor = Color.white;
     }
 
     protected virtual void Update()

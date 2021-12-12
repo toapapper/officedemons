@@ -106,9 +106,11 @@
 						</Effect>
 						<Effect Name="Noise_Gate_Fast_Attack" ID="{747A6B61-E953-474C-8227-672C884DA616}" PluginName="Wwise Expander" CompanyID="0" PluginID="109" PluginType="3">
 							<PropertyList>
-								<Property Name="Ratio" Type="Real32" Value="50"/>
-								<Property Name="ReleaseTime" Type="Real32" Value="0.1"/>
-								<Property Name="Threshold" Type="Real32" Value="-50"/>
+								<Property Name="AttackTime" Type="Real32" Value="0.48"/>
+								<Property Name="OutputGain" Type="Real32" Value="3.8"/>
+								<Property Name="Ratio" Type="Real32" Value="43.8"/>
+								<Property Name="ReleaseTime" Type="Real32" Value="1.29"/>
+								<Property Name="Threshold" Type="Real32" Value="-63.4"/>
 							</PropertyList>
 						</Effect>
 						<Effect Name="Noise_Gate_Slow_Attack" ID="{8D16DAF8-FD63-4A83-894E-2E82DA790C71}" PluginName="Wwise Expander" CompanyID="0" PluginID="109" PluginType="3">
@@ -188,9 +190,10 @@
 						</Effect>
 						<Effect Name="Brick_Wall_Minus_1dB_Peak_Fast_Release" ID="{2144284E-7ADD-4341-86A4-4E468BEC9A2D}" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
 							<PropertyList>
+								<Property Name="LookAhead" Type="Real32" Value="0.014"/>
 								<Property Name="Ratio" Type="Real32" Value="50"/>
 								<Property Name="ReleaseTime" Type="Real32" Value="0.02"/>
-								<Property Name="Threshold" Type="Real32" Value="-1"/>
+								<Property Name="Threshold" Type="Real32" Value="-7.1"/>
 							</PropertyList>
 						</Effect>
 						<Effect Name="Brick_Wall_Minus_1dB_Peak_Slow_Release" ID="{9FB8DC2B-7F1C-4E4E-8FA5-50872652D2DD}" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">

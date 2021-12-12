@@ -133,7 +133,7 @@ public class Checkpoint : MonoBehaviour
                 {
                     outlineColor[i] = weaponData.outlineColor[i];
                 }
-                abstractWeapon.GetComponentInChildren<Outline>().OutlineColor = outlineColor;
+                //abstractWeapon.GetComponentInChildren<Outline>().OutlineColor = outlineColor;
 
                 if (abstractWeapon is BurstShotWeapon)
                 {

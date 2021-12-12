@@ -371,7 +371,6 @@ GameObject:
   - component: {fileID: 7869421489419395329}
   - component: {fileID: 4258285042945593327}
   - component: {fileID: 1818232433198912986}
-  - component: {fileID: 4091817893487874794}
   m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
@@ -446,24 +445,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4091817893487874794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3019145719928785045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 2
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!1 &3896046066446370289
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,7 +835,7 @@ MonoBehaviour:
   characterName: 3
   portrait: {fileID: 0}
   jobTitle: "arbetsl\xF6s"
-  startHealth: 100
+  startHealth: 75
   killCount: 0
   particleEffect: {fileID: 0}
   health: 0
@@ -928,7 +909,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b06464f5284c4489299a077c816afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
 --- !u!114 &2361552680418421769
 MonoBehaviour:
@@ -1493,6 +1473,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6335068794937085298}
     m_Modifications:
+    - target: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3032543496062369683, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
