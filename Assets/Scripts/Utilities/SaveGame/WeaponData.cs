@@ -42,15 +42,15 @@ public class WeaponData
         durability = weaponHandle.GetComponentInChildren<AbstractWeapon>().Durability;
         weight = weaponHandle.GetComponentInChildren<AbstractWeapon>().Weight;
         effects = weaponHandle.GetComponentInChildren<AbstractWeapon>().EffectList;
-        if (weaponHandle.GetComponentInChildren<Outline>())
-        {
-            outlineColor = new float[4];
-            for (int i = 0; i < 4; i++)
-            {
-                outlineColor[i] = weaponHandle.GetComponentInChildren<Outline>().OutlineColor[i];
-            }
+        //if (weaponHandle.GetComponentInChildren<Outline>())
+        //{
+        //    outlineColor = new float[4];
+        //    for (int i = 0; i < 4; i++)
+        //    {
+        //        outlineColor[i] = weaponHandle.GetComponentInChildren<Outline>().OutlineColor[i];
+        //    }
 
-        }
+        //}
         if (weaponHandle.GetComponentInChildren<AbstractWeapon>() is BurstShotWeapon)
         {
             bulletsInBurst = weaponHandle.GetComponentInChildren<BurstShotWeapon>().BulletsInBurst;

@@ -18,6 +18,7 @@ public class BurstShotWeapon : RangedWeapon
     private int bulletCount;
     [SerializeField]
     private int bulletsInBurst = 4;
+    [SerializeField] ParticleSystem casings;
     public int BulletsInBurst 
     { 
         get { return bulletsInBurst; } 
@@ -29,12 +30,14 @@ public class BurstShotWeapon : RangedWeapon
     {
         bulletCount = bulletsInBurst;
         animator.SetTrigger("isRangedBurst");
+        
         base.Attack(animator);
     }
 
     public override void DoAction(/*FieldOfView fov*/)
     {
-        if(bulletCount > 0)
+        casings.Emit(1);
+        if (bulletCount > 0)
 		{
             if (particleEffect)
             {

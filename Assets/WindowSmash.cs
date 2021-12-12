@@ -19,7 +19,7 @@ public class WindowSmash : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-
+        AkSoundEngine.PostEvent("Bullet_impact_glass", gameObject);
         Instantiate(particleEffect, transform.position, transform.rotation * Quaternion.Euler(0, 180, 0));
         Destroy(gameObject);
     }
