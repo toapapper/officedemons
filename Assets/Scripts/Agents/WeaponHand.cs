@@ -103,7 +103,7 @@ public class WeaponHand : MonoBehaviour
 	//Pick up
 	public void Equip(GameObject newObject)
 	{
-		objectInHand = newObject.GetComponent<AbstractWeapon>();
+		objectInHand = newObject.GetComponentInChildren<AbstractWeapon>(); /////
 		objectInHand.PickUpIn(handObject);
 		
 		objectInHand.SetAimGradient(aimGradient);
