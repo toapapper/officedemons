@@ -43,14 +43,6 @@ public class DestructibleObjects : MonoBehaviour
 
         if (destroyedPrefab == null)
         {
-            foreach (MeshRenderer mr in gameObject.GetComponents<MeshRenderer>())
-            {
-                foreach (Material m in mr.materials)
-                {
-                    m.color = Color.black;
-                }
-            }
-
             foreach (MeshRenderer mr in gameObject.GetComponentsInChildren<MeshRenderer>())
             {
                 foreach (Material m in mr.materials)

@@ -72,6 +72,12 @@ public class Attributes : MonoBehaviour
         }
     }
 
+    public int SaveLoadHealth
+    {
+		get { return health; }
+        set { health = value; }
+    }
+
     [SerializeField]
     [Header("Stamina")]
     [Tooltip("Stamina drains at a rate of one per second")]

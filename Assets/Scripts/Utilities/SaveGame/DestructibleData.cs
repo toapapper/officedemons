@@ -10,7 +10,7 @@ public class DestructibleData
     public string destructibleName;
 
     public bool destroyd;
-    public float objectHealth;
+    public int objectHealth;
 
     public DestructibleData(GameObject destructibleObject)
     {
@@ -25,16 +25,16 @@ public class DestructibleData
         rotation[2] = destructibleObject.transform.rotation.eulerAngles.z;
 
         destructibleName = destructibleObject.name;
-        Debug.Log("DESTRUCTIBLE NAME:      " + destructibleObject.name);
+
         if (destructibleName.Contains("("))
         {
             destructibleName = destructibleName.Remove(destructibleObject.name.IndexOf('('));
-            destructibleName.TrimEnd(' ');
+            destructibleName = destructibleName.Remove(destructibleObject.name.IndexOf(' '));
         }
 
         if (destructibleObject.GetComponent<DestructibleObjects>())
 		{
-            objectHealth = destructibleObject.GetComponent<Attributes>().Health;
+            objectHealth = destructibleObject.GetComponent<Attributes>().SaveLoadHealth;
             destroyd = destructibleObject.GetComponent<DestructibleObjects>().destroyed;
         }
     }

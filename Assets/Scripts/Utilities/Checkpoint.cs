@@ -164,7 +164,6 @@ public class Checkpoint : MonoBehaviour
         //Destructible objects
         foreach (Transform destructible in GameObject.Find("DestructibleObjects").transform)
         {
-            Debug.Log("DESTRUCTIBLE FOUND");
             Destroy(destructible.gameObject);
         }
 
@@ -189,12 +188,9 @@ public class Checkpoint : MonoBehaviour
                     }
                 }
 
+                newDestructible.GetComponent<Attributes>().SaveLoadHealth = destructibleData.objectHealth;
 
                 newDestructible.transform.parent = GameObject.Find("DestructibleObjects").transform;
-
-
-
-
                 newDestructible.name = destructibleData.destructibleName;
             }
 
