@@ -14,7 +14,7 @@ public class MainMenu : MonoBehaviour
     public GameObject FirstSelectedMainMenu;
     private void Start()
     {
-        if(GameObject.Find("PlayerConfigurationManager") != null)
+        if(GameObject.Find("PlayerConfigurationManager") != null && InGame == false)
         {
             Destroy(GameObject.Find("PlayerConfigurationManager"));
         }
