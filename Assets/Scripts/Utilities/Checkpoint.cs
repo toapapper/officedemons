@@ -50,15 +50,20 @@ public class Checkpoint : MonoBehaviour
             }
         }
         SaveSystem.SaveWeapons(weaponList);
+
+        //Destructible objects
+        List<GameObject> destructibleList = new List<GameObject>();
+        foreach (Transform destructible in GameObject.Find("DestructibleObjects").transform)
+        {
+            Debug.Log("SAVEDESTRUCTIBLE");
+            destructibleList.Add(destructible.gameObject);
+        }
+        SaveSystem.SaveDestructibles(destructibleList);
     }
 
     public void LoadCheckpoint()
     {
-        //
-        //GameManager.Instance.ResetEncounter();
-        //
         camPos.transform.position = checkPointPos.position;
-        //Debug.LogError("CAMERAMOVE");
         Camera.main.GetComponent<MultipleTargetCamera>().ObjectsInCamera = new List<GameObject>();
 
         int playerCounter = 0;
@@ -69,10 +74,10 @@ public class Checkpoint : MonoBehaviour
             PlayerData playerData = SaveSystem.LoadPlayer(player.name);
 
             Vector3 newPos = new Vector3(positions[playerCounter].position.x, player.transform.position.y, positions[playerCounter].position.z);
-            Debug.Log("NEW POSITION:       " + newPos);
+            //Debug.Log("NEW POSITION:       " + newPos);
 
             player.transform.position = newPos;
-            Debug.Log("PLAYER POSITION:       " + player.transform.position);
+            //Debug.Log("PLAYER POSITION:       " + player.transform.position);
 
             //
             //Effects.Revive(player);
@@ -93,7 +98,7 @@ public class Checkpoint : MonoBehaviour
 
         foreach (Transform weapon in GameObject.Find("Weapons").transform)
         {
-            Debug.Log("WEAPON FOUND");
+            //Debug.Log("WEAPON FOUND");
             //RemoveFromNearbyLists
             //foreach(GameObject player in PlayerManager.players)
             //{
@@ -155,6 +160,51 @@ public class Checkpoint : MonoBehaviour
             }
 
         }
+
+        //Destructible objects
+        foreach (Transform destructible in GameObject.Find("DestructibleObjects").transform)
+        {
+            Debug.Log("DESTRUCTIBLE FOUND");
+            Destroy(destructible.gameObject);
+        }
+
+        List<DestructibleData> destructibleDataList = SaveSystem.LoadDestructibles();
+        foreach (DestructibleData destructibleData in destructibleDataList)
+        {
+            if (Resources.Load(destructibleData.destructibleName))
+            {
+                GameObject newDestructible = Instantiate(Resources.Load(destructibleData.destructibleName),
+                    new Vector3(destructibleData.position[0], destructibleData.position[1], destructibleData.position[2]),
+                    Quaternion.Euler(destructibleData.rotation[0], destructibleData.rotation[1], destructibleData.rotation[2])) as GameObject;
+
+				if (destructibleData.destroyd)
+				{
+                    foreach (MeshRenderer mr in newDestructible.GetComponentsInChildren<MeshRenderer>())
+                    {
+                        foreach (Material m in mr.materials)
+                        {
+                            m.color = Color.black;
+                            newDestructible.GetComponent<DestructibleObjects>().destroyed = true;
+                        }
+                    }
+                }
+
+
+                newDestructible.transform.parent = GameObject.Find("DestructibleObjects").transform;
+
+
+
+
+                newDestructible.name = destructibleData.destructibleName;
+            }
+
+        }
+
+
+
+
+
+
 
         GameManager.Instance.ResetEncounter();
         isSaved = false;

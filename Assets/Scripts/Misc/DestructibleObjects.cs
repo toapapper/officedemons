@@ -9,6 +9,8 @@ using UnityEngine;
 // Last Edited: 15/12-07
 public class DestructibleObjects : MonoBehaviour
 {
+	public bool destroyed;
+
     [SerializeField]private GameObject destroyedPrefab;
     [SerializeField] private GameObject particleEffect;
 	
@@ -36,14 +38,16 @@ public class DestructibleObjects : MonoBehaviour
                 foreach (Material m in mr.materials)
                 {
                     m.color = Color.black;
+					destroyed = true;
                 }
             }
         }
         else
         {
-            Instantiate(destroyedPrefab, transform.position, transform.rotation);
+            GameObject destroyedObject = Instantiate(destroyedPrefab, transform.position, transform.rotation);
             Destroy(gameObject);
-        }
+			destroyedObject.transform.parent = GameObject.Find("DestructibleObjects").transform;
+		}
         CameraShake.Shake(0.5f, 0.5f);
     }
 
