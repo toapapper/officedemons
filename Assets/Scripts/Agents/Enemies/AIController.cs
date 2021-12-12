@@ -181,15 +181,9 @@ public class AIController : MonoBehaviour
                 {
                     SetTarget(GetTargetPlayer(aiManager.PlayerList), TargetTypes.Player);
                 }
-                
-                Debug.Log("TargetPos: " + TargetPosition);
-                Debug.Log("Enemy Pos: " + gameObject.transform.position);
-                Debug.Log("ReachedTargetPosition(): " + ReachedTargetPosition());
 
                 if (!IsArmed() && TargetType == TargetTypes.Item && ReachedTargetPosition())
                 {
-                    Debug.Log("Trying to pick up");
-                    Debug.Log("Target: " + Target.name);
                     PickupWeapon(Target);
                     currentState = AIStates.States.Unassigned;
                     ResetTarget();
@@ -252,12 +246,10 @@ public class AIController : MonoBehaviour
 
     public bool ReachedTargetPosition()
     {
-        Debug.Log("Enemy Pos: " + gameObject.transform.position + "  TargetPos: "+ TargetPosition + "   Distance: " + Vector3.Distance(TargetPosition, gameObject.transform.position));
         return Vector3.Distance(TargetPosition, gameObject.transform.position) <= 3;
     }
 
-    
-
+   
     private GameObject GetClosestWeapon()
     {
         Bounds bounds = aiManager.GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
