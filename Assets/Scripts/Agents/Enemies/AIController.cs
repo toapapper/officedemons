@@ -197,6 +197,11 @@ public class AIController : MonoBehaviour
                 //    currentState = AIStates.States.Unassigned;         //Kanske kan tas bort?
                 //    ResetTarget();
                 //}
+                if (ReachedTargetPosition() && TargetType == TargetTypes.Player)
+                {
+                    currentState = AIStates.States.Attack;
+                }
+
                 break;
 
             case AIStates.States.SearchingForWeapon:

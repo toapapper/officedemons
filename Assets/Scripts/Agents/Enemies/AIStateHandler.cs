@@ -162,6 +162,7 @@ public class AIStateHandler : MonoBehaviour
         }
         else
         {
+            fov.FindVisibleTargets();
             if (fov.VisibleTargets.Count > 0)
             {
                 //if player in range
