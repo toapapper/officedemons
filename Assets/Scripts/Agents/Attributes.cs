@@ -119,7 +119,10 @@ public class Attributes : MonoBehaviour
                 gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
                 if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
                 {
-                    Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
+                    if (particleEffect != null)
+                    {
+                        Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
+                    }
                     Effects.Damage(collision.gameObject, 50);
                     CameraShake.Shake(1f, 1f);
 
@@ -130,11 +133,18 @@ public class Attributes : MonoBehaviour
                 Effects.Damage(gameObject, 20);
                 if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
                 {
-                    Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
+                    if (particleEffect != null)
+                    {
+                        Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
+                    }
                     Effects.Damage(collision.gameObject, 20);
                     CameraShake.Shake(0.5f, 0.5f);
                 }
-                gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
+                if (gameObject.GetComponent<Rigidbody>() != null)
+                {
+                    gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
+                }
+                
             }
             else
             {

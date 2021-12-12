@@ -20,6 +20,10 @@ public class DestructibleObjects : MonoBehaviour
 	public void Start()
 	{
         FOV = GetComponentInChildren<FieldOfView>();
+        if (FOV == null)
+        {
+            FOV = GetComponent<FieldOfView>();
+        }
 	}
 
     public void Explode()
@@ -27,10 +31,24 @@ public class DestructibleObjects : MonoBehaviour
 		AkSoundEngine.PostEvent("Play_Explosion", gameObject);
 		Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
 
-		ImpactAgents();
+        if (!FOV.isActiveAndEnabled)
+        {
+            FOV.enabled = !FOV.enabled;
+        }
+
+        FOV.FindVisibleTargets();
+        ImpactAgents();
 
         if (destroyedPrefab == null)
         {
+            foreach (MeshRenderer mr in gameObject.GetComponents<MeshRenderer>())
+            {
+                foreach (Material m in mr.materials)
+                {
+                    m.color = Color.black;
+                }
+            }
+
             foreach (MeshRenderer mr in gameObject.GetComponentsInChildren<MeshRenderer>())
             {
                 foreach (Material m in mr.materials)
@@ -46,7 +64,9 @@ public class DestructibleObjects : MonoBehaviour
             Instantiate(destroyedPrefab, transform.position, transform.rotation);
             Destroy(gameObject);
         }
+        
         CameraShake.Shake(0.5f, 0.5f);
+
     }
 
 	private void ImpactAgents()
@@ -57,7 +77,7 @@ public class DestructibleObjects : MonoBehaviour
 
 			foreach (GameObject target in targetList)
 			{
-				if (target.GetComponent<Attributes>().Health > 0)
+				if (target.GetComponent<Attributes>() != null && target.GetComponent<Attributes>().Health > 0)
 				{
 					if (target.layer != LayerMask.NameToLayer("Destructible"))
 					{
@@ -75,10 +95,6 @@ public class DestructibleObjects : MonoBehaviour
 					}
 				}
 			}
-
 		}
     }
-
-
-
 }

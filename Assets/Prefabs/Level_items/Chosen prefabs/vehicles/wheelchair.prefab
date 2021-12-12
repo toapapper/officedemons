@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 8095449932245283329}
   - component: {fileID: 7941731003646617422}
   - component: {fileID: 9059524878876554187}
+  - component: {fileID: 467513047204272479}
+  - component: {fileID: 6041596519769415262}
+  - component: {fileID: 100584354381713769}
   m_Layer: 11
   m_Name: wheelchair
   m_TagString: MovableObject
@@ -113,3 +116,64 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &467513047204272479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4705004016579819309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045394b85f26e804b916a3ed3c696019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  characterName: 3
+  portrait: {fileID: 0}
+  jobTitle: "arbetsl\uFFFDs"
+  startHealth: 10
+  killCount: 0
+  particleEffect: {fileID: 0}
+  health: 0
+  startStamina: 3.5
+  stamina: 0
+--- !u!114 &6041596519769415262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4705004016579819309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96207ad84dc1eb4428ffe1619bb9068d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyedPrefab: {fileID: 0}
+  particleEffect: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
+  damage: 10
+  force: 100
+  effects: 
+--- !u!114 &100584354381713769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4705004016579819309}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 2
+  viewAngle: 360
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 2432
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 8
+  meshResolution: 1
+  viewMeshFilter: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
