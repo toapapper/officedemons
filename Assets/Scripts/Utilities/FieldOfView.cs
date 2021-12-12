@@ -49,10 +49,11 @@ public class FieldOfView : MonoBehaviour
             FindVisibleTargets();
         }
     }
-    void FindVisibleTargets()
+    public void FindVisibleTargets()
     {
         VisibleTargets.Clear();
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, ViewRadius, targetMask);
+        
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {

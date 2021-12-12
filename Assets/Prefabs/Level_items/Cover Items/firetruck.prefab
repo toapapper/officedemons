@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5252465636470204971}
   - component: {fileID: 1465391822555914064}
   - component: {fileID: 3184096807966497138}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6976900864089274358}
   - component: {fileID: 1487567333564458093}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: RightLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7953905430526320518}
   - component: {fileID: 3221984977836485879}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,8 +253,7 @@ GameObject:
   - component: {fileID: 6513229385686397946}
   - component: {fileID: 5806806404068500850}
   - component: {fileID: 7408242720910754881}
-  - component: {fileID: 8247541149539172659}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: firetruck-wheel_BL
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
@@ -325,20 +324,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8247541149539172659
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3731297021784096591}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300008, guid: fe2081c39ddf92441874e314e1f90ecc, type: 3}
 --- !u!1 &4449063894387866673
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +333,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5260755276707882717}
-  m_Layer: 3
+  - component: {fileID: 3102953131057648548}
+  - component: {fileID: 2537561766204398501}
+  - component: {fileID: 8024741328975915732}
+  - component: {fileID: 8901834926698769323}
+  m_Layer: 11
   m_Name: firetruck
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
@@ -388,6 +377,80 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3102953131057648548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4449063894387866673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96207ad84dc1eb4428ffe1619bb9068d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyedPrefab: {fileID: 0}
+  particleEffect: {fileID: 1134129239631916, guid: 7e48ba6b1b968764490bbc70b66e3fe1, type: 3}
+  damage: 10
+  force: 100
+  effects: 
+--- !u!114 &2537561766204398501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4449063894387866673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045394b85f26e804b916a3ed3c696019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  characterName: 3
+  portrait: {fileID: 0}
+  jobTitle: "arbetsl\uFFFDs"
+  startHealth: 50
+  killCount: 0
+  particleEffect: {fileID: 164798945166288795, guid: c9894f6ca49bd4f4982850ea0a31aa6e, type: 3}
+  health: 0
+  startStamina: 3.5
+  stamina: 0
+--- !u!65 &8024741328975915732
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4449063894387866673}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.3857803, y: 5.81814, z: 15.615938}
+  m_Center: {x: -0.0761261, y: 2.554099, z: 0.06296253}
+--- !u!114 &8901834926698769323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4449063894387866673}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be9be86189aaa3b45b2b69d765d66a1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 12
+  viewAngle: 360
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 2432
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 8
+  meshResolution: 1
+  viewMeshFilter: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
 --- !u!1 &5057499034175486183
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,7 +461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3643513246429624093}
   - component: {fileID: 7750016241222133027}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: LeftLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,8 +555,7 @@ GameObject:
   - component: {fileID: 5008139235336118341}
   - component: {fileID: 4241059051110814548}
   - component: {fileID: 7119227170664063664}
-  - component: {fileID: 1631418516972594956}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: firetruck-wheel_FL
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
@@ -564,20 +626,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1631418516972594956
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6848238462531264268}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300004, guid: fe2081c39ddf92441874e314e1f90ecc, type: 3}
 --- !u!1 &7034285112313746876
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,8 +637,7 @@ GameObject:
   - component: {fileID: 2173173895209971378}
   - component: {fileID: 6648751491333720064}
   - component: {fileID: 7163393807928577942}
-  - component: {fileID: 9152297101737882065}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: firetruck-base
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
@@ -667,20 +714,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &9152297101737882065
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7034285112313746876}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: fe2081c39ddf92441874e314e1f90ecc, type: 3}
 --- !u!1 &7418712676236728723
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,8 +725,7 @@ GameObject:
   - component: {fileID: 8385148742055496922}
   - component: {fileID: 9061495972400362297}
   - component: {fileID: 4365853541911692606}
-  - component: {fileID: 4109965339747761168}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: firetruckwheel_FR
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
@@ -764,20 +796,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4109965339747761168
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7418712676236728723}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300002, guid: fe2081c39ddf92441874e314e1f90ecc, type: 3}
 --- !u!1 &7592167183222200527
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,7 +808,7 @@ GameObject:
   - component: {fileID: 570905327167464268}
   - component: {fileID: 1412984527787397971}
   - component: {fileID: 8572413610936623827}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -884,8 +902,7 @@ GameObject:
   - component: {fileID: 3488707581627614376}
   - component: {fileID: 6299539373845770015}
   - component: {fileID: 4731190135569226181}
-  - component: {fileID: 4006590731411428849}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: firetruck-wheel_BR
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
@@ -956,20 +973,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4006590731411428849
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8362193787584497789}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300006, guid: fe2081c39ddf92441874e314e1f90ecc, type: 3}
 --- !u!1001 &297993537521988618
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1024,6 +1027,10 @@ PrefabInstance:
     - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
       propertyPath: m_Name
       value: CoverPosition (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
@@ -1087,6 +1094,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoverPosition (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
 --- !u!4 &1876546965162295690 stripped
@@ -1148,6 +1159,10 @@ PrefabInstance:
     - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
       propertyPath: m_Name
       value: CoverPosition (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
@@ -1211,6 +1226,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoverPosition (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
 --- !u!4 &3493786603012518430 stripped
@@ -1272,6 +1291,10 @@ PrefabInstance:
     - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
       propertyPath: m_Name
       value: CoverPosition
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
@@ -1335,6 +1358,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoverPosition (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
 --- !u!4 &2744184405994786769 stripped
@@ -1396,6 +1423,10 @@ PrefabInstance:
     - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
       propertyPath: m_Name
       value: CoverPosition (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
@@ -1459,6 +1490,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoverPosition (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
 --- !u!4 &6028717196915128166 stripped
@@ -1520,6 +1555,10 @@ PrefabInstance:
     - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
       propertyPath: m_Name
       value: CoverPosition (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
@@ -1583,6 +1622,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoverPosition (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
 --- !u!4 &8546864043881338247 stripped
@@ -1644,6 +1687,10 @@ PrefabInstance:
     - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
       propertyPath: m_Name
       value: CoverPosition (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
@@ -1707,6 +1754,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoverPosition (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
 --- !u!4 &7419446873197882440 stripped
@@ -1768,6 +1819,10 @@ PrefabInstance:
     - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
       propertyPath: m_Name
       value: CoverPosition (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846532539694603163, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed026a3574459d41bb17c6240e4c2ae, type: 3}
