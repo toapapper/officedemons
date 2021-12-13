@@ -22,7 +22,7 @@ public class WeaponData
 
     public float inaccuracy;
 
-    public float[] outlineColor;
+    //public float[] outlineColor;
 
     public WeaponData(GameObject weaponHandle)
     {

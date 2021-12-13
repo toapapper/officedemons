@@ -109,6 +109,7 @@ public class OutOfCombatState : AbstractPlayerState
 		inputHandler.ResetAction();
 		inputHandler.ResetInput();
 		//inputHandler.Attributes.Stamina = inputHandler.Attributes.StartStamina;
+		inputHandler.Attributes.Health = inputHandler.Attributes.StartHealth;
 	}
 
 	public override void OnStateExit()

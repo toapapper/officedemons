@@ -34,11 +34,11 @@ public static class Effects
                 WeaponDamage(target, damage, wielder);
             }
         }
-        else if (target.tag == "Player")
-        {
-            WeaponDamage(target, damage, wielder);
-        }
-    }
+		else if (target.tag == "Player")
+		{
+			WeaponDamage(target, damage, wielder);
+		}
+	}
 	public static void WeaponDamage(GameObject target, float damage, GameObject wielder = null)
 	{
 		Damage(target, damage, wielder);
@@ -123,7 +123,7 @@ public static class Effects
                 UIManager.Instance.NewFloatingText(target, "Status applied: " + type, Color.cyan);
             }
         }
-        
+
     }
 
 	public static void Disarm(GameObject target)
@@ -133,7 +133,7 @@ public static class Effects
 			return;
         }
 
-		target.GetComponent<WeaponHand>().DropWeapon();
+		target.GetComponent<WeaponHand>().Disarm();
 
 		UIManager.Instance.NewFloatingText(target, "WEAPON DROPPED!", Color.red);
     }
@@ -143,7 +143,6 @@ public static class Effects
     /// </summary>
     public static void ApplyWeaponEffects(GameObject target, List<WeaponEffects> weaponEffects)
     {
-
         if (target.tag == "Enemy")
         {
             if (target.name != "tank" && target.GetComponent<AIController>().InActiveCombat)
@@ -216,7 +215,7 @@ public static class Effects
                 target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
                 target.GetComponent<AIController>().Die();
             }
-			
+
 		}
 		else if (target.tag == "Player")
 		{
@@ -225,7 +224,6 @@ public static class Effects
 			target.GetComponent<Animator>().SetTrigger("isCancelAction");
 
 			Debug.Log("pre player death disarm:");
-
 			Disarm(target);
 
 			Debug.Log("pre player death cleareffects:");

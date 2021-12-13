@@ -199,10 +199,11 @@ public abstract class AbstractWeapon : MonoBehaviour
 	}
 	public void ReleaseThrow(float force)
 	{
+		Vector3 direction = holderAgent.transform.forward;
 		Drop();
 		if(force > 1)
 		{
-			GetComponentInChildren<Rigidbody>().AddForce(transform.up * force, ForceMode.VelocityChange);
+			GetComponentInChildren<Rigidbody>().AddForce(/*transform.up*/ direction * force, ForceMode.VelocityChange);
 			isProjectile = true;
 		}
 	}
@@ -220,6 +221,13 @@ public abstract class AbstractWeapon : MonoBehaviour
 		holderAgent = null;
 
 		Debug.Log("Weapon dropped");
+	}
+
+	public void Disarm(Vector3 velocity)
+	{
+		Drop();
+		GetComponentInChildren<Rigidbody>().AddForce(velocity, ForceMode.VelocityChange);
+		isProjectile = true;
 	}
 
 	public virtual void SetAimGradient(Gradient gradient) { }

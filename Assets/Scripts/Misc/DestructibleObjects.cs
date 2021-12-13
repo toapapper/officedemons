@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 
+///
 /// </summary>
 
 // Last Edited: 15/12-07
 public class DestructibleObjects : MonoBehaviour
 {
+	public bool destroyed;
+
     [SerializeField]private GameObject destroyedPrefab;
     [SerializeField] private GameObject particleEffect;
-	
+
     private FieldOfView FOV;
 	[SerializeField] private float damage = 10f;
     [SerializeField] private float force = 100;
@@ -41,14 +43,6 @@ public class DestructibleObjects : MonoBehaviour
 
         if (destroyedPrefab == null)
         {
-            foreach (MeshRenderer mr in gameObject.GetComponents<MeshRenderer>())
-            {
-                foreach (Material m in mr.materials)
-                {
-                    m.color = Color.black;
-                }
-            }
-
             foreach (MeshRenderer mr in gameObject.GetComponentsInChildren<MeshRenderer>())
             {
                 foreach (Material m in mr.materials)
@@ -56,15 +50,15 @@ public class DestructibleObjects : MonoBehaviour
                     m.color = Color.black;
                 }
             }
-
+            destroyed = true;
             // Spawn smoking particle effect
         }
         else
         {
-            Instantiate(destroyedPrefab, transform.position, transform.rotation);
+            GameObject destroyedObject = Instantiate(destroyedPrefab, transform.position, transform.rotation);
             Destroy(gameObject);
-        }
-        
+			destroyedObject.transform.parent = GameObject.Find("DestructibleObjects").transform;
+		}
         CameraShake.Shake(0.5f, 0.5f);
 
     }
