@@ -192,6 +192,10 @@ public class Encounter : MonoBehaviour
             {
                 enemyName = enemyName.Remove(enemy.Value.IndexOf(' '));
             }
+			if (enemyName.Contains("("))
+			{
+                enemyName = enemyName.Remove(enemy.Value.IndexOf('('));
+            }
             if (Resources.Load(enemyName))
             {
                 GameObject newEnemy = Instantiate(Resources.Load(enemyName), enemy.Key, Quaternion.Euler(0, 0, 0)) as GameObject;
