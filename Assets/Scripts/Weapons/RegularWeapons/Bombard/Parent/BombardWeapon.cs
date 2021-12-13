@@ -31,7 +31,7 @@ public class BombardWeapon : AbstractWeapon
 		set { grenadeThrowForce = value; }
 	}
 
-	public override void ToggleAim(bool isActive, GameObject FOVView)
+	public override void ToggleAim(bool isActive/*, GameObject FOVView*/)
 	{
 		if (!WeaponController.ThrowAim.gameObject.activeSelf && isActive)
 		{
@@ -70,7 +70,7 @@ public class BombardWeapon : AbstractWeapon
 		animator.SetTrigger("isBombard");
 	}
 
-	public override void DoAction(FieldOfView fov)
+	public override void DoAction(/*FieldOfView fov*/)
 	{
 		GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
 		if (wielder == null)

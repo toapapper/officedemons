@@ -1,14 +1,91 @@
 Event	ID	Name			Wwise Object Path	Notes
+	232351957	Play_Bazooka_Shell_Whoosh			\Default Work Unit\Play_Bazooka_Shell_Whoosh	
+	240172070	SusanScream			\Default Work Unit\SusanScream	
+	384143791	Bullet_hit			\Default Work Unit\Bullet_hit	
+	825044507	Stop_Bazooka_Shell_Whoosh			\Default Work Unit\Stop_Bazooka_Shell_Whoosh	
+	837663453	Play_Office_SFX_BramBram2			\Default Work Unit\Play_Office_SFX_BramBram2	
+	923869857	Play_Female_Grunt_Pitched			\Default Work Unit\Play_Female_Grunt_Pitched	
+	985374763	Play_Sizzle			\Default Work Unit\Play_Sizzle	
+	991589999	Pistol_shot			\Default Work Unit\Pistol_shot	
+	1113486413	Bullets_Whiz_By			\Default Work Unit\Bullets_Whiz_By	
+	1158643645	Play_MeleeSwingsPack_96khz_Stereo_NormalSwings39			\Default Work Unit\Play_MeleeSwingsPack_96khz_Stereo_NormalSwings39	
 	1546138968	Play_AMBIENCE_Hall_Large__Entrance__Office_Building__Morning__Downtown_Chicago__USA__LOOP_LRLsRs			\Default Work Unit\Play_AMBIENCE_Hall_Large__Entrance__Office_Building__Morning__Downtown_Chicago__USA__LOOP_LRLsRs	
 	1700212473	Play_Office_SFX_Chug1			\Default Work Unit\Play_Office_SFX_Chug1	
+	1713137135	Bullet_impact_glass			\Default Work Unit\Bullet_impact_glass	
+	2126492817	SusanBurst			\Default Work Unit\SusanBurst	
+	2302815610	Random_Shell_Casings			\Default Work Unit\Random_Shell_Casings	
 	2348070506	Play_Office_SFX_MutedString1			\Default Work Unit\Play_Office_SFX_MutedString1	
+	2758889567	Play_Fire_woosh			\Default Work Unit\Play_Fire_woosh	
+	2785491777	Play_Stapler			\Default Work Unit\Play_Stapler	
+	3034079729	Play_FMW_Weapon_Hit10C			\Default Work Unit\Play_FMW_Weapon_Hit10C	
+	3201576128	Bazooka_Launch			\Default Work Unit\Bazooka_Launch	
+	3316389248	VickySlide			\Default Work Unit\VickySlide	
+	3326819226	Bullet_Impact_Dirt			\Default Work Unit\Bullet_Impact_Dirt	
+	3618582937	Play_Female_Grunt			\Default Work Unit\Play_Female_Grunt	
+	3745549323	Play_ShotSFX			\Default Work Unit\Play_ShotSFX	
+	3751980148	Gun_Cocking			\Default Work Unit\Gun_Cocking	
+	3754544321	Bullet_impact_flesh			\Default Work Unit\Bullet_impact_flesh	
 	3757306353	Play_Blunt_thud			\Default Work Unit\Play_Blunt_thud	
+	3948925255	Play_Splash			\Default Work Unit\Play_Splash	
+	4030404899	Play_Explosion			\Default Work Unit\Play_Explosion	
 	4099660466	Play_Office_SFX_PickSlide1			\Default Work Unit\Play_Office_SFX_PickSlide1	
 
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	988953028	SFXVolume			\Default Work Unit\Volume\SFXVolume	
+	2346531308	MusicVolume			\Default Work Unit\Volume\MusicVolume	
+	2893115286	VoicesVolume			\Default Work Unit\Volume\VoicesVolume	
+	2918011349	MasterVolume			\Default Work Unit\Volume\MasterVolume	
+
+Audio Bus	ID	Name			Wwise Object Path	Notes
+	393239870	SFX			\Default Work Unit\Master Audio Bus\SFX	
+	3313685232	Voices			\Default Work Unit\Master Audio Bus\Voices	
+	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
+	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
+
+Effect plug-ins	ID	Name	Type				Notes
+	158574687	Wwise Compressor (Custom)	Wwise Compressor			
+	427059003	Wwise Parametric EQ (Custom)	Wwise Parametric EQ			
+	697867587	Wwise Gain (Custom)	Wwise Gain			
+	887835658	Wwise Parametric EQ (Custom)	Wwise Parametric EQ			
+	1459522457	Brick_Wall_Minus_1dB_Peak_Fast_Release	Wwise Peak Limiter			
+	1820854077	Noise_Gate_Fast_Attack	Wwise Expander			
+
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	31658556	FMW_Weapon_Hit10C	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\FMW_Weapon_Hit10C_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\FMW_Weapon_Hit10C		19605
+	38041387	Bullets_Whiz_1	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Bullets_Whiz_1_C58ED28F.wem		\Interactive Music Hierarchy\Default Work Unit\Attacks\Bullets_Whiz_By\Bullets_Whiz_1\Bullets_Whiz_1		2244
 	42357948	Office_SFX_PickSlide1	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Office_SFX_PickSlide1_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\GuitarEffects\Office_SFX_PickSlide1		40483
+	158012714	Shell_casing_2	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Shell_casing_2_C58ED28F.wem		\Interactive Music Hierarchy\Default Work Unit\Attacks\Shell_Casings\Shell_casing_2\Shell_casing_2		27356
+	247497436	Female_Grunt	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Female_Grunt_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voices\Female_Grunt		5776
+	279693683	Pistol_shot	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Pistol_shot_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Pistol_shot		4140
+	296989114	Office_SFX_BramBram2	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Office_SFX_BramBram2_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\GuitarEffects\Office_SFX_BramBram2		38341
+	304165649	Bullet impact flesh	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Bullet impact flesh_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Bullet impact flesh		4389
+	312842031	Shell_casing_5	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Shell_casing_5_C58ED28F.wem		\Interactive Music Hierarchy\Default Work Unit\Attacks\Shell_Casings\Shell_casing_5\Shell_casing_5		27089
+	387192263	Shell_casing_4	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Shell_casing_4_C58ED28F.wem		\Interactive Music Hierarchy\Default Work Unit\Attacks\Shell_Casings\Shell_casing_4\Shell_casing_4		21912
 	411923909	Office_SFX_Chug1	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Office_SFX_Chug1_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\GuitarEffects\Office_SFX_Chug1		34387
+	425416782	Bullet_hit	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Bullet_hit_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Bullet_hit		12823
+	451773611	Bullet_Impact_Dirt	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Bullet_Impact_Dirt_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Bullet_Impact_Dirt		25673
+	489063425	Bullets_Whiz_2	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Bullets_Whiz_2_C58ED28F.wem		\Interactive Music Hierarchy\Default Work Unit\Attacks\Bullets_Whiz_By\Bullets_Whiz_2\Bullets_Whiz_2		4234
+	515210164	Sizzle	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Sizzle_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Sizzle		41501
+	575710491	Camel_grunt1	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Camel_grunt1_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voices\Camel_grunt1		18785
+	576210128	Bazooka_Shell_Whoosh	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Fire_Stream_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Bazooka_Shell_Whoosh		29563
+	622181413	ShotSFX	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\ShotSFX_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\ShotSFX		1715
+	630969953	Bullet_impact_glass	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Bullet_impact_glass_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Bullet_impact_glass		17953
+	656346830	AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP_LRLsRs	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP.LRLsRs_C58ED28F.wem		\Actor-Mixer Hierarchy\Default Work Unit\Ambience\AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP_LRLsRs		1173857
+	662633027	Gun_Cocking	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Gun_Cocking_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Gun_Cocking		13772
+	686513749	Bullets_Whiz_5	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Bullets_Whiz_5_C58ED28F.wem		\Interactive Music Hierarchy\Default Work Unit\Attacks\Bullets_Whiz_By\Bullets_Whiz_5\Bullets_Whiz_5		5326
+	699736109	Bullets_Whiz_4	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Bullets_Whiz_4_C58ED28F.wem		\Interactive Music Hierarchy\Default Work Unit\Attacks\Bullets_Whiz_By\Bullets_Whiz_4\Bullets_Whiz_4		2754
+	791910420	MeleeSwingsPack_96khz_Stereo_NormalSwings39	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\MeleeSwingsPack_96khz_Stereo_NormalSwings39_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\MeleeSwingsPack_96khz_Stereo_NormalSwings39		17069
 	811453149	Blunt_thud	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Blunt_thud_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Blunt_thud		24716
-	835688430	AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP_LRLsRs	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP.LRLsRs_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\Ambience\AMBIENCE Hall Large, Entrance, Office Building, Morning, Downtown Chicago, USA, LOOP_LRLsRs		1173857
 	853775557	Office_SFX_MutedString1	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Office_SFX_MutedString1_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\GuitarEffects\Office_SFX_MutedString1		20950
+	883740259	Fire_woosh	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Fire_woosh_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Fire_woosh		49835
+	922848603	MeleeSwingsPack_96khz_Mono_DesignedSwings12	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\MeleeSwingsPack_96khz_Mono_DesignedSwings12_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\MeleeSwingsPack_96khz_Mono_DesignedSwings12		13020
+	939740541	Stapler	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Stapler_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Stapler		6228
+	951172493	Explosion	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Explosion_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Explosion		59439
+	967212949	Office_SFX_LowHarmonic	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Office_SFX_LowHarmonic_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\GuitarEffects\Office_SFX_LowHarmonic		35028
+	1028535371	Female_Grunt_Pitched	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Female_Grunt_Pitched_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voices\Female_Grunt_Pitched		5776
+	1038744334	Bullets_Whiz_3	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Bullets_Whiz_3_C58ED28F.wem		\Interactive Music Hierarchy\Default Work Unit\Attacks\Bullets_Whiz_By\Bullets_Whiz_3\Bullets_Whiz_3		2608
+	1039432278	Shell_casing_1	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Shell_casing_1_C58ED28F.wem		\Interactive Music Hierarchy\Default Work Unit\Attacks\Shell_Casings\Shell_casing_1\Shell_casing_1		21469
+	1041224517	Splash	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Splash_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Splash		37442
+	1047081195	Bazooka_Launch	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Bazooka_Launch_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\WeaponEffects\Bazooka_Launch		31919
+	1058534554	Shell_casing_3	G:\GitHub\officedemons\officedemons_WwiseProject\.cache\Mac\SFX\Shell_casing_3_C58ED28F.wem		\Interactive Music Hierarchy\Default Work Unit\Attacks\Shell_Casings\Shell_casing_3\Shell_casing_3		31814
 

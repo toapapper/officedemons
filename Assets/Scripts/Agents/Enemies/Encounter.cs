@@ -133,7 +133,16 @@ public class Encounter : MonoBehaviour
             GameObject child = transform.GetChild(i).gameObject;
             if (child.CompareTag("Enemy"))
             {
-                child.GetComponent<AIController>().Die();
+                if (child.name != "tank")
+                {
+                    child.GetComponent<AIController>().Die();
+                }
+                else
+                {
+                    child.GetComponent<TankController>().Die();
+                    Destroy(child);
+                }
+                
                 //Destroy(child);
             }
         }
@@ -191,6 +200,10 @@ public class Encounter : MonoBehaviour
             if (enemyName.Contains(" "))
             {
                 enemyName = enemyName.Remove(enemy.Value.IndexOf(' '));
+            }
+			if (enemyName.Contains("("))
+			{
+                enemyName = enemyName.Remove(enemy.Value.IndexOf('('));
             }
             if (Resources.Load(enemyName))
             {

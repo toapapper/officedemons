@@ -72,6 +72,12 @@ public class Attributes : MonoBehaviour
         }
     }
 
+    public int SaveLoadHealth
+    {
+		get { return health; }
+        set { health = value; }
+    }
+
     [SerializeField]
     [Header("Stamina")]
     [Tooltip("Stamina drains at a rate of one per second")]
@@ -115,26 +121,36 @@ public class Attributes : MonoBehaviour
             if ( force >= 100)
             {
 
-                Effects.Damage(gameObject, 70);
+                Effects.Damage(gameObject, 50);
                 gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
-                if (collision.gameObject.layer == 11)
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
                 {
-                    Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
-                    Effects.Damage(collision.gameObject, 70);
+                    if (particleEffect != null)
+                    {
+                        Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
+                    }
+                    Effects.Damage(collision.gameObject, 50);
                     CameraShake.Shake(1f, 1f);
 
                 }
             }
             else if (force >= 20)
             {
-                Effects.Damage(gameObject, 70);
-                if (collision.gameObject.layer == 11)
+                Effects.Damage(gameObject, 20);
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
                 {
-                    Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
-                    Effects.Damage(collision.gameObject, 70);
+                    if (particleEffect != null)
+                    {
+                        Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
+                    }
+                    Effects.Damage(collision.gameObject, 20);
                     CameraShake.Shake(0.5f, 0.5f);
                 }
-                gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
+                if (gameObject.GetComponent<Rigidbody>() != null)
+                {
+                    gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
+                }
+                
             }
             else
             {

@@ -808,8 +808,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwAim: {fileID: 4203976539677623867}
   handObject: {fileID: 3264023424301534917}
-  FOV: {fileID: 195350608124879232}
-  FOVVisualization: {fileID: 3027989206989025614}
+  fov: {fileID: 195350608124879232}
+  fovVisualization: {fileID: 3027989206989025614}
   handHitDamage: 10
   handHitForce: 5
   handHitDistance: 1.5
@@ -849,6 +849,7 @@ MonoBehaviour:
   jobTitle: Accountant
   startHealth: 100
   killCount: 0
+  particleEffect: {fileID: 0}
   health: 0
   startStamina: 3.5
   stamina: 100
@@ -1696,6 +1697,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5445841686436225825}
     m_Modifications:
+    - target: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3032543496062369683, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1776,6 +1781,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5445841686436225825}
     m_Modifications:
+    - target: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3032543496062369683, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

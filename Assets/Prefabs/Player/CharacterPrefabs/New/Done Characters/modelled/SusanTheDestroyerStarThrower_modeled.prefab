@@ -332,8 +332,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwAim: {fileID: 260617008589016771}
   handObject: {fileID: 2394670980539048982}
-  FOV: {fileID: 4940165283146477025}
-  FOVVisualization: {fileID: 7799509242689634134}
+  fov: {fileID: 4940165283146477025}
+  fovVisualization: {fileID: 7799509242689634134}
   handHitDamage: 10
   handHitForce: 5
   handHitDistance: 1.5
@@ -373,6 +373,7 @@ MonoBehaviour:
   jobTitle: THE DESTROYER
   startHealth: 100
   killCount: 0
+  particleEffect: {fileID: 0}
   health: 0
   startStamina: 3.5
   stamina: 100
@@ -1276,15 +1277,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 69.73562
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.009999871
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 181.8768
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1292,15 +1293,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8559896125485098310, guid: 16dab927f5d752e42a7f8c734c61f964, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1554,6 +1555,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 985017662609469248}
     m_Modifications:
+    - target: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3032543496062369683, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1634,6 +1639,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 985017662609469248}
     m_Modifications:
+    - target: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3032543496062369683, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1

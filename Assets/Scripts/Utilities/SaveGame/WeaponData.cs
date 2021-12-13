@@ -22,7 +22,7 @@ public class WeaponData
 
     public float inaccuracy;
 
-    public float[] outlineColor;
+    //public float[] outlineColor;
 
     public WeaponData(GameObject weaponHandle)
     {
@@ -33,7 +33,7 @@ public class WeaponData
 
         weaponName = weaponHandle.name;
         weaponType = weaponHandle.transform.GetChild(0).name;
-        Debug.Log(weaponType);
+        //Debug.Log(weaponType);
         damage = weaponHandle.GetComponentInChildren<AbstractWeapon>().Damage;
         hitForce = weaponHandle.GetComponentInChildren<AbstractWeapon>().HitForce;
         throwDamage = weaponHandle.GetComponentInChildren<AbstractWeapon>().ThrowDamage;
@@ -42,15 +42,15 @@ public class WeaponData
         durability = weaponHandle.GetComponentInChildren<AbstractWeapon>().Durability;
         weight = weaponHandle.GetComponentInChildren<AbstractWeapon>().Weight;
         effects = weaponHandle.GetComponentInChildren<AbstractWeapon>().EffectList;
-        if (weaponHandle.GetComponentInChildren<Outline>())
-        {
-            outlineColor = new float[4];
-            for (int i = 0; i < 4; i++)
-            {
-                outlineColor[i] = weaponHandle.GetComponentInChildren<Outline>().OutlineColor[i];
-            }
+        //if (weaponHandle.GetComponentInChildren<Outline>())
+        //{
+        //    outlineColor = new float[4];
+        //    for (int i = 0; i < 4; i++)
+        //    {
+        //        outlineColor[i] = weaponHandle.GetComponentInChildren<Outline>().OutlineColor[i];
+        //    }
 
-        }
+        //}
         if (weaponHandle.GetComponentInChildren<AbstractWeapon>() is BurstShotWeapon)
         {
             bulletsInBurst = weaponHandle.GetComponentInChildren<BurstShotWeapon>().BulletsInBurst;

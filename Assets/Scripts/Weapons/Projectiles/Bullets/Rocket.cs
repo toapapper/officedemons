@@ -19,8 +19,8 @@ public class Rocket : Bullet
     [SerializeField]
     private GameObject particleEffect;
     private bool isExploded = false;
-
-	protected override void OnCollisionEnter(Collision collision)
+  
+    protected override void OnCollisionEnter(Collision collision)
 	{
 		if (!isExploded)
 		{
@@ -30,16 +30,16 @@ public class Rocket : Bullet
             {
                 foreach (GameObject target in targetList)
                 {
-                    if (target.tag == "Player" || target.tag == "Enemy")
+                    if (target.layer == LayerMask.NameToLayer("Destructible"))
+                    {
+                        Effects.Damage(target, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost));
+                    }
+                    else if (target.tag == "Player" || target.tag == "Enemy")
                     {
                         Effects.RegularWeaponDamage(target, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost), shooter);
                         //Effects.Damage(target, bulletDamage);
                         Effects.ApplyForce(target, (target.transform.position - transform.position).normalized * bulletHitForce);
                     }
-                    else if(target.layer == LayerMask.NameToLayer("Destructible"))
-					{
-                        Effects.Damage(target, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost));
-					}
                 }
             }
 

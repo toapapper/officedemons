@@ -23,9 +23,9 @@ public class WeaponHand : MonoBehaviour
 	[SerializeField]
 	private GameObject handObject;
 	[SerializeField]
-	private FieldOfView FOV;
+	private FieldOfView fov;
 	[SerializeField]
-	private GameObject FOVVisualization;
+	private GameObject fovVisualization;
 	[SerializeField]
 	private int handHitDamage = 10;
 	[SerializeField]
@@ -41,15 +41,11 @@ public class WeaponHand : MonoBehaviour
 
 	private float throwForce;
 
-	public ThrowAim ThrowAim
-	{
-		get { return throwAim; }
-		set { throwAim = value; }
-	}
-	public Animator Animator
-	{
-		get { return animator; }
-	}
+	public FieldOfView FOV { get { return fov; } }
+	public GameObject FOVVisualization { get { return fovVisualization; } }
+	public ThrowAim ThrowAim { get { return throwAim; } set { throwAim = value; } }
+	public Animator Animator { get { return animator; } }
+
 
 	private void Awake()
 	{
@@ -83,7 +79,7 @@ public class WeaponHand : MonoBehaviour
 		aimGradient = new Gradient();
 		aimGradient.SetKeys(colorKey, alphaKey);
 
-		FOVVisualization.GetComponent<Renderer>().material.color = aimGradient.colorKeys[0].color;
+		fovVisualization.GetComponent<Renderer>().material.color = aimGradient.colorKeys[0].color;
 		if (throwAim != null)
 		{
 			throwAim.gameObject.SetActive(true);
@@ -96,18 +92,18 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand != null)
 		{
-			objectInHand.ToggleAim(isActive, FOVVisualization);
+			objectInHand.ToggleAim(isActive/*, fovVisualization*/);
 		}
 		else
 		{
-			FOVVisualization.SetActive(isActive);
+			fovVisualization.SetActive(isActive);
 		}
 	}
 
 	//Pick up
 	public void Equip(GameObject newObject)
 	{
-		objectInHand = newObject.GetComponent<AbstractWeapon>();
+		objectInHand = newObject.GetComponentInChildren<AbstractWeapon>(); /////
 		objectInHand.PickUpIn(handObject);
 		
 		objectInHand.SetAimGradient(aimGradient);
@@ -121,6 +117,22 @@ public class WeaponHand : MonoBehaviour
 		if(objectInHand != null)
         {
 			objectInHand.Drop();
+			objectInHand = null;
+			FOV.ViewRadius = handHitDistance;
+			FOV.ViewAngle = handHitAngle;
+		}
+	}
+
+	public void Disarm()
+	{
+		if (objectInHand != null)
+		{
+			float dirX = Random.value;
+			float dirZ = Random.value;
+			float force = Random.value * 10;
+			Vector3 velocity = new Vector3(dirX, 1, dirZ).normalized * force;
+
+			objectInHand.Disarm(velocity);
 			objectInHand = null;
 			FOV.ViewRadius = handHitDistance;
 			FOV.ViewAngle = handHitAngle;
@@ -208,7 +220,7 @@ public class WeaponHand : MonoBehaviour
 	{
 		if (objectInHand)
 		{
-			objectInHand.DoAction(FOV);
+			objectInHand.DoAction(/*FOV*/);
 		}
 		else 
 		{
@@ -235,10 +247,10 @@ public class WeaponHand : MonoBehaviour
 		if (objectInHand != null)
 		{
 			objectInHand.ReleaseThrow(throwForce);
-			foreach(Collider collider in objectInHand.GetComponentsInChildren<Collider>())
-			{
-				collider.enabled = true;
-			}
+			//foreach(Collider collider in objectInHand.GetComponentsInChildren<Collider>())
+			//{
+			//	collider.enabled = true;
+			//}
 
 			throwForce = 0;
 			objectInHand = null;

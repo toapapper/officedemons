@@ -10,16 +10,16 @@ public class FireStick : SwingWeapon
 	[Range(0, 5)]
 	[SerializeField] private int duration = 2;
 
-    public override void DoAction(FieldOfView fov)
+    public override void DoAction(/*FieldOfView fov*/)
     {
-		if (fov.VisibleTargets.Count > 0)
+		if (WeaponController.FOV.VisibleTargets.Count > 0)
 		{
-			foreach (GameObject target in fov.VisibleTargets)
+			foreach (GameObject target in WeaponController.FOV.VisibleTargets)
 			{
 				if(target.tag != "CoverObject")
 				{
 					Effects.RegularWeaponDamage(target, Damage, HolderAgent);
-					Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
+					Effects.ApplyForce(target, (target.transform.position - WeaponController.FOV.transform.position).normalized * HitForce);
 					Effects.ApplyStatusEffect(target, StatusEffectType.StaminaDrain, 3, fireStacks);
 				}
 				else

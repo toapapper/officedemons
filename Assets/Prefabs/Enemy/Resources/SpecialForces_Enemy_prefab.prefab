@@ -177,7 +177,6 @@ GameObject:
   - component: {fileID: 6135384384829229178}
   - component: {fileID: 218698491784013460}
   - component: {fileID: 2390046299550973089}
-  - component: {fileID: 9089503847017653346}
   m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
@@ -252,24 +251,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9089503847017653346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294406354650112494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 2
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!1 &2865297606098949457
 GameObject:
   m_ObjectHideFlags: 0
@@ -1078,8 +1059,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwAim: {fileID: 0}
   handObject: {fileID: 5512483632764469760}
-  FOV: {fileID: 2801137049381021352}
-  FOVVisualization: {fileID: 1039259754772985574}
+  fov: {fileID: 2801137049381021352}
+  fovVisualization: {fileID: 1039259754772985574}
   handHitDamage: 5
   handHitForce: 5
   handHitDistance: 1.5
@@ -1103,6 +1084,7 @@ MonoBehaviour:
   jobTitle: "arbetsl\xF6s"
   startHealth: 50
   killCount: 0
+  particleEffect: {fileID: 0}
   health: 0
   startStamina: 3.5
   stamina: 50
@@ -1174,7 +1156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b06464f5284c4489299a077c816afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
 --- !u!114 &1789447578155517298
 MonoBehaviour:
@@ -1444,6 +1425,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8068798176447013897}
     m_Modifications:
+    - target: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3032543496062369683, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
