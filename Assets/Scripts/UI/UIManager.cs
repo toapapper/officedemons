@@ -208,7 +208,7 @@ public class UIManager : MonoBehaviour
                 card.UpdateWeaponSprites(defaultWeapon,"", numbers[10], numbers[10]);
             }
             card.UpdateChargeSprites(PlayerManager.players[i].GetComponentInChildren<AbstractSpecial>().Charges);
-
+            PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().ChargeUpdate(card.ChargeObjects);
 
             Dictionary<StatusEffectType, StatusEffect> activeEffects = PlayerManager.players[i].GetComponent<StatusEffectHandler>().ActiveEffects;
             List<StatusEffectType> effectList = new List<StatusEffectType>();
