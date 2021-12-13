@@ -45,6 +45,10 @@ public class TankController : MonoBehaviour
 
     void Start()
     {
+        gameObject.name = "tank";
+        gameObject.transform.GetChild(0).name = "tank";
+        gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).name = "tank";
+
         aiManager = transform.parent.GetComponentInChildren<AIManager>();
         towerTransform = this.gameObject.transform.GetChild(0);
         pipeTransform = towerTransform.GetChild(0);
