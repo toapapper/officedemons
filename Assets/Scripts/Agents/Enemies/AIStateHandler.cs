@@ -47,7 +47,7 @@ public class AIStateHandler : MonoBehaviour
         {
             aiController.CurrentState = AIStates.States.Dead;
         }
-        else if(GetComponent<StatusEffectHandler>().Paralyzed)
+        else if(GetComponent<StatusEffectHandler>().Paralyzed || (attributes.Stamina <= 0 && !CanAttackPlayer()))
         {
             aiController.CurrentState = AIStates.States.Wait;
             aiController.ActionIsLocked = true;
@@ -76,6 +76,7 @@ public class AIStateHandler : MonoBehaviour
                     aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
                     aiController.TargetType = AIController.TargetTypes.Player;
                 }
+                
                 else if (!TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
                 {
                     aiController.CurrentState = AIStates.States.Attack;
@@ -105,6 +106,7 @@ public class AIStateHandler : MonoBehaviour
                         }
                         else
                         {
+                            
                             if (attributes.Stamina > 0 && TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player)
                             {
                                 aiController.GetShootPosition();
@@ -114,8 +116,14 @@ public class AIStateHandler : MonoBehaviour
                             {
                                 aiController.CurrentState = AIStates.States.Move;
                             }
-                            else
+                            else if (!TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
                             {
+                                Vector3.RotateTowards(transform.forward, aiController.TargetPosition, 1 * Time.deltaTime, 0.0f);
+                                aiController.CurrentState = AIStates.States.Attack;
+                                aiController.ActionIsLocked = true;
+                            }
+                            else
+                            { 
                                 aiController.CurrentState = AIStates.States.Wait;
                                 aiController.ActionIsLocked = true;
                             }
@@ -163,6 +171,7 @@ public class AIStateHandler : MonoBehaviour
         else
         {
             fov.FindVisibleTargets();
+            
             if (fov.VisibleTargets.Count > 0)
             {
                 //if player in range
@@ -174,6 +183,12 @@ public class AIStateHandler : MonoBehaviour
                     }
                 }
             }
+
+            if (Vector3.Distance(aiController.TargetPosition, transform.position) <= GetComponentInChildren<AbstractWeapon>().ViewDistance + 1)
+            {
+                return true;
+            }
+
             return false;
         }
     }
