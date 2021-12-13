@@ -136,6 +136,7 @@ public class GameManager : MonoBehaviour
                 combatState = CombatState.player;
                 roundTimer = RoundTime;
                 PlayerManager.Instance.BeginTurn();
+                TurnUI.Instance.ShowNewImage(1,0);
                 // Add all objects in checklist to maincamera
                 //mainCamera.ObjectsInCamera = stillCheckList;
                 //Add encounter corner points to camera to fix it to encounter
@@ -145,7 +146,7 @@ public class GameManager : MonoBehaviour
         else if (CurrentCombatState == CombatState.player)
         {
             roundTimer -= Time.deltaTime;
-            if(RoundTimer <= 0)
+            if (RoundTimer <= 0)
             {
                 Debug.Log("PLAYER MOVE DONE");
                 playerActionsDone = false;
@@ -161,7 +162,9 @@ public class GameManager : MonoBehaviour
                 Debug.Log("PLAYER ACTIONS DONE");
                 combatState = CombatState.enemy;
                 EnemiesTurnDone = false;
+                TurnUI.Instance.ShowNewImage(2,0);
                 currentEncounter.aIManager.BeginTurn();
+
             }
         }
         else if(CurrentCombatState == CombatState.enemy)
@@ -188,6 +191,7 @@ public class GameManager : MonoBehaviour
             if(enemiesActionsDone)
             {
                 Debug.Log("ENEMIES ACTIONS ARE DONE");
+                TurnUI.Instance.ShowNewImage(1,0);
                 combatState = CombatState.player;
                 PlayerManager.Instance.BeginTurn();
                 roundTimer = RoundTime;
@@ -205,6 +209,7 @@ public class GameManager : MonoBehaviour
         currentEncounter = encounter;
 		combatState = CombatState.enterCombat;
         PlayerManager.Instance.BeginCombat();
+        TurnUI.Instance.ShowNewImage(0,0);
     }
 
     /// <summary>
@@ -213,7 +218,7 @@ public class GameManager : MonoBehaviour
     public void EndEncounter()
     {
         Debug.Log("ENDENCOUNTER");
-
+        TurnUI.Instance.showVictory = true;
         CurrentEncounter.EndEncounter();
         currentEncounter = null;
         combatState = CombatState.none;
