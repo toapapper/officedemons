@@ -219,6 +219,13 @@ public abstract class AbstractWeapon : MonoBehaviour
 		Debug.Log("Weapon dropped");
 	}
 
+	public void Disarm(Vector3 velocity)
+	{
+		Drop();
+		GetComponentInChildren<Rigidbody>().AddForce(velocity, ForceMode.VelocityChange);
+		isProjectile = true;
+	}
+
 	public virtual void SetAimGradient(Gradient gradient) { }
 	public virtual void ToggleAim(bool isActive/*, GameObject FOVView*/) { }
 	public virtual void StartAttack(Animator animator) { }

@@ -123,6 +123,22 @@ public class WeaponHand : MonoBehaviour
 		}
 	}
 
+	public void Disarm()
+	{
+		if (objectInHand != null)
+		{
+			float dirX = Random.value;
+			float dirZ = Random.value;
+			float force = Random.value * 10;
+			Vector3 velocity = new Vector3(dirX, 1, dirZ).normalized * force;
+
+			objectInHand.Disarm(velocity);
+			objectInHand = null;
+			FOV.ViewRadius = handHitDistance;
+			FOV.ViewAngle = handHitAngle;
+		}
+	}
+
 	//Attack
 	public void StartAttack()
 	{

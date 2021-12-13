@@ -34,6 +34,10 @@ public static class Effects
                 WeaponDamage(target, damage, wielder);
             }
         }
+		else if (target.tag == "Player")
+		{
+			WeaponDamage(target, damage, wielder);
+		}
 	}
 	public static void WeaponDamage(GameObject target, float damage, GameObject wielder = null)
 	{
@@ -129,7 +133,7 @@ public static class Effects
 			return;
         }
 
-		target.GetComponent<WeaponHand>().DropWeapon();
+		target.GetComponent<WeaponHand>().Disarm();
 
 		UIManager.Instance.NewFloatingText(target, "WEAPON DROPPED!", Color.red);
     }
@@ -139,7 +143,6 @@ public static class Effects
     /// </summary>
     public static void ApplyWeaponEffects(GameObject target, List<WeaponEffects> weaponEffects)
     {
-
         if (target.tag == "Enemy")
         {
             if (target.name != "tank" && target.GetComponent<AIController>().InActiveCombat)
