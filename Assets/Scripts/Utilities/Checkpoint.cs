@@ -106,13 +106,6 @@ public class Checkpoint : MonoBehaviour
                 //does not remember the current uses left on the statuseffect when saved. But that should only possibly be a small balance-problem
                 abstractWeapon.AddStatusEffects(weaponData.effects);
 
-                Color outlineColor = new Color();
-                for (int i = 0; i < 4; i++)
-                {
-                    outlineColor[i] = weaponData.outlineColor[i];
-                }
-                abstractWeapon.GetComponentInChildren<Outline>().OutlineColor = outlineColor;
-
                 if (abstractWeapon is BurstShotWeapon)
                 {
                     newWeapon.GetComponentInChildren<BurstShotWeapon>().BulletsInBurst = weaponData.bulletsInBurst;
