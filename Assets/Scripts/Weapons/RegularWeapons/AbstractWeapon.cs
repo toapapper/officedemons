@@ -160,9 +160,13 @@ public abstract class AbstractWeapon : MonoBehaviour
             {
                 if (Vector3.Distance(PlayerManager.players[i].transform.position,gameObject.transform.position) < 5)
                 {
-                    textObjectName.gameObject.SetActive(true);
-                    showName = true;
-                    textObjectName.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+                    if (textObjectName != null)
+                    {
+                        textObjectName.gameObject.SetActive(true);
+                        showName = true;
+                        textObjectName.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+                    }
+                    
                 }
             }
         }

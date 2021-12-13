@@ -267,7 +267,7 @@ public class AIController : MonoBehaviour
 
         for (int i = 0; i < aiManager.AllWeapons.Count; i++)
         {
-            if (aiManager.AllWeapons[i] != null && bounds.Contains(aiManager.AllWeapons[i].transform.position))
+            if (aiManager.AllWeapons[i] != null && bounds.Contains(aiManager.AllWeapons[i].transform.position) && aiManager.AllWeapons[i].GetComponent<AbstractWeapon>() != null)
             {
                 float distance = CalculateDistance(aiManager.AllWeapons[i]);
                 if (distance < closest && !aiManager.AllWeapons[i].GetComponent<AbstractWeapon>().IsHeld)
@@ -311,11 +311,11 @@ public class AIController : MonoBehaviour
     {
         float stamina = navMeshAgent.gameObject.GetComponent<Attributes>().Stamina;
         float targetDistance = CalculateDistance(target);
-        float lastPathDistance = CalculateLastPathDistance(target);
+        //float lastPathDistance = CalculateLastPathDistance(target);
 
-        if (lastPathDistance <= fov.ViewRadius)
+        if (targetDistance <= fov.ViewRadius)
         {
-            if (targetDistance - lastPathDistance <= stamina * navMeshAgent.speed / movingSpeed)
+            if (targetDistance <= stamina * navMeshAgent.speed / movingSpeed)
             {
                 return true;
             }
