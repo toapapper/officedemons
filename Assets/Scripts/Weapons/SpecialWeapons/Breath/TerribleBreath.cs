@@ -27,6 +27,7 @@ public class TerribleBreath : AbstractSpecial
     GameObject mouth;
     [SerializeField]
     private GameObject particleEffect;
+    private bool superCharged;
 
     public override void SetFOVSize()
     {
@@ -36,6 +37,24 @@ public class TerribleBreath : AbstractSpecial
 
     public override void ToggleAim(bool isActive)
     {
+        switch (Charges)
+        {
+            case 1:
+                ActionPower = 1;
+                superCharged = false;
+                break;
+            case 2:
+                ActionPower = 2.5f;
+                superCharged = false;
+                break;
+            case 3:
+                ActionPower = 4;
+                superCharged = false;
+                break;
+            default:
+                break;
+        }
+        specialController.FOV.ViewRadius *= ActionPower;
         SpecialController.FOVVisualization.SetActive(isActive);
     }
 
@@ -45,7 +64,6 @@ public class TerribleBreath : AbstractSpecial
     }
     public override void Attack()
     {
-        ActionPower = Charges;
         Charges = 0;
         if (!particleEffect.activeSelf)
         {
@@ -74,9 +92,19 @@ public class TerribleBreath : AbstractSpecial
             {
                 if (target.layer != LayerMask.NameToLayer("Destructible"))
                 {
-                    Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
-                    Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
-                    Effects.ApplyWeaponEffects(target, effects);
+                    if (ActionPower >= 4)
+                    {
+                        Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+                        Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
+                        Effects.ApplyWeaponEffects(target, effects);
+                        Effects.ApplyStatusEffect(target, StatusEffectType.poison);
+                    }
+                    else
+                    {
+                        Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+                        Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
+                        Effects.ApplyWeaponEffects(target, effects);
+                    }
                 }
 				else
 				{
@@ -86,6 +114,7 @@ public class TerribleBreath : AbstractSpecial
             }
         }
         ActionPower = 0;
+        SpecialController.FOV.ViewRadius = viewDistance;
     }
     private IEnumerator CountdownTime(float time)
     {
