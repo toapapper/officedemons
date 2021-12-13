@@ -58,17 +58,6 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_Explosion" ID="{BA28F134-D718-4EDE-84A8-2E68A295E759}">
-					<ChildrenList>
-						<Action Name="" ID="{BFA2184B-2CF9-4FFA-A651-629ADAE2EB6C}" ShortID="924068582">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Explosion" ID="{4E636DB8-A6CA-41FF-9C0B-4EC7780F3024}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
 				<Event Name="Play_Ambience" ID="{3DD0BFA7-A030-449B-86BD-C273FE87D6B6}">
 					<ChildrenList>
 						<Action Name="" ID="{63A588D8-66BE-44E2-8AF4-6FD7C3A2C5E0}" ShortID="758144276">
@@ -235,6 +224,174 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="MeleeSwingsPack_96khz_Mono_DesignedSwings12" ID="{55D5B745-636C-434E-9EC9-D10657DA91FC}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Random_Shell_Casings" ID="{F6579E32-5935-4748-A280-7FB46AC515CA}">
+					<ChildrenList>
+						<Action Name="" ID="{148A8023-65A0-4987-A8AE-1AF64EF616FF}" ShortID="691332611">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Shell_Casings" ID="{997AFE8F-A88B-4FA5-989C-AA9BAB20153D}" WorkUnitID="{47E6355B-B0F3-4EA1-9667-C06E2792F6A8}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bazooka_Launch" ID="{0AEC08AB-7B68-46E8-8E83-481532FDB68E}">
+					<ChildrenList>
+						<Action Name="" ID="{24B9F60A-6CA9-41F5-B056-08940BC74865}" ShortID="959880083">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bazooka_Launch" ID="{64A541F9-0342-437A-B448-025CFD4C0ECB}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bullet_hit" ID="{D75AA109-FD15-4289-B21A-86236A563CCE}">
+					<ChildrenList>
+						<Action Name="" ID="{D3E9070E-5C06-4314-8645-D3E10A1AAB41}" ShortID="197364337">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bullet_hit" ID="{8CE47AEC-2BAF-42F1-B864-0FFBFE0357BE}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bullet_impact_flesh" ID="{E9A9EF34-6EE0-4F9D-87A3-3D0A095CDB12}">
+					<ChildrenList>
+						<Action Name="" ID="{88AC8452-FF68-4E8D-9A7F-182AD38415DD}" ShortID="295555212">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bullet impact flesh" ID="{E07A868D-1F15-4BEF-A052-39B7C09A0BE0}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Pistol_shot" ID="{C7A1A27A-45B5-4854-B67D-2A611B88347D}">
+					<ChildrenList>
+						<Action Name="" ID="{94C5E4A5-7FD1-4EAD-B6AF-236730032486}" ShortID="65384496">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Pistol_shot" ID="{A2544116-8115-42E0-A9B9-BF865BB079A1}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Gun_Cocking" ID="{AD419F62-C415-41E2-8693-6883EC189BB6}">
+					<ChildrenList>
+						<Action Name="" ID="{6DA44D20-5BD6-4532-AF27-D995FAAF66CA}" ShortID="754533566">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Gun_Cocking" ID="{5A8874C8-2B76-4A13-81A3-963BCE1B5561}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bullet_Impact_Dirt" ID="{F6FC7CA0-AD19-4AAF-87F9-AC8975685236}">
+					<ChildrenList>
+						<Action Name="" ID="{807C8779-0D3D-423B-8F51-874FC8881FBE}" ShortID="98247691">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bullet_Impact_Dirt" ID="{FEAF76C5-85E5-4C0B-AC71-5B3C468FBA59}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Explosion" ID="{D3D7C718-6F12-4858-A19C-6ED4A6B23345}">
+					<ChildrenList>
+						<Action Name="" ID="{20DC11EC-74B4-407C-B520-F8AF93327524}" ShortID="830082216">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Explosion" ID="{82F2C049-F13E-4867-B579-EB5E042A1887}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bullets_Whiz_By" ID="{B94809E3-6742-4B8E-9A0F-641129D78A46}">
+					<ChildrenList>
+						<Action Name="" ID="{5C167368-B3BA-4656-B9F6-975DB5770DEB}" ShortID="1052046154">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bullets_Whiz_By" ID="{7259E581-C8F2-4257-B453-64BDDCACC374}" WorkUnitID="{47E6355B-B0F3-4EA1-9667-C06E2792F6A8}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Stapler" ID="{9798FE2E-D8E6-4A07-AF70-A4DB04599B80}">
+					<ChildrenList>
+						<Action Name="" ID="{88467326-6C68-4695-8C79-A7DC82AE218D}" ShortID="854767497">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stapler" ID="{71B78A11-2F56-404B-BAD4-99029493D505}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Female_Grunt" ID="{D5E4D022-216A-41BA-80F7-D44A64317492}">
+					<ChildrenList>
+						<Action Name="" ID="{4F387615-0565-4AFB-90D2-9E07E4D8424D}" ShortID="419995258">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Female_Grunt" ID="{A3C2A2E0-FF64-4760-AA1F-1B4A67570B85}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Female_Grunt_Pitched" ID="{B8767731-8753-46A3-90C5-E7FB1ABD603A}">
+					<ChildrenList>
+						<Action Name="" ID="{9CEA2A51-A41D-43F1-88D6-F0C7008371B6}" ShortID="138934716">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Female_Grunt_Pitched" ID="{2BC0C283-F1BD-4F59-A518-6A7D02A1DABD}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bullet_impact_glass" ID="{DBC68888-C18D-46C0-8CE6-76F5558A3E96}">
+					<ChildrenList>
+						<Action Name="" ID="{0F6B24FF-FF7D-40D8-8FEB-A29E87ED8F3D}" ShortID="1040761676">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bullet_impact_glass" ID="{9ADDDAFB-141F-4FBA-B4B2-408D7A71FEDE}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Bazooka_Shell_Whoosh" ID="{1D2C1602-B4EC-4262-8BF8-A70CF0BEABFA}">
+					<ChildrenList>
+						<Action Name="" ID="{6FDB7143-67C1-429B-AD54-7764C8715F9D}" ShortID="827822640">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bazooka_Shell_Whoosh" ID="{BA3C6D22-061E-4BAD-9F4F-3115E1460F7F}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_Bazooka_Shell_Whoosh" ID="{D0B6B31D-5B22-48F6-96FD-0C8D8467B78F}">
+					<ChildrenList>
+						<Action Name="" ID="{A8F87962-AAEE-4F55-BC84-97685A3116AD}" ShortID="375778956">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bazooka_Shell_Whoosh" ID="{BA3C6D22-061E-4BAD-9F4F-3115E1460F7F}" WorkUnitID="{4B53E757-70A5-4238-865B-C0BD4A2A65FF}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

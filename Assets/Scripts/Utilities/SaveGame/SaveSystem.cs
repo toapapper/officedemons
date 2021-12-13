@@ -71,4 +71,48 @@ public static class SaveSystem
 			return null;
 		}
 	}
+
+
+
+
+
+
+	public static void SaveDestructibles(List<GameObject> destructibleList)
+	{
+		BinaryFormatter formatter = new BinaryFormatter();
+		List<DestructibleData> destructibleDataList = new List<DestructibleData>();
+		foreach (GameObject destructible in destructibleList)
+		{
+			DestructibleData destructibleData = new DestructibleData(destructible);
+			destructibleDataList.Add(destructibleData);
+		}
+
+		string path = Application.persistentDataPath + "/DestructibleDataList.save";
+		FileStream stream = new FileStream(path, FileMode.Create);
+
+		formatter.Serialize(stream, destructibleDataList);
+		stream.Close();
+	}
+
+
+	public static List<DestructibleData> LoadDestructibles()
+	{
+		
+		string path = Application.persistentDataPath + "/DestructibleDataList.save";
+		if (File.Exists(path))
+		{
+			BinaryFormatter formatter = new BinaryFormatter();
+			FileStream stream = new FileStream(path, FileMode.Open);
+
+			List<DestructibleData> destructibleDataList = formatter.Deserialize(stream) as List<DestructibleData>;
+			stream.Close();
+
+			return destructibleDataList;
+		}
+		else
+		{
+			Debug.LogError("Save file not found" + path);
+			return null;
+		}
+	}
 }

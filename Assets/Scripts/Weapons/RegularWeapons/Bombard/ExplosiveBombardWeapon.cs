@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ExplosiveBombardWeapon : BombardWeapon
 {
-	public override void DoAction(FieldOfView fov)
+	public override void DoAction(/*FieldOfView fov*/)
 	{
 		Vector3 velocity = WeaponController.ThrowAim.InitialVelocity;
 
@@ -15,6 +15,6 @@ public class ExplosiveBombardWeapon : BombardWeapon
 						  Utilities.ListDictionaryKeys(effects));
 
 
-		base.DoAction(fov);
+		base.DoAction(/*fov*/);
 	}
 }

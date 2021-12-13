@@ -82,7 +82,6 @@ public class StarThrower : AbstractSpecial
 	{
 		AkSoundEngine.PostEvent("SusanBurst", gameObject);
 		Instantiate(particleEffect, transform.position, transform.rotation);
-
 		if (SpecialController.FOV.VisibleTargets.Count > 0)
 		{
 			foreach (GameObject target in SpecialController.FOV.VisibleTargets)

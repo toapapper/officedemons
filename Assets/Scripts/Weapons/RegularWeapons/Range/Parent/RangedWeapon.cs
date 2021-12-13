@@ -64,7 +64,7 @@ public abstract class RangedWeapon : AbstractWeapon
 		AimCone.GetComponentInChildren<MeshRenderer>().material.color = gradient.colorKeys[0].color;
 	}
 
-	public override void ToggleAim(bool isActive, GameObject FOVView)
+	public override void ToggleAim(bool isActive/*, GameObject FOVView*/)
 	{
 		if (Inaccuracy < 1)
 		{
@@ -104,6 +104,7 @@ public abstract class RangedWeapon : AbstractWeapon
 
 	public override void StartAttack(Animator animator)
 	{
+		AkSoundEngine.PostEvent("Gun_Cocking", gameObject);
 		animator.SetTrigger("isStartRangedSingleShot");
 	}
 
@@ -128,7 +129,7 @@ public abstract class RangedWeapon : AbstractWeapon
 	/// </summary>
 	/// <param name="aim"></param>
 	/// <returns></returns>
-	protected Vector3 GetBulletDirection()
+	public virtual Vector3 GetBulletDirection()
 	{
 		Vector3 bulletDir = transform.forward;//I rotate this forward vector by a random amount of degrees basically
 		float deviation = ((Random.value * 2) - 1) * Inaccuracy * Mathf.Deg2Rad;
@@ -140,8 +141,8 @@ public abstract class RangedWeapon : AbstractWeapon
 		return bulletDir;
 	}
 
-	public override void DoAction(FieldOfView fov)
+	public override void DoAction(/*FieldOfView fov*/)
 	{
-		base.DoAction(fov);
+		base.DoAction();
 	}
 }

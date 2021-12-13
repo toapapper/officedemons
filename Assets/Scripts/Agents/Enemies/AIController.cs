@@ -16,23 +16,24 @@ using System.Linq;
 ///
 /// </summary>
 
-// Last Edited: 15-10-21
+// Last Edited: 08-12-21
 
 public class AIController : MonoBehaviour
 {
     private FieldOfView fov;
-    public NavMeshAgent navMeshAgent; // TODO: Maybe change to property
+    
     private AIManager aiManager;
     private WeaponHand weaponHand;
+    private const float movingSpeed = 5;
+    private const float staminaDrainFactor = 0.4f;
 
-    private List<GameObject> targetsChosen;
-    public List<GameObject> KillPriority
+    private NavMeshAgent navMeshAgent; // TODO: Maybe change to property
+    public NavMeshAgent NMAgent
     {
-        get { return targetsChosen; }
-        set { targetsChosen = value; }
+        get { return navMeshAgent; }
+        set { navMeshAgent = value; }
     }
 
-    // Class for traget?
     private GameObject target;
     public GameObject Target
     {
@@ -88,17 +89,29 @@ public class AIController : MonoBehaviour
         set { actionIsLocked = value; }
     }
 
+    private void ResetTarget()
+    {
+        Target = null;
+        TargetPosition = Vector3.zero;
+        TargetType = TargetTypes.None;
+    }
+
+    private void ResetNavMeshAgent()
+    {
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent.speed = movingSpeed;
+    }
+
     void Start()
     {
-        Target = new GameObject(); //
+        ResetTarget();
         gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         fov = GetComponent<FieldOfView>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        ResetNavMeshAgent();
         CurrentState = AIStates.States.Unassigned;
         aiStateHandler = GetComponent<AIStateHandler>();
         aiManager = transform.parent.GetComponentInChildren<AIManager>();
         weaponHand = GetComponent<WeaponHand>();
-        KillPriority = new List<GameObject>();
     }
 
     public void Die()
@@ -133,86 +146,83 @@ public class AIController : MonoBehaviour
 
                 if (TargetPosition == Vector3.zero)
                 {
-                    GameObject closestPlayer = CalculateClosest(aiManager.PlayerList);
-                    FindCover(closestPlayer);
-                    if (Target == null)
+                    GameObject closestPlayer = GetClosestPlayer(aiManager.PlayerList);
+                    Vector3 coverPos = FindCover(closestPlayer);
+
+                    if (coverPos == Vector3.zero) //couldn't find any free cover spot
                     {
-                        Target = GetTargetPlayer(aiManager.PlayerList);
-                        TargetType = TargetTypes.Player;
-                        TargetPosition = Target.transform.position;
+                        SetTarget(GetTargetPlayer(aiManager.PlayerList), TargetTypes.Player);
                         CurrentState = AIStates.States.Attack;
                     }
                     else
                     {
-                        TargetType = TargetTypes.CoverSpot;
-                        TargetPosition = Target.transform.position;
+                        SetTarget(null, TargetTypes.CoverSpot, coverPos);
                     }
-
                 }
 
-                if (ReachedTargetPosition())
+                if (TargetType != TargetTypes.None && ReachedTargetPosition())
                 {
                     currentState = AIStates.States.Wait;
                 }
                 else
                 {
                     MoveTowards(TargetPosition);
+                    currentState = AIStates.States.Move;
                 }
                 break;
 
             case AIStates.States.Attack:
-                //Debug.Log("Target : "  + Target + "of type: " + TargetType);
-                //Debug.Log("TargetPosition : " + TargetPosition);
                 aiManager.SaveAction(this.gameObject);
-
+                Debug.Log("Attack");
                 break;
 
             case AIStates.States.Move:
                 if (TargetPosition == Vector3.zero || TargetType == TargetTypes.None)
                 {
-                    Target = GetTargetPlayer(aiManager.PlayerList);
-                    TargetType = TargetTypes.Player;
-                    TargetPosition = Target.transform.position;
+                    SetTarget(GetTargetPlayer(aiManager.PlayerList), TargetTypes.Player);
                 }
-
-                //Debug.LogError("IsArmed(): " + IsArmed());
-                //Debug.LogError("TargetType: " + TargetType.ToString());
-                //Debug.LogError("TargetPosition: " + TargetPosition);
-                //Debug.LogError("ReachedTargetPosition(): " + ReachedTargetPosition());
-
 
                 if (!IsArmed() && TargetType == TargetTypes.Item && ReachedTargetPosition())
                 {
-                    Debug.LogError("KOMMIT TILL PICKUP");
                     PickupWeapon(Target);
                     currentState = AIStates.States.Unassigned;
+                    ResetTarget();
                 }
                 else if (!ReachedTargetPosition())
                 {
                     MoveTowards(TargetPosition);
                 }
-                else
+                //else
+                //{
+                //    currentState = AIStates.States.Unassigned;         //Kanske kan tas bort?
+                //    ResetTarget();
+                //}
+                if (ReachedTargetPosition() && TargetType == TargetTypes.Player)
                 {
-                    currentState = AIStates.States.Unassigned;         //Kanske kan tas bort?
-                    TargetType = TargetTypes.None;
+                    currentState = AIStates.States.Attack;
                 }
+
                 break;
 
             case AIStates.States.SearchingForWeapon:
-                Target = GetClosestWeapon();
-                TargetType = TargetTypes.Item;
-                if (Target == null)
+
+                GameObject closestWeapon = GetClosestWeapon();
+
+                if (closestWeapon == null) // no weapon found
                 {
-                    Target = CalculateClosest(PlayerManager.players);
-                    TargetType = TargetTypes.Player;
+                    SetTarget(GetClosestPlayer(PlayerManager.players), TargetTypes.Player);
                 }
-                TargetPosition = new Vector3(Target.transform.position.x, 0.5f, Target.transform.position.z);
+                else
+                {
+                    SetTarget(closestWeapon, TargetTypes.Item);
+                }
+
                 CurrentState = AIStates.States.Move;
+
                 break;
 
             case AIStates.States.Wait:
                 aiManager.SaveAction(this.gameObject);
-
                 Debug.Log("Wait");
                 break;
 
@@ -241,10 +251,10 @@ public class AIController : MonoBehaviour
 
     public bool ReachedTargetPosition()
     {
-        return Vector3.Distance(TargetPosition, gameObject.transform.position) < 2;
+        return Vector3.Distance(TargetPosition, gameObject.transform.position) <= 3;
     }
 
-
+   
     private GameObject GetClosestWeapon()
     {
         Bounds bounds = aiManager.GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
@@ -257,7 +267,7 @@ public class AIController : MonoBehaviour
 
         for (int i = 0; i < aiManager.AllWeapons.Count; i++)
         {
-            if (bounds.Contains(aiManager.AllWeapons[i].transform.position))
+            if (aiManager.AllWeapons[i] != null && bounds.Contains(aiManager.AllWeapons[i].transform.position) && aiManager.AllWeapons[i].GetComponent<AbstractWeapon>() != null)
             {
                 float distance = CalculateDistance(aiManager.AllWeapons[i]);
                 if (distance < closest && !aiManager.AllWeapons[i].GetComponent<AbstractWeapon>().IsHeld)
@@ -275,9 +285,8 @@ public class AIController : MonoBehaviour
     /// Calculates what player is the closest to the AI-agent.
     /// </summary>
     /// <param name="players, priorities"></param>
-    public GameObject CalculateClosest(List<GameObject> players)
+    public GameObject GetClosestPlayer(List<GameObject> players)
     {
-        //Debug.Log("PLAYERS " + players.Count + "       PRIORITIES " + priorites.Count);
         float closestDistance = float.MaxValue;
         GameObject closestTarget = new GameObject();
 
@@ -291,7 +300,6 @@ public class AIController : MonoBehaviour
                 closestTarget = players[i];
             }
         }
-
         return closestTarget;
     }
 
@@ -303,16 +311,16 @@ public class AIController : MonoBehaviour
     {
         float stamina = navMeshAgent.gameObject.GetComponent<Attributes>().Stamina;
         float targetDistance = CalculateDistance(target);
-        float lastPathDistance = CalculateLastPathDistance(target);
+        //float lastPathDistance = CalculateLastPathDistance(target);
 
-        if (lastPathDistance <= fov.ViewRadius)
+        if (targetDistance <= fov.ViewRadius)
         {
-            if (targetDistance - lastPathDistance <= stamina * navMeshAgent.speed / 1.2f)
+            if (targetDistance <= stamina * navMeshAgent.speed / movingSpeed)
             {
                 return true;
             }
         }
-        else if (targetDistance - fov.ViewRadius <= stamina * navMeshAgent.speed / 1.2f)
+        else if (targetDistance - fov.ViewRadius <= stamina * navMeshAgent.speed / movingSpeed)
         {
             return true;
         }
@@ -360,7 +368,7 @@ public class AIController : MonoBehaviour
 
     public bool FindClosestAndCheckIfReachable()
     {
-        GameObject closest = CalculateClosest(PlayerManager.players);
+        GameObject closest = GetClosestPlayer(PlayerManager.players);
         if (ReachableTarget(closest))
         {
             return true;
@@ -368,10 +376,11 @@ public class AIController : MonoBehaviour
         return false;
     }
 
-    public void FindCover(GameObject opponent)
+    public Vector3 FindCover(GameObject opponent)
     {
         RaycastHit hit = new RaycastHit();
         float minDistToCover = Mathf.Infinity;
+        Vector3 currentFoundBestPos = Vector3.zero;
 
         foreach (Vector3 pos in aiManager.CoverList)
         {
@@ -388,10 +397,9 @@ public class AIController : MonoBehaviour
                             {
                                 if (Vector3.Magnitude((hit2.transform.position - opponent.transform.position)) < minDistToCover)
                                 {
+                                    currentFoundBestPos = child.position;
                                     aiManager.TakenCoverPositions.Add(child.position);
-                                    //Target = hit.transform.gameObject;
-                                    TargetPosition = child.position;
-                                    TargetType = TargetTypes.CoverSpot;
+                                    
                                     minDistToCover = Vector3.Magnitude((hit2.transform.position - opponent.transform.position));
                                 }
                             }
@@ -400,13 +408,8 @@ public class AIController : MonoBehaviour
                 }
             }
         }
+        return currentFoundBestPos;
     }
-
-    /// <summary>
-    /// Maybe will keep these because we might have so that ranged weapons can shoot over some obstacles
-    /// </summary>
-    /// <returns></returns>
-    /// rightHand = this.gameObject.transform.GetChild(1).gameObject;
 
     public bool HoldingRangedWeapon()
     {
@@ -435,20 +438,14 @@ public class AIController : MonoBehaviour
                 return true;
             }
         }
-        //if (gameObject.GetComponentInChildren<AbstractWeapon>())
-        //{
-        //    return true;
-        //}
         return false;
     }
 
     public void MoveTowards(Vector3 targetPos)
     {
         navMeshAgent.isStopped = false;
-
         navMeshAgent.SetDestination(targetPos);
-        gameObject.GetComponent<Attributes>().Stamina -= 1 * Time.deltaTime;
-        targetPosition = targetPos;
+        gameObject.GetComponent<Attributes>().Stamina -= (staminaDrainFactor * movingSpeed) * Time.deltaTime;
     }
 
     public void PickupWeapon(GameObject weapon)
@@ -457,28 +454,24 @@ public class AIController : MonoBehaviour
         navMeshAgent.isStopped = true;
         currentState = AIStates.States.Unassigned;
         Target = GetTargetPlayer(aiManager.PlayerList);
-        TargetPosition = Target.transform.position;
         TargetType = TargetTypes.Player;
     }
 
     //To solve the issue of standing too close to shoot
-    public void GetShootPosition()
+    public Vector3 GetShootPosition()
     {
         //Targetplayer
         GameObject target = GetTargetPlayer(aiManager.PlayerList);
         //walk x meters in opposite direction of it
-        float distance = 7;
-        Vector3 oppositeDirection = -(target.transform.position - gameObject.transform.position).normalized;
+        float distance = 2;
+        Vector3 oppositeDirection = -(target.transform.position - gameObject.transform.position) * distance;
 
-        Target = null;
-        TargetType = TargetTypes.ShootSpot;
-        TargetPosition = transform.position + (oppositeDirection * distance);
+        return oppositeDirection;
     }
 
     public GameObject GetTargetPlayer(List<GameObject> players) // maybe only target?
     {
-        //KillPriority.Clear();
-        GameObject target = new GameObject();
+        GameObject target = null;
         float maxTravelDist = GetComponent<Attributes>().Stamina * navMeshAgent.speed / 1.2f;
         float minDist = Mathf.Infinity;
         float minHealth = Mathf.Infinity;
@@ -555,11 +548,10 @@ public class AIController : MonoBehaviour
         }
 
         // If nothing reachable start walking towards closest player
-        if (KillPriority.Count == 0)
+        if (target == null)
         {
-            target = CalculateClosest(players);
+            target = GetClosestPlayer(players);
         }
-
         return target;
     }
 
@@ -573,8 +565,39 @@ public class AIController : MonoBehaviour
             dist += Vector3.Distance(previousCorner, path.corners[i]);
             previousCorner = path.corners[i];
         }
-
         return dist;
     }
 
+    public void SetTarget(GameObject target, TargetTypes type, Vector3 position = default(Vector3))
+    {
+        TargetType = type;
+
+        switch(type)
+        {
+            case TargetTypes.CoverSpot:
+                TargetPosition = position;
+                Target = null;
+                break;
+
+            case TargetTypes.ShootSpot:
+                TargetPosition = position;
+                Target = null;
+                break;
+
+            case TargetTypes.Item:
+                TargetPosition = target.transform.position;
+                Target = target;
+                break;
+
+            case TargetTypes.Player:
+                TargetPosition = target.transform.position;
+                Target = target;
+                break;
+
+            case TargetTypes.None:
+                TargetPosition = Vector3.zero;
+                Target = null;
+                break;
+        }
+    }
 }

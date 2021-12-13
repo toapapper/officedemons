@@ -31,7 +31,7 @@ public class BombardWeapon : AbstractWeapon
 		set { grenadeThrowForce = value; }
 	}
 
-	public override void ToggleAim(bool isActive, GameObject FOVView)
+	public override void ToggleAim(bool isActive/*, GameObject FOVView*/)
 	{
 		if (!WeaponController.ThrowAim.gameObject.activeSelf && isActive)
 		{

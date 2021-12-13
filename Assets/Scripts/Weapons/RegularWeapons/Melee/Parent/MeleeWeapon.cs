@@ -18,15 +18,15 @@ public abstract class MeleeWeapon : AbstractWeapon
     [SerializeField]
     protected GameObject particleEffect;
 
-    public override void ToggleAim(bool isActive, GameObject FOVView)
+    public override void ToggleAim(bool isActive/*, GameObject FOVView*/)
 	{
-        if (!FOVView.activeSelf && isActive)
+        if (!WeaponController.FOVVisualization.activeSelf && isActive)
         {
-            FOVView.SetActive(isActive);
+            WeaponController.FOVVisualization.SetActive(isActive);
         }
-        else if (FOVView.activeSelf && !isActive)
+        else if (WeaponController.FOVVisualization.activeSelf && !isActive)
         {
-            FOVView.SetActive(isActive);
+            WeaponController.FOVVisualization.SetActive(isActive);
         }
 
 
@@ -40,7 +40,7 @@ public abstract class MeleeWeapon : AbstractWeapon
         AkSoundEngine.PostEvent("Play_MeleeSwingsPack_96khz_Stereo_NormalSwings39", gameObject);
     }
 
-    public override void DoAction(FieldOfView fov)
+    public override void DoAction(/*FieldOfView fov*/)
     {
         GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
 
@@ -49,14 +49,14 @@ public abstract class MeleeWeapon : AbstractWeapon
             return;
         }
 
-        if (fov.VisibleTargets.Count > 0)
+        if (WeaponController.FOV.VisibleTargets.Count > 0)
         {
-            foreach (GameObject target in fov.VisibleTargets)
+            foreach (GameObject target in WeaponController.FOV.VisibleTargets)
             {
                 if (target.layer != LayerMask.NameToLayer("Destructible"))
                 {
                     Effects.RegularWeaponDamage(target, Damage * (1 + wielder.GetComponent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
-                    Effects.ApplyForce(target, (target.transform.position - fov.transform.position).normalized * HitForce);
+                    Effects.ApplyForce(target, (target.transform.position - WeaponController.FOV.transform.position).normalized * HitForce);
                     Effects.ApplyWeaponEffects(target, Utilities.ListDictionaryKeys(effects));
                 }
 				else
@@ -72,6 +72,6 @@ public abstract class MeleeWeapon : AbstractWeapon
             }
         }
 
-        base.DoAction(fov);
+        base.DoAction();
     }
 }
