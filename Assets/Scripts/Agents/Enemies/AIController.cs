@@ -160,18 +160,20 @@ public class AIController : MonoBehaviour
                     }
                 }
 
-                if (ReachedTargetPosition())
+                if (TargetType != TargetTypes.None && ReachedTargetPosition())
                 {
                     currentState = AIStates.States.Wait;
                 }
                 else
                 {
                     MoveTowards(TargetPosition);
+                    currentState = AIStates.States.Move;
                 }
                 break;
 
             case AIStates.States.Attack:
                 aiManager.SaveAction(this.gameObject);
+                Debug.Log("Attack");
                 break;
 
             case AIStates.States.Move:
@@ -184,6 +186,7 @@ public class AIController : MonoBehaviour
                 {
                     PickupWeapon(Target);
                     currentState = AIStates.States.Unassigned;
+                    ResetTarget();
                 }
                 else if (!ReachedTargetPosition())
                 {
@@ -194,6 +197,11 @@ public class AIController : MonoBehaviour
                 //    currentState = AIStates.States.Unassigned;         //Kanske kan tas bort?
                 //    ResetTarget();
                 //}
+                if (ReachedTargetPosition() && TargetType == TargetTypes.Player)
+                {
+                    currentState = AIStates.States.Attack;
+                }
+
                 break;
 
             case AIStates.States.SearchingForWeapon:
@@ -208,12 +216,14 @@ public class AIController : MonoBehaviour
                 {
                     SetTarget(closestWeapon, TargetTypes.Item);
                 }
+
                 CurrentState = AIStates.States.Move;
+
                 break;
 
             case AIStates.States.Wait:
                 aiManager.SaveAction(this.gameObject);
-                //Debug.Log("Wait");
+                Debug.Log("Wait");
                 break;
 
             case AIStates.States.Dead:
@@ -241,9 +251,10 @@ public class AIController : MonoBehaviour
 
     public bool ReachedTargetPosition()
     {
-        return Vector3.Distance(TargetPosition, gameObject.transform.position) < 2;
+        return Vector3.Distance(TargetPosition, gameObject.transform.position) <= 3;
     }
 
+   
     private GameObject GetClosestWeapon()
     {
         Bounds bounds = aiManager.GetComponentInParent<Encounter>().GetComponent<BoxCollider>().bounds;
@@ -557,7 +568,7 @@ public class AIController : MonoBehaviour
         return dist;
     }
 
-    private void SetTarget(GameObject target, TargetTypes type, Vector3 position = default(Vector3))
+    public void SetTarget(GameObject target, TargetTypes type, Vector3 position = default(Vector3))
     {
         TargetType = type;
 
@@ -575,7 +586,7 @@ public class AIController : MonoBehaviour
 
             case TargetTypes.Item:
                 TargetPosition = target.transform.position;
-                Target = null;
+                Target = target;
                 break;
 
             case TargetTypes.Player:

@@ -57,8 +57,7 @@ public class AIStateHandler : MonoBehaviour
             //Before the agents has had any state changes it is set to Unassigned
             if (aiController.CurrentState == AIStates.States.Unassigned)
             {
-                aiController.Target = aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList);
-                aiController.TargetType = AIController.TargetTypes.Player;
+                aiController.SetTarget(aiController.GetTargetPlayer(encounter.GetComponentInChildren<AIManager>().PlayerList), AIController.TargetTypes.Player);
                 Vector3.RotateTowards(transform.forward, aiController.TargetPosition, 1 * Time.deltaTime, 0.0f);
             }
             //DeathCheck
@@ -95,6 +94,7 @@ public class AIStateHandler : MonoBehaviour
                     {
                         aiController.CurrentState = AIStates.States.Move;
                     }
+                    
                     //No stamina -> wait/attack
                     else
                     {
@@ -103,16 +103,15 @@ public class AIStateHandler : MonoBehaviour
                             aiController.CurrentState = AIStates.States.Attack;
                             aiController.ActionIsLocked = true;
                         }
-                        else if (aiController.TargetType == AIController.TargetTypes.Item && aiController.ReachedTargetPosition())
-                        {
-                            aiController.PickupWeapon(aiController.Target);
-                            aiController.CurrentState = AIStates.States.Unassigned;
-                        }
                         else
                         {
                             if (attributes.Stamina > 0 && TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player)
                             {
                                 aiController.GetShootPosition();
+                                aiController.CurrentState = AIStates.States.Move;
+                            }
+                            else if (aiController.TargetType == AIController.TargetTypes.Item && aiController.ReachedTargetPosition())
+                            {
                                 aiController.CurrentState = AIStates.States.Move;
                             }
                             else
@@ -163,6 +162,7 @@ public class AIStateHandler : MonoBehaviour
         }
         else
         {
+            fov.FindVisibleTargets();
             if (fov.VisibleTargets.Count > 0)
             {
                 //if player in range
