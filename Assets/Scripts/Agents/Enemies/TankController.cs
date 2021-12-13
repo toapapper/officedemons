@@ -215,7 +215,7 @@ public class TankController : MonoBehaviour
             {
                 if (hit.transform.gameObject.tag == "Player")
                 {
-                    if (player.gameObject.GetComponent<Attributes>().Health <= minHealth)
+                    if (player.gameObject.GetComponent<Attributes>().Health <= minHealth && !TooCloseToShoot(myPosition, player.transform.position))
                     {
                         target = player;
                         minHealth = player.GetComponent<Attributes>().Health;
@@ -225,5 +225,10 @@ public class TankController : MonoBehaviour
         }
 
         return target;
+    }
+
+    private bool TooCloseToShoot(Vector3 myPosition, Vector3 targetPosition)
+    {
+        return Vector3.Distance(myPosition, targetPosition) < 3;
     }
 }
