@@ -34,7 +34,11 @@ public static class Effects
                 WeaponDamage(target, damage, wielder);
             }
         }
-	}
+        else if (target.tag == "Player")
+        {
+            WeaponDamage(target, damage, wielder);
+        }
+    }
 	public static void WeaponDamage(GameObject target, float damage, GameObject wielder = null)
 	{
 		Damage(target, damage, wielder);
@@ -200,7 +204,6 @@ public static class Effects
 		{
             if (target.name == "tank")
             {
-                Debug.Log("BYTER TILL DEAD STATE");
                 target.GetComponent<TankController>().CurrentState = TankController.TankStates.Dead;
                 target.GetComponent<TankController>().Die();
             }

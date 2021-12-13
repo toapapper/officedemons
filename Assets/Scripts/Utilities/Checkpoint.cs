@@ -128,11 +128,11 @@ public class Checkpoint : MonoBehaviour
                 abstractWeapon.Durability = weaponData.durability;
                 abstractWeapon.Weight = weaponData.weight;
                 abstractWeapon.EffectList = weaponData.effects;
-                Color outlineColor = new Color();
-                for (int i = 0; i < 4; i++)
-                {
-                    outlineColor[i] = weaponData.outlineColor[i];
-                }
+                //Color outlineColor = new Color();
+                //for (int i = 0; i < 4; i++)
+                //{
+                //    outlineColor[i] = weaponData.outlineColor[i];
+                //}
                 //abstractWeapon.GetComponentInChildren<Outline>().OutlineColor = outlineColor;
 
                 if (abstractWeapon is BurstShotWeapon)
