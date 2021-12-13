@@ -26,16 +26,22 @@ public class DestructibleData
 
         destructibleName = destructibleObject.name;
 
-        if (destructibleName.Contains("("))
-        {
-            destructibleName = destructibleName.Remove(destructibleObject.name.IndexOf('('));
-            destructibleName = destructibleName.Remove(destructibleObject.name.IndexOf(' '));
-        }
-
+        //Debug.Log("SAVE: " + destructibleName + position[0]);
         if (destructibleObject.GetComponent<DestructibleObjects>())
 		{
             objectHealth = destructibleObject.GetComponent<Attributes>().SaveLoadHealth;
             destroyd = destructibleObject.GetComponent<DestructibleObjects>().destroyed;
+        }
+
+		if (destructibleName.Contains(" "))
+		{
+			destructibleName = destructibleName.Remove(destructibleObject.name.IndexOf(' '));
+		}
+
+		if (destructibleName.Contains("("))
+        {
+            destructibleName = destructibleName.Remove(destructibleObject.name.IndexOf('('));
+            //destructibleName = destructibleName.Remove(destructibleObject.name.IndexOf(' '));
         }
     }
 }

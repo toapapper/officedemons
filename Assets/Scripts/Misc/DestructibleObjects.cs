@@ -48,10 +48,9 @@ public class DestructibleObjects : MonoBehaviour
                 foreach (Material m in mr.materials)
                 {
                     m.color = Color.black;
-					destroyed = true;
                 }
             }
-
+            destroyed = true;
             // Spawn smoking particle effect
         }
         else

@@ -195,10 +195,11 @@ public abstract class AbstractWeapon : MonoBehaviour
 	}
 	public void ReleaseThrow(float force)
 	{
+		Vector3 direction = holderAgent.transform.forward;
 		Drop();
 		if(force > 1)
 		{
-			GetComponentInChildren<Rigidbody>().AddForce(transform.up * force, ForceMode.VelocityChange);
+			GetComponentInChildren<Rigidbody>().AddForce(/*transform.up*/ direction * force, ForceMode.VelocityChange);
 			isProjectile = true;
 		}
 	}

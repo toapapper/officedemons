@@ -6,25 +6,19 @@ using UnityEngine.AI;
 
 public class Checkpoint : MonoBehaviour
 {
-    [SerializeField]
-    Transform checkPointPos;
-    [SerializeField]
-    List<Transform> positions;
+    [SerializeField] private Transform checkPointPos;
+    [SerializeField] private List<Transform> positions;
 
-    GameObject camPos;
+    private GameObject camPos;
 
     private bool isSaved;
-
-    //public Dictionary<Vector3, string> savedPlayers;
-
-    public List<string> savedPlayers;
+    //public List<string> savedPlayers;
 
 
     public void Awake()
     {
         camPos = Camera.main.transform.parent.gameObject;
-        //savedPlayers = new Dictionary<Vector3, string>();
-        savedPlayers = new List<string>();
+        //savedPlayers = new List<string>();
     }
     public void SaveCheckpoint()
     {
@@ -35,7 +29,6 @@ public class Checkpoint : MonoBehaviour
         {
             if (weapon.GetComponentInChildren<AbstractWeapon>())
             {
-                Debug.Log("SAVEWEAPON");
                 weaponList.Add(weapon.gameObject);
             }
         }
@@ -45,7 +38,6 @@ public class Checkpoint : MonoBehaviour
 
             if (player.GetComponent<WeaponHand>().objectInHand)
             {
-                Debug.Log("SAVEPLAYERWEAPON");
                 weaponList.Add(player.GetComponent<WeaponHand>().objectInHand.transform.parent.gameObject);
             }
         }
@@ -55,7 +47,6 @@ public class Checkpoint : MonoBehaviour
         List<GameObject> destructibleList = new List<GameObject>();
         foreach (Transform destructible in GameObject.Find("DestructibleObjects").transform)
         {
-            Debug.Log("SAVEDESTRUCTIBLE");
             destructibleList.Add(destructible.gameObject);
         }
         SaveSystem.SaveDestructibles(destructibleList);
@@ -63,31 +54,18 @@ public class Checkpoint : MonoBehaviour
 
     public void LoadCheckpoint()
     {
+        //Camera
         camPos.transform.position = checkPointPos.position;
         Camera.main.GetComponent<MultipleTargetCamera>().ObjectsInCamera = new List<GameObject>();
 
+        //Player
         int playerCounter = 0;
         foreach (GameObject player in PlayerManager.players)
         {
-            //player.GetComponent<WeaponHand>().DropWeapon();
+            Vector3 newPos = new Vector3(positions[playerCounter].position.x, player.transform.position.y, positions[playerCounter].position.z);
+            player.transform.position = newPos;
 
             PlayerData playerData = SaveSystem.LoadPlayer(player.name);
-
-            Vector3 newPos = new Vector3(positions[playerCounter].position.x, player.transform.position.y, positions[playerCounter].position.z);
-            //Debug.Log("NEW POSITION:       " + newPos);
-
-            player.transform.position = newPos;
-            //Debug.Log("PLAYER POSITION:       " + player.transform.position);
-
-            //
-            //Effects.Revive(player);
-            //
-
-            //player.GetComponent<PlayerMovementController>().MoveAmount = Vector3.zero;
-            //player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            //player.GetComponent<NavMeshAgent>().velocity = Vector3.zero;
-            //player.GetComponent<NavMeshAgent>().isStopped = true;
-
             player.GetComponent<Attributes>().Health = playerData.playerHealth;
             player.GetComponent<Attributes>().KillCount = playerData.kills;
             player.GetComponent<SpecialHand>().ObjectInHand.Charges = playerData.charges;
@@ -95,27 +73,19 @@ public class Checkpoint : MonoBehaviour
             playerCounter++;
         }
 
-
+        //Weapons
         foreach (Transform weapon in GameObject.Find("Weapons").transform)
         {
-            //Debug.Log("WEAPON FOUND");
-            //RemoveFromNearbyLists
-            //foreach(GameObject player in PlayerManager.players)
-            //{
-            //	player.GetComponent<PlayerInputHandler>().RemoveObjectFromWeaponList(weapon.GetChild(0).gameObject);
-            //}
-
             Destroy(weapon.gameObject);
-            foreach (GameObject player in PlayerManager.players)
-            {
-                player.GetComponent<PlayerInputHandler>().ClearNearbyObjectList();
-            }
+        }
+        foreach (GameObject player in PlayerManager.players)
+        {
+            player.GetComponent<PlayerInputHandler>().ClearNearbyObjectList();
         }
 
         List<WeaponData> weaponDataList = SaveSystem.LoadWeapons();
         foreach (WeaponData weaponData in weaponDataList)
         {
-            //Debug.Log(weaponData.weaponType + "Handle");
             if (Resources.Load(weaponData.weaponType + "Handle"))
             {
                 GameObject newWeapon = Instantiate(Resources.Load(weaponData.weaponType + "Handle"),
@@ -133,11 +103,11 @@ public class Checkpoint : MonoBehaviour
                 abstractWeapon.Durability = weaponData.durability;
                 abstractWeapon.Weight = weaponData.weight;
                 abstractWeapon.EffectList = weaponData.effects;
-                Color outlineColor = new Color();
-                for (int i = 0; i < 4; i++)
-                {
-                    outlineColor[i] = weaponData.outlineColor[i];
-                }
+                //Color outlineColor = new Color();
+                //for (int i = 0; i < 4; i++)
+                //{
+                //    outlineColor[i] = weaponData.outlineColor[i];
+                //}
                 //abstractWeapon.GetComponentInChildren<Outline>().OutlineColor = outlineColor;
 
                 if (abstractWeapon is BurstShotWeapon)
@@ -152,13 +122,9 @@ public class Checkpoint : MonoBehaviour
 
                 if (!string.IsNullOrEmpty(weaponData.wielder))
                 {
-                    Debug.Log(weaponData.wielder);
-                    Debug.Log(newWeapon);
                     GameObject.Find(weaponData.wielder).GetComponent<WeaponHand>().Equip(abstractWeapon.gameObject);
                 }
-
             }
-
         }
 
         //Destructible objects
@@ -176,51 +142,31 @@ public class Checkpoint : MonoBehaviour
                     new Vector3(destructibleData.position[0], destructibleData.position[1], destructibleData.position[2]),
                     Quaternion.Euler(destructibleData.rotation[0], destructibleData.rotation[1], destructibleData.rotation[2])) as GameObject;
 
-				if (destructibleData.destroyd)
+                if (destructibleData.destroyd)
 				{
                     foreach (MeshRenderer mr in newDestructible.GetComponentsInChildren<MeshRenderer>())
                     {
                         foreach (Material m in mr.materials)
                         {
                             m.color = Color.black;
-                            newDestructible.GetComponent<DestructibleObjects>().destroyed = true;
                         }
                     }
+                    newDestructible.GetComponent<DestructibleObjects>().destroyed = true;
+                    newDestructible.GetComponent<Attributes>().SaveLoadHealth = 0;
                 }
-
-                newDestructible.GetComponent<Attributes>().SaveLoadHealth = destructibleData.objectHealth;
+				else if(newDestructible.GetComponent<Attributes>())
+				{
+                    newDestructible.GetComponent<Attributes>().SaveLoadHealth = destructibleData.objectHealth;
+                }
 
                 newDestructible.transform.parent = GameObject.Find("DestructibleObjects").transform;
                 newDestructible.name = destructibleData.destructibleName;
             }
-
         }
-
-
-
-
-
-
 
         GameManager.Instance.ResetEncounter();
         isSaved = false;
-        //Camera.main.GetComponent<MultipleTargetCamera>().ObjectsInCamera = PlayerManager.players;
 
-        //int playerCounter = 0;
-        //foreach (GameObject player in PlayerManager.players)
-        //{
-        //    Vector3 newPos = new Vector3(positions[playerCounter].position.x, player.transform.position.y, positions[playerCounter].position.z);
-        //    player.transform.position = newPos;
-        //    playerCounter++;
-        //}
-        //int i = 0;
-
-        //      foreach(string player in savedPlayers)
-        //{
-        //          GameObject newPlayer = Instantiate(Resources.Load(player), positions[i].position, positions[i].rotation) as GameObject;
-        //          newPlayer.transform.parent = PlayerManager.Instance.transform;
-        //          i++;
-        //      }
         AkSoundEngine.SetState("Music_State", "Roaming");
         AkSoundEngine.SetState("Music", "RoamingState1");
     }
@@ -231,8 +177,8 @@ public class Checkpoint : MonoBehaviour
         {
             if (!isSaved)
             {
-                SaveCheckpoint();
                 isSaved = true;
+                SaveCheckpoint();
             }
         }
     }

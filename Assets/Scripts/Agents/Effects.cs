@@ -224,7 +224,6 @@ public static class Effects
 			target.GetComponent<Animator>().SetTrigger("isCancelAction");
 
 			Debug.Log("pre player death disarm:");
-
 			Disarm(target);
 
 			Debug.Log("pre player death cleareffects:");

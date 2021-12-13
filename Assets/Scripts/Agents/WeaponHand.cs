@@ -231,10 +231,10 @@ public class WeaponHand : MonoBehaviour
 		if (objectInHand != null)
 		{
 			objectInHand.ReleaseThrow(throwForce);
-			foreach(Collider collider in objectInHand.GetComponentsInChildren<Collider>())
-			{
-				collider.enabled = true;
-			}
+			//foreach(Collider collider in objectInHand.GetComponentsInChildren<Collider>())
+			//{
+			//	collider.enabled = true;
+			//}
 
 			throwForce = 0;
 			objectInHand = null;

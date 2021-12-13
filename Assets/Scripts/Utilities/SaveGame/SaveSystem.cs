@@ -86,6 +86,7 @@ public static class SaveSystem
 			DestructibleData destructibleData = new DestructibleData(destructible);
 			destructibleDataList.Add(destructibleData);
 		}
+
 		string path = Application.persistentDataPath + "/DestructibleDataList.save";
 		FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -96,6 +97,7 @@ public static class SaveSystem
 
 	public static List<DestructibleData> LoadDestructibles()
 	{
+		
 		string path = Application.persistentDataPath + "/DestructibleDataList.save";
 		if (File.Exists(path))
 		{
