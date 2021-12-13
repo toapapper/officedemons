@@ -57,11 +57,14 @@ public class StatusEffectUI : MonoBehaviour
         stamFillIcon.enabled = false;
         dmgBoostIcon.enabled = false;
 
-        for(int i = 0; i < (int)StatusEffectType.NumberOfTypes; i++)
+
+        //TODO:FIx! (ossian)
+
+        for (int i = 0; i < (int)StatusEffectType.comboAction; i++)
         {
             StatusEffectType type = (StatusEffectType)i;
 
-            if(effects == null || effects.ActiveEffects == null)//dont know exactly why but i always get one nullreference error otherwise
+            if (effects == null || effects.ActiveEffects == null)//dont know exactly why but i always get one nullreference error otherwise
             {
                 return;
             }
@@ -70,34 +73,25 @@ public class StatusEffectUI : MonoBehaviour
             {
                 switch (type)
                 {
-                    case StatusEffectType.Fire:
+                    case StatusEffectType.fire:
                         fireIcon.enabled = true;
                         break;
-                    case StatusEffectType.Bleed:
+                    case StatusEffectType.ice:
                         bleedIcon.enabled = true;
                         break;
-                    case StatusEffectType.Poison:
+                    case StatusEffectType.poison:
                         poisonIcon.enabled = true;
                         break;
-                    case StatusEffectType.StaminaDrain:
-                        stamDrainIcon.enabled = true;
-                        break;
-                    case StatusEffectType.Vulnerable:
+                    case StatusEffectType.vulnerable:
                         vulnerableIcon.enabled = true;
                         break;
-                    case StatusEffectType.HealOverTime:
-                        healOTIcon.enabled = true;
-                        break;
-                    case StatusEffectType.StaminaFill:
-                        stamFillIcon.enabled = true;
-                        break;
-                    case StatusEffectType.Paralyze:
+                    case StatusEffectType.paralysis:
                         paralyzeIcon.enabled = true;
                         break;
-                    case StatusEffectType.DamageBoost:
+                    case StatusEffectType.damage_boost:
                         dmgBoostIcon.enabled = true;
                         break;
-                    case StatusEffectType.Slow:
+                    case StatusEffectType.hell_ice:
                         slowIcon.enabled = true;
                         break;
                 }

@@ -23,6 +23,24 @@ using UnityEngine;
 
 public static class Utilities
 {
+    /// <summary>
+    /// Returns a list containing all the keys in <paramref name="dictionary"/>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="U"></typeparam>
+    /// <param name="dictionary"></param>
+    /// <returns></returns>
+    public static List<T> ListDictionaryKeys<T, U>(Dictionary<T, U> dictionary)
+    {
+        List<T> list = new List<T>();
+
+        foreach(KeyValuePair<T, U> pair in dictionary)
+        {
+            list.Add(pair.Key);
+        }
+
+        return list;
+    }
 
     /// <summary>
     /// Cleans a list of destroyed gameObjects or otherwise null objects, repacking it

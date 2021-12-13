@@ -74,13 +74,13 @@ public class TerribleBreath : AbstractSpecial
             {
                 if (target.layer != LayerMask.NameToLayer("Destructible"))
                 {
-                    Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+                    Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
                     Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
                     Effects.ApplyWeaponEffects(target, effects);
                 }
 				else
 				{
-                    Effects.Damage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+                    Effects.Damage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
                 }
                 
             }

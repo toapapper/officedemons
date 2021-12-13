@@ -138,7 +138,7 @@ public class WeaponInitializer : MonoBehaviour
     private void GainSpecialEffect(int desiredEffectCount, WeaponStatsGeneration weapon)
     {
         int effectsToAdd = desiredEffectCount - weapon.effects.Count;
-        List<WeaponEffects> existingEffects = new List<WeaponEffects>();
+        List<StatusEffectType> existingEffects = new List<StatusEffectType>();
         for (int i = 0; i < weapon.effects.Count; i++)
         {
             existingEffects.Add(weapon.effects[i]);
@@ -154,15 +154,15 @@ public class WeaponInitializer : MonoBehaviour
     /// </summary>
     /// <param name="existingEffects">a list of existing effects</param>
     /// <returns></returns>
-    private WeaponEffects GetRandomEffect(List<WeaponEffects> existingEffects)
+    private StatusEffectType GetRandomEffect(List<StatusEffectType> existingEffects)
     {
         int maxTries = 20;
-        int enumSize = Enum.GetNames(typeof(WeaponEffects)).Length;
-        WeaponEffects statusEffect;
+        int enumSize = Enum.GetNames(typeof(StatusEffectType)).Length;
+        StatusEffectType statusEffect;
         for (int i = 0; i < maxTries; i++)
         {
             bool foundNewStatus = true;
-            statusEffect = (WeaponEffects)UnityEngine.Random.Range(0, enumSize -1);
+            statusEffect = (StatusEffectType)UnityEngine.Random.Range(0, enumSize -1);
             for (int j = 0; j < existingEffects.Count; j++)
             {
                 if (statusEffect == existingEffects[i])
@@ -178,7 +178,7 @@ public class WeaponInitializer : MonoBehaviour
             
         }
         //Already has everything so we return nothing
-        statusEffect = WeaponEffects.Nothing;
+        statusEffect = StatusEffectType.none;
         return statusEffect;
     }
 
@@ -198,7 +198,7 @@ public class WeaponInitializer : MonoBehaviour
         }
         for (int i = 1; i < weapon.effects.Count; i++)
         {
-            if (weapon.effects[i] != WeaponEffects.Nothing)
+            if (weapon.effects[i] != StatusEffectType.none)
             {
                 finalName.Append(" ");
                 finalName.Append(weapon.effects[i]);

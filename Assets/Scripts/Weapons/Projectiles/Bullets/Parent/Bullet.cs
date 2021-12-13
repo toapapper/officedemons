@@ -22,9 +22,9 @@ public class Bullet : MonoBehaviour
     protected Vector3 bulletDirection;
     private Bullet bulletObject;
 
-    public List<WeaponEffects> effects;
+    public List<StatusEffectType> effects;
 
-    public void CreateBullet(GameObject shooter, Vector3 position, Vector3 direction, float bulletFireForce, float bulletHitForce, float bulletDamage, List<WeaponEffects> effects)
+    public void CreateBullet(GameObject shooter, Vector3 position, Vector3 direction, float bulletFireForce, float bulletHitForce, float bulletDamage, List<StatusEffectType> effects)
     {
         bulletObject = Instantiate(this, position, Quaternion.LookRotation(direction));
         bulletObject.shooter = shooter;

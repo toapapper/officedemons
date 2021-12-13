@@ -8,8 +8,12 @@ public class ExplosiveBombardWeapon : BombardWeapon
 	{
 		Vector3 velocity = WeaponController.ThrowAim.InitialVelocity;
 
-		grenade.GetComponent<ExplosiveGrenadeProjectile>().CreateGrenade(HolderAgent, transform.position, velocity,
-			explodeRadius, HitForce, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), effects);
+		grenade.GetComponent<ExplosiveGrenadeProjectile>().
+			CreateGrenade(HolderAgent, transform.position, velocity,
+						  explodeRadius, HitForce, 
+						  Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost),
+						  Utilities.ListDictionaryKeys(effects));
+
 
 		base.DoAction(/*fov*/);
 	}

@@ -15,8 +15,8 @@ using UnityEngine;
 // Last Edited: 15/10-27
 public abstract class AbstractSpecial : MonoBehaviour
 {
-	[SerializeField] protected List<WeaponEffects> effects;
-	[SerializeField] protected List<WeaponEffects> ultiEffects;
+	[SerializeField] protected List<StatusEffectType> effects;
+	[SerializeField] protected List<StatusEffectType> ultiEffects;
 
 	private GameObject holderAgent;
 	protected SpecialHand specialController;

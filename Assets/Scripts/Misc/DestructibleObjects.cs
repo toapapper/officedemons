@@ -17,7 +17,7 @@ public class DestructibleObjects : MonoBehaviour
     private FieldOfView FOV;
 	[SerializeField] private float damage = 10f;
     [SerializeField] private float force = 100;
-    [SerializeField] protected List<WeaponEffects> effects;
+    [SerializeField] protected List<StatusEffectType> effects;
 
 	public void Start()
 	{

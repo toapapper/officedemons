@@ -66,7 +66,7 @@ public static class Effects
 		int dmg = (int)damage;
 		if (target.tag == "Player" || target.tag == "Enemy")
 		{
-			dmg = (int)(damage * (1 + target.GetComponent<StatusEffectHandler>().Vulnerability));
+			dmg = (int)(damage * (1 + target.GetComponent<Attributes>().statusEffectHandler.Vulnerability));
 		}
 
 		if(target.GetComponent<Attributes>().Health > 0)
@@ -113,13 +113,13 @@ public static class Effects
 		UIManager.Instance.NewFloatingText(target, "-" + drain + " Stamina", Color.yellow);
     }
 
-	public static void ApplyStatusEffect(GameObject target, StatusEffectType type, int duration = 1, int stacks = 1)
+	public static void ApplyStatusEffect(GameObject target, StatusEffectType type)
     {
         if (target.tag == "Enemy")
         {
             if (target.name != "tank" && target.GetComponent<AIController>().InActiveCombat)
             {
-                target.GetComponent<StatusEffectHandler>().ApplyEffect(type, duration, stacks);
+                target.GetComponent<Attributes>().statusEffectHandler.ApplyEffect(type);
                 UIManager.Instance.NewFloatingText(target, "Status applied: " + type, Color.cyan);
             }
         }
@@ -141,50 +141,17 @@ public static class Effects
     /// <summary>
     /// Applies the offensive effects to the hit target
     /// </summary>
-    public static void ApplyWeaponEffects(GameObject target, List<WeaponEffects> weaponEffects)
+    public static void ApplyWeaponEffects(GameObject target, List<StatusEffectType> weaponEffects)
     {
         if (target.tag == "Enemy")
         {
-            if (target.name != "tank" && target.GetComponent<AIController>().InActiveCombat)
-                {
-                if (weaponEffects == null)
-                {
-                    return;
-                }
-                foreach (WeaponEffects effect in weaponEffects)
-                {
-                    switch (effect)
-                    {
-                        case WeaponEffects.Fire:
-                            Effects.ApplyStatusEffect(target, StatusEffectType.Fire, (int)EffectDurations.Medium, 1);
-                            break;
-                        case WeaponEffects.Bleed:
-                            Effects.ApplyStatusEffect(target, StatusEffectType.Bleed, (int)EffectDurations.Medium, 1);
-                            break;
-                        case WeaponEffects.Poison:
-                            Effects.ApplyStatusEffect(target, StatusEffectType.Poison, (int)EffectDurations.Long, 1);
-                            break;
-                        case WeaponEffects.StaminaDrain:
-                            Effects.ApplyStatusEffect(target, StatusEffectType.StaminaDrain, (int)EffectDurations.Long, 1);
-                            break;
-                        case WeaponEffects.Vulnerable:
-                            Effects.ApplyStatusEffect(target, StatusEffectType.Vulnerable, (int)EffectDurations.Short, 1);
-                            break;
-                        case WeaponEffects.Paralyze:
-                            Effects.ApplyStatusEffect(target, StatusEffectType.Paralyze, (int)EffectDurations.Short, 1);
-                            break;
-                        case WeaponEffects.Slow:
-                            Effects.ApplyStatusEffect(target, StatusEffectType.Slow, (int)EffectDurations.Medium, 1);
-                            break;
-                        case WeaponEffects.Disarm:
-                            float rand = Random.value;
-                            if (rand < AbstractWeapon.DisarmChance)
-                            {
-                                Effects.Disarm(target);
-                            }
-                            break;
-                    }
-                }
+            if (weaponEffects == null)
+            {
+                return;
+            }
+            foreach (StatusEffectType type in weaponEffects)
+            {
+								ApplyStatusEffect(target, type);
             }
         }
     }
@@ -210,7 +177,7 @@ public static class Effects
             {
                 Disarm(target);
 
-                target.GetComponent<StatusEffectHandler>().ClearEffects();
+                target.GetComponent<Attributes>().statusEffectHandler.OnDeath();
 
                 target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
                 target.GetComponent<AIController>().Die();
@@ -227,7 +194,7 @@ public static class Effects
 			Disarm(target);
 
 			Debug.Log("pre player death cleareffects:");
-			target.GetComponent<StatusEffectHandler>().ClearEffects();
+			target.GetComponent<Attributes>().statusEffectHandler.OnDeath();
 
 			Debug.Log("pre player death Die:");
 			target.GetComponent<PlayerStateController>().Die();
@@ -238,7 +205,7 @@ public static class Effects
         }
 	}
 	/// <summary>
-	/// Add or remove weight
+	/// Add weight to player. if negative remove weight
 	/// </summary>
 	/// <param name="target"></param>
 	/// <param name="weight"> value between -100 - +100 </param>

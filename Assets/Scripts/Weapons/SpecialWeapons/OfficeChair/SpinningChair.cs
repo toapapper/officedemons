@@ -124,13 +124,13 @@ public class SpinningChair : AbstractSpecial
 				switch (ActionPower)
 				{
 					case 1:
-						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
 						break;
 					case 2:
-						Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
 						break;
 					case 3:
-						Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost), HolderAgent);
+						Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
 						Effects.ApplyWeaponEffects(target, effects);
 						break;
 
@@ -142,13 +142,13 @@ public class SpinningChair : AbstractSpecial
 				switch (ActionPower)
 				{
 					case 1:
-						Effects.Damage(target, Damage * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
 						break;
 					case 2:
-						Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
 						break;
 					case 3:
-						Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost));
+						Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
 						break;
 
 				}

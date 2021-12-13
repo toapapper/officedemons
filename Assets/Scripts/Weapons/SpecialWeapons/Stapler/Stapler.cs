@@ -39,15 +39,7 @@ public class Stapler : AbstractSpecial
 	/// </summary>
 	public float Inaccuracy
 	{
-		get
-		{
-			float modval = 0;
-			if (this.HolderAgent != null)
-			{
-				modval = this.HolderAgent.GetComponent<StatusEffectHandler>().InAccuracyMod;
-			}
-			return Mathf.Clamp(inaccuracy + modval, 0, 89);
-		}
+		get { return Mathf.Clamp(inaccuracy, 0, 89); }
 		set { inaccuracy = Mathf.Clamp(value, 0, 89); }
 	}
 

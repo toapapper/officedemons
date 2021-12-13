@@ -20,7 +20,7 @@ public class PooGrenadeProjectile : GroundEffectGrenade
 	private NegativeGroundObject groundObject;
 
 	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 velocity,
-		float explodeRadius, float grenadeExplodeForce, float grenadeDamage, List<WeaponEffects> effects)
+		float explodeRadius, float grenadeExplodeForce, float grenadeDamage, List<StatusEffectType> effects)
 	{
 		grenade = Instantiate(this, position, Quaternion.LookRotation(velocity.normalized));
 		grenade.thrower = thrower;

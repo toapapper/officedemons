@@ -17,9 +17,9 @@ public class NegativeGroundObject : GroundEffectObject
 {
     private NegativeGroundObject groundObject;
     private float damage;
-    List<WeaponEffects> effects;
+    List<StatusEffectType> effects;
 
-    public void CreateGroundObject(Vector3 position, float stainRadius, float damage, List<WeaponEffects> effects)
+    public void CreateGroundObject(Vector3 position, float stainRadius, float damage, List<StatusEffectType> effects)
     {
         groundObject = Instantiate(this, position, Quaternion.Euler(0, 0, 0));
         groundObject.transform.localScale = new Vector3(stainRadius, groundObject.transform.localScale.y, stainRadius);

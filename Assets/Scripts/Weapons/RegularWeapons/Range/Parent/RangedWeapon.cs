@@ -52,15 +52,7 @@ public abstract class RangedWeapon : AbstractWeapon
 	/// </summary>
 	public float Inaccuracy
 	{
-		get
-		{
-			float modval = 0;
-			if (this.HolderAgent != null && this.HolderAgent.GetComponent<StatusEffectHandler>() != null)
-			{
-				modval = this.HolderAgent.GetComponent<StatusEffectHandler>().InAccuracyMod;
-			}
-			return Mathf.Clamp(inaccuracy + modval, 0, 89);
-		}
+		get { return Mathf.Clamp(inaccuracy, 0, 89); }
 		set { inaccuracy = Mathf.Clamp(value, 0, 89); }
 	}
 
@@ -151,46 +143,6 @@ public abstract class RangedWeapon : AbstractWeapon
 
 	public override void DoAction(/*FieldOfView fov*/)
 	{
-		base.DoAction(/*fov*/);
-
-		//GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
-		if (HolderAgent == null)
-		{
-			return;
-		}
-		GameObject wielder = gameObject.GetComponentInParent<Attributes>().gameObject;
-		//Vector3 direction = GetBulletDirection();
-
-		//bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage/* * (1 + GetComponentInParent<StatusEffectHandler>().DmgBoost)*/, this.effects);
-
-		//recoil and slippery-checks
-
-		//Check for recoil recoil deals half the weapondamage and applies the effects
-		if (effects.Contains(WeaponEffects.Recoil))
-		{
-			float rand = Random.value;
-			if (rand < RecoilChance)
-			{
-				Effects.WeaponDamage(wielder, Damage / 2);
-				Effects.ApplyForce(wielder, (wielder.transform.forward * -1 * HitForce));
-				Effects.ApplyWeaponEffects(wielder, effects);
-			}
-		}
-
-		//disarms the wielder
-		if (effects.Contains(WeaponEffects.Slippery))
-		{
-			float rand = Random.value;
-			if (rand < SlipperyDropChance)
-			{
-				Effects.Disarm(wielder);
-			}
-		}
-		//if (particleEffect)
-		//{
-		//	Instantiate(particleEffect, WeaponMuzzle.transform.position, WeaponMuzzle.transform.rotation * Quaternion.Euler(0f, 180f, 0f)/*Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z)*/);
-
-		//}
-		
+		base.DoAction();
 	}
 }
