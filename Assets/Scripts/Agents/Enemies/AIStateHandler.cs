@@ -63,8 +63,6 @@ public class AIStateHandler : MonoBehaviour
             //DeathCheck
             if (aiController.CurrentState != AIStates.States.Dead && attributes.Health > 0)
             {
-                
-
                 if (HealthLow() && !HasAdvantage() && attributes.Stamina > 0 && !aiController.ReachedTargetPosition())  // if low health and disadvantage and has stamina
                 {
                     aiController.CurrentState = AIStates.States.FindCover;
@@ -125,10 +123,7 @@ public class AIStateHandler : MonoBehaviour
                                 aiController.ActionIsLocked = true;
                             }
                             else
-                            {
-                                Debug.Log("TooCLoseToAttack " + TooCloseToAttack());
-                                Debug.Log("CanAttackPlayer " + CanAttackPlayer());
-
+                            { 
                                 aiController.CurrentState = AIStates.States.Wait;
                                 aiController.ActionIsLocked = true;
                             }
