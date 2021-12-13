@@ -123,7 +123,7 @@ public static class Effects
                 UIManager.Instance.NewFloatingText(target, "Status applied: " + type, Color.cyan);
             }
         }
-        
+
     }
 
 	public static void Disarm(GameObject target)
@@ -203,7 +203,6 @@ public static class Effects
 		{
             if (target.name == "tank")
             {
-                Debug.Log("BYTER TILL DEAD STATE");
                 target.GetComponent<TankController>().CurrentState = TankController.TankStates.Dead;
                 target.GetComponent<TankController>().Die();
             }
@@ -216,7 +215,7 @@ public static class Effects
                 target.GetComponent<AIController>().CurrentState = AIStates.States.Dead;
                 target.GetComponent<AIController>().Die();
             }
-			
+
 		}
 		else if (target.tag == "Player")
 		{
