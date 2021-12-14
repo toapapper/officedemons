@@ -47,7 +47,7 @@ public class AIStateHandler : MonoBehaviour
         {
             aiController.CurrentState = AIStates.States.Dead;
         }
-        else if(GetComponent<StatusEffectHandler>().Paralyzed || (attributes.Stamina <= 0 && !CanAttackPlayer()))
+        else if(GetComponent<Attributes>().statusEffectHandler.Paralyzed || (attributes.Stamina <= 0 && !CanAttackPlayer()))
         {
             aiController.CurrentState = AIStates.States.Wait;
             aiController.ActionIsLocked = true;
