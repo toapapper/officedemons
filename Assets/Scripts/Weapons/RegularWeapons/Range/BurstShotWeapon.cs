@@ -52,6 +52,10 @@ public class BurstShotWeapon : RangedWeapon
             {
                 WeaponController.Animator.SetTrigger("isRangedBurstShot");
             }
+
+            Effects.ApplyForce(HolderAgent, HolderAgent.transform.forward * -1 * recoilPower);
+
+
             bulletCount--;
         }
 		else
