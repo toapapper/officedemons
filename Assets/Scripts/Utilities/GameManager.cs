@@ -75,6 +75,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject damageBoostEffect;
     [SerializeField] private GameObject glassCannonEffect;
 
+    [Header("other things")]
+    [SerializeField] private GameObject skeleton;//accessed by agents when dying
+
+    public GameObject Skeleton { get { return skeleton; } }
+
     public CombatState CurrentCombatState { get { return combatState; } }
     public bool Paused { get { return paused; } }
     public float RoundTimer { get { return roundTimer; } }

@@ -230,13 +230,20 @@ public class WeaponHand : MonoBehaviour
 				foreach (GameObject target in FOV.VisibleTargets)
 				{
 					AkSoundEngine.PostEvent("Play_Blunt_thud", gameObject);
-					Effects.RegularWeaponDamage(target, handHitDamage, gameObject);
-					Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
 
-					float rand = Random.value;
-					if (rand < SlipperyDropChance)
+					if (target.layer != LayerMask.NameToLayer("Destructible"))
 					{
-						Effects.Disarm(target);
+						Effects.RegularWeaponDamage(target, handHitDamage, gameObject);
+						Effects.ApplyForce(target, (target.transform.position - FOV.transform.position).normalized * handHitForce);
+						float rand = Random.value;
+						if (rand < SlipperyDropChance)
+						{
+							Effects.Disarm(target);
+						}
+					}
+					else
+					{
+						Effects.Damage(target, handHitDamage, gameObject);
 					}
 				}
 			}

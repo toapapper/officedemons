@@ -35,6 +35,9 @@ public abstract class RangedWeapon : AbstractWeapon
 	[SerializeField]
 	protected GameObject particleEffect;
 
+	[SerializeField]
+	protected float recoilPower = 10f;
+
 	protected GameObject WeaponMuzzle
 	{
 		get { return weaponMuzzle; }
@@ -143,6 +146,8 @@ public abstract class RangedWeapon : AbstractWeapon
 
 	public override void DoAction(/*FieldOfView fov*/)
 	{
+		Effects.ApplyForce(HolderAgent, HolderAgent.transform.forward * -1 * recoilPower);
+
 		base.DoAction();
 	}
 }
