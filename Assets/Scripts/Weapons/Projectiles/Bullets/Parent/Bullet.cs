@@ -81,7 +81,8 @@ public class Bullet : MonoBehaviour
         {
             AkSoundEngine.PostEvent("Bullet_impact_flesh", gameObject);
             AkSoundEngine.PostEvent("Play_Female_Grunt_Pitched", gameObject);
-            Effects.RegularWeaponDamage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<StatusEffectHandler>().DmgBoost), shooter);
+
+            Effects.RegularWeaponDamage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), shooter);
             //Effects.Damage(collision.gameObject, bulletDamage);
             Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce);
 
