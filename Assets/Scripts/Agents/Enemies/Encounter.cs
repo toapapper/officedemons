@@ -209,7 +209,6 @@ public class Encounter : MonoBehaviour
             {
                 GameObject newEnemy = Instantiate(Resources.Load(enemyName), enemy.Key, Quaternion.Euler(0, 0, 0)) as GameObject;
                 newEnemy.transform.parent = this.transform;
-
             }
         }
     }
