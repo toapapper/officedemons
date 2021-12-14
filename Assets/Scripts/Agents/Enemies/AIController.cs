@@ -28,6 +28,7 @@ public class AIController : MonoBehaviour
     private const float staminaDrainFactor = 0.4f;
 
     private NavMeshAgent navMeshAgent; // TODO: Maybe change to property
+
     public NavMeshAgent NMAgent
     {
         get { return navMeshAgent; }
@@ -129,6 +130,13 @@ public class AIController : MonoBehaviour
         }
         aiManager.RemoveAction(gameObject);
         aiManager.EnemyList.Remove(gameObject);
+
+        GameObject skeleton = GameManager.Instance.Skeleton;
+        if(skeleton != null)
+        {
+            Instantiate(skeleton, transform.position, transform.rotation);
+        }
+
         Destroy(gameObject);
     }
 
