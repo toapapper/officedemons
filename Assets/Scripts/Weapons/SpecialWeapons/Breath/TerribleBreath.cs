@@ -58,7 +58,6 @@ public class TerribleBreath : AbstractSpecial
                 ActionPower = 5;
                 specialController.FOV.ViewAngle += 60;
                 Charges = MaxCharges;
-                Debug.Log("SUPERCHARGED");
             }
             specialController.FOV.ViewRadius *= ActionPower;
         }       
@@ -90,8 +89,6 @@ public class TerribleBreath : AbstractSpecial
         changedFOV = false;
         SpecialController.FOV.ViewRadius = viewDistance;
         SpecialController.FOV.ViewAngle = viewAngle;
-        Charges = MaxCharges;
-        superCharged = true;
     }
     public override void RevivedEffect()
     {
@@ -112,7 +109,6 @@ public class TerribleBreath : AbstractSpecial
                     {
                         Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
                         Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
-                        //Effects.ApplyWeaponEffects(target, effects);
                         Effects.ApplyWeaponEffects(target, ultiEffects);
                     }
                     else

@@ -12,7 +12,7 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15-11-16
+// Last Edited: 14-12-21
 public class Stapler : AbstractSpecial
 {
 	[SerializeField]
@@ -138,4 +138,11 @@ public class Stapler : AbstractSpecial
 			SpecialController.Animator.SetTrigger("isSpecialStaplerShot");
 		}
 	}
+
+
+	private StatusEffectType RandomEffect()
+    {
+		int rnd = Random.Range(1, StatusEffectType.GetNames(typeof(StatusEffectType)).Length - 1);
+		return StatusEffectType.rnd;
+    }
 }
