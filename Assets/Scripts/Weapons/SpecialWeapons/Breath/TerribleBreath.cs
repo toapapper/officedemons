@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -27,6 +26,8 @@ public class TerribleBreath : AbstractSpecial
     GameObject mouth;
     [SerializeField]
     private GameObject particleEffect;
+    [SerializeField]private bool superCharged;
+    private bool changedFOV = false;
 
     public override void SetFOVSize()
     {
@@ -36,7 +37,33 @@ public class TerribleBreath : AbstractSpecial
 
     public override void ToggleAim(bool isActive)
     {
+        if (!changedFOV)
+        {
+            switch (Charges)
+            {
+                case 1:
+                    ActionPower = 1;
+                    break;
+                case 2:
+                    ActionPower = 2.5f;
+                    break;
+                case 3:
+                    ActionPower = 4;
+                    break;
+                default:
+                    break;
+            }
+            if (superCharged)
+            {
+                ActionPower = 5;
+                specialController.FOV.ViewAngle += 60;
+                Charges = MaxCharges;
+                Debug.Log("SUPERCHARGED");
+            }
+            specialController.FOV.ViewRadius *= ActionPower;
+        }       
         SpecialController.FOVVisualization.SetActive(isActive);
+        changedFOV = true;
     }
 
     public override void StartAttack()
@@ -45,8 +72,8 @@ public class TerribleBreath : AbstractSpecial
     }
     public override void Attack()
     {
-        ActionPower = Charges;
         Charges = 0;
+        changedFOV = false;
         if (!particleEffect.activeSelf)
         {
             AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
@@ -60,10 +87,17 @@ public class TerribleBreath : AbstractSpecial
     public override void StartTurnEffect()
     {
         base.AddCharge();
+        changedFOV = false;
+        SpecialController.FOV.ViewRadius = viewDistance;
+        SpecialController.FOV.ViewAngle = viewAngle;
+        Charges = MaxCharges;
+        superCharged = true;
     }
     public override void RevivedEffect()
     {
         Charges = MaxCharges;
+        superCharged = true;
+        changedFOV = false;
     }
 
     public override void DoSpecialAction()
@@ -74,9 +108,19 @@ public class TerribleBreath : AbstractSpecial
             {
                 if (target.layer != LayerMask.NameToLayer("Destructible"))
                 {
-                    Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
-                    Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
-                    Effects.ApplyWeaponEffects(target, effects);
+                    if (superCharged)
+                    {
+                        Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+                        Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
+                        //Effects.ApplyWeaponEffects(target, effects);
+                        Effects.ApplyWeaponEffects(target, ultiEffects);
+                    }
+                    else
+                    {
+                        Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+                        Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
+                        Effects.ApplyWeaponEffects(target, effects);
+                    }
                 }
 				else
 				{
@@ -86,6 +130,9 @@ public class TerribleBreath : AbstractSpecial
             }
         }
         ActionPower = 0;
+        superCharged = false;
+        SpecialController.FOV.ViewRadius = viewDistance;
+        SpecialController.FOV.ViewAngle = viewAngle;
     }
     private IEnumerator CountdownTime(float time)
     {

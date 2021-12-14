@@ -29,7 +29,7 @@ public abstract class AbstractSpecial : MonoBehaviour
 	[SerializeField]
 	private int maxCharges = 3;
 	private int charges = 2;
-	private int actionPower = 0;
+	private float actionPower = 0;
 
 	protected GameObject HolderAgent { get { return holderAgent; } set { holderAgent = value; } }
 	protected SpecialHand SpecialController { get { return specialController; } set { specialController = value; } }
@@ -37,7 +37,7 @@ public abstract class AbstractSpecial : MonoBehaviour
 	protected float HitForce { get { return hitForce; } }
 	protected int MaxCharges { get { return maxCharges; } }
 	public int Charges { get { return charges; } set { charges = value; } }
-	public int ActionPower { get { return actionPower; } set { actionPower = value; } }
+	public float ActionPower { get { return actionPower; } set { actionPower = value; } }
 
 
 
