@@ -132,7 +132,7 @@ public class AIStateHandler : MonoBehaviour
                 }
             }
         }
-        
+        Debug.Log("state: " + aiController.CurrentState);
     }
 
     private bool TooCloseToAttack()
@@ -184,7 +184,7 @@ public class AIStateHandler : MonoBehaviour
                 }
             }
 
-            if (Vector3.Distance(aiController.TargetPosition, transform.position) <= GetComponentInChildren<AbstractWeapon>().ViewDistance + 1)
+            if (aiController.Target != null && aiController.TargetType == AIController.TargetTypes.Player && Vector3.Distance(aiController.TargetPosition, transform.position) <= GetComponentInChildren<AbstractWeapon>().ViewDistance + 1)
             {
                 return true;
             }

@@ -359,20 +359,20 @@ public class AIController : MonoBehaviour
     /// Get the last straight length from agent to target (another NavMeshAgent).
     /// </summary>
     /// <param name="target"></param>
-    private float CalculateLastPathDistance(GameObject target)
-    {
-        NavMeshPath path = new NavMeshPath();
-        float distance = 0;
-        if (NavMesh.CalculatePath(transform.position, target.gameObject.transform.position, navMeshAgent.areaMask, path))
-        {
-            for (int i = path.corners.Length - 1; i > 1; i--)
-            {
-                distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
-                break;
-            }
-        }
-        return distance;
-    }
+    //private float CalculateLastPathDistance(GameObject target)
+    //{
+    //    NavMeshPath path = new NavMeshPath();
+    //    float distance = 0;
+    //    if (NavMesh.CalculatePath(transform.position, target.gameObject.transform.position, navMeshAgent.areaMask, path))
+    //    {
+    //        for (int i = path.corners.Length - 1; i > 1; i--)
+    //        {
+    //            distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+    //            break;
+    //        }
+    //    }
+    //    return distance;
+    //}
 
     public bool FindClosestAndCheckIfReachable()
     {

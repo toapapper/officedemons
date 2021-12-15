@@ -385,6 +385,7 @@ GameObject:
   - component: {fileID: 702370816464959424}
   - component: {fileID: 308896011770545793}
   - component: {fileID: 7250086526531561212}
+  - component: {fileID: 4569805637259010287}
   m_Layer: 8
   m_Name: tank
   m_TagString: Enemy
@@ -486,6 +487,30 @@ MonoBehaviour:
   damage: 10
   force: 100
   effects: 
+--- !u!114 &4569805637259010287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2434343449819518425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2c296e109c8bd4d83bffef857e13f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAgent: {fileID: 2434343449819518425}
+  explosionPosition: {fileID: 0}
+  hellFireExplosion: {fileID: 0}
+  hellPoisonExplosion: {fileID: 0}
+  hellIceExplosion: {fileID: 0}
+  firePoisonExplosion: {fileID: 0}
+  hellFirePoisonExplosion: {fileID: 0}
+  firePoisonNuke: {fileID: 0}
+  steamExplosion: {fileID: 0}
+  biggerSteamExplosion: {fileID: 0}
+  steamNuke: {fileID: 0}
+  paralysisNuke: {fileID: 0}
 --- !u!1 &2434372466362179099
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,6 +829,7 @@ MonoBehaviour:
   inaccuracy: 1
   AimCone: {fileID: 919132149155446097, guid: 168d910eb9ecf944f89c887cf4991165, type: 3}
   particleEffect: {fileID: 0}
+  recoilPower: 10
 --- !u!1 &2434660121737394139
 GameObject:
   m_ObjectHideFlags: 0
