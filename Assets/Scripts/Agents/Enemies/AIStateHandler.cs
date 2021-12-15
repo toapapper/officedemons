@@ -43,6 +43,8 @@ public class AIStateHandler : MonoBehaviour
     /// </summary>
     public void StateUpdate()
     {
+        
+
         if (attributes.Health <= 0)
         {
             aiController.CurrentState = AIStates.States.Dead;
@@ -50,7 +52,6 @@ public class AIStateHandler : MonoBehaviour
         else if(GetComponent<Attributes>().statusEffectHandler.Paralyzed || (attributes.Stamina <= 0 && !CanAttackPlayer()))
         {
             aiController.CurrentState = AIStates.States.Wait;
-            aiController.ActionIsLocked = true;
         }
         else
         {
@@ -80,7 +81,6 @@ public class AIStateHandler : MonoBehaviour
                 else if (!TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
                 {
                     aiController.CurrentState = AIStates.States.Attack;
-                    aiController.ActionIsLocked = true;
                 }
                 else
                 {
@@ -102,11 +102,9 @@ public class AIStateHandler : MonoBehaviour
                         if (aiController.TargetType == AIController.TargetTypes.Player && CanAttackPlayer())
                         {
                             aiController.CurrentState = AIStates.States.Attack;
-                            aiController.ActionIsLocked = true;
                         }
                         else
                         {
-                            
                             if (attributes.Stamina > 0 && TooCloseToAttack() && aiController.TargetType == AIController.TargetTypes.Player)
                             {
                                 aiController.GetShootPosition();
@@ -120,12 +118,11 @@ public class AIStateHandler : MonoBehaviour
                             {
                                 Vector3.RotateTowards(transform.forward, aiController.TargetPosition, 1 * Time.deltaTime, 0.0f);
                                 aiController.CurrentState = AIStates.States.Attack;
-                                aiController.ActionIsLocked = true;
                             }
                             else
                             { 
                                 aiController.CurrentState = AIStates.States.Wait;
-                                aiController.ActionIsLocked = true;
+                                
                             }
                         }
                     }

@@ -27,6 +27,9 @@ public class AIController : MonoBehaviour
     private const float movingSpeed = 5;
     private const float staminaDrainFactor = 0.4f;
 
+    private float timer = 0.0f;
+    private const float maxTurnTime = 5f;
+
     private NavMeshAgent navMeshAgent; // TODO: Maybe change to property
 
     public NavMeshAgent NMAgent
@@ -146,6 +149,14 @@ public class AIController : MonoBehaviour
     /// <param name=""></param>
     public void PerformBehaviour()
     {
+        timer += Time.deltaTime;
+        float seconds = timer % 60;
+
+        if (timer >= maxTurnTime)
+        {
+            CurrentState = AIStates.States.Wait;
+        }
+
         aiStateHandler.StateUpdate();
 
         switch (CurrentState)
@@ -160,7 +171,7 @@ public class AIController : MonoBehaviour
                     if (coverPos == Vector3.zero) //couldn't find any free cover spot
                     {
                         SetTarget(GetTargetPlayer(aiManager.PlayerList), TargetTypes.Player);
-                        CurrentState = AIStates.States.Attack;
+                        CurrentState = AIStates.States.Move;
                     }
                     else
                     {
@@ -181,6 +192,7 @@ public class AIController : MonoBehaviour
 
             case AIStates.States.Attack:
                 aiManager.SaveAction(this.gameObject);
+                ActionIsLocked = true;
                 Debug.Log("Attack");
                 break;
 
@@ -231,6 +243,7 @@ public class AIController : MonoBehaviour
 
             case AIStates.States.Wait:
                 aiManager.SaveAction(this.gameObject);
+                ActionIsLocked = true;
                 Debug.Log("Wait");
                 break;
 
@@ -607,5 +620,14 @@ public class AIController : MonoBehaviour
                 Target = null;
                 break;
         }
+    }
+
+    public void ResetValues()
+    {
+        ResetTarget();
+        GetComponent<Attributes>().Stamina = GetComponent<Attributes>().StartStamina;
+        ActionIsLocked = false;
+        GetComponent<Attributes>().statusEffectHandler.UpdateEffects();
+        timer = 0f;
     }
 }
