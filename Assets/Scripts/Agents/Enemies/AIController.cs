@@ -28,7 +28,7 @@ public class AIController : MonoBehaviour
     private const float staminaDrainFactor = 0.4f;
 
     private float timer = 0.0f;
-    private const float maxTurnTime = 5f;
+    private const float maxTurnTime = 4f;
 
     private NavMeshAgent navMeshAgent; // TODO: Maybe change to property
 
@@ -149,15 +149,16 @@ public class AIController : MonoBehaviour
     /// <param name=""></param>
     public void PerformBehaviour()
     {
+        aiStateHandler.StateUpdate();
+
         timer += Time.deltaTime;
         float seconds = timer % 60;
 
         if (timer >= maxTurnTime)
         {
+            Debug.Log("AI exceeded max turn time of " + maxTurnTime + " seconds, chose WAIT" );
             CurrentState = AIStates.States.Wait;
         }
-
-        aiStateHandler.StateUpdate();
 
         switch (CurrentState)
         {

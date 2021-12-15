@@ -43,8 +43,6 @@ public class AIStateHandler : MonoBehaviour
     /// </summary>
     public void StateUpdate()
     {
-        
-
         if (attributes.Health <= 0)
         {
             aiController.CurrentState = AIStates.States.Dead;
@@ -129,7 +127,7 @@ public class AIStateHandler : MonoBehaviour
                 }
             }
         }
-        Debug.Log("state: " + aiController.CurrentState);
+        //Debug.Log("state: " + aiController.CurrentState);
     }
 
     private bool TooCloseToAttack()
