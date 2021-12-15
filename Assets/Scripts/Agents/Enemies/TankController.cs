@@ -159,7 +159,7 @@ public class TankController : MonoBehaviour
             case TankStates.Rotate:
                 if (RotationFinished())
                 {
-                    if (InLineOfSight())
+                    if (InLineOfSight() && !TooCloseToShoot(towerTransform.position, TargetPosition)) 
                     {
                         CurrentState = TankStates.Shoot;
                     }
@@ -171,7 +171,7 @@ public class TankController : MonoBehaviour
                 break;
 
             case TankStates.Wait:
-                //aiManager.SaveAction(this.gameObject);
+                aiManager.SaveAction(this.gameObject);
                 ActionIsLocked = true;
                 break;
 

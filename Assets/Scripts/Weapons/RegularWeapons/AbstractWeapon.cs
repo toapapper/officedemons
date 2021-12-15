@@ -271,6 +271,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 			//instantiate particle effect as child of particleEffectsPosition and set weaponEffectsInfo to point to it.
 			GameObject instEffect = Instantiate(particleEffect, particleEffectsPosition.transform, false);
 			instEffect.transform.localPosition = Vector3.zero;
+			instEffect.transform.localScale *= 0.5f;
 			effects[type].particleEffect = instEffect;
         }
     }

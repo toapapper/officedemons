@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 782218172455401013}
   - component: {fileID: 8756777559684896070}
   - component: {fileID: 6042946098678067621}
-  - component: {fileID: 8346010640923298860}
+  - component: {fileID: 1588574204505411655}
   m_Layer: 3
   m_Name: barrier-concrete-demaged
   m_TagString: CoverObject
@@ -85,8 +85,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8346010640923298860
-MeshCollider:
+--- !u!65 &1588574204505411655
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -95,10 +95,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: aec5e6c985eb44f26952767e62007614, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 3.0387878, y: 2.4954522, z: 1.2300943}
+  m_Center: {x: 0, y: 1.2477268, z: 0}
 --- !u!1001 &7186371133750448322
 PrefabInstance:
   m_ObjectHideFlags: 0
