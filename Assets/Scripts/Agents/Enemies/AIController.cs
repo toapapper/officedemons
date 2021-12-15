@@ -138,7 +138,7 @@ public class AIController : MonoBehaviour
         if(skeleton != null)
         {
             skeleton = Instantiate(skeleton, transform.position, transform.rotation);
-            skeleton.transform.parent = GameObject.Find("Skeletons").transform;
+            //skeleton.transform.parent = GameObject.Find("Skeletons").transform;
         }
 
         Destroy(gameObject);
@@ -154,7 +154,7 @@ public class AIController : MonoBehaviour
 
         timer += Time.deltaTime;
         float seconds = timer % 60;
-
+        
         if (timer >= maxTurnTime)
         {
             Debug.Log("AI exceeded max turn time of " + maxTurnTime + " seconds, chose WAIT" );
@@ -192,11 +192,7 @@ public class AIController : MonoBehaviour
                 }
                 break;
 
-            case AIStates.States.Attack:
-                aiManager.SaveAction(this.gameObject);
-                ActionIsLocked = true;
-                Debug.Log("Attack");
-                break;
+            
 
             case AIStates.States.Move:
                 if (TargetPosition == Vector3.zero || TargetType == TargetTypes.None)
@@ -246,7 +242,13 @@ public class AIController : MonoBehaviour
             case AIStates.States.Wait:
                 aiManager.SaveAction(this.gameObject);
                 ActionIsLocked = true;
-                Debug.Log("Wait");
+                //Debug.Log("Wait");
+                break;
+
+            case AIStates.States.Attack:
+                aiManager.SaveAction(this.gameObject);
+                ActionIsLocked = true;
+                //Debug.Log("Attack");
                 break;
 
             case AIStates.States.Dead:
