@@ -141,7 +141,7 @@ public class AIStateHandler : MonoBehaviour
 
     private bool CanAttackPlayer()
     {
-        if (aiController.HoldingRangedWeapon())
+        if (aiController.HoldingRangedWeapon() && aiController.Target != null)
         {
             foreach(GameObject player in encounter.GetComponentInChildren<AIManager>().PlayerList)
             {
