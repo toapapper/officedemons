@@ -140,7 +140,7 @@ public class RushChair : AbstractSpecial
 				forceDirection.Normalize();
 
 				Instantiate(particleEffect, transform.position, transform.rotation);
-				//ADD EXPLOSIONS
+				Instantiate(explosionParticleEffect, other.gameObject.transform.position, transform.rotation);
 				switch (Charges)
 				{
 					case 1:
@@ -154,7 +154,6 @@ public class RushChair : AbstractSpecial
 					case 3:
 						Effects.WeaponDamage(other.gameObject, (Damage + (damageAdder * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
 						Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
-						Effects.ApplyWeaponEffects(other.gameObject, effects);
 						if (isKillEffect)
 						{
 							Charges = MaxCharges;
@@ -166,6 +165,7 @@ public class RushChair : AbstractSpecial
 			}
 			else if (other.gameObject.layer == LayerMask.NameToLayer("Destructible"))
 			{
+				Instantiate(explosionParticleEffect, other.gameObject.transform.position, transform.rotation);
 				switch (Charges)
 				{
 					case 1:

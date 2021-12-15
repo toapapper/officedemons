@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 /// <summary>
 /// <para>
 /// Tims stapler (specialWeapon)
@@ -166,28 +167,28 @@ public class Stapler : AbstractSpecial
 		switch (Charges)
 		{
 			case 0:
-			SpecialController.Animator.SetTrigger("isCancelAction");
+				SpecialController.Animator.SetTrigger("isCancelAction");
 				break;
 			case 1:
-			StapleShot(aimCones[0]);
-			SpecialController.Animator.SetTrigger("isSpecialStaplerShot");
+				StartCoroutine(volleys(0f, 1));
+				StartCoroutine(volleys(0.2f, 1));
+				StartCoroutine(volleys(0.4f, 1));
+				SpecialController.Animator.SetTrigger("isSpecialStaplerShot");
 
 			break;
 			case 2:
-			StapleShot(aimCones[0]);
-			StapleShot(aimCones[1]);
-			StapleShot(aimCones[2]);
+				StartCoroutine(volleys(0f,3));
+				StartCoroutine(volleys(0.2f, 3));
+				StartCoroutine(volleys(0.4f, 3));
 
-			SpecialController.Animator.SetTrigger("isSpecialStaplerShot");
+				SpecialController.Animator.SetTrigger("isSpecialStaplerShot");
 			break;
 			case 3:
-			StapleShot(aimCones[0]);
-			StapleShot(aimCones[1]);
-			StapleShot(aimCones[2]);
-			StapleShot(aimCones[3]);
-			StapleShot(aimCones[4]);
+				StartCoroutine(volleys(0f, 5));
+				StartCoroutine(volleys(0.2f, 5));
+				StartCoroutine(volleys(0.4f, 5));
 
-			SpecialController.Animator.SetTrigger("isSpecialStaplerShot");
+				SpecialController.Animator.SetTrigger("isSpecialStaplerShot");
 				break;
 			default:
 				break;
@@ -240,18 +241,19 @@ public class Stapler : AbstractSpecial
 	private void StapleShot(GameObject aimCone)
     {
 		effects[0] = RandomEffect();
-		bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, aimCone.transform.position, aimCone.transform.forward, bulletFireForce, HitForce, Damage, this.effects);
+
+        bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, aimCone.transform.position, aimCone.transform.forward, bulletFireForce, HitForce, Damage, this.effects);
 	}
 
 
 	private StatusEffectType RandomEffect()
     {
-		int fiftyfifty = Random.Range(0, 100);
+		int chance = Random.Range(0, 100);
 		int rnd = 0;
 
 		if (superCharged)
         {
-			fiftyfifty += 30;
+			chance += 30;
 			rnd = Random.Range(1, StatusEffectType.GetNames(typeof(StatusEffectType)).Length - 1);
 		}
         else
@@ -259,7 +261,7 @@ public class Stapler : AbstractSpecial
 			//Only normal no hell versions nor para
 			rnd = Random.Range(1, 5);
 		}
-		if (fiftyfifty >= 50)
+		if (chance >= 70)
         {
 			return (StatusEffectType)rnd;
         }
@@ -268,4 +270,18 @@ public class Stapler : AbstractSpecial
 			return StatusEffectType.none;
         }
     }
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="time"></param>
+	/// <param name="numberOfShots"></param>
+	/// <returns></returns>
+	private IEnumerator volleys(float time, int numberOfShots)
+	{
+		yield return new WaitForSeconds(time);
+        for (int i = 0; i < numberOfShots; i++)
+        {
+			StapleShot(aimCones[i]);
+        }
+	}
 }
