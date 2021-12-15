@@ -6,7 +6,7 @@ using UnityEngine;
 ///
 /// </summary>
 
-// Last Edited: 15/12-07
+// Last Edited: 15/12-21
 public class DestructibleObjects : MonoBehaviour
 {
 	public bool destroyed;
@@ -59,8 +59,19 @@ public class DestructibleObjects : MonoBehaviour
             Destroy(gameObject);
 			destroyedObject.transform.parent = GameObject.Find("DestructibleObjects").transform;
 		}
-        CameraShake.Shake(0.5f, 0.5f);
 
+        if(this.transform.Find("Lights"))
+        {
+            this.transform.Find("Lights").gameObject.GetComponent<EmergencyLights>().enabled = false;
+            Destroy(this.transform.Find("Lights").gameObject);
+        }
+        else if (this.transform.Find("AmbulanceLights"))
+        {
+            this.transform.Find("AmbulanceLights").gameObject.GetComponent<EmergencyLights>().enabled = false;
+            Destroy(this.transform.Find("AmbulanceLights").gameObject);
+        }
+
+        CameraShake.Shake(0.5f, 0.5f);
     }
 
 	private void ImpactAgents()
