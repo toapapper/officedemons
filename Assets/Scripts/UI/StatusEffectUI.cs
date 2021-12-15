@@ -13,20 +13,21 @@ using UnityEngine.UI;
 /// </para>
 /// </summary>
 
-// Last Edited: 28-10-2021
+// Last Edited: 14-12-2021
 
 public class StatusEffectUI : MonoBehaviour
 {
     [SerializeField] private Image fireIcon;
-    [SerializeField] private Image bleedIcon;
     [SerializeField] private Image poisonIcon;
-    [SerializeField] private Image stamDrainIcon;
+    [SerializeField] private Image iceIcon;
     [SerializeField] private Image vulnerableIcon;
-    [SerializeField] private Image paralyzeIcon;
-    [SerializeField] private Image slowIcon;
-    [SerializeField] private Image healOTIcon;
-    [SerializeField] private Image stamFillIcon;
     [SerializeField] private Image dmgBoostIcon;
+    [SerializeField] private Image hell_fire;
+    [SerializeField] private Image hell_poison;
+    [SerializeField] private Image hell_ice;
+    [SerializeField] private Image glass_cannon;
+    [SerializeField] private Image paralyzeIcon;
+    [SerializeField] private Image mega_paralyzeIcon;
 
 
 
@@ -47,16 +48,16 @@ public class StatusEffectUI : MonoBehaviour
 
 
         fireIcon.enabled = false;
-        bleedIcon.enabled = false;
         poisonIcon.enabled = false;
-        stamDrainIcon.enabled = false;
+        iceIcon.enabled = false;
         vulnerableIcon.enabled = false;
-        paralyzeIcon.enabled = false;
-        slowIcon.enabled = false;
-        healOTIcon.enabled = false;
-        stamFillIcon.enabled = false;
         dmgBoostIcon.enabled = false;
-
+        hell_fire.enabled = false;
+        hell_poison.enabled = false;
+        hell_ice.enabled = false;
+        glass_cannon.enabled = false;
+        paralyzeIcon.enabled = false;
+        mega_paralyzeIcon.enabled = false;
 
         //TODO:FIx! (ossian)
 
@@ -77,7 +78,7 @@ public class StatusEffectUI : MonoBehaviour
                         fireIcon.enabled = true;
                         break;
                     case StatusEffectType.ice:
-                        bleedIcon.enabled = true;
+                        iceIcon.enabled = true;
                         break;
                     case StatusEffectType.poison:
                         poisonIcon.enabled = true;
@@ -85,14 +86,26 @@ public class StatusEffectUI : MonoBehaviour
                     case StatusEffectType.vulnerable:
                         vulnerableIcon.enabled = true;
                         break;
-                    case StatusEffectType.paralysis:
-                        paralyzeIcon.enabled = true;
-                        break;
                     case StatusEffectType.damage_boost:
                         dmgBoostIcon.enabled = true;
                         break;
+                    case StatusEffectType.hell_fire:
+                        hell_fire.enabled = true;
+                        break;
+                    case StatusEffectType.hell_poison:
+                        hell_poison.enabled = true;
+                        break;
                     case StatusEffectType.hell_ice:
-                        slowIcon.enabled = true;
+                        hell_ice.enabled = true;
+                        break;
+                    case StatusEffectType.glass_cannon:
+                        glass_cannon.enabled = true;
+                        break;
+                    case StatusEffectType.paralysis:
+                        paralyzeIcon.enabled = true;
+                        break;
+                    case StatusEffectType.mega_paralysis:
+                        mega_paralyzeIcon.enabled = true;
                         break;
                 }
             }

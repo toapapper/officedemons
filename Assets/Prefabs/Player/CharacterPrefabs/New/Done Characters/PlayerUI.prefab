@@ -347,6 +347,7 @@ RectTransform:
   - {fileID: 3559843811480425776}
   - {fileID: 8461513011701634634}
   - {fileID: 8519715104695698810}
+  - {fileID: 3194740483262282469}
   - {fileID: 8703194911995871806}
   - {fileID: 4165438522280709841}
   m_Father: {fileID: 0}
@@ -400,7 +401,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7737765369255025708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,15 +446,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireIcon: {fileID: 1073215777690913724}
-  bleedIcon: {fileID: 6805489899280272551}
   poisonIcon: {fileID: 1226576969705744561}
-  stamDrainIcon: {fileID: 2694858004262126391}
-  vulnerableIcon: {fileID: 6099365949664808992}
-  paralyzeIcon: {fileID: 6195221100136596237}
-  slowIcon: {fileID: 4738646393462283642}
-  healOTIcon: {fileID: 4880298688433375156}
-  stamFillIcon: {fileID: 7831275607809587203}
-  dmgBoostIcon: {fileID: 2705101344924746966}
+  iceIcon: {fileID: 2694858004262126391}
+  vulnerableIcon: {fileID: 6805489899280272551}
+  dmgBoostIcon: {fileID: 6099365949664808992}
+  hell_fire: {fileID: 6195221100136596237}
+  hell_poison: {fileID: 4738646393462283642}
+  hell_ice: {fileID: 4880298688433375156}
+  glass_cannon: {fileID: 7831275607809587203}
+  paralyzeIcon: {fileID: 2705101344924746966}
+  mega_paralyzeIcon: {fileID: 6971231383780076450}
 --- !u!114 &5246255415249041226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,7 +584,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6033614716874374524}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -848,7 +850,7 @@ GameObject:
   - component: {fileID: 3928382556492523442}
   - component: {fileID: 4880298688433375156}
   m_Layer: 5
-  m_Name: hellPoison
+  m_Name: hellIce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -901,7 +903,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3b4c655fd64cd224da83c896e8f904ae, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dd5b0c18b0be7df419ca3541575c3bfb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -923,7 +925,7 @@ GameObject:
   - component: {fileID: 1535430880353407703}
   - component: {fileID: 4738646393462283642}
   m_Layer: 5
-  m_Name: hellFrost
+  m_Name: hellPoison
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -976,7 +978,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: dd5b0c18b0be7df419ca3541575c3bfb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3b4c655fd64cd224da83c896e8f904ae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1073,7 +1075,7 @@ GameObject:
   - component: {fileID: 3705991613092992469}
   - component: {fileID: 2694858004262126391}
   m_Layer: 5
-  m_Name: poisonIcon
+  m_Name: iceIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1126,7 +1128,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f3481700033f29441b9971602a115213, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 178cd7e0280afd94abdddee804e7e304, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1469,7 +1471,7 @@ RectTransform:
   - {fileID: 7898051658316224890}
   - {fileID: 2662060658311469451}
   m_Father: {fileID: 6033614716874374524}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1563,7 +1565,7 @@ GameObject:
   - component: {fileID: 2670405572622901763}
   - component: {fileID: 2705101344924746966}
   m_Layer: 5
-  m_Name: dmgBoostIcon
+  m_Name: paralysis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1616,7 +1618,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 5eb96c211ff111544a62d1db36eaebcd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1638,7 +1640,7 @@ GameObject:
   - component: {fileID: 6148974003375231001}
   - component: {fileID: 1226576969705744561}
   m_Layer: 5
-  m_Name: frostIcon
+  m_Name: poisonIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1691,7 +1693,82 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 178cd7e0280afd94abdddee804e7e304, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f3481700033f29441b9971602a115213, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &8393212697064905049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3194740483262282469}
+  - component: {fileID: 2864303849455540316}
+  - component: {fileID: 6971231383780076450}
+  m_Layer: 5
+  m_Name: megaParalysis
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3194740483262282469
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393212697064905049}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.086918}
+  m_LocalScale: {x: 0.544646, y: 0.544646, z: 0.544646}
+  m_Children: []
+  m_Father: {fileID: 6033614716874374524}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1.567, y: -0.337}
+  m_SizeDelta: {x: 1, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2864303849455540316
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393212697064905049}
+  m_CullTransparentMesh: 1
+--- !u!114 &6971231383780076450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393212697064905049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 5eb96c211ff111544a62d1db36eaebcd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

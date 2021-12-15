@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1879441650834086033}
   - component: {fileID: 6207655719474143820}
   m_Layer: 5
-  m_Name: stamFillIcon
+  m_Name: glassCannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7ec66af3308493245aca3de3439a4921, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5eb6ba586d3b8e44e81cf92045b364c0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 3203912003974603815}
   - component: {fileID: 8030369573308193090}
   m_Layer: 5
-  m_Name: paralyzeIcon
+  m_Name: hellFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5eb96c211ff111544a62d1db36eaebcd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2929edef919dcc74aa8c877be525de82, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -195,6 +195,7 @@ RectTransform:
   - {fileID: 1323685347561155494}
   - {fileID: 860004207639367551}
   - {fileID: 5527141526937575221}
+  - {fileID: 4246149041552078263}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -291,15 +292,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireIcon: {fileID: 3777559391597416947}
-  bleedIcon: {fileID: 7276048233587693288}
   poisonIcon: {fileID: 3138427373829632766}
-  stamDrainIcon: {fileID: 2300861411580959096}
-  vulnerableIcon: {fileID: 7939018567991954031}
-  paralyzeIcon: {fileID: 8030369573308193090}
-  slowIcon: {fileID: 8884282208668813109}
-  healOTIcon: {fileID: 8733059790171151867}
-  stamFillIcon: {fileID: 6207655719474143820}
-  dmgBoostIcon: {fileID: 2234402273732959897}
+  iceIcon: {fileID: 2300861411580959096}
+  vulnerableIcon: {fileID: 7276048233587693288}
+  dmgBoostIcon: {fileID: 7939018567991954031}
+  hell_fire: {fileID: 8030369573308193090}
+  hell_poison: {fileID: 8884282208668813109}
+  hell_ice: {fileID: 8733059790171151867}
+  glass_cannon: {fileID: 6207655719474143820}
+  paralyzeIcon: {fileID: 2234402273732959897}
+  mega_paralyzeIcon: {fileID: 8385384590740055018}
 --- !u!1 &2844830268828640339
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +314,7 @@ GameObject:
   - component: {fileID: 452125863485720840}
   - component: {fileID: 7276048233587693288}
   m_Layer: 5
-  m_Name: bleedIcon
+  m_Name: vunerableIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -365,7 +367,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d414e31df58c2c0438a9367b765234b0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d26af051a1ae88541b3070cb5d17d19d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -387,7 +389,7 @@ GameObject:
   - component: {fileID: 3891234363547612165}
   - component: {fileID: 7939018567991954031}
   m_Layer: 5
-  m_Name: vulnerableIcon
+  m_Name: dmgBoostIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -440,7 +442,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d26af051a1ae88541b3070cb5d17d19d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3327ef979b0b7c249bd40557fe71b8be, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -612,7 +614,7 @@ GameObject:
   - component: {fileID: 2271905382663141452}
   - component: {fileID: 2234402273732959897}
   m_Layer: 5
-  m_Name: dmgBoostIcon
+  m_Name: paralysis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -665,7 +667,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3327ef979b0b7c249bd40557fe71b8be, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5eb96c211ff111544a62d1db36eaebcd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -825,6 +827,81 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &6923167296919406123
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4246149041552078263}
+  - component: {fileID: 2700010382121225593}
+  - component: {fileID: 8385384590740055018}
+  m_Layer: 5
+  m_Name: megaParalysis
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4246149041552078263
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6923167296919406123}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.086918}
+  m_LocalScale: {x: 0.544646, y: 0.544646, z: 0.544646}
+  m_Children: []
+  m_Father: {fileID: 7580673965846947635}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1.576, y: -0.337}
+  m_SizeDelta: {x: 1, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2700010382121225593
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6923167296919406123}
+  m_CullTransparentMesh: 1
+--- !u!114 &8385384590740055018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6923167296919406123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 5eb96c211ff111544a62d1db36eaebcd, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8381945202329931448
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,7 +914,7 @@ GameObject:
   - component: {fileID: 713277298383146906}
   - component: {fileID: 2300861411580959096}
   m_Layer: 5
-  m_Name: stamDrainIcon
+  m_Name: iceIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -890,7 +967,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ecd70d338516b5646b40b041f535e0d1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 178cd7e0280afd94abdddee804e7e304, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -987,7 +1064,7 @@ GameObject:
   - component: {fileID: 3442632551999932568}
   - component: {fileID: 8884282208668813109}
   m_Layer: 5
-  m_Name: slowIcon
+  m_Name: hellPoison
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1040,7 +1117,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bc762e92239ddaa4b9b383eebe04d863, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3b4c655fd64cd224da83c896e8f904ae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1062,7 +1139,7 @@ GameObject:
   - component: {fileID: 868114251734433277}
   - component: {fileID: 8733059790171151867}
   m_Layer: 5
-  m_Name: healOTIcon
+  m_Name: hellIce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1115,7 +1192,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6a59479fb1a771048917b8860f420125, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dd5b0c18b0be7df419ca3541575c3bfb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
