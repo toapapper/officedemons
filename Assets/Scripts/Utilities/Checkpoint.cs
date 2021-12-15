@@ -161,6 +161,10 @@ public class Checkpoint : MonoBehaviour
         }
 
         GameManager.Instance.ResetEncounter();
+        foreach (Transform skeleton in GameObject.Find("Skeletons").transform)
+        {
+            Destroy(skeleton.gameObject);
+        }
         isSaved = false;
 
         AkSoundEngine.SetState("Music_State", "Roaming");
