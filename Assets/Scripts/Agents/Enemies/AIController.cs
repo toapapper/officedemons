@@ -27,6 +27,9 @@ public class AIController : MonoBehaviour
     private const float movingSpeed = 5;
     private const float staminaDrainFactor = 0.4f;
 
+    private float timer = 0.0f;
+    private const float maxTurnTime = 4f;
+
     private NavMeshAgent navMeshAgent; // TODO: Maybe change to property
 
     public NavMeshAgent NMAgent
@@ -149,6 +152,15 @@ public class AIController : MonoBehaviour
     {
         aiStateHandler.StateUpdate();
 
+        timer += Time.deltaTime;
+        float seconds = timer % 60;
+
+        if (timer >= maxTurnTime)
+        {
+            Debug.Log("AI exceeded max turn time of " + maxTurnTime + " seconds, chose WAIT" );
+            CurrentState = AIStates.States.Wait;
+        }
+
         switch (CurrentState)
         {
             case AIStates.States.FindCover:
@@ -161,7 +173,7 @@ public class AIController : MonoBehaviour
                     if (coverPos == Vector3.zero) //couldn't find any free cover spot
                     {
                         SetTarget(GetTargetPlayer(aiManager.PlayerList), TargetTypes.Player);
-                        CurrentState = AIStates.States.Attack;
+                        CurrentState = AIStates.States.Move;
                     }
                     else
                     {
@@ -182,6 +194,7 @@ public class AIController : MonoBehaviour
 
             case AIStates.States.Attack:
                 aiManager.SaveAction(this.gameObject);
+                ActionIsLocked = true;
                 Debug.Log("Attack");
                 break;
 
@@ -232,6 +245,7 @@ public class AIController : MonoBehaviour
 
             case AIStates.States.Wait:
                 aiManager.SaveAction(this.gameObject);
+                ActionIsLocked = true;
                 Debug.Log("Wait");
                 break;
 
@@ -360,20 +374,20 @@ public class AIController : MonoBehaviour
     /// Get the last straight length from agent to target (another NavMeshAgent).
     /// </summary>
     /// <param name="target"></param>
-    private float CalculateLastPathDistance(GameObject target)
-    {
-        NavMeshPath path = new NavMeshPath();
-        float distance = 0;
-        if (NavMesh.CalculatePath(transform.position, target.gameObject.transform.position, navMeshAgent.areaMask, path))
-        {
-            for (int i = path.corners.Length - 1; i > 1; i--)
-            {
-                distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
-                break;
-            }
-        }
-        return distance;
-    }
+    //private float CalculateLastPathDistance(GameObject target)
+    //{
+    //    NavMeshPath path = new NavMeshPath();
+    //    float distance = 0;
+    //    if (NavMesh.CalculatePath(transform.position, target.gameObject.transform.position, navMeshAgent.areaMask, path))
+    //    {
+    //        for (int i = path.corners.Length - 1; i > 1; i--)
+    //        {
+    //            distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+    //            break;
+    //        }
+    //    }
+    //    return distance;
+    //}
 
     public bool FindClosestAndCheckIfReachable()
     {
@@ -608,5 +622,14 @@ public class AIController : MonoBehaviour
                 Target = null;
                 break;
         }
+    }
+
+    public void ResetValues()
+    {
+        ResetTarget();
+        GetComponent<Attributes>().Stamina = GetComponent<Attributes>().StartStamina;
+        ActionIsLocked = false;
+        GetComponent<Attributes>().statusEffectHandler.UpdateEffects();
+        timer = 0f;
     }
 }

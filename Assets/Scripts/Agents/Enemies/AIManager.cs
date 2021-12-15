@@ -111,20 +111,7 @@ public class AIManager : MonoBehaviour
                 }
                 else
                 {
-                    // if HumanEnemy
-                    EnemyList[i].GetComponent<AIController>().TargetType = AIController.TargetTypes.None;
-                    EnemyList[i].GetComponent<AIController>().Target = null;
-                    EnemyList[i].GetComponent<AIController>().CurrentState = AIStates.States.Unassigned;
-                    //e.GetComponent<AIController>().GetTargetPlayer(PlayerList);
-
-                    //This might be the wrong way to go about paralyzing enemies, but i dont know, mvh. ossian
-                    if (!EnemyList[i].GetComponent<Attributes>().statusEffectHandler.Paralyzed)
-                    {
-                        EnemyList[i].GetComponent<Attributes>().Stamina = EnemyList[i].GetComponent<Attributes>().StartStamina;
-                        EnemyList[i].GetComponent<AIController>().ActionIsLocked = false;
-                    }
-
-                    EnemyList[i].GetComponent<Attributes>().statusEffectHandler.UpdateEffects();
+                    EnemyList[i].GetComponent<AIController>().ResetValues();
                 }
             }
         }
