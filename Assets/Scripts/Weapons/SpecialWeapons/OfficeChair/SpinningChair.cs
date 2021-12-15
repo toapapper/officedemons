@@ -22,14 +22,14 @@ public class SpinningChair : AbstractSpecial
 	[SerializeField]
 	private float damageAdder = 5f;
 	[SerializeField]
-	private float hitForceMultiplier = 20f;
+	private float hitForceMultiplier = 60f;
 	[SerializeField]
-	private float healAmount = 5f;
+	private float healAmount = 10f;
 	[SerializeField]
 	private List<TrailRenderer> trails;
 	[SerializeField]
 	private GameObject particleEffect;
-
+	private bool changedFOV;
 	private void Start()
 	{
 		foreach (TrailRenderer trail in trails)
@@ -46,11 +46,33 @@ public class SpinningChair : AbstractSpecial
 
 	public override void ToggleAim(bool isActive)
 	{
+		if (!changedFOV)
+		{
+			switch (Charges)
+			{
+				case 1:
+					ActionPower = 1;
+					break;
+				case 2:
+					ActionPower = 2.5f;
+					break;
+				case 3:
+					ActionPower = 4;
+					break;
+				default:
+					break;
+			}
+			specialController.FOV.ViewRadius *= ActionPower;
+		}
+		SpecialController.FOVVisualization.SetActive(isActive);
+		changedFOV = true;
+
 		SpecialController.FOVVisualization.SetActive(isActive);
 	}
 
 	public override void StartAttack()
 	{
+
 		SpecialController.Animator.SetTrigger("isStartSpecialSpin");
 	}
 	public override void Attack()
@@ -59,14 +81,16 @@ public class SpinningChair : AbstractSpecial
 		{
 			trail.enabled = true;
 		}
-		ActionPower = Charges;
 		Charges = 0;
+		changedFOV = false;
 		SpecialController.Animator.SetTrigger("isSpecialSpin");
 	}
 
 	public override void StartTurnEffect()
 	{
-		base.AddCharge();
+		SpecialController.FOV.ViewRadius = viewDistance;
+		SpecialController.FOV.ViewAngle = viewAngle;
+		//base.AddCharge();
 	}
 	public override void GiveRegularDamageEffect()
 	{
@@ -80,7 +104,7 @@ public class SpinningChair : AbstractSpecial
 		AkSoundEngine.PostEvent("SusanBurst", gameObject);
 		Instantiate(particleEffect, transform.position, Quaternion.Euler(-90,0,0));
 		Debug.LogError(particleEffect);
-		if (ActionPower == MaxCharges)
+		if (Charges == MaxCharges)
 		{
 			if (nrOfTargets > 0)
 			{
@@ -91,7 +115,7 @@ public class SpinningChair : AbstractSpecial
 				}
 			}
 
-			Effects.Heal(HolderAgent, healAmount * 2);
+			Effects.Heal(HolderAgent, healAmount * ActionPower);
 		}
 		else
 		{
@@ -101,18 +125,22 @@ public class SpinningChair : AbstractSpecial
 
 				if (nrOfTargets > 1)
 				{
-					if(ActionPower == 1)
+					if(Charges == 1)
 					{
-						Effects.Heal(HolderAgent, healAmount);
+						Effects.Heal(HolderAgent, healAmount * ActionPower);
 					}
 					else
 					{
-						Effects.Heal(HolderAgent, healAmount * 2);
+						Effects.Heal(HolderAgent, healAmount * ActionPower);
 					}
 				}
 			}
 		}
 		StartCoroutine(CountdownTime(0.5f));
+		ActionPower = 0;
+		changedFOV = false;
+		        SpecialController.FOV.ViewRadius = viewDistance;
+        SpecialController.FOV.ViewAngle = viewAngle;
 	}
 
 	private void DoDamage()
@@ -121,16 +149,16 @@ public class SpinningChair : AbstractSpecial
 		{
 			if (target.layer != LayerMask.NameToLayer("Destructible"))
 			{
-				switch (ActionPower)
+				switch (Charges)
 				{
 					case 1:
-						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
 						break;
 					case 2:
-						Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+						Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
 						break;
 					case 3:
-						Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+						Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
 						Effects.ApplyWeaponEffects(target, effects);
 						break;
 
@@ -139,16 +167,16 @@ public class SpinningChair : AbstractSpecial
 			}
 			else
 			{
-				switch (ActionPower)
+				switch (Charges)
 				{
 					case 1:
-						Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
+						Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower);
 						break;
 					case 2:
-						Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
+						Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower);
 						break;
 					case 3:
-						Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
+						Effects.Damage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower);
 						break;
 
 				}
