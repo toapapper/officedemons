@@ -115,15 +115,13 @@ public static class Effects
 
 	public static void ApplyStatusEffect(GameObject target, StatusEffectType type)
     {
-        if (target.tag == "Enemy")
+		if(target.name == "tank" || (target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat))
         {
-            if (target.name != "tank" && target.GetComponent<AIController>().InActiveCombat)
-            {
-                target.GetComponent<Attributes>().statusEffectHandler.ApplyEffect(type);
-                UIManager.Instance.NewFloatingText(target, "Status applied: " + type, Color.cyan);
-            }
-        }
+			return;
+        } 
 
+		target.GetComponent<Attributes>().statusEffectHandler.ApplyEffect(type);
+		UIManager.Instance.NewFloatingText(target, "Status applied: " + type, Color.cyan);
     }
 
 	public static void Disarm(GameObject target)
@@ -143,16 +141,14 @@ public static class Effects
     /// </summary>
     public static void ApplyWeaponEffects(GameObject target, List<StatusEffectType> weaponEffects)
     {
-        if (target.tag == "Enemy")
+        if (weaponEffects == null || target.name == "tank")
         {
-            if (weaponEffects == null)
-            {
-                return;
-            }
-            foreach (StatusEffectType type in weaponEffects)
-            {
-								ApplyStatusEffect(target, type);
-            }
+            return;
+        }
+
+        foreach (StatusEffectType type in weaponEffects)
+        {
+			ApplyStatusEffect(target, type);
         }
     }
 
@@ -190,13 +186,8 @@ public static class Effects
 			target.GetComponent<SpecialHand>().ToggleAimView(false);
 			target.GetComponent<Animator>().SetTrigger("isCancelAction");
 
-			Debug.Log("pre player death disarm:");
 			Disarm(target);
-
-			Debug.Log("pre player death cleareffects:");
 			target.GetComponent<Attributes>().statusEffectHandler.OnDeath();
-
-			Debug.Log("pre player death Die:");
 			target.GetComponent<PlayerStateController>().Die();
 		}
 		else if(target.layer == LayerMask.NameToLayer("Destructible"))
