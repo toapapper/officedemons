@@ -139,6 +139,7 @@ public class Stapler : AbstractSpecial
 	public override void RevivedEffect()
 	{
 		Charges = MaxCharges;
+		DisableAimCones();
 		superCharged = true;
 		changedFOV = false;
 	}
@@ -261,7 +262,7 @@ public class Stapler : AbstractSpecial
 			//Only normal no hell versions nor para
 			rnd = Random.Range(1, 5);
 		}
-		if (chance >= 70)
+		if (chance >= 60)
         {
 			return (StatusEffectType)rnd;
         }
