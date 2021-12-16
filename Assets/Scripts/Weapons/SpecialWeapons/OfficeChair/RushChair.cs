@@ -12,15 +12,13 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15-11-16
+// Last Edited: 15-12-21
 public class RushChair : AbstractSpecial
 {
 	[SerializeField]
 	private GameObject laserAim;
 	[SerializeField]
 	private float rushForce = 100f;
-	[SerializeField]
-	private float rushForceAdder = 50f;
 	[SerializeField]
 	private float damageAdder = 5f;
 	[SerializeField]
@@ -29,6 +27,8 @@ public class RushChair : AbstractSpecial
 	private List<TrailRenderer> trails;
 	[SerializeField]
 	private GameObject particleEffect;
+	[SerializeField]
+	private GameObject explosionParticleEffect;
 
 	private bool isKillEffect;
 	private bool isProjectile;
@@ -59,14 +59,27 @@ public class RushChair : AbstractSpecial
 	}
 	public override void Attack()
 	{
-		ActionPower = Charges;
+        switch (Charges)
+        {
+			case 1:
+				ActionPower = 1;
+				break;
+			case 2:
+				ActionPower = 2.5f;
+				break;
+			case 3:
+				ActionPower = 4;
+				break;
+            default:
+                break;
+        }
 		Charges = 0;
 		SpecialController.Animator.SetTrigger("isSpecialRush");
 	}
 
 	public override void StartTurnEffect()
 	{
-		base.AddCharge();
+		//base.AddCharge();
 	}
 	public override void GiveRegularDamageEffect()
 	{
@@ -81,15 +94,9 @@ public class RushChair : AbstractSpecial
 	{
 		isKillEffect = false;
 		AkSoundEngine.PostEvent("VickySlide", gameObject);
-		
-		if (ActionPower == 1)
-		{
-			HolderAgent.GetComponent<Rigidbody>().AddForce(HolderAgent.transform.forward * rushForce, ForceMode.VelocityChange);
-		}
-		else
-		{
-			HolderAgent.GetComponent<Rigidbody>().AddForce(HolderAgent.transform.forward * (rushForce + rushForceAdder), ForceMode.VelocityChange);
-		}
+
+		HolderAgent.GetComponent<Rigidbody>().AddForce(HolderAgent.transform.forward * rushForce * ActionPower, ForceMode.VelocityChange);
+
 		
 		isProjectile = true;
 
@@ -99,6 +106,7 @@ public class RushChair : AbstractSpecial
         }
 
 		StartCoroutine(CountdownTime(0.5f));
+		ActionPower = 0;
 	}
 
 	private IEnumerator CountdownTime(float time)
@@ -132,24 +140,24 @@ public class RushChair : AbstractSpecial
 				forceDirection.Normalize();
 
 				Instantiate(particleEffect, transform.position, transform.rotation);
-
-				switch (ActionPower)
+				Instantiate(explosionParticleEffect, other.gameObject.transform.position, transform.rotation);
+				switch (Charges)
 				{
 					case 1:
 						Effects.WeaponDamage(other.gameObject, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
-						Effects.ApplyForce(other.gameObject, forceDirection * HitForce);
+						Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
 						break;
 					case 2:
-						Effects.WeaponDamage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
-						Effects.ApplyForce(other.gameObject, forceDirection * (HitForce + hitForceAdder));
+						Effects.WeaponDamage(other.gameObject, (Damage + (damageAdder * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+						Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
 						break;
 					case 3:
-						Effects.WeaponDamage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
-						Effects.ApplyForce(other.gameObject, forceDirection * (HitForce + hitForceAdder));
-						Effects.ApplyWeaponEffects(other.gameObject, effects);
+						Effects.WeaponDamage(other.gameObject, (Damage + (damageAdder * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+						Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
 						if (isKillEffect)
 						{
 							Charges = MaxCharges;
+							gameObject.transform.parent.transform.GetComponentInChildren<StatusEffectHandler>().ApplyEffect(StatusEffectType.damage_boost);
 						}
 						break;
 				}
@@ -157,16 +165,17 @@ public class RushChair : AbstractSpecial
 			}
 			else if (other.gameObject.layer == LayerMask.NameToLayer("Destructible"))
 			{
-				switch (ActionPower)
+				Instantiate(explosionParticleEffect, other.gameObject.transform.position, transform.rotation);
+				switch (Charges)
 				{
 					case 1:
-						Effects.Damage(other.gameObject, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
+						Effects.Damage(other.gameObject, Damage * ActionPower * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
 						break;
 					case 2:
-						Effects.Damage(other.gameObject, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
+						Effects.Damage(other.gameObject, (Damage + (damageAdder * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
 						break;
 					case 3:
-						Effects.Damage(other.gameObject, (Damage + (2 * damageAdder)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
+						Effects.Damage(other.gameObject, (Damage + (damageAdder * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
 						break;
 				}
 				EndSpecial();
