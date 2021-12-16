@@ -138,7 +138,15 @@ public class AIController : MonoBehaviour
         if(skeleton != null)
         {
             skeleton = Instantiate(skeleton, transform.position, transform.rotation);
-            skeleton.transform.parent = GameObject.Find("Skeletons").transform;
+
+            //Set parent to Skeletons container object
+            Transform parent = GameObject.Find("Skeletons").transform;
+            if(parent == null)
+            {
+                parent = new GameObject().transform;
+            }
+
+            skeleton.transform.parent = parent;
         }
 
         Destroy(gameObject);
