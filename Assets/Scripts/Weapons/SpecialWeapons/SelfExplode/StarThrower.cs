@@ -30,6 +30,9 @@ public class StarThrower : AbstractSpecial
 
 	[SerializeField] private ParticleSystem surroundingCircle;
 
+	[SerializeField] private ParticleSystem pulsatingIce;
+
+
 	private float timer;
 	
 	private bool readyToExplode;
@@ -94,7 +97,7 @@ public class StarThrower : AbstractSpecial
 		{
 			exploading = true;
 			SpecialController.FOVVisualization.SetActive(true);
-			specialController.FOV.ViewRadius *= 5.5f;
+			specialController.FOV.ViewRadius = GetActionPower();
 			StartCoroutine(CountDown(0.5f, 3));
 			StartCoroutine(CountDown(1f, 2));
 			StartCoroutine(CountDown(1.5f, 1));
@@ -126,8 +129,6 @@ public class StarThrower : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
-
-		GetActionPower();
 		if (readyToExplode || Charges >= MaxCharges)
 		{
 			AkSoundEngine.PostEvent("Play_Explosion", gameObject);
@@ -152,6 +153,8 @@ public class StarThrower : AbstractSpecial
 					Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
 					Effects.ApplyWeaponEffects(target, ultiEffects);
 				}
+				SpecialController.FOV.ViewAngle = viewAngle;
+				SpecialController.FOV.ViewRadius = viewDistance;
 			}
 			else
             {
@@ -164,9 +167,14 @@ public class StarThrower : AbstractSpecial
 					Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
 					Effects.ApplyWeaponEffects(target, effects);
 				}
+				SpecialController.FOV.ViewAngle = viewAngle;
+				SpecialController.FOV.ViewRadius = viewDistance;
 			}
 
 		}
+		Charges = 0;
+		changedFOV = false;
+		readyToExplode = false;
 		SpecialController.FOV.ViewAngle = viewAngle;
 		SpecialController.FOV.ViewRadius = viewDistance;
 
@@ -208,7 +216,9 @@ public class StarThrower : AbstractSpecial
         {
 			gameObject.GetComponent<SphereCollider>().radius = ActionPower;
 		}
-		surroundingCircle.gameObject.transform.localScale = new Vector3(specialController.FOV.ViewRadius * GetActionPower(), specialController.FOV.ViewRadius * GetActionPower(), specialController.FOV.ViewRadius * GetActionPower());
+        surroundingCircle.gameObject.transform.localScale = new Vector3(specialController.FOV.ViewRadius * GetActionPower(), specialController.FOV.ViewRadius * GetActionPower(), specialController.FOV.ViewRadius * GetActionPower());
+		var main = pulsatingIce.main;
+		main.startSize = GetActionPower() + 2;
 	}
 
     private void OnTriggerEnter(Collider other)
@@ -222,6 +232,10 @@ public class StarThrower : AbstractSpecial
 
 	private float GetActionPower()
     {
+        if (Charges > MaxCharges)
+        {
+			Charges = MaxCharges;
+        }
 		switch (Charges)
 		{
 			case 0:
