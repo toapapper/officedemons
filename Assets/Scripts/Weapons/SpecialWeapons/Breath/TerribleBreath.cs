@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -25,7 +26,7 @@ public class TerribleBreath : AbstractSpecial
     [SerializeField]
     GameObject mouth;
     [SerializeField]
-    private GameObject particleEffect;
+    private List<GameObject> particleEffects;
     [SerializeField]private bool superCharged;
     private bool changedFOV = false;
 
@@ -71,16 +72,44 @@ public class TerribleBreath : AbstractSpecial
     }
     public override void Attack()
     {
-        Charges = 0;
         changedFOV = false;
-        if (!particleEffect.activeSelf)
+        switch (Charges)
         {
-            AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
-            particleEffect.SetActive(true);
-            StartCoroutine(CountdownTime(1.5f));
-
+            case 1:
+                if (!particleEffects[0].activeSelf)
+                {
+                    AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
+                    particleEffects[0].SetActive(true);
+                    StartCoroutine(CountdownTime(1.5f, particleEffects[0]));
+                }
+                break;
+            case 2:
+                if (!particleEffects[1].activeSelf)
+                {
+                    AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
+                    particleEffects[1].SetActive(true);
+                    StartCoroutine(CountdownTime(1.5f, particleEffects[1]));
+                }
+                break;
+            case 3:
+                if (!particleEffects[2].activeSelf)
+                {
+                    AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
+                    particleEffects[2].SetActive(true);
+                    StartCoroutine(CountdownTime(1.5f, particleEffects[2]));
+                }
+                break;
         }
+
+        //if (!particleEffect.activeSelf)
+        //{
+        //    AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
+        //    particleEffect.SetActive(true);
+        //    StartCoroutine(CountdownTime(1.5f));
+
+        //}
         SpecialController.Animator.SetTrigger("isSpecialBreath");
+        Charges = 0;
     }
 
     public override void StartTurnEffect()
@@ -130,7 +159,7 @@ public class TerribleBreath : AbstractSpecial
         SpecialController.FOV.ViewRadius = viewDistance;
         SpecialController.FOV.ViewAngle = viewAngle;
     }
-    private IEnumerator CountdownTime(float time)
+    private IEnumerator CountdownTime(float time, GameObject particleEffect)
     {
         yield return new WaitForSeconds(time);
         if (particleEffect.activeSelf)
