@@ -30,7 +30,8 @@ public class StarThrower : AbstractSpecial
 
 	[SerializeField] private ParticleSystem surroundingCircle;
 
-
+	private float timer;
+	
 	private bool readyToExplode;
 	private bool exploading;
 	private bool changedFOV;
@@ -85,7 +86,7 @@ public class StarThrower : AbstractSpecial
 
 	public override void TakeDamageEffect()
 	{
-		if (Charges < MaxCharges)
+		if (Charges < MaxCharges && !readyToExplode)
 		{
 			AddCharge();
 		}
@@ -142,6 +143,9 @@ public class StarThrower : AbstractSpecial
 		{
             if (Charges >= MaxCharges)
             {
+				Charges = 0;
+				changedFOV = false;
+				readyToExplode = false;
 				foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 				{
 					Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
@@ -149,8 +153,11 @@ public class StarThrower : AbstractSpecial
 					Effects.ApplyWeaponEffects(target, ultiEffects);
 				}
 			}
-            else
+			else
             {
+				Charges = 0;
+				changedFOV = false;
+				readyToExplode = false;
 				foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 				{
 					Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
@@ -160,30 +167,30 @@ public class StarThrower : AbstractSpecial
 			}
 
 		}
-		Charges = 0;
-		changedFOV = false;
-		readyToExplode = false;
 		SpecialController.FOV.ViewAngle = viewAngle;
 		SpecialController.FOV.ViewRadius = viewDistance;
+
 	}
 
 
-    private void Update()
+	private void Update()
     {
-		int targets = SpecialController.FOV.VisibleTargets.Count;
-		if (targets > 0)
-		{
-			foreach (GameObject target in SpecialController.FOV.VisibleTargets)
+		timer += Time.deltaTime;
+        if (timer >= 3)
+        {
+			int targets = SpecialController.FOV.VisibleTargets.Count;
+			if (targets > 0)
 			{
-				if (target.layer != LayerMask.NameToLayer("Destructible"))
+				foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 				{
+					if (target.layer != LayerMask.NameToLayer("Destructible"))
+					{
 						Effects.ApplyStatusEffect(target, StatusEffectType.ice);
-                    //if (!target.GetComponent<StatusEffectHandler>().ActiveEffects.ContainsKey(StatusEffectType.ice))
-                    //{
-                    //}
+					}
 				}
 			}
-		}
+			timer = 0;
+        }
 
 
 
@@ -197,16 +204,24 @@ public class StarThrower : AbstractSpecial
 			angryParticleEffect.gameObject.SetActive(false);
 			angryParticleEffect.Pause();
 		}
-
+        if (gameObject.GetComponent<SphereCollider>().radius != ActionPower)
+        {
+			gameObject.GetComponent<SphereCollider>().radius = ActionPower;
+		}
 		surroundingCircle.gameObject.transform.localScale = new Vector3(specialController.FOV.ViewRadius * GetActionPower(), specialController.FOV.ViewRadius * GetActionPower(), specialController.FOV.ViewRadius * GetActionPower());
 	}
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Destructible"))
+        {
+            Effects.ApplyStatusEffect(other.gameObject, StatusEffectType.ice);
+        }
+
+    }
+
 	private float GetActionPower()
     {
-		if (Charges > MaxCharges)
-		{
-			Charges = MaxCharges;
-		}
 		switch (Charges)
 		{
 			case 0:
