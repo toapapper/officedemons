@@ -14,15 +14,17 @@ using UnityEngine;
 /// </summary>
 
 // Last Edited: 15-11-18
-public class BadCoffeeGrenade : GroundEffectGrenade
+public class HotCoffeeGrenade : GroundEffectGrenade
 {
-	private BadCoffeeGrenade grenade;
-	[SerializeField]
-	private NegativeGroundObject coffeeStain;
-
+	[Header("Hot coffee specifics")]
+	[SerializeField] private GameObject stain;
+	[SerializeField] protected GameObject explosion;
+	 
 	public void CreateGrenade(GameObject thrower, Vector3 position, Vector3 velocity,
 		float explodeRadius, float grenadeExplodeForce, float grenadeDamage, List<StatusEffectType> effects)
 	{
+		HotCoffeeGrenade grenade;
+		
 		grenade = Instantiate(this, position, Quaternion.LookRotation(velocity.normalized));
 		grenade.thrower = thrower;
 		grenade.FOV.ViewRadius = explodeRadius;
@@ -36,36 +38,19 @@ public class BadCoffeeGrenade : GroundEffectGrenade
 
 	protected override void CreateGroundObject(Vector3 groundObjectPos)
 	{
-		coffeeStain.CreateGroundObject(groundObjectPos, FOV.ViewRadius, healthModifyAmount, weaponEffects);
+		Debug.Log("Create stain at: " + groundObjectPos);
+		Instantiate(stain, groundObjectPos, transform.rotation);
 	}
 
-	protected override void ImpactAgents()
-	{
-		List<GameObject> targetList = GetComponent<FieldOfView>().VisibleTargets;
-		foreach (GameObject target in targetList)
-		{
-			if(target.GetComponent<Attributes>().Health > 0)
-			{
-				if (target.layer != LayerMask.NameToLayer("Destructible"))
-				{
-					Vector3 explosionForceDirection = target.transform.position - transform.position;
-					explosionForceDirection.y = 0;
-					explosionForceDirection.Normalize();
+	protected override void ImpactAgents() {/*This should do nothing. its a useless method.*/}
 
-					Effects.ApplyForce(target, explosionForceDirection * explosionForce);
-					//Effects.ApplyWeaponEffects(target, weaponEffects);
-					Effects.WeaponDamage(target, healthModifyAmount, thrower);
-				}
-				else
-				{
-					Effects.Damage(target, healthModifyAmount);
-				}
-			}
-		}
-		//AddToEffectList(coffeeStain);
-	}
+    protected override void Explode()
+    {
+		Instantiate(explosion, transform.position, transform.rotation);
+		DestroyGrenade();
+    }
 
-	protected override void OnCollisionEnter(Collision collision)
+    protected override void OnCollisionEnter(Collision collision)
 	{
 		base.OnCollisionEnter(collision);
 		AkSoundEngine.PostEvent("Play_Splash", gameObject);

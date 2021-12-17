@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 6103510018640852286}
   - component: {fileID: 6103510018640852273}
   - component: {fileID: 6103510018640852272}
-  - component: {fileID: 6469333116529911041}
+  - component: {fileID: 8839632850325421395}
   m_Layer: 0
-  m_Name: BadCoffeeGrenade
+  m_Name: StaleCoffeeProjectile
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
-  - {fileID: 9033788225046347014}
+  - {fileID: 8518887128270723948}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -131,13 +131,13 @@ MonoBehaviour:
   viewAngle: 360
   targetMask:
     serializedVersion: 2
-    m_Bits: 2432
+    m_Bits: 384
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8
   meshResolution: 1
-  viewMeshFilter: {fileID: 4506172224452392313}
---- !u!114 &6469333116529911041
+  viewMeshFilter: {fileID: 3886184202419327763}
+--- !u!114 &8839632850325421395
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,13 +146,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6103510018640852274}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0974ca95f90ba64f866bcbfc009063f, type: 3}
+  m_Script: {fileID: 11500000, guid: a0361a8d5c2648d47acaa84ff068ba3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   particleEffect: {fileID: 100000, guid: c1df8d3113f2bdd4ba1124e5d2e46357, type: 3}
   FOV: {fileID: 6103510018640852272}
-  coffeeStain: {fileID: 1177087511995325596, guid: 080bc0b0f2560e74ebb983286613faa1, type: 3}
---- !u!1001 &3785570051632721217
+  coffeeStain: {fileID: 5509876606997934809, guid: 00e6c508a526f614cacec55c7a113487, type: 3}
+--- !u!1001 &4606716045148539691
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -213,13 +213,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
---- !u!4 &9033788225046347014 stripped
+--- !u!4 &8518887128270723948 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5320859338818097223, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
-  m_PrefabInstance: {fileID: 3785570051632721217}
+  m_PrefabInstance: {fileID: 4606716045148539691}
   m_PrefabAsset: {fileID: 0}
---- !u!33 &4506172224452392313 stripped
+--- !u!33 &3886184202419327763 stripped
 MeshFilter:
   m_CorrespondingSourceObject: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
-  m_PrefabInstance: {fileID: 3785570051632721217}
+  m_PrefabInstance: {fileID: 4606716045148539691}
   m_PrefabAsset: {fileID: 0}

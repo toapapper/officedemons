@@ -15,6 +15,7 @@ using UnityEngine;
 // Last Edited: 15-11-19
 public abstract class GroundEffectGrenade : GrenadeProjectile
 {
+	//should be named maxGroundDistance
 	protected int maxDistance = 30;
 
 	protected abstract void CreateGroundObject(Vector3 groundObjectPos);

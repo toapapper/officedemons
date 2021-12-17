@@ -13,7 +13,7 @@ using UnityEngine;
 /// </summary>
 
 // Last Edited: 15-11-16
-public class GoodCoffeeCupSpecial : CoffeeCupSpecial
+public class StaleCoffeeCupSpecial : CoffeeCupSpecial
 {
 	[SerializeField]
 	private List<StatusEffectType> buffEffects;
