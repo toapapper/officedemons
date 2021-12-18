@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     GameObject tutorialUI;
 
-    GameObject arrowsIcon, yButtonIcon, bButtonIcon, xButtonIcon, aButtonIcon, moveIcon, aimIcon; 
+    [SerializeField] Image arrowsIcon, yButtonIcon, bButtonIcon, xButtonIcon, aButtonIcon, moveIcon, aimIcon; 
 
     public enum TutorialState { Move, PickUp, Attack, Special, Revive, Encounter};
     private TutorialState CurrentTutorialState;
@@ -30,14 +31,6 @@ public class TutorialManager : MonoBehaviour
         CurrentTutorialState = TutorialState.Move;
         DisableAllIcons();
         MoveTutorial();
-
-        arrowsIcon = tutorialUI.transform.FindChild("ArrowsAllDirections").gameObject;
-        yButtonIcon = tutorialUI.transform.FindChild("Ybutton").gameObject;
-        bButtonIcon = tutorialUI.transform.FindChild("Bbutton").gameObject;
-        xButtonIcon = tutorialUI.transform.FindChild("Xbutton").gameObject;
-        aButtonIcon = tutorialUI.transform.FindChild("Abutton").gameObject;
-        moveIcon = tutorialUI.transform.FindChild("Move").gameObject;
-        aimIcon = tutorialUI.transform.FindChild("Aim").gameObject;
     }
 
     // Update is called once per frame
@@ -50,7 +43,6 @@ public class TutorialManager : MonoBehaviour
 
     public void HandleTrigger(GameObject trigger, Collider other)
     {
-        
         if (other.tag == "Player")
         {
             Debug.Log(other.gameObject.name + " entered " + trigger.name);
@@ -89,31 +81,31 @@ public class TutorialManager : MonoBehaviour
 
     private void MoveTutorial()
     {
-        arrowsIcon.SetActive(true);
-        moveIcon.SetActive(true);
+        arrowsIcon.enabled = true;
+        moveIcon.enabled = true;
 
     }
 
     private void PickUpTutorial()
     {
-        aButtonIcon.SetActive(true);
+        aButtonIcon.enabled = true;
     }
 
     private void AttackTutorial()
     {
-        aButtonIcon.SetActive(true);
-        aimIcon.SetActive(true);
+        aButtonIcon.enabled = true;
+        aimIcon.enabled = true;
     }
 
     private void SpecialTutorial()
     {
-        bButtonIcon.SetActive(true);
-        aimIcon.SetActive(true);
+        bButtonIcon.enabled = true;
+        aimIcon.enabled = true;
     }
 
     private void ReviveTutorial()
     {
-        yButtonIcon.SetActive(true);
+        yButtonIcon.enabled = true;
     }
 
     private void EncounterTutorial()
@@ -138,12 +130,12 @@ public class TutorialManager : MonoBehaviour
 
     private void DisableAllIcons()
     {
-        arrowsIcon.SetActive(false);
-        yButtonIcon.SetActive(false);
-        bButtonIcon.SetActive(false);
-        xButtonIcon.SetActive(false);
-        aButtonIcon.SetActive(false);
-        moveIcon.SetActive(false);
-        aimIcon.SetActive(false);
+        arrowsIcon.enabled = false;
+        yButtonIcon.enabled = false;
+        bButtonIcon.enabled = false;
+        xButtonIcon.enabled = false;
+        aButtonIcon.enabled = false;
+        moveIcon.enabled = false;
+        aimIcon.enabled = false;
     }
 }
