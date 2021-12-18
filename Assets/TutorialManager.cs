@@ -28,6 +28,9 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         CurrentTutorialState = TutorialState.Move;
+        DisableAllIcons();
+        MoveTutorial();
+
         arrowsIcon = tutorialUI.transform.FindChild("ArrowsAllDirections").gameObject;
         yButtonIcon = tutorialUI.transform.FindChild("Ybutton").gameObject;
         bButtonIcon = tutorialUI.transform.FindChild("Bbutton").gameObject;
@@ -59,18 +62,23 @@ public class TutorialManager : MonoBehaviour
             switch (CurrentTutorialState)
             {
                 case TutorialState.Move:
+                    MoveTutorial();
                     break;
 
                 case TutorialState.PickUp:
+                    PickUpTutorial();
                     break;
 
                 case TutorialState.Attack:
+                    AttackTutorial();
                     break;
 
                 case TutorialState.Special:
+                    SpecialTutorial();
                     break;
 
                 case TutorialState.Revive:
+                    ReviveTutorial();
                     break;
 
                 case TutorialState.Encounter:
@@ -91,7 +99,7 @@ public class TutorialManager : MonoBehaviour
         aButtonIcon.SetActive(true);
     }
 
-    private void ShootTutorial()
+    private void AttackTutorial()
     {
         aButtonIcon.SetActive(true);
         aimIcon.SetActive(true);
