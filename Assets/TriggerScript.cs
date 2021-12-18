@@ -5,7 +5,6 @@ using UnityEngine;
 public class TriggerScript : MonoBehaviour
 {
     private TutorialManager tutorialManager;
-    public bool Triggered = false;
 
     public void Start()
     {
@@ -14,10 +13,11 @@ public class TriggerScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!Triggered)
-        {
-            Triggered = true;
-            tutorialManager.HandleTrigger(this.gameObject, other);
-        }
+        tutorialManager.HandleTriggerEnter(this.gameObject, other);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        tutorialManager.HandleTriggerExit(this.gameObject, other);
     }
 }
