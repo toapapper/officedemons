@@ -17,13 +17,17 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     GameObject tutorialUI;
 
+    [SerializeField]
+    GameObject charges;
+
     [SerializeField] Image allDirectionsArrowMiddle, allDirectionsArrowLeft, yButtonIcon, bButtonIcon, xButtonIcon, aButtonMiddleIcon, moveIcon, aimIcon, arrowDirectionIcon, aButtonRightIcon;
 
     const float rate = 1;
     float counter = 0;
+    int chargesCounter = 2;
     Color fullColor, colorStart, colorEnd;
 
-    List<GameObject> weaponGlowEffects;
+    List<GameObject> weaponGlowEffects, chargesActiveIcons, chargesEmptyIcons;
 
     public enum TutorialState { Move, PickUp, Attack, Special, Revive, DirectionHint, Encounter};
     private TutorialState CurrentTutorialState;
@@ -32,7 +36,7 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         CurrentTutorialState = TutorialState.DirectionHint;
-        DisableAllIcons();
+        
         //MoveTutorial();
 
         fullColor = arrowDirectionIcon.color;
@@ -45,7 +49,22 @@ public class TutorialManager : MonoBehaviour
         {
             weaponGlowEffects.Add(child.gameObject);
         }
-        
+
+        chargesActiveIcons = new List<GameObject>();
+        chargesEmptyIcons = new List<GameObject>();
+        foreach (Transform child in charges.transform)
+        {
+            if (child.gameObject.name == "charge")
+            {
+                chargesActiveIcons.Add(child.gameObject);
+            }
+            else
+            {
+                chargesEmptyIcons.Add(child.gameObject);
+            }
+        }
+
+        DisableAllIcons();
     }
 
     // Update is called once per frame
@@ -53,6 +72,14 @@ public class TutorialManager : MonoBehaviour
     {
         switch (CurrentTutorialState)
         {
+            case TutorialState.Move:
+                BlinkUpdate();
+                break;
+
+            case TutorialState.Special:
+                SpecialUpdate();
+                break;
+
             case TutorialState.DirectionHint:
                 BlinkUpdate();
                 break;
@@ -66,6 +93,7 @@ public class TutorialManager : MonoBehaviour
 
     void BlinkUpdate()
     {
+        arrowDirectionIcon.enabled = true;
         counter += Time.deltaTime * rate;
         arrowDirectionIcon.color = Color.Lerp(colorStart, colorEnd, Mathf.PingPong(counter * 2, 1));
 
@@ -78,15 +106,38 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    void SpecialUpdate()
+    {
+        counter += Time.deltaTime * rate;
+
+        if (counter >= 1)
+        {
+            counter = 0;
+            
+            if (chargesCounter < 0)
+            {
+                //all full and restart countdown
+                foreach (GameObject icon in chargesActiveIcons)
+                {
+                    icon.SetActive(true);
+                }
+                chargesCounter = 3;
+            }
+            else
+            {
+                // change one more to gray
+                chargesActiveIcons[chargesCounter].SetActive(false);
+            }
+            chargesCounter--;
+        }
+    }
+
     public void HandleTriggerEnter(GameObject trigger, Collider other)
     {
         if (other.tag == "Player")
         {
-            Debug.Log(other.gameObject.name + " entered " + trigger.name);
-
             DisableAllIcons();
             UpdateState(trigger);
-            Debug.Log("CurrentTutorialState: " + CurrentTutorialState.ToString());
 
             //Move, PickUp, Attack, Special, Revive, DirectionHint, Encounter
             switch (CurrentTutorialState)
@@ -104,10 +155,15 @@ public class TutorialManager : MonoBehaviour
                     break;
 
                 case TutorialState.Attack:
+                    if (trigger.name == "glow_effect")
+                    {
+                        trigger.SetActive(false);
+                    }
                     AttackTutorial();
                     break;
 
                 case TutorialState.Special:
+                    chargesCounter = 2;
                     SpecialTutorial();
                     break;
 
@@ -128,7 +184,11 @@ public class TutorialManager : MonoBehaviour
 
     public void HandleTriggerExit(GameObject trigger, Collider other)
     {
-        //DisableAllIcons();
+        //if (other.tag == "Player")
+        //{
+        //    DisableAllIcons();
+        //    trigger.SetActive(false);
+        //}
     }
 
     private void MoveTutorial()
@@ -152,6 +212,16 @@ public class TutorialManager : MonoBehaviour
         bButtonIcon.enabled = true;
         aimIcon.enabled = true;
         allDirectionsArrowLeft.enabled = true;
+
+        foreach (GameObject go in chargesActiveIcons)
+        {
+            go.SetActive(true);
+        }
+
+        foreach (GameObject go in chargesEmptyIcons)
+        {
+            go.SetActive(true);
+        }
     }
 
     private void ReviveTutorial()
@@ -180,11 +250,11 @@ public class TutorialManager : MonoBehaviour
                 break;
 
             case "trigger1":
-                CurrentTutorialState = TutorialState.PickUp;
+                CurrentTutorialState = TutorialState.Special;
                 break;
 
             case "trigger2":
-                CurrentTutorialState = TutorialState.Special;
+                CurrentTutorialState = TutorialState.PickUp;
                 break;
 
             case "trigger3":
@@ -213,5 +283,15 @@ public class TutorialManager : MonoBehaviour
         arrowDirectionIcon.enabled = false;
         allDirectionsArrowLeft.enabled = false;
         allDirectionsArrowMiddle.enabled = false;
+
+        foreach (GameObject go in chargesActiveIcons)
+        {
+            go.SetActive(false);
+        }
+
+        foreach (GameObject go in chargesEmptyIcons)
+        {
+            go.SetActive(false);
+        }
     }
 }
