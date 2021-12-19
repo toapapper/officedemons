@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// <para>
@@ -12,29 +14,68 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15-11-16
+// Last Edited: 16-12-21
 public class PaperShredder : AbstractSpecial
 {
 	[SerializeField]
-	private float viewDistance = 1f;
+	private float viewDistance = 0.75f;
 	[SerializeField]
 	private float viewAngle = 360f;
-	[SerializeField]
-	private float distanceMultiplier = 1f;
 	[SerializeField]
 	private GameObject particleEffect;
 	[SerializeField]
 	private GameObject explosionParticleEffect;
 
+	[SerializeField] private ParticleSystem angryParticleEffect;
+
+	[SerializeField] private Image countDownText;
+
+	[SerializeField] private List<Sprite> numbers;
+
+	private bool readyToExplode;
+	private bool exploading;
+	private bool changedFOV;
 	public override void SetFOVSize()
 	{
 		SpecialController.FOV.ViewAngle = viewAngle;
-		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		SpecialController.FOV.ViewRadius = viewDistance;
 	}
 
 	public override void ToggleAim(bool isActive)
 	{
+		if (!changedFOV)
+		{
+            if (Charges > MaxCharges)
+            {
+				Charges = MaxCharges;
+            }
+			switch (Charges)
+			{
+				case 0:
+					ActionPower = 0;
+					break;
+				case 1:
+					ActionPower = 1;
+					break;
+				case 2:
+					ActionPower = 1.5f;
+					break;
+				case 3:
+					ActionPower = 2.5f;
+					break;
+				case 4:
+					ActionPower = 44;
+					break;
+				case 5:
+					ActionPower = 5.5f;
+					break;
+				default:
+					break;
+			}
+			specialController.FOV.ViewRadius *= ActionPower;
+		}
 		SpecialController.FOVVisualization.SetActive(isActive);
+		changedFOV = true;
 	}
 
 	public override void StartAttack()
@@ -43,8 +84,6 @@ public class PaperShredder : AbstractSpecial
 	}
 	public override void Attack()
 	{
-		ActionPower = Charges;
-		Charges = 0;
 		AkSoundEngine.PostEvent("SusanScream", gameObject);
 		specialController.Animator.SetTrigger("isSpecialSelfExplode");
 	}
@@ -52,35 +91,74 @@ public class PaperShredder : AbstractSpecial
 	public override void StartTurnEffect()
 	{
 		AddCharge();
+		changedFOV = false;
+        if (Charges == MaxCharges)
+        {
+			readyToExplode = true;
+        }
+        else
+        {
+			readyToExplode = false;
+        }
+		SpecialController.FOV.ViewAngle = viewAngle;
+		SpecialController.FOV.ViewRadius = viewDistance;
+		exploading = false;
 	}
 	public override void TakeDamageEffect()
 	{
-		AddCharge();
+        if (Charges < MaxCharges)
+        {
+			AddCharge();
+        }
+        if (readyToExplode && !exploading)
+        {
+			exploading = true;
+			SpecialController.FOVVisualization.SetActive(true);
+			specialController.FOV.ViewRadius *= 5.5f;
+			StartCoroutine(CountDown(0.5f,3));
+			StartCoroutine(CountDown(1f,2));
+			StartCoroutine(CountDown(1.5f,1));
+			StartCoroutine(CountDown(2f,0));
+		}
+
 	}
 	protected override void AddCharge()
 	{
 		base.AddCharge();
+	}
 
-		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
-		if (Charges == MaxCharges)
-		{
+    public override void RevivedEffect()
+    {
+		readyToExplode = false;
+		changedFOV = false;
+		SpecialController.FOV.ViewAngle = viewAngle;
+		SpecialController.FOV.ViewRadius = viewDistance;
+		exploading = false;
+	}
+	private IEnumerator CountDown(float time, int number)
+    {
+		yield return new WaitForSeconds(time);
+		countDownText.sprite = numbers[number];
+        if (number == 0)
+        {
 			Attack();
+			SpecialController.FOVVisualization.SetActive(false);
 		}
 	}
 
+
 	public override void DoSpecialAction()
 	{
-		
-		if(ActionPower < MaxCharges)
+        if (readyToExplode || Charges >= MaxCharges)
+        {
+			AkSoundEngine.PostEvent("Play_Explosion", gameObject);
+			CameraShake.Shake(1f, 1f);
+			Instantiate(explosionParticleEffect, transform.position, transform.rotation);
+		}
+		else
         {
 			AkSoundEngine.PostEvent("SusanBurst", gameObject);
 			Instantiate(particleEffect, transform.position, transform.rotation);
-		}
-        else
-        {
-			AkSoundEngine.PostEvent("Play_Explosion", gameObject);
-			CameraShake.Shake(0.5f, 0.5f);
-			Instantiate(explosionParticleEffect, transform.position, transform.rotation);
 		}
 
 		if (specialController.FOV.VisibleTargets.Count > 0)
@@ -89,25 +167,42 @@ public class PaperShredder : AbstractSpecial
 			{
 				if (target.layer != LayerMask.NameToLayer("Destructible"))
 				{
-					if (ActionPower < MaxCharges)
-					{
-						Effects.ApplyWeaponEffects(target, effects);
-					}
-					else
-					{
-						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+                    if (readyToExplode)
+                    {
+						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
 						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
 						Effects.ApplyWeaponEffects(target, ultiEffects);
 					}
+					else
+					{
+						Effects.ApplyWeaponEffects(target, effects);
+						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
+					}
 				}
-				else if (ActionPower >= MaxCharges)
+				else
 				{
 					Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
 				}
 			}
 		}
-		ActionPower = 0;
-		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
-		//base.DoSpecialAction();
+		Charges = 0;
+		changedFOV = false;
+		readyToExplode = false;
+		SpecialController.FOV.ViewAngle = viewAngle;
+		SpecialController.FOV.ViewRadius = viewDistance;
+	}
+
+    private void Update()
+    {
+        if (readyToExplode && !angryParticleEffect.isPlaying)
+        {
+			angryParticleEffect.gameObject.SetActive(true);
+			angryParticleEffect.Play();
+		}
+		else if (!readyToExplode && angryParticleEffect.isPlaying)
+        {
+			angryParticleEffect.gameObject.SetActive(false);
+			angryParticleEffect.Stop();
+		}
 	}
 }

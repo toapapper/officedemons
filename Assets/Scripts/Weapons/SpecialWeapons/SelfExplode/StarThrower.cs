@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// <para>
-/// The supporting version of Susans specialWeapon
+/// The Ice variant of Susans specialWeapon
 /// </para>
 ///
 ///  <para>
@@ -12,28 +13,46 @@ using UnityEngine;
 /// </para>
 /// </summary>
 
-// Last Edited: 15-11-16
+// Last Edited: 16-12-21
 public class StarThrower : AbstractSpecial
 {
-	[SerializeField]
-	private float viewDistance = 2f;
-	[SerializeField]
-	private float viewAngle = 360f;
-	[SerializeField]
-	private float distanceMultiplier = 1f;
-	[SerializeField]
-	private GameObject particleEffect;
+	[SerializeField] private float viewDistance = 2f;
+	[SerializeField] private float viewAngle = 360f;
+	[SerializeField] private GameObject particleEffect;
 
+	[SerializeField] private GameObject explosionParticleEffect;
+
+	[SerializeField] private Image countDownText;
+
+	[SerializeField] private List<Sprite> numbers;
+
+	[SerializeField] private ParticleSystem angryParticleEffect;
+
+	[SerializeField] private ParticleSystem surroundingCircle;
+
+	[SerializeField] private ParticleSystem pulsatingIce;
+
+
+	private float timer;
+	
+	private bool readyToExplode;
+	private bool exploading;
+	private bool changedFOV;
 
 	public override void SetFOVSize()
 	{
 		SpecialController.FOV.ViewAngle = viewAngle;
-		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		SpecialController.FOV.ViewRadius = viewDistance;
 	}
 
 	public override void ToggleAim(bool isActive)
 	{
+		if (!changedFOV)
+		{
+			specialController.FOV.ViewRadius *= GetActionPower();
+		}
 		SpecialController.FOVVisualization.SetActive(isActive);
+		changedFOV = true;
 	}
 
 	public override void StartAttack()
@@ -42,61 +61,203 @@ public class StarThrower : AbstractSpecial
 	}
 	public override void Attack()
 	{
-		ActionPower = Charges;
-		Charges = 0;
 		AkSoundEngine.PostEvent("SusanScream", gameObject);
 		specialController.Animator.SetTrigger("isSpecialSelfExplode");
 	}
 
 	public override void StartTurnEffect()
 	{
-		int targets = SpecialController.FOV.VisibleTargets.Count;
-		if (targets > 0)
-		{
-			//TODO DamageBoost buff effect?
-			foreach (GameObject target in SpecialController.FOV.VisibleTargets)
-			{
-				if (target.layer != LayerMask.NameToLayer("Destructible"))
-				{
-					Effects.ApplyStatusEffect(target, StatusEffectType.damage_boost);
-					base.AddCharge();
-				}
-			}
-		}
-
 		AddCharge();
+		changedFOV = false;
+		if (Charges == MaxCharges)
+		{
+			readyToExplode = true;
+		}
+		else
+		{
+			readyToExplode = false;
+		}
+		SpecialController.FOV.ViewAngle = viewAngle;
+		SpecialController.FOV.ViewRadius = viewDistance;
+		exploading = false;
 	}
 
 	protected override void AddCharge()
 	{
 		base.AddCharge();
-		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+	}
 
-		if (Charges == MaxCharges)
+	public override void TakeDamageEffect()
+	{
+		if (Charges < MaxCharges && !readyToExplode)
+		{
+			AddCharge();
+		}
+		if (readyToExplode && !exploading)
+		{
+			exploading = true;
+			SpecialController.FOVVisualization.SetActive(true);
+			specialController.FOV.ViewRadius = GetActionPower();
+			StartCoroutine(CountDown(0.5f, 3));
+			StartCoroutine(CountDown(1f, 2));
+			StartCoroutine(CountDown(1.5f, 1));
+			StartCoroutine(CountDown(2f, 0));
+		}
+
+	}
+
+	public override void RevivedEffect()
+	{
+		readyToExplode = false;
+		changedFOV = false;
+		SpecialController.FOV.ViewAngle = viewAngle;
+		SpecialController.FOV.ViewRadius = viewDistance;
+		exploading = false;
+	}
+
+	private IEnumerator CountDown(float time, int number)
+	{
+		yield return new WaitForSeconds(time);
+		countDownText.sprite = numbers[number];
+		if (number == 0)
 		{
 			Attack();
+			SpecialController.FOVVisualization.SetActive(false);
 		}
 	}
 
+
 	public override void DoSpecialAction()
 	{
-		AkSoundEngine.PostEvent("SusanBurst", gameObject);
-		Instantiate(particleEffect, transform.position, transform.rotation);
+		if (readyToExplode || Charges >= MaxCharges)
+		{
+			AkSoundEngine.PostEvent("Play_Explosion", gameObject);
+			CameraShake.Shake(1f, 1f);
+			Instantiate(explosionParticleEffect, transform.position, transform.rotation);
+		}
+		else
+		{
+			AkSoundEngine.PostEvent("SusanBurst", gameObject);
+			Instantiate(particleEffect, transform.position, transform.rotation);
+		}
 		if (SpecialController.FOV.VisibleTargets.Count > 0)
 		{
-			foreach (GameObject target in SpecialController.FOV.VisibleTargets)
-			{
-				if(target.tag == "Player")
+            if (Charges >= MaxCharges)
+            {
+				Charges = 0;
+				changedFOV = false;
+				readyToExplode = false;
+				foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 				{
-					Effects.Heal(target, Damage);
+					Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
+					Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
+					Effects.ApplyWeaponEffects(target, ultiEffects);
+				}
+				SpecialController.FOV.ViewAngle = viewAngle;
+				SpecialController.FOV.ViewRadius = viewDistance;
+			}
+			else
+            {
+				Charges = 0;
+				changedFOV = false;
+				readyToExplode = false;
+				foreach (GameObject target in SpecialController.FOV.VisibleTargets)
+				{
+					Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
+					Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
+					Effects.ApplyWeaponEffects(target, effects);
+				}
+				SpecialController.FOV.ViewAngle = viewAngle;
+				SpecialController.FOV.ViewRadius = viewDistance;
+			}
+
+		}
+		Charges = 0;
+		changedFOV = false;
+		readyToExplode = false;
+		SpecialController.FOV.ViewAngle = viewAngle;
+		SpecialController.FOV.ViewRadius = viewDistance;
+
+	}
+
+
+	private void Update()
+    {
+		timer += Time.deltaTime;
+        if (timer >= 3)
+        {
+			int targets = SpecialController.FOV.VisibleTargets.Count;
+			if (targets > 0)
+			{
+				foreach (GameObject target in SpecialController.FOV.VisibleTargets)
+				{
+					if (target.layer != LayerMask.NameToLayer("Destructible"))
+					{
+						Effects.ApplyStatusEffect(target, StatusEffectType.ice);
+					}
 				}
 			}
-			if (ActionPower >= MaxCharges)
-			{
-				Effects.Heal(HolderAgent, Damage);
-			}
+			timer = 0;
+        }
+
+
+
+		if (readyToExplode && !angryParticleEffect.isPlaying)
+		{
+			angryParticleEffect.gameObject.SetActive(true);
+			angryParticleEffect.Play();
 		}
-		ActionPower = 0;
-		SpecialController.FOV.ViewRadius = viewDistance + (distanceMultiplier * Charges);
+		else if (!readyToExplode && angryParticleEffect.isPlaying)
+		{
+			angryParticleEffect.gameObject.SetActive(false);
+			angryParticleEffect.Pause();
+		}
+        if (gameObject.GetComponent<SphereCollider>().radius != ActionPower)
+        {
+			gameObject.GetComponent<SphereCollider>().radius = ActionPower;
+		}
+        surroundingCircle.gameObject.transform.localScale = new Vector3(specialController.FOV.ViewRadius * GetActionPower(), specialController.FOV.ViewRadius * GetActionPower(), specialController.FOV.ViewRadius * GetActionPower());
+		var main = pulsatingIce.main;
+		main.startSize = GetActionPower() + 2;
+	}
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Destructible"))
+        {
+            Effects.ApplyStatusEffect(other.gameObject, StatusEffectType.ice);
+        }
+
+    }
+
+	private float GetActionPower()
+    {
+        if (Charges > MaxCharges)
+        {
+			Charges = MaxCharges;
+        }
+		switch (Charges)
+		{
+			case 0:
+				ActionPower = 0;
+				return 0;
+			case 1:
+				ActionPower = 1;
+				return 1;
+			case 2:
+				ActionPower = 1.5f;
+				return 1.5f;
+			case 3:
+				ActionPower = 2.5f;
+				return 2.5f;
+			case 4:
+				ActionPower = 4;
+				return 4;
+			case 5:
+				ActionPower = 5.5f;
+				return 5.5f;
+			default:
+				return 0;
+		}
 	}
 }
