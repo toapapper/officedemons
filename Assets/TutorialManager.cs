@@ -9,16 +9,19 @@ public class TutorialManager : MonoBehaviour
     GameManager gm;
 
     [SerializeField]
-    PlayerManager pm;
+    PlayerConfigurationManager pcm;
 
     [SerializeField]
-    Collider trigger1, trigger2, trigger3, trigger4, encounter;
+    Collider trigger1, trigger2, trigger3, trigger4, encounterTrigger, endTrigger;
 
     [SerializeField]
     GameObject tutorialUI;
 
     [SerializeField]
     GameObject charges;
+
+    [SerializeField]
+    Encounter encounter;
 
     [SerializeField] Image allDirectionsArrowMiddle, allDirectionsArrowLeft, yButtonIcon, bButtonIcon, xButtonIcon, aButtonMiddleIcon, moveIcon, aimIcon, arrowDirectionIcon, aButtonRightIcon;
 
@@ -27,16 +30,16 @@ public class TutorialManager : MonoBehaviour
     int chargesCounter = 2;
     Color fullColor, colorStart, colorEnd;
 
-    List<GameObject> weaponGlowEffects, chargesActiveIcons, chargesEmptyIcons;
+    List<GameObject> weaponGlowEffects, chargesActiveIcons, chargesEmptyIcons, players;
 
-    public enum TutorialState { Move, PickUp, Attack, Special, Revive, DirectionHint, Encounter};
+    public enum TutorialState { Move, PickUp, Attack, Special, Revive, DirectionHint, Encounter , End};
     private TutorialState CurrentTutorialState;
 
     // Start is called before the first frame update
     void Start()
     {
         CurrentTutorialState = TutorialState.DirectionHint;
-        
+
         //MoveTutorial();
 
         fullColor = arrowDirectionIcon.color;
@@ -85,8 +88,7 @@ public class TutorialManager : MonoBehaviour
                 break;
 
             case TutorialState.Encounter:
-                // Encounter update - see in GM if it's our turn
-                // maybe let someone die? give one enemy strong wepaon with durability 1
+                EncounterUpdate();
                 break;
         }
     }
@@ -113,7 +115,7 @@ public class TutorialManager : MonoBehaviour
         if (counter >= 1)
         {
             counter = 0;
-            
+
             if (chargesCounter < 0)
             {
                 //all full and restart countdown
@@ -129,6 +131,27 @@ public class TutorialManager : MonoBehaviour
                 chargesActiveIcons[chargesCounter].SetActive(false);
             }
             chargesCounter--;
+        }
+    }
+
+    void EncounterUpdate()
+    {
+        foreach (GameObject p in players)
+        {
+            if (p.GetComponent<Attributes>().Health <= 0)
+            {
+                yButtonIcon.enabled = true;
+                break;
+            }
+            else
+            {
+                yButtonIcon.enabled = false;
+            }
+        }
+
+        if (gm.CurrentCombatState == CombatState.enemy)
+        {
+            EnemyHealthDecrease();
         }
     }
 
@@ -177,6 +200,10 @@ public class TutorialManager : MonoBehaviour
 
                 case TutorialState.Encounter:
                     EncounterTutorial();
+                    break;
+
+                case TutorialState.End:
+                    EndTutorial();
                     break;
             }
         }
@@ -236,8 +263,32 @@ public class TutorialManager : MonoBehaviour
 
     private void EncounterTutorial()
     {
-        aButtonRightIcon.enabled = true;
-        aimIcon.enabled = true;
+        yButtonIcon.enabled = true;
+        players = new List<GameObject>();
+        foreach (GameObject player in PlayerManager.players)
+        {
+            players.Add(player);
+        }
+        
+    }
+
+    void EndTutorial()
+    {
+        Invoke("GoToMainMenu", 2f); 
+    }
+
+    void GoToMainMenu()
+    {
+        SceneManagment.Instance.GetMainMenu();
+    }
+
+    private void EnemyHealthDecrease()
+    {
+        List<GameObject> enemies = encounter.GetEnemylist();
+        foreach (GameObject e in enemies)
+        {
+            e.GetComponent<Attributes>().Health = 1;
+        }
     }
 
     private void UpdateState(GameObject trigger)
@@ -265,8 +316,12 @@ public class TutorialManager : MonoBehaviour
                 CurrentTutorialState = TutorialState.DirectionHint;
                 break;
 
-            case "Encounter":
+            case "trigger5":
                 CurrentTutorialState = TutorialState.Encounter;
+                break;
+
+            case "trigger6":
+                CurrentTutorialState = TutorialState.End;
                 break;
         }
     }
