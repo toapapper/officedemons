@@ -64,7 +64,7 @@ public class PaperShredder : AbstractSpecial
 					ActionPower = 2.5f;
 					break;
 				case 4:
-					ActionPower = 44;
+					ActionPower = 4;
 					break;
 				case 5:
 					ActionPower = 5.5f;
@@ -106,11 +106,11 @@ public class PaperShredder : AbstractSpecial
 	}
 	public override void TakeDamageEffect()
 	{
-        if (Charges < MaxCharges)
-        {
+		if (Charges < MaxCharges && !readyToExplode)
+		{
 			AddCharge();
-        }
-        if (readyToExplode && !exploading)
+		}
+		if (readyToExplode && !exploading)
         {
 			exploading = true;
 			SpecialController.FOVVisualization.SetActive(true);
@@ -149,7 +149,7 @@ public class PaperShredder : AbstractSpecial
 
 	public override void DoSpecialAction()
 	{
-        if (readyToExplode || Charges >= MaxCharges)
+		if (readyToExplode || Charges >= MaxCharges)
         {
 			AkSoundEngine.PostEvent("Play_Explosion", gameObject);
 			CameraShake.Shake(1f, 1f);
@@ -167,11 +167,12 @@ public class PaperShredder : AbstractSpecial
 			{
 				if (target.layer != LayerMask.NameToLayer("Destructible"))
 				{
-                    if (readyToExplode)
+                    if (readyToExplode || Charges >= MaxCharges)
                     {
 						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
-						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
 						Effects.ApplyWeaponEffects(target, ultiEffects);
+						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
+
 					}
 					else
 					{
@@ -184,6 +185,7 @@ public class PaperShredder : AbstractSpecial
 					Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
 				}
 			}
+
 		}
 		Charges = 0;
 		changedFOV = false;
