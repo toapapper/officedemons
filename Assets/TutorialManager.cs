@@ -206,6 +206,14 @@ public class TutorialManager : MonoBehaviour
                     EndTutorial();
                     break;
             }
+            
+        }
+        else if (CurrentTutorialState == TutorialState.Attack && other.tag == "Projectile")
+        {
+            if (trigger.name == "glow_effect")
+            {
+                trigger.SetActive(false);
+            }
         }
     }
 
@@ -263,7 +271,8 @@ public class TutorialManager : MonoBehaviour
 
     private void EncounterTutorial()
     {
-        yButtonIcon.enabled = true;
+        DisableAllIcons();
+        //yButtonIcon.enabled = true;
         players = new List<GameObject>();
         foreach (GameObject player in PlayerManager.players)
         {
