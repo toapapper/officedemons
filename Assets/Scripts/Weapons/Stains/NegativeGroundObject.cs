@@ -16,9 +16,12 @@ using UnityEngine;
 public class NegativeGroundObject : GroundEffectObject
 {
     private NegativeGroundObject groundObject;
-    private float damage;
-    List<StatusEffectType> effects;
+    public float damage;
 
+    public bool affectPlayers = true;
+    public bool affectEnemies = true;
+
+    //Wont use this method //Ossian
     public void CreateGroundObject(Vector3 position, float stainRadius, float damage, List<StatusEffectType> effects)
     {
         groundObject = Instantiate(this, position, Quaternion.Euler(0, 0, 0));
@@ -31,17 +34,12 @@ public class NegativeGroundObject : GroundEffectObject
         GameManager.Instance.GroundEffectObjects.Add(groundObject.gameObject);
     }
 
-    protected override void ApplyEffectsOn(GameObject agent)
-    {
-        //Effects.Damage(agent, damage);
-        Effects.ApplyWeaponEffects(agent, effects);
-    }
 
     protected override void OnTriggerEnter(Collider other)
     {
         if (!other.isTrigger)
         {
-            if (other.tag == "Player" || other.tag == "Enemy")
+            if ((other.tag == "Player" && affectPlayers) || ((other.tag == "Enemy" && affectEnemies) && other.gameObject.name != "tank"))
 			{
                 if (!agentsOnGroundEffect.Contains(other.gameObject) &&
                     other.GetComponent<Attributes>().Health > 0)

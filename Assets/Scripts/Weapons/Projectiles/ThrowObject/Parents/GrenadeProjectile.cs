@@ -51,14 +51,18 @@ public abstract class GrenadeProjectile : MonoBehaviour
 
     protected virtual void Explode()
     {
-        Instantiate(particleEffect, transform.position, Quaternion.Euler(90, 0, 0));
+        if(particleEffect != null)
+        {
+            Instantiate(particleEffect, transform.position, Quaternion.Euler(90, 0, 0));
+        }
+
         ImpactAgents();
         DestroyGrenade();
     }
 
     protected abstract void ImpactAgents();
 
-	private void DestroyGrenade()
+	protected void DestroyGrenade()
 	{
         GameManager.Instance.StillCheckList.Remove(gameObject);
         Destroy(gameObject);

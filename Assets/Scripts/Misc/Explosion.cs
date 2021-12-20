@@ -19,7 +19,8 @@ public class Explosion : MonoBehaviour
 	private bool exploded0 = true;
 	private bool exploded1 = true;
 
-    
+
+	public GameObject SpawnerAgent = null;
 
 
     private void Explode()
@@ -35,7 +36,15 @@ public class Explosion : MonoBehaviour
 				Debug.Log("Explosion target: " + target);
 				if (target.GetComponent<Attributes>() != null && target.GetComponent<Attributes>().Health > 0)
 				{
-					Effects.Damage(target, damage);
+					if(SpawnerAgent != null && SpawnerAgent.GetComponent<Attributes>() != null)
+                    {
+						Effects.Damage(target, damage, SpawnerAgent);
+                    }
+                    else
+                    {
+						Effects.Damage(target, damage);
+                    }
+
 
 					if (target.layer != LayerMask.NameToLayer("Destructible"))
 					{
@@ -57,6 +66,15 @@ public class Explosion : MonoBehaviour
 		if(FOV == null)
         {
 			FOV = GetComponent<FieldOfView>();
+        }
+
+		if(SpawnerAgent != null)
+        {
+			Attributes attr = SpawnerAgent.GetComponent<Attributes>();
+			if (attr != null)
+            {
+				this.damage *= 1 + attr.statusEffectHandler.DmgBoost;
+            }
         }
 
 		Explode();
