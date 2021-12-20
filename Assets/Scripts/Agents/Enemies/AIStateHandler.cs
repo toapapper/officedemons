@@ -141,7 +141,7 @@ public class AIStateHandler : MonoBehaviour
 
     private bool CanAttackPlayer()
     {
-        if (aiController.HoldingRangedWeapon())
+        if (aiController.HoldingRangedWeapon() && aiController.Target != null)
         {
             foreach(GameObject player in encounter.GetComponentInChildren<AIManager>().PlayerList)
             {
@@ -179,9 +179,13 @@ public class AIStateHandler : MonoBehaviour
                 }
             }
 
-            if (aiController.Target != null && aiController.TargetType == AIController.TargetTypes.Player && Vector3.Distance(aiController.TargetPosition, transform.position) <= GetComponentInChildren<AbstractWeapon>().ViewDistance + 1)
+            if (aiController.Target != null && aiController.TargetType == AIController.TargetTypes.Player)
             {
-                return true;
+                if ((GetComponentInChildren<AbstractWeapon>() != null && Vector3.Distance(aiController.TargetPosition, transform.position) <= GetComponentInChildren<AbstractWeapon>().ViewDistance + 1) ||
+                    (GetComponentInChildren<AbstractWeapon>() == null && Vector3.Distance(aiController.TargetPosition, transform.position) <= 1))
+                {
+                    return true;
+                }
             }
 
             return false;

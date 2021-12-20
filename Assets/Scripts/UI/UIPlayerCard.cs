@@ -116,7 +116,7 @@ public class UIPlayerCard : MonoBehaviour
             }
             else
             {
-                Debug.Log("changing sprite of i:" + i);
+                //Debug.Log("changing sprite of i:" + i);
                 effects[i].sprite = effectsSprite[spriteValue[i]];
 
             }

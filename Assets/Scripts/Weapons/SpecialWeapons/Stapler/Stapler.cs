@@ -195,38 +195,6 @@ public class Stapler : AbstractSpecial
 				break;
 		}
 		Charges = 0;
-
-		//if(bulletCount < bulletsInBurst)
-		//{
-
-		//          //if (bulletCount > 0)
-		//          //{
-		//          //	//if (particleEffect)
-		//          //	//{
-		//          //	//	Instantiate(particleEffect, weaponMuzzle.transform.position, weaponMuzzle.transform.rotation * Quaternion.Euler(0, 180, 0));
-		//          //	//}
-		//          //	//Vector3 direction = GetBulletDirection();
-		//          //	bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, weaponMuzzle.transform.position, direction, bulletFireForce, HitForce, Damage, this.effects);
-		//          //	bulletCount--;
-		//          //}
-		//          //else
-		//          //{
-		//          //	SpecialController.Animator.SetTrigger("isCancelAction");
-		//          //	ActionPower = 0;
-		//          //}			
-		//      }
-		//else
-		//{
-		//	//if (particleEffect)
-		//	//{
-		//	//	Instantiate(particleEffect, weaponMuzzle.transform.position, weaponMuzzle.transform.rotation * Quaternion.Euler(0, 180, 0));
-		//	//}
-		//	//Vector3 direction = GetBulletDirection();
-		//	bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, weaponMuzzle.transform.position, direction, bulletFireForce, HitForce, Damage, this.effects);
-		//	bulletCount--;
-
-		//	SpecialController.Animator.SetTrigger("isSpecialStaplerShot");
-		//}
 	}
 
 

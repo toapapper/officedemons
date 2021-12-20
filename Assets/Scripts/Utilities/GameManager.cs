@@ -328,7 +328,11 @@ public class GameManager : MonoBehaviour
         }
         //ResetEncounter();
     }
+
+    
 }
+
+
 
 
 /// <summary>
