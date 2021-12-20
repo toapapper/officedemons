@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2619632379370792185}
   - component: {fileID: 7787089157379368607}
   - component: {fileID: 4729450052195316514}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: car-ambulance-pickup-base
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 8572598370753567482}
   - component: {fileID: 3954087336387365591}
   - component: {fileID: 5901356537209018444}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: car-ambulance-pickup-wheel_FL
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 8234873379435332210}
   - component: {fileID: 7175163422682392916}
   - component: {fileID: 3858108955425015478}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: car-ambulance-pickup-wheel_BR
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 767435935554029951}
   - component: {fileID: 107308699801076613}
   - component: {fileID: 2142460923212592290}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: car-ambulance-pickup-wheel_FR
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
@@ -345,7 +345,6 @@ GameObject:
   - component: {fileID: 1124893941022252275}
   - component: {fileID: 4848932068766382992}
   - component: {fileID: 1113771972854264189}
-  - component: {fileID: 718454945308285342}
   - component: {fileID: 2982257947187322182}
   m_Layer: 11
   m_Name: car-ambulance-pickup
@@ -400,8 +399,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96207ad84dc1eb4428ffe1619bb9068d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyed: 0
   destroyedPrefab: {fileID: 0}
-  particleEffect: {fileID: 1134129239631916, guid: 7e48ba6b1b968764490bbc70b66e3fe1, type: 3}
+  particleEffect: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
   damage: 10
   force: 100
   effects: 
@@ -424,22 +424,10 @@ MonoBehaviour:
   startHealth: 30
   killCount: 0
   particleEffect: {fileID: 164798945166288795, guid: c9894f6ca49bd4f4982850ea0a31aa6e, type: 3}
+  statusEffectHandler: {fileID: 0}
   health: 0
   startStamina: 3.5
   stamina: 0
---- !u!65 &718454945308285342
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7152849536892780457}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.3857803, y: 5.1164913, z: 11.240219}
-  m_Center: {x: -0.0761261, y: 2.2032747, z: 0.28767776}
 --- !u!114 &2982257947187322182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,7 +461,7 @@ GameObject:
   - component: {fileID: 2362778169149181599}
   - component: {fileID: 289899635918796349}
   - component: {fileID: 2449142240278470898}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: car-ambulance-pickup-wheel_BL
   m_TagString: CoverObject
   m_Icon: {fileID: 0}
