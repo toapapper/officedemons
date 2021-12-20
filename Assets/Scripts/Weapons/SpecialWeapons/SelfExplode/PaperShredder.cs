@@ -45,34 +45,7 @@ public class PaperShredder : AbstractSpecial
 	{
 		if (!changedFOV)
 		{
-            if (Charges > MaxCharges)
-            {
-				Charges = MaxCharges;
-            }
-			switch (Charges)
-			{
-				case 0:
-					ActionPower = 0;
-					break;
-				case 1:
-					ActionPower = 1;
-					break;
-				case 2:
-					ActionPower = 1.5f;
-					break;
-				case 3:
-					ActionPower = 2.5f;
-					break;
-				case 4:
-					ActionPower = 4;
-					break;
-				case 5:
-					ActionPower = 5.5f;
-					break;
-				default:
-					break;
-			}
-			specialController.FOV.ViewRadius *= ActionPower;
+			specialController.FOV.ViewRadius = GetActionPower();
 		}
 		SpecialController.FOVVisualization.SetActive(isActive);
 		changedFOV = true;
@@ -92,14 +65,14 @@ public class PaperShredder : AbstractSpecial
 	{
 		AddCharge();
 		changedFOV = false;
-        if (Charges == MaxCharges)
-        {
+		if (Charges == MaxCharges)
+		{
 			readyToExplode = true;
-        }
-        else
-        {
+		}
+		else
+		{
 			readyToExplode = false;
-        }
+		}
 		SpecialController.FOV.ViewAngle = viewAngle;
 		SpecialController.FOV.ViewRadius = viewDistance;
 		exploading = false;
@@ -111,14 +84,14 @@ public class PaperShredder : AbstractSpecial
 			AddCharge();
 		}
 		if (readyToExplode && !exploading)
-        {
+		{
 			exploading = true;
 			SpecialController.FOVVisualization.SetActive(true);
-			specialController.FOV.ViewRadius *= 5.5f;
-			StartCoroutine(CountDown(0.5f,3));
-			StartCoroutine(CountDown(1f,2));
-			StartCoroutine(CountDown(1.5f,1));
-			StartCoroutine(CountDown(2f,0));
+			specialController.FOV.ViewRadius = GetActionPower();
+			StartCoroutine(CountDown(0.5f, 3));
+			StartCoroutine(CountDown(1f, 2));
+			StartCoroutine(CountDown(1.5f, 1));
+			StartCoroutine(CountDown(2f, 0));
 		}
 
 	}
@@ -142,7 +115,6 @@ public class PaperShredder : AbstractSpecial
         if (number == 0)
         {
 			Attack();
-			SpecialController.FOVVisualization.SetActive(false);
 		}
 	}
 
@@ -169,7 +141,7 @@ public class PaperShredder : AbstractSpecial
 				{
                     if (readyToExplode || Charges >= MaxCharges)
                     {
-						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
+						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
 						Effects.ApplyWeaponEffects(target, ultiEffects);
 						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
 
@@ -177,16 +149,18 @@ public class PaperShredder : AbstractSpecial
 					else
 					{
 						Effects.ApplyWeaponEffects(target, effects);
-						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
+						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
 					}
 				}
 				else
 				{
-					Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
+					Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower());
 				}
 			}
 
 		}
+
+		SpecialController.FOVVisualization.SetActive(false);
 		Charges = 0;
 		changedFOV = false;
 		readyToExplode = false;
@@ -196,7 +170,9 @@ public class PaperShredder : AbstractSpecial
 
     private void Update()
     {
-        if (readyToExplode && !angryParticleEffect.isPlaying)
+		countDownText.transform.rotation = Camera.main.transform.rotation;
+
+		if (readyToExplode && !angryParticleEffect.isPlaying)
         {
 			angryParticleEffect.gameObject.SetActive(true);
 			angryParticleEffect.Play();
@@ -205,6 +181,40 @@ public class PaperShredder : AbstractSpecial
         {
 			angryParticleEffect.gameObject.SetActive(false);
 			angryParticleEffect.Stop();
+		}
+	}
+
+
+
+
+	private float GetActionPower()
+	{
+		if (Charges > MaxCharges)
+		{
+			Charges = MaxCharges;
+		}
+		switch (Charges)
+		{
+			case 0:
+				ActionPower = 0;
+				return 0;
+			case 1:
+				ActionPower = 1;
+				return 1;
+			case 2:
+				ActionPower = 1.5f;
+				return 1.5f;
+			case 3:
+				ActionPower = 3f;
+				return 3f;
+			case 4:
+				ActionPower = 4.5f;
+				return 4.5f;
+			case 5:
+				ActionPower = 6f;
+				return 6f;
+			default:
+				return 0;
 		}
 	}
 }
