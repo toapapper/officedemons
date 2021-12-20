@@ -8,8 +8,8 @@ using static StatusEffectType;
 
 class IceStatus : StatusEffect
 {
-    public const int StdDuration = 2;
-    public const float SlowWeight = 20f;
+    public const int StdDuration = 3;
+    public const float SlowWeight = 40f;
 
     public IceStatus(GameObject agent) : base(StatusEffectType.ice, StdDuration, agent)
     {
@@ -37,9 +37,9 @@ class IceStatus : StatusEffect
 
 class HellIceStatus : HellStatusEffect
 {
-    public const int StdDuration = 2;
-    public const float SlowWeight = 35f;
-    public const int Dmg = 20;
+    public const int StdDuration = 4;
+    public const float SlowWeight = 50f;
+    public const int Dmg = 15;
 
     public HellIceStatus(GameObject agent, StatusEffectHandler handler) : base(StatusEffectType.hell_ice, StdDuration, agent, handler)
     {

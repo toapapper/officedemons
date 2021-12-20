@@ -139,7 +139,7 @@ public class SpinningChair : AbstractSpecial
 		StartCoroutine(CountdownTime(0.5f));
 		ActionPower = 0;
 		changedFOV = false;
-		        SpecialController.FOV.ViewRadius = viewDistance;
+		SpecialController.FOV.ViewRadius = viewDistance;
         SpecialController.FOV.ViewAngle = viewAngle;
 	}
 

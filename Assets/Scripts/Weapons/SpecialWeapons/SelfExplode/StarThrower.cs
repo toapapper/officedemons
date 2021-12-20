@@ -124,6 +124,13 @@ public class StarThrower : AbstractSpecial
 		}
 	}
 
+	private IEnumerator Invulnerable(float time)
+	{
+		HolderAgent.GetComponent<Attributes>().invulnerable = true;
+		yield return new WaitForSeconds(time);
+		HolderAgent.GetComponent<Attributes>().invulnerable = false;
+		yield return null;
+	}
 
 	public override void DoSpecialAction()
 	{
@@ -142,16 +149,14 @@ public class StarThrower : AbstractSpecial
 		{
             if (Charges >= MaxCharges)
             {
-				Charges = 0;
-				changedFOV = false;
-				readyToExplode = false;
+				StartCoroutine(Invulnerable(0.1f));
 				foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 				{
 					if (target.layer != LayerMask.NameToLayer("Destructible"))
                     {
+						Effects.ApplyWeaponEffects(target, ultiEffects);
 						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
 						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
-						Effects.ApplyWeaponEffects(target, ultiEffects);
                     }
                     else
                     {
@@ -160,32 +165,23 @@ public class StarThrower : AbstractSpecial
 					}
 
 				}
-				SpecialController.FOV.ViewAngle = viewAngle;
-				SpecialController.FOV.ViewRadius = viewDistance;
-				SpecialController.FOVVisualization.SetActive(false);
 
 			}
 			else
             {
-				Charges = 0;
-				changedFOV = false;
-				readyToExplode = false;
 				foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 				{
 					if (target.layer != LayerMask.NameToLayer("Destructible"))
                     {
+						Effects.ApplyWeaponEffects(target, effects);
 						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
 						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
-						Effects.ApplyWeaponEffects(target, effects);
                     }
                     else
                     {
 						Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower());
 					}
 				}
-				SpecialController.FOV.ViewAngle = viewAngle;
-				SpecialController.FOV.ViewRadius = viewDistance;
-				SpecialController.FOVVisualization.SetActive(false);
 
 			}
 

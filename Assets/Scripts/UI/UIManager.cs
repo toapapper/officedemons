@@ -63,16 +63,16 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         #region fulInitialize här eftersom det typ alltid blir fel annars
-        if (!playerCardsInitialized)
-        {
-            Debug.Log("Initialize player cards " + PlayerManager.players.Count);
-            //för varje spelare som finns, enablea ett playercard och mata in rätt spelare där.
-            for (int i = 0; i < PlayerManager.players.Count; i++)
-            {
-                EnablePlayerUI(i);
-            }
-            playerCardsInitialized = true;
-        }
+        //if (!playerCardsInitialized)
+        //{
+        //    Debug.Log("Initialize player cards " + PlayerManager.players.Count);
+        //    //för varje spelare som finns, enablea ett playercard och mata in rätt spelare där.
+        //    for (int i = 0; i < PlayerManager.players.Count; i++)
+        //    {
+        //        EnablePlayerUI(i);
+        //    }
+        //    playerCardsInitialized = true;
+        //}
         #endregion
 
         //Uppdatera liv på spelarna

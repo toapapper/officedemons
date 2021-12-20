@@ -117,7 +117,13 @@ public class PaperShredder : AbstractSpecial
 			Attack();
 		}
 	}
-
+	private IEnumerator Invulnerable(float time)
+	{
+		HolderAgent.GetComponent<Attributes>().invulnerable = true;
+		yield return new WaitForSeconds(time);
+		HolderAgent.GetComponent<Attributes>().invulnerable = false;
+		yield return null;
+	}
 
 	public override void DoSpecialAction()
 	{
@@ -135,14 +141,15 @@ public class PaperShredder : AbstractSpecial
 
 		if (specialController.FOV.VisibleTargets.Count > 0)
 		{
+			StartCoroutine(Invulnerable(0.1f));
 			foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 			{
 				if (target.layer != LayerMask.NameToLayer("Destructible"))
 				{
                     if (readyToExplode || Charges >= MaxCharges)
                     {
-						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
 						Effects.ApplyWeaponEffects(target, ultiEffects);
+						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
 						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
 
 					}
