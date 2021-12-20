@@ -23,21 +23,7 @@ public class StaleCoffeeCupSpecial : CoffeeCupSpecial
 	{
 		Vector3 velocity = SpecialController.ThrowAim.InitialVelocity;
 
-		switch (ActionPower)
-		{
-			case 1:
-				grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity,explodeRadius, 0, buffEffects);
-				break;
-			case 2:
-				grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity,
-			explodeRadius, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), buffEffects);
-				break;
-			case 3:
-				grenade.GetComponent<GoodCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity,explodeRadius + explodeRadiusAdder,
-					(Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), buffEffects);
-
-				break;
-		}
+		
 		ActionPower = 0;
 	}
 }

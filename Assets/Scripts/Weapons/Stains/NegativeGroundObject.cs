@@ -18,8 +18,10 @@ public class NegativeGroundObject : GroundEffectObject
     private NegativeGroundObject groundObject;
     public float damage;
 
-    //I refuse to use this. This is a symptom of a fucked up way of doing things. Just stick this script on a prefab and instantiate it instead. Screw this method.
-    //Fuck fuck fuck fuckedi fuck duck
+    public bool affectPlayers = true;
+    public bool affectEnemies = true;
+
+    //Wont use this method //Ossian
     public void CreateGroundObject(Vector3 position, float stainRadius, float damage, List<StatusEffectType> effects)
     {
         groundObject = Instantiate(this, position, Quaternion.Euler(0, 0, 0));
@@ -37,7 +39,7 @@ public class NegativeGroundObject : GroundEffectObject
     {
         if (!other.isTrigger)
         {
-            if (other.tag == "Player" || (other.tag == "Enemy" && other.gameObject.name != "tank"))
+            if ((other.tag == "Player" && affectPlayers) || ((other.tag == "Enemy" && affectEnemies) && other.gameObject.name != "tank"))
 			{
                 if (!agentsOnGroundEffect.Contains(other.gameObject) &&
                     other.GetComponent<Attributes>().Health > 0)
