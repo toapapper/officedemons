@@ -70,7 +70,7 @@ public class StatusEffectHandler : MonoBehaviour
         }
     }
 
-    /// <summary> returns the modifier to the damage this entity should make </summary>
+    /// <summary> returns the modifier to the damage this entity should make (.5 = +50% damage. needs to be added with one to multiply) </summary>
     public float DmgBoost { 
         get 
         {
@@ -369,7 +369,12 @@ public class StatusEffectHandler : MonoBehaviour
 
     protected void MoveEffectToWeapon(StatusEffectType type)
     {
-        myAgent.GetComponent<WeaponHand>().objectInHand.AddStatusEffect(type);
+        AbstractWeapon agentWeapon = myAgent.GetComponent<WeaponHand>().objectInHand;
+
+        if (agentWeapon)
+        {
+            agentWeapon.AddStatusEffect(type);
+        }
     }
 
     /// <summary>

@@ -64,6 +64,11 @@ public class ThrowAim : MonoBehaviour
 	private float friction;
 	private float bounce;
 
+	public Vector3 TargetLocalPoision
+    {
+        get { return target.transform.localPosition; }
+    }
+
 	public bool NoBounceing
 	{
 		get { return noBouncing; }

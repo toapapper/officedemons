@@ -15,31 +15,26 @@ using UnityEngine;
 // Last Edited: 15-11-16
 public abstract class CoffeeCupSpecial : AbstractSpecial
 {
-	[SerializeField]
-	protected GameObject grenade;
-	[SerializeField]
-	protected float explodeRadius;
-	[SerializeField]
-	protected int explodeRadiusAdder = 2;
-	[SerializeField]
-	protected int damageAdder = 5;
+
+	[SerializeField] protected float explodeRadius1 = 1;
+	[SerializeField] protected float explodeRadius2 = 1.5f;
+	[SerializeField] protected float explodeRadius3 = 1.8f;
+
 	private bool isHit;
 
 	public override void ToggleAim(bool isActive)
 	{
+		float explodeRadius = explodeRadius1;
+
+		if (Charges == 2)
+			explodeRadius = explodeRadius2;
+		else if (Charges == 3)
+			explodeRadius = explodeRadius3;
+
 		if (!SpecialController.ThrowAim.gameObject.activeSelf && isActive)
 		{
 			SpecialController.ThrowAim.gameObject.SetActive(isActive);
-			switch (Charges)
-			{
-				case 1:
-				case 2:
-					SpecialController.ThrowAim.SetExplosionSize(explodeRadius * 2);
-					break;
-				case 3:
-					SpecialController.ThrowAim.SetExplosionSize((explodeRadius + explodeRadiusAdder) * 2);
-					break;
-			}
+			SpecialController.ThrowAim.SetExplosionSize(explodeRadius * 2);
 		}
 		else if (SpecialController.ThrowAim.gameObject.activeSelf && !isActive)
 		{
@@ -63,7 +58,8 @@ public abstract class CoffeeCupSpecial : AbstractSpecial
 	{
 		if (!isHit)
 		{
-			base.AddCharge();
+			//Bortkommenterad för att se om det känns bättre. Känns lite op och konstigt just nu.
+			//base.AddCharge();
 		}
 		else
 		{
