@@ -154,8 +154,9 @@ MonoBehaviour:
   characterName: 3
   portrait: {fileID: 0}
   jobTitle: "arbetsl\uFFFDs"
-  startHealth: 20
+  startHealth: 10
   killCount: 0
+  invulnerable: 0
   particleEffect: {fileID: 0}
   statusEffectHandler: {fileID: 0}
   health: 1
@@ -656,6 +657,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4472949326628825172}
     m_Modifications:
+    - target: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3032543496062369683, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
