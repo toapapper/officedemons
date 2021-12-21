@@ -63,16 +63,16 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         #region fulInitialize här eftersom det typ alltid blir fel annars
-        //if (!playerCardsInitialized)
-        //{
-        //    Debug.Log("Initialize player cards " + PlayerManager.players.Count);
-        //    //för varje spelare som finns, enablea ett playercard och mata in rätt spelare där.
-        //    for (int i = 0; i < PlayerManager.players.Count; i++)
-        //    {
-        //        EnablePlayerUI(i);
-        //    }
-        //    playerCardsInitialized = true;
-        //}
+        if (!playerCardsInitialized)
+        {
+            Debug.Log("Initialize player cards " + PlayerManager.players.Count);
+            //för varje spelare som finns, enablea ett playercard och mata in rätt spelare där.
+            for (int i = 0; i < PlayerManager.players.Count; i++)
+            {
+                EnablePlayerUI(i);
+            }
+            playerCardsInitialized = true;
+        }
         #endregion
 
         //Uppdatera liv på spelarna
@@ -124,23 +124,23 @@ public class UIManager : MonoBehaviour
     public void EnablePlayerUI(int i)
     {
         //Debug.Log("UIcard init for player " + i);
-        UIPlayerCard card = transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>();
-        
-        if (card.gameObject.activeSelf)
-        {
-            //Debug.LogWarning("Card already active");
-            return;
-        }
+        //UIPlayerCard card = transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>();
 
-        card.gameObject.SetActive(true);
-        card.Initialize(PlayerManager.players[i]);
+        //if (card.gameObject.activeSelf)
+        //{
+        //    //Debug.LogWarning("Card already active");
+        //    return;
+        //}
+
+        //card.gameObject.SetActive(true);
+        //card.Initialize(PlayerManager.players[i]);
 
         //StaminaCircle stamCirc = transform.Find("Canvas").transform.Find("StaminaCircle" + i).GetComponent<StaminaCircle>();
         StaminaCircle stamCirc = transform.Find("StamCircle" + i).GetComponent<StaminaCircle>();
         stamCirc.gameObject.SetActive(true);
         stamCirc.SetPlayer(PlayerManager.players[i]);
-
-
+        
+        PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().GetPlayerSymbol(i, PlayerManager.players[i].GetComponent<Attributes>().PlayerColor);
     }
 
     /// <summary>

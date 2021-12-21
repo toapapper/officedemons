@@ -10,8 +10,10 @@ using UnityEngine.AI;
 public enum CombatState
 {
     none,
+    prePlayerWait,
     player,
     playerActions,
+    preEnemyWait,
     enemy,
     enemyActions,
     enterCombat
@@ -40,6 +42,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private int roundTime = 10;//seconds
+    [SerializeField] private float preRoundWaitTime = 1f;//shows the "enemies or players turn"-images during this time
+    private float preRoundWaitCountdown;
+    public float PreRoundWaitTime { get { return preRoundWaitTime; } }
+
 
     [SerializeField]private CombatState combatState = CombatState.none;
     private bool paused = false;
@@ -164,14 +170,27 @@ public class GameManager : MonoBehaviour
 			{
                 playerEnterCombatDone = false;
                 currentEncounter.aIManager.BeginCombat();
-                combatState = CombatState.player;
-                roundTimer = RoundTime;
-                PlayerManager.Instance.BeginTurn();
                 TurnUI.Instance.ShowNewImage(1,0);
                 // Add all objects in checklist to maincamera
                 //mainCamera.ObjectsInCamera = stillCheckList;
                 //Add encounter corner points to camera to fix it to encounter
                 mainCamera.ObjectsInCamera = currentEncounter.GetCameraPoints();
+
+                PlayerManager.Instance.BeginTurn();
+                roundTimer = RoundTime;
+                combatState = CombatState.player;
+                preRoundWaitCountdown = preRoundWaitTime;
+            }
+        }
+        else if(CurrentCombatState == CombatState.prePlayerWait)
+        {
+            preRoundWaitCountdown -= Time.deltaTime;
+            if(preRoundWaitCountdown <= 0)
+            {
+                combatState = CombatState.player;
+                TurnUI.Instance.ShowNewImage(1, 0);
+                PlayerManager.Instance.BeginTurn();
+                roundTimer = RoundTime;
             }
         }
         else if (CurrentCombatState == CombatState.player)
@@ -191,11 +210,20 @@ public class GameManager : MonoBehaviour
             if (playerActionsDone)
             {
                 Debug.Log("PLAYER ACTIONS DONE");
+                combatState = CombatState.preEnemyWait;
+                preRoundWaitCountdown = preRoundWaitTime;
+            }
+        }
+        else if (CurrentCombatState == CombatState.preEnemyWait)
+        {
+            preRoundWaitCountdown -= Time.deltaTime;
+            if (preRoundWaitCountdown <= 0)
+            {
                 combatState = CombatState.enemy;
-                EnemiesTurnDone = false;
-                TurnUI.Instance.ShowNewImage(2,0);
-                currentEncounter.aIManager.BeginTurn();
 
+                EnemiesTurnDone = false;
+                TurnUI.Instance.ShowNewImage(2, 0);
+                currentEncounter.aIManager.BeginTurn();
             }
         }
         else if(CurrentCombatState == CombatState.enemy)
@@ -222,10 +250,7 @@ public class GameManager : MonoBehaviour
             if(enemiesActionsDone)
             {
                 Debug.Log("ENEMIES ACTIONS ARE DONE");
-                TurnUI.Instance.ShowNewImage(1,0);
-                combatState = CombatState.player;
-                PlayerManager.Instance.BeginTurn();
-                roundTimer = RoundTime;
+                combatState = CombatState.prePlayerWait;
             }
         }
         #endregion
