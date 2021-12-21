@@ -62,13 +62,20 @@ public class DestructibleObjects : MonoBehaviour
 
         if(this.transform.Find("Lights"))
         {
-            this.transform.Find("Lights").gameObject.GetComponent<EmergencyLights>().enabled = false;
-            Destroy(this.transform.Find("Lights").gameObject);
+            if (this.transform.Find("Lights").gameObject.GetComponent<EmergencyLights>())
+            {
+                this.transform.Find("Lights").gameObject.GetComponent<EmergencyLights>().enabled = false;
+                Destroy(this.transform.Find("Lights").gameObject);
+            }
         }
         else if (this.transform.Find("AmbulanceLights"))
         {
-            this.transform.Find("AmbulanceLights").gameObject.GetComponent<EmergencyLights>().enabled = false;
-            Destroy(this.transform.Find("AmbulanceLights").gameObject);
+            if (this.transform.Find("AmbulanceLights").gameObject.GetComponent<EmergencyLights>())
+            {
+                this.transform.Find("AmbulanceLights").gameObject.GetComponent<EmergencyLights>().enabled = false;
+                Destroy(this.transform.Find("AmbulanceLights").gameObject);
+
+            }
         }
 
         CameraShake.Shake(0.5f, 0.5f);
