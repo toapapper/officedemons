@@ -41,12 +41,13 @@ public class MainMenu : MonoBehaviour
    
     public void Quit()
     {
-        if (!InGame)
-            Application.Quit(1000);
-        else
-        {
-            SceneManager.LoadScene("Main Menu");
-        }
+        //if (!InGame)
+        //    Application.Quit(1000);
+        //else
+        //{
+        //    SceneManager.LoadScene("Main Menu");
+        //}
+        Application.Quit();
     }
     
 }
