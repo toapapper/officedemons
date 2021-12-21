@@ -17,10 +17,10 @@ using UnityEngine.UI;
 public class ChangeVolumeLevels : MonoBehaviour
 {
     [SerializeField] private Slider thisSlider;
-    private static float masterVolume = 20f;
-    private static float musicVolume = 50f;
-    private static float sfxVolume = 50f;
-    private static float voiceVolume = 50f;
+    private static float masterVolume = 50f;
+    private static float musicVolume = 100f;
+    private static float sfxVolume = 100f;
+    private static float voiceVolume = 100f;
 
     public float MasterVolume { get { return masterVolume; } set { masterVolume = value; } }
     public float MusicVolume { get { return musicVolume; } set { musicVolume = value; } }
