@@ -90,9 +90,7 @@ public class AIManager : MonoBehaviour
         TakenCoverPositions.Clear();
         actionsQueue.Clear();
         allWeapons = new List<GameObject>(GameObject.FindGameObjectsWithTag("WeaponObject"));
-        actionsTime = 0;
         EnemyList = GameManager.Instance.CurrentEncounter.GetEnemylist();
-
 
         foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
         {
