@@ -21,15 +21,21 @@ public class EnemyUI : MonoBehaviour
 
     [SerializeField] private Image hpBar;
     [SerializeField] private Image stamBar;
+    [SerializeField] private Image bulletCounter;
 
     private Attributes attributes;
+    private WeaponHand weaponHand;
     private Transform mainCamera;
-
 
     void Start()
     {
         attributes = GetComponentInParent<Attributes>();
         mainCamera = Camera.main.transform;
+
+        if(bulletCounter!= null)
+        {
+            weaponHand = GetComponentInParent<WeaponHand>();
+        }
     }
 
 
@@ -43,5 +49,26 @@ public class EnemyUI : MonoBehaviour
 
         percent = (float)attributes.Stamina / (float)attributes.StartStamina;
         stamBar.fillAmount = percent;
+
+        if (bulletCounter != null && weaponHand != null)
+        {
+            if (weaponHand.objectInHand != null)
+            {
+                AbstractWeapon weapon = weaponHand.objectInHand;
+                if(weapon.Durability >= 10)
+                {
+                    bulletCounter.fillAmount = 1;
+                }
+                else if(weapon.Durability < 10)
+                {
+                    bulletCounter.fillAmount = (float)weapon.Durability / 10f;
+                }
+            }
+            else
+            {
+                bulletCounter.fillAmount = 0;
+            }
+        }
+
     }
 }
