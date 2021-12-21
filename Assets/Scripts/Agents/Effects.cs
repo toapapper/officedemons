@@ -115,7 +115,8 @@ public static class Effects
 
 	public static void ApplyStatusEffect(GameObject target, StatusEffectType type)
     {
-		if(target.name == "tank" || (target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat))
+
+		if(!(target.CompareTag("Player") || target.CompareTag("Enemy")) ||(target.name == "tank" || (target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat)) && target.layer == LayerMask.NameToLayer("Destructible"))
         {
 			return;
         } 
