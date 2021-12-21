@@ -97,15 +97,15 @@ public class Stapler : AbstractSpecial
 			if (superCharged)
 			{
 				//five shots with clusterbombs at the end
-				aimCones[0].SetActive(isActive);
-				aimCones[1].SetActive(isActive);
-				aimCones[2].SetActive(isActive);
-				aimCones[3].SetActive(isActive);
-				aimCones[4].SetActive(isActive);
+				aimCones[0].SetActive(true);
+				aimCones[1].SetActive(true);
+				aimCones[2].SetActive(true);
+				aimCones[3].SetActive(true);
+				aimCones[4].SetActive(true);
 				Charges = MaxCharges;
 			}
 		}
-		SpecialController.FOVVisualization.SetActive(isActive);
+		SpecialController.FOVVisualization.SetActive(true);
 		changedFOV = true;
 
 		//laserAim.SetActive(isActive);
@@ -223,7 +223,7 @@ public class Stapler : AbstractSpecial
 		if (superCharged)
         {
 			chance += 30;
-			rnd = Random.Range(1, StatusEffectType.GetNames(typeof(StatusEffectType)).Length - 2);
+			rnd = Random.Range(1, StatusEffectType.GetNames(typeof(StatusEffectType)).Length - 1);
 		}
         else
         {

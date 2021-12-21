@@ -49,7 +49,7 @@ public class StarThrower : AbstractSpecial
 	{
 		if (!changedFOV)
 		{
-			specialController.FOV.ViewRadius = GetActionPower();
+			specialController.FOV.ViewRadius *= GetActionPower();
 		}
 		SpecialController.FOVVisualization.SetActive(isActive);
 		changedFOV = true;
@@ -103,6 +103,7 @@ public class StarThrower : AbstractSpecial
 			StartCoroutine(CountDown(1.5f, 1));
 			StartCoroutine(CountDown(2f, 0));
 		}
+
 	}
 
 	public override void RevivedEffect()
@@ -121,16 +122,10 @@ public class StarThrower : AbstractSpecial
 		if (number == 0)
 		{
 			Attack();
+			SpecialController.FOVVisualization.SetActive(false);
 		}
 	}
 
-	private IEnumerator Invulnerable(float time)
-	{
-		HolderAgent.GetComponent<Attributes>().invulnerable = true;
-		yield return new WaitForSeconds(time);
-		HolderAgent.GetComponent<Attributes>().invulnerable = false;
-		yield return null;
-	}
 
 	public override void DoSpecialAction()
 	{
@@ -149,58 +144,45 @@ public class StarThrower : AbstractSpecial
 		{
             if (Charges >= MaxCharges)
             {
-				StartCoroutine(Invulnerable(0.1f));
+				Charges = 0;
+				changedFOV = false;
+				readyToExplode = false;
 				foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 				{
-					if (target.layer != LayerMask.NameToLayer("Destructible"))
-                    {
-						Effects.ApplyWeaponEffects(target, ultiEffects);
-						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
-						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
-                    }
-                    else
-                    {
-						Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower());
-
-					}
-
+					Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
+					Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
+					Effects.ApplyWeaponEffects(target, ultiEffects);
 				}
-
+				SpecialController.FOV.ViewAngle = viewAngle;
+				SpecialController.FOV.ViewRadius = viewDistance;
 			}
 			else
             {
+				Charges = 0;
+				changedFOV = false;
+				readyToExplode = false;
 				foreach (GameObject target in SpecialController.FOV.VisibleTargets)
 				{
-					if (target.layer != LayerMask.NameToLayer("Destructible"))
-                    {
-						Effects.ApplyWeaponEffects(target, effects);
-						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
-						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
-                    }
-                    else
-                    {
-						Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower());
-					}
+					Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
+					Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
+					Effects.ApplyWeaponEffects(target, effects);
 				}
-
+				SpecialController.FOV.ViewAngle = viewAngle;
+				SpecialController.FOV.ViewRadius = viewDistance;
 			}
 
 		}
-
-
-		SpecialController.FOVVisualization.SetActive(false);
 		Charges = 0;
 		changedFOV = false;
 		readyToExplode = false;
 		SpecialController.FOV.ViewAngle = viewAngle;
 		SpecialController.FOV.ViewRadius = viewDistance;
+
 	}
 
 
 	private void Update()
     {
-		countDownText.transform.rotation = Camera.main.transform.rotation;
-
 		timer += Time.deltaTime;
         if (timer >= 3)
         {
@@ -266,14 +248,14 @@ public class StarThrower : AbstractSpecial
 				ActionPower = 1.5f;
 				return 1.5f;
 			case 3:
-				ActionPower = 3f;
-				return 3f;
+				ActionPower = 2.5f;
+				return 2.5f;
 			case 4:
-				ActionPower = 4.5f;
-				return 4.5f;
+				ActionPower = 4;
+				return 4;
 			case 5:
-				ActionPower = 6f;
-				return 6f;
+				ActionPower = 5.5f;
+				return 5.5f;
 			default:
 				return 0;
 		}

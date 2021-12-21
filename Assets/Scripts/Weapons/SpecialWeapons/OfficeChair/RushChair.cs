@@ -133,7 +133,6 @@ public class RushChair : AbstractSpecial
 	{
 		if (isProjectile)
 		{
-			StartCoroutine(Invulnerable(0.5f));
 			if (other.gameObject.tag == "Player" || other.gameObject.tag == "Enemy")
 			{
 				Vector3 forceDirection = other.transform.position - transform.position;
@@ -183,13 +182,4 @@ public class RushChair : AbstractSpecial
 			}
 		}
 	}
-
-	private IEnumerator Invulnerable(float time)
-	{
-		HolderAgent.GetComponent<Attributes>().invulnerable = true;
-		yield return new WaitForSeconds(time);
-		HolderAgent.GetComponent<Attributes>().invulnerable = false;
-		yield return null;
-	}
-
 }

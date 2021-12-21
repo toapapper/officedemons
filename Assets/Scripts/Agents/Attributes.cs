@@ -42,8 +42,6 @@ public class Attributes : MonoBehaviour
     [SerializeField]
     private int killCount = 0;
 
-    [SerializeField] public bool invulnerable;
-
 
     [SerializeField] private GameObject particleEffect;
 
@@ -61,11 +59,7 @@ public class Attributes : MonoBehaviour
     public int Health
     {
         get { return health; }
-        set {
-            if (invulnerable)
-            {               
-                return;
-            }
+        set { 
             health = value;
             if (health <= 0)
             {
