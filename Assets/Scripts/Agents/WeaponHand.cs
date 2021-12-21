@@ -34,6 +34,8 @@ public class WeaponHand : MonoBehaviour
 	private float handHitDistance = 1.5f;
 	[SerializeField]
 	private float handHitAngle = 100f;
+	[SerializeField]
+	protected GameObject particleEffect;
 
 	public AbstractWeapon objectInHand;
 
@@ -230,6 +232,7 @@ public class WeaponHand : MonoBehaviour
 				foreach (GameObject target in FOV.VisibleTargets)
 				{
 					AkSoundEngine.PostEvent("Play_Blunt_thud", gameObject);
+					Instantiate(particleEffect, target.transform.position, target.transform.rotation * Quaternion.Euler(0, 0, 0));
 
 					if (target.layer != LayerMask.NameToLayer("Destructible"))
 					{

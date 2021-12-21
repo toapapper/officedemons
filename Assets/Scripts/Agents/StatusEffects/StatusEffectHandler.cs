@@ -208,10 +208,13 @@ public class StatusEffectHandler : MonoBehaviour
                 effect = new GlassCannonStatus(myAgent);
                 particleEffect = ParticleEffectContainer.glassCannonEffect;
                 break;
+            default:
+                return;
         }
 
         Debug.Log("Adding particleeffect: " + effectType + " + instance: " + effect);
 
+        Debug.Log("EFFECT   " + effect +  "    halihfihafoihasihsaspihfsaihfaihoaoihaf");
         effect.OnApply();
         activeEffects.Add(effectType, effect);
 
