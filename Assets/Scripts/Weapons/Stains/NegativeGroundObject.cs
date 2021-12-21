@@ -21,11 +21,6 @@ public class NegativeGroundObject : GroundEffectObject
     public bool affectPlayers = true;
     public bool affectEnemies = true;
 
-    private void Start()
-    {
-        GameManager.Instance.GroundEffectObjects.Add(gameObject);
-    }
-
     //Wont use this method //Ossian
     public void CreateGroundObject(Vector3 position, float stainRadius, float damage, List<StatusEffectType> effects)
     {

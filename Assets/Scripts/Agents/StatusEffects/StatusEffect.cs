@@ -39,7 +39,7 @@ public abstract class StatusEffect
     public int startDuration;
 
     protected GameObject agent;
-    protected Dictionary<StatusEffectType, StatusEffectType> comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
+    protected Dictionary<StatusEffectType, StatusEffectType> comboWith;
 
     public StatusEffect(StatusEffectType type, int duration, GameObject agent)
     {
