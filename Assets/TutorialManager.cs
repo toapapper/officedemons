@@ -25,6 +25,8 @@ public class TutorialManager : MonoBehaviour
 
     [SerializeField] Image allDirectionsArrowMiddle, allDirectionsArrowLeft, yButtonIcon, bButtonIcon, xButtonIcon, aButtonMiddleIcon, moveIcon, aimIcon, arrowDirectionIcon, aButtonRightIcon;
 
+    [SerializeField] GameObject pickUpText, specialText, attackText, moveText, reviveText;
+
     const float rate = 1;
     float counter = 0;
     int chargesCounter = 2;
@@ -160,6 +162,7 @@ public class TutorialManager : MonoBehaviour
         if (other.tag == "Player")
         {
             DisableAllIcons();
+            DisableAllText();
             UpdateState(trigger);
 
             //Move, PickUp, Attack, Special, Revive, DirectionHint, Encounter
@@ -230,16 +233,19 @@ public class TutorialManager : MonoBehaviour
     {
         allDirectionsArrowMiddle.enabled = true;
         moveIcon.enabled = true;
+        moveText.SetActive(true);
     }
 
     private void PickUpTutorial()
     {
         xButtonIcon.enabled = true;
+        pickUpText.SetActive(true);
     }
 
     private void AttackTutorial()
     {
         aButtonMiddleIcon.enabled = true;
+        attackText.SetActive(true);
     }
 
     private void SpecialTutorial()
@@ -247,6 +253,7 @@ public class TutorialManager : MonoBehaviour
         bButtonIcon.enabled = true;
         aimIcon.enabled = true;
         allDirectionsArrowLeft.enabled = true;
+        specialText.SetActive(true);
 
         foreach (GameObject go in chargesActiveIcons)
         {
@@ -262,6 +269,7 @@ public class TutorialManager : MonoBehaviour
     private void ReviveTutorial()
     {
         yButtonIcon.enabled = true;
+        reviveText.SetActive(true);
     }
 
     private void HintDirection()
@@ -357,5 +365,14 @@ public class TutorialManager : MonoBehaviour
         {
             go.SetActive(false);
         }
+    }
+
+    private void DisableAllText()
+    {
+        moveText.SetActive(false);
+        attackText.SetActive(false);
+        specialText.SetActive(false);
+        reviveText.SetActive(false);
+        pickUpText.SetActive(false);
     }
 }
