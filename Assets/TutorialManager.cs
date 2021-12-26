@@ -23,7 +23,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     Encounter encounter;
 
-    [SerializeField] Image allDirectionsArrowMiddle, allDirectionsArrowLeft, yButtonIcon, bButtonIcon, xButtonIcon, aButtonMiddleIcon, moveIcon, aimIcon, arrowDirectionIcon, aButtonRightIcon;
+    [SerializeField] GameObject move, attack, pickup, special, revive, hint;
 
     const float rate = 1;
     float counter = 0;
@@ -42,8 +42,8 @@ public class TutorialManager : MonoBehaviour
 
         //MoveTutorial();
 
-        fullColor = arrowDirectionIcon.color;
-        colorEnd = arrowDirectionIcon.color;
+        fullColor = hint.GetComponentInChildren<Image>().color;
+        colorEnd = hint.GetComponentInChildren<Image>().color;
         colorStart = colorEnd;
         colorEnd.a = 0;
 
@@ -95,9 +95,9 @@ public class TutorialManager : MonoBehaviour
 
     void BlinkUpdate()
     {
-        arrowDirectionIcon.enabled = true;
+        hint.SetActive(true);
         counter += Time.deltaTime * rate;
-        arrowDirectionIcon.color = Color.Lerp(colorStart, colorEnd, Mathf.PingPong(counter * 2, 1));
+        hint.GetComponentInChildren<Image>().color = Color.Lerp(colorStart, colorEnd, Mathf.PingPong(counter * 2, 1));
 
         if (counter >= 1)
         {
@@ -140,12 +140,12 @@ public class TutorialManager : MonoBehaviour
         {
             if (p.GetComponent<Attributes>().Health <= 0)
             {
-                yButtonIcon.enabled = true;
+                revive.SetActive(true);
                 break;
             }
             else
             {
-                yButtonIcon.enabled = false;
+                revive.SetActive(false);
             }
         }
 
@@ -228,25 +228,22 @@ public class TutorialManager : MonoBehaviour
 
     private void MoveTutorial()
     {
-        allDirectionsArrowMiddle.enabled = true;
-        moveIcon.enabled = true;
+        move.SetActive(true);
     }
 
     private void PickUpTutorial()
     {
-        xButtonIcon.enabled = true;
+        pickup.SetActive(true);
     }
 
     private void AttackTutorial()
     {
-        aButtonMiddleIcon.enabled = true;
+        attack.SetActive(true);
     }
 
     private void SpecialTutorial()
     {
-        bButtonIcon.enabled = true;
-        aimIcon.enabled = true;
-        allDirectionsArrowLeft.enabled = true;
+        special.SetActive(true);
 
         foreach (GameObject go in chargesActiveIcons)
         {
@@ -261,12 +258,12 @@ public class TutorialManager : MonoBehaviour
 
     private void ReviveTutorial()
     {
-        yButtonIcon.enabled = true;
+        revive.SetActive(true);
     }
 
     private void HintDirection()
     {
-        arrowDirectionIcon.enabled = true;
+        hint.SetActive(true);
     }
 
     private void EncounterTutorial()
@@ -337,16 +334,11 @@ public class TutorialManager : MonoBehaviour
 
     private void DisableAllIcons()
     {
-        yButtonIcon.enabled = false;
-        bButtonIcon.enabled = false;
-        xButtonIcon.enabled = false;
-        aButtonMiddleIcon.enabled = false;
-        aButtonRightIcon.enabled = false;
-        moveIcon.enabled = false;
-        aimIcon.enabled = false;
-        arrowDirectionIcon.enabled = false;
-        allDirectionsArrowLeft.enabled = false;
-        allDirectionsArrowMiddle.enabled = false;
+        move.SetActive(false);
+        pickup.SetActive(false);
+        attack.SetActive(false);
+        special.SetActive(false);
+        revive.SetActive(false);
 
         foreach (GameObject go in chargesActiveIcons)
         {
