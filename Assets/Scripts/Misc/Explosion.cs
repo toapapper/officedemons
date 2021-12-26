@@ -30,10 +30,8 @@ public class Explosion : MonoBehaviour
 
 		if (FOV.VisibleTargets.Count > 0)
 		{
-			Debug.Log("Explosion targetCount: " + FOV.VisibleTargets.Count);
 			foreach (GameObject target in FOV.VisibleTargets)
 			{
-				Debug.Log("Explosion target: " + target);
 				if (target.GetComponent<Attributes>() != null && target.GetComponent<Attributes>().Health > 0)
 				{
 					if(SpawnerAgent != null && SpawnerAgent.GetComponent<Attributes>() != null)
