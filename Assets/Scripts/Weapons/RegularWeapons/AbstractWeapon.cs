@@ -129,9 +129,9 @@ public abstract class AbstractWeapon : MonoBehaviour
         textObjectName.faceColor = Color.white;
 
 
-    		if(particleEffectsPosition == null)//if no custom particleeffectsposition has been defined use the weapon-gameobject
+    	if(particleEffectsPosition == null)//if no custom particleeffectsposition has been defined use the weapon-gameobject
         {
-           particleEffectsPosition = gameObject;
+			particleEffectsPosition = gameObject;
         }
 
 		AddStatusEffects(EffectsAtSpawn);
@@ -269,6 +269,12 @@ public abstract class AbstractWeapon : MonoBehaviour
 		{
 			effects.Add(type, new WeaponEffectInfo(particleEffect, uses));
 			//instantiate particle effect as child of particleEffectsPosition and set weaponEffectsInfo to point to it.
+			
+			if(particleEffectsPosition == null)
+            {
+				particleEffectsPosition = gameObject;
+            }
+
 			GameObject instEffect = Instantiate(particleEffect, particleEffectsPosition.transform, false);
 			instEffect.transform.localPosition = Vector3.zero;
 			instEffect.transform.localScale *= 0.5f;
