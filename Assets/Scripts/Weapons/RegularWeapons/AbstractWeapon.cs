@@ -259,6 +259,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 				particleEffect = ParticleEffectContainer.megaParalysisEffect;
 				uses = MegaParalysisStatus.StdDuration;
 				break;
+			default:
+				return;
 		}
 
 		if (effects.ContainsKey(type))//if already contains the statuseffect. simply reset its amount of uses.
