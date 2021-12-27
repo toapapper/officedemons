@@ -234,7 +234,9 @@ public class StarThrower : AbstractSpecial
         {
 			gameObject.GetComponent<SphereCollider>().radius = ActionPower;
 		}
+
         surroundingCircle.gameObject.transform.localScale = new Vector3(specialController.FOV.ViewRadius * GetActionPower(), specialController.FOV.ViewRadius * GetActionPower(), specialController.FOV.ViewRadius * GetActionPower());
+
 		var main = pulsatingIce.main;
 		main.startSize = GetActionPower() + 2;
 	}
