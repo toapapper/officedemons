@@ -116,7 +116,7 @@ public class StatusEffectHandler : MonoBehaviour
     /// <param name="effectType"></param>
     /// <param name="duration">This duration overrides the existing duration if it is greater than it. otherwise the old one is used, the stacks are however still applied</param>
     /// <param name="stacks"></param>
-    public void ApplyEffect(StatusEffectType effectType)
+    public void ApplyEffect(StatusEffectType effectType, GameObject applier)
     {
         if (activeEffects.Count == 2 && !activeEffects.ContainsKey(effectType))//too many. remove one before doing anything else.
         {
@@ -135,7 +135,7 @@ public class StatusEffectHandler : MonoBehaviour
 
             if(comboType == StatusEffectType.none) //no combo. both can be active at the same time
             {
-                AddEffect(effectType);
+                AddEffect(effectType, applier);
             }
             else if(comboType == StatusEffectType.comboAction) //do comboaction (mostly explosions and moving to weapon)
             {
@@ -145,67 +145,70 @@ public class StatusEffectHandler : MonoBehaviour
             else//there is a combo. Therefore remove the existing one and add the combined one
             {
                 RemoveEffect(currentEffect.type);
-                AddEffect(comboType);
+                AddEffect(comboType, applier);
             }
         }
         else //otherwise just add the new effect
         {
-            AddEffect(effectType);
+            AddEffect(effectType, applier);
         }
     }
+
+
+
 
     /// <summary>
     /// no questions asked. just applies the effect. only to be used internally
     /// </summary>
     /// <param name="effectType"></param>
-    private void AddEffect(StatusEffectType effectType)
+    private void AddEffect(StatusEffectType effectType, GameObject applier)
     {
         StatusEffect effect = null;
         GameObject particleEffect = null;
         switch (effectType)
         {
             case fire:
-                effect = new FireStatus(myAgent);
+                effect = new FireStatus(myAgent, applier);
                 particleEffect = ParticleEffectContainer.fireEffect;
                 break;
             case poison:
-                effect = new PoisonStatus(myAgent);
+                effect = new PoisonStatus(myAgent, applier);
                 particleEffect = ParticleEffectContainer.poisonEffect;
                 break;
             case ice:
-                effect = new IceStatus(myAgent);
+                effect = new IceStatus(myAgent, applier);
                 particleEffect = ParticleEffectContainer.iceEffect;
                 break;
             case damage_boost:
-                effect = new DamageBoostStatus(myAgent);
+                effect = new DamageBoostStatus(myAgent, applier);
                 particleEffect = ParticleEffectContainer.damageBoostEffect;
                 break;
             case vulnerable:
-                effect = new VulnerableStatus(myAgent);
+                effect = new VulnerableStatus(myAgent, applier);
                 particleEffect = ParticleEffectContainer.vulnerableEffect;
                 break;
             case hell_fire:
-                effect = new HellFireStatus(myAgent, this);
+                effect = new HellFireStatus(myAgent, applier, this);
                 particleEffect = ParticleEffectContainer.hellFireEffect;
                 break;
             case hell_poison:
-                effect = new HellPoisonStatus(myAgent, this);
+                effect = new HellPoisonStatus(myAgent, applier, this);
                 particleEffect = ParticleEffectContainer.hellPoisonEffect;
                 break;
             case hell_ice:
-                effect = new HellIceStatus(myAgent, this);
+                effect = new HellIceStatus(myAgent, applier, this);
                 particleEffect = ParticleEffectContainer.hellIceEffect;
                 break;
             case paralysis:
-                effect = new ParalysisStatus(myAgent);
+                effect = new ParalysisStatus(myAgent, applier);
                 particleEffect = ParticleEffectContainer.paralysisEffect;
                 break;
             case mega_paralysis:
-                effect = new MegaParalysisStatus(myAgent);
+                effect = new MegaParalysisStatus(myAgent, applier);
                 particleEffect = ParticleEffectContainer.megaParalysisEffect;
                 break;
             case glass_cannon:
-                effect = new GlassCannonStatus(myAgent);
+                effect = new GlassCannonStatus(myAgent, applier);
                 particleEffect = ParticleEffectContainer.glassCannonEffect;
                 break;
             default:

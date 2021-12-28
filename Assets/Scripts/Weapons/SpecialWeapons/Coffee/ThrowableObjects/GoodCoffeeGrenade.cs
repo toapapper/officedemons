@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// <para>
-/// The support grenade version thrown by Devins special weapon,
+/// The support grenade version thrown by Devins special weapon, [DEPRECATED AND NOT IN USE]
 /// healing players and creating buffing coffeStain on impact
 /// </para>
 ///

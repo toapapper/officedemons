@@ -142,13 +142,13 @@ public class TerribleBreath : AbstractSpecial
                     {
                         Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower) + 20) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
                         Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
-                        Effects.ApplyWeaponEffects(target, ultiEffects);
+                        Effects.ApplyWeaponEffects(target, HolderAgent, ultiEffects);
                     }
                     else
                     {
                         Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
                         Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
-                        Effects.ApplyWeaponEffects(target, effects);
+                        Effects.ApplyWeaponEffects(target, HolderAgent, effects);
                     }
                 }
 				else

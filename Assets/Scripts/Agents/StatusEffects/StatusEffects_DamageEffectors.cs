@@ -14,7 +14,7 @@ class DamageBoostStatus : StatusEffect
     public const float Effect = .50f;//Percent extra damage done
     public const int StdDuration = 3;
 
-    public DamageBoostStatus(GameObject agent) : base(StatusEffectType.damage_boost, StdDuration, agent)
+    public DamageBoostStatus(GameObject agent, GameObject applier) : base(StatusEffectType.damage_boost, StdDuration, agent, applier)
     {
         comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
 
@@ -34,7 +34,7 @@ class VulnerableStatus : StatusEffect
     public const float Effect = .35f;//Percent extra damage done
     public const int StdDuration = 3;
 
-    public VulnerableStatus(GameObject agent) : base(StatusEffectType.vulnerable, StdDuration, agent)
+    public VulnerableStatus(GameObject agent, GameObject applier) : base(StatusEffectType.vulnerable, StdDuration, agent, applier)
     {
         comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
         comboWith.Add(fire, hell_fire);
@@ -54,5 +54,5 @@ class GlassCannonStatus : StatusEffect
     public const float VulnerableEffect = .7f;
     public const int StdDuration = 4;
 
-    public GlassCannonStatus(GameObject agent) : base(StatusEffectType.glass_cannon, StdDuration, agent) {}
+    public GlassCannonStatus(GameObject agent, GameObject applier) : base(StatusEffectType.glass_cannon, StdDuration, agent, applier) {}
 }

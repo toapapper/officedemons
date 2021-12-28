@@ -113,7 +113,7 @@ public static class Effects
 		UIManager.Instance.NewFloatingText(target, "-" + drain + " Stamina", Color.yellow);
     }
 
-	public static void ApplyStatusEffect(GameObject target, StatusEffectType type)
+	public static void ApplyStatusEffect(GameObject target, GameObject applier, StatusEffectType type)
     {
 
 		if(!(target.CompareTag("Player") || target.CompareTag("Enemy")) ||(target.name == "tank" || (target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat)) && target.layer == LayerMask.NameToLayer("Destructible"))
@@ -121,7 +121,7 @@ public static class Effects
 			return;
         } 
 
-		target.GetComponent<Attributes>().statusEffectHandler.ApplyEffect(type);
+		target.GetComponent<Attributes>().statusEffectHandler.ApplyEffect(type, applier);
 		UIManager.Instance.NewFloatingText(target, "Status applied: " + type, Color.cyan);
     }
 
@@ -140,7 +140,7 @@ public static class Effects
     /// <summary>
     /// Applies the offensive effects to the hit target
     /// </summary>
-    public static void ApplyWeaponEffects(GameObject target, List<StatusEffectType> weaponEffects)
+    public static void ApplyWeaponEffects(GameObject target, GameObject applier, List<StatusEffectType> weaponEffects)
     {
         if (weaponEffects == null || target.name == "tank")
         {
@@ -149,7 +149,7 @@ public static class Effects
 
         foreach (StatusEffectType type in weaponEffects)
         {
-			ApplyStatusEffect(target, type);
+			ApplyStatusEffect(target, applier, type);
         }
     }
 

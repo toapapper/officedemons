@@ -158,7 +158,7 @@ public class RushChair : AbstractSpecial
 						if (isKillEffect)
 						{
 							Charges = MaxCharges;
-							gameObject.transform.parent.transform.GetComponentInChildren<StatusEffectHandler>().ApplyEffect(StatusEffectType.damage_boost);
+							gameObject.transform.parent.transform.GetComponentInChildren<StatusEffectHandler>().ApplyEffect(StatusEffectType.damage_boost, HolderAgent);
 						}
 						break;
 				}

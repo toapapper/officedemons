@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// <para>
-/// The supporting version of Devins specialWeapons
+/// The supporting version of Devins specialWeapons [DEPRECATED AND NOT IN USE. both devins use hotcoffee-script with different prefab-settings]
 /// </para>
 ///
 ///  <para>

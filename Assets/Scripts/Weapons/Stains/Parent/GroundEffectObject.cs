@@ -26,6 +26,8 @@ public abstract class GroundEffectObject : MonoBehaviour
     protected int durabilityTurns;
     protected float durabilityTime;
 
+    public GameObject creatorAgent;
+
     private void Start()
     {
         this.durabilityTime = totalDurabilityTime;
@@ -60,7 +62,7 @@ public abstract class GroundEffectObject : MonoBehaviour
     }
     protected virtual void ApplyEffectsOn(GameObject agent)
     {
-        Effects.ApplyWeaponEffects(agent, effects);
+        Effects.ApplyWeaponEffects(agent, creatorAgent, effects);
     }
 
     public void UpdateTime()

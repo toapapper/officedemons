@@ -154,7 +154,7 @@ public class StarThrower : AbstractSpecial
 				{
 					if (target.layer != LayerMask.NameToLayer("Destructible"))
                     {
-						Effects.ApplyWeaponEffects(target, ultiEffects);
+						Effects.ApplyWeaponEffects(target, HolderAgent, ultiEffects);
 						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
 						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
                     }
@@ -173,7 +173,7 @@ public class StarThrower : AbstractSpecial
 				{
 					if (target.layer != LayerMask.NameToLayer("Destructible"))
                     {
-						Effects.ApplyWeaponEffects(target, effects);
+						Effects.ApplyWeaponEffects(target, HolderAgent, effects);
 						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
 						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
                     }
@@ -211,7 +211,7 @@ public class StarThrower : AbstractSpecial
 				{
 					if (target.layer != LayerMask.NameToLayer("Destructible"))
 					{
-						Effects.ApplyStatusEffect(target, StatusEffectType.ice);
+						Effects.ApplyStatusEffect(target, HolderAgent, StatusEffectType.ice);
 					}
 				}
 			}
@@ -245,7 +245,7 @@ public class StarThrower : AbstractSpecial
     {
         if (other.gameObject.layer != LayerMask.NameToLayer("Destructible"))
         {
-            Effects.ApplyStatusEffect(other.gameObject, StatusEffectType.ice);
+            Effects.ApplyStatusEffect(other.gameObject, HolderAgent, StatusEffectType.ice);
         }
 
     }

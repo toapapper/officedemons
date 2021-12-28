@@ -36,7 +36,7 @@ public class PositiveGroundObject : GroundEffectObject
 		//Effects.Heal(agent, healAmount);
 		foreach (StatusEffectType effect in effects)
 		{
-			Effects.ApplyStatusEffect(agent, effect);
+			Effects.ApplyStatusEffect(agent, null, effect);
 		}
 	}
 

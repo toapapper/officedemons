@@ -17,7 +17,7 @@ class PoisonStatus : StatusEffect
     public const int StdDuration = 4;
     public const int Dmg = 12;
 
-    public PoisonStatus(GameObject agent) : base(StatusEffectType.poison, StdDuration, agent) 
+    public PoisonStatus(GameObject agent, GameObject applier) : base(StatusEffectType.poison, StdDuration, agent, applier) 
     {
         comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
         comboWith.Add(fire, comboAction);
@@ -31,7 +31,7 @@ class PoisonStatus : StatusEffect
     {
         base.Update();
 
-        Effects.Damage(agent, Dmg);
+        DealDamage(Dmg);
     }
 }
 
@@ -41,7 +41,7 @@ class HellPoisonStatus : HellStatusEffect
     public const int StdDuration = 4;
     public const int Dmg = 25;
 
-    public HellPoisonStatus(GameObject agent, StatusEffectHandler handler) : base(StatusEffectType.hell_poison, StdDuration, agent, handler)
+    public HellPoisonStatus(GameObject agent, GameObject applier, StatusEffectHandler handler) : base(StatusEffectType.hell_poison, StdDuration, agent, applier, handler)
     {
         comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
         comboWith.Add(fire, comboAction);
@@ -55,7 +55,7 @@ class HellPoisonStatus : HellStatusEffect
     {
         base.Update();
 
-        Effects.Damage(agent, Dmg);
+        DealDamage(Dmg);
     }
 
     public override void OnDeath()
@@ -71,7 +71,7 @@ class ParalysisStatus : StatusEffect
 {
     public const int StdDuration = 1;
 
-    public ParalysisStatus(GameObject agent) : base(StatusEffectType.paralysis, StdDuration, agent)
+    public ParalysisStatus(GameObject agent, GameObject applier) : base(StatusEffectType.paralysis, StdDuration, agent, applier)
     {
         comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
         comboWith.Add(damage_boost, comboAction);
@@ -83,7 +83,7 @@ class MegaParalysisStatus : StatusEffect
     public const int StdDuration = 3;
     public const int Dmg = 25;
 
-    public MegaParalysisStatus(GameObject agent): base(StatusEffectType.mega_paralysis, StdDuration, agent)
+    public MegaParalysisStatus(GameObject agent, GameObject applier): base(StatusEffectType.mega_paralysis, StdDuration, agent, applier)
     {
         comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
         comboWith.Add(damage_boost, comboAction);
@@ -93,6 +93,6 @@ class MegaParalysisStatus : StatusEffect
     {
         base.Update();
 
-        Effects.Damage(agent, Dmg);
+        DealDamage(Dmg);
     }
 }

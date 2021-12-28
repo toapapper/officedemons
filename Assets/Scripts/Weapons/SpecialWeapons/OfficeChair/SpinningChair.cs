@@ -170,7 +170,7 @@ public class SpinningChair : AbstractSpecial
 						break;
 					case 3:
 						Effects.WeaponDamage(target, (Damage + damageAdder) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * ActionPower, HolderAgent);
-						Effects.ApplyWeaponEffects(target, effects);
+						Effects.ApplyWeaponEffects(target, HolderAgent, effects);
 						break;
 
 				}

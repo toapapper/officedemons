@@ -39,19 +39,37 @@ public abstract class StatusEffect
     public int startDuration;
 
     protected GameObject agent;
+    protected GameObject applier;
     protected Dictionary<StatusEffectType, StatusEffectType> comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
 
-    public StatusEffect(StatusEffectType type, int duration, GameObject agent)
+    /// <summary>
+    /// Base class for status effect
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="duration"></param>
+    /// <param name="agent"> agent effect is applied to </param>
+    /// <param name="applier"> agent that applied the effect </param>
+    public StatusEffect(StatusEffectType type, int duration, GameObject agent, GameObject applier)
     {
         this.type = type;
         this.duration = duration;
         this.startDuration = duration;
         this.agent = agent;
+        this.applier = applier;
     }
 
     public virtual void Update()
     {
         this.duration--;
+    }
+
+    /// <summary>
+    /// Deal damage to attached agent.
+    /// </summary>
+    /// <param name="amount"></param>
+    protected void DealDamage(float amount)
+    {
+        Effects.Damage(agent, amount, applier);
     }
 
     public virtual void ResetDuration()
@@ -91,7 +109,7 @@ public class HellStatusEffect : StatusEffect
 {
     StatusEffectHandler handler;
 
-    public HellStatusEffect(StatusEffectType type, int duration, GameObject agent, StatusEffectHandler handler) : base(type, duration, agent)
+    public HellStatusEffect(StatusEffectType type, int duration, GameObject agent, GameObject applier, StatusEffectHandler handler) : base(type, duration, agent, applier)
     {
         this.handler = handler;
     }

@@ -84,7 +84,8 @@ public class HotCoffeeGrenade : GroundEffectGrenade
 		Vector3 rot = transform.rotation.eulerAngles;
 		rot.x = 0;
 		rot.z = 0;
-		Instantiate(stain, groundObjectPos, Quaternion.Euler(rot));
+		GameObject stainObj = Instantiate(stain, groundObjectPos, Quaternion.Euler(rot));
+		stainObj.GetComponent<NegativeGroundObject>().creatorAgent = thrower;
 	}
 
 	protected override void ImpactAgents() {/*This should do nothing. its a useless method.*/}

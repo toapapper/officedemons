@@ -386,7 +386,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 			{
 				Effects.WeaponDamage(collision.gameObject, throwDamage, holderAgent);
 				//Effects.Damage(collision.gameObject, throwDamage);
-				Effects.ApplyWeaponEffects(collision.gameObject, Utilities.ListDictionaryKeys(effects));
+				Effects.ApplyWeaponEffects(collision.gameObject, holderAgent, Utilities.ListDictionaryKeys(effects));
 			}
 			isProjectile = false;
 		}

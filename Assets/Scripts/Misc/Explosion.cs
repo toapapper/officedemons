@@ -51,7 +51,7 @@ public class Explosion : MonoBehaviour
 						explosionForceDirection.Normalize();
 
 						Effects.ApplyForce(target, explosionForceDirection * force);
-						Effects.ApplyWeaponEffects(target, effects);
+						Effects.ApplyWeaponEffects(target, SpawnerAgent, effects);
 					}
 				}
 			}

@@ -11,7 +11,7 @@ class IceStatus : StatusEffect
     public const int StdDuration = 3;
     public const float SlowWeight = 40f;
 
-    public IceStatus(GameObject agent) : base(StatusEffectType.ice, StdDuration, agent)
+    public IceStatus(GameObject agent, GameObject applier) : base(StatusEffectType.ice, StdDuration, agent, applier)
     {
         comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
         comboWith.Add(fire, comboAction);
@@ -41,7 +41,7 @@ class HellIceStatus : HellStatusEffect
     public const float SlowWeight = 50f;
     public const int Dmg = 15;
 
-    public HellIceStatus(GameObject agent, StatusEffectHandler handler) : base(StatusEffectType.hell_ice, StdDuration, agent, handler)
+    public HellIceStatus(GameObject agent, GameObject applier, StatusEffectHandler handler) : base(StatusEffectType.hell_ice, StdDuration, agent, applier, handler)
     {
         comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
         comboWith.Add(fire, comboAction);
@@ -54,7 +54,7 @@ class HellIceStatus : HellStatusEffect
     public override void Update()
     {
         base.Update();
-        Effects.Damage(agent, Dmg);
+        DealDamage(Dmg);
     }
 
     public override void OnApply()

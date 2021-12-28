@@ -86,7 +86,7 @@ public class Bullet : MonoBehaviour
             //Effects.Damage(collision.gameObject, bulletDamage);
             Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce);
 
-            Effects.ApplyWeaponEffects(collision.gameObject, effects);
+            Effects.ApplyWeaponEffects(collision.gameObject, shooter, effects);
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
         {

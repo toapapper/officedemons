@@ -99,7 +99,7 @@ public class DestructibleObjects : MonoBehaviour
 
 						Effects.Damage(target, damage);
 						Effects.ApplyForce(target, explosionForceDirection * force);
-						Effects.ApplyWeaponEffects(target, effects);
+						Effects.ApplyWeaponEffects(target, null, effects);
 					}
 					else
 					{

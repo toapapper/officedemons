@@ -11,7 +11,7 @@ class FireStatus : StatusEffect
     public const int StdDuration = 2;
     public const int Dmg = 20;
 
-    public FireStatus(GameObject agent):base(StatusEffectType.fire, StdDuration, agent)
+    public FireStatus(GameObject agent, GameObject applier):base(StatusEffectType.fire, StdDuration, agent, applier)
     {
         comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
         comboWith.Add(ice, comboAction);
@@ -25,7 +25,7 @@ class FireStatus : StatusEffect
     public override void Update()
     {
         base.Update();
-        Effects.Damage(agent, Dmg);
+        DealDamage(Dmg);
     }
 }
 
@@ -35,7 +35,7 @@ class HellFireStatus : HellStatusEffect
     public const int StdDuration = 2;
     public const int Dmg = 35;
 
-    public HellFireStatus(GameObject agent, StatusEffectHandler handler) : base(StatusEffectType.hell_fire, StdDuration, agent, handler)
+    public HellFireStatus(GameObject agent, GameObject applier, StatusEffectHandler handler) : base(StatusEffectType.hell_fire, StdDuration, agent, applier, handler)
     {
         comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
         comboWith.Add(ice, comboAction);
@@ -48,7 +48,7 @@ class HellFireStatus : HellStatusEffect
     public override void Update()
     {
         base.Update();
-        Effects.Damage(agent, Dmg);
+        DealDamage(Dmg);
     }
 
     public override void OnDeath()
