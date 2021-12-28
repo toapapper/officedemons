@@ -61,7 +61,7 @@ public class TerribleBreath : AbstractSpecial
                 Charges = MaxCharges;
             }
             specialController.FOV.ViewRadius *= ActionPower;
-        }       
+        }
         SpecialController.FOVVisualization.SetActive(isActive);
         changedFOV = true;
     }
@@ -73,41 +73,45 @@ public class TerribleBreath : AbstractSpecial
     public override void Attack()
     {
         changedFOV = false;
-        switch (Charges)
+        if (superCharged)
         {
-            case 1:
-                if (!particleEffects[0].activeSelf)
-                {
-                    AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
-                    particleEffects[0].SetActive(true);
-                    StartCoroutine(CountdownTime(1.5f, particleEffects[0]));
-                }
-                break;
-            case 2:
-                if (!particleEffects[1].activeSelf)
-                {
-                    AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
-                    particleEffects[1].SetActive(true);
-                    StartCoroutine(CountdownTime(1.5f, particleEffects[1]));
-                }
-                break;
-            case 3:
-                if (!particleEffects[2].activeSelf)
-                {
-                    AkSoundEngine.PostEvent("Dragon_Fire_short", gameObject);
-                    particleEffects[2].SetActive(true);
-                    StartCoroutine(CountdownTime(1.5f, particleEffects[2]));
-                }
-                break;
+            if (!particleEffects[3].activeSelf)
+            {
+                AkSoundEngine.PostEvent("Dragon_Fire_short", gameObject);
+                particleEffects[3].SetActive(true);
+                StartCoroutine(CountdownTime(1.5f, particleEffects[3]));
+            }
         }
-
-        //if (!particleEffect.activeSelf)
-        //{
-        //    AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
-        //    particleEffect.SetActive(true);
-        //    StartCoroutine(CountdownTime(1.5f));
-
-        //}
+        else
+        {
+            switch (Charges)
+            {
+                case 1:
+                    if (!particleEffects[0].activeSelf)
+                    {
+                        AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
+                        particleEffects[0].SetActive(true);
+                        StartCoroutine(CountdownTime(1.5f, particleEffects[0]));
+                    }
+                    break;
+                case 2:
+                    if (!particleEffects[1].activeSelf)
+                    {
+                        AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
+                        particleEffects[1].SetActive(true);
+                        StartCoroutine(CountdownTime(1.5f, particleEffects[1]));
+                    }
+                    break;
+                case 3:
+                    if (!particleEffects[2].activeSelf)
+                    {
+                        AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
+                        particleEffects[2].SetActive(true);
+                        StartCoroutine(CountdownTime(1.5f, particleEffects[2]));
+                    }
+                    break;
+            }
+        }
         SpecialController.Animator.SetTrigger("isSpecialBreath");
         Charges = 0;
     }
@@ -136,7 +140,7 @@ public class TerribleBreath : AbstractSpecial
                 {
                     if (superCharged)
                     {
-                        Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+                        Effects.WeaponDamage(target, (Damage + (damageMultiplier * ActionPower) + 20) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
                         Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * (HitForce + (hitForceMultiplier * ActionPower)));
                         Effects.ApplyWeaponEffects(target, ultiEffects);
                     }
@@ -151,7 +155,7 @@ public class TerribleBreath : AbstractSpecial
 				{
                     Effects.Damage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
                 }
-                
+
             }
         }
         ActionPower = 0;

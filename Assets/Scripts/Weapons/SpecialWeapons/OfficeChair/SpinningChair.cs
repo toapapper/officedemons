@@ -27,8 +27,7 @@ public class SpinningChair : AbstractSpecial
 	private float healAmount = 10f;
 	[SerializeField]
 	private List<TrailRenderer> trails;
-	[SerializeField]
-	private GameObject particleEffect;
+	[SerializeField] private List<GameObject> particleEffects;
 	private bool changedFOV;
 	private void Start()
 	{
@@ -54,10 +53,10 @@ public class SpinningChair : AbstractSpecial
 					ActionPower = 1;
 					break;
 				case 2:
-					ActionPower = 2.5f;
+					ActionPower = 2.2f;
 					break;
 				case 3:
-					ActionPower = 4;
+					ActionPower = 3;
 					break;
 				default:
 					break;
@@ -81,7 +80,6 @@ public class SpinningChair : AbstractSpecial
 		{
 			trail.enabled = true;
 		}
-		Charges = 0;
 		changedFOV = false;
 		SpecialController.Animator.SetTrigger("isSpecialSpin");
 	}
@@ -102,8 +100,20 @@ public class SpinningChair : AbstractSpecial
 		int nrOfTargets = specialController.FOV.VisibleTargets.Count;
 		AkSoundEngine.PostEvent("VickySlide", gameObject);
 		AkSoundEngine.PostEvent("SusanBurst", gameObject);
-		Instantiate(particleEffect, transform.position, Quaternion.Euler(-90,0,0));
-		Debug.LogError(particleEffect);
+        switch (Charges)
+        {
+            case 1:
+                Instantiate(particleEffects[0], transform.position, Quaternion.Euler(-90, 0, 0));
+                break;
+            case 2:
+                Instantiate(particleEffects[1], transform.position, Quaternion.Euler(-90, 0, 0));
+                break;
+            case 3:
+                Instantiate(particleEffects[2], transform.position, Quaternion.Euler(-90, 0, 0));
+                break;
+            default:
+                break;
+        }
 		if (Charges == MaxCharges)
 		{
 			if (nrOfTargets > 0)
@@ -138,7 +148,8 @@ public class SpinningChair : AbstractSpecial
 		}
 		StartCoroutine(CountdownTime(0.5f));
 		ActionPower = 0;
-		changedFOV = false;
+        Charges = 0;
+        changedFOV = false;
 		SpecialController.FOV.ViewRadius = viewDistance;
         SpecialController.FOV.ViewAngle = viewAngle;
 	}

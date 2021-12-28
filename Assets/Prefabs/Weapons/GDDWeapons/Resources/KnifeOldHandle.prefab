@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 4738326039782559931}
   - component: {fileID: 4738326039782559930}
   m_Layer: 9
-  m_Name: KnifeHandleOld
+  m_Name: KnifeOldHandle
   m_TagString: WeaponHandle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 876766880112338521}
   - component: {fileID: 4738326040205082246}
   m_Layer: 9
-  m_Name: Knife
+  m_Name: KnifeOld
   m_TagString: WeaponObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -292,7 +292,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponTexture: {fileID: 21300000, guid: 18e0e8e6cc5048541b6b9b88433364e1, type: 3}
-  effects: 
+  EffectsAtSpawn: 
+  particleEffectsPosition: {fileID: 0}
   holderAgent: {fileID: 0}
   handle: {fileID: 4738326039782559929}
   damage: 20
