@@ -54,6 +54,7 @@ public class MainMenu : MonoBehaviour
     public void PlayTutorial()
     {
         SceneManagment.Instance.GetLevel(4);
+        Time.timeScale = 1;
     }
     
 }
