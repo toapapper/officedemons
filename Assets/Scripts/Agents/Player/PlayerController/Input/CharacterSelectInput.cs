@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 /// <summary>
 /// <para>
@@ -16,21 +17,33 @@ using UnityEngine.InputSystem;
  */
 public class CharacterSelectInput : MonoBehaviour
 {
-    [SerializeField] private GameObject[] portraits;
+    [SerializeField] private Sprite[] portraits;
+    [SerializeField] private Image sprite;
     int index;
 
-    public void NewSelection(GameObject GO)
+    public void NewSelection()
     {
-        for (int i = 0; i < portraits.Length; i++)
+        if(index == 0)
         {
-            if(portraits[i] == GO)
-            {
-                GO.SetActive(true);
-            }
-            else
-            {
-                GO.SetActive(false);
-            }
+            sprite.sprite = portraits[0];
         }
+        else if(index == 1)
+        {
+            sprite.sprite = portraits[1];
+        }
+        else if(index == 2)
+        {
+            sprite.sprite = portraits[2];
+        }
+        else
+        {
+            sprite.sprite = portraits[3];
+        }
+    }
+
+    public void SetIndex(int i)
+    {
+        index = i;
+        Debug.Log("Index: " + index);
     }
 }
