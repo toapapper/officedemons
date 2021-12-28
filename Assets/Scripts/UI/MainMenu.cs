@@ -24,6 +24,7 @@ public class MainMenu : MonoBehaviour
     public void Play()
     {
         SceneManagment.Instance.NextLevel();
+        Time.timeScale = 1;
     }
     
     public void Resume()
@@ -41,13 +42,13 @@ public class MainMenu : MonoBehaviour
    
     public void Quit()
     {
-        //if (!InGame)
-        //    Application.Quit(1000);
-        //else
-        //{
-        //    SceneManager.LoadScene("Main Menu");
-        //}
-        Application.Quit();
+        if (!InGame)
+            Application.Quit(1000);
+        else
+        {
+            SceneManager.LoadScene("Main Menu");
+        }
+        //Application.Quit();
     }
     
 }

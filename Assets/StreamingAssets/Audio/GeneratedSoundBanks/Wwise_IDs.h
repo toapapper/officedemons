@@ -19,6 +19,7 @@ namespace AK
         static const AkUniqueID BULLET_IMPACT_FLESH = 3754544321U;
         static const AkUniqueID BULLET_IMPACT_GLASS = 1713137135U;
         static const AkUniqueID BULLETS_WHIZ_BY = 1113486413U;
+        static const AkUniqueID DRAGON_FIRE_SHORT = 3744034140U;
         static const AkUniqueID GUN_COCKING = 3751980148U;
         static const AkUniqueID PISTOL_SHOT = 991589999U;
         static const AkUniqueID PLAY_AMBIENCE = 278617630U;

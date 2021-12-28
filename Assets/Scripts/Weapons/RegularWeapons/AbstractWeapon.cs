@@ -124,9 +124,13 @@ public abstract class AbstractWeapon : MonoBehaviour
 
     private void Start()
     {
+
         textObjectName = gameObject.transform.parent.GetComponentInChildren<TextMeshPro>();
-        textObjectName.text = gameObject.transform.parent.name;
-        textObjectName.faceColor = Color.white;
+		if(textObjectName != null)
+        {
+			textObjectName.text = gameObject.transform.parent.name;
+			textObjectName.faceColor = Color.white;
+        }
 
 
     	if(particleEffectsPosition == null)//if no custom particleeffectsposition has been defined use the weapon-gameobject

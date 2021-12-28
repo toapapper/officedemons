@@ -94,7 +94,7 @@ public class TerribleBreath : AbstractSpecial
             case 3:
                 if (!particleEffects[2].activeSelf)
                 {
-                    AkSoundEngine.PostEvent("Play_Fire_woosh", gameObject);
+                    AkSoundEngine.PostEvent("Dragon_Fire_short", gameObject);
                     particleEffects[2].SetActive(true);
                     StartCoroutine(CountdownTime(1.5f, particleEffects[2]));
                 }
