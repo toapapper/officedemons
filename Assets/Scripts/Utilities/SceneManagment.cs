@@ -58,7 +58,7 @@ public class SceneManagment : MonoBehaviour
     }
 
 
-    private void GetLevel(int levelIndex)
+    public void GetLevel(int levelIndex)
     {
         SceneManager.LoadScene(levelIndex);
     }

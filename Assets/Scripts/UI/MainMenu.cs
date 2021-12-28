@@ -50,5 +50,10 @@ public class MainMenu : MonoBehaviour
         }
         //Application.Quit();
     }
+
+    public void PlayTutorial()
+    {
+        SceneManagment.Instance.GetLevel(4);
+    }
     
 }
