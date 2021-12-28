@@ -127,9 +127,7 @@ public abstract class AbstractWeapon : MonoBehaviour
         textObjectName = gameObject.transform.parent.GetComponentInChildren<TextMeshPro>();
         textObjectName.text = gameObject.transform.parent.name;
         textObjectName.faceColor = Color.white;
-
-
-    	if(particleEffectsPosition == null)//if no custom particleeffectsposition has been defined use the weapon-gameobject
+        if (particleEffectsPosition == null)//if no custom particleeffectsposition has been defined use the weapon-gameobject
         {
 			particleEffectsPosition = gameObject;
         }
@@ -155,7 +153,7 @@ public abstract class AbstractWeapon : MonoBehaviour
                     {
                         textObjectName.gameObject.SetActive(true);
                         showName = true;
-                        textObjectName.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
+                        textObjectName.transform.rotation = new Quaternion(Quaternion.identity.x + 0.2f, Quaternion.identity.y, Quaternion.identity.z, Quaternion.identity.w);
                     }
 
                 }
@@ -167,10 +165,11 @@ public abstract class AbstractWeapon : MonoBehaviour
         }
     }
 
-	/// <summary>
-	/// Called each attack to reduce the amount of charges left on the status effects and remove the ones with none.
-	/// </summary>
-	protected virtual void StatusEffectUpdate()
+
+    /// <summary>
+    /// Called each attack to reduce the amount of charges left on the status effects and remove the ones with none.
+    /// </summary>
+    protected virtual void StatusEffectUpdate()
     {
 		List<StatusEffectType> toRemove = new List<StatusEffectType>(2);
 
