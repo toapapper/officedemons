@@ -61,7 +61,7 @@ public class TerribleBreath : AbstractSpecial
                 Charges = MaxCharges;
             }
             specialController.FOV.ViewRadius *= ActionPower;
-        }       
+        }
         SpecialController.FOVVisualization.SetActive(isActive);
         changedFOV = true;
     }
@@ -155,7 +155,7 @@ public class TerribleBreath : AbstractSpecial
 				{
                     Effects.Damage(target, (Damage + (damageMultiplier * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
                 }
-                
+
             }
         }
         ActionPower = 0;

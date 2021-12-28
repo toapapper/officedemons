@@ -91,7 +91,12 @@ public class HotCoffeeGrenade : GroundEffectGrenade
 
     protected override void Explode()
     {
-		GameObject expl = Instantiate(explosion, transform.position, transform.rotation);
+		//Only keep the rotaion around y axis for instantiating the explosion
+		Vector3 rot = transform.rotation.eulerAngles;
+		rot.x = 0;
+		rot.z = 0;
+
+		GameObject expl = Instantiate(explosion, transform.position, Quaternion.Euler(rot));
 		Explosion explos = expl.GetComponent<Explosion>();
 		if(explos != null)
         {

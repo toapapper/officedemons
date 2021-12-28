@@ -32,6 +32,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 		if(Instance != null)
 		{
 			Debug.Log("SINGLETON - Trying to create another instace of singleton!!");
+			Destroy(gameObject);
 		}
 		else
 		{
@@ -86,8 +87,6 @@ public class PlayerConfigurationManager : MonoBehaviour
 			}
         }
 	}
-
-
 }
 
 public class PlayerConfiguration
