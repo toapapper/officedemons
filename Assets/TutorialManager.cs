@@ -38,7 +38,7 @@ public class TutorialManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CurrentTutorialState = TutorialState.DirectionHint;
+        //CurrentTutorialState = TutorialState.DirectionHint;
 
         //MoveTutorial();
 
@@ -339,6 +339,7 @@ public class TutorialManager : MonoBehaviour
         attack.SetActive(false);
         special.SetActive(false);
         revive.SetActive(false);
+        hint.SetActive(false);
 
         foreach (GameObject go in chargesActiveIcons)
         {
