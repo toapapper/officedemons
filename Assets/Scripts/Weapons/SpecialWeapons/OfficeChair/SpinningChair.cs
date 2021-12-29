@@ -114,8 +114,9 @@ public class SpinningChair : AbstractSpecial
             default:
                 break;
         }
-		if (Charges == MaxCharges)
+		if (Charges >= MaxCharges)
 		{
+			Charges = MaxCharges;
 			if (nrOfTargets > 0)
 			{
 				DoDamage();
