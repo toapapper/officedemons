@@ -21,6 +21,10 @@ public class Bullet : MonoBehaviour
     protected float bulletHitForce;
     protected Vector3 bulletDirection;
     private Bullet bulletObject;
+    [SerializeField] private ParticleSystem bloodSplatter;
+    [SerializeField] private ParticleSystem sparks;
+    [SerializeField] private ParticleSystem otherHit;
+
 
     public List<StatusEffectType> effects;
 
@@ -79,9 +83,18 @@ public class Bullet : MonoBehaviour
         AkSoundEngine.PostEvent("Stop_Bazooka_Shell_Whoosh", gameObject);
         if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
         {
-            AkSoundEngine.PostEvent("Bullet_impact_flesh", gameObject);
-            AkSoundEngine.PostEvent("Play_Female_Grunt_Pitched", gameObject);
 
+            if(collision.gameObject.name == "tank")
+            {
+                Instantiate(sparks, transform.position, transform.rotation);
+                AkSoundEngine.PostEvent("Play_FMW_Weapon_Hit10C", gameObject);
+            }
+            else
+            {
+                AkSoundEngine.PostEvent("Bullet_impact_flesh", gameObject);
+                AkSoundEngine.PostEvent("Play_Female_Grunt_Pitched", gameObject);
+                Instantiate(bloodSplatter, transform.position, transform.rotation);
+            }
             Effects.RegularWeaponDamage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), shooter);
             //Effects.Damage(collision.gameObject, bulletDamage);
             Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce);
@@ -90,11 +103,13 @@ public class Bullet : MonoBehaviour
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
         {
+            Instantiate(sparks, transform.position, transform.rotation);
             AkSoundEngine.PostEvent("Play_FMW_Weapon_Hit10C", gameObject);
             Effects.Damage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
         }
         else
         {
+            Instantiate(otherHit, transform.position, transform.rotation);
             AkSoundEngine.PostEvent("Bullet_Impact_dirt", gameObject);
         }
         //GameManager.Instance.StillCheckList.Remove(gameObject);
