@@ -130,7 +130,7 @@ public class TankController : MonoBehaviour
 
     private bool RotationFinished() //add maxrotation?
     {
-        return ((Quaternion.Angle(towerTransform.rotation, targetTowerRotation) <= 1f) && (Quaternion.Angle(pipeTransform.localRotation, targetPipeRotation) <= 1f || pipeTransform.localRotation.x >= maxRotationX));
+        return ((Quaternion.Angle(towerTransform.rotation, targetTowerRotation) <= 1f) && (Quaternion.Angle(pipeTransform.localRotation, targetPipeRotation) <= 1f ));
     }
 
     // The decisions are made here
@@ -172,6 +172,7 @@ public class TankController : MonoBehaviour
             case TankStates.Rotate:
                 if (RotationFinished())
                 {
+                    Debug.Log("Rotation FInished");
                     if (InLineOfSight() && !TooCloseToShoot(towerTransform.position, TargetPosition)) 
                     {
                         CurrentState = TankStates.Shoot;
@@ -204,6 +205,7 @@ public class TankController : MonoBehaviour
 
     public void ResetValues()
     {
+        timer = 0.0f;
         CurrentState = TankStates.Unassigned;
         targetPosition = Vector3.zero;
         targetTowerRotation = Quaternion.identity;
