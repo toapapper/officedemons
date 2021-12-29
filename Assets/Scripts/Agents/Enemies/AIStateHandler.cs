@@ -231,7 +231,7 @@ public class AIStateHandler : MonoBehaviour
             }
         }
 
-        if (armedPlayers < armedEnemies || aliveEnemies > alivePlayers) // Add more complexity ?
+        if (armedPlayers < armedEnemies || aliveEnemies > alivePlayers && aliveEnemies > 1) // Add more complexity ?
         {
             return true;
         }

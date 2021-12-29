@@ -8,6 +8,9 @@ public class TankController : MonoBehaviour
     private const float maxRotationX = 20f;
     private const float rotationSpeed = 0.5f;
 
+    private float timer = 0.0f;
+    private const float maxTurnTime = 4f;
+
     private Vector3 targetPosition;
     public Vector3 TargetPosition
     {
@@ -58,6 +61,16 @@ public class TankController : MonoBehaviour
     {
         // child "tiger-head" is the rotating part
         StateUpdate();
+
+        timer += Time.deltaTime;
+        float seconds = timer % 60;
+
+        if (timer >= maxTurnTime)
+        {
+            Debug.Log("TANK exceeded max turn time of " + maxTurnTime + " seconds, chose WAIT");
+            CurrentState = TankStates.Wait;
+        }
+
         switch (CurrentState)
         {
             case TankStates.Rotate:
