@@ -64,8 +64,8 @@ public static class Effects
 		}
 
 		int dmg = (int)damage;
-		if (target.tag == "Player" || target.tag == "Enemy")
-		{
+		if (target.tag == "Player" || target.tag == "Enemy") // target.GetComponent<AIController>().InActiveCombat kan just nu ta damage om en bil exploderar t.ex.
+        {
 			dmg = (int)(damage * (1 + target.GetComponent<Attributes>().statusEffectHandler.Vulnerability));
 		}
 
