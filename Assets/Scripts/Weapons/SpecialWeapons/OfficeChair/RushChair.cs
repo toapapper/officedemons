@@ -71,10 +71,10 @@ public class RushChair : AbstractSpecial
 				ActionPower = 1;
 				break;
 			case 2:
-				ActionPower = 2.5f;
+				ActionPower = 1.5f;
 				break;
 			case 3:
-				ActionPower = 4;
+				ActionPower = 2.5F;
 				break;
             default:
 				ActionPower = 0;
@@ -120,7 +120,6 @@ public class RushChair : AbstractSpecial
         }
 
 		StartCoroutine(CountdownTime(0.5f));
-		ActionPower = 0;
 	}
 
 	private IEnumerator CountdownTime(float time)
@@ -173,15 +172,15 @@ public class RushChair : AbstractSpecial
 				{
 					case 1:
 						Effects.WeaponDamage(other.gameObject, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
-						Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
+						//Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
 						break;
 					case 2:
 						Effects.WeaponDamage(other.gameObject, (Damage + (damageAdder * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
-						Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
+						//Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
 						break;
 					case 3:
 						Effects.WeaponDamage(other.gameObject, (Damage + (damageAdder * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
-						Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
+						//Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
 						break;
 				}
 				EndSpecial();
