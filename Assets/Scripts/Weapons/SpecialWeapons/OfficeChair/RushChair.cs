@@ -30,6 +30,7 @@ public class RushChair : AbstractSpecial
 	[SerializeField]
 	private GameObject explosionParticleEffect;
 
+	private bool refundable;
 	private bool isKillEffect;
 	private bool isProjectile;
 
@@ -59,8 +60,13 @@ public class RushChair : AbstractSpecial
 	}
 	public override void Attack()
 	{
+        if (Charges > MaxCharges)
+        {
+			Charges = MaxCharges;
+        }
         switch (Charges)
         {
+
 			case 1:
 				ActionPower = 1;
 				break;
@@ -71,9 +77,9 @@ public class RushChair : AbstractSpecial
 				ActionPower = 4;
 				break;
             default:
+				ActionPower = 0;
                 break;
         }
-		Charges = 0;
 		SpecialController.Animator.SetTrigger("isSpecialRush");
 	}
 
@@ -87,12 +93,20 @@ public class RushChair : AbstractSpecial
 	}
 	public override void KillEffect()
 	{
-		isKillEffect = true;
+        if (refundable)
+        {
+			//gameObject.transform.parent.transform.GetComponentInChildren<StatusEffectHandler>().ApplyEffect(StatusEffectType.damage_boost, HolderAgent);
+			isKillEffect = true;
+        }
 	}
 
 	public override void DoSpecialAction()
 	{
-		isKillEffect = false;
+        if (Charges >= MaxCharges)
+        {
+			Charges = MaxCharges;
+			refundable = true;
+        }
 		AkSoundEngine.PostEvent("VickySlide", gameObject);
 
 		HolderAgent.GetComponent<Rigidbody>().AddForce(HolderAgent.transform.forward * rushForce * ActionPower, ForceMode.VelocityChange);
@@ -121,10 +135,23 @@ public class RushChair : AbstractSpecial
 	private void EndSpecial()
 	{
 		isProjectile = false;
-		ActionPower = 0;
 		foreach (TrailRenderer trail in trails)
 		{
 			trail.enabled = false;
+		}
+		if (!refundable)
+		{
+			Charges = 0;
+		}
+		else if (refundable)
+		{
+			Charges = 0;
+			if (isKillEffect)
+			{
+				Charges = MaxCharges;
+				isKillEffect = false;
+			}
+			refundable = false;
 		}
 		//base.DoSpecialAction();
 	}
@@ -155,11 +182,6 @@ public class RushChair : AbstractSpecial
 					case 3:
 						Effects.WeaponDamage(other.gameObject, (Damage + (damageAdder * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
 						Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
-						if (isKillEffect)
-						{
-							Charges = MaxCharges;
-							gameObject.transform.parent.transform.GetComponentInChildren<StatusEffectHandler>().ApplyEffect(StatusEffectType.damage_boost, HolderAgent);
-						}
 						break;
 				}
 				EndSpecial();
