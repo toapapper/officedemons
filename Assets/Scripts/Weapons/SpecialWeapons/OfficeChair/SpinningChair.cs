@@ -59,10 +59,10 @@ public class SpinningChair : AbstractSpecial
 					ActionPower = 1;
 					break;
 				case 2:
-					ActionPower = 2.2f;
+					ActionPower = 1.5f;
 					break;
 				case 3:
-					ActionPower = 3;
+					ActionPower = 2;
 					break;
 				default:
 					ActionPower = 0;

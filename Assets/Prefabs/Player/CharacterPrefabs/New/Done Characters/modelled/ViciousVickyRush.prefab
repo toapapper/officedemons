@@ -373,6 +373,7 @@ MonoBehaviour:
   jobTitle: Vicious programmer
   startHealth: 100
   killCount: 0
+  invulnerable: 0
   particleEffect: {fileID: 175078606587621326}
   statusEffectHandler: {fileID: 6191877020860605642}
   health: 0
@@ -1572,6 +1573,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4956587049660487968}
     m_Modifications:
+    - target: {fileID: 1666240090704992111, guid: 10c5b62595687254ca5d5deeb7b0048c, type: 3}
+      propertyPath: damageAdder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1666240090704992111, guid: 10c5b62595687254ca5d5deeb7b0048c, type: 3}
       propertyPath: particleEffect
       value: 
