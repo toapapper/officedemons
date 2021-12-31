@@ -29,6 +29,8 @@ public class SpinningChair : AbstractSpecial
 	private List<TrailRenderer> trails;
 	[SerializeField] private List<GameObject> particleEffects;
 	private bool changedFOV;
+	private bool refundable;
+	private bool isKillEffect;
 	private void Start()
 	{
 		foreach (TrailRenderer trail in trails)
@@ -47,18 +49,23 @@ public class SpinningChair : AbstractSpecial
 	{
 		if (!changedFOV)
 		{
+            if (Charges > MaxCharges)
+            {
+				Charges = MaxCharges;
+            }
 			switch (Charges)
 			{
 				case 1:
 					ActionPower = 1;
 					break;
 				case 2:
-					ActionPower = 2.2f;
+					ActionPower = 1.5f;
 					break;
 				case 3:
-					ActionPower = 3;
+					ActionPower = 2;
 					break;
 				default:
+					ActionPower = 0;
 					break;
 			}
 			specialController.FOV.ViewRadius *= ActionPower;
@@ -95,7 +102,19 @@ public class SpinningChair : AbstractSpecial
 		base.AddCharge();
 	}
 
-	public override void DoSpecialAction()
+    public override void KillEffect()
+    {
+        base.KillEffect();
+		Debug.Log("WE KILLED SOMETING");
+        if (refundable)
+        {
+			Debug.Log("it was refundable");
+			isKillEffect = true;
+			//gameObject.transform.parent.transform.GetComponentInChildren<StatusEffectHandler>().ApplyEffect(StatusEffectType.damage_boost, HolderAgent);
+		}
+	}
+
+    public override void DoSpecialAction()
 	{
 		int nrOfTargets = specialController.FOV.VisibleTargets.Count;
 		AkSoundEngine.PostEvent("VickySlide", gameObject);
@@ -116,40 +135,29 @@ public class SpinningChair : AbstractSpecial
         }
 		if (Charges >= MaxCharges)
 		{
-			Charges = MaxCharges;
+			refundable = true;
 			if (nrOfTargets > 0)
 			{
 				DoDamage();
-				if (nrOfTargets >= MaxCharges)
-				{
-					Charges = MaxCharges;
-				}
 			}
 
 			Effects.Heal(HolderAgent, healAmount * ActionPower);
 		}
 		else
 		{
+			refundable = false;
 			if (nrOfTargets > 0)
 			{
 				DoDamage();
 
 				if (nrOfTargets > 1)
 				{
-					if(Charges == 1)
-					{
-						Effects.Heal(HolderAgent, healAmount * ActionPower);
-					}
-					else
-					{
-						Effects.Heal(HolderAgent, healAmount * ActionPower);
-					}
+					Effects.Heal(HolderAgent, healAmount * ActionPower);
 				}
 			}
+			Charges = 0;
 		}
 		StartCoroutine(CountdownTime(0.5f));
-		ActionPower = 0;
-        Charges = 0;
         changedFOV = false;
 		SpecialController.FOV.ViewRadius = viewDistance;
         SpecialController.FOV.ViewAngle = viewAngle;
@@ -204,10 +212,23 @@ public class SpinningChair : AbstractSpecial
 
 	private void EndSpecial()
 	{
-		ActionPower = 0;
 		foreach (TrailRenderer trail in trails)
 		{
 			trail.enabled = false;
+		}
+        if (!refundable)
+        {
+			Charges = 0;
+		}
+		else if (refundable)
+		{
+			Charges = 0;
+            if (isKillEffect)
+            {
+				Charges = MaxCharges;
+				isKillEffect = false;
+            }
+			refundable = false;
 		}
 	}
 }
