@@ -57,7 +57,7 @@ public class PooGrenadeProjectile : GroundEffectGrenade
 				}
 				else
 				{
-					Effects.Damage(target, healthModifyAmount);
+					Effects.Damage(target, healthModifyAmount, thrower);
 				}
 					
 			}

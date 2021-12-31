@@ -87,7 +87,7 @@ public class ExplosiveGrenadeProjectile : GrenadeProjectile
 				}
 				else
 				{
-					Effects.Damage(target, healthModifyAmount);
+					Effects.Damage(target, healthModifyAmount, thrower);
 				}
 			}
 		}

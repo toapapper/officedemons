@@ -41,6 +41,10 @@ public class Attributes : MonoBehaviour
     private int startHealth;
     [SerializeField]
     private int killCount = 0;
+    [SerializeField]
+    private int evilPoints = 0;
+    [SerializeField]
+    private int evilPointValue = 10;
 
     [SerializeField] public bool invulnerable;
 
@@ -103,12 +107,21 @@ public class Attributes : MonoBehaviour
         get { return stamina; }
         set { stamina = value; }
     }
-
+    
     public int KillCount
 	{
         get { return killCount; }
         set { killCount = value; }
     }
+    public int EvilPoints
+    {
+        get { return evilPoints; }
+        set { evilPoints = value; }
+    }
+    public int EvilPointValue
+	{
+		get { return evilPointValue; }
+	}
 
     private void Awake()
     {

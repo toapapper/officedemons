@@ -10,6 +10,7 @@ using UnityEngine;
 public class DestructibleObjects : MonoBehaviour
 {
 	public bool destroyed;
+    public GameObject destroyer = null;
 
     [SerializeField]private GameObject destroyedPrefab;
     [SerializeField] private GameObject particleEffect;
@@ -18,6 +19,8 @@ public class DestructibleObjects : MonoBehaviour
 	[SerializeField] private float damage = 10f;
     [SerializeField] private float force = 100;
     [SerializeField] protected List<StatusEffectType> effects;
+
+    
 
 	public void Start()
 	{
@@ -97,13 +100,13 @@ public class DestructibleObjects : MonoBehaviour
 						explosionForceDirection.y = 0;
 						explosionForceDirection.Normalize();
 
-						Effects.Damage(target, damage);
+						Effects.Damage(target, damage, destroyer);
 						Effects.ApplyForce(target, explosionForceDirection * force);
 						Effects.ApplyWeaponEffects(target, null, effects);
 					}
 					else
 					{
-						Effects.Damage(target, damage);
+						Effects.Damage(target, damage, destroyer);
 					}
 				}
 			}

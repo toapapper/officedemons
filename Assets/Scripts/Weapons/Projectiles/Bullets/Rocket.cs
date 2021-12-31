@@ -32,7 +32,7 @@ public class Rocket : Bullet
                 {
                     if (target.layer == LayerMask.NameToLayer("Destructible"))
                     {
-                        Effects.Damage(target, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
+                        Effects.Damage(target, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), shooter);
                     }
                     else if (target.tag == "Player" || target.tag == "Enemy")
                     {

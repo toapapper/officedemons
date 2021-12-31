@@ -61,7 +61,7 @@ public abstract class MeleeWeapon : AbstractWeapon
                 }
 				else
 				{
-                    Effects.Damage(target, Damage * (1 + wielder.GetComponent<Attributes>().statusEffectHandler.DmgBoost));
+                    Effects.Damage(target, Damage * (1 + wielder.GetComponent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
                 }
 
                 if (particleEffect)

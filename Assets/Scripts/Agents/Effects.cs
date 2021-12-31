@@ -71,18 +71,29 @@ public static class Effects
 
 		if(target.GetComponent<Attributes>().Health > 0)
         {
-			target.GetComponent<Attributes>().Health -= dmg;
+			int healthLeft = target.GetComponent<Attributes>().Health - dmg;
+			//target.GetComponent<Attributes>().Health -= dmg;
 
 			UIManager.Instance.NewFloatingText(target, "" + dmg, Color.red);
 
-			if (wielder != null && target.GetComponent<Attributes>().Health <= 0)
+			if (wielder != null && /*target.GetComponent<Attributes>().Health*/healthLeft <= 0)
 			{
 				if (wielder.tag == "Player")
 				{
-					wielder.GetComponent<Attributes>().KillCount++;
-					wielder.GetComponent<SpecialHand>().KillEffect();
+					if (target.layer == LayerMask.NameToLayer("Destructible"))
+					{
+						target.GetComponent<DestructibleObjects>().destroyer = wielder;
+						wielder.GetComponent<Attributes>().EvilPoints += target.GetComponent<Attributes>().EvilPointValue;
+					}
+					else
+					{
+						wielder.GetComponent<Attributes>().KillCount++;
+						wielder.GetComponent<SpecialHand>().KillEffect();
+					}
 				}
 			}
+
+			target.GetComponent<Attributes>().Health -= dmg;
 		}
 	}
 	public static void Heal(GameObject target, float amount)
