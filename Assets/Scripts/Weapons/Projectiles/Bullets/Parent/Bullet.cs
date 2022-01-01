@@ -81,7 +81,7 @@ public class Bullet : MonoBehaviour
     {
         Debug.Log("projectile collision");
         AkSoundEngine.PostEvent("Stop_Bazooka_Shell_Whoosh", gameObject);
-        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "NPC")
         {
 
             if(collision.gameObject.name == "tank")

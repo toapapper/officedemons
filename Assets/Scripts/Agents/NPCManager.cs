@@ -20,8 +20,6 @@ public class NPCManager : MonoBehaviour
 
     float timer = 0f;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -58,19 +56,20 @@ public class NPCManager : MonoBehaviour
             timer = 0;
         }
         
-
         foreach (GameObject npc in npcList)
         {
             if (npc.active)
             {
-                npc.GetComponent<NPCScript>().Update();
+                if (npc.GetComponent<Attributes>().Health <= 0 )
+                {
+                    npc.GetComponent<NPCScript>().Die();
+                }
+                else
+                {
+                    npc.GetComponent<NPCScript>().Update();
+                }
             }
         }
-    }
-
-    public void RemoveNPC(GameObject npc)
-    {
-
     }
 
     public void AddNPC()
@@ -79,12 +78,10 @@ public class NPCManager : MonoBehaviour
         {
             if (!npc.active)
             {
-                Debug.Log("SPAWNED");
                 Vector3 spawnPoint = spawnPointPositions[Random.Range(0, spawnPoints.Count - 1)];
                 Vector3 exitPoint = exitPointPositions[Random.Range(0, exitPoints.Count - 1)];
 
                 npc.GetComponent<NPCScript>().InstantiateValues(spawnPoint, exitPoint);
-
                 npc.SetActive(true);
                 break;
             }

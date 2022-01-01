@@ -226,7 +226,6 @@ public class WeaponHand : MonoBehaviour
 		}
 		else 
 		{
-			
 			if (FOV.VisibleTargets.Count > 0)
 			{
 				foreach (GameObject target in FOV.VisibleTargets)
@@ -246,6 +245,7 @@ public class WeaponHand : MonoBehaviour
 					}
 					else
 					{
+                        
 						Effects.Damage(target, handHitDamage, gameObject);
 					}
 				}

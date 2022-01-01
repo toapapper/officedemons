@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class NPCScript : MonoBehaviour
 {
@@ -12,10 +13,10 @@ public class NPCScript : MonoBehaviour
     Attributes attributes;
 
     // for random wandering
-    float wanderRadius = 10;
-    float wanderTimer = 3;
+    [SerializeField] float wanderRadius = 10;
+    [SerializeField] float wanderTimer = 3;
     float timer = 0;
-    int wandersBeforeExit = 3; // How many times they take a random destination before going towards an exit
+    [SerializeField] int wandersBeforeExit = 5; // How many times they take a random destination before going towards an exit
     int counter = 0;
 
     public void Update()
@@ -35,18 +36,17 @@ public class NPCScript : MonoBehaviour
                 currentTargetPosition = exitPosition;
             }
         }
+        else if (AgentSlowOrStopped())
+        {
+            currentTargetPosition = RandomNavSphere(transform.position, wanderRadius, -1);
+        }
 
-        // if hp <= 0 -> Die
-        if (attributes.Health <= 0)
+        MoveTowards(currentTargetPosition);
+
+        if (ReachedExit())
         {
-            Die();
+            Despawn();
         }
-        else
-        {
-            Debug.Log("spawn: " + spawnPosition + "  exit: " + exitPosition);
-            MoveTowards(currentTargetPosition);
-        }
-        
     }
 
     public void MoveTowards(Vector3 targetPos)
@@ -66,17 +66,34 @@ public class NPCScript : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         
         attributes = GetComponent<Attributes>();
+        attributes.Health = attributes.StartHealth;
+        counter = 0;
+    }
+
+    private bool ReachedExit()
+    {
+        return Vector3.Distance(new Vector3(exitPosition.x, gameObject.transform.position.y, exitPosition.z), gameObject.transform.position) <= 1;
+    }
+
+    private bool AgentSlowOrStopped()
+    {
+        return Math.Abs(navMeshAgent.velocity.x + navMeshAgent.velocity.y + navMeshAgent.velocity.z) < .05;
     }
 
     public void Die()
     {
         // play dying effect
-        // remove from list in manager
+        gameObject.SetActive(false);
+    }
+
+    public void Despawn()
+    {
+        gameObject.SetActive(false);
     }
 
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
     {
-        Vector3 randDirection = Random.insideUnitSphere * dist;
+        Vector3 randDirection = UnityEngine.Random.insideUnitSphere * dist;
 
         randDirection += origin;
 

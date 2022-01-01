@@ -34,7 +34,7 @@ public class Rocket : Bullet
                     {
                         Effects.Damage(target, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
                     }
-                    else if (target.tag == "Player" || target.tag == "Enemy")
+                    else if (target.tag == "Player" || target.tag == "Enemy" || target.tag == "NPC")
                     {
                         Effects.RegularWeaponDamage(target, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), shooter);
                         //Effects.Damage(target, bulletDamage);

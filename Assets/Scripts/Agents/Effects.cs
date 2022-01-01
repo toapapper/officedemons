@@ -34,9 +34,9 @@ public static class Effects
                 WeaponDamage(target, damage, wielder);
             }
         }
-		else if (target.tag == "Player")
+		else if (target.tag == "Player" || target.tag == "NPC")
 		{
-			WeaponDamage(target, damage, wielder);
+            WeaponDamage(target, damage, wielder);
 		}
 	}
 	public static void WeaponDamage(GameObject target, float damage, GameObject wielder = null)
@@ -64,7 +64,7 @@ public static class Effects
 		}
 
 		int dmg = (int)damage;
-		if (target.tag == "Player" || target.tag == "Enemy") // target.GetComponent<AIController>().InActiveCombat kan just nu ta damage om en bil exploderar t.ex.
+		if (target.tag == "Player" || target.tag == "Enemy" || target.tag == "NPC") // target.GetComponent<AIController>().InActiveCombat kan just nu ta damage om en bil exploderar t.ex.
         {
 			dmg = (int)(damage * (1 + target.GetComponent<Attributes>().statusEffectHandler.Vulnerability));
 		}
@@ -116,7 +116,7 @@ public static class Effects
 	public static void ApplyStatusEffect(GameObject target, GameObject applier, StatusEffectType type)
     {
 
-		if(!(target.CompareTag("Player") || target.CompareTag("Enemy")) ||(target.name == "tank" || (target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat)) && target.layer == LayerMask.NameToLayer("Destructible"))
+		if(!(target.CompareTag("Player") || target.CompareTag("Enemy") || target.CompareTag("NPC")) || (target.name == "tank" || (target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat)) && target.layer == LayerMask.NameToLayer("Destructible"))
         {
 			return;
         } 
@@ -194,6 +194,11 @@ public static class Effects
 		else if(target.layer == LayerMask.NameToLayer("Destructible"))
         {
 			target.GetComponent<DestructibleObjects>().Explode();
+        }
+        else if (target.tag == "NPC")
+        {
+            target.GetComponent<Attributes>().statusEffectHandler.OnDeath();
+            target.GetComponent<NPCScript>().Die();
         }
 	}
 	/// <summary>
