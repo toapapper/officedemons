@@ -19,7 +19,7 @@ using UnityEngine.AI;
 
 /*
  * Last Edited:
- * 15-10-2021
+ * 29-12-2021
  */
 
 [RequireComponent(typeof(BoxCollider))]
@@ -40,11 +40,21 @@ public class Encounter : MonoBehaviour
     public Dictionary<Vector3, string> enemyStartPositions;
 
 
-
     [SerializeField] int encounterNumber = 0;
 
     private bool myTurn = false;
     private int currentEnemysTurn = 0;
+
+    private GameObject wall;
+    private GameObject topWall;
+    private GameObject bottomWall;
+    private GameObject leftWall;
+    private GameObject rightWall;
+
+    [SerializeField] private bool topWallActive = true;
+    [SerializeField] private bool bottomWallActive = true;
+    [SerializeField] private bool leftWallActive = true;
+    [SerializeField] private bool rightWallActive = true;
 
     private GameObject midPoint;
     private GameObject leftBottomPoint;
@@ -70,9 +80,13 @@ public class Encounter : MonoBehaviour
 
 
         CreateCornerPoints();
+        InitializeWalls();
 
         // If procedurally generated -> Call SpawnEnemiesRrndomPositions() instead of ActivateEnemies()
     }
+
+
+
 
     /// <summary>
     /// Returns a list of all the corner points in the box collider
@@ -109,6 +123,126 @@ public class Encounter : MonoBehaviour
         rightBottomPoint.transform.position = new Vector3(boxCollider.bounds.min.x + boxCollider.bounds.size.x, boxCollider.bounds.min.y, boxCollider.bounds.min.z);
         leftTopPoint.transform.position = new Vector3(boxCollider.bounds.min.x, boxCollider.bounds.min.y, boxCollider.bounds.max.z);
         rightTopPoint.transform.position = new Vector3(boxCollider.bounds.max.x, boxCollider.bounds.min.y, boxCollider.bounds.max.z);
+    }
+
+
+
+    const float WallEmissionPerScale = 100f/15f;//emission max number per x scale
+    /// <summary>
+    /// Creates the walls and sets correct values for particleSystem. Sets them to inactive
+    /// </summary>
+    private void InitializeWalls()
+    {
+        if(wall == null)
+        {
+            wall = Resources.Load<GameObject>("combatWall");
+        }
+
+        float yPos = wall.transform.localScale.y/2;
+
+        Vector3 wallPos = Vector3.zero;
+        Vector3 wallScale = new Vector3(wall.transform.localScale.x, wall.transform.localScale.y, wall.transform.localScale.z);
+        
+        Vector3 psScale = wallScale;//particleSystemScale
+        psScale.z = .1f;
+        psScale.y = 1;
+
+        #region top wall
+        //(top left - top right) = scale in x move in z.
+        wallScale.x =  rightTopPoint.transform.position.x - leftTopPoint.transform.position.x;
+        wallPos = midPoint.transform.position;
+        wallPos.z = rightTopPoint.transform.position.z;
+
+        topWall = Instantiate(wall, transform);
+        topWall.transform.position = wallPos;
+        topWall.transform.localScale = wallScale;
+        topWall.SetActive(false);
+
+        ParticleSystem particleSystem = topWall.transform.GetComponentInChildren<ParticleSystem>();
+        psScale.x = wallScale.x;
+        var shape = particleSystem.shape;
+        shape.scale = psScale;
+
+        var emission = particleSystem.emission;
+        var eCurve = emission.rateOverTime;
+        eCurve.curveMultiplier = WallEmissionPerScale * psScale.x;
+        emission.rateOverTime = eCurve;
+        #endregion
+
+        #region bottom wall
+        //bottom wall (bottom left - bottom right) = scale in x move in z, wallscale is the same as topWall
+        wallPos.z = rightBottomPoint.transform.position.z;
+        bottomWall = Instantiate(wall, transform);
+        bottomWall.transform.position = wallPos;
+        bottomWall.transform.localScale = wallScale;
+        bottomWall.SetActive(false);
+
+        particleSystem = bottomWall.transform.GetComponentInChildren<ParticleSystem>();
+        psScale.x = wallScale.x;
+        shape = particleSystem.shape;
+        shape.scale = psScale;
+
+        emission = particleSystem.emission;
+        eCurve = emission.rateOverTime;
+        eCurve.curveMultiplier = WallEmissionPerScale * psScale.x;
+        emission.rateOverTime = eCurve;
+
+        #endregion
+
+        #region left wall
+        //left wall (bottom left - top left) = scale in x, rotate 90 deg, and then move in x.
+        Quaternion wallRot = Quaternion.Euler(0, 90, 0);
+        wallScale.x = rightTopPoint.transform.position.z - rightBottomPoint.transform.position.z;
+        wallPos.x = leftTopPoint.transform.position.x;
+        wallPos.z = midPoint.transform.position.z;
+
+
+        leftWall = Instantiate(wall, transform);
+        leftWall.transform.position = wallPos;
+        leftWall.transform.rotation = wallRot;
+        leftWall.transform.localScale = wallScale;
+        leftWall.SetActive(false);
+
+        particleSystem = leftWall.transform.GetComponentInChildren<ParticleSystem>();
+        psScale.x = wallScale.x;
+        shape = particleSystem.shape;
+        shape.scale = psScale;
+
+        emission = particleSystem.emission;
+        eCurve = emission.rateOverTime;
+        eCurve.curveMultiplier = WallEmissionPerScale * psScale.x;
+        emission.rateOverTime = eCurve;
+
+        #endregion
+
+        #region right wall
+        //right wall (bottom right - top right) = scale in x, rotate 90 deg, and then move in x.
+        wallPos.x = rightTopPoint.transform.position.x;
+        rightWall = Instantiate(wall, transform);
+        rightWall.transform.position = wallPos;
+        rightWall.transform.localScale = wallScale;
+        rightWall.transform.rotation = wallRot;
+        rightWall.SetActive(false);
+
+        particleSystem = rightWall.transform.GetComponentInChildren<ParticleSystem>();
+        psScale.x = wallScale.x;
+        shape = particleSystem.shape;
+        shape.scale = psScale;
+
+        emission = particleSystem.emission;
+        eCurve = emission.rateOverTime;
+        eCurve.curveMultiplier = WallEmissionPerScale * psScale.x;
+        emission.rateOverTime = eCurve;
+
+        #endregion
+    }
+
+    private void ToggleWalls(bool on)
+    {
+        topWall.SetActive(topWallActive ? on : false);
+        bottomWall.SetActive(bottomWallActive ? on : false);
+        leftWall.SetActive(leftWallActive ? on : false);
+        rightWall.SetActive(rightWallActive ? on : false);
     }
 
     public List<GameObject> GetEnemylist()
@@ -184,15 +318,22 @@ public class Encounter : MonoBehaviour
         }
     }
 
+    public void StartEncounter()
+    {
+        ToggleWalls(true);
+    }
+
     public void EndEncounter()
     {
         AkSoundEngine.SetState("Music_State", "Roaming");
         AkSoundEngine.SetState("Music", "RoamingState1");
+        ToggleWalls(false);
         Destroy(gameObject);
     }
 
     public void ResetEncounter()
     {
+        ToggleWalls(false);
         DestroyEnemies();
         foreach (KeyValuePair<Vector3, string> enemy in enemyStartPositions)
         {
