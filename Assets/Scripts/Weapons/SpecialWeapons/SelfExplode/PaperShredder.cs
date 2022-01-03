@@ -124,7 +124,6 @@ public class PaperShredder : AbstractSpecial
 			if (gameObject.GetComponentInParent<Attributes>().Health > 0)
             {
 				Attack();
-
 			}
 		}
 	}
