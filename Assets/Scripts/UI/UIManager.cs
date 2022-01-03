@@ -208,7 +208,59 @@ public class UIManager : MonoBehaviour
                 card.UpdateWeaponSprites(defaultWeapon,"", numbers[10], numbers[10]);
             }
             card.UpdateChargeSprites(PlayerManager.players[i].GetComponentInChildren<AbstractSpecial>().Charges);
-            PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().ChargeUpdate(card.ChargeObjects);
+
+            #region super
+            //Super charges icons. Massive if statment because I did not want to move supercharged and exploding to abstract special
+            //so have to make a check for both versions
+            if (PlayerManager.players[i].GetComponent<Attributes>().VariantName == Variant.Stapler)
+            {
+                if (PlayerManager.players[i].GetComponentInChildren<Stapler>().SuperCharged == true)
+                {
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged();
+                }
+                else
+                {
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().ChargeUpdate(card.ChargeObjects);
+                }
+            }
+            else if (PlayerManager.players[i].GetComponent<Attributes>().VariantName == Variant.TerribleBreath)
+            {
+                if (PlayerManager.players[i].GetComponentInChildren<TerribleBreath>().SuperCharged == true)
+                {
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged();
+                }
+                else
+                {
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().ChargeUpdate(card.ChargeObjects);
+                }
+            }
+            else if (PlayerManager.players[i].GetComponent<Attributes>().VariantName == Variant.PaperShredder)
+            {
+                if (PlayerManager.players[i].GetComponentInChildren<PaperShredder>().ReadyToExplode)
+                {
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged();
+                }
+                else
+                {
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().ChargeUpdate(card.ChargeObjects);
+                }
+            }
+            else if (PlayerManager.players[i].GetComponent<Attributes>().VariantName == Variant.StarThrower)
+            {
+                if (PlayerManager.players[i].GetComponentInChildren<StarThrower>().ReadyToExplode)
+                {
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged();
+                }
+                else
+                {
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().ChargeUpdate(card.ChargeObjects);
+                }
+            }
+            else
+            {
+                PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().ChargeUpdate(card.ChargeObjects);
+            }
+            #endregion
 
             Dictionary<StatusEffectType, StatusEffect> activeEffects = PlayerManager.players[i].GetComponent<Attributes>().statusEffectHandler.ActiveEffects;
             List<StatusEffectType> effectList = new List<StatusEffectType>();
@@ -243,7 +295,6 @@ public class UIManager : MonoBehaviour
         }
         return sprites;
     }
-
 
 
     /// <summary>

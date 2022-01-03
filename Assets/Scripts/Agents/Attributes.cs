@@ -18,6 +18,7 @@ using UnityEngine;
 // Last Edited: 18-10-21
 
 public enum Characters { Terrible_Tim, Susan_The_Destroyer, Vicious_Vicky, Devin }
+public enum Variant { TerribleBreath,Stapler,PaperShredder,StarThrower,SpinningChair,RushChair,HotCoffee,StaleCoffee}
 
 public class Attributes : MonoBehaviour
 {
@@ -28,6 +29,10 @@ public class Attributes : MonoBehaviour
     [SerializeField]
     private Characters characterName = Characters.Devin;
     public Characters Name { get { return characterName; } }
+
+    [SerializeField]
+    private Variant variantName = Variant.HotCoffee;
+    public Variant VariantName { get { return variantName; } }
 
     [SerializeField]
     public Sprite portrait;

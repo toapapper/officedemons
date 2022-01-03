@@ -33,6 +33,7 @@ public class RushChair : AbstractSpecial
 	private bool refundable;
 	private bool isKillEffect;
 	private bool isProjectile;
+	private float normalHitbox, rushHitbox;
 
     private void Start()
     {
@@ -40,6 +41,8 @@ public class RushChair : AbstractSpecial
 		{
 			trail.enabled = false;
 		}
+		normalHitbox = GetComponent<CapsuleCollider>().height;
+		rushHitbox = normalHitbox * 1.5f;
 	}
 
     public override void SetAimColor(Gradient gradient)
@@ -122,7 +125,20 @@ public class RushChair : AbstractSpecial
 		StartCoroutine(CountdownTime(0.5f));
 	}
 
-	private IEnumerator CountdownTime(float time)
+    private void Update()
+    {
+        if (isProjectile)
+        {
+			GetComponent<CapsuleCollider>().height = rushHitbox;
+        }
+        else
+        {
+			GetComponent<CapsuleCollider>().height = normalHitbox;
+
+		}
+    }
+
+    private IEnumerator CountdownTime(float time)
 	{
 		yield return new WaitForSeconds(time);
 		if (isProjectile)
