@@ -396,6 +396,8 @@ public class StatusEffectHandler : MonoBehaviour
             RemoveEffect(entry.Key);
             i--;
         }
+
+        ClearEffects();
     }
 
     /// <summary>

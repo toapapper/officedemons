@@ -50,7 +50,7 @@ public class FloatingTextManager : MonoBehaviour
     /// <param name="atObject"></param>
     /// <param name="text"></param>
     /// <param name="color"></param>
-    public void newText(GameObject atObject, string text, Color color, float size = 1f)
+    public void newText(GameObject atObject, string text, Color color, float sizeMulitiplier = 1f)
     {
         Vector2 position = Camera.main.WorldToViewportPoint(atObject.transform.position);
         position.x *= myCanvas.pixelRect.width;
@@ -62,7 +62,7 @@ public class FloatingTextManager : MonoBehaviour
 
         position += offset * offsetLength;
 
-        newText(position, text, color, size);
+        newText(position, text, color, sizeMulitiplier);
     }
 
     /// <summary>
@@ -71,9 +71,9 @@ public class FloatingTextManager : MonoBehaviour
     /// <param name="position"></param>
     /// <param name="text"></param>
     /// <param name="color"></param>
-    public void newText(Vector2 position, string text, Color color, float size = 1f)
+    public void newText(Vector2 position, string text, Color color, float sizeMultiPlier = 1f)
     {
-        elements[currentIndex].Activate(text, position, color, sizeMultiplier: size);
+        elements[currentIndex].Activate(text, position, color, sizeMultiplier: sizeMultiPlier);
         
         currentIndex++;
         if(currentIndex >= elements.Length)
