@@ -140,7 +140,8 @@ public class Encounter : MonoBehaviour
 
         float yPos = wall.transform.localScale.y/2;
 
-        Vector3 wallPos = Vector3.zero;
+        Vector3 wallPos = midPoint.transform.position;
+        wallPos.y = wall.transform.localScale.y / 2;
         Vector3 wallScale = new Vector3(wall.transform.localScale.x, wall.transform.localScale.y, wall.transform.localScale.z);
         
         Vector3 psScale = wallScale;//particleSystemScale
@@ -150,7 +151,6 @@ public class Encounter : MonoBehaviour
         #region top wall
         //(top left - top right) = scale in x move in z.
         wallScale.x =  rightTopPoint.transform.position.x - leftTopPoint.transform.position.x;
-        wallPos = midPoint.transform.position;
         wallPos.z = rightTopPoint.transform.position.z;
 
         topWall = Instantiate(wall, transform);
