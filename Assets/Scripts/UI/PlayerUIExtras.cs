@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class PlayerUIExtras : MonoBehaviour
 {
@@ -10,6 +10,7 @@ public class PlayerUIExtras : MonoBehaviour
     [SerializeField] private TextMeshProUGUI pPlayer;
     [SerializeField] private List<Image> charges = new List<Image>();
     [SerializeField] private List<Sprite> chargeSprites = new List<Sprite>();
+    [SerializeField] private List<ParticleSystem> superChargeParticle = new List<ParticleSystem>();
     private Vector2 startValue, currentValue;
     private float min, max;
     private bool expanding = true;
@@ -87,20 +88,66 @@ public class PlayerUIExtras : MonoBehaviour
 
     public void ChargeUpdate(List<Image> uiCharges)
     {
+        if (superChargeParticle[0].isPlaying)
+        {
+            for (int i = 0; i < superChargeParticle.Count; i++)
+            {
+                if (superChargeParticle[i].isPlaying)
+                {
+                    superChargeParticle[i].Stop();
+                }
+            }
+        }
+        float count = 0.25f;
         for (int i = 0; i < charges.Count; i++)
         {
             if (charges[i].sprite != uiCharges[i].sprite)
             {
-                charges[i].sprite = uiCharges[i].sprite;
-                //if (charges[i].sprite == chargeSprites[0])
-                //{
-                //    charges[i].sprite = chargeSprites[1];
-                //}
-                //else
-                //{
-                //    charges[i].sprite = chargeSprites[0];
-                //}
+                if (uiCharges[i].sprite != chargeSprites[0])
+                {
+                    StartCoroutine(CountdownTime(count, charges[i], uiCharges[i]));
+                    count += 0.1f;
+                }
+                else
+                {
+                    charges[i].sprite = uiCharges[i].sprite;
+                }
             }
+        }
+    }
+
+    public void SuperCharged()
+    {
+        for (int i = 0; i < charges.Count; i++)
+        {
+            if(charges[i].sprite != chargeSprites[2])
+            {
+                charges[i].sprite = chargeSprites[2];
+                superChargeParticle[i].Play();
+            } 
+        }
+    }
+
+    private IEnumerator CountdownTime(float time, Image current, Image after)
+    {
+        yield return new WaitForSeconds(time);
+        BlinkEffectOnCharges(current,after, true);
+        yield return new WaitForSeconds(time);
+        BlinkEffectOnCharges(current,after,false);
+
+    }
+
+
+    private void BlinkEffectOnCharges(Image current, Image after, bool up)
+    {
+        if (up)
+        {
+            current.transform.localPosition = new Vector3(current.transform.localPosition.x, current.transform.localPosition.y + 0.1f, current.transform.localPosition.z); 
+        }
+        else
+        {
+            current.transform.localPosition = new Vector3(current.transform.localPosition.x, current.transform.localPosition.y - 0.1f, current.transform.localPosition.z);
+            current.sprite = after.sprite;
         }
     }
 }

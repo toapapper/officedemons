@@ -27,7 +27,15 @@ public class TerribleBreath : AbstractSpecial
     GameObject mouth;
     [SerializeField]
     private List<GameObject> particleEffects;
-    [SerializeField]private bool superCharged;
+
+    [SerializeField] private bool superCharged = false;
+
+
+    public bool SuperCharged
+    {
+        get { return superCharged; }
+    }
+
     private bool changedFOV = false;
 
     public override void SetFOVSize()
