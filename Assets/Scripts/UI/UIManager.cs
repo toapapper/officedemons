@@ -172,9 +172,9 @@ public class UIManager : MonoBehaviour
     /// <param name="at"> the gameObject at which it will be shown </param>
     /// <param name="text"> text </param>
     /// <param name="color"> color to show </param>
-    public void NewFloatingText(GameObject at, string text, Color color)
+    public void NewFloatingText(GameObject at, string text, Color color, float size = 1f)
     {
-        floatingTextManager.newText(at, text, color);
+        floatingTextManager.newText(at, text, color, size);
     }
 
 
