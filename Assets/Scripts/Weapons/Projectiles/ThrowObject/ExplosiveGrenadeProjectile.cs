@@ -82,12 +82,12 @@ public class ExplosiveGrenadeProjectile : GrenadeProjectile
 					explosionForceDirection.Normalize();
 
 					Effects.RegularWeaponDamage(target, healthModifyAmount, thrower);
-					Effects.ApplyForce(target, explosionForceDirection * explosionForce);
+					Effects.ApplyForce(target, explosionForceDirection * explosionForce, thrower);
 					Effects.ApplyWeaponEffects(target, thrower, weaponEffects);
 				}
 				else
 				{
-					Effects.Damage(target, healthModifyAmount);
+					Effects.Damage(target, healthModifyAmount, thrower);
 				}
 			}
 		}

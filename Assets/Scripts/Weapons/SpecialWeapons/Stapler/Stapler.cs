@@ -34,9 +34,15 @@ public class Stapler : AbstractSpecial
 	[SerializeField]
 	protected float inaccuracy = 3;
 
-
-	[SerializeField] private bool superCharged;
 	private bool changedFOV;
+
+	[SerializeField] private bool superCharged = false;
+
+
+	public bool SuperCharged
+	{
+		get { return superCharged; }
+	}
 
 	[SerializeField]
 	protected List<GameObject> aimCones;

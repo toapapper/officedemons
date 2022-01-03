@@ -41,6 +41,7 @@ public class TankShotWeapon : RangedWeapon
             CameraShake.Shake(0.1f, 0.1f);
         }
         Vector3 direction = GetBulletDirection();
-        bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage, Utilities.ListDictionaryKeys(effects));        base.DoAction();
+        bullet.GetComponent<Bullet>().CreateBullet(HolderAgent, WeaponMuzzle.transform.position, direction, BulletFireForce, HitForce, Damage, Utilities.ListDictionaryKeys(effects));
+        base.DoAction();
     }
 }

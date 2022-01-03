@@ -39,6 +39,11 @@ public class StarThrower : AbstractSpecial
 	private bool exploading;
 	private bool changedFOV;
 
+	public bool ReadyToExplode
+	{
+		get { return readyToExplode; }
+	}
+
 	public override void SetFOVSize()
 	{
 		SpecialController.FOV.ViewAngle = viewAngle;
@@ -120,7 +125,10 @@ public class StarThrower : AbstractSpecial
 		countDownText.sprite = numbers[number];
 		if (number == 0)
 		{
-			Attack();
+			if (gameObject.GetComponentInParent<Attributes>().Health > 0)
+			{
+				Attack();
+			}
 		}
 	}
 

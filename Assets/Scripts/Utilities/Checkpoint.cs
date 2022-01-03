@@ -68,6 +68,7 @@ public class Checkpoint : MonoBehaviour
             PlayerData playerData = SaveSystem.LoadPlayer(player.name);
             player.GetComponent<Attributes>().Health = playerData.playerHealth;
             player.GetComponent<Attributes>().KillCount = playerData.kills;
+            player.GetComponent<Attributes>().EvilPoints = playerData.evilPoints;
             player.GetComponent<SpecialHand>().ObjectInHand.Charges = playerData.charges;
 
             playerCounter++;

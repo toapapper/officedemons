@@ -97,7 +97,7 @@ public class Bullet : MonoBehaviour
             }
             Effects.RegularWeaponDamage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), shooter);
             //Effects.Damage(collision.gameObject, bulletDamage);
-            Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce);
+            Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce, shooter);
 
             Effects.ApplyWeaponEffects(collision.gameObject, shooter, effects);
         }
@@ -105,7 +105,7 @@ public class Bullet : MonoBehaviour
         {
             Instantiate(sparks, transform.position, transform.rotation);
             AkSoundEngine.PostEvent("Play_FMW_Weapon_Hit10C", gameObject);
-            Effects.Damage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
+            Effects.Damage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), shooter);
         }
         else
         {

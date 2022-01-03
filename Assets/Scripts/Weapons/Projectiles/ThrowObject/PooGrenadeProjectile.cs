@@ -51,13 +51,13 @@ public class PooGrenadeProjectile : GroundEffectGrenade
 					explosionForceDirection.y = 0;
 					explosionForceDirection.Normalize();
 
-					Effects.ApplyForce(target, explosionForceDirection * explosionForce);
+					Effects.ApplyForce(target, explosionForceDirection * explosionForce, thrower);
 					//Effects.ApplyWeaponEffects(target, weaponEffects);
 					Effects.RegularWeaponDamage(target, healthModifyAmount, thrower);
 				}
 				else
 				{
-					Effects.Damage(target, healthModifyAmount);
+					Effects.Damage(target, healthModifyAmount, thrower);
 				}
 					
 			}

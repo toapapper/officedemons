@@ -72,6 +72,8 @@ MonoBehaviour:
   jobTitle: "arbetsl\uFFFDs"
   startHealth: 30
   killCount: 0
+  evilPoints: 0
+  evilPointValue: 20
   invulnerable: 0
   particleEffect: {fileID: 164798945166288795, guid: c9894f6ca49bd4f4982850ea0a31aa6e, type: 3}
   statusEffectHandler: {fileID: 0}
@@ -91,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyed: 0
+  destroyer: {fileID: 0}
   destroyedPrefab: {fileID: 0}
   particleEffect: {fileID: 1892078723244562, guid: 5c54fe1b59bcfa64e8f9946ffe239568, type: 3}
   damage: 10

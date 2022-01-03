@@ -18,6 +18,7 @@ using UnityEngine;
 // Last Edited: 18-10-21
 
 public enum Characters { Terrible_Tim, Susan_The_Destroyer, Vicious_Vicky, Devin }
+public enum Variant { TerribleBreath,Stapler,PaperShredder,StarThrower,SpinningChair,RushChair,HotCoffee,StaleCoffee}
 
 public class Attributes : MonoBehaviour
 {
@@ -28,6 +29,10 @@ public class Attributes : MonoBehaviour
     [SerializeField]
     private Characters characterName = Characters.Devin;
     public Characters Name { get { return characterName; } }
+
+    [SerializeField]
+    private Variant variantName = Variant.HotCoffee;
+    public Variant VariantName { get { return variantName; } }
 
     [SerializeField]
     public Sprite portrait;
@@ -41,6 +46,10 @@ public class Attributes : MonoBehaviour
     private int startHealth;
     [SerializeField]
     private int killCount = 0;
+    [SerializeField]
+    private int evilPoints = 0;
+    [SerializeField]
+    private int evilPointValue = 10;
 
     [SerializeField] public bool invulnerable;
 
@@ -48,6 +57,8 @@ public class Attributes : MonoBehaviour
     [SerializeField] private GameObject particleEffect;
 
     [SerializeField] public StatusEffectHandler statusEffectHandler;
+
+    private GameObject forceGiver;
 
     public int StartHealth
     {
@@ -103,11 +114,26 @@ public class Attributes : MonoBehaviour
         get { return stamina; }
         set { stamina = value; }
     }
-
+    
     public int KillCount
 	{
         get { return killCount; }
         set { killCount = value; }
+    }
+    public int EvilPoints
+    {
+        get { return evilPoints; }
+        set { evilPoints = value; }
+    }
+    public int EvilPointValue
+	{
+		get { return evilPointValue; }
+	}
+
+    public GameObject ForceGiver
+	{
+        get { return forceGiver; }
+        set { forceGiver = value; }
     }
 
     private void Awake()
@@ -137,8 +163,7 @@ public class Attributes : MonoBehaviour
             float force = Mathf.Abs(knockedbackVelocity.x) + Mathf.Abs(knockedbackVelocity.z);
             if ( force >= 100)
             {
-
-                Effects.Damage(gameObject, 50);
+                Effects.Damage(gameObject, 50, forceGiver);
                 gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
                 if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
                 {
@@ -146,33 +171,32 @@ public class Attributes : MonoBehaviour
                     {
                         Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
                     }
-                    Effects.Damage(collision.gameObject, 50);
+                    Effects.Damage(collision.gameObject, 50, forceGiver);
                     CameraShake.Shake(1f, 1f);
-
                 }
             }
             else if (force >= 20)
             {
-                Effects.Damage(gameObject, 20);
+                Effects.Damage(gameObject, 20, forceGiver);
                 if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
                 {
                     if (particleEffect != null)
                     {
                         Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
                     }
-                    Effects.Damage(collision.gameObject, 20);
+                    Effects.Damage(collision.gameObject, 20, forceGiver);
                     CameraShake.Shake(0.5f, 0.5f);
                 }
                 if (gameObject.GetComponent<Rigidbody>() != null)
                 {
                     gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
                 }
-                
             }
             else
             {
                 //Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
             }
+            forceGiver = null;
         }
     }
 }

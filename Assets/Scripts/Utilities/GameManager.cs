@@ -180,6 +180,8 @@ public class GameManager : MonoBehaviour
                 roundTimer = RoundTime;
                 combatState = CombatState.player;
                 preRoundWaitCountdown = preRoundWaitTime;
+
+                currentEncounter.StartEncounter();
             }
         }
         else if(CurrentCombatState == CombatState.prePlayerWait)

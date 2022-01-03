@@ -33,6 +33,12 @@ public class PaperShredder : AbstractSpecial
 	[SerializeField] private List<Sprite> numbers;
 
 	private bool readyToExplode;
+
+	public bool ReadyToExplode
+    {
+        get { return readyToExplode; }
+    }
+
 	private bool exploading;
 	private bool changedFOV;
 	public override void SetFOVSize()
@@ -99,7 +105,7 @@ public class PaperShredder : AbstractSpecial
 	{
 		base.AddCharge();
 	}
-
+	
     public override void RevivedEffect()
     {
 		readyToExplode = false;
@@ -111,10 +117,14 @@ public class PaperShredder : AbstractSpecial
 	private IEnumerator CountDown(float time, int number)
     {
 		yield return new WaitForSeconds(time);
+
 		countDownText.sprite = numbers[number];
         if (number == 0)
         {
-			Attack();
+			if (gameObject.GetComponentInParent<Attributes>().Health > 0)
+            {
+				Attack();
+			}
 		}
 	}
 	private IEnumerator Invulnerable(float time)
@@ -190,8 +200,6 @@ public class PaperShredder : AbstractSpecial
 			angryParticleEffect.Stop();
 		}
 	}
-
-
 
 
 	private float GetActionPower()
