@@ -491,7 +491,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e75edc85eb701bc4e8b01ca1eff97de1, type: 2}
+  - {fileID: 2100000, guid: e59f62c404bcc1847ac906cb862fb073, type: 2}
   - {fileID: 2100000, guid: 8cd3d9b5ca7b79148b9dc3e4d1815b1a, type: 2}
   - {fileID: 2100000, guid: c0017305d49bcc641a2e3bb920d7e91e, type: 2}
   - {fileID: 2100000, guid: 49536c26125c8a64c8b01a20f02ef085, type: 2}
@@ -725,6 +725,7 @@ MonoBehaviour:
   handHitForce: 5
   handHitDistance: 1.5
   handHitAngle: 100
+  particleEffect: {fileID: 0}
   objectInHand: {fileID: 0}
 --- !u!114 &1493085736624304912
 MonoBehaviour:
@@ -740,10 +741,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   characterName: 3
+  variantName: 6
   portrait: {fileID: 0}
   jobTitle: "arbetsl\xF6s"
   startHealth: 300
   killCount: 0
+  invulnerable: 0
   particleEffect: {fileID: 0}
   statusEffectHandler: {fileID: 0}
   health: 0
@@ -1077,7 +1080,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e75edc85eb701bc4e8b01ca1eff97de1, type: 2}
+  - {fileID: 2100000, guid: 6fdc0367b8d2dd14ba0b2c6704248889, type: 2}
   - {fileID: 2100000, guid: 8cd3d9b5ca7b79148b9dc3e4d1815b1a, type: 2}
   - {fileID: 2100000, guid: 2fa9b19f79e836d4a9759a8043703ed4, type: 2}
   m_StaticBatchInfo:
