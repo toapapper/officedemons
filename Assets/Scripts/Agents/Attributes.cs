@@ -158,7 +158,8 @@ public class Attributes : MonoBehaviour
             float force = Mathf.Abs(knockedbackVelocity.x) + Mathf.Abs(knockedbackVelocity.z);
             if ( force >= 100)
             {
-                
+                Effects.Damage(gameObject, 50, forceGiver);
+                gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
                 if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
                 {
                     if (particleEffect != null)
@@ -168,13 +169,10 @@ public class Attributes : MonoBehaviour
                     Effects.Damage(collision.gameObject, 50, forceGiver);
                     CameraShake.Shake(1f, 1f);
                 }
-                Effects.Damage(gameObject, 50, forceGiver);
-                gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
-                forceGiver = null;
             }
             else if (force >= 20)
             {
-                
+                Effects.Damage(gameObject, 20, forceGiver);
                 if (collision.gameObject.layer == LayerMask.NameToLayer("Destructible"))
                 {
                     if (particleEffect != null)
@@ -184,17 +182,16 @@ public class Attributes : MonoBehaviour
                     Effects.Damage(collision.gameObject, 20, forceGiver);
                     CameraShake.Shake(0.5f, 0.5f);
                 }
-                Effects.Damage(gameObject, 20, forceGiver);
                 if (gameObject.GetComponent<Rigidbody>() != null)
                 {
                     gameObject.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
                 }
-                forceGiver = null;
             }
             else
             {
                 //Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
             }
+            forceGiver = null;
         }
     }
 }
