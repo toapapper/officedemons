@@ -97,7 +97,7 @@ public class Bullet : MonoBehaviour
             }
             Effects.RegularWeaponDamage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), shooter);
             //Effects.Damage(collision.gameObject, bulletDamage);
-            Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce);
+            Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce, shooter);
 
             Effects.ApplyWeaponEffects(collision.gameObject, shooter, effects);
         }

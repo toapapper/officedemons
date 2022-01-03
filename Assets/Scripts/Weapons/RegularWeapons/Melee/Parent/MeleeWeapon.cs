@@ -56,7 +56,7 @@ public abstract class MeleeWeapon : AbstractWeapon
                 if (target.layer != LayerMask.NameToLayer("Destructible"))
                 {
                     Effects.RegularWeaponDamage(target, Damage * (1 + wielder.GetComponent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
-                    Effects.ApplyForce(target, (target.transform.position - WeaponController.FOV.transform.position).normalized * HitForce);
+                    Effects.ApplyForce(target, (target.transform.position - WeaponController.FOV.transform.position).normalized * HitForce, HolderAgent);
                     Effects.ApplyWeaponEffects(target, wielder, Utilities.ListDictionaryKeys(effects));
                 }
 				else

@@ -101,7 +101,7 @@ public class DestructibleObjects : MonoBehaviour
 						explosionForceDirection.Normalize();
 
 						Effects.Damage(target, damage, destroyer);
-						Effects.ApplyForce(target, explosionForceDirection * force);
+						Effects.ApplyForce(target, explosionForceDirection * force, destroyer);
 						Effects.ApplyWeaponEffects(target, null, effects);
 					}
 					else

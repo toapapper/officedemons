@@ -164,10 +164,11 @@ public static class Effects
         }
     }
 
-	public static void ApplyForce(GameObject target, Vector3 force)
+	public static void ApplyForce(GameObject target, Vector3 force, GameObject forceGiver = null)
 	{
 		if(target.tag != "CoverObject" && target.GetComponent<Rigidbody>() != null)
         {
+			target.GetComponent<Attributes>().ForceGiver = forceGiver;
 			target.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
         }
 	}

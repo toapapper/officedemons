@@ -38,7 +38,7 @@ public class Rocket : Bullet
                     {
                         Effects.RegularWeaponDamage(target, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), shooter);
                         //Effects.Damage(target, bulletDamage);
-                        Effects.ApplyForce(target, (target.transform.position - transform.position).normalized * bulletHitForce);
+                        Effects.ApplyForce(target, (target.transform.position - transform.position).normalized * bulletHitForce, shooter);
                     }
                 }
             }
