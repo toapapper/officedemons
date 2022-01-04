@@ -216,7 +216,7 @@ public class UIManager : MonoBehaviour
             {
                 if (PlayerManager.players[i].GetComponentInChildren<Stapler>().SuperCharged == true)
                 {
-                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged();
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged(false);
                 }
                 else
                 {
@@ -227,7 +227,7 @@ public class UIManager : MonoBehaviour
             {
                 if (PlayerManager.players[i].GetComponentInChildren<TerribleBreath>().SuperCharged == true)
                 {
-                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged();
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged(false);
                 }
                 else
                 {
@@ -238,7 +238,7 @@ public class UIManager : MonoBehaviour
             {
                 if (PlayerManager.players[i].GetComponentInChildren<PaperShredder>().ReadyToExplode)
                 {
-                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged();
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged(true);
                 }
                 else
                 {
@@ -249,7 +249,7 @@ public class UIManager : MonoBehaviour
             {
                 if (PlayerManager.players[i].GetComponentInChildren<StarThrower>().ReadyToExplode)
                 {
-                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged();
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged(true);
                 }
                 else
                 {
