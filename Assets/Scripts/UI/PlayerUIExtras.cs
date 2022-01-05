@@ -116,7 +116,7 @@ public class PlayerUIExtras : MonoBehaviour
         }
     }
 
-    public void SuperCharged()
+    public void SuperCharged(bool susan)
     {
         for (int i = 0; i < charges.Count; i++)
         {
@@ -124,7 +124,14 @@ public class PlayerUIExtras : MonoBehaviour
             {
                 charges[i].sprite = chargeSprites[2];
                 superChargeParticle[i].Play();
-            } 
+            }
+            if (!susan)
+            {
+                if (i >= 2)
+                {
+                    break;
+                }
+            }
         }
     }
 

@@ -140,7 +140,8 @@ public class Encounter : MonoBehaviour
 
         float yPos = wall.transform.localScale.y/2;
 
-        Vector3 wallPos = Vector3.zero;
+        Vector3 wallPos = midPoint.transform.position;
+        wallPos.y = wall.transform.localScale.y / 2;
         Vector3 wallScale = new Vector3(wall.transform.localScale.x, wall.transform.localScale.y, wall.transform.localScale.z);
         
         Vector3 psScale = wallScale;//particleSystemScale
@@ -150,7 +151,6 @@ public class Encounter : MonoBehaviour
         #region top wall
         //(top left - top right) = scale in x move in z.
         wallScale.x =  rightTopPoint.transform.position.x - leftTopPoint.transform.position.x;
-        wallPos = midPoint.transform.position;
         wallPos.z = rightTopPoint.transform.position.z;
 
         topWall = Instantiate(wall, transform);
@@ -158,15 +158,18 @@ public class Encounter : MonoBehaviour
         topWall.transform.localScale = wallScale;
         topWall.SetActive(false);
 
-        ParticleSystem particleSystem = topWall.transform.GetComponentInChildren<ParticleSystem>();
+        ParticleSystem[] particleSystems = topWall.transform.GetComponentsInChildren<ParticleSystem>();
         psScale.x = wallScale.x;
-        var shape = particleSystem.shape;
-        shape.scale = psScale;
+        foreach(ParticleSystem particleSystem in particleSystems)
+        {
+            var shape = particleSystem.shape;
+            shape.scale = psScale;
 
-        var emission = particleSystem.emission;
-        var eCurve = emission.rateOverTime;
-        eCurve.curveMultiplier = WallEmissionPerScale * psScale.x;
-        emission.rateOverTime = eCurve;
+            var emission = particleSystem.emission;
+            var eCurve = emission.rateOverTime;
+            eCurve.curveMultiplier = WallEmissionPerScale * psScale.x;
+            emission.rateOverTime = eCurve;
+        }
         #endregion
 
         #region bottom wall
@@ -177,15 +180,18 @@ public class Encounter : MonoBehaviour
         bottomWall.transform.localScale = wallScale;
         bottomWall.SetActive(false);
 
-        particleSystem = bottomWall.transform.GetComponentInChildren<ParticleSystem>();
+        particleSystems = bottomWall.transform.GetComponentsInChildren<ParticleSystem>();
         psScale.x = wallScale.x;
-        shape = particleSystem.shape;
-        shape.scale = psScale;
+        foreach (ParticleSystem particleSystem in particleSystems)
+        {
+            var shape = particleSystem.shape;
+            shape.scale = psScale;
 
-        emission = particleSystem.emission;
-        eCurve = emission.rateOverTime;
-        eCurve.curveMultiplier = WallEmissionPerScale * psScale.x;
-        emission.rateOverTime = eCurve;
+            var emission = particleSystem.emission;
+            var eCurve = emission.rateOverTime;
+            eCurve.curveMultiplier = WallEmissionPerScale * psScale.x;
+            emission.rateOverTime = eCurve;
+        }
 
         #endregion
 
@@ -203,15 +209,18 @@ public class Encounter : MonoBehaviour
         leftWall.transform.localScale = wallScale;
         leftWall.SetActive(false);
 
-        particleSystem = leftWall.transform.GetComponentInChildren<ParticleSystem>();
+        particleSystems = leftWall.transform.GetComponentsInChildren<ParticleSystem>();
         psScale.x = wallScale.x;
-        shape = particleSystem.shape;
-        shape.scale = psScale;
+        foreach (ParticleSystem particleSystem in particleSystems)
+        {
+            var shape = particleSystem.shape;
+            shape.scale = psScale;
 
-        emission = particleSystem.emission;
-        eCurve = emission.rateOverTime;
-        eCurve.curveMultiplier = WallEmissionPerScale * psScale.x;
-        emission.rateOverTime = eCurve;
+            var emission = particleSystem.emission;
+            var eCurve = emission.rateOverTime;
+            eCurve.curveMultiplier = WallEmissionPerScale * psScale.x;
+            emission.rateOverTime = eCurve;
+        }
 
         #endregion
 
@@ -224,15 +233,18 @@ public class Encounter : MonoBehaviour
         rightWall.transform.rotation = wallRot;
         rightWall.SetActive(false);
 
-        particleSystem = rightWall.transform.GetComponentInChildren<ParticleSystem>();
+        particleSystems = rightWall.transform.GetComponentsInChildren<ParticleSystem>();
         psScale.x = wallScale.x;
-        shape = particleSystem.shape;
-        shape.scale = psScale;
+        foreach (ParticleSystem particleSystem in particleSystems)
+        {
+            var shape = particleSystem.shape;
+            shape.scale = psScale;
 
-        emission = particleSystem.emission;
-        eCurve = emission.rateOverTime;
-        eCurve.curveMultiplier = WallEmissionPerScale * psScale.x;
-        emission.rateOverTime = eCurve;
+            var emission = particleSystem.emission;
+            var eCurve = emission.rateOverTime;
+            eCurve.curveMultiplier = WallEmissionPerScale * psScale.x;
+            emission.rateOverTime = eCurve;
+        }
 
         #endregion
     }

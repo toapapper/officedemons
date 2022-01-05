@@ -17,6 +17,9 @@ public class SkeletonFragment : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (rb == null)
+            return;
+
         if(collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Player")
         {
             Vector3 direction = transform.position - collision.transform.position;

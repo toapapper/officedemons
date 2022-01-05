@@ -172,9 +172,9 @@ public class UIManager : MonoBehaviour
     /// <param name="at"> the gameObject at which it will be shown </param>
     /// <param name="text"> text </param>
     /// <param name="color"> color to show </param>
-    public void NewFloatingText(GameObject at, string text, Color color)
+    public void NewFloatingText(GameObject at, string text, Color color, float sizeMultiPlier = 1f)
     {
-        floatingTextManager.newText(at, text, color);
+        floatingTextManager.newText(at, text, color, sizeMultiPlier);
     }
 
 
@@ -216,7 +216,7 @@ public class UIManager : MonoBehaviour
             {
                 if (PlayerManager.players[i].GetComponentInChildren<Stapler>().SuperCharged == true)
                 {
-                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged();
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged(false);
                 }
                 else
                 {
@@ -227,7 +227,7 @@ public class UIManager : MonoBehaviour
             {
                 if (PlayerManager.players[i].GetComponentInChildren<TerribleBreath>().SuperCharged == true)
                 {
-                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged();
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged(false);
                 }
                 else
                 {
@@ -238,7 +238,7 @@ public class UIManager : MonoBehaviour
             {
                 if (PlayerManager.players[i].GetComponentInChildren<PaperShredder>().ReadyToExplode)
                 {
-                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged();
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged(true);
                 }
                 else
                 {
@@ -249,7 +249,7 @@ public class UIManager : MonoBehaviour
             {
                 if (PlayerManager.players[i].GetComponentInChildren<StarThrower>().ReadyToExplode)
                 {
-                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged();
+                    PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().SuperCharged(true);
                 }
                 else
                 {
