@@ -11,8 +11,10 @@ public class NPCScript : MonoBehaviour
     Vector3 currentTargetPosition;
     NavMeshAgent navMeshAgent;
     Attributes attributes;
+    NPCManager npcManager;
 
     // for random wandering
+    [Header("Random Wandering Properties")]
     [SerializeField] float wanderRadius = 10;
     [SerializeField] float wanderTimer = 3;
     float timer = 0;
@@ -23,7 +25,7 @@ public class NPCScript : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (timer >= wanderTimer)
+        if (timer >= wanderTimer && npcManager.spawn)
         {
             if (counter < wandersBeforeExit)
             {
@@ -55,7 +57,6 @@ public class NPCScript : MonoBehaviour
         navMeshAgent.SetDestination(targetPos);
     }
     
-
     public void InstantiateValues(Vector3 start, Vector3 exit)
     {
         exitPosition = exit;
@@ -66,6 +67,7 @@ public class NPCScript : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         
         attributes = GetComponent<Attributes>();
+        npcManager = GetComponentInParent<NPCManager>();
         attributes.Health = attributes.StartHealth;
         counter = 0;
     }
@@ -83,12 +85,44 @@ public class NPCScript : MonoBehaviour
     public void Die()
     {
         // play dying effect
+        foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
+        {
+            if (go.GetComponent<GroundEffectObject>().agentsOnGroundEffect.Contains(gameObject))
+            {
+                go.GetComponent<GroundEffectObject>().agentsOnGroundEffect.Remove(gameObject);
+            }
+        }
+        if (navMeshAgent.hasPath)
+        {
+            navMeshAgent.ResetPath();
+        }
+
+        GameObject skeleton = GameManager.Instance.Skeleton;
+        if (skeleton != null)
+        {
+            skeleton = Instantiate(skeleton, transform.position, transform.rotation);
+
+            //Set parent to Skeletons container object
+            Transform parent = GameObject.Find("Skeletons").transform;
+            if (parent == null)
+            {
+                parent = new GameObject().transform;
+            }
+
+            skeleton.transform.parent = parent;
+        }
+
         gameObject.SetActive(false);
     }
 
     public void Despawn()
     {
         gameObject.SetActive(false);
+    }
+
+    public void SetTargetPosition(Vector3 newTarget)
+    {
+        currentTargetPosition = newTarget;
     }
 
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)

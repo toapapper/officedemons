@@ -15,6 +15,8 @@ public class NPCManager : MonoBehaviour
     List<Vector3> spawnPointPositions;
     List<Vector3> exitPointPositions;
 
+    public bool spawn;
+
     [SerializeField]
     float timeBetweenSpawns = 3f;
 
@@ -26,6 +28,7 @@ public class NPCManager : MonoBehaviour
         npcList = new List<GameObject>();
         spawnPointPositions = new List<Vector3>();
         exitPointPositions = new List<Vector3>();
+        spawn = true;
 
         foreach (GameObject go in spawnPoints)
         {
@@ -47,14 +50,22 @@ public class NPCManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        float seconds = timer % 60;
-
-        if (seconds >= timeBetweenSpawns) // update list
+        if (spawn && GameManager.Instance.CurrentCombatState == CombatState.enterCombat)
         {
-            AddNPC();
-            timer = 0;
+            spawn = false;
+            SendAllToExit();
         }
+        else if (spawn)
+        {
+            timer += Time.deltaTime;
+            float seconds = timer % 60;
+
+            if (seconds >= timeBetweenSpawns) // update list
+            {
+                AddNPC();
+                timer = 0;
+            }
+        }        
         
         foreach (GameObject npc in npcList)
         {
@@ -86,5 +97,30 @@ public class NPCManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void SendAllToExit()
+    {
+        Debug.Log("SEND ALL TO EXIT");
+        foreach(GameObject npc in npcList)
+        {
+            npc.GetComponent<NPCScript>().SetTargetPosition(CalculateClosestExit(npc));
+        }
+    }
+
+    Vector3 CalculateClosestExit(GameObject npc)
+    {
+        Vector3 pos = npc.transform.position;
+        Vector3 closest = Vector3.zero;
+
+        foreach (Vector3 exit in exitPointPositions)
+        {
+            if (Vector3.Distance(exit, pos) < Vector3.Distance(closest, pos) || closest == Vector3.zero)
+            {
+                closest = exit;
+            }
+        }
+
+        return closest;
     }
 }
