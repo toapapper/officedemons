@@ -303,6 +303,7 @@ public class GameManager : MonoBehaviour
             // Remove everything but players from the camera
             mainCamera.ObjectsInCamera = PlayerManager.players;
         }
+        
     }
 
     /// <summary>
@@ -359,6 +360,7 @@ public class GameManager : MonoBehaviour
             currentCheckpoint.LoadCheckpoint();
         }
         //ResetEncounter();
+        npcManager.spawn = true;
     }
 
     

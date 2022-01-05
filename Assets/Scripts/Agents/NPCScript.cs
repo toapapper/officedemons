@@ -38,9 +38,13 @@ public class NPCScript : MonoBehaviour
                 currentTargetPosition = exitPosition;
             }
         }
-        else if (AgentSlowOrStopped())
+        else if (AgentSlowOrStopped() && npcManager.spawn)
         {
             currentTargetPosition = RandomNavSphere(transform.position, wanderRadius, -1);
+        }
+        else if(!npcManager.spawn && AgentSlowOrStopped())
+        {
+            Die();
         }
 
         MoveTowards(currentTargetPosition);
