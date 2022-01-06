@@ -76,10 +76,10 @@ public class NPCScript : MonoBehaviour
         counter = 0;
 
         //deactivate capsule placehodler
-        GameObject capsule = gameObject.transform.GetChild(0).gameObject;
-        capsule.SetActive(false);
+        GameObject placeHolder = gameObject.transform.GetChild(0).gameObject;
+        placeHolder.SetActive(false);
 
-        GameObject mdl = Instantiate(model, transform.position, transform.rotation);      // FIX POSITION
+        GameObject mdl = Instantiate(model, placeHolder.transform.position, transform.rotation);     
 
         mdl.transform.parent = gameObject.transform;
         
@@ -97,7 +97,6 @@ public class NPCScript : MonoBehaviour
 
     public void Die()
     {
-        // play dying effect
         foreach (GameObject go in GameManager.Instance.GroundEffectObjects)
         {
             if (go.GetComponent<GroundEffectObject>().agentsOnGroundEffect.Contains(gameObject))
@@ -141,11 +140,8 @@ public class NPCScript : MonoBehaviour
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
     {
         Vector3 randDirection = UnityEngine.Random.insideUnitSphere * dist;
-
         randDirection += origin;
-
         NavMeshHit navHit;
-
         NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
 
         return navHit.position;
