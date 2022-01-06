@@ -18,7 +18,7 @@ using UnityEngine;
 
 public class FloatingTextElement : MonoBehaviour
 {
-    private const float standardLifeTime = 1f;
+    private const float standardLifeTime = 1.6f;
     private const float standardVelocity = 10f; //pixels per second
 
 
