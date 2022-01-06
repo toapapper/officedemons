@@ -189,6 +189,8 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     public void BeginCombat()
     {
+        playerCounterList.Clear();
+
         Debug.Log("Begin combat");
         foreach (GameObject p in players)
         {

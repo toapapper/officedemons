@@ -33,8 +33,11 @@ public class DestructibleObjects : MonoBehaviour
 
     public void Explode()
     {
-		AkSoundEngine.PostEvent("Play_Explosion", gameObject);
-		Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
+        if(particleEffect != null)
+        {
+		    AkSoundEngine.PostEvent("Play_Explosion", gameObject);
+		    Instantiate(particleEffect, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.rotation);
+        }
 
         if (!FOV.isActiveAndEnabled)
         {
