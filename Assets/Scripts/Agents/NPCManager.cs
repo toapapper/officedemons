@@ -4,12 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class NPCManager : MonoBehaviour
-{
+{ 
+    public static NPCManager Instance { get; private set; }
+
     [SerializeField] GameObject NPCs;
 
     [SerializeField] List<GameObject> spawnPoints;
                          
     [SerializeField] List<GameObject> exitPoints;
+
+    [SerializeField] List<GameObject> models;
 
     List<GameObject> npcList;
     List<Vector3> spawnPointPositions;
@@ -45,6 +49,9 @@ public class NPCManager : MonoBehaviour
             npcList.Add(child.gameObject);
         }
         Debug.Log("NPC count:" + npcList.Count);
+
+
+    
     }
 
     // Update is called once per frame
@@ -91,8 +98,13 @@ public class NPCManager : MonoBehaviour
             {
                 Vector3 spawnPoint = spawnPointPositions[Random.Range(0, spawnPoints.Count - 1)];
                 Vector3 exitPoint = exitPointPositions[Random.Range(0, exitPoints.Count - 1)];
+                GameObject model = models[Random.Range(0, models.Count - 1)];
 
-                npc.GetComponent<NPCScript>().InstantiateValues(spawnPoint, exitPoint);
+                npc.GetComponent<NPCScript>().InstantiateValues(spawnPoint, exitPoint, model);
+
+                // SET A RANDOM OUT OF THE THREE LOOKS
+                
+
                 npc.SetActive(true);
                 break;
             }

@@ -6,12 +6,13 @@ using System;
 
 public class NPCScript : MonoBehaviour
 {
+    // TODO: ADD TRIGGERS SO THAT THEY SPAWN ON AREAS RELEVANTT O THE PLAYERS
+
     Vector3 exitPosition;
     Vector3 spawnPosition;
     Vector3 currentTargetPosition;
     NavMeshAgent navMeshAgent;
     Attributes attributes;
-    NPCManager npcManager;
 
     // for random wandering
     [Header("Random Wandering Properties")]
@@ -25,7 +26,7 @@ public class NPCScript : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (timer >= wanderTimer && npcManager.spawn)
+        if (timer >= wanderTimer && NPCManager.Instance.spawn)
         {
             if (counter < wandersBeforeExit)
             {
@@ -38,11 +39,11 @@ public class NPCScript : MonoBehaviour
                 currentTargetPosition = exitPosition;
             }
         }
-        else if (AgentSlowOrStopped() && npcManager.spawn)
+        else if (AgentSlowOrStopped() && NPCManager.Instance.spawn)
         {
             currentTargetPosition = RandomNavSphere(transform.position, wanderRadius, -1);
         }
-        else if(!npcManager.spawn && AgentSlowOrStopped())
+        else if(!NPCManager.Instance.spawn && AgentSlowOrStopped())
         {
             Die();
         }
@@ -61,7 +62,7 @@ public class NPCScript : MonoBehaviour
         navMeshAgent.SetDestination(targetPos);
     }
     
-    public void InstantiateValues(Vector3 start, Vector3 exit)
+    public void InstantiateValues(Vector3 start, Vector3 exit, GameObject model)
     {
         exitPosition = exit;
         spawnPosition = start;
@@ -71,9 +72,11 @@ public class NPCScript : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         
         attributes = GetComponent<Attributes>();
-        npcManager = GetComponentInParent<NPCManager>();
         attributes.Health = attributes.StartHealth;
         counter = 0;
+
+        model.transform.parent = gameObject.transform;
+        
     }
 
     private bool ReachedExit()
