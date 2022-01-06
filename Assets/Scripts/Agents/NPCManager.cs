@@ -26,6 +26,11 @@ public class NPCManager : MonoBehaviour
 
     float timer = 0f;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,9 +54,6 @@ public class NPCManager : MonoBehaviour
             npcList.Add(child.gameObject);
         }
         Debug.Log("NPC count:" + npcList.Count);
-
-
-    
     }
 
     // Update is called once per frame
@@ -96,16 +98,11 @@ public class NPCManager : MonoBehaviour
         {
             if (!npc.active)
             {
+                npc.SetActive(true);
                 Vector3 spawnPoint = spawnPointPositions[Random.Range(0, spawnPoints.Count - 1)];
                 Vector3 exitPoint = exitPointPositions[Random.Range(0, exitPoints.Count - 1)];
                 GameObject model = models[Random.Range(0, models.Count - 1)];
-
-                npc.GetComponent<NPCScript>().InstantiateValues(spawnPoint, exitPoint, model);
-
-                // SET A RANDOM OUT OF THE THREE LOOKS
-                
-
-                npc.SetActive(true);
+                npc.GetComponent<NPCScript>().InstantiateValues(spawnPoint, exitPoint, model);                
                 break;
             }
         }

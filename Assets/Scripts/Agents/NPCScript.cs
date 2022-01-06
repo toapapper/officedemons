@@ -75,7 +75,13 @@ public class NPCScript : MonoBehaviour
         attributes.Health = attributes.StartHealth;
         counter = 0;
 
-        model.transform.parent = gameObject.transform;
+        //deactivate capsule placehodler
+        GameObject capsule = gameObject.transform.GetChild(0).gameObject;
+        capsule.SetActive(false);
+
+        GameObject mdl = Instantiate(model, transform.position, transform.rotation);      // FIX POSITION
+
+        mdl.transform.parent = gameObject.transform;
         
     }
 
