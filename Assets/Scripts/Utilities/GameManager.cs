@@ -96,6 +96,8 @@ public class GameManager : MonoBehaviour
     public bool EnemiesActionsDone { set { enemiesActionsDone = value; } }
     public List<GameObject> StillCheckList { get { return stillCheckList; } }
 
+    [SerializeField] NPCManager npcManager;
+
     //public List<Checkpoint> CheckpointList { get { return checkpointList; } }
     public Checkpoint CurrentCheckpoint { get { return currentCheckpoint; } set { currentCheckpoint = value; } }
 
@@ -193,6 +195,7 @@ public class GameManager : MonoBehaviour
                 TurnUI.Instance.ShowNewImage(1, 0);
                 PlayerManager.Instance.BeginTurn();
                 roundTimer = RoundTime;
+                
             }
         }
         else if (CurrentCombatState == CombatState.player)
@@ -284,6 +287,8 @@ public class GameManager : MonoBehaviour
         roundTimer = RoundTime;
         // Remove everything but players from the camera
         mainCamera.ObjectsInCamera = PlayerManager.players;
+
+        npcManager.spawn = true;
     }
 
     public void ResetEncounter()
@@ -298,6 +303,7 @@ public class GameManager : MonoBehaviour
             // Remove everything but players from the camera
             mainCamera.ObjectsInCamera = PlayerManager.players;
         }
+        
     }
 
     /// <summary>
@@ -354,6 +360,7 @@ public class GameManager : MonoBehaviour
             currentCheckpoint.LoadCheckpoint();
         }
         //ResetEncounter();
+        npcManager.spawn = true;
     }
 
     
