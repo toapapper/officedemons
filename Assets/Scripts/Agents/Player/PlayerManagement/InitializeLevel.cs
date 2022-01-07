@@ -22,7 +22,7 @@ public class InitializeLevel : MonoBehaviour
     void Awake()
     {
         PlayerConfiguration[] playerConfigurations = PlayerConfigurationManager.Instance.GetPlayerConfigurations().ToArray();
-
+        Debug.Log("playerconfig 0 : "+playerConfigurations[0].Input);
 		for (int i = 0; i < playerConfigurations.Length ; i++)
 		{
             GameObject player = Instantiate(playerPrefabs[playerConfigurations[i].CharacterIndex], playerSpwns[i].position, playerSpwns[i].rotation, gameObject.transform);

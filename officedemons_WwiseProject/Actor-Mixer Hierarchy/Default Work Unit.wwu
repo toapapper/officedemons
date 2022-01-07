@@ -1080,6 +1080,29 @@
 								<ActiveSource Name="Fire_Stream" ID="{BE0E163C-CF0D-4441-A9B3-3F1B111E38F7}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="Dragon_Fire_short" ID="{00AE94CA-6610-4E6C-AC63-D4E0E581C2A1}" ShortID="56883014">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{3B47F5DE-1CD9-4896-BFDA-0C46BF5FFAA1}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Dragon_Fire_short" ID="{86C8EAC2-93E5-46B5-B476-6CD355D2E194}">
+									<Language>SFX</Language>
+									<AudioFile>Dragon_Fire_short.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="181580743"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists/>
+							<ActiveSourceList>
+								<ActiveSource Name="Dragon_Fire_short" ID="{86C8EAC2-93E5-46B5-B476-6CD355D2E194}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Voices" ID="{EFA9561B-965D-40A2-B6F4-98A935DD9311}" ShortID="273683978">
