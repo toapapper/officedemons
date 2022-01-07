@@ -234,6 +234,7 @@ public class PlayerManager : MonoBehaviour
                 p.GetComponent<PlayerStateController>().StartTurn();
             }
 
+            p.GetComponentInChildren<PlayerUIExtras>().GettingRevived = false;
             p.GetComponent<Attributes>().statusEffectHandler.UpdateEffects();
         }
     }
