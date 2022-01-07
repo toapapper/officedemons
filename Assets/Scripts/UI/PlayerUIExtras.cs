@@ -14,6 +14,13 @@ public class PlayerUIExtras : MonoBehaviour
     private Vector2 startValue, currentValue;
     private float min, max;
     private bool expanding = true;
+    private bool gettingRevived;
+
+    public bool GettingRevived
+    {
+        get { return gettingRevived; }
+        set { gettingRevived = value; }
+    }
 
 
 
@@ -40,6 +47,7 @@ public class PlayerUIExtras : MonoBehaviour
                 PlayerManager.players[i] != gameObject.transform.parent.gameObject &&
                 gameObject.transform.parent.GetComponent<Attributes>().Health <= 0 &&
                 PlayerManager.players[i].GetComponent<Attributes>().Health >= 0 &&
+                !gettingRevived &&
                 Vector3.Distance(PlayerManager.players[i].transform.position, gameObject.transform.position) < 5)
             {
 
