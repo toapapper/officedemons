@@ -85,12 +85,12 @@ public static class Effects
 						target.GetComponent<DestructibleObjects>().destroyer = wielder;
 						wielder.GetComponent<Attributes>().EvilPoints += target.GetComponent<Attributes>().EvilPointValue;
 
-						UIManager.Instance.NewFloatingText(target, "+" + target.GetComponent<Attributes>().EvilPointValue + " EVIL", Color.red, 2);
+						UIManager.Instance.NewFloatingText(target, "+" + target.GetComponent<Attributes>().EvilPointValue + " EVIL", Color.magenta, 2);
 					}
 					else if(target.tag == "NPC")
                     {
 						wielder.GetComponent<Attributes>().EvilPoints += target.GetComponent<Attributes>().EvilPointValue;
-						UIManager.Instance.NewFloatingText(target, "+" + target.GetComponent<Attributes>().EvilPointValue + " EVIL", Color.red, 2);
+						UIManager.Instance.NewFloatingText(target, "+" + target.GetComponent<Attributes>().EvilPointValue + " EVIL", Color.magenta, 2);
 					}
 					else
 					{
