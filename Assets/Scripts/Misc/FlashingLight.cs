@@ -19,6 +19,7 @@ public class FlashingLight : MonoBehaviour
     {
         timeRemaining = blinkingTime;
         CameraShake.Shake(2, 0.005f);
+        
     }
     // Update is called once per frame
     void Update()
@@ -29,33 +30,52 @@ public class FlashingLight : MonoBehaviour
         }
         else
         {
-            rightLight.enabled = !rightLight.enabled;
-            leftLight.enabled = !leftLight.enabled;
+            if(rightLight && leftLight)
+            {
+                rightLight.enabled = !rightLight.enabled;
+                leftLight.enabled = !leftLight.enabled;
+            }
+
             foreach (GameObject go in lamp)
             {
-                go.SetActive(!go.activeSelf);
+                if (go)
+                {
+                    go.SetActive(!go.activeSelf);
+                }
+                
             }
-            //GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.white * 9.8f);
 
             timeRemaining = blinkingTime;
             CameraShake.Shake(2, 0.005f);
         }
         if (timeRemaining < 0.4f && timeRemaining > 0.2f)
         {
-            rightLight.enabled = !rightLight.enabled;
-            leftLight.enabled = !leftLight.enabled;
+            if (rightLight && leftLight)
+            {
+                rightLight.enabled = !rightLight.enabled;
+                leftLight.enabled = !leftLight.enabled;
+            }
             foreach (GameObject go in lamp)
             {
-                go.SetActive(!go.activeSelf);
+                if (go)
+                {
+                    go.SetActive(!go.activeSelf);
+                }
             }
         }
         if (timeRemaining < 0.2f && timeRemaining > 0)
         {
-            rightLight.enabled = !rightLight.enabled;
-            leftLight.enabled = !leftLight.enabled;
+            if (rightLight && leftLight)
+            {
+                rightLight.enabled = !rightLight.enabled;
+                leftLight.enabled = !leftLight.enabled;
+            }
             foreach (GameObject go in lamp)
             {
-                go.SetActive(!go.activeSelf);
+                if (go)
+                {
+                    go.SetActive(!go.activeSelf);
+                }
             }
         }
     }
