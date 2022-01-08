@@ -96,8 +96,6 @@ public class GameManager : MonoBehaviour
     public bool EnemiesActionsDone { set { enemiesActionsDone = value; } }
     public List<GameObject> StillCheckList { get { return stillCheckList; } }
 
-    [SerializeField] NPCManager npcManager;
-
     //public List<Checkpoint> CheckpointList { get { return checkpointList; } }
     public Checkpoint CurrentCheckpoint { get { return currentCheckpoint; } set { currentCheckpoint = value; } }
 
@@ -288,7 +286,7 @@ public class GameManager : MonoBehaviour
         // Remove everything but players from the camera
         mainCamera.ObjectsInCamera = PlayerManager.players;
 
-        npcManager.spawn = true;
+        NPCManager.Instance.spawn = true;
     }
 
     public void ResetEncounter()
@@ -360,7 +358,7 @@ public class GameManager : MonoBehaviour
             currentCheckpoint.LoadCheckpoint();
         }
         //ResetEncounter();
-        npcManager.spawn = true;
+        NPCManager.Instance.spawn = true;
     }
 
     
