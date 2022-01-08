@@ -8,17 +8,14 @@ public class NPCManager : MonoBehaviour
     public static NPCManager Instance { get; private set; }
 
     [SerializeField] GameObject NPCs;
-
-    [SerializeField] List<GameObject> spawnPoints;
-                         
-    [SerializeField] List<GameObject> exitPoints;
-
+    [SerializeField] GameObject Encounters;
+    [SerializeField] GameObject Areas;
     [SerializeField] List<GameObject> models;
 
     List<GameObject> npcList;
-    List<Vector3> spawnPointPositions;
-    List<Vector3> exitPointPositions;
-
+    Dictionary<int, List<Vector3>> doorPoints;
+    int areaCounter = 0;
+    int initialEncounterCount = 0;
     public bool spawn;
 
     [SerializeField]
@@ -35,30 +32,38 @@ public class NPCManager : MonoBehaviour
     void Start()
     {
         npcList = new List<GameObject>();
-        spawnPointPositions = new List<Vector3>();
-        exitPointPositions = new List<Vector3>();
+        doorPoints = new Dictionary<int, List<Vector3>>();
         spawn = true;
 
-        foreach (GameObject go in spawnPoints)
-        {
-            spawnPointPositions.Add(go.transform.position);
-        }
+        initialEncounterCount = CountEncounters();
 
-        foreach (GameObject go in exitPoints)
+        //fill doorPoints for every key=area, value=list of points
+        foreach (Transform area in Areas.transform)
         {
-            exitPointPositions.Add(go.transform.position);
+            List<Vector3> tempList = new List<Vector3>();
+
+            foreach (Transform door in area)
+            {
+                tempList.Add(door.position);
+            }
+
+            areaCounter++;
+            doorPoints.Add(areaCounter, tempList);
         }
 
         foreach (Transform child in NPCs.transform)
         {
             npcList.Add(child.gameObject);
         }
+
         Debug.Log("NPC count:" + npcList.Count);
+        Debug.Log("Encounters:" + areaCounter);
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (spawn && GameManager.Instance.CurrentCombatState == CombatState.enterCombat)
         {
             spawn = false;
@@ -90,6 +95,8 @@ public class NPCManager : MonoBehaviour
                 }
             }
         }
+
+        Debug.Log("currentArea: " + CurrentArea());
     }
 
     public void AddNPC()
@@ -99,8 +106,19 @@ public class NPCManager : MonoBehaviour
             if (!npc.active)
             {
                 npc.SetActive(true);
-                Vector3 spawnPoint = spawnPointPositions[Random.Range(0, spawnPoints.Count - 1)];
-                Vector3 exitPoint = exitPointPositions[Random.Range(0, exitPoints.Count - 1)];
+
+                // get a random spawn and exit in the current area (not the same points)
+                int random1 = Random.Range(0, doorPoints[CurrentArea()].Count - 1);
+                int random2 = Random.Range(0, doorPoints[CurrentArea()].Count - 1);
+
+                while (random1==random2)
+                {
+                    random2 = Random.Range(0, doorPoints[CurrentArea()].Count - 1);
+                }
+
+                Vector3 spawnPoint = doorPoints[CurrentArea()][random1];
+                Vector3 exitPoint = doorPoints[CurrentArea()][random2];
+
                 GameObject model = models[Random.Range(0, models.Count - 1)];
                 npc.GetComponent<NPCScript>().InstantiateValues(spawnPoint, exitPoint, model);                
                 break;
@@ -111,7 +129,8 @@ public class NPCManager : MonoBehaviour
     public void SendAllToExit()
     {
         Debug.Log("SEND ALL TO EXIT");
-        foreach(GameObject npc in npcList)
+        
+        foreach (GameObject npc in npcList)
         {
             npc.GetComponent<NPCScript>().SetTargetPosition(CalculateClosestExit(npc));
         }
@@ -122,14 +141,28 @@ public class NPCManager : MonoBehaviour
         Vector3 pos = npc.transform.position;
         Vector3 closest = Vector3.zero;
 
-        foreach (Vector3 exit in exitPointPositions)
+        foreach (Vector3 exit in doorPoints[CurrentArea()])
         {
             if (Vector3.Distance(exit, pos) < Vector3.Distance(closest, pos) || closest == Vector3.zero)
             {
                 closest = exit;
             }
         }
-
         return closest;
+    }
+
+    int CurrentArea()
+    {
+        return (initialEncounterCount - CountEncounters() + 1);
+    }
+
+    int CountEncounters()
+    {
+        int count = 0;
+        foreach (Transform child in Encounters.transform)
+        {
+            count++;
+        }
+        return count;
     }
 }

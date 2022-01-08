@@ -382,7 +382,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 	{
 		if (isProjectile)
 		{
-			if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
+			if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "NPC")
 			{
 				Effects.WeaponDamage(collision.gameObject, throwDamage, holderAgent);
 				//Effects.Damage(collision.gameObject, throwDamage);

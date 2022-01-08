@@ -240,7 +240,10 @@ public class WeaponHand : MonoBehaviour
 						float rand = Random.value;
 						if (rand < SlipperyDropChance)
 						{
-							Effects.Disarm(target);
+                            if (target.tag != "NPC")
+                            {
+                                Effects.Disarm(target);
+                            }
 						}
 					}
 					else
