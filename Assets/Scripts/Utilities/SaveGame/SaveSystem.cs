@@ -3,6 +3,13 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 
+/// <summary>
+/// <para>
+/// Script to handle saving and loading data about objects in game
+/// </para><para>
+/// Author: Jonas and Johan
+/// </para>
+/// </summary>
 public static class SaveSystem
 {
     public static void SavePlayer(GameObject player)
