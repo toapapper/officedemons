@@ -85,7 +85,7 @@ public static class Effects
 						target.GetComponent<DestructibleObjects>().destroyer = wielder;
 						wielder.GetComponent<Attributes>().EvilPoints += target.GetComponent<Attributes>().EvilPointValue;
 
-						UIManager.Instance.NewFloatingText(target, "+" + target.GetComponent<Attributes>().EvilPointValue + " EVIL", Color.magenta, 2);
+						UIManager.Instance.NewFloatingText(target, "" + (Mathf.Sign(target.GetComponent<Attributes>().EvilPointValue) > 0?"+":"") + target.GetComponent<Attributes>().EvilPointValue + " EVIL", Color.magenta, 2);
 					}
 					else if(target.tag == "NPC")
                     {
@@ -212,7 +212,8 @@ public static class Effects
 		}
 		else if(target.layer == LayerMask.NameToLayer("Destructible"))
         {
-			target.GetComponent<DestructibleObjects>().Explode();
+			//target.GetComponent<DestructibleObjects>().Explode();
+			target.GetComponent<DestructibleObjects>().ExplodeWithDelay();
         }
         else if (target.tag == "NPC")
         {

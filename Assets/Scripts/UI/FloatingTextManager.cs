@@ -30,6 +30,8 @@ public class FloatingTextManager : MonoBehaviour
     //what index of elements is next
     private int currentIndex = 0;
 
+    private float fontSize;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -41,7 +43,10 @@ public class FloatingTextManager : MonoBehaviour
         for(int i = 1; i < elementCount; i++)
         {
             elements[i] = Instantiate(textElement, transform, false).GetComponent<FloatingTextElement>();
+            elements[i].gameObject.name = "FloatingTextElement" + i;
         }
+
+        fontSize = elements[0].stdSize;
     }
 
     /// <summary>
@@ -73,13 +78,16 @@ public class FloatingTextManager : MonoBehaviour
     /// <param name="color"></param>
     public void newText(Vector2 position, string text, Color color, float sizeMultiPlier = 1f)
     {
-        elements[currentIndex].Activate(text, position, color, sizeMultiplier: sizeMultiPlier);
+        elements[currentIndex].Activate(text, position, color, fontSize * sizeMultiPlier);
         
         currentIndex++;
         if(currentIndex >= elements.Length)
         {
             currentIndex = 0;
         }
+
+
+        Debug.Log($"Activate floating text nr: {currentIndex}, position: {position}, sizeMultiplier: {sizeMultiPlier}");
     }
 
 }
