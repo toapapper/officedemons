@@ -15,7 +15,7 @@ public class VictoryExit : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         AkSoundEngine.PostEvent("MUTE_ALL_SFX", gameObject);
-        Time.timeScale = 0;
+        
         if (other.gameObject.CompareTag("Player"))
         {
             if (!alreadyWon)
@@ -30,7 +30,7 @@ public class VictoryExit : MonoBehaviour
     private void Victory()
     {
         victoryUI.SetActive(true);
-        
+        Time.timeScale = 0;
         Debug.Log(PlayerManager.players.Count);
         for (int i = 0; i < PlayerManager.players.Count; i++)
         {
