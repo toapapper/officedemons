@@ -61,23 +61,23 @@ public class NPCScript : MonoBehaviour
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(targetPos);
     }
-    
+
     public void InstantiateValues(Vector3 start, Vector3 exit, GameObject model)
     {
         exitPosition = exit;
         spawnPosition = start;
         currentTargetPosition = RandomNavSphere(transform.position, wanderRadius, -1);
-        
+
         gameObject.transform.position = spawnPosition;
         navMeshAgent = GetComponent<NavMeshAgent>();
-        
+
         attributes = GetComponent<Attributes>();
         attributes.Health = attributes.StartHealth;
         counter = 0;
 
         //deactivate capsule placehodler
         //GameObject placeHolder = gameObject.transform.GetChild(0).gameObject;
-        //GameObject mdl = Instantiate(model, placeHolder.transform.position, transform.rotation);     
+        //GameObject mdl = Instantiate(model, placeHolder.transform.position, transform.rotation);
         //mdl.transform.parent = gameObject.transform;
         //mdl.name = "npc0";
         //
