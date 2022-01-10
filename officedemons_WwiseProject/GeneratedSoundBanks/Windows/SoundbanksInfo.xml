@@ -22,7 +22,7 @@
 				<GameParameter Id="2918011349" Name="MasterVolume" ObjectPath="\Game Parameters\Default Work Unit\Volume\MasterVolume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="3161908922" Language="SFX" Hash="2237706341">
+		<SoundBank Id="3161908922" Language="SFX" Hash="437403802">
 			<ObjectPath>\SoundBanks\Default Work Unit\Main</ObjectPath>
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
@@ -107,6 +107,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
+				<Event Id="2378953338" Name="MUTE_ALL_SFX" ObjectPath="\Events\Default Work Unit\MUTE_ALL_SFX" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="991589999" Name="Pistol_shot" ObjectPath="\Events\Default Work Unit\Pistol_shot" DurationType="OneShot" DurationMin="0.267750" DurationMax="0.267750">
 					<IncludedMemoryFiles>
 						<File Id="279693683" Language="SFX">
@@ -292,6 +293,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
+				<Event Id="4003578643" Name="UNMUTE_ALL" ObjectPath="\Events\Default Work Unit\UNMUTE_ALL" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="3316389248" Name="VickySlide" ObjectPath="\Events\Default Work Unit\VickySlide" DurationType="OneShot" DurationMin="2.970703" DurationMax="2.970703">
 					<IncludedMemoryFiles>
 						<File Id="967212949" Language="SFX">
@@ -308,7 +310,7 @@
 				<GameParameter Id="2918011349" Name="MasterVolume" ObjectPath="\Game Parameters\Default Work Unit\Volume\MasterVolume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="3991942870" Language="SFX" Hash="1036382806">
+		<SoundBank Id="3991942870" Language="SFX" Hash="1705671396">
 			<ObjectPath>\SoundBanks\Default Work Unit\Music</ObjectPath>
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
@@ -663,6 +665,7 @@
 					</ActionSetState>
 				</Event>
 				<Event Id="2477713992" Name="Stop_Ambience" ObjectPath="\Events\Default Work Unit\Stop_Ambience" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
+				<Event Id="2837384057" Name="Stop_Music" ObjectPath="\Events\Music\Stop_Music" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="252541922" Name="Stop_RadioMusic" ObjectPath="\Events\Default Work Unit\Stop_RadioMusic" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 			</IncludedEvents>
 			<GameParameters>

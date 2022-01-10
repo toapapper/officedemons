@@ -11,10 +11,12 @@ public class NPCManager : MonoBehaviour
     [SerializeField] GameObject Encounters;
     [SerializeField] GameObject Areas;
     [SerializeField] List<GameObject> models;
+    [SerializeField] ParticleSystem poof;
 
     List<GameObject> npcList;
     Dictionary<int, List<Vector3>> doorPoints;
     int areaCounter = 0;
+    int modelCounter = 0;
     int initialEncounterCount = 0;
     public bool spawn;
 
@@ -61,7 +63,7 @@ public class NPCManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
         if (spawn && GameManager.Instance.CurrentCombatState == CombatState.enterCombat)
@@ -91,7 +93,7 @@ public class NPCManager : MonoBehaviour
                 }
                 else
                 {
-                    npc.GetComponent<NPCScript>().Update();
+                    npc.GetComponent<NPCScript>().NPCUpdate();
                 }
             }
         }
@@ -119,7 +121,8 @@ public class NPCManager : MonoBehaviour
                 Vector3 spawnPoint = doorPoints[CurrentArea()][random1];
                 Vector3 exitPoint = doorPoints[CurrentArea()][random2];
 
-                GameObject model = models[Random.Range(0, models.Count - 1)];
+                //GameObject model = models[Random.Range(0, models.Count - 1)];
+                GameObject model = ChooseModel();
                 npc.GetComponent<NPCScript>().InstantiateValues(spawnPoint, exitPoint, model);                
                 break;
             }
@@ -128,11 +131,15 @@ public class NPCManager : MonoBehaviour
 
     public void SendAllToExit()
     {
-        Debug.Log("SEND ALL TO EXIT");
+        Debug.Log("SEND ALL TO EXIT - WIP (Despawns all currently)");
         
         foreach (GameObject npc in npcList)
         {
-            npc.GetComponent<NPCScript>().SetTargetPosition(CalculateClosestExit(npc));
+            //npc.GetComponent<NPCScript>().SetTargetPosition(CalculateClosestExit(npc));
+            // play poof?
+            Instantiate(poof, npc.transform.position, npc.transform.rotation);
+            poof.Play();
+            npc.GetComponent<NPCScript>().Despawn();
         }
     }
 
@@ -164,5 +171,16 @@ public class NPCManager : MonoBehaviour
             count++;
         }
         return count;
+    }
+
+    GameObject ChooseModel()
+    {
+        modelCounter++;
+        if (modelCounter >= models.Count)
+        {
+            modelCounter = 0;
+        }
+
+        return models[modelCounter];
     }
 }

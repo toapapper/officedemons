@@ -408,6 +408,36 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="MUTE_ALL_SFX" ID="{2C6DF150-89B2-4222-92EA-512C02B2E5ED}">
+					<ChildrenList>
+						<Action Name="" ID="{CBEFD622-B241-47A9-80D2-662531DEBDED}" ShortID="279710872">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="4"/>
+								<Property Name="Scope" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX" ID="{F80A384D-1182-4C0E-AE62-A1DC7CB6A8A7}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="UNMUTE_ALL" ID="{9962DDA7-566A-4A5B-89B5-24B7B3F8FC69}">
+					<ChildrenList>
+						<Action Name="" ID="{D0BC01FB-DD59-4517-B8DB-194CDD4D2543}" ShortID="493559265">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="5"/>
+								<Property Name="Scope" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX" ID="{F80A384D-1182-4C0E-AE62-A1DC7CB6A8A7}" WorkUnitID="{2A05B8A4-489C-48AE-AC0C-7CB194D58526}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
