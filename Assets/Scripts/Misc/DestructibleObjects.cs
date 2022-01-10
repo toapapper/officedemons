@@ -35,7 +35,7 @@ public class DestructibleObjects : MonoBehaviour
         preExplosionEffect = Resources.Load<GameObject>("preExplosionSmoke");
 	}
 
-    public void ExplodeWithDelay(float delay = .5f)
+    public void ExplodeWithDelay(float delay = .3f)
     {
         preExplosionEffectInstance = Instantiate(preExplosionEffect, transform.position, Quaternion.identity);
         explodeDelay(delay);
@@ -65,8 +65,18 @@ public class DestructibleObjects : MonoBehaviour
         FOV.FindVisibleTargets();
         ImpactAgents();
 
+
         if (destroyedPrefab == null)
         {
+            MeshRenderer mrOnMe = GetComponent<MeshRenderer>();
+            if (mrOnMe != null)
+            {
+                foreach(Material m in mrOnMe.materials)
+                {
+                    m.color = Color.black;
+                }
+            }
+
             foreach (MeshRenderer mr in gameObject.GetComponentsInChildren<MeshRenderer>())
             {
                 foreach (Material m in mr.materials)
