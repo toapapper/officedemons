@@ -54,10 +54,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite defaultWeapon;
     [SerializeField] private List<Sprite> numbers;
 
+    [Header("evilCount")]
+    [SerializeField] private TMP_Text[] evilCounts;
+    private bool[] activeEvilCounts = new bool[4];
+
     private void Awake()
     {
         Instance = this;
         timerBackgroundWithColorImage = timerBackgroundWithColor.GetComponent<Image>();
+
+        
     }
     
     private void Update()
@@ -78,6 +84,27 @@ public class UIManager : MonoBehaviour
         //Uppdatera liv på spelarna
 
         UpdateWeaponUI();
+
+        //Set color.alpha to zero on evilCounts if in combat. Else set to one
+        //Terribly optimized
+        for(int i = 0; i < 4; i++)
+        {
+            if (activeEvilCounts[i])
+            {
+                Color color = evilCounts[i].color;
+                if(GameManager.Instance.CurrentCombatState == CombatState.none)
+                {
+                    color.a = 1;
+                    evilCounts[i].text = $"P{i+1} Evil:{ PlayerManager.players[i].GetComponent<Attributes>().EvilPoints}";
+                }
+                else
+                {
+                    color.a = 0;
+                }
+                evilCounts[i].color = color;
+            }
+        }
+
 
         //includes the displaying of enemys_turn_card
         #region TimerUpdates
@@ -141,6 +168,14 @@ public class UIManager : MonoBehaviour
         stamCirc.SetPlayer(PlayerManager.players[i]);
         
         PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().GetPlayerSymbol(i, PlayerManager.players[i].GetComponent<Attributes>().PlayerColor);
+
+        evilCounts[i].gameObject.SetActive(true);
+        activeEvilCounts[i] = true;
+        Color color = PlayerManager.players[i].GetComponent<Attributes>().PlayerColor;
+        float H, S, V;
+        Color.RGBToHSV(color, out H, out S, out V);
+        color = Color.HSVToRGB(H, 1, V);
+        evilCounts[i].color = color;
     }
 
     /// <summary>
