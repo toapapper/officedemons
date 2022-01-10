@@ -60,8 +60,8 @@ public class PlayerConfigurationManager : MonoBehaviour
 			AkSoundEngine.SetState("Music", "RoamingState1");
 			AkSoundEngine.PostEvent("Play_Music", gameObject);
 			AkSoundEngine.PostEvent("Play_AMBIENCE_Hall_Large__Entrance__Office_Building__Morning__Downtown_Chicago__USA__LOOP_LRLsRs", gameObject);
+			SceneManagment.Instance.NextLevel();
 		}
-		SceneManagment.Instance.NextLevel();
 	}
 
 	// The event that is called once a player press a button to join the game.
