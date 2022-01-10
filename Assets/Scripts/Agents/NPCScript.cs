@@ -76,14 +76,12 @@ public class NPCScript : MonoBehaviour
         counter = 0;
 
         //deactivate capsule placehodler
-        GameObject placeHolder = gameObject.transform.GetChild(0).gameObject;
-        GameObject mdl = Instantiate(model, placeHolder.transform.position, transform.rotation);
-        mdl.transform.parent = gameObject.transform;
-        mdl.name = "npc0";
-
-        Destroy(placeHolder);
-
-        mdl.transform.parent = gameObject.transform;
+        //GameObject placeHolder = gameObject.transform.GetChild(0).gameObject;
+        //GameObject mdl = Instantiate(model, placeHolder.transform.position, transform.rotation);
+        //mdl.transform.parent = gameObject.transform;
+        //mdl.name = "npc0";
+        //
+        //Destroy(placeHolder);
     }
 
     private bool ReachedExit()

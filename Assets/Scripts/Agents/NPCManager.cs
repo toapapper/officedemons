@@ -10,13 +10,13 @@ public class NPCManager : MonoBehaviour
     [SerializeField] GameObject NPCs;
     [SerializeField] GameObject Encounters;
     [SerializeField] GameObject Areas;
-    [SerializeField] List<GameObject> models;
+    [SerializeField] List<GameObject> npcPrefabs;
     [SerializeField] ParticleSystem poof;
 
     List<GameObject> npcList;
     Dictionary<int, List<Vector3>> doorPoints;
     int areaCounter = 0;
-    int modelCounter = 0;
+    int prefabCounter = 0;
     int initialEncounterCount = 0;
     public bool spawn;
 
@@ -122,7 +122,7 @@ public class NPCManager : MonoBehaviour
                 Vector3 exitPoint = doorPoints[CurrentArea()][random2];
 
                 //GameObject model = models[Random.Range(0, models.Count - 1)];
-                GameObject model = ChooseModel();
+                GameObject model = GetPrefab();
                 npc.GetComponent<NPCScript>().InstantiateValues(spawnPoint, exitPoint, model);                
                 break;
             }
@@ -173,14 +173,14 @@ public class NPCManager : MonoBehaviour
         return count;
     }
 
-    GameObject ChooseModel()
+    GameObject GetPrefab()
     {
-        modelCounter++;
-        if (modelCounter >= models.Count)
+        prefabCounter++;
+        if (prefabCounter >= npcPrefabs.Count)
         {
-            modelCounter = 0;
+            prefabCounter = 0;
         }
 
-        return models[modelCounter];
+        return npcPrefabs[prefabCounter];
     }
 }
