@@ -134,7 +134,7 @@ public static class Effects
 	public static void ApplyStatusEffect(GameObject target, GameObject applier, StatusEffectType type)
     {
 
-		if(!(target.CompareTag("Player") || target.CompareTag("Enemy") || target.CompareTag("NPC")) || (target.name == "tank" || (target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat)) && target.layer == LayerMask.NameToLayer("Destructible"))
+		if((!(target.CompareTag("Player") || target.CompareTag("Enemy") || target.CompareTag("NPC")) || (target.name == "tank" || (target.tag == "Enemy" && !target.GetComponent<AIController>().InActiveCombat)) && target.layer == LayerMask.NameToLayer("Destructible")) || target.GetComponent<Attributes>().Health <= 0)
         {
 			return;
         } 

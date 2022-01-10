@@ -29,10 +29,10 @@ public class FloatingTextElement : MonoBehaviour
     private float lifeTime = standardLifeTime;   //lifetime in seconds
     private float deltaAlpha { get { return 1 / lifeTime; } }
 
-    void Awake()
-    {
-        stdSize = text.fontSize;
-    }
+    //void Awake()
+    //{
+    //    stdSize = text.fontSize;
+    //}
 
     // Update is called once per frame
     void Update()
