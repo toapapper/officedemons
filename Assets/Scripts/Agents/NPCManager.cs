@@ -62,7 +62,7 @@ public class NPCManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
         if (spawn && GameManager.Instance.CurrentCombatState == CombatState.enterCombat)
@@ -92,7 +92,7 @@ public class NPCManager : MonoBehaviour
                 }
                 else
                 {
-                    npc.GetComponent<NPCScript>().Update();
+                    npc.GetComponent<NPCScript>().NPCUpdate();
                 }
             }
         }

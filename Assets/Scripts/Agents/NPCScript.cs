@@ -17,12 +17,12 @@ public class NPCScript : MonoBehaviour
     // for random wandering
     [Header("Random Wandering Properties")]
     [SerializeField] float wanderRadius = 10;
-    [SerializeField] float wanderTimer = 3;
+    [SerializeField] float wanderTimer = 0.5f;
     float timer = 0;
-    [SerializeField] int wandersBeforeExit = 5; // How many times they take a random destination before going towards an exit
+    [SerializeField] int wandersBeforeExit = 8; // How many times they take a random destination before going towards an exit
     int counter = 0;
 
-    public void Update()
+    public void NPCUpdate()
     {
         timer += Time.deltaTime;
 
