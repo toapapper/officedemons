@@ -17,12 +17,12 @@ public class NPCScript : MonoBehaviour
     // for random wandering
     [Header("Random Wandering Properties")]
     [SerializeField] float wanderRadius = 10;
-    [SerializeField] float wanderTimer = 3;
+    [SerializeField] float wanderTimer = 2f;
     float timer = 0;
-    [SerializeField] int wandersBeforeExit = 5; // How many times they take a random destination before going towards an exit
+    [SerializeField] int wandersBeforeExit = 8; // How many times they take a random destination before going towards an exit
     int counter = 0;
 
-    public void Update()
+    public void NPCUpdate()
     {
         timer += Time.deltaTime;
 
@@ -61,16 +61,16 @@ public class NPCScript : MonoBehaviour
         navMeshAgent.isStopped = false;
         navMeshAgent.SetDestination(targetPos);
     }
-    
+
     public void InstantiateValues(Vector3 start, Vector3 exit, GameObject model)
     {
         exitPosition = exit;
         spawnPosition = start;
         currentTargetPosition = RandomNavSphere(transform.position, wanderRadius, -1);
-        
+
         gameObject.transform.position = spawnPosition;
         navMeshAgent = GetComponent<NavMeshAgent>();
-        
+
         attributes = GetComponent<Attributes>();
         attributes.Health = attributes.StartHealth;
         counter = 0;
@@ -83,6 +83,7 @@ public class NPCScript : MonoBehaviour
 
         Destroy(placeHolder);
 
+        mdl.transform.parent = gameObject.transform;
     }
 
     private bool ReachedExit()

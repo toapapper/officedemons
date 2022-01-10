@@ -133,11 +133,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   characterName: 3
+  variantName: 6
   portrait: {fileID: 0}
   jobTitle: "arbetsl\uFFFDs"
   startHealth: 20
   killCount: 0
+  evilPoints: 0
+  evilPointValue: 100
+  invulnerable: 0
   particleEffect: {fileID: 0}
+  statusEffectHandler: {fileID: 0}
   health: 0
   startStamina: 3.5
   stamina: 0
@@ -153,6 +158,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96207ad84dc1eb4428ffe1619bb9068d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyed: 0
+  destroyer: {fileID: 0}
   destroyedPrefab: {fileID: 0}
   particleEffect: {fileID: 1892078723244562, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
   damage: 10
