@@ -62,7 +62,7 @@ public class NPCScript : MonoBehaviour
         navMeshAgent.SetDestination(targetPos);
     }
 
-    public void InstantiateValues(Vector3 start, Vector3 exit, GameObject model)
+    public void InstantiateValues(Vector3 start, Vector3 exit)
     {
         exitPosition = exit;
         spawnPosition = start;
@@ -74,14 +74,6 @@ public class NPCScript : MonoBehaviour
         attributes = GetComponent<Attributes>();
         attributes.Health = attributes.StartHealth;
         counter = 0;
-
-        //deactivate capsule placehodler
-        //GameObject placeHolder = gameObject.transform.GetChild(0).gameObject;
-        //GameObject mdl = Instantiate(model, placeHolder.transform.position, transform.rotation);
-        //mdl.transform.parent = gameObject.transform;
-        //mdl.name = "npc0";
-        //
-        //Destroy(placeHolder);
     }
 
     private bool ReachedExit()
