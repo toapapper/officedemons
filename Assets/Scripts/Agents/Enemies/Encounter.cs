@@ -361,6 +361,13 @@ public class Encounter : MonoBehaviour
             if (Resources.Load(enemyName))
             {
                 GameObject newEnemy = Instantiate(Resources.Load(enemyName), enemy.Key, Quaternion.Euler(0, 0, 0)) as GameObject;
+                
+                //Temporary tank rotation fix
+				if (newEnemy.GetComponent<DestructibleObjects>())
+				{
+                    newEnemy.transform.rotation = Quaternion.Euler(0, 129.025f, 0);
+				}
+
                 newEnemy.transform.parent = this.transform;
             }
         }
