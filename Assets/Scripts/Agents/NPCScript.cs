@@ -17,7 +17,7 @@ public class NPCScript : MonoBehaviour
     // for random wandering
     [Header("Random Wandering Properties")]
     [SerializeField] float wanderRadius = 10;
-    [SerializeField] float wanderTimer = 0.5f;
+    [SerializeField] float wanderTimer = 2f;
     float timer = 0;
     [SerializeField] int wandersBeforeExit = 8; // How many times they take a random destination before going towards an exit
     int counter = 0;
@@ -82,7 +82,6 @@ public class NPCScript : MonoBehaviour
         GameObject mdl = Instantiate(model, placeHolder.transform.position, transform.rotation);     
 
         mdl.transform.parent = gameObject.transform;
-        
     }
 
     private bool ReachedExit()

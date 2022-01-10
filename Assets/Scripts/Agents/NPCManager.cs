@@ -11,6 +11,7 @@ public class NPCManager : MonoBehaviour
     [SerializeField] GameObject Encounters;
     [SerializeField] GameObject Areas;
     [SerializeField] List<GameObject> models;
+    [SerializeField] ParticleSystem poof;
 
     List<GameObject> npcList;
     Dictionary<int, List<Vector3>> doorPoints;
@@ -130,11 +131,15 @@ public class NPCManager : MonoBehaviour
 
     public void SendAllToExit()
     {
-        Debug.Log("SEND ALL TO EXIT");
+        Debug.Log("SEND ALL TO EXIT - WIP (Despawns all currently)");
         
         foreach (GameObject npc in npcList)
         {
-            npc.GetComponent<NPCScript>().SetTargetPosition(CalculateClosestExit(npc));
+            //npc.GetComponent<NPCScript>().SetTargetPosition(CalculateClosestExit(npc));
+            // play poof?
+            Instantiate(poof, npc.transform.position, npc.transform.rotation);
+            poof.Play();
+            npc.GetComponent<NPCScript>().Despawn();
         }
     }
 
