@@ -21,6 +21,7 @@ namespace AK
         static const AkUniqueID BULLETS_WHIZ_BY = 1113486413U;
         static const AkUniqueID DRAGON_FIRE_SHORT = 3744034140U;
         static const AkUniqueID GUN_COCKING = 3751980148U;
+        static const AkUniqueID MUTE_ALL_SFX = 2378953338U;
         static const AkUniqueID PISTOL_SHOT = 991589999U;
         static const AkUniqueID PLAY_AMBIENCE = 278617630U;
         static const AkUniqueID PLAY_AMBIENCE_HALL_LARGE__ENTRANCE__OFFICE_BUILDING__MORNING__DOWNTOWN_CHICAGO__USA__LOOP_LRLSRS = 1546138968U;
@@ -48,9 +49,11 @@ namespace AK
         static const AkUniqueID SET_ROAMING2 = 1319730835U;
         static const AkUniqueID STOP_AMBIENCE = 2477713992U;
         static const AkUniqueID STOP_BAZOOKA_SHELL_WHOOSH = 825044507U;
+        static const AkUniqueID STOP_MUSIC = 2837384057U;
         static const AkUniqueID STOP_RADIOMUSIC = 252541922U;
         static const AkUniqueID SUSANBURST = 2126492817U;
         static const AkUniqueID SUSANSCREAM = 240172070U;
+        static const AkUniqueID UNMUTE_ALL = 4003578643U;
         static const AkUniqueID VICKYSLIDE = 3316389248U;
     } // namespace EVENTS
 

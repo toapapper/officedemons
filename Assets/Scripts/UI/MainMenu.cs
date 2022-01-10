@@ -14,6 +14,8 @@ public class MainMenu : MonoBehaviour
     public GameObject FirstSelectedMainMenu;
     private void Start()
     {
+        AkSoundEngine.PostEvent("UNMUTE_ALL", gameObject);
+        AkSoundEngine.PostEvent("Stop_Music", gameObject);
         if(GameObject.Find("PlayerConfigurationManager") != null && InGame == false)
         {
             Destroy(GameObject.Find("PlayerConfigurationManager"));
