@@ -77,12 +77,12 @@ public class NPCScript : MonoBehaviour
 
         //deactivate capsule placehodler
         GameObject placeHolder = gameObject.transform.GetChild(0).gameObject;
-        placeHolder.SetActive(false);
-
-        GameObject mdl = Instantiate(model, placeHolder.transform.position, transform.rotation);     
-
+        GameObject mdl = Instantiate(model, placeHolder.transform.position, transform.rotation);
         mdl.transform.parent = gameObject.transform;
-        
+        mdl.name = "npc0";
+
+        Destroy(placeHolder);
+
     }
 
     private bool ReachedExit()
