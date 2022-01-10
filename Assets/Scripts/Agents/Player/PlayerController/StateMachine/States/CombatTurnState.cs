@@ -62,6 +62,11 @@ public class CombatTurnState : AbstractPlayerState
 		LockAction();
 	}
 
+	public override void OnRevive(GameObject player)
+	{
+		playerUIExtras.GettingRevived = true;
+	}
+
 	//public override void OnRevive(GameObject player)
 	//{
 	//	PlayerToRevive = player;

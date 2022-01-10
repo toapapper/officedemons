@@ -44,6 +44,5 @@ public class CharacterSelectInput : MonoBehaviour
     public void SetIndex(int i)
     {
         index = i;
-        Debug.Log("Index: " + index);
     }
 }

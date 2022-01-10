@@ -20,6 +20,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
     protected PlayerMovementController playerMovement;
     protected WeaponHand weaponHand;
     protected SpecialHand specialHand;
+    protected PlayerUIExtras playerUIExtras;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public abstract class AbstractPlayerState : MonoBehaviour, IPlayerState
 		playerMovement = GetComponent<PlayerMovementController>();
         weaponHand = GetComponent<WeaponHand>();
         specialHand = GetComponent<SpecialHand>();
+        playerUIExtras = GetComponent<PlayerUIExtras>();
     }
 
     public virtual void LockAction() { }

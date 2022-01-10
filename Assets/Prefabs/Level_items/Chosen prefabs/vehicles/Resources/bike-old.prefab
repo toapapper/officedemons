@@ -20,8 +20,8 @@ GameObject:
   m_Name: bike-old
   m_TagString: MovableObject
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6412821010852865896
 Transform:
@@ -132,12 +132,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   characterName: 3
+  variantName: 6
   portrait: {fileID: 0}
   jobTitle: "arbetsl\uFFFDs"
   startHealth: 5
   killCount: 0
   evilPoints: 0
-  evilPointValue: 5
+  evilPointValue: 15
   invulnerable: 0
   particleEffect: {fileID: 0}
   statusEffectHandler: {fileID: 0}

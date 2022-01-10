@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -20,7 +21,8 @@ public class DestructibleObjects : MonoBehaviour
     [SerializeField] private float force = 100;
     [SerializeField] protected List<StatusEffectType> effects;
 
-    
+    private GameObject preExplosionEffect;
+    private GameObject preExplosionEffectInstance;
 
 	public void Start()
 	{
@@ -29,10 +31,26 @@ public class DestructibleObjects : MonoBehaviour
         {
             FOV = GetComponent<FieldOfView>();
         }
+
+        preExplosionEffect = Resources.Load<GameObject>("preExplosionSmoke");
 	}
+
+    public void ExplodeWithDelay(float delay = .3f)
+    {
+        preExplosionEffectInstance = Instantiate(preExplosionEffect, transform.position, Quaternion.identity);
+        explodeDelay(delay);
+    }
+
+    private async void explodeDelay(float delay)
+    {
+        await Task.Delay((int)(delay * 1000));
+        Explode();
+    }
 
     public void Explode()
     {
+        Destroy(preExplosionEffectInstance);
+
         if(particleEffect != null)
         {
 		    AkSoundEngine.PostEvent("Play_Explosion", gameObject);
@@ -47,8 +65,18 @@ public class DestructibleObjects : MonoBehaviour
         FOV.FindVisibleTargets();
         ImpactAgents();
 
+
         if (destroyedPrefab == null)
         {
+            MeshRenderer mrOnMe = GetComponent<MeshRenderer>();
+            if (mrOnMe != null)
+            {
+                foreach(Material m in mrOnMe.materials)
+                {
+                    m.color = Color.black;
+                }
+            }
+
             foreach (MeshRenderer mr in gameObject.GetComponentsInChildren<MeshRenderer>())
             {
                 foreach (Material m in mr.materials)

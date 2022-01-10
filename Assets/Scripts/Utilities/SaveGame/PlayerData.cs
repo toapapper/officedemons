@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <para>
+/// Script to save data about players
+/// </para><para>
+/// Author: Jonas and Johan
+/// </para>
+/// </summary>
 [System.Serializable]
 public class PlayerData
 {

@@ -10,9 +10,22 @@ public class SkeletonFragment : MonoBehaviour
 
     protected Rigidbody rb;
 
+    [SerializeField] protected float lifeTimeMax = 20f;
+    [SerializeField] protected float lifeTimeMin = 15f;
+
+    protected float lifeTime;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        lifeTime = Random.Range(lifeTimeMin, lifeTimeMax);
+    }
+
+    private void FixedUpdate()
+    {
+        lifeTime -= Time.fixedDeltaTime;
+        if (lifeTime <= 0)
+            Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
