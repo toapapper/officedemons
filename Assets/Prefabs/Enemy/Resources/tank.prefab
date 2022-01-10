@@ -399,7 +399,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2434343449819518425}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.90267915, z: 0, w: 0.4303143}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 1.2, z: 2}
   m_Children:
@@ -420,7 +420,7 @@ Transform:
   - {fileID: 1677453806296193309}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 129.025, z: 0}
 --- !u!114 &1655780647936335325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,10 +460,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   characterName: 3
+  variantName: 6
   portrait: {fileID: 0}
   jobTitle: "arbetsl\uFFFDs"
   startHealth: 200
   killCount: 0
+  evilPoints: 0
+  evilPointValue: 10
   invulnerable: 0
   particleEffect: {fileID: 0}
   statusEffectHandler: {fileID: 0}
@@ -483,6 +486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyed: 0
+  destroyer: {fileID: 0}
   destroyedPrefab: {fileID: 0}
   particleEffect: {fileID: 1892078723244562, guid: 72c26f13c87d0bc4aa2bf700cc5233ba, type: 3}
   damage: 10
