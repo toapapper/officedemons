@@ -36,4 +36,4 @@ https://drive.google.com/drive/folders/11WOAF2qG6EOy1qGJwllM_sohewKJsGtS?usp=sha
 
 In that Google drive folder there is an instruction Readme file, that explains how the assets should be added to the project.
 
-The soundbanks load in through the MainMenu scene. So it is only possible to hear the sound, if you load in through the MainMenu.
+The soundbanks load in through the MainMenu scene. So it is only possible to hear the sound, if you start through the MainMenu.
