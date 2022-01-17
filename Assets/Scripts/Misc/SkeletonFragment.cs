@@ -28,6 +28,7 @@ public class SkeletonFragment : MonoBehaviour
             Destroy(gameObject);
     }
 
+
     private void OnCollisionEnter(Collision collision)
     {
         if (rb == null)
