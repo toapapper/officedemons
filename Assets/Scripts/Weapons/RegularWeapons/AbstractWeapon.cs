@@ -27,10 +27,11 @@ public abstract class AbstractWeapon : MonoBehaviour
         get { return weaponTexture; }
     }
 
-	[Tooltip("The Status effects this weapon has at spawn. Starts with standard amount of uses as well")]
-	[SerializeField] protected List<StatusEffectType> EffectsAtSpawn;
-	/// <summary> key = type, value = particleeffect and uses left. </summary>
-    protected Dictionary<StatusEffectType, WeaponEffectInfo> effects = new Dictionary<StatusEffectType, WeaponEffectInfo>();
+	[Tooltip("The Status effects this weapon has at spawn. Can be used when the game is running in the inspector as well.")]
+	[SerializeField] protected List<StatusEffectType> Effects_Editor;
+
+	/// <summary> key = type, value = particleeffect </summary>
+    protected Dictionary<StatusEffectType, GameObject> effects = new Dictionary<StatusEffectType, GameObject>();
 	[SerializeField] protected GameObject particleEffectsPosition;
 
 	[SerializeField]
@@ -116,7 +117,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 		get { return weight; }
 		set { weight = value; }
 	}
-	public Dictionary<StatusEffectType, WeaponEffectInfo> EffectList
+	public Dictionary<StatusEffectType, GameObject> EffectList
 	{
 		get { return effects; }
 		set { effects = value; }
@@ -138,7 +139,7 @@ public abstract class AbstractWeapon : MonoBehaviour
 			particleEffectsPosition = gameObject;
         }
 
-		AddStatusEffects(EffectsAtSpawn);
+		AddStatusEffects(Effects_Editor);
     }
 
     protected virtual void Update()
@@ -172,29 +173,6 @@ public abstract class AbstractWeapon : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// Called each attack to reduce the amount of charges left on the status effects and remove the ones with none.
-    /// </summary>
-    protected virtual void StatusEffectUpdate()
-    {
-		List<StatusEffectType> toRemove = new List<StatusEffectType>(2);
-
-		foreach(KeyValuePair<StatusEffectType, WeaponEffectInfo> pair in effects)
-        {
-			effects[pair.Key].uses -= 1;
-
-			if(pair.Value.uses <= 0) //charges == 0 therefore destroy particle effect and remove from list
-            {
-				toRemove.Add(pair.Key);
-            }
-        }
-
-		foreach(StatusEffectType type in toRemove)
-        {
-			Destroy(effects[type].particleEffect);
-			effects.Remove(type);
-        }
-	}
 
 	/// <summary>
 	/// Used on startup and when loading a checkpoint.
@@ -209,87 +187,130 @@ public abstract class AbstractWeapon : MonoBehaviour
 	}
 
 
+	bool OnValidateDoneOnce = false;
 	/// <summary>
-	/// Hell effects only get one use. all other get the same amount of uses that they have duration in turns when normally applied
+	/// Called when value is changed. Used to add or remove status-effects from the weapon through the inspector while the game is running
 	/// </summary>
-	/// <param name="type"></param>
-	public virtual void AddStatusEffect(StatusEffectType type)
+    private void OnValidate()
     {
+		if (!Application.isPlaying)
+			return;
+        if (!OnValidateDoneOnce) // just to avoid one nullrefeference exception that happens when this method is executed when this script is loaded.
+        {
+			OnValidateDoneOnce = true;
+			return;
+        }
+
+
+		//Add effect if in Effects_Editor but not on the weapon yet
+        foreach(StatusEffectType type in Effects_Editor)
+        {
+            if (!effects.ContainsKey(type))
+            {
+				AddStatusEffect(type);
+            }
+        }
+
+		//Remove effect if on the weapon but not in Effects_Editor
+		List<StatusEffectType> toRemove = new List<StatusEffectType>();
+		foreach(KeyValuePair<StatusEffectType, GameObject> pair in effects)
+        {
+			if (!Effects_Editor.Contains(pair.Key))
+            {
+				toRemove.Add(pair.Key);
+            }
+        }
+
+		foreach(StatusEffectType type in toRemove)
+        {
+			RemoveStatusEffect(type);
+        }
+    }
+
+    /// <summary>
+    /// Add effect to this weapon
+    /// </summary>
+    /// <param name="type"></param>
+    public virtual void AddStatusEffect(StatusEffectType type)
+    {
+		if (effects.ContainsKey(type))
+			return;
+
+
 		GameObject particleEffect = null;
-		int uses = 0;
 
 		switch (type)
 		{
 			case StatusEffectType.fire:
-				particleEffect = ParticleEffectContainer.fireEffect;
-				uses = FireStatus.StdDuration;
+				particleEffect = GameManager.Instance.fireEffect;
 				break;
 			case StatusEffectType.poison:
-				particleEffect = ParticleEffectContainer.poisonEffect;
-				uses = PoisonStatus.StdDuration;
+				particleEffect = GameManager.Instance.poisonEffect;
 				break;
-			case StatusEffectType.ice:
-				particleEffect = ParticleEffectContainer.iceEffect;
-				uses = IceStatus.StdDuration;
+			case StatusEffectType.frost:
+				particleEffect = GameManager.Instance.frostEffect;
 				break;
 			case StatusEffectType.vulnerable:
-				particleEffect = ParticleEffectContainer.vulnerableEffect;
-				uses = VulnerableStatus.StdDuration;
-				break;
-			case StatusEffectType.damage_boost:
-				particleEffect = ParticleEffectContainer.damageBoostEffect;
-				uses = DamageBoostStatus.StdDuration;
-				break;
-			case StatusEffectType.glass_cannon:
-				particleEffect = ParticleEffectContainer.glassCannonEffect;
-				uses = GlassCannonStatus.StdDuration;
+				particleEffect = GameManager.Instance.vulnerableEffect;
 				break;
 			case StatusEffectType.hell_fire:
-				particleEffect = ParticleEffectContainer.hellFireEffect;
-				uses = 1;
+				particleEffect = GameManager.Instance.hellFireEffect;
 				break;
 			case StatusEffectType.hell_poison:
-				particleEffect = ParticleEffectContainer.hellPoisonEffect;
-				uses = 1;
+				particleEffect = GameManager.Instance.hellPoisonEffect;
 				break;
-			case StatusEffectType.hell_ice:
-				particleEffect = ParticleEffectContainer.hellIceEffect;
-				uses = 1;
-				break;
-			case StatusEffectType.paralysis:
-				particleEffect = ParticleEffectContainer.paralysisEffect;
-				uses = ParalysisStatus.StdDuration;
-				break;
-			case StatusEffectType.mega_paralysis:
-				particleEffect = ParticleEffectContainer.megaParalysisEffect;
-				uses = MegaParalysisStatus.StdDuration;
+			case StatusEffectType.hell_frost:
+				particleEffect = GameManager.Instance.hellFrostEffect;
 				break;
 			default:
 				return;
 		}
 
-		if (effects.ContainsKey(type))//if already contains the statuseffect. simply reset its amount of uses.
-		{
-			effects[type].uses = uses;
-		}
-		else
-		{
-			effects.Add(type, new WeaponEffectInfo(particleEffect, uses));
-			//instantiate particle effect as child of particleEffectsPosition and set weaponEffectsInfo to point to it.
-
-			if(particleEffectsPosition == null)
-            {
-				particleEffectsPosition = gameObject;
-            }
-
-			GameObject instEffect = Instantiate(particleEffect, particleEffectsPosition.transform, false);
-			instEffect.transform.localPosition = Vector3.zero;
-			instEffect.transform.localScale *= 0.5f;
-			effects[type].particleEffect = instEffect;
+		
+		if(particleEffectsPosition == null)
+        {
+			particleEffectsPosition = gameObject;
         }
-    }
 
-    public virtual void PickUpIn(GameObject hand)
+		GameObject instEffect = Instantiate(particleEffect, particleEffectsPosition.transform, false);
+		instEffect.transform.localPosition = Vector3.zero;
+		instEffect.transform.localScale *= 0.5f;
+		
+        
+		effects.Add(type, instEffect);
+
+
+#if UNITY_EDITOR
+        if (!Effects_Editor.Contains(type))
+        {
+			Effects_Editor.Add(type);
+        }
+#endif
+	}
+
+	/// <summary>
+	/// Remove status effect and particle-effect
+	/// At the moment only used to remove effects when running in editor
+	/// </summary>
+	/// <param name="type"></param>
+	public virtual void RemoveStatusEffect(StatusEffectType type)
+    {
+        if (effects.ContainsKey(type))
+        {
+			Destroy(effects[type]);
+			effects.Remove(type);
+        }
+
+#if UNITY_EDITOR
+		if (Effects_Editor.Contains(type))
+        {
+			Effects_Editor.Remove(type);
+        }
+#endif
+	}
+
+
+	public virtual void PickUpIn(GameObject hand)
 	{
 		holderAgent = hand.transform.parent.parent.gameObject;
 
@@ -302,8 +323,8 @@ public abstract class AbstractWeapon : MonoBehaviour
 		handle.transform.parent = hand.transform;
 		handle.transform.position = hand.transform.position;
 		//handle.transform.rotation = hand.transform.rotation;
-    handle.transform.localRotation = Quaternion.Euler(0, 0, 0); // Maybe fixes the wrong rotation of weapon at pick up
-    Effects.ChangeWeight(hand.transform.parent.gameObject, weight);
+		handle.transform.localRotation = Quaternion.Euler(0, 0, 0); // Maybe fixes the wrong rotation of weapon at pick up
+		Effects.ChangeWeight(hand.transform.parent.gameObject, weight);
 		foreach (Collider collider in GetComponentsInChildren<Collider>())
 		{
 			collider.enabled = false;
@@ -372,10 +393,9 @@ public abstract class AbstractWeapon : MonoBehaviour
 				handle.GetComponentInParent<PlayerInputHandler>().RemoveObjectFromWeaponList(this.gameObject);
             }
 			handle.GetComponentInParent<WeaponHand>().DropWeapon();
+
 			Destroy(this.gameObject);
 		}
-
-		StatusEffectUpdate();
 	}
 
 	private void OnCollisionEnter(Collision collision)

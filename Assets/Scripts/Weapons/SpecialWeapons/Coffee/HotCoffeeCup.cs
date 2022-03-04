@@ -31,7 +31,7 @@ public class HotCoffeeCup : CoffeeCupSpecial
 			grenade = GrenadeThree;
 
 		grenade.GetComponent<HotCoffeeGrenade>().CreateGrenade(HolderAgent, transform.position, velocity, 1,
-				HitForce, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), effects);
+				HitForce, Damage , effects);
 
 		ActionPower = 0;
 	}

@@ -159,19 +159,19 @@ public class PaperShredder : AbstractSpecial
                     if (readyToExplode || Charges >= MaxCharges)
                     {
 						Effects.ApplyWeaponEffects(target, HolderAgent, ultiEffects);
-						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
+						Effects.WeaponDamage(target, Damage * GetActionPower(), HolderAgent);
 						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
 
 					}
 					else
 					{
 						Effects.ApplyWeaponEffects(target, HolderAgent, effects);
-						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
+						Effects.WeaponDamage(target, Damage * GetActionPower(), HolderAgent);
 					}
 				}
 				else
 				{
-					Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower());
+					Effects.Damage(target, Damage * GetActionPower());
 				}
 			}
 

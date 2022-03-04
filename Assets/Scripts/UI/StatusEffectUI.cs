@@ -21,13 +21,9 @@ public class StatusEffectUI : MonoBehaviour
     [SerializeField] private Image poisonIcon;
     [SerializeField] private Image iceIcon;
     [SerializeField] private Image vulnerableIcon;
-    [SerializeField] private Image dmgBoostIcon;
     [SerializeField] private Image hell_fire;
     [SerializeField] private Image hell_poison;
     [SerializeField] private Image hell_ice;
-    [SerializeField] private Image glass_cannon;
-    [SerializeField] private Image paralyzeIcon;
-    [SerializeField] private Image mega_paralyzeIcon;
 
 
 
@@ -51,17 +47,12 @@ public class StatusEffectUI : MonoBehaviour
         poisonIcon.enabled = false;
         iceIcon.enabled = false;
         vulnerableIcon.enabled = false;
-        dmgBoostIcon.enabled = false;
         hell_fire.enabled = false;
         hell_poison.enabled = false;
         hell_ice.enabled = false;
-        glass_cannon.enabled = false;
-        paralyzeIcon.enabled = false;
-        mega_paralyzeIcon.enabled = false;
 
-        //TODO:FIx! (ossian)
 
-        for (int i = 0; i < (int)StatusEffectType.comboAction; i++)
+        for (int i = 0; i < (int)StatusEffectType.vulnerable; i++)
         {
             StatusEffectType type = (StatusEffectType)i;
 
@@ -77,7 +68,7 @@ public class StatusEffectUI : MonoBehaviour
                     case StatusEffectType.fire:
                         fireIcon.enabled = true;
                         break;
-                    case StatusEffectType.ice:
+                    case StatusEffectType.frost:
                         iceIcon.enabled = true;
                         break;
                     case StatusEffectType.poison:
@@ -86,26 +77,14 @@ public class StatusEffectUI : MonoBehaviour
                     case StatusEffectType.vulnerable:
                         vulnerableIcon.enabled = true;
                         break;
-                    case StatusEffectType.damage_boost:
-                        dmgBoostIcon.enabled = true;
-                        break;
                     case StatusEffectType.hell_fire:
                         hell_fire.enabled = true;
                         break;
                     case StatusEffectType.hell_poison:
                         hell_poison.enabled = true;
                         break;
-                    case StatusEffectType.hell_ice:
+                    case StatusEffectType.hell_frost:
                         hell_ice.enabled = true;
-                        break;
-                    case StatusEffectType.glass_cannon:
-                        glass_cannon.enabled = true;
-                        break;
-                    case StatusEffectType.paralysis:
-                        paralyzeIcon.enabled = true;
-                        break;
-                    case StatusEffectType.mega_paralysis:
-                        mega_paralyzeIcon.enabled = true;
                         break;
                 }
             }

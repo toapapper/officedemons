@@ -66,21 +66,8 @@ public class Explosion : MonoBehaviour
 			FOV = GetComponent<FieldOfView>();
         }
 
-		if(SpawnerAgent != null)
-        {
-			Attributes attr = SpawnerAgent.GetComponent<Attributes>();
-			if (attr != null)
-            {
-				this.damage *= 1 + attr.statusEffectHandler.DmgBoost;
-            }
-        }
-
 		Explode();
 		Destroy(gameObject, duration);
-		//Explode();
-
-		//probably not possible to cancel. If for any reason that might be necessary. replace this with some timer in Update()
-
 	}
 
 }

@@ -95,7 +95,7 @@ public class Bullet : MonoBehaviour
                 AkSoundEngine.PostEvent("Play_Female_Grunt_Pitched", gameObject);
                 Instantiate(bloodSplatter, transform.position, transform.rotation);
             }
-            Effects.RegularWeaponDamage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), shooter);
+            Effects.RegularWeaponDamage(collision.gameObject, bulletDamage , shooter);
             //Effects.Damage(collision.gameObject, bulletDamage);
             Effects.ApplyForce(collision.gameObject, bulletDirection * bulletHitForce, shooter);
 
@@ -105,7 +105,7 @@ public class Bullet : MonoBehaviour
         {
             Instantiate(sparks, transform.position, transform.rotation);
             AkSoundEngine.PostEvent("Play_FMW_Weapon_Hit10C", gameObject);
-            Effects.Damage(collision.gameObject, bulletDamage * (1 + shooter.GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), shooter);
+            Effects.Damage(collision.gameObject, bulletDamage , shooter);
         }
         else
         {

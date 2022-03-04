@@ -163,12 +163,12 @@ public class StarThrower : AbstractSpecial
 					if (target.layer != LayerMask.NameToLayer("Destructible"))
                     {
 						Effects.ApplyWeaponEffects(target, HolderAgent, ultiEffects);
-						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
+						Effects.WeaponDamage(target, Damage * GetActionPower(), HolderAgent);
 						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
                     }
                     else
                     {
-						Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower());
+						Effects.Damage(target, Damage * GetActionPower());
 
 					}
 
@@ -182,12 +182,12 @@ public class StarThrower : AbstractSpecial
 					if (target.layer != LayerMask.NameToLayer("Destructible"))
                     {
 						Effects.ApplyWeaponEffects(target, HolderAgent, effects);
-						Effects.WeaponDamage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower(), HolderAgent);
+						Effects.WeaponDamage(target, Damage * GetActionPower(), HolderAgent);
 						Effects.ApplyForce(target, (target.transform.position - SpecialController.FOV.transform.position).normalized * HitForce);
                     }
                     else
                     {
-						Effects.Damage(target, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost) * GetActionPower());
+						Effects.Damage(target, Damage * GetActionPower());
 					}
 				}
 
@@ -219,7 +219,7 @@ public class StarThrower : AbstractSpecial
 				{
 					if (target.layer != LayerMask.NameToLayer("Destructible"))
 					{
-						Effects.ApplyStatusEffect(target, HolderAgent, StatusEffectType.ice);
+						Effects.ApplyStatusEffect(target, HolderAgent, StatusEffectType.frost);
 					}
 				}
 			}
@@ -253,7 +253,7 @@ public class StarThrower : AbstractSpecial
     {
         if (other.gameObject.layer != LayerMask.NameToLayer("Destructible"))
         {
-            Effects.ApplyStatusEffect(other.gameObject, HolderAgent, StatusEffectType.ice);
+            Effects.ApplyStatusEffect(other.gameObject, HolderAgent, StatusEffectType.frost);
         }
 
     }

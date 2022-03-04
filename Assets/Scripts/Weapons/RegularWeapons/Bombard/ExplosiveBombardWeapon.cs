@@ -11,7 +11,7 @@ public class ExplosiveBombardWeapon : BombardWeapon
 		grenade.GetComponent<ExplosiveGrenadeProjectile>().
 			CreateGrenade(HolderAgent, transform.position, velocity,
 						  explodeRadius, HitForce, 
-						  Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost),
+						  Damage ,
 						  Utilities.ListDictionaryKeys(effects));
 
 

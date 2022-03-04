@@ -9,7 +9,7 @@ public class GroundEffectBombardWeapon : BombardWeapon
 		Vector3 velocity = WeaponController.ThrowAim.InitialVelocity;
 
 		grenade.GetComponent<PooGrenadeProjectile>().CreateGrenade(HolderAgent, transform.position, velocity,
-			explodeRadius, HitForce, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), Utilities.ListDictionaryKeys(effects));
+			explodeRadius, HitForce, Damage , Utilities.ListDictionaryKeys(effects));
 
 		base.DoAction(/*fov*/);
 	}

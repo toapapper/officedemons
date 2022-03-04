@@ -356,6 +356,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4952665883704873341, guid: efc8cc9a8b8ee394fb043ecf8dd25834, type: 3}
   m_PrefabInstance: {fileID: 7250982}
   m_PrefabAsset: {fileID: 0}
+--- !u!33 &7722156 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 3540769253236751917, guid: 1f0d2bc7a14463a4c8c412f820f689bf, type: 3}
+  m_PrefabInstance: {fileID: 548696132}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8668235
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2684,6 +2689,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6523418986157145995, guid: c4950191793d4a844918c9436c116dc1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c4950191793d4a844918c9436c116dc1, type: 3}
+--- !u!33 &166485868 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 3540769253236751917, guid: 1f0d2bc7a14463a4c8c412f820f689bf, type: 3}
+  m_PrefabInstance: {fileID: 1658025472}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &167292228 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5740767125392000893, guid: 780ac517a995f15418f81c517e9501ce, type: 3}
@@ -11126,6 +11136,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5354469020604687523, guid: 5b169908347526749a021896f8c70325, type: 3}
   m_PrefabInstance: {fileID: 730294985}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &437674062 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5086481119640459900, guid: b607abab3e914954099871fdd91e407f, type: 3}
+  m_PrefabInstance: {fileID: 725422344}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &446157334
 GameObject:
   m_ObjectHideFlags: 0
@@ -13207,6 +13222,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 760582756}
     m_Modifications:
+    - target: {fileID: 5217737412433347526, guid: 1f0d2bc7a14463a4c8c412f820f689bf, type: 3}
+      propertyPath: viewMeshFilter
+      value: 
+      objectReference: {fileID: 7722156}
     - target: {fileID: 6251578818743216222, guid: 1f0d2bc7a14463a4c8c412f820f689bf, type: 3}
       propertyPath: m_Name
       value: pigeon
@@ -14515,6 +14534,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 780ac517a995f15418f81c517e9501ce, type: 3}
+--- !u!33 &615304655 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 3540769253236751917, guid: 1f0d2bc7a14463a4c8c412f820f689bf, type: 3}
+  m_PrefabInstance: {fileID: 1287403949}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &615511736
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15710,7 +15734,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 138586824589943555, guid: b607abab3e914954099871fdd91e407f, type: 3}
       propertyPath: durability
-      value: 6
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 138586824589943555, guid: b607abab3e914954099871fdd91e407f, type: 3}
+      propertyPath: particleEffectsPosition
+      value: 
+      objectReference: {fileID: 437674062}
+    - target: {fileID: 138586824589943555, guid: b607abab3e914954099871fdd91e407f, type: 3}
+      propertyPath: Effects_Editor.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 138586824589943555, guid: b607abab3e914954099871fdd91e407f, type: 3}
+      propertyPath: Effects_Editor.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 138586824589943555, guid: b607abab3e914954099871fdd91e407f, type: 3}
+      propertyPath: Effects_Editor.Array.data[1]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 138586824589943555, guid: b607abab3e914954099871fdd91e407f, type: 3}
+      propertyPath: Effects_Editor.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 138586824589943555, guid: b607abab3e914954099871fdd91e407f, type: 3}
+      propertyPath: Effects_Editor.Array.data[3]
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5086481119640459872, guid: b607abab3e914954099871fdd91e407f, type: 3}
       propertyPath: m_IsKinematic
@@ -29690,6 +29738,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 760582756}
     m_Modifications:
+    - target: {fileID: 5217737412433347526, guid: 1f0d2bc7a14463a4c8c412f820f689bf, type: 3}
+      propertyPath: viewMeshFilter
+      value: 
+      objectReference: {fileID: 615304655}
     - target: {fileID: 6251578818743216222, guid: 1f0d2bc7a14463a4c8c412f820f689bf, type: 3}
       propertyPath: m_Name
       value: pigeon (2)
@@ -30121,6 +30173,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1124893941022252275, guid: 2d7a23b091e6e9f4fb413b6208cdafe4, type: 3}
   m_PrefabInstance: {fileID: 685298900}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &1318713998 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 3540769253236751917, guid: 1f0d2bc7a14463a4c8c412f820f689bf, type: 3}
+  m_PrefabInstance: {fileID: 1560726085}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1319394998
 PrefabInstance:
@@ -37996,6 +38053,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 760582756}
     m_Modifications:
+    - target: {fileID: 5217737412433347526, guid: 1f0d2bc7a14463a4c8c412f820f689bf, type: 3}
+      propertyPath: viewMeshFilter
+      value: 
+      objectReference: {fileID: 1318713998}
     - target: {fileID: 6251578818743216222, guid: 1f0d2bc7a14463a4c8c412f820f689bf, type: 3}
       propertyPath: m_Name
       value: pigeon (3)
@@ -48734,6 +48795,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 760582756}
     m_Modifications:
+    - target: {fileID: 5217737412433347526, guid: 1f0d2bc7a14463a4c8c412f820f689bf, type: 3}
+      propertyPath: viewMeshFilter
+      value: 
+      objectReference: {fileID: 166485868}
     - target: {fileID: 6251578818743216222, guid: 1f0d2bc7a14463a4c8c412f820f689bf, type: 3}
       propertyPath: m_Name
       value: pigeon (1)
@@ -64326,7 +64391,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9104411955737672220, guid: 43a94fc62228b8049b39e8ca57d5d926, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 43a94fc62228b8049b39e8ca57d5d926, type: 3}
 --- !u!4 &2118589618 stripped
 Transform:
