@@ -107,8 +107,8 @@ public class WeaponList : MonoBehaviour
         weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(1, 0, 1, 5, 1, new List<StatusEffectType> { StatusEffectType.none }));
         indexCount++;
 
-        //Stunning:
-        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 10, .5f, -2, 1, new List<StatusEffectType> { StatusEffectType.paralysis }));
+        //Stunning: !!!CHANGED!!! doesnt stun. because the stun status effect no longer exists
+        weaponDictionary.Add(weaponNames[indexCount], new WeaponStatsGeneration(.5f, 10, .5f, -2, 1, new List<StatusEffectType> { StatusEffectType.hell_poison }));
         indexCount++;
 
         //Toxic:

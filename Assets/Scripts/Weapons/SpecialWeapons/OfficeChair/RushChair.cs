@@ -187,15 +187,15 @@ public class RushChair : AbstractSpecial
 				switch (Charges)
 				{
 					case 1:
-						Effects.WeaponDamage(other.gameObject, Damage * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+						Effects.WeaponDamage(other.gameObject, Damage, HolderAgent);
 						//Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
 						break;
 					case 2:
-						Effects.WeaponDamage(other.gameObject, (Damage + (damageAdder * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+						Effects.WeaponDamage(other.gameObject, (Damage + (damageAdder * ActionPower)), HolderAgent);
 						//Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
 						break;
 					case 3:
-						Effects.WeaponDamage(other.gameObject, (Damage + (damageAdder * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost), HolderAgent);
+						Effects.WeaponDamage(other.gameObject, (Damage + (damageAdder * ActionPower)), HolderAgent);
 						//Effects.ApplyForce(other.gameObject, forceDirection * HitForce * ActionPower);
 						break;
 				}
@@ -207,13 +207,13 @@ public class RushChair : AbstractSpecial
 				switch (Charges)
 				{
 					case 1:
-						Effects.Damage(other.gameObject, Damage * ActionPower * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
+						Effects.Damage(other.gameObject, Damage * ActionPower);
 						break;
 					case 2:
-						Effects.Damage(other.gameObject, (Damage + (damageAdder * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
+						Effects.Damage(other.gameObject, (Damage + (damageAdder * ActionPower)));
 						break;
 					case 3:
-						Effects.Damage(other.gameObject, (Damage + (damageAdder * ActionPower)) * (1 + GetComponentInParent<Attributes>().statusEffectHandler.DmgBoost));
+						Effects.Damage(other.gameObject, (Damage + (damageAdder * ActionPower)));
 						break;
 				}
 				EndSpecial();

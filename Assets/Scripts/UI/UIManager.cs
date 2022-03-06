@@ -297,9 +297,11 @@ public class UIManager : MonoBehaviour
             }
             #endregion
 
+
+            //Loop through all statuseffecttypes to see if activeEffects contains them
             Dictionary<StatusEffectType, StatusEffect> activeEffects = PlayerManager.players[i].GetComponent<Attributes>().statusEffectHandler.ActiveEffects;
             List<StatusEffectType> effectList = new List<StatusEffectType>();
-            for (int j = 0; j < (int)StatusEffectType.comboAction; j++)
+            for (int j = 0; j < (int)StatusEffectType.vulnerable; j++)
             {
                 StatusEffectType si = (StatusEffectType)j;
 

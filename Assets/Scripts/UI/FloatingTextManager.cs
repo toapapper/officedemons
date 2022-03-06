@@ -85,9 +85,6 @@ public class FloatingTextManager : MonoBehaviour
         {
             currentIndex = 0;
         }
-
-
-        Debug.Log($"Activate floating text nr: {currentIndex}, position: {position}, fontSize: {fontSize}");
     }
 
 }

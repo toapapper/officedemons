@@ -701,6 +701,7 @@ MonoBehaviour:
   handHitForce: 5
   handHitDistance: 1.5
   handHitAngle: 100
+  particleEffect: {fileID: 0}
   objectInHand: {fileID: 0}
 --- !u!114 &8635905037619420003
 MonoBehaviour:
@@ -716,10 +717,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   characterName: 3
+  variantName: 6
   portrait: {fileID: 0}
   jobTitle: "arbetsl\xF6s"
   startHealth: 10
   killCount: 0
+  evilPoints: 0
+  evilPointValue: 10
+  invulnerable: 0
   particleEffect: {fileID: 0}
   statusEffectHandler: {fileID: 0}
   health: 0
@@ -1083,7 +1088,6 @@ GameObject:
   - component: {fileID: 6911143654609054896}
   - component: {fileID: 4491143412136818846}
   - component: {fileID: 8518630678250454124}
-  - component: {fileID: 9139468661502978527}
   m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
@@ -1158,24 +1162,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9139468661502978527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7333249845630567993}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 2
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!1 &7400989012074343786
 GameObject:
   m_ObjectHideFlags: 0
@@ -1654,6 +1640,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5030520594478123875}
     m_Modifications:
+    - target: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3032543496062369683, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1721,14 +1711,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6084092835874375796, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
   m_PrefabInstance: {fileID: 8085902989812208120}
   m_PrefabAsset: {fileID: 0}
---- !u!33 &8806452386636564928 stripped
-MeshFilter:
-  m_CorrespondingSourceObject: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
-  m_PrefabInstance: {fileID: 8085902989812208120}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4170782461314466239 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5320859338818097223, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
+  m_PrefabInstance: {fileID: 8085902989812208120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &8806452386636564928 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 720620079101483064, guid: cc84e704e6f2c8e449a297cc9cf23957, type: 3}
   m_PrefabInstance: {fileID: 8085902989812208120}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8742008681788471890

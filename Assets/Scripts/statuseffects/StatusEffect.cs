@@ -6,31 +6,13 @@ public enum StatusEffectType
 {
     none,
     fire,
+    frost,
     poison,
-    ice,
-    vulnerable,
-    damage_boost,
     hell_fire,
+    hell_frost,
     hell_poison,
-    hell_ice,
-    glass_cannon,
-    paralysis,
-    mega_paralysis,
-    comboAction
+    vulnerable
 }
-
-public class WeaponEffectInfo
-{
-    public GameObject particleEffect;
-    public int uses;
-
-    public WeaponEffectInfo(GameObject particleEffect, int charges)
-    {
-        this.particleEffect = particleEffect;
-        this.uses = charges;
-    }
-}
-
 
 public abstract class StatusEffect
 {
@@ -40,7 +22,6 @@ public abstract class StatusEffect
 
     protected GameObject agent;
     protected GameObject applier;
-    protected Dictionary<StatusEffectType, StatusEffectType> comboWith = new Dictionary<StatusEffectType, StatusEffectType>();
 
     /// <summary>
     /// Base class for status effect
@@ -77,22 +58,6 @@ public abstract class StatusEffect
         this.duration = startDuration;
     }
 
-    /// <summary>
-    /// returns none by default. should be overridden in child classes
-    /// </summary>
-    /// <param name="effect"></param>
-    /// <returns></returns>
-    public virtual StatusEffectType ComboWith(StatusEffectType effect)
-    {
-        if (comboWith != null && comboWith.ContainsKey(effect))
-        {
-            return comboWith[effect];
-        }
-        else
-        {
-            return StatusEffectType.none;
-        }
-    }
 
     /// <summary> Called when the agent dies. </summary>
     public virtual void OnDeath() { }
@@ -104,7 +69,9 @@ public abstract class StatusEffect
     public virtual void OnRemove() { }
 }
 
-
+/// <summary>
+/// Base class for HellEffect. explodes on death. Therefor needs a reference to the Statuseffecthandler
+/// </summary>
 public class HellStatusEffect : StatusEffect
 {
     StatusEffectHandler handler;
