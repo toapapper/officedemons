@@ -14,7 +14,8 @@ using UnityEngine.UI;
 /// </para>
 ///   
 ///  <para>
-///  Author: Ossian
+///  Original Author: Ossian
+///  A lot of work here has been done by other developers
 ///  
 /// </para>
 ///  
@@ -150,31 +151,19 @@ public class UIManager : MonoBehaviour
     /// <param name="i">the index att which the player exists in the PlayerManager.players-list</param>
     public void EnablePlayerUI(int i)
     {
-        //Debug.Log("UIcard init for player " + i);
-        //UIPlayerCard card = transform.Find("Canvas").transform.Find("playerCard" + i).GetComponent<UIPlayerCard>();
-
-        //if (card.gameObject.activeSelf)
-        //{
-        //    //Debug.LogWarning("Card already active");
-        //    return;
-        //}
-
-        //card.gameObject.SetActive(true);
-        //card.Initialize(PlayerManager.players[i]);
-
-        //StaminaCircle stamCirc = transform.Find("Canvas").transform.Find("StaminaCircle" + i).GetComponent<StaminaCircle>();
-        StaminaCircle stamCirc = transform.Find("StamCircle" + i).GetComponent<StaminaCircle>();
-        stamCirc.gameObject.SetActive(true);
-        stamCirc.SetPlayer(PlayerManager.players[i]);
+        //StaminaCircle stamCirc = transform.Find("StamCircle" + i).GetComponent<StaminaCircle>();
+        //stamCirc.gameObject.SetActive(true);
+        //stamCirc.SetPlayer(PlayerManager.players[i]);
         
         PlayerManager.players[i].GetComponentInChildren<PlayerUIExtras>().GetPlayerSymbol(i, PlayerManager.players[i].GetComponent<Attributes>().PlayerColor);
 
+        //Initialization of the evil counter text elements.
         evilCounts[i].gameObject.SetActive(true);
         activeEvilCounts[i] = true;
         Color color = PlayerManager.players[i].GetComponent<Attributes>().PlayerColor;
         float H, S, V;
         Color.RGBToHSV(color, out H, out S, out V);
-        color = Color.HSVToRGB(H, 1, V);
+        color = Color.HSVToRGB(H, 1, V);//Makes a somewhat nicer color in the same hue and value as the players color
         evilCounts[i].color = color;
     }
 

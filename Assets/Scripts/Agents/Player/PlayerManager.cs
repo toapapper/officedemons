@@ -170,7 +170,7 @@ public class PlayerManager : MonoBehaviour
     /// <returns></returns>
     IEnumerator WaitDone()
     {
-        yield return new WaitForSeconds(1f); 
+        yield return new WaitForSeconds(.1f); 
 
         while (true)
         {
